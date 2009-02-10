@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileDemo", "BruTileDemo\BruTileDemo.csproj", "{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "BruTile\BruTile.csproj", "{70315167-2BF1-4C7B-9184-728CAABF30D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{040163B5-5EC6-4BB1-8A4A-78292B32B1A2}"
+	ProjectSection(SolutionItems) = preProject
+		BruTileDemo.vsmdi = BruTileDemo.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileTests", "BruTileTests\BruTileTests.csproj", "{9B47F544-E365-4CBA-ABE8-0ECC405992A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsSample", "WindowsFormsSample\WindowsFormsSample.csproj", "{6EEDF770-D05C-441E-A523-7C97F620B9BB}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = BruTileDemo.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Addins debug|Any CPU = Addins debug|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Addins debug|Any CPU.Build.0 = Release|Any CPU
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Addins debug|Any CPU.Build.0 = Release|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70315167-2BF1-4C7B-9184-728CAABF30D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Addins debug|Any CPU.Build.0 = Release|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Addins debug|Any CPU.Build.0 = Release|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

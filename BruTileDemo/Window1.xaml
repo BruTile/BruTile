@@ -1,0 +1,32 @@
+﻿<Window x:Class="BruTileDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BruTileDemo" 
+       
+    Title="BruTileDemo" Height="600" Width="800" ResizeMode="NoResize">
+  <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <Grid.RowDefinitions>
+      <RowDefinition ></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <local:MapControl Grid.Row="0" x:Name="map"  
+          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ErrorMessageChanged="map_ErrorMessageChanged"></local:MapControl>
+    <StatusBar Grid.Row="1" Height="30" VerticalAlignment="Bottom" Background="Azure">
+      <StatusBarItem DockPanel.Dock="Right">
+        <TextBlock x:Name="Error" Text=""/>
+      </StatusBarItem>
+      <StatusBarItem >
+        <TextBlock Text="Fps:"/>
+      </StatusBarItem>
+      <StatusBarItem >
+        <TextBlock x:Name="FpsText" />
+      </StatusBarItem>
+      <StatusBarItem >
+        <TextBlock Text="Tiles in memory:"/>
+      </StatusBarItem>
+      <StatusBarItem >
+        <TextBlock x:Name="TileCountText" />
+      </StatusBarItem>
+    </StatusBar>
+  </Grid>
+</Window>
