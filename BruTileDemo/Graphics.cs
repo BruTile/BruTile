@@ -34,7 +34,6 @@ namespace BruTileDemo
       canvas.SnapsToDevicePixels = true;
     }
 
-
     internal void Render(ITileSchema schema, Transform transform, MemoryCache<Image> cache)
     {
       Begin();
