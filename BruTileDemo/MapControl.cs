@@ -68,7 +68,7 @@ namespace BruTileDemo
     {
       InitTransform();
       graphics = new Graphics(this);
-      IConfig config = new ConfigOsm();
+      IConfig config = new ConfigVE();
       tileLayer = new TileLayer(config.RequestBuilder, config.TileSchema, config.FileCache);
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
       

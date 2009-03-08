@@ -50,6 +50,7 @@
     <Compile Include="ITileSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestTms.cs" />
+    <Compile Include="RequestVE.cs" />
     <Compile Include="RequestWmsC.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="TileKey.cs" />

@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigOsm.cs" />
+    <Compile Include="ConfigVE.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="IConfig.cs" />
