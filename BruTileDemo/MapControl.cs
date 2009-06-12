@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Tiling;
 
 namespace BruTileDemo
 {
@@ -69,7 +70,8 @@ namespace BruTileDemo
       InitTransform();
       graphics = new Graphics(this);
       IConfig config = new ConfigVE();
-      tileLayer = new TileLayer(config.RequestBuilder, config.TileSchema, config.FileCache);
+      tileLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
+      
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
       
       this.MouseDown += new MouseButtonEventHandler(MapControl_MouseDown);

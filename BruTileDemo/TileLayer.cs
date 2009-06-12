@@ -37,13 +37,14 @@ namespace BruTileDemo
     const int maxRetries = 3;
     object syncRoot = new object();
 
-    public TileLayer(IRequestBuilder requestBuilder, ITileSchema schema, ITileCache<byte[]> cache)
+    public TileLayer(ITileProvider tileProvider, ITileSchema schema) : this(tileProvider, schema, null)
+    {
+    }
+
+    public TileLayer(ITileProvider tileProvider, ITileSchema schema, ITileCache<byte[]> cache)
     {
       this.schema = schema;
-      if (Properties.Settings.Default.UseFileCache)
-        tileFetcher = new TileFetcher(requestBuilder, cache);
-      else
-        tileFetcher = new TileFetcher(requestBuilder);
+      tileFetcher = new TileFetcher(tileProvider, cache);
       tileFetcher.FetchCompleted += new FetchCompletedEventHander(tileFetcher_FetchCompleted);
     }
 

@@ -29,18 +29,18 @@ namespace BruTileDemo
     public event FetchCompletedEventHander FetchCompleted;
     ITileCache<byte[]> cache;
     List<TileKey> queued = new List<TileKey>();
-    IRequestBuilder requestBuilder;
+    ITileProvider tileProvider;
     object syncRoot = new object();
 
-    public TileFetcher(IRequestBuilder requestBuilder)
-      : this(requestBuilder, new NullCache())
+    public TileFetcher(ITileProvider tileProvider)
+      : this(tileProvider, new NullCache())
     {
     }
 
-    public TileFetcher(IRequestBuilder requestBuilder, ITileCache<byte[]> cache)
+    public TileFetcher(ITileProvider tileProvider, ITileCache<byte[]> cache)
     {
       this.cache = cache;
-      this.requestBuilder = requestBuilder;
+      this.tileProvider = tileProvider;
     }
 
     public void Fetch(TileInfo tile, int priority)
@@ -68,12 +68,13 @@ namespace BruTileDemo
       {
         try
         {
-          image = cache.Find(tile.Key);
+          if (cache != null)
+            image = cache.Find(tile.Key);
           if (image == null) //if not on disk get from web
           {
-            Uri requestUrl = requestBuilder.GetUrl(tile);
-            image = ImageRequest.GetImageFromServer(requestUrl);
-            cache.Add(tile.Key, image); //now cache on disk for next time.
+            image = tileProvider.GetTile(tile);
+            if (cache != null)
+             cache.Add(tile.Key, image); //now cache on disk for next time.
           }
         }
         catch (Exception ex) //This is a bit weird. I need to catch the exception before passing it to FetchCompleted.
