@@ -54,6 +54,7 @@
     <Compile Include="RequestWmsC.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="TileKey.cs" />
+    <Compile Include="ITileProvider.cs" />
     <Compile Include="TileRange.cs" />
     <Compile Include="FileCache.cs" />
     <Compile Include="TileSchemaWmsC.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Util.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="WebResponseFormatException.cs" />
+    <Compile Include="WebTileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
