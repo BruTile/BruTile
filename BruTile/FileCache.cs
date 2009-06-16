@@ -50,7 +50,7 @@ namespace Tiling
     {
       lock (syncRoot)
       {
-        if (!Exists(key)) return; //ignore
+        if (Exists(key)) return; //ignore
         string dir = GetDirectoryName(key);
         if (!Directory.Exists(dir))
         {
