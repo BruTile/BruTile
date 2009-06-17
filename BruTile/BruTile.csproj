@@ -49,6 +49,7 @@
     <Compile Include="ITileCache.cs" />
     <Compile Include="ITileSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestBasic.cs" />
     <Compile Include="RequestTms.cs" />
     <Compile Include="RequestVE.cs" />
     <Compile Include="RequestWmsC.cs" />
