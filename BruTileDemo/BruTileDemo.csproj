@@ -73,8 +73,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigEsri.cs" />
     <Compile Include="ConfigOsm.cs" />
     <Compile Include="ConfigVE.cs" />
+    <Compile Include="ConfigWms.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="IConfig.cs" />

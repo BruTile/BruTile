@@ -25,33 +25,24 @@ namespace Tiling
 {
   public class TileSchemaWmsC : TileSchema
   {
+    //TODO: Abandon this class and move everything in it to RequestWmsC
+
     #region Fields
 
-    private List<string> layers = new List<string>();
-    private List<string> styles = new List<string>();
-    private const bool useOnlyFirstResolution = false;
- 
-   #endregion
+    #endregion
 
     #region Properties
 
-    private IList<string> Layers
-    {
-      get { return layers; }
-    }
-
-    public IList<string> Styles
-    {
-      get { return styles; }
-    }
+    public List<string> Layers { get; set; }
+    public List<string> Styles { get; set; }
 
     public override string Additions
     {
       get
       {
         StringBuilder result = new StringBuilder();
-        result.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(Layers));
-        result.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(Styles));
+        //result.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(Layers));
+        //result.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(Styles));
         return result.ToString();
       }
     }
@@ -71,7 +62,7 @@ namespace Tiling
 
     public override void Validate()
     {
-      if (layers.Count == 0)
+      if (Layers.Count == 0)
       {
         throw new ValidationException(String.Format(
           CultureInfo.InvariantCulture, "No Layers were set for the TileSchema"));
