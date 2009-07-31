@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Tiling;
 
 namespace BruTileDemo
 {
@@ -25,6 +26,11 @@ namespace BruTileDemo
 
     void map_Loaded(object sender, RoutedEventArgs e)
     {
+      IConfig config = new ConfigOsm();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+      //if you want to use caching to local file system use this line instead:
+      //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
+
       TileCountText.DataContext = map.TileLayer.Bitmaps;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
       FpsText.DataContext = map.FpsCounter;
@@ -34,6 +40,18 @@ namespace BruTileDemo
     private void map_ErrorMessageChanged(object sender, EventArgs e)
     {
       this.Error.Text = map.ErrorMessage;
+    }
+
+    private void GeodanWms_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigWms();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+    }
+
+    private void Osm_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigOsm();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
     }
 
   }

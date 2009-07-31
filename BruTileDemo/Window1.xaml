@@ -7,10 +7,16 @@
   <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
     <Grid.RowDefinitions>
       <RowDefinition ></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto" MinHeight="30"></RowDefinition>
     </Grid.RowDefinitions>
     <local:MapControl Grid.Row="0" x:Name="map"  
-          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ErrorMessageChanged="map_ErrorMessageChanged"></local:MapControl>
+          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ErrorMessageChanged="map_ErrorMessageChanged">
+    </local:MapControl>
+    <StackPanel Height="186" Width="Auto" Margin="20,20,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" >
+      <Border ></Border>
+      <RadioButton x:Name="Osm" IsChecked="True" FontSize="16" Content="OSM" Margin="4,4,4,4" Click="Osm_Click"/>
+      <RadioButton x:Name="GeodanWms" FontSize="16" Content="Geodan WMS" Margin="4,4,4,4"   Click="GeodanWms_Click"/>
+    </StackPanel>
     <StatusBar Grid.Row="1" Height="30" VerticalAlignment="Bottom" Background="Azure">
       <StatusBarItem DockPanel.Dock="Right">
         <TextBlock x:Name="Error" Text=""/>

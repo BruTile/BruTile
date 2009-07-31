@@ -38,7 +38,10 @@ namespace Tiling
     {
       StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
 
-      url.Append("?SERVICE=WMS");
+      //warning
+      //!!! hack, replaced with line below: url.Append("&SERVICE=WMS");
+      
+      url.Append("&SERVICE=WMS");
       url.Append("&REQUEST=GetMap");
       url.AppendFormat("&BBOX={0}", tile.Extent.ToString());
       url.AppendFormat("&FORMAT={0}", schema.Format);

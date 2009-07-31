@@ -30,7 +30,7 @@ namespace BruTileDemo
     #region Fields
 
     const double step = 1.1;
-    TileLayer tileLayer;
+    TileLayer rootLayer;
     Transform transform = new Transform();
     Point previous = new Point();
     bool update = true;
@@ -45,7 +45,7 @@ namespace BruTileDemo
 
     public TileLayer TileLayer
     {
-      get { return tileLayer; }
+      get { return rootLayer; }
     }
 
     public FpsCounter FpsCounter
@@ -56,6 +56,19 @@ namespace BruTileDemo
     public string ErrorMessage
     {
       get { return errorMessage; }
+    }
+
+    public TileLayer RootLayer
+    {
+      get { return rootLayer; }
+      set 
+      { 
+        rootLayer = value;
+        rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
+        update = true;
+        this.InvalidateVisual();
+      }
     }
 
     #endregion
@@ -69,8 +82,8 @@ namespace BruTileDemo
     {
       InitTransform();
       graphics = new Graphics(this);
-      IConfig config = new ConfigVE();
-      tileLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
+      //!!!IConfig config = new ConfigWms();
+      //!!!rootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
       
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
       
@@ -79,9 +92,9 @@ namespace BruTileDemo
       this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
       this.MouseUp += new MouseButtonEventHandler(MapControl_MouseUp);
       this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
-      
-      tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      tileLayer.UpdateData(transform.Extent, transform.Resolution);
+
+      //!!!rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
+      //!!!rootLayer.UpdateData(transform.Extent, transform.Resolution);
    }
 
     void MapControl_MouseUp(object sender, MouseButtonEventArgs e)
@@ -146,7 +159,7 @@ namespace BruTileDemo
         ZoomOut();
       }      
       
-      tileLayer.UpdateData(transform.Extent, transform.Resolution);
+      rootLayer.UpdateData(transform.Extent, transform.Resolution);
       update = true;
       this.InvalidateVisual();
     }
@@ -186,7 +199,7 @@ namespace BruTileDemo
         Point current = e.GetPosition(this);
         transform.Pan(current, previous);
         previous = current;
-        tileLayer.UpdateData(transform.Extent, transform.Resolution);
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
         update = true;
         this.InvalidateVisual();
       }
@@ -194,8 +207,8 @@ namespace BruTileDemo
 
     private void InitTransform()
     {
-      transform.Center = new Point(629816, 6805085);
-      transform.Resolution = 1222.992452344;
+      transform.Center = new Point(0, 0);
+      transform.Resolution = 78271.516950000;
       transform.Width = this.ActualWidth;
       transform.Height = this.ActualHeight;
     }
@@ -205,7 +218,7 @@ namespace BruTileDemo
       fpsCounter.FramePlusOne();
       if (update)
       {
-        tileLayer.Draw(graphics, transform);
+        rootLayer.Draw(graphics, transform);
         update = false;
       }
     }
