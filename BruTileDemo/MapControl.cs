@@ -43,11 +43,6 @@ namespace BruTileDemo
     
     #region Properties
 
-    public TileLayer TileLayer
-    {
-      get { return rootLayer; }
-    }
-
     public FpsCounter FpsCounter
     {
       get { return fpsCounter; }
