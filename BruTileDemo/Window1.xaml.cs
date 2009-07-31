@@ -31,7 +31,7 @@ namespace BruTileDemo
       //if you want to use caching to local file system use this line instead:
       //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
 
-      TileCountText.DataContext = map.TileLayer.Bitmaps;
+      TileCountText.DataContext = map.RootLayer.Bitmaps;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
       FpsText.DataContext = map.FpsCounter;
       FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
