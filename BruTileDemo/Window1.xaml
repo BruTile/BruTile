@@ -16,6 +16,9 @@
       <Border ></Border>
       <RadioButton x:Name="Osm" IsChecked="True" FontSize="16" Content="OSM" Margin="4,4,4,4" Click="Osm_Click"/>
       <RadioButton x:Name="GeodanWms" FontSize="16" Content="Geodan WMS" Margin="4,4,4,4"   Click="GeodanWms_Click"/>
+      <RadioButton x:Name="GeodanTms" FontSize="16" Content="Geodan TMS" Margin="4,4,4,4"   Click="GeodanTms_Click"/>
+      <RadioButton x:Name="BingMaps" FontSize="16" Content="Bing Maps" Margin="4,4,4,4"   Click="BingMaps_Click"/>
+
     </StackPanel>
     <StatusBar Grid.Row="1" Height="30" VerticalAlignment="Bottom" Background="Azure">
       <StatusBarItem DockPanel.Dock="Right">

@@ -77,6 +77,7 @@ namespace BruTileDemo
     {
       InitTransform();
       graphics = new Graphics(this);
+      this.Background = new SolidColorBrush(Colors.Transparent);
       //!!!IConfig config = new ConfigWms();
       //!!!rootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
       

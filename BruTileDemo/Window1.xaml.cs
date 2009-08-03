@@ -31,8 +31,6 @@ namespace BruTileDemo
       //if you want to use caching to local file system use this line instead:
       //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
 
-      TileCountText.DataContext = map.RootLayer.Bitmaps;
-      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
       FpsText.DataContext = map.FpsCounter;
       FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
     }
@@ -42,16 +40,46 @@ namespace BruTileDemo
       this.Error.Text = map.ErrorMessage;
     }
 
-    private void GeodanWms_Click(object sender, RoutedEventArgs e)
-    {
-      IConfig config = new ConfigWms();
-      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
-    }
-
     private void Osm_Click(object sender, RoutedEventArgs e)
     {
       IConfig config = new ConfigOsm();
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+
+      //todo: move elsewhere
+      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+    }
+
+    private void GeodanWms_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigWms();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+
+      //todo: move elsewhere
+      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+    }
+
+    private void GeodanTms_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigTms();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+
+      //todo: move elsewhere
+      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+
+    }
+
+    private void BingMaps_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigVE();
+      map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
+
+      //todo: move elsewhere
+      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+
     }
 
   }
