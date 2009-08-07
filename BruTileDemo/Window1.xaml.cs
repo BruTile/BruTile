@@ -28,7 +28,7 @@ namespace BruTileDemo
     {
       IConfig config = new ConfigOsm();
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
-      //if you want to use caching to local file system use this line instead:
+      //if you want to use caching to local file system for this layer use this line instead:
       //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
 
       FpsText.DataContext = map.FpsCounter;
@@ -46,7 +46,7 @@ namespace BruTileDemo
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
 
       //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.DataContext = map.RootLayer.MemoryCache;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
     }
 
@@ -56,7 +56,7 @@ namespace BruTileDemo
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
 
       //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.DataContext = map.RootLayer.MemoryCache;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
     }
 
@@ -66,7 +66,7 @@ namespace BruTileDemo
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
 
       //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.DataContext = map.RootLayer.MemoryCache;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
 
     }
@@ -77,7 +77,7 @@ namespace BruTileDemo
       map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema);
 
       //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.Bitmaps;
+      TileCountText.DataContext = map.RootLayer.MemoryCache;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
 
     }

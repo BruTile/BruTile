@@ -78,8 +78,6 @@ namespace BruTileDemo
       InitTransform();
       graphics = new Graphics(this);
       this.Background = new SolidColorBrush(Colors.Transparent);
-      //!!!IConfig config = new ConfigWms();
-      //!!!rootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
       
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
       
@@ -88,9 +86,6 @@ namespace BruTileDemo
       this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
       this.MouseUp += new MouseButtonEventHandler(MapControl_MouseUp);
       this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
-
-      //!!!rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      //!!!rootLayer.UpdateData(transform.Extent, transform.Resolution);
    }
 
     void MapControl_MouseUp(object sender, MouseButtonEventArgs e)

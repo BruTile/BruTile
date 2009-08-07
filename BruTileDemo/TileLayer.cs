@@ -32,8 +32,8 @@ namespace BruTileDemo
     ITileSchema schema;
     TileFetcher tileFetcher;
     public event AsyncCompletedEventHandler DataUpdated;
-    MemoryCache<Image> cache = new MemoryCache<Image>();
-    static System.Collections.Generic.IComparer<TileInfo> sorter = new Sorter();
+    MemoryCache<Image> memoryCache = new MemoryCache<Image>();
+    IComparer<TileInfo> sorter = new Sorter();
     const int maxRetries = 3;
     object syncRoot = new object();
 
@@ -48,15 +48,14 @@ namespace BruTileDemo
       tileFetcher.FetchCompleted += new FetchCompletedEventHander(tileFetcher_FetchCompleted);
     }
 
-    public MemoryCache<Image> Bitmaps
+    public MemoryCache<Image> MemoryCache
     {
-      get { return cache; }
+      get { return memoryCache; }
     }
 
     public void Draw(Graphics graphics, Transform transform)
     {
-      graphics.Render(schema, transform, cache);
-
+      graphics.Render(schema, transform, memoryCache);
     }
 
     public void UpdateData(Rect rect, double zoom)
@@ -80,7 +79,7 @@ namespace BruTileDemo
         tiles = GetPrioritizedTiles(extent, resolution, priorityStep * resolution);
         foreach (TileInfo tile in tiles)
         {
-          if (cache.Find(tile.Key) != null) continue;
+          if (memoryCache.Find(tile.Key) != null) continue;
           tileFetcher.Fetch(tile, (int)tile.Priority);
         }
         resolution--;
@@ -115,7 +114,7 @@ namespace BruTileDemo
           TileInfo tile = e.TileInfo;
           byte[] image = e.Image;
           System.Exception error = e.Error;
-          if (cache.Find(tile.Key) == null)
+          if (memoryCache.Find(tile.Key) == null)
           {
             try
             {
@@ -123,7 +122,7 @@ namespace BruTileDemo
               Image imageControl = new Image();
               imageControl.Opacity = 0;
               imageControl.Source = source;
-              cache.Add(tile.Key, imageControl);
+              memoryCache.Add(tile.Key, imageControl);
             }
             catch (FileFormatException ex)
             {
@@ -140,7 +139,7 @@ namespace BruTileDemo
         else if ((e.Error is System.Net.WebException) && (e.TileInfo.Retries < maxRetries))
         {
           e.TileInfo.Retries++;
-          if (cache.Find(e.TileInfo.Key) == null)
+          if (memoryCache.Find(e.TileInfo.Key) == null)
             tileFetcher.Fetch(e.TileInfo, (int)e.TileInfo.Priority);
         }
         else
@@ -180,7 +179,7 @@ namespace BruTileDemo
       
       foreach (TileInfo tile in tiles)
       {
-        if (cache.Find(tile.Key) != null) continue;
+        if (memoryCache.Find(tile.Key) != null) continue;
         tileFetcher.Fetch(tile, Int32.MaxValue);
       }
     }
