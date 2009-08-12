@@ -4,18 +4,18 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5A07ED36-BDFB-49EF-A49A-AAA048784569}</ProjectGuid>
+    <ProjectGuid>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileCF</RootNamespace>
-    <AssemblyName>BruTileCF</AssemblyName>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>
-    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
-    <OSVersion>5.1</OSVersion>
-    <DeployDirSuffix>BruTileCF2</DeployDirSuffix>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.2</OSVersion>
+    <DeployDirSuffix>BruTile</DeployDirSuffix>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
   </PropertyGroup>
@@ -81,7 +81,7 @@
     <Compile Include="WebTileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BruTile.csproj" />
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
