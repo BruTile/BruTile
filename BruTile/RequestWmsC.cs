@@ -38,9 +38,11 @@ namespace Tiling
     {
       StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
 
-      //warning
-      //!!! hack, replaced with line below: url.Append("&SERVICE=WMS");
-      
+      //TODO: look at .net's UriBuilder for improvement
+      //http://msdn.microsoft.com/en-us/library/system.uribuilder.aspx
+      //note that the first & assumes a preceiding argument, this is not
+      //always the case.
+
       url.Append("&SERVICE=WMS");
       url.Append("&REQUEST=GetMap");
       url.AppendFormat("&BBOX={0}", tile.Extent.ToString());
