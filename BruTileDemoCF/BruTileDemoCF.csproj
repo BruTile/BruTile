@@ -89,7 +89,7 @@
       <Name>BruTileMapCF</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTileCF.csproj">
-      <Project>{5A07ED36-BDFB-49EF-A49A-AAA048784569}</Project>
+      <Project>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</Project>
       <Name>BruTileCF</Name>
     </ProjectReference>
     <ProjectReference Include="..\DemoConfig\DemoConfigCF.csproj">
