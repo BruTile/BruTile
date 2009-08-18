@@ -1,4 +1,4 @@
-﻿namespace BruTileDemoCF
+﻿namespace BruTileDemo
 {
   partial class Form1
   {
@@ -30,7 +30,7 @@
     private void InitializeComponent()
     {
         this.mainMenu1 = new System.Windows.Forms.MainMenu();
-        this.mapControl1 = new BruTileClient.MapControl();
+        this.mapControl1 = new BruTileDemo.MapControl();
         this.ZoomOut = new System.Windows.Forms.Button();
         this.zoomIn = new System.Windows.Forms.Button();
         this.SuspendLayout();
@@ -81,7 +81,7 @@
 
     #endregion
 
-    private BruTileClient.MapControl mapControl1;
+    private BruTileDemo.MapControl mapControl1;
     private System.Windows.Forms.Button ZoomOut;
     private System.Windows.Forms.Button zoomIn;
   }

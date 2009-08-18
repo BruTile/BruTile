@@ -15,13 +15,14 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Tiling;
-using System;
 using BruTileMap;
+using Tiling;
+using System.Drawing.Imaging;
 
-namespace BruTileClient
+namespace BruTileDemo
 {
   static class Renderer
   {
@@ -29,7 +30,7 @@ namespace BruTileClient
       MapTransform transform, MemoryCache<Bitmap> cache)
     {
       int level = Tile.GetNearestLevel(schema.Resolutions, transform.Resolution);
-      DrawRecursive(graphics, schema, transform, cache, transform.Extent, level);
+      DrawRecursive(graphics, schema, transform, cache, Tile.GetTileExtent(schema, transform.Extent, level), level);
     }
 
     private static void DrawRecursive(Graphics graphics, ITileSchema schema, MapTransform transform, MemoryCache<Bitmap> cache, Extent extent, int level)
@@ -65,34 +66,38 @@ namespace BruTileClient
 
     private static bool Contains(RectangleF clip, RectangleF dest)
     {
-      return ((clip.Left < dest.Left) && (clip.Top < dest.Top) 
-        && (clip.Right > dest.Right) && (clip.Bottom > dest.Bottom));
+      return ((clip.Left <= dest.Left) && (clip.Top <= dest.Top) && 
+        (clip.Right >= dest.Right) && (clip.Bottom >= dest.Bottom));
     }
 
     private static RectangleF Intersect(RectangleF clip, RectangleF dest)
     {
-      return new RectangleF(Math.Max(clip.Left, dest.Left), Math.Max(clip.Top, dest.Top)
-        , Math.Min(clip.Right, dest.Right), Math.Min(clip.Bottom, dest.Bottom));
-    }
-
-    private static Rectangle Inflated(RectangleF clip, int increase)
-    {
-      return new Rectangle((int)clip.Left - increase, (int)clip.Top - increase
-        , (int)clip.Width + increase * 2, (int)clip.Bottom + increase * 2);
-    }
-
-    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, Tiling.TileInfo tile, RectangleF clip)
-    {
-      Rectangle inflatedClip = Inflated(clip, 1);
-      graphics.Clip = new Region(inflatedClip);
-      DrawImage(graphics, bitmap, dest, tile);
-      graphics.ResetClip();
+      float left = Math.Max(clip.Left, dest.Left);
+      float top = Math.Max(clip.Top, dest.Top);
+      float right = Math.Min(clip.Right, dest.Right);
+      float bottom = Math.Min(clip.Bottom, dest.Bottom);
+      return new RectangleF(left, top, right - left, bottom - top);
     }
 
     private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, Tiling.TileInfo tile)
     {
-      Rectangle r = new Rectangle((int)dest.X, (int)dest.Y, (int)dest.Width, (int)dest.Height);
-      graphics.DrawImage(bitmap, r, new Rectangle(0, 0, bitmap.Width, bitmap.Height), GraphicsUnit.Pixel);
+      Rectangle rectDest = new Rectangle((int)dest.X, (int)dest.Y, (int)dest.Width, (int)dest.Height);
+      Rectangle rectSrc = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+      graphics.DrawImage(bitmap, rectDest, rectSrc, GraphicsUnit.Pixel);
+    }
+
+    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, Tiling.TileInfo tile, RectangleF clip)
+    {
+      //todo: clipping like this is very inefficient. Find a faster way (use a smaller srcRect instead of a clip).
+      graphics.Clip = new Region(new Rectangle((int)clip.X, (int)clip.Y, (int)clip.Width, (int)clip.Height));
+      DrawImage(graphics, bitmap, dest, tile);
+      graphics.ResetClip();
+    }
+
+    private static Rectangle Inflate(RectangleF clip, int increase)
+    {
+      return new Rectangle((int)clip.Left - increase, (int)clip.Top - increase, 
+        (int)clip.Width + increase * 2, (int)clip.Bottom + increase * 2);
     }
 
     private static RectangleF WorldToMap(Extent extent, MapTransform transform)

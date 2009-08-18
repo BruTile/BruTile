@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BruTileClient
+namespace BruTileDemo
 {
     internal static class ZoomHelper
     {

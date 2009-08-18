@@ -16,9 +16,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using Tiling;
 
 namespace BruTileMap
@@ -26,17 +24,18 @@ namespace BruTileMap
   public class TileLayer<T> : IDisposable
   {
     ITileSchema schema;
+    TileFetcher<T> tileFetcher;
+    public event AsyncCompletedEventHandler DataUpdated;
+    MemoryCache<T> memoryCache = new MemoryCache<T>(40, 60);
+    const int maxRetries = 3;
+    ITileFactory<T> tileFactory;
 
     public ITileSchema Schema
     {
+      //TODO: check if we need realy need this property
       get { return schema; }
       set { schema = value; }
     }
-    TileFetcher<T> tileFetcher;
-    public event AsyncCompletedEventHandler DataUpdated;
-    MemoryCache<T> memoryCache = new MemoryCache<T>();
-    const int maxRetries = 3;
-    ITileFactory<T> tileFactory;
 
     public TileLayer(ITileProvider tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
         : this(tileProvider, schema, tileFactory, new NullCache())
@@ -96,8 +95,6 @@ namespace BruTileMap
       {
         e.TileInfo.Retries++;
         //todo: implement retries
-        //if (cache.Find(e.TileInfo.Key) == null)
-        //  tileFetcher.Queue(e.TileInfo);
       }
       else
       {
@@ -110,13 +107,6 @@ namespace BruTileMap
       if (DataUpdated != null)
         DataUpdated(this, e);
     }
-
-    //private static RectangleF WorldToMap(Extent extent, Transform transform)
-    //{
-    //  PointF min = transform.WorldToMap(extent.MinX, extent.MinY);
-    //  PointF max = transform.WorldToMap(extent.MaxX, extent.MaxY);
-    //  return new RectangleF(min.X, max.Y, max.X - min.X, max.Y - min.Y);
-    //}
 
     private class NullCache : ITileCache<byte[]>
     {
@@ -139,6 +129,7 @@ namespace BruTileMap
             return null;
         }
     }
+
     #region IDisposable Members
 
     public void Dispose()

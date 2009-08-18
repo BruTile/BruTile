@@ -34,7 +34,7 @@ namespace Tiling
   {
     static IAxis axisNormal = new AxisNormal();
     static IAxis axisInvertedY = new AxisInvertedY();
-        
+
     /// <summary>
     /// Returns a List of TileInfo that cover the provided extent. 
     /// </summary>
@@ -69,13 +69,11 @@ namespace Tiling
       return tiles;
     }
 
-    private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
+    public static Extent GetTileExtent(ITileSchema schema, Extent extent, int level)
     {
-      if (!tileExtent.Intersects(schemaExtent)) return false;
-      //We do not accept all tiles that intersect. We reject tiles that have five
-      //percent or less overlap with the schema Extent. It turns out that in practice
-      //that many tiles with a small overlap with the schema extent are not on the server.
-      return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.05);
+      IAxis tileAxis = GetAxisTransform(schema.Axis);
+      TileRange range = tileAxis.WorldToTile(extent, level, schema);
+      return tileAxis.TileToWorld(range, level, schema);
     }
 
     public static int GetNearestLevel(IList<double> resolutions, double resolution) //todo: should be in util?
@@ -104,7 +102,16 @@ namespace Tiling
       }
       return result;
     }
-      
+
+    private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
+    {
+      if (!tileExtent.Intersects(schemaExtent)) return false;
+      //We do not accept all tiles that intersect. We reject tiles that have five
+      //percent or less overlap with the schema Extent. It turns out that in practice
+      //that many tiles with a small overlap with the schema extent are not on the server.
+      return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.05);
+    }
+
     private static IAxis GetAxisTransform(AxisDirection axis)
     {
       switch (axis)
