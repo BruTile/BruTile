@@ -17,37 +17,42 @@
 
 using System;
 using System.Collections.Generic;
-using Tiling;
 using System.Threading;
+using Tiling;
 
 namespace BruTileMap
 {
     public delegate void FetchCompletedEventHander(object sender, FetchCompletedEventArgs e);
 
-    class TileFetcher<T> : IDisposable
+    class TileFetcher<T>
     {
         #region Fields
 
         public event FetchCompletedEventHander FetchCompleted;
         ITileCache<byte[]> fileCache;
+        MemoryCache<T> memoryCache;
         List<TileKey> inProgress = new List<TileKey>();
         IList<TileInfo> tilesNeeded = new List<TileInfo>();
         ITileProvider tileProvider;
-        object syncRoot = new object();
-        int maxThreads = 4;
+        int maxThreads = 1;
         int threadCount = 0;
-        Timer timer;
+        Thread workerThread;
         Extent extent;
-        Extent previousExtent;
         double resolution;
         static System.Collections.Generic.IComparer<TileInfo> sorter = new Sorter();
-        MemoryCache<T> memoryCache;
         ITileSchema schema;
         bool busy;
-        
+        bool closing = false;
+        AutoResetEvent waitHandle = new AutoResetEvent(false);
+
         #endregion
 
-        #region Constructors
+        #region Constructors Destructors
+
+        public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memCache, ITileSchema schema)
+            : this(tileProvider, memCache, schema, (ITileCache<byte[]>)new NullCache())
+        {
+        }
 
         public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileCache<byte[]> fileCache)
         {
@@ -61,39 +66,46 @@ namespace BruTileMap
             this.schema = schema;
             this.fileCache = fileCache;
 
-            try
-            {
-                timer = new Timer(new TimerCallback(TimerTick), this, 300, 300);
-            }
-            catch
-            {
-            }
+            workerThread = new Thread(TileFetchMethod);
+            workerThread.Start();
+        }
+
+        ~TileFetcher()
+        {
+            closing = true;
+            waitHandle.Set();
         }
 
         #endregion
 
-        public void UpdateData(Extent extent, double resolution)
+        private void TileFetchMethod()
         {
-            this.extent = extent;
-            this.resolution = resolution;
+            System.Threading.Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+
+            while (!closing)
+            {
+                waitHandle.WaitOne();
+                Thread.Sleep(100);
+                RenewQueue();
+                FetchTiles();
+                if (this.tilesNeeded.Count == 0)
+                    waitHandle.Reset();
+                else
+                    waitHandle.Set();
+            }
         }
 
-        private static void TimerTick(object state)
+        public void UpdateData(Extent extent, double resolution)
         {
-            lock (state)
-            {
-                TileFetcher<T> tileFetcher = (TileFetcher<T>)state;
-
-                tileFetcher.RenewQueue();
-
-                tileFetcher.FetchTiles();
-            }
+            if ((this.extent == extent) && (this.resolution == resolution)) return;
+            this.extent = extent;
+            this.resolution = resolution;
+            if (threadCount < maxThreads) 
+                waitHandle.Set();
         }
 
         private void RenewQueue()
         {
-            if (extent == previousExtent) return;
-
             if (busy == true) return;
             busy = true;
 
@@ -107,19 +119,19 @@ namespace BruTileMap
                 int lastLevel = Math.Max(0, level - preCacheLevels);
 
                 IList<TileInfo> newTilesNeeded = new List<TileInfo>();
-                // Iterating through a number of extra resolution so we can fall back on 
-                // higher levels when lower levels are not available. 
+                // Iterating through the current and a number of higher resolution so we can 
+                // fall back on higher levels when lower levels are not available. 
                 while (level >= lastLevel)
                 {
                     tiles = GetPrioritizedTiles(extent, level, priorityStep * level);
                     foreach (TileInfo tile in tiles)
                     {
+                        if (memoryCache.Find(tile.Key) != null) continue;
                         newTilesNeeded.Add(tile);
                     }
                     level--;
                 }
                 tilesNeeded = newTilesNeeded;
-                previousExtent = extent;
             }
             finally
             {
@@ -130,15 +142,13 @@ namespace BruTileMap
         private List<TileInfo> GetPrioritizedTiles(Extent extent, int resolution, int basePriority)
         {
             List<TileInfo> tiles = new List<TileInfo>(Tile.GetTiles(schema, extent, resolution));
-
             for (int i = 0; i < tiles.Count; i++)
             {
-                double priority = basePriority - Distance(extent.CenterX, extent.CenterY,
-                  tiles[i].Extent.CenterX, tiles[i].Extent.CenterY);
-                tiles[i].Priority = priority;
+              double priority = basePriority - Distance(extent.CenterX, extent.CenterY,
+                tiles[i].Extent.CenterX, tiles[i].Extent.CenterY);
+              tiles[i].Priority = priority;
             }
             tiles.Sort(sorter);
-
             return tiles;
         }
 
@@ -155,8 +165,11 @@ namespace BruTileMap
             {
                 if (counter >= count) return;
                 if (memoryCache.Find(tile.Key) != null) continue;
-                if (inProgress.Contains(tile.Key)) continue;
-                inProgress.Add(tile.Key);
+                lock (inProgress)
+                {
+                    if (inProgress.Contains(tile.Key)) continue;
+                    inProgress.Add(tile.Key);
+                }
                 StartFetchOnThread(tile);
                 counter++;
             }
@@ -171,6 +184,14 @@ namespace BruTileMap
             thread.Start();
         }
 
+        private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
+        {
+            if (inProgress.Contains(e.TileInfo.Key)) inProgress.Remove(e.TileInfo.Key);
+            threadCount--;
+            if (this.FetchCompleted != null)
+                this.FetchCompleted(this, e);
+        }
+
         private class Sorter : IComparer<TileInfo>
         {
             public int Compare(TileInfo x, TileInfo y)
@@ -181,22 +202,23 @@ namespace BruTileMap
             }
         }
 
-        private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
+        private class NullCache : ITileCache<byte[]>
         {
-            if (inProgress.Contains(e.TileInfo.Key)) inProgress.Remove(e.TileInfo.Key);
-            threadCount--;
-            if (this.FetchCompleted != null)
-                this.FetchCompleted(this, e);
+            public void Add(TileKey key, byte[] image)
+            {
+                //do nothing
+            }
+
+            public void Remove(TileKey key)
+            {
+                throw new NotImplementedException(); //and should not
+            }
+
+            public byte[] Find(TileKey key)
+            {
+                return null;
+            }
         }
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 
     public class FetchCompletedEventArgs
@@ -214,5 +236,4 @@ namespace BruTileMap
         public TileInfo TileInfo;
         public byte[] Image;
     }
-
 }

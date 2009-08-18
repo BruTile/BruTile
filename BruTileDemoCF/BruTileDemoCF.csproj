@@ -7,8 +7,8 @@
     <ProjectGuid>{D721B047-96EB-43F7-A40E-96AD11388AC2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileDemoCF</RootNamespace>
-    <AssemblyName>BruTileDemoCF</AssemblyName>
+    <RootNamespace>BruTileDemo</RootNamespace>
+    <AssemblyName>BruTileDemo</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>
     <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
@@ -78,6 +78,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Renderer.cs" />
     <Compile Include="TileFactory.cs" />

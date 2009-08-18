@@ -24,8 +24,6 @@ namespace BruTileMap
 
     public void FetchTile()
     {
-      Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
       Exception error = null;
       byte[] image = null;
 

@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BruTileDemoCF
+namespace BruTileDemo
 {
     public partial class Form1 : Form
     {

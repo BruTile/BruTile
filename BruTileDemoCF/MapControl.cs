@@ -28,7 +28,7 @@ using BruTileMap;
 using DemoConfig;
 using BruTileDemo;
 
-namespace BruTileClient
+namespace BruTileDemo
 {
     class MapControl : System.Windows.Forms.Control
     {

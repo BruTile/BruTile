@@ -32,14 +32,23 @@ namespace BruTileMap
       = new Dictionary<TileKey, DateTime>();
 
     private object syncRoot = new object();
-    private const int upperLimit = 20;
-    private const int lowerLimit = 10;
-    private const int counter = 0;
+    private int maxTiles = 20;
+    private int minTiles = 10;
     private delegate void SetTileCountDelegate(int count);
     
     #endregion
     
     #region Public Methods
+
+    public MemoryCache(int minTiles, int maxTiles)
+    {
+      if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
+      if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
+      if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
+
+      this.minTiles = minTiles;
+      this.maxTiles = maxTiles;
+    }
 
     public void Add(TileKey key, T item)
     {
@@ -54,7 +63,7 @@ namespace BruTileMap
         {
           touched.Add(key, DateTime.Now);
           bitmaps.Add(key, item);
-          if (bitmaps.Count > upperLimit) CleanUp();
+          if (bitmaps.Count > maxTiles) CleanUp();
          }
       }
     }
@@ -95,7 +104,7 @@ namespace BruTileMap
       {
         //Purpose: Remove the older tiles so that the newest x tiles are left.
         TouchPermaCache(touched);
-        DateTime cutoff = GetCutOff(touched, lowerLimit);
+        DateTime cutoff = GetCutOff(touched, minTiles);
         List<TileKey> oldItems = GetOldItems(touched, ref cutoff);
         foreach (TileKey key in oldItems)
         {
