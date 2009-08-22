@@ -27,13 +27,13 @@ namespace Tiling
     private Extent extent;
     private double priority;
     private int retries;
-    
+
     public TileKey Key
     {
       get { return key; }
       set { key = value; }
     }
-   
+
     public Extent Extent
     {
       get { return extent; }
@@ -45,7 +45,7 @@ namespace Tiling
       get { return priority; }
       set { priority = value; }
     }    
-    
+
     public int Retries
     {
       get { return retries; }

@@ -209,7 +209,7 @@ namespace BruTileDemo
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            //do nothing to prevent flickering
+            //dont call defautl implementation to prevent flickering.
         }
 
         private void Initialize()

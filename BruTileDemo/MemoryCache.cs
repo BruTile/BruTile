@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Tiling;
 
 namespace BruTileDemo
@@ -143,7 +142,7 @@ namespace BruTileDemo
     private void TouchPermaCache(SortedDictionary<TileKey, DateTime> touched)
     {
       List<TileKey> keys = new List<TileKey>();
-      //This is a temporary soluvtion to preserve level zero tiles in memory.
+      //This is a temporary solution to preserve level zero tiles in memory.
       foreach (TileKey key in touched.Keys) if (key.Level == 0) keys.Add(key); 
       foreach (TileKey key in keys) touched[key] = DateTime.Now;
     }

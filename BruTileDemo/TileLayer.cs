@@ -35,7 +35,6 @@ namespace BruTileDemo
     MemoryCache<Image> memoryCache = new MemoryCache<Image>();
     IComparer<TileInfo> sorter = new Sorter();
     const int maxRetries = 3;
-    object syncRoot = new object();
 
     public TileLayer(ITileProvider tileProvider, ITileSchema schema) : this(tileProvider, schema, null)
     {
