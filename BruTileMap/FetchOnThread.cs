@@ -11,15 +11,15 @@ namespace BruTileMap
   {
     ITileProvider tileProvider;
     TileInfo tileInfo;
-    FetchCompletedEventHander fetchCompleted;
     ITileCache<byte[]> fileCache;
-
+    FetchCompletedEventHander fetchCompleted;
+    
     public FetchOnThread(ITileProvider tileProvider, TileInfo tileInfo, ITileCache<byte[]> fileCache, FetchCompletedEventHander fetchCompleted)
     {
       this.tileProvider = tileProvider;
       this.tileInfo = tileInfo;
-      this.fetchCompleted = fetchCompleted;
       this.fileCache = fileCache;
+      this.fetchCompleted = fetchCompleted;
     }
 
     public void FetchTile()
