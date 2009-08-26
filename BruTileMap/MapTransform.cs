@@ -48,15 +48,6 @@ namespace BruTileMap
 
         #region Public Methods
 
-        public MapTransform(PointF center, float resolution, float width, float height)
-        {
-            this.center = center;
-            this.resolution = resolution;
-            this.width = width;
-            this.height = height;
-            UpdateExtent();
-        }
-
         public double Resolution
         {
             set
@@ -116,22 +107,6 @@ namespace BruTileMap
         public PointF MapToWorld(double x, double y)
         {
             return new PointF((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
-        }
-
-        //public RectangleF WorldToMap(double x1, double y1, double x2, double y2)
-        //{
-        //    PointF point1 = WorldToMap(x1, y1);
-        //    PointF point2 = WorldToMap(x2, y2);
-        //    return new RectangleF(point1.X, point2.Y, point2.X - point1.X, point1.Y - point2.Y);
-        //}
-
-        public void Pan(PointF currentMap, PointF previousMap)
-        {
-            PointF current = this.MapToWorld(currentMap.X, currentMap.Y);
-            PointF previous = this.MapToWorld(previousMap.X, previousMap.Y);
-            float diffX = previous.X - current.X;
-            float diffY = previous.Y - current.Y;
-            this.Center = new PointF(center.X + diffX, center.Y + diffY);
         }
 
         #endregion

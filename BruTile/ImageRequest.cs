@@ -27,7 +27,7 @@ namespace Tiling
     public static byte[] GetImageFromServer(Uri url)
     {
       WebRequest webRequest = WebRequest.Create(url);
-
+      
       //This clumsy way to do a synchronous request is for compatibility with Silverlight
       IAsyncResult result = webRequest.BeginGetResponse(null, null);
       result.AsyncWaitHandle.WaitOne();
