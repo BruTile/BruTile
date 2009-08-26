@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+using BruTile;
 using BruTileMap;
-using Tiling;
 
 namespace BruTileDemo
 {
@@ -19,7 +16,7 @@ namespace BruTileDemo
 
     #region IFetchTile Members
 
-    public void GetTile(Tiling.TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+    public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
     {
       Exception error = null;
       byte[] bytes = null;

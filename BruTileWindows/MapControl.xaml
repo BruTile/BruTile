@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BruTileDemo.MapControl"
+﻿<UserControl x:Class="BruTileWindows.MapControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Canvas x:Name="canvas" Background="Transparent"></Canvas>

@@ -16,13 +16,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Tiling;
 using System.Windows;
+using BruTile;
 
-namespace BruTileDemo
+namespace BruTileWindows
 {
   static class Util
   {
@@ -35,6 +32,5 @@ namespace BruTileDemo
     {
       return new Extent(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
     }
-
   }
 }

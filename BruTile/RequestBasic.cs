@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 
-namespace Tiling
+namespace BruTile
 {
     /// <summary>
     /// A flexible request builder that can be used for a number of simple cases.

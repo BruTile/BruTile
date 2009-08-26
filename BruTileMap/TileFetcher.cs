@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Tiling;
+using BruTile;
 
 namespace BruTileMap
 {
@@ -105,7 +105,7 @@ namespace BruTileMap
       {
         waitHandle.WaitOne();
 
-#if !SILVERLIGHT
+#if PocketPC
         Thread.Sleep(100); //TODO: check if we really need this
 #endif
         RenewQueue();

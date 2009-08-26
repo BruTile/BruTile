@@ -17,7 +17,7 @@
 
 using System;
 using System.ComponentModel;
-using Tiling;
+using BruTile;
 
 #if SILVERLIGHT
 using System.Windows;

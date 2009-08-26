@@ -44,6 +44,7 @@
     <Compile Include="AxisInvertedY.cs" />
     <Compile Include="AxisNormal.cs" />
     <Compile Include="IAxis.cs" />
+    <Compile Include="IFetchTile.cs" />
     <Compile Include="ImageRequest.cs" />
     <Compile Include="IRequestBuilder.cs" />
     <Compile Include="ITileCache.cs" />

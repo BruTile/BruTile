@@ -17,7 +17,7 @@
 
 using System.IO;
 
-namespace Tiling
+namespace BruTile
 {
   public static class Util
   {

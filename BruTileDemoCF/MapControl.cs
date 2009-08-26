@@ -17,16 +17,11 @@
 
 using System;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Forms;
 using System.Drawing;
-using Tiling;
-using Microsoft.Win32;
-using System.Collections;
-using System.IO;
+using System.Windows.Forms;
+using BruTile;
 using BruTileMap;
 using DemoConfig;
-using BruTileDemo;
 
 namespace BruTileDemo
 {
@@ -133,7 +128,7 @@ namespace BruTileDemo
           errorMessage = "Cancelled";
           OnErrorMessageChanged();
         }
-        else if (e.Error is Tiling.WebResponseFormatException)
+        else if (e.Error is WebResponseFormatException)
         {
           errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
           OnErrorMessageChanged();

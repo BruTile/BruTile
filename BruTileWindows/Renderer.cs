@@ -20,10 +20,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using BruTile;
 using BruTileMap;
-using Tiling;
 
-namespace BruTileDemo
+namespace BruTileWindows
 {
   public static class Graphics
   {

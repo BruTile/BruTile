@@ -16,13 +16,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.ComponentModel;
+using System.Windows;
 
-namespace BruTileDemo
+namespace BruTileWindows
 {
   /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
   public class FpsCounter : DependencyObject, INotifyPropertyChanged

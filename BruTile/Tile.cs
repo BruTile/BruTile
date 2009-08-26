@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 [assembly: CLSCompliant(true)]
 
-namespace Tiling
+namespace BruTile
 {
   public enum AxisDirection
   {

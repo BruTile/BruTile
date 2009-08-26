@@ -1,4 +1,4 @@
-﻿using Tiling;
+﻿using BruTile;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BruTileTests
 {

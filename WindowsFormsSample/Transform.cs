@@ -17,7 +17,7 @@
 
 using System.Windows;
 using System.Drawing;
-using Tiling;
+using BruTile;
 
 namespace WindowsFormsSample
 {

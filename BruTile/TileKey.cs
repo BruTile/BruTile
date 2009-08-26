@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Tiling
+namespace BruTile
 {
   public struct TileKey : IComparable
   {

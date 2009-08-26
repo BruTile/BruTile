@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Tiling;
+using BruTile;
 using System.Windows;
 
 namespace BruTileDemo

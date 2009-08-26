@@ -21,7 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Tiling;
+using BruTile;
 
 namespace BruTileDemo
 {
@@ -116,7 +116,7 @@ namespace BruTileDemo
           errorMessage = "Cancelled";
           OnErrorMessageChanged();
         }
-        else if (e.Error is Tiling.WebResponseFormatException)
+        else if (e.Error is WebResponseFormatException)
         {
           errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
           OnErrorMessageChanged();

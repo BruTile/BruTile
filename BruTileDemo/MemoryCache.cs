@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Tiling;
+using BruTile;
 
 namespace BruTileDemo
 {

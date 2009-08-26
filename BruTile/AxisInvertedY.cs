@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tiling
+namespace BruTile
 {
   internal class AxisInvertedY : IAxis
   {

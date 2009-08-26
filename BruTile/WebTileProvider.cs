@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tiling
+namespace BruTile
 {
   public class WebTileProvider : ITileProvider
   {

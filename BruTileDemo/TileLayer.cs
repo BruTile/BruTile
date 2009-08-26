@@ -23,7 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Tiling;
+using BruTile;
 
 namespace BruTileDemo
 {

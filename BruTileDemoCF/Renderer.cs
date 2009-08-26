@@ -18,9 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BruTile;
 using BruTileMap;
-using Tiling;
-using System.Drawing.Imaging;
 
 namespace BruTileDemo
 {
@@ -79,14 +78,14 @@ namespace BruTileDemo
       return new RectangleF(left, top, right - left, bottom - top);
     }
 
-    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, Tiling.TileInfo tile)
+    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, TileInfo tile)
     {
       Rectangle rectDest = new Rectangle((int)dest.X, (int)dest.Y, (int)dest.Width, (int)dest.Height);
       Rectangle rectSrc = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
       graphics.DrawImage(bitmap, rectDest, rectSrc, GraphicsUnit.Pixel);
     }
 
-    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, Tiling.TileInfo tile, RectangleF clip)
+    private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, TileInfo tile, RectangleF clip)
     {
       //todo: clipping like this is very inefficient. Find a faster way (use a smaller srcRect instead of a clip).
       graphics.Clip = new Region(new Rectangle((int)clip.X, (int)clip.Y, (int)clip.Width, (int)clip.Height));
