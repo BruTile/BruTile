@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tiling;
+using BruTile;
 
-namespace BruTileMap
+namespace BruTile
 {
   public delegate void FetchCompletedEventHandler(object sender, FetchCompletedEventArgs e);
 

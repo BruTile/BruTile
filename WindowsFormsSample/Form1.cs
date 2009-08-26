@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Tiling;
+using BruTile;
 
 namespace WindowsFormsSample
 {

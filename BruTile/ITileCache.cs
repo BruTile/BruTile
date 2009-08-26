@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace Tiling
+namespace BruTile
 {
   public interface ITileCache<T>
   {

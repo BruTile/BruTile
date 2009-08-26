@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tiling;
+using BruTile;
 
 namespace BruTileDemo
 {
@@ -39,7 +39,7 @@ namespace BruTileDemo
 
     #region IConfig Members
 
-    public Tiling.ITileCache<byte[]> FileCache
+    public ITileCache<byte[]> FileCache
     {
       get
       {
@@ -48,7 +48,7 @@ namespace BruTileDemo
       }
     }
 
-    public Tiling.IRequestBuilder RequestBuilder
+    public IRequestBuilder RequestBuilder
     {
       get
       {
@@ -59,7 +59,7 @@ namespace BruTileDemo
       }
     }
 
-    public Tiling.ITileSchema TileSchema
+    public ITileSchema TileSchema
     {
       get
       {

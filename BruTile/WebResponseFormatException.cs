@@ -19,7 +19,7 @@ using System;
 using System.Net;
 using System.Runtime.Serialization;
 
-namespace Tiling
+namespace BruTile
 {
   public class WebResponseFormatException : WebException
   {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tiling;
+using BruTile;
 
 namespace DemoConfig
 {
@@ -33,7 +33,7 @@ namespace DemoConfig
 
         #region IConfig Members
 
-        public Tiling.IRequestBuilder RequestBuilder
+        public BruTile.IRequestBuilder RequestBuilder
         {
             get
             {
@@ -41,7 +41,7 @@ namespace DemoConfig
             }
         }
 
-        public Tiling.ITileSchema TileSchema
+        public BruTile.ITileSchema TileSchema
         {
             get
             {

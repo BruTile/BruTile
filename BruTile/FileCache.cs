@@ -21,7 +21,7 @@ using System.Text;
 using System.IO;
 using System.Globalization;
 
-namespace Tiling
+namespace BruTile
 {
   public class FileCache : ITileCache<byte[]>
   {

@@ -20,7 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 
-namespace Tiling
+namespace BruTile
 {
   public static class ImageRequest
   {

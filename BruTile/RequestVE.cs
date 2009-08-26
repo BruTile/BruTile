@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 
-namespace Tiling
+namespace BruTile
 {
   public class RequestVE : IRequestBuilder
   {

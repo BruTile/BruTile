@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using Tiling;
+using BruTile;
 using Toub.Threading;
 
 namespace BruTileDemo

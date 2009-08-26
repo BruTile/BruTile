@@ -18,7 +18,7 @@
 using System;
 using System.Globalization;
 
-namespace Tiling
+namespace BruTile
 {
   public struct Extent
   {

@@ -21,7 +21,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 
-namespace Tiling
+namespace BruTile
 {
   public class TileSchemaWmsC : TileSchema
   {
