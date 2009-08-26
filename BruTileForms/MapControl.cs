@@ -23,9 +23,10 @@ using BruTile;
 using BruTileMap;
 using DemoConfig;
 
-namespace BruTileDemo
+
+namespace BruTileForms
 {
-  class MapControl : System.Windows.Forms.Control
+  public class MapControl : System.Windows.Forms.Control
   {
     #region private variables
     private TileLayer<Bitmap> rootLayer;

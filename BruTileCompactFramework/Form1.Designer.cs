@@ -1,4 +1,23 @@
-﻿namespace BruTileDemo
+﻿// Copyright 2009 - Paul den Dulk (Geodan)
+// 
+// This file is part of SharpMap.
+// SharpMap is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+// 
+// SharpMap is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+
+// You should have received a copy of the GNU Lesser General Public License
+// along with SharpMap; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+using BruTileForms;
+
+namespace BruTileCompactFramework
 {
   partial class Form1
   {
@@ -30,7 +49,7 @@
     private void InitializeComponent()
     {
         this.mainMenu1 = new System.Windows.Forms.MainMenu();
-        this.mapControl1 = new BruTileDemo.MapControl();
+        this.mapControl1 = new MapControl();
         this.ZoomOut = new System.Windows.Forms.Button();
         this.zoomIn = new System.Windows.Forms.Button();
         this.SuspendLayout();
@@ -81,7 +100,7 @@
 
     #endregion
 
-    private BruTileDemo.MapControl mapControl1;
+    private MapControl mapControl1;
     private System.Windows.Forms.Button ZoomOut;
     private System.Windows.Forms.Button zoomIn;
   }

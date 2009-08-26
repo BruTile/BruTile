@@ -2,7 +2,7 @@
 using BruTile;
 using BruTileMap;
 
-namespace BruTileDemo
+namespace BruTileForms
 {
   class FetchTileWeb : IFetchTile
   {

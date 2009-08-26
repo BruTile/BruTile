@@ -21,7 +21,7 @@ using System.Drawing;
 using BruTile;
 using BruTileMap;
 
-namespace BruTileDemo
+namespace BruTileForms
 {
   static class Renderer
   {
