@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-
+// 
 // SharpMap is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,39 +22,42 @@ using Tiling;
 
 namespace BruTileMap
 {
-  public delegate void FetchCompletedEventHander(object sender, FetchCompletedEventArgs e);
-
   class TileFetcher<T>
   {
     #region Fields
 
-    public event FetchCompletedEventHander FetchCompleted;
-    ITileCache<byte[]> fileCache;
-    MemoryCache<T> memoryCache;
-    List<TileKey> inProgress = new List<TileKey>();
-    IList<TileInfo> tilesNeeded = new List<TileInfo>();
-    ITileProvider tileProvider;
-    int maxThreads = 1;
-    int threadCount = 0;
-    Thread workerThread;
-    Extent extent;
-    double resolution;
-    static System.Collections.Generic.IComparer<TileInfo> sorter = new Sorter();
-    ITileSchema schema;
-    bool busy;
-    bool closing = false;
-    AutoResetEvent waitHandle = new AutoResetEvent(false);
+    private ITileCache<byte[]> fileCache;
+    private MemoryCache<T> memoryCache;
+    private List<TileKey> inProgress = new List<TileKey>();
+    private IList<TileInfo> tilesNeeded = new List<TileInfo>();
+    private IFetchTile tileProvider;
+    private int maxThreads = 4;
+    private int threadCount = 0;
+    private Thread workerThread;
+    private Extent extent;
+    private double resolution;
+    private System.Collections.Generic.IComparer<TileInfo> sorter = new Sorter();
+    private ITileSchema schema;
+    private bool busy;
+    private bool closing = false;
+    private AutoResetEvent waitHandle = new AutoResetEvent(false);
 
     #endregion
 
+    #region EventHandlers
+
+    public event FetchCompletedEventHandler FetchCompleted;
+    
+    #endregion
+    
     #region Constructors Destructors
 
-    public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memCache, ITileSchema schema)
-      : this(tileProvider, memCache, schema, (ITileCache<byte[]>)new NullCache())
+    public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema)
+      : this(tileProvider, memoryCache, schema, (ITileCache<byte[]>)new NullCache())
     {
     }
 
-    public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileCache<byte[]> fileCache)
+    public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileCache<byte[]> fileCache)
     {
       if (tileProvider == null) throw new ArgumentException("TileProvider can not be null");
       if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
@@ -95,12 +98,16 @@ namespace BruTileMap
 
     private void TileFetchMethod()
     {
+#if !SILVERLIGHT
       System.Threading.Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
+#endif
       while (!closing)
       {
         waitHandle.WaitOne();
-        Thread.Sleep(100);
+
+#if !SILVERLIGHT
+        Thread.Sleep(100); //TODO: check if we really need this
+#endif
         RenewQueue();
         FetchTiles();
         if (this.tilesNeeded.Count == 0)
@@ -124,6 +131,10 @@ namespace BruTileMap
         int lastLevel = Math.Max(0, level - preCacheLevels);
 
         IList<TileInfo> newTilesNeeded = new List<TileInfo>();
+
+        //dirty way to fetch highest level tiles.
+        UpdatePermaCache(newTilesNeeded);
+
         // Iterating through the current and a number of higher resolution so we can 
         // fall back on higher levels when lower levels are not available. 
         while (level >= lastLevel)
@@ -133,7 +144,8 @@ namespace BruTileMap
           foreach (TileInfo tile in tiles)
           {
             if (memoryCache.Find(tile.Key) != null) continue;
-            newTilesNeeded.Add(tile);
+            if ((tile.Key.Row >= 0) && (tile.Key.Col >= 0))
+              newTilesNeeded.Add(tile);
           }
           level--;
         }
@@ -145,6 +157,17 @@ namespace BruTileMap
       }
     }
 
+    private void UpdatePermaCache(IList<TileInfo> newTilesNeeded)
+    {
+      //Note: The permaCache implementation is a temporary solution
+      IList<TileInfo> tiles = Tile.GetTiles(schema, schema.Extent, 0);
+
+      foreach (TileInfo tile in tiles)
+      {
+        if (memoryCache.Find(tile.Key) != null) continue;
+        newTilesNeeded.Add(tile);
+      }
+    }
     /// <summary>
     /// Gets a list of tiles in the order in which they should be retrieved
     /// </summary>
@@ -182,19 +205,10 @@ namespace BruTileMap
           if (inProgress.Contains(tile.Key)) continue;
           inProgress.Add(tile.Key);
         }
-        StartFetchOnThread(tile);
+        threadCount++;
+        tileProvider.GetTile(tile, LocalFetchCompleted);
         counter++;
       }
-    }
-
-    private void StartFetchOnThread(TileInfo tile)
-    {
-      threadCount++;
-
-      FetchOnThread fetchOnThread = new FetchOnThread(tileProvider, tile, fileCache, new FetchCompletedEventHander(LocalFetchCompleted));
-      Thread thread = new Thread(fetchOnThread.FetchTile);
-      thread.Name = "Tile Fetcher";
-      thread.Start();
     }
 
     private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
@@ -229,7 +243,7 @@ namespace BruTileMap
 
       public void Remove(TileKey key)
       {
-        throw new NotImplementedException(); //and should not
+        throw new NotSupportedException(); //and should not
       }
 
       public byte[] Find(TileKey key)
@@ -241,19 +255,5 @@ namespace BruTileMap
     #endregion
   }
 
-  public class FetchCompletedEventArgs
-  {
-    public FetchCompletedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
-    {
-      this.Error = error;
-      this.Cancelled = cancelled;
-      this.TileInfo = tileInfo;
-      this.Image = image;
-    }
 
-    public Exception Error;
-    public bool Cancelled;
-    public TileInfo TileInfo;
-    public byte[] Image;
-  }
 }

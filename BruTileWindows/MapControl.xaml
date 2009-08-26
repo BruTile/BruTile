@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="BruTileDemo.MapControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Canvas x:Name="canvas" Background="Transparent"></Canvas>
+  <UserControl.Resources>
+    <!-- Animates the rectangle's opacity. -->
+    <Storyboard x:Name="myStoryboard">
+      <DoubleAnimation x:Name="myDoubleAnimation"
+                       Storyboard.TargetProperty="Opacity"
+                 From="1.0" To="0.0" Duration="0:0:1" 
+                 AutoReverse="True" 
+                 RepeatBehavior="Forever" />
+    </Storyboard>
+  </UserControl.Resources>
+
+</UserControl>

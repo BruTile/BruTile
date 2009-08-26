@@ -15,32 +15,26 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using Tiling;
+using System.Windows;
 
-namespace Tiling
+namespace BruTileDemo
 {
-  public static class Util
+  static class Util
   {
-    /// <summary>
-    /// Reads data from a stream until the end is reached. The
-    /// data is returned as a byte array. An IOException is
-    /// thrown if any of the underlying IO calls fail.
-    /// </summary>
-    /// <param name="stream">The stream to read data from</param>
-    public static byte[] ReadFully(Stream stream)
+    public static double Distance(double x1, double y1, double x2, double y2)
     {
-      //thanks to: http://www.yoda.arachsys.com/csharp/readbinary.html
-      byte[] buffer = new byte[32768];
-      using (MemoryStream ms = new MemoryStream())
-      {
-        while (true)
-        {
-          int read = stream.Read(buffer, 0, buffer.Length);
-          if (read <= 0)
-            return ms.ToArray();
-          ms.Write(buffer, 0, read);
-        }
-      }
+      return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
     }
+
+    public static Extent ToExtent(Rect rect)
+    {
+      return new Extent(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
+    }
+
   }
 }
