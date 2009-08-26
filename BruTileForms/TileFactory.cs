@@ -2,7 +2,7 @@
 using System.IO;
 using BruTileMap;
 
-namespace BruTileDemo
+namespace BruTileForms
 {
     class TileFactory : ITileFactory<Bitmap>
     {

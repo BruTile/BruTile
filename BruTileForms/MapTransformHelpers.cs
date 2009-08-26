@@ -1,8 +1,7 @@
 ﻿using System.Windows;
-using BruTileDemo;
 using BruTileMap;
 
-namespace BruTileDemo
+namespace BruTileForms
 {
   public static class MapTransformHelpers
   {
