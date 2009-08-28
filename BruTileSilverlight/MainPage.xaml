@@ -6,6 +6,11 @@
     xmlns:brutile="clr-namespace:BruTileWindows;assembly=BruTileWindows"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" Width="800" Height="600">
   <Grid x:Name="LayoutRoot" Width="800" Height="600">
-    <brutile:MapControl Width="800" Height="600"></brutile:MapControl>
+    <brutile:MapControl x:Name="map" Width="800" Height="600" ErrorMessageChanged="map_ErrorMessageChanged"></brutile:MapControl>
+    <StackPanel Height="186" Width="Auto" Margin="20,20,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" >
+      <Border ></Border>
+      <RadioButton x:Name="Osm" IsChecked="True" FontSize="16" Content="OSM" Margin="4,4,4,4" Click="Osm_Click"/>
+      <RadioButton x:Name="BingMaps" FontSize="16" Content="Bing Maps" Margin="4,4,4,4"   Click="BingMaps_Click"/>
+    </StackPanel>
   </Grid>
 </UserControl>

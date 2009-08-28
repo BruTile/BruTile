@@ -82,9 +82,21 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BruTileMap\BruTileMapSL.csproj">
+      <Project>{DF93419D-F269-447F-BFE9-0E2A1A4EE2BF}</Project>
+      <Name>BruTileMapSL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BruTileWindows\BruTileWindows.csproj">
       <Project>{DC9F828B-9873-4C4C-949C-70358EE06AA4}</Project>
       <Name>BruTileWindows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile\BruTileSL.csproj">
+      <Project>{DD028875-B9BD-45B0-8306-797D318FA57B}</Project>
+      <Name>BruTileSL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DemoConfig\DemoConfigSL.csproj">
+      <Project>{8C3CFBF5-A0B3-496F-B287-2BBD988D2373}</Project>
+      <Name>DemoConfigSL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />

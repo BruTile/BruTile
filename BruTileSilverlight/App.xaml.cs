@@ -31,8 +31,8 @@ namespace BruTileSilverlight
 
     private void Application_Exit(object sender, EventArgs e)
     {
-
     }
+
     private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
     {
       // If the app is running outside of the debugger then report the exception using
