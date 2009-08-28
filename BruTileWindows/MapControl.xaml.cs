@@ -22,7 +22,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BruTileMap;
-using DemoConfig;
 
 namespace BruTileWindows
 {
@@ -31,7 +30,7 @@ namespace BruTileWindows
     #region Fields
 
     const double step = 1.1;
-    TileLayer<Image> tileLayer;
+    TileLayer<Image> rootLayer;
     MapTransform transform = new MapTransform();
     Point previousMousePosition = new Point();
     Point currentMousePosition = new Point();
@@ -41,12 +40,25 @@ namespace BruTileWindows
     public event EventHandler ErrorMessageChanged;
     
     #endregion
-    
+
     #region Properties
-    
-    public TileLayer<Image> TileLayer
+
+    public MapTransform Transform
     {
-      get { return tileLayer; }
+      get { return transform; }
+    }
+    
+    public TileLayer<Image> RootLayer
+    {
+      get { return rootLayer; }
+      set
+      {
+        if (rootLayer != null) rootLayer.Dispose();
+        rootLayer = value;
+        rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
+        update = true;
+      }
     }
 
     public FpsCounter FpsCounter
@@ -58,39 +70,33 @@ namespace BruTileWindows
     {
       get { return errorMessage; }
     }
-  
+
     #endregion
 
+    #region Constructors
+    
     public MapControl()
     {
       InitializeComponent();
       this.Loaded += new RoutedEventHandler(MapControl_Loaded);
     }
- 
-    void MapControl_Loaded(object sender, RoutedEventArgs e)
-    {
-      InitTransform();
 
+    #endregion
+
+    private void MapControl_Loaded(object sender, RoutedEventArgs e)
+    {
       bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
 
-      IConfig config = new ConfigVE();
-      tileLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-
       this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown); 
       this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
       this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
       this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
       this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
-      this.SizeChanged += new SizeChangedEventHandler(TestUserControl_SizeChanged);
-      
-      tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      tileLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
-     
+      this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
     }
 
-    void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
+    private void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (e.Delta > 0)
         {
@@ -102,12 +108,12 @@ namespace BruTileWindows
         }
 
         e.Handled = true;
-        tileLayer.UpdateData(transform.Extent, transform.Resolution);
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
         update = true;
     }
 
-    void TestUserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-    {      
+    void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
       RectangleGeometry rect = new RectangleGeometry();
       rect.Rect = new Rect(0f, 0f, this.Width, this.Height);
       canvas.Clip = rect;
@@ -116,18 +122,18 @@ namespace BruTileWindows
       canvas.Width = this.Width;
       canvas.Height = this.Height;
     }
-      
-    void MapControl_MouseUp(object sender, MouseButtonEventArgs e)
+
+    private void MapControl_MouseUp(object sender, MouseButtonEventArgs e)
     {
       previousMousePosition = new Point();
     }
 
-    void MapControl_MouseLeave(object sender, MouseEventArgs e)
+    private void MapControl_MouseLeave(object sender, MouseEventArgs e)
     {
       previousMousePosition = new Point(); ;
     }
 
-    void tileLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+    private void tileLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
       if (!this.Dispatcher.CheckAccess())
       {
@@ -184,41 +190,33 @@ namespace BruTileWindows
       transform.Resolution *= step;
     }
 
-    void MapControl_MouseDown(object sender, MouseButtonEventArgs e)
+    private void MapControl_MouseDown(object sender, MouseButtonEventArgs e)
     {
       previousMousePosition = e.GetPosition(this);
     }
 
-    void MapControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    private void MapControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
     {
       currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
       
       if (previousMousePosition == new Point()) return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
       MapTransformHelpers.Pan(transform, currentMousePosition, previousMousePosition);
       previousMousePosition = currentMousePosition;
-      tileLayer.UpdateData(transform.Extent, transform.Resolution);
+      rootLayer.UpdateData(transform.Extent, transform.Resolution);
       update = true;
     }
 
-    private void InitTransform()
-    {
-      transform.Center = new PointF(629816, 6805085);
-      transform.Resolution = 1222.992452344;
-      transform.Width = (float)this.Width;
-      transform.Height = (float)this.Height;
-    }
-
-    void CompositionTarget_Rendering(object sender, EventArgs e)
+    private void CompositionTarget_Rendering(object sender, EventArgs e)
     {
       fpsCounter.FramePlusOne();
       if (update)
       {
-        Graphics.Render(canvas, tileLayer.Schema, transform, tileLayer.MemoryCache);
+        Graphics.Render(canvas, rootLayer.Schema, transform, rootLayer.MemoryCache);
         update = false;
       }
     }
 
-    protected void OnErrorMessageChanged()
+    private void OnErrorMessageChanged()
     {
       if (ErrorMessageChanged != null) ErrorMessageChanged(this, null);
     }

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using BruTileMap;
+using BruTileWindows;
+using DemoConfig;
 
 namespace BruTileSilverlight
 {
@@ -17,6 +12,39 @@ namespace BruTileSilverlight
     public MainPage()
     {
       InitializeComponent();
+      this.map.Loaded += new RoutedEventHandler(map_Loaded);
+    }
+
+    void map_Loaded(object sender, RoutedEventArgs e)
+    {
+      InitTransform();
+      IConfig config = new ConfigOsm();
+      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+    }
+
+    private void InitTransform()
+    {
+      map.Transform.Center = new PointF(629816, 6805085);
+      map.Transform.Resolution = 1222.992452344;
+      map.Transform.Width = (float)this.Width;
+      map.Transform.Height = (float)this.Height;
+    }
+
+    private void Osm_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigOsm();
+      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+    }
+
+    private void BingMaps_Click(object sender, RoutedEventArgs e)
+    {
+      IConfig config = new ConfigVE();
+      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+    }
+
+    private void map_ErrorMessageChanged(object sender, EventArgs e)
+    {
+      //todo: show to user
     }
   }
 }

@@ -22,7 +22,7 @@ using BruTileMap;
 
 namespace BruTileWindows
 {
-    class TileFactory : ITileFactory<Image>
+    public class TileFactory : ITileFactory<Image>
     {
         #region ITileFactory<Bitmap> Members
 
