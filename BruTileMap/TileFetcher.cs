@@ -41,7 +41,7 @@ namespace BruTileMap
     private bool busy;
     private bool closing = false;
     private AutoResetEvent waitHandle = new AutoResetEvent(false);
-
+    
     #endregion
 
     #region EventHandlers
@@ -124,20 +124,16 @@ namespace BruTileMap
 
       try
       {
-        const int preCacheLevels = 0;
         List<TileInfo> tiles;
 
         int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
-        int lastLevel = Math.Max(0, level - preCacheLevels);
-
         IList<TileInfo> newTilesNeeded = new List<TileInfo>();
-
         //dirty way to fetch highest level tiles.
         UpdatePermaCache(newTilesNeeded);
 
         // Iterating through the current and a number of higher resolution so we can 
         // fall back on higher levels when lower levels are not available. 
-        while (level >= lastLevel)
+        while (level >= 0)
         {
           //todo: first get tiles and then sort
           tiles = GetPrioritizedTiles(extent, level);

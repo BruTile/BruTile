@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BruTileMap;
+using System.Windows.Media.Animation;
 
 namespace BruTileWindows
 {
@@ -38,6 +39,11 @@ namespace BruTileWindows
     string errorMessage;
     FpsCounter fpsCounter = new FpsCounter();
     public event EventHandler ErrorMessageChanged;
+    DoubleAnimation zoomAnimation = new DoubleAnimation();
+    Storyboard zoomStoryBoard = new Storyboard();
+    const double mouseWheelStep = 2;
+    double toResolution;
+    bool mouseDown = false;
     
     #endregion
 
@@ -47,15 +53,19 @@ namespace BruTileWindows
     {
       get { return transform; }
     }
-    
+
     public TileLayer<Image> RootLayer
     {
       get { return rootLayer; }
       set
       {
-        if (rootLayer != null) rootLayer.Dispose();
+        if (rootLayer != null)
+        {
+          //todo: rootLayer.Dispose();
+          rootLayer = null;
+        }
         rootLayer = value;
-        rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
+        rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
         rootLayer.UpdateData(transform.Extent, transform.Resolution);
         update = true;
       }
@@ -73,8 +83,17 @@ namespace BruTileWindows
 
     #endregion
 
+    #region Dependency Properties
+
+    private static readonly DependencyProperty ResolutionProperty =
+      System.Windows.DependencyProperty.Register(
+      "Resolution", typeof(double), typeof(MapControl),
+      new PropertyMetadata(new PropertyChangedCallback(OnResolutionChanged)));
+
+    #endregion
+
     #region Constructors
-    
+
     public MapControl()
     {
       InitializeComponent();
@@ -83,33 +102,80 @@ namespace BruTileWindows
 
     #endregion
 
+    private static void OnResolutionChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+      double newResolution = (double)e.NewValue;
+      ((MapControl)dependencyObject).ZoomIn(newResolution);
+    }
+
+    private void ZoomIn(double resolution)
+    {
+      Point mousePosition = this.currentMousePosition;
+      // When zooming we want the mouse position to stay above the same world coordinate.
+      // We calcultate that in 3 steps.
+
+      // 1) Temporarily center on the mouse position
+      transform.Center = transform.MapToWorld(mousePosition.X, mousePosition.Y);
+
+      // 2) Then zoom 
+      transform.Resolution = resolution;
+
+      // 3) Then move the temporary center of the map back to the mouse position
+      transform.Center = transform.MapToWorld(
+        transform.Width - mousePosition.X,
+        transform.Height - mousePosition.Y);
+
+      rootLayer.UpdateData(transform.Extent, transform.Resolution);
+      update = true;
+    }
+
     private void MapControl_Loaded(object sender, RoutedEventArgs e)
     {
       bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
 
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-      this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown); 
+      this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
+      this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
       this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
       this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
       this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
       this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
       this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
+
+      InitAnimation();
     }
 
-    private void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
+    private void InitAnimation()
     {
-        if (e.Delta > 0)
-        {
-            ZoomIn(currentMousePosition);
-        }
-        else if (e.Delta < 0)
-        {
-            ZoomOut();
-        }
+      zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
+      zoomAnimation.EasingFunction = new QuadraticEase();
+      Storyboard.SetTarget(zoomAnimation, this);
+      Storyboard.SetTargetProperty(zoomAnimation, new PropertyPath("Resolution"));
+      zoomStoryBoard.Children.Add(zoomAnimation);
+    }
 
-        e.Handled = true;
-        rootLayer.UpdateData(transform.Extent, transform.Resolution);
-        update = true;
+    void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+      currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
+      
+      if (toResolution == 0) toResolution = transform.Resolution;
+      if (e.Delta > 0)
+      {
+        toResolution /= mouseWheelStep;
+      }
+      else if (e.Delta < 0)
+      {
+        toResolution *= mouseWheelStep;
+      }
+      StartZoomAnimation(transform.Resolution, toResolution);
+    }
+
+    public void StartZoomAnimation(double begin, double end)
+    {
+      zoomStoryBoard.Pause(); //using Stop() here causes unexpected results while zooming very fast.
+      zoomAnimation.From = begin;
+      zoomAnimation.To = end;
+      zoomStoryBoard.Begin();
     }
 
     void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -133,11 +199,11 @@ namespace BruTileWindows
       previousMousePosition = new Point(); ;
     }
 
-    private void tileLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+    private void rootLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
       if (!this.Dispatcher.CheckAccess())
       {
-        this.Dispatcher.BeginInvoke(new AsyncCompletedEventHandler(tileLayer_DataUpdated), new object[] { sender, e });
+        this.Dispatcher.BeginInvoke(new AsyncCompletedEventHandler(rootLayer_DataUpdated), new object[] { sender, e });
       }
       else
       {
@@ -167,39 +233,23 @@ namespace BruTileWindows
         }
       }
     }
-
-    private void ZoomIn(Point mousePosition)
-    {
-      // While zooming we want to keep the mouse at the same world location.
-      // We do that in 3 steps.
-
-      // 1) Temporarily center on where the mouse is
-      transform.Center = transform.MapToWorld(mousePosition.X, mousePosition.Y);
-
-      // 2) Then zoom 
-      transform.Resolution /= step;
-
-      // 3) Then move the temporary center back to the mouse position
-      transform.Center = transform.MapToWorld(
-        transform.Width - mousePosition.X,
-        transform.Height - mousePosition.Y);
-    }
-
-    private void ZoomOut()
-    {
-      transform.Resolution *= step;
-    }
-
+    
     private void MapControl_MouseDown(object sender, MouseButtonEventArgs e)
     {
       previousMousePosition = e.GetPosition(this);
+      mouseDown = true;
+    }
+
+    void MapControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      mouseDown = false;
     }
 
     private void MapControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
     {
-      currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
-      
+      if (!mouseDown) return;
       if (previousMousePosition == new Point()) return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
+      currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
       MapTransformHelpers.Pan(transform, currentMousePosition, previousMousePosition);
       previousMousePosition = currentMousePosition;
       rootLayer.UpdateData(transform.Extent, transform.Resolution);

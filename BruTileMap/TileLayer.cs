@@ -25,13 +25,12 @@ using System.Windows;
 
 namespace BruTileMap
 {
-  public class TileLayer<T> : IDisposable
+  public class TileLayer<T> 
   {
     #region Fields
 
     ITileSchema schema;
     TileFetcher<T> tileFetcher;
-    public event AsyncCompletedEventHandler DataUpdated;
     MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
     const int maxRetries = 3;
     ITileFactory<T> tileFactory;
@@ -41,6 +40,12 @@ namespace BruTileMap
     //NOTE: First attempts showed that it is hard to do if you want GetTile to return the bytes synchronously.
     System.Windows.Threading.Dispatcher dispatcherUIThread;
 #endif
+
+    #endregion
+
+    #region EventHandlers
+
+    public event AsyncCompletedEventHandler DataUpdated;
 
     #endregion
 
@@ -77,7 +82,11 @@ namespace BruTileMap
       RegisterEventHandlers();
     }
 
+    ~TileLayer()
+    {
+    }
     #endregion
+
 
     #region Public Methods
 
@@ -172,24 +181,6 @@ namespace BruTileMap
     }
     #endregion
 
-    #region IDisposable Members
-
-    public void Dispose()
-    {
-      Dispose(true);
-      GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-      if (disposing)
-      {
-        UnRegisterEventHandlers();
-      }
-    }
-
-    #endregion
-
     #region Private classes
 
     private class NullCache : ITileCache<byte[]>
@@ -215,5 +206,6 @@ namespace BruTileMap
     }
 
     #endregion
-  }
+
+     }
 }
