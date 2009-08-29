@@ -167,6 +167,9 @@ namespace BruTileWindows
       {
         toResolution *= mouseWheelStep;
       }
+
+      e.Handled = true; //so that the scroll event is not sent to the html page.
+
       StartZoomAnimation(transform.Resolution, toResolution);
     }
 
