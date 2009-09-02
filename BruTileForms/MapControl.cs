@@ -275,7 +275,6 @@ namespace BruTileForms
     protected override void Dispose(bool disposing)
     {
       rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      rootLayer.Dispose();
       base.Dispose(disposing);
     }
   }
