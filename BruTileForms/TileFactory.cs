@@ -4,7 +4,7 @@ using BruTileMap;
 
 namespace BruTileForms
 {
-    class TileFactory : ITileFactory<Bitmap>
+    public class TileFactory : ITileFactory<Bitmap>
     {
         #region ITileFactory<Bitmap> Members
 

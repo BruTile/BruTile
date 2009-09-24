@@ -74,10 +74,6 @@
       <Project>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</Project>
       <Name>BruTileCF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DemoConfig\DemoConfigCF.csproj">
-      <Project>{9ED6962B-227C-496C-AB26-9A7379227E11}</Project>
-      <Name>DemoConfigCF</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

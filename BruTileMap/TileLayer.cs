@@ -86,8 +86,7 @@ namespace BruTileMap
     {
     }
     #endregion
-
-
+    
     #region Public Methods
 
     public void UpdateData(Extent extent, double resolution)
@@ -206,6 +205,5 @@ namespace BruTileMap
     }
 
     #endregion
-
-     }
+  }
 }
