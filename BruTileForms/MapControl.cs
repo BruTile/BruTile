@@ -21,95 +21,137 @@ using System.Drawing;
 using System.Windows.Forms;
 using BruTile;
 using BruTileMap;
-using DemoConfig;
-
 
 namespace BruTileForms
 {
   public class MapControl : System.Windows.Forms.Control
   {
-    #region private variables
+    #region Fields
+
     private TileLayer<Bitmap> rootLayer;
     private MapTransform transform = new MapTransform();
-    private PointF previous = new PointF();
-    private bool update = true;
     private string errorMessage;
     private Bitmap buffer;
-    private Graphics graphics;
-    private Brush brush = new SolidBrush(Color.White);
+    private Graphics bufferGraphics;
+    private Brush whiteBrush = new SolidBrush(Color.White);
     private double[] resolutions;
-    bool firstTime = true;
+    private PointF mousePosition;
+  
     #endregion
 
     #region Events
+    
     public event EventHandler ErrorMessageChanged;
+
     #endregion
 
     #region Properties
+
     public TileLayer<Bitmap> RootLayer
     {
       get { return rootLayer; }
+      set
+      {
+        //todo dispose previous layer
+        rootLayer = value;
+        rootLayer.DataUpdated += new AsyncCompletedEventHandler(rootLayer_DataUpdated);
+
+        resolutions = new double[rootLayer.Schema.Resolutions.Count];
+        rootLayer.Schema.Resolutions.CopyTo(resolutions, 0);
+
+        Refresh();
+      }
     }
+
     #endregion
+
+    #region Public methods
 
     public MapControl()
     {
       this.Resize += new EventHandler(MapControl_Resize);
+      this.MouseDown += new MouseEventHandler(MapControl_MouseDown);
+      this.MouseMove += new MouseEventHandler(MapControl_MouseMove);
+      InitTransform();
     }
 
-    void MapControl_Resize(object sender, EventArgs e)
+    public void ZoomIn()
     {
-      if (this.Width == 0) return;
-      if (this.Height == 0) return;
-      if (buffer == null || buffer.Width != this.Width || buffer.Height != this.Height)
-      {
-        buffer = new Bitmap(this.Width, this.Height);
-        graphics = Graphics.FromImage(buffer);
-      }
+      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
+      Refresh();
     }
 
-    void MapControl_MouseUp(object sender, MouseEventArgs e)
+    public void ZoomIn(PointF mapPosition)
     {
-      previous = new PointF();
+      // When zooming in we want the mouse position to stay above the same world coordinate.
+      // We do that in 3 steps.
+
+      // 1) Temporarily center on where the mouse is
+      transform.Center = transform.MapToWorld(mapPosition.X, mapPosition.Y);
+
+      // 2) Then zoom 
+      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
+
+      // 3) Then move the temporary center back to the mouse position
+      transform.Center = transform.MapToWorld(
+        transform.Width - mapPosition.X,
+        transform.Height - mapPosition.Y);
+
+      Refresh();
     }
 
-    void MapControl_MouseLeave(object sender, MouseEventArgs e)
+    public void ZoomOut()
     {
-      previous = new PointF(); ;
+      transform.Resolution = ZoomHelper.ZoomOut(resolutions, transform.Resolution);
+
+      Refresh();
     }
+
+    #endregion
+
+    #region Private and Protected methods
 
     protected override void OnPaint(PaintEventArgs e)
     {
-      if (firstTime)
-      {
-        Initialize();
-        firstTime = false;
-      }
+      //Reset background
+      bufferGraphics.FillRectangle(whiteBrush, 0, 0, buffer.Width, buffer.Height);
+      //Render to the buffer
+      Renderer.Render(bufferGraphics, rootLayer.Schema, transform, rootLayer.MemoryCache);
+      //Render the buffer to the control
+      e.Graphics.DrawImage(buffer, 0, 0);
 
-      if (update)
-      {
-        graphics.FillRectangle(brush, 0, 0, buffer.Width, buffer.Height);
-        Renderer.Render(graphics, rootLayer.Schema, transform, rootLayer.MemoryCache);
-
-        e.Graphics.DrawImage(buffer, 0, 0);
-
-        update = false;
-      }
       base.OnPaint(e);
+    }
+
+    protected void OnErrorMessageChanged()
+    {
+      if (ErrorMessageChanged != null) ErrorMessageChanged(this, null);
+    }
+
+    protected override void OnPaintBackground(PaintEventArgs e)
+    {
+      //dont call default implementation to prevent flickering.
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+      rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
+      base.Dispose(disposing);
     }
 
     public override void Refresh()
     {
-      UpdateTiles();
+      rootLayer.UpdateData(transform.Extent, transform.Resolution);
+      this.Invalidate();
     }
 
-    void tileLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+    private void rootLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
       if (this.InvokeRequired)
       {
         try
         {
-          this.Invoke(new AsyncCompletedEventHandler(tileLayer_DataUpdated), new object[] { sender, e });
+          this.Invoke(new AsyncCompletedEventHandler(rootLayer_DataUpdated), new object[] { sender, e });
         }
         catch (ObjectDisposedException ex)
         {
@@ -121,7 +163,6 @@ namespace BruTileForms
       {
         if (e.Error == null && e.Cancelled == false)
         {
-          update = true;
           this.Invalidate();
         }
         else if (e.Cancelled == true)
@@ -147,135 +188,46 @@ namespace BruTileForms
       }
     }
 
-    public void ZoomIn()
+    private void MapControl_MouseDown(object sender, MouseEventArgs e)
     {
-      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
-
-      UpdateTiles();
+      mousePosition = new PointF(e.X, e.Y);
     }
 
-    public void ZoomIn(PointF mousePosition)
-    {
-      // When zooming in we want the mouse position to stay above the same world coordinate.
-      // We do that in 3 steps.
-
-      // 1) Temporarily center on where the mouse is
-      transform.Center = transform.MapToWorld(mousePosition.X, mousePosition.Y);
-
-      // 2) Then zoom 
-      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
-
-      // 3) Then move the temporary center back to the mouse position
-      transform.Center = transform.MapToWorld(
-        transform.Width - mousePosition.X,
-        transform.Height - mousePosition.Y);
-
-      UpdateTiles();
-    }
-
-    public void ZoomOut()
-    {
-      transform.Resolution = ZoomHelper.ZoomOut(resolutions, transform.Resolution);
-
-      UpdateTiles();
-    }
-
-    void MapControl_MouseDown(object sender, MouseEventArgs e)
-    {
-      previous = new PointF(e.X, e.Y);
-    }
-
-    void MapControl_MouseMove(object sender, MouseEventArgs e)
+    private void MapControl_MouseMove(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
       {
-        if (previous == new PointF()) return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
-        PointF current = new PointF(e.X, e.Y);
-        MapTransformHelpers.Pan(transform, current, previous);
-        previous = current;
+        PointF newMousePosition = new PointF(e.X, e.Y);
+        MapTransformHelpers.Pan(transform, newMousePosition, mousePosition);
+        mousePosition = newMousePosition;
 
-        UpdateTiles();
+        Refresh();
       }
     }
-
-    protected void OnErrorMessageChanged()
-    {
-      if (ErrorMessageChanged != null) ErrorMessageChanged(this, null);
-    }
-
-    protected override void OnPaintBackground(PaintEventArgs e)
-    {
-      //dont call defautl implementation to prevent flickering.
-    }
-
-    private void Initialize()
-    {
-      InitTransform();
-
-      IConfig config = new ConfigOsm();
-
-      resolutions = new double[config.TileSchema.Resolutions.Count];
-      config.TileSchema.Resolutions.CopyTo(resolutions, 0);
-
-      rootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-
-      this.MouseDown += new MouseEventHandler(MapControl_MouseDown);
-      this.MouseMove += new MouseEventHandler(MapControl_MouseMove);
-      this.MouseUp += new MouseEventHandler(MapControl_MouseUp);
-
-      rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-    }
-
+    
     private void InitTransform()
     {
       transform.Center = new PointF(629816, 6805085);
-      transform.Resolution = 1222.992452344;
+      transform.Resolution = 2445.984904688;
       transform.Width = (float)this.Width;
       transform.Height = (float)this.Height;
     }
 
-    private void UpdateTiles()
+    private void MapControl_Resize(object sender, EventArgs e)
     {
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
-      this.Invalidate();
+      if (this.Width == 0) return;
+      if (this.Height == 0) return;
+
+      transform.Width = (float)this.Width;
+      transform.Height = (float)this.Height;
+ 
+      if (buffer == null || buffer.Width != this.Width || buffer.Height != this.Height)
+      {
+        buffer = new Bitmap(this.Width, this.Height);
+        bufferGraphics = Graphics.FromImage(buffer);
+      }
     }
 
-    public void LoadOsmLayer()
-    {
-      IConfig config = new ConfigOsm();
-      rootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
-      this.Invalidate();
-    }
-
-    public void LoadVELayer()
-    {
-      IConfig config = new ConfigVE();
-      rootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
-      this.Invalidate();
-    }
-
-    public void LoadGeodanLayer()
-    {
-      IConfig config = new ConfigTms();
-      rootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
-      this.Invalidate();
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-      rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-      base.Dispose(disposing);
-    }
+    #endregion
   }
 }

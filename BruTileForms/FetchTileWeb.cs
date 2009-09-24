@@ -4,7 +4,7 @@ using BruTileMap;
 
 namespace BruTileForms
 {
-  class FetchTileWeb : IFetchTile
+  public class FetchTileWeb : IFetchTile
   {
     IRequestBuilder requestBuilder;
     
