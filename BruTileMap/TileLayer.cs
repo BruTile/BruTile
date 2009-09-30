@@ -19,13 +19,9 @@ using System;
 using System.ComponentModel;
 using BruTile;
 
-#if SILVERLIGHT
-using System.Windows;
-#endif
-
 namespace BruTileMap
 {
-  public class TileLayer<T> 
+  public class TileLayer<T>
   {
     #region Fields
 
@@ -34,13 +30,6 @@ namespace BruTileMap
     MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
     const int maxRetries = 3;
     ITileFactory<T> tileFactory;
-
-#if SILVERLIGHT
-    //TODO: see if we can move all the dispatcher stuff to the TileFactory.
-    //NOTE: First attempts showed that it is hard to do if you want GetTile to return the bytes synchronously.
-    System.Windows.Threading.Dispatcher dispatcherUIThread;
-#endif
-
     #endregion
 
     #region EventHandlers
@@ -67,17 +56,9 @@ namespace BruTileMap
     #region Constructors
 
     public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
-      : this(tileProvider, schema, tileFactory, new NullCache())
     {
-    }
-
-    public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory, ITileCache<byte[]> fileCache)
-    {
-#if SILVERLIGHT
-      dispatcherUIThread = GetUIThreadDispatcher();
-#endif
       this.schema = schema;
-      tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, fileCache);
+      tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
       this.tileFactory = tileFactory;
       RegisterEventHandlers();
     }
@@ -86,7 +67,7 @@ namespace BruTileMap
     {
     }
     #endregion
-    
+
     #region Public Methods
 
     public void UpdateData(Extent extent, double resolution)
@@ -97,27 +78,6 @@ namespace BruTileMap
     #endregion
 
     #region Private Methods
-
-#if SILVERLIGHT
-    private static System.Windows.Threading.Dispatcher GetUIThreadDispatcher()
-    {
-      //based dispatcher solution on: http://marlongrech.wordpress.com/category/threading/
-      if (Application.Current != null &&
-        Application.Current.RootVisual != null &&
-        Application.Current.RootVisual.Dispatcher != null)
-      {
-        if (!Application.Current.RootVisual.Dispatcher.CheckAccess())
-        {
-          throw new ValidationException("The TileLayer class can only be created on the UIThread");
-        }
-        return Application.Current.RootVisual.Dispatcher;
-      }
-      else // if we did not get the Dispatcher throw an exception
-      {
-        throw new InvalidOperationException("This object must be initialized after that the RootVisual has been loaded");
-      }
-    }
-#endif
 
     private void RegisterEventHandlers()
     {
@@ -131,79 +91,14 @@ namespace BruTileMap
 
     private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
     {
-#if SILVERLIGHT
-      dispatcherUIThread.BeginInvoke(delegate() { FetchCompletedOnUIThread(e); });
-#else
-      FetchCompletedOnUIThread(e);
-#endif
+      OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
     }
-
-    private void FetchCompletedOnUIThread(FetchCompletedEventArgs e)
-    {
-      if (!e.Cancelled && e.Error == null)
-      {
-        TileInfo tile = e.TileInfo;
-        byte[] image = e.Image;
-        System.Exception error = e.Error;
-        if (memoryCache.Find(tile.Key) == null)
-        {
-          try
-          {
-            T bitmap = tileFactory.GetTile(image);
-            memoryCache.Add(tile.Key, bitmap);
-          }
-          catch (Exception ex)
-          {
-            error = ex;
-          }
-        }
-        else
-        {
-        }
-        OnDataUpdated(new AsyncCompletedEventArgs(error, e.Cancelled, null));
-      }
-      else if ((e.Error is System.Net.WebException) && (e.TileInfo.Retries < maxRetries))
-      {
-        e.TileInfo.Retries++;
-        //todo: implement retries
-      }
-      else
-      {
-        OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
-      }
-    }
-
+        
     private void OnDataUpdated(AsyncCompletedEventArgs e)
     {
       if (DataUpdated != null)
         DataUpdated(this, e);
     }
-    #endregion
-
-    #region Private classes
-
-    private class NullCache : ITileCache<byte[]>
-    {
-      public NullCache()
-      {
-      }
-
-      public void Add(TileKey key, byte[] image)
-      {
-        //do nothing
-      }
-
-      public void Remove(TileKey key)
-      {
-        throw new NotImplementedException(); //and should not
-      }
-
-      public byte[] Find(TileKey key)
-      {
-        return null;
-      }
-    }
-
     #endregion
   }
 }

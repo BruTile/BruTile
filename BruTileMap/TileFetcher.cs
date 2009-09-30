@@ -20,57 +20,70 @@ using System.Collections.Generic;
 using System.Threading;
 using BruTile;
 
+#if SILVERLIGHT
+using System.Windows;
+#endif
+
 namespace BruTileMap
 {
   class TileFetcher<T>
   {
     #region Fields
 
-    private ITileCache<byte[]> fileCache;
     private MemoryCache<T> memoryCache;
-    private List<TileKey> inProgress = new List<TileKey>();
-    private IList<TileInfo> tilesNeeded = new List<TileInfo>();
     private IFetchTile tileProvider;
-    private int maxThreads = 4;
-    private int threadCount = 0;
-    private Thread workerThread;
+    private ITileSchema schema;
+    private ITileFactory<T> tileFactory;
     private Extent extent;
     private double resolution;
-    private System.Collections.Generic.IComparer<TileInfo> sorter = new Sorter();
-    private ITileSchema schema;
-    private bool busy;
+    private IList<TileKey> tilesInProgress = new List<TileKey>();
+    private IDictionary<TileKey, bool> tilesOutProgress = new Dictionary<TileKey, bool>();
+    private IList<TileInfo> tilesNeeded = new List<TileInfo>();
+    private IDictionary<TileKey, int> retries = new Dictionary<TileKey, int>();
+    private int threadMax = 4;
+    private int threadCount = 0;
     private bool closing = false;
     private AutoResetEvent waitHandle = new AutoResetEvent(false);
-    
+    private IFetchStrategy strategy = new FetchStrategy();
+    private int maxRetries = 2;
+    private volatile bool needUpdate = false;
+
+#if SILVERLIGHT
+    //TODO: see if we can move all the dispatcher stuff to the TileFactory.
+    //NOTE: A first attempt showed that it is hard to do if you want GetTile to return the bytes synchronously.
+    System.Windows.Threading.Dispatcher dispatcherUIThread;
+#endif
+
     #endregion
 
     #region EventHandlers
 
     public event FetchCompletedEventHandler FetchCompleted;
-    
+
     #endregion
-    
+
     #region Constructors Destructors
 
-    public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema)
-      : this(tileProvider, memoryCache, schema, (ITileCache<byte[]>)new NullCache())
+    public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileFactory<T> tileFactory)
     {
-    }
+#if SILVERLIGHT
+      dispatcherUIThread = GetUIThreadDispatcher();
+#endif
 
-    public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileCache<byte[]> fileCache)
-    {
       if (tileProvider == null) throw new ArgumentException("TileProvider can not be null");
-      if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
-      if (schema == null) throw new ArgumentException("ITileSchema can not be null");
-      if (fileCache == null) throw new ArgumentException("FileCache can not be null");
-
       this.tileProvider = tileProvider;
-      this.memoryCache = memoryCache;
-      this.schema = schema;
-      this.fileCache = fileCache;
 
-      workerThread = new Thread(TileFetchMethod);
-      workerThread.Start();
+      if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
+      this.memoryCache = memoryCache;
+
+      if (schema == null) throw new ArgumentException("ITileSchema can not be null");
+      this.schema = schema;
+
+      if (tileFactory == null) throw new ArgumentException("ITileFactory can not be null");
+      this.tileFactory = tileFactory;
+
+      Thread loopThread = new Thread(TileFetchLoop);
+      loopThread.Start();
     }
 
     ~TileFetcher()
@@ -85,10 +98,14 @@ namespace BruTileMap
 
     public void UpdateData(Extent extent, double resolution)
     {
+      //ignore if there is no change
       if ((this.extent == extent) && (this.resolution == resolution)) return;
+
       this.extent = extent;
       this.resolution = resolution;
-      if (threadCount < maxThreads)
+      needUpdate = true;
+
+      if (threadCount < threadMax) //don't wake up the fetch loop if we are waiting for tile fetch threads to return
         waitHandle.Set();
     }
 
@@ -96,20 +113,54 @@ namespace BruTileMap
 
     #region Private Methods
 
-    private void TileFetchMethod()
+#if SILVERLIGHT
+    private static System.Windows.Threading.Dispatcher GetUIThreadDispatcher()
     {
-#if !SILVERLIGHT
+      //based dispatcher solution on: http://marlongrech.wordpress.com/category/threading/
+      if (Application.Current != null &&
+        Application.Current.RootVisual != null &&
+        Application.Current.RootVisual.Dispatcher != null)
+      {
+        if (!Application.Current.RootVisual.Dispatcher.CheckAccess())
+        {
+          throw new ValidationException("The TileLayer class can only be created on the UIThread");
+        }
+        return Application.Current.RootVisual.Dispatcher;
+      }
+      else // if we did not get the Dispatcher throw an exception
+      {
+        throw new InvalidOperationException("This object must be initialized after that the RootVisual has been loaded");
+      }
+    }
+#endif
+
+    private void TileFetchLoop()
+    {
+#if !SILVERLIGHT //In Silverlight there is no such thing as thread priority
       System.Threading.Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 #endif
+
       while (!closing)
       {
         waitHandle.WaitOne();
 
-#if PocketPC
-        Thread.Sleep(100); //TODO: check if we really need this
-#endif
-        RenewQueue();
+        int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
+        if (needUpdate)
+        {
+          try
+          {
+            tilesNeeded = strategy.GetTilesNeeded(schema, extent, level);
+            retries.Clear();
+          }
+          finally
+          {
+            needUpdate = false;
+          }
+        }
+
+        UpdateProgress();
         FetchTiles();
+
         if (this.tilesNeeded.Count == 0)
           waitHandle.Reset();
         else
@@ -117,135 +168,102 @@ namespace BruTileMap
       }
     }
 
-    private void RenewQueue()
+    private void UpdateProgress()
     {
-      if (busy == true) return;
-      busy = true;
-
-      try
+      lock (tilesOutProgress)
       {
-        List<TileInfo> tiles;
-
-        int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
-        IList<TileInfo> newTilesNeeded = new List<TileInfo>();
-        //dirty way to fetch highest level tiles.
-        UpdatePermaCache(newTilesNeeded);
-
-        // Iterating through the current and a number of higher resolution so we can 
-        // fall back on higher levels when lower levels are not available. 
-        while (level >= 0)
+        foreach (KeyValuePair<TileKey, bool> item in tilesOutProgress)
         {
-          //todo: first get tiles and then sort
-          tiles = GetPrioritizedTiles(extent, level);
-          foreach (TileInfo tile in tiles)
+          tilesInProgress.Remove(item.Key);
+
+          if (!item.Value) //failed
           {
-            if (memoryCache.Find(tile.Key) != null) continue;
-            if ((tile.Key.Row >= 0) && (tile.Key.Col >= 0))
-              newTilesNeeded.Add(tile);
+            if (!retries.Keys.Contains(item.Key)) retries.Add(item.Key, 0);
+            else retries[item.Key]++;
           }
-          level--;
+          else //success
+          {
+            retries.Remove(item.Key);
+          }
         }
-        tilesNeeded = newTilesNeeded;
+        tilesOutProgress.Clear();
       }
-      finally
-      {
-        busy = false;
-      }
-    }
-
-    private void UpdatePermaCache(IList<TileInfo> newTilesNeeded)
-    {
-      //Note: The permaCache implementation is a temporary solution
-      IList<TileInfo> tiles = Tile.GetTiles(schema, schema.Extent, 0);
-
-      foreach (TileInfo tile in tiles)
-      {
-        if (memoryCache.Find(tile.Key) != null) continue;
-        newTilesNeeded.Add(tile);
-      }
-    }
-    /// <summary>
-    /// Gets a list of tiles in the order in which they should be retrieved
-    /// </summary>
-    /// <param name="extent"></param>
-    /// <param name="resolution"></param>
-    /// <returns></returns>
-    private List<TileInfo> GetPrioritizedTiles(Extent extent, int resolution)
-    {
-      List<TileInfo> tiles = new List<TileInfo>(Tile.GetTiles(schema, extent, resolution));
-      for (int i = 0; i < tiles.Count; i++)
-      {
-        double priority = -Distance(extent.CenterX, extent.CenterY,
-          tiles[i].Extent.CenterX, tiles[i].Extent.CenterY);
-        tiles[i].Priority = priority;
-      }
-      tiles.Sort(sorter);
-      return tiles;
-    }
-
-    private static double Distance(double x1, double y1, double x2, double y2)
-    {
-      return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
     }
 
     private void FetchTiles()
     {
-      int count = maxThreads - threadCount;
-      int counter = 0;
-      foreach (TileInfo tile in tilesNeeded)
+      TileInfo tile;
+
+      //first a number of checks
+      if (threadCount >= threadMax) return;
+      if (tilesNeeded.Count == 0) return;
+        
+      tile = tilesNeeded[0];
+
+      if (tilesInProgress.Contains(tile.Key))
       {
-        if (counter >= count) return;
-        if (memoryCache.Find(tile.Key) != null) continue;
-        lock (inProgress)
-        {
-          if (inProgress.Contains(tile.Key)) continue;
-          inProgress.Add(tile.Key);
-        }
-        threadCount++;
-        tileProvider.GetTile(tile, LocalFetchCompleted);
-        counter++;
+        return;
       }
+
+      if (retries.Keys.Contains(tile.Key) && retries[tile.Key] >= maxRetries)
+      {
+        tilesNeeded.Remove(tile);
+        return;
+      }
+
+      if (memoryCache.Find(tile.Key) != null)
+      {
+        tilesNeeded.Remove(tile);
+        return;
+      }
+
+      //now we can go for the request.
+      tilesInProgress.Add(tile.Key);
+      threadCount++;
+      tileProvider.GetTile(tile, tileProvider_FetchCompleted);
+    }
+
+    private void tileProvider_FetchCompleted(object sender, FetchCompletedEventArgs e)
+    {
+#if SILVERLIGHT
+      dispatcherUIThread.BeginInvoke(delegate() { LocalFetchCompleted(sender, e); });
+#else
+      LocalFetchCompleted(sender, e);
+#endif
     }
 
     private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
     {
-      lock (inProgress)
+      if (e.Error != null)
       {
-        if (inProgress.Contains(e.TileInfo.Key))
-          inProgress.Remove(e.TileInfo.Key);
+        threadCount--;
+        lock (tilesOutProgress)
+        {
+          tilesOutProgress[e.TileInfo.Key] = false;
+        }
       }
-      threadCount--;
+      else
+      {
+        try
+        {
+          memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
+        }
+        catch (Exception ex)
+        {
+          e.Error = ex;
+        }
+        finally
+        {
+          threadCount--;
+          lock (tilesOutProgress)
+          {
+            tilesOutProgress[e.TileInfo.Key] = true;
+          }
+        }
+      }
 
       if (this.FetchCompleted != null)
         this.FetchCompleted(this, e);
-    }
-
-    private class Sorter : IComparer<TileInfo>
-    {
-      public int Compare(TileInfo x, TileInfo y)
-      {
-        if (x.Priority > y.Priority) return -1;
-        if (x.Priority < y.Priority) return 1;
-        return 0;
-      }
-    }
-
-    private class NullCache : ITileCache<byte[]>
-    {
-      public void Add(TileKey key, byte[] image)
-      {
-        //do nothing
-      }
-
-      public void Remove(TileKey key)
-      {
-        throw new NotSupportedException(); //and should not
-      }
-
-      public byte[] Find(TileKey key)
-      {
-        return null;
-      }
     }
 
     #endregion
