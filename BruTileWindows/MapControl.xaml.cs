@@ -41,7 +41,6 @@ namespace BruTileWindows
     public event EventHandler ErrorMessageChanged;
     DoubleAnimation zoomAnimation = new DoubleAnimation();
     Storyboard zoomStoryBoard = new Storyboard();
-    const double mouseWheelStep = 2;
     double toResolution;
     bool mouseDown = false;
     
@@ -161,11 +160,11 @@ namespace BruTileWindows
       if (toResolution == 0) toResolution = transform.Resolution;
       if (e.Delta > 0)
       {
-        toResolution /= mouseWheelStep;
+        toResolution = ZoomHelper.ZoomIn(rootLayer.Schema.Resolutions, toResolution);
       }
       else if (e.Delta < 0)
       {
-        toResolution *= mouseWheelStep;
+        toResolution = ZoomHelper.ZoomOut(rootLayer.Schema.Resolutions, toResolution);
       }
 
       e.Handled = true; //so that the scroll event is not sent to the html page.

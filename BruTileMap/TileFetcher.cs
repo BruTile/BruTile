@@ -37,7 +37,7 @@ namespace BruTileMap
     private Extent extent;
     private double resolution;
     private IList<TileKey> tilesInProgress = new List<TileKey>();
-    private IDictionary<TileKey, bool> tilesOutProgress = new Dictionary<TileKey, bool>();
+    private Queue<TileKey> tilesOutProgress = new Queue<TileKey>();
     private IList<TileInfo> tilesNeeded = new List<TileInfo>();
     private IDictionary<TileKey, int> retries = new Dictionary<TileKey, int>();
     private int threadMax = 4;
@@ -144,22 +144,17 @@ namespace BruTileMap
       {
         waitHandle.WaitOne();
 
+        UpdateInProgress();
+
         int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
         if (needUpdate)
         {
-          try
-          {
-            tilesNeeded = strategy.GetTilesNeeded(schema, extent, level);
-            retries.Clear();
-          }
-          finally
-          {
-            needUpdate = false;
-          }
+          tilesNeeded = strategy.GetTilesNeeded(schema, extent, level);
+          retries.Clear();
+          needUpdate = false;
         }
 
-        UpdateProgress();
-        FetchTiles();
+        FetchTile();
 
         if (this.tilesNeeded.Count == 0)
           waitHandle.Reset();
@@ -168,29 +163,19 @@ namespace BruTileMap
       }
     }
 
-    private void UpdateProgress()
+    private void UpdateInProgress()
     {
       lock (tilesOutProgress)
       {
-        foreach (KeyValuePair<TileKey, bool> item in tilesOutProgress)
+        foreach (TileKey key in tilesOutProgress)
         {
-          tilesInProgress.Remove(item.Key);
-
-          if (!item.Value) //failed
-          {
-            if (!retries.Keys.Contains(item.Key)) retries.Add(item.Key, 0);
-            else retries[item.Key]++;
-          }
-          else //success
-          {
-            retries.Remove(item.Key);
-          }
+          tilesInProgress.Remove(key);
         }
         tilesOutProgress.Clear();
       }
     }
 
-    private void FetchTiles()
+    private void FetchTile()
     {
       TileInfo tile;
 
@@ -218,7 +203,10 @@ namespace BruTileMap
       }
 
       //now we can go for the request.
+      
       tilesInProgress.Add(tile.Key);
+      if (!retries.Keys.Contains(tile.Key)) retries.Add(tile.Key, 0);
+      else retries[tile.Key]++;
       threadCount++;
       tileProvider.GetTile(tile, tileProvider_FetchCompleted);
     }
@@ -234,34 +222,23 @@ namespace BruTileMap
 
     private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
     {
-      if (e.Error != null)
+      try
+      {
+        memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
+      }
+      catch (Exception ex)
+      {
+        e.Error = ex;
+      }
+      finally
       {
         threadCount--;
         lock (tilesOutProgress)
         {
-          tilesOutProgress[e.TileInfo.Key] = false;
+          tilesOutProgress.Enqueue(e.TileInfo.Key);
         }
       }
-      else
-      {
-        try
-        {
-          memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
-        }
-        catch (Exception ex)
-        {
-          e.Error = ex;
-        }
-        finally
-        {
-          threadCount--;
-          lock (tilesOutProgress)
-          {
-            tilesOutProgress[e.TileInfo.Key] = true;
-          }
-        }
-      }
-
+      
       if (this.FetchCompleted != null)
         this.FetchCompleted(this, e);
     }
