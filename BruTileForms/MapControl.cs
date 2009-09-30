@@ -34,7 +34,6 @@ namespace BruTileForms
     private Bitmap buffer;
     private Graphics bufferGraphics;
     private Brush whiteBrush = new SolidBrush(Color.White);
-    private double[] resolutions;
     private PointF mousePosition;
   
     #endregion
@@ -55,10 +54,6 @@ namespace BruTileForms
         //todo dispose previous layer
         rootLayer = value;
         rootLayer.DataUpdated += new AsyncCompletedEventHandler(rootLayer_DataUpdated);
-
-        resolutions = new double[rootLayer.Schema.Resolutions.Count];
-        rootLayer.Schema.Resolutions.CopyTo(resolutions, 0);
-
         Refresh();
       }
     }
@@ -77,7 +72,7 @@ namespace BruTileForms
 
     public void ZoomIn()
     {
-      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
+      transform.Resolution = ZoomHelper.ZoomIn(rootLayer.Schema.Resolutions, transform.Resolution);
       Refresh();
     }
 
@@ -90,7 +85,7 @@ namespace BruTileForms
       transform.Center = transform.MapToWorld(mapPosition.X, mapPosition.Y);
 
       // 2) Then zoom 
-      transform.Resolution = ZoomHelper.ZoomIn(resolutions, transform.Resolution);
+      transform.Resolution = ZoomHelper.ZoomIn(rootLayer.Schema.Resolutions, transform.Resolution);
 
       // 3) Then move the temporary center back to the mouse position
       transform.Center = transform.MapToWorld(
@@ -102,7 +97,7 @@ namespace BruTileForms
 
     public void ZoomOut()
     {
-      transform.Resolution = ZoomHelper.ZoomOut(resolutions, transform.Resolution);
+      transform.Resolution = ZoomHelper.ZoomOut(rootLayer.Schema.Resolutions, transform.Resolution);
 
       Refresh();
     }
