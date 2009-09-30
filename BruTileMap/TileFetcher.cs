@@ -154,7 +154,7 @@ namespace BruTileMap
           needUpdate = false;
         }
 
-        FetchTile();
+        FetchTiles();
 
         if (this.tilesNeeded.Count == 0)
           waitHandle.Reset();
@@ -175,16 +175,19 @@ namespace BruTileMap
       }
     }
 
-    private void FetchTile()
+    private void FetchTiles()
     {
-      TileInfo tile;
-
       //first a number of checks
-      if (threadCount >= threadMax) return;
-      if (tilesNeeded.Count == 0) return;
-        
-      tile = tilesNeeded[0];
+      
+      foreach (TileInfo tile in tilesNeeded)
+      {
+        FetchTile(tile);
+        if (threadCount >= threadMax) return;
+      }
+    }
 
+    private void FetchTile(TileInfo tile)
+    {
       if (tilesInProgress.Contains(tile.Key))
       {
         return;
@@ -192,18 +195,16 @@ namespace BruTileMap
 
       if (retries.Keys.Contains(tile.Key) && retries[tile.Key] >= maxRetries)
       {
-        tilesNeeded.Remove(tile);
         return;
       }
 
       if (memoryCache.Find(tile.Key) != null)
       {
-        tilesNeeded.Remove(tile);
         return;
       }
 
       //now we can go for the request.
-      
+
       tilesInProgress.Add(tile.Key);
       if (!retries.Keys.Contains(tile.Key)) retries.Add(tile.Key, 0);
       else retries[tile.Key]++;
