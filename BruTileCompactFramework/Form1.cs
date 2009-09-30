@@ -21,6 +21,7 @@ using System.Drawing;
 using BruTileMap;
 using BruTileForms;
 using DemoConfig;
+using BruTile;
 
 namespace BruTileCompactFramework
 {
@@ -51,13 +52,18 @@ namespace BruTileCompactFramework
     private void osmMenu_Click(object sender, EventArgs e)
     {
       IConfig config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      mapControl1.RootLayer = new TileLayer<Bitmap>(
+        new FetchTileWeb(config.RequestBuilder), 
+        config.TileSchema, new TileFactory());
     }
 
     private void bingMenu_Click(object sender, EventArgs e)
     {
       IConfig config = new ConfigVE();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      mapControl1.RootLayer = new TileLayer<Bitmap>(
+          new FetchTileWeb(config.RequestBuilder), 
+          config.TileSchema, 
+          new TileFactory());
     }
   }
 }
