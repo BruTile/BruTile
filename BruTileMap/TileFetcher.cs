@@ -139,7 +139,6 @@ namespace BruTileMap
 #if !SILVERLIGHT //In Silverlight there is no such thing as thread priority
       System.Threading.Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 #endif
-
       while (!closing)
       {
         waitHandle.WaitOne();
@@ -149,18 +148,30 @@ namespace BruTileMap
         int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
         if (needUpdate)
         {
-          tilesNeeded = strategy.GetTilesNeeded(schema, extent, level);
+          tilesNeeded = strategy.GetTilesWanted(schema, extent, level);
           retries.Clear();
           needUpdate = false;
         }
+        tilesNeeded = GetTileNeeded(tilesNeeded, memoryCache);
 
         FetchTiles();
 
-        if (this.tilesNeeded.Count == 0)
+        if ((this.tilesNeeded.Count == 0) || (threadCount >= threadMax))
           waitHandle.Reset();
         else
           waitHandle.Set();
       }
+    }
+
+    private IList<TileInfo> GetTileNeeded(IList<TileInfo> tiles, MemoryCache<T> memoryCache)
+    {
+      IList<TileInfo> tilesNeeded = new List<TileInfo>();
+      foreach (TileInfo tile in tiles)
+      {
+        if (memoryCache.Find(tile.Key) == null)
+          tilesNeeded.Add(tile);
+      }
+      return tilesNeeded;
     }
 
     private void UpdateInProgress()
@@ -177,34 +188,21 @@ namespace BruTileMap
 
     private void FetchTiles()
     {
-      //first a number of checks
-      
       foreach (TileInfo tile in tilesNeeded)
       {
-        FetchTile(tile);
         if (threadCount >= threadMax) return;
+        FetchTile(tile);
       }
     }
 
     private void FetchTile(TileInfo tile)
     {
-      if (tilesInProgress.Contains(tile.Key))
-      {
-        return;
-      }
-
-      if (retries.Keys.Contains(tile.Key) && retries[tile.Key] >= maxRetries)
-      {
-        return;
-      }
-
-      if (memoryCache.Find(tile.Key) != null)
-      {
-        return;
-      }
-
+      //first a number of checks
+      if (tilesInProgress.Contains(tile.Key)) return;
+      if (retries.Keys.Contains(tile.Key) && retries[tile.Key] >= maxRetries) return;
+      if (memoryCache.Find(tile.Key) != null) return;
+      
       //now we can go for the request.
-
       tilesInProgress.Add(tile.Key);
       if (!retries.Keys.Contains(tile.Key)) retries.Add(tile.Key, 0);
       else retries[tile.Key]++;
@@ -225,7 +223,8 @@ namespace BruTileMap
     {
       try
       {
-        memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
+        if (e.Error == null && e.Cancelled == false)
+          memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
       }
       catch (Exception ex)
       {
@@ -238,6 +237,7 @@ namespace BruTileMap
         {
           tilesOutProgress.Enqueue(e.TileInfo.Key);
         }
+        waitHandle.Set();
       }
       
       if (this.FetchCompleted != null)

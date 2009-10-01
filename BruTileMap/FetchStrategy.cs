@@ -25,7 +25,7 @@ namespace BruTileMap
   {
     private Sorter sorter = new Sorter();
 
-    public IList<TileInfo> GetTilesNeeded(ITileSchema schema, Extent extent, int level)
+    public IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level)
     {
       IList<TileInfo> tiles = new List<TileInfo>();
       int step = 1;
