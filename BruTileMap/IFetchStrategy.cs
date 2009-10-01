@@ -22,6 +22,6 @@ namespace BruTileMap
 {
   interface IFetchStrategy
   {
-    IList<TileInfo> GetTilesNeeded(ITileSchema schema, Extent extent, int level);
+    IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level);
   }
 }
