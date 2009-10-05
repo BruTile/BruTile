@@ -13,7 +13,7 @@ namespace BruTileMap
             }
 
             //smaller than smallest
-            if (resolutions[resolutions.Count - 1] > resolution) return resolutions.Count - 1;
+            if (resolutions[resolutions.Count - 1] > resolution) return resolutions[resolutions.Count - 1];
 
             for (int i = 0; i < resolutions.Count; i++)
             {
@@ -32,7 +32,7 @@ namespace BruTileMap
             }
 
             //bigger than biggest
-            if (resolutions[0] < resolution) return 0;
+            if (resolutions[0] < resolution) return resolutions[0];
 
             for (int i = resolutions.Count - 1; i >= 0; i--)
             {
