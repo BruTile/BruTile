@@ -24,6 +24,7 @@ using System.Windows.Media;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Manipulations;
 using Microsoft.Surface.Presentation;
+using BruTile;
 
 namespace BruTileDemo
 {
@@ -323,7 +324,7 @@ namespace BruTileDemo
                     errorMessage = "Cancelled";
                     OnErrorMessageChanged();
                 }
-                else if (e.Error is Tiling.WebResponseFormatException)
+                else if (e.Error is WebResponseFormatException)
                 {
                     errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
                     OnErrorMessageChanged();
