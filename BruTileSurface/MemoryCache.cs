@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Tiling;
+using BruTile;
 
 namespace BruTileDemo
 {
