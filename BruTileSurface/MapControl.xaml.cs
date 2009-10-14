@@ -25,6 +25,10 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Manipulations;
 using Microsoft.Surface.Presentation;
 using BruTile;
+using DemoConfig;
+using BruTileMap;
+using BruTileWindows;
+using System.IO;
 
 namespace BruTileDemo
 {
@@ -33,11 +37,10 @@ namespace BruTileDemo
         #region Fields
 
         const double step = 1.1;
-        TileLayer tileLayer;
-        Transform transform = new Transform();
+        TileLayer<MemoryStream> tileLayer;
+        SurfaceTransform transform = new SurfaceTransform();
         Point previous = new Point();
         bool update = true;
-        Graphics graphics;
         string errorMessage;
         FpsCounter fpsCounter = new FpsCounter();
         public event EventHandler ErrorMessageChanged;
@@ -55,12 +58,14 @@ namespace BruTileDemo
 
         // When inertia delta values get scaled by more than this amount, stop the inertia early
         private const double inertiaScaleStop = 0.8;
+
+        Renderer renderer = new Renderer();
         
         #endregion
 
         #region Properties
 
-        internal TileLayer TileLayer
+        internal TileLayer<MemoryStream> TileLayer
         {
             get { return tileLayer; }
         }
@@ -202,9 +207,8 @@ namespace BruTileDemo
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitTransform();
-            graphics = new Graphics(this.canvas);
             IConfig config = new ConfigVE();
-            tileLayer = new TileLayer(config.RequestBuilder, config.TileSchema, config.FileCache);
+            tileLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());  
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             this.MouseDown += new MouseButtonEventHandler(MapControl_MouseDown);
@@ -300,7 +304,7 @@ namespace BruTileDemo
             fpsCounter.FramePlusOne();
             if (update)
             {
-                tileLayer.Draw(graphics, transform);
+                renderer.Render(this.canvas, tileLayer.Schema, transform, tileLayer.MemoryCache);
                 update = false;
             }
         }
@@ -355,7 +359,7 @@ namespace BruTileDemo
         private void rb1_Click(object sender, RoutedEventArgs e)
         {
             IConfig config = new ConfigOsm();
-            tileLayer = new TileLayer(config.RequestBuilder, config.TileSchema, config.FileCache);
+            tileLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
             tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
             tileLayer.UpdateData(transform.Extent, transform.Resolution);
             update = true;
@@ -365,7 +369,7 @@ namespace BruTileDemo
         private void rb2_Click(object sender, RoutedEventArgs e)
         {
             IConfig config = new ConfigVE();
-            tileLayer = new TileLayer(config.RequestBuilder, config.TileSchema, config.FileCache);
+            tileLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
             tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
             tileLayer.UpdateData(transform.Extent, transform.Resolution);
             update = true;

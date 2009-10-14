@@ -57,6 +57,7 @@
     <Compile Include="FetchStrategy.cs" />
     <Compile Include="IFetchStrategy.cs" />
     <Compile Include="ITileFactory.cs" />
+    <Compile Include="ITransform.cs" />
     <Compile Include="MemoryCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileFetcher.cs" />

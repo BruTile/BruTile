@@ -23,6 +23,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using BruTileMap;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace BruTileWindows
 {
@@ -31,7 +33,7 @@ namespace BruTileWindows
     #region Fields
 
     const double step = 1.1;
-    TileLayer<Image> rootLayer;
+    TileLayer<MemoryStream> rootLayer;
     MapTransform transform = new MapTransform();
     Point previousMousePosition = new Point();
     Point currentMousePosition = new Point();
@@ -43,6 +45,7 @@ namespace BruTileWindows
     Storyboard zoomStoryBoard = new Storyboard();
     double toResolution;
     bool mouseDown = false;
+    Renderer renderer = new Renderer();
     
     #endregion
 
@@ -53,7 +56,7 @@ namespace BruTileWindows
       get { return transform; }
     }
 
-    public TileLayer<Image> RootLayer
+    public TileLayer<MemoryStream> RootLayer
     {
       get { return rootLayer; }
       set
@@ -130,8 +133,9 @@ namespace BruTileWindows
 
     private void MapControl_Loaded(object sender, RoutedEventArgs e)
     {
+#if SILVERLIGHT
       bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
-
+#endif
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
       this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
       this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
@@ -147,7 +151,9 @@ namespace BruTileWindows
     private void InitAnimation()
     {
       zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
+#if SILVERLIGHT
       zoomAnimation.EasingFunction = new QuadraticEase();
+#endif      
       Storyboard.SetTarget(zoomAnimation, this);
       Storyboard.SetTargetProperty(zoomAnimation, new PropertyPath("Resolution"));
       zoomStoryBoard.Children.Add(zoomAnimation);
@@ -263,7 +269,7 @@ namespace BruTileWindows
       fpsCounter.FramePlusOne();
       if (update)
       {
-        Graphics.Render(canvas, rootLayer.Schema, transform, rootLayer.MemoryCache);
+        renderer.Render(canvas, rootLayer.Schema, transform, rootLayer.MemoryCache);
         update = false;
       }
     }

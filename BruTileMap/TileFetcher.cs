@@ -20,10 +20,6 @@ using System.Collections.Generic;
 using System.Threading;
 using BruTile;
 
-#if SILVERLIGHT
-using System.Windows;
-#endif
-
 namespace BruTileMap
 {
   class TileFetcher<T>
@@ -46,14 +42,8 @@ namespace BruTileMap
     private AutoResetEvent waitHandle = new AutoResetEvent(false);
     private IFetchStrategy strategy = new FetchStrategy();
     private int maxRetries = 2;
-    private volatile bool needUpdate = false;
-
-#if SILVERLIGHT
-    //TODO: see if we can move all the dispatcher stuff to the TileFactory.
-    //NOTE: A first attempt showed that it is hard to do if you want GetTile to return the bytes synchronously.
-    System.Windows.Threading.Dispatcher dispatcherUIThread;
-#endif
-
+    private bool needUpdate = false;
+    
     #endregion
 
     #region EventHandlers
@@ -66,10 +56,6 @@ namespace BruTileMap
 
     public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileFactory<T> tileFactory)
     {
-#if SILVERLIGHT
-      dispatcherUIThread = GetUIThreadDispatcher();
-#endif
-
       if (tileProvider == null) throw new ArgumentException("TileProvider can not be null");
       this.tileProvider = tileProvider;
 
@@ -112,28 +98,7 @@ namespace BruTileMap
     #endregion
 
     #region Private Methods
-
-#if SILVERLIGHT
-    private static System.Windows.Threading.Dispatcher GetUIThreadDispatcher()
-    {
-      //based dispatcher solution on: http://marlongrech.wordpress.com/category/threading/
-      if (Application.Current != null &&
-        Application.Current.RootVisual != null &&
-        Application.Current.RootVisual.Dispatcher != null)
-      {
-        if (!Application.Current.RootVisual.Dispatcher.CheckAccess())
-        {
-          throw new ValidationException("The TileLayer class can only be created on the UIThread");
-        }
-        return Application.Current.RootVisual.Dispatcher;
-      }
-      else // if we did not get the Dispatcher throw an exception
-      {
-        throw new InvalidOperationException("This object must be initialized after that the RootVisual has been loaded");
-      }
-    }
-#endif
-
+    
     private void TileFetchLoop()
     {
 #if !SILVERLIGHT //In Silverlight there is no such thing as thread priority
@@ -212,15 +177,6 @@ namespace BruTileMap
 
     private void tileProvider_FetchCompleted(object sender, FetchCompletedEventArgs e)
     {
-#if SILVERLIGHT
-      dispatcherUIThread.BeginInvoke(delegate() { LocalFetchCompleted(sender, e); });
-#else
-      LocalFetchCompleted(sender, e);
-#endif
-    }
-
-    private void LocalFetchCompleted(object sender, FetchCompletedEventArgs e)
-    {
       try
       {
         if (e.Error == null && e.Cancelled == false)
@@ -239,7 +195,7 @@ namespace BruTileMap
         }
         waitHandle.Set();
       }
-      
+
       if (this.FetchCompleted != null)
         this.FetchCompleted(this, e);
     }

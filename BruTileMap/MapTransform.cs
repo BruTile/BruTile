@@ -34,12 +34,12 @@ namespace BruTileMap
         }
     }
 
-    public class MapTransform
+    public class MapTransform : ITransform
     {
         #region Fields
 
         double resolution;
-        PointF center;
+        PointF center = new PointF();
         float width;
         float height;
         Extent extent;
