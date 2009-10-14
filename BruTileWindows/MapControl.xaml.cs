@@ -66,6 +66,7 @@ namespace BruTileWindows
           //todo: rootLayer.Dispose();
           rootLayer = null;
         }
+        renderer = new Renderer(); //todo reset in steat of new.
         rootLayer = value;
         rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
         rootLayer.UpdateData(transform.Extent, transform.Resolution);
