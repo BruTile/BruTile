@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using BruTileMap;
 using BruTileWindows;
 using DemoConfig;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace BruTileSilverlight
 {
@@ -19,7 +21,7 @@ namespace BruTileSilverlight
     {
       InitTransform();
       IConfig config = new ConfigOsm();
-      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
     }
 
     private void InitTransform()
@@ -33,13 +35,13 @@ namespace BruTileSilverlight
     private void Osm_Click(object sender, RoutedEventArgs e)
     {
       IConfig config = new ConfigOsm();
-      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
     }
 
     private void BingMaps_Click(object sender, RoutedEventArgs e)
     {
       IConfig config = new ConfigVE();
-      map.RootLayer = new TileLayer<Image>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
     }
 
     private void map_ErrorMessageChanged(object sender, EventArgs e)

@@ -22,20 +22,13 @@ using BruTileMap;
 
 namespace BruTileWindows
 {
-    public class TileFactory : ITileFactory<Image>
+  public class TileFactory : ITileFactory<MemoryStream>
     {
         #region ITileFactory<Bitmap> Members
 
-        public Image GetTile(byte[] bytes)
+        public MemoryStream GetTile(byte[] bytes)
         {
-          BitmapImage bitmapImage = new BitmapImage();
-          bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-          bitmapImage.SetSource(new MemoryStream(bytes));
-
-          Image image = new Image();
-          image.Opacity = 0; //TODO: think of a better place to initialize this.
-          image.Source = bitmapImage;
-          return image;
+          return new MemoryStream(bytes);
         }
 
         #endregion

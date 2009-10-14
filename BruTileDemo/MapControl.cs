@@ -22,6 +22,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BruTile;
+using BruTileMap;
+using BruTileWindows;
+using System.IO;
 
 namespace BruTileDemo
 {
@@ -30,14 +33,14 @@ namespace BruTileDemo
     #region Fields
 
     const double step = 1.1;
-    TileLayer rootLayer;
-    Transform transform = new Transform();
+    TileLayer<MemoryStream> rootLayer;
+    MapTransform transform = new MapTransform();
     Point previous = new Point();
     bool update = true;
-    Graphics graphics;
     string errorMessage;
     FpsCounter fpsCounter = new FpsCounter();
     public event EventHandler ErrorMessageChanged;
+    Renderer renderer = new Renderer();
 
     #endregion
     
@@ -53,7 +56,7 @@ namespace BruTileDemo
       get { return errorMessage; }
     }
 
-    public TileLayer RootLayer
+    public TileLayer<MemoryStream> RootLayer
     {
       get { return rootLayer; }
       set 
@@ -76,7 +79,7 @@ namespace BruTileDemo
     void MapControl_Loaded(object sender, RoutedEventArgs e)
     {
       InitTransform();
-      graphics = new Graphics(this);
+      
       this.Background = new SolidColorBrush(Colors.Transparent);
       
       CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
@@ -188,7 +191,7 @@ namespace BruTileDemo
       {
         if (previous == new Point()) return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
         Point current = e.GetPosition(this);
-        transform.Pan(current, previous);
+        MapTransformHelpers.Pan(transform, current, previous);
         previous = current;
         rootLayer.UpdateData(transform.Extent, transform.Resolution);
         update = true;
@@ -198,10 +201,10 @@ namespace BruTileDemo
 
     private void InitTransform()
     {
-      transform.Center = new Point(0, 0);
+      transform.Center = new PointF(0, 0);
       transform.Resolution = 78271.516950000;
-      transform.Width = this.ActualWidth;
-      transform.Height = this.ActualHeight;
+      transform.Width = (float)this.ActualWidth;
+      transform.Height = (float)this.ActualHeight;
     }
 
     void CompositionTarget_Rendering(object sender, EventArgs e)
@@ -209,7 +212,7 @@ namespace BruTileDemo
       fpsCounter.FramePlusOne();
       if (update)
       {
-        rootLayer.Draw(graphics, transform);
+        renderer.Render(this, rootLayer.Schema, transform, rootLayer.MemoryCache);
         update = false;
       }
     }

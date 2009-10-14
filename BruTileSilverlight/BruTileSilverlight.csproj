@@ -86,9 +86,9 @@
       <Project>{DF93419D-F269-447F-BFE9-0E2A1A4EE2BF}</Project>
       <Name>BruTileMapSL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTileWindows\BruTileWindows.csproj">
+    <ProjectReference Include="..\BruTileWindows\BruTileWindowsSL.csproj">
       <Project>{DC9F828B-9873-4C4C-949C-70358EE06AA4}</Project>
-      <Name>BruTileWindows</Name>
+      <Name>BruTileWindowsSL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTileSL.csproj">
       <Project>{DD028875-B9BD-45B0-8306-797D318FA57B}</Project>

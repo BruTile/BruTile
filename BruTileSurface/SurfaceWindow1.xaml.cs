@@ -44,7 +44,7 @@ namespace BruTileSurface
 
         void map_Loaded(object sender, RoutedEventArgs e)
         {
-            TileCountText.DataContext = map.TileLayer.Bitmaps;
+            TileCountText.DataContext = map.TileLayer.MemoryCache;
             TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
             FpsText.DataContext = map.FpsCounter;
             FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));

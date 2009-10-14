@@ -30,6 +30,7 @@ namespace BruTileMap
     MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
     const int maxRetries = 3;
     ITileFactory<T> tileFactory;
+    
     #endregion
 
     #region EventHandlers
