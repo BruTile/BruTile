@@ -19,6 +19,7 @@ using BruTile;
 
 namespace BruTileMap
 {
+
     public class PointF
     {
         public float X, Y;

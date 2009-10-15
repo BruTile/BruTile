@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using BruTileMap;
+﻿using BruTileMap;
 
 namespace BruTileForms
 {
