@@ -26,7 +26,7 @@ namespace DemoConfig
     string name = "OpenStreetMap";
     string url = "http://b.tile.openstreetmap.org";
 
-    private static double[] ScalesOsm = new double[] { 
+    private static double[] resolutions = new double[] { 
       156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
       9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
       611.496226172, 305.748113086, 152.874056543, 76.437028271, 
@@ -48,7 +48,7 @@ namespace DemoConfig
       get 
       {
         TileSchema schema = new TileSchema();
-        foreach (double resolution in ScalesOsm) schema.Resolutions.Add(resolution);
+        foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
         schema.Height = 256;
         schema.Width = 256;
         schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
