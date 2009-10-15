@@ -101,8 +101,8 @@ namespace BruTileForms
 
     private static RectangleF WorldToMap(Extent extent, MapTransform transform)
     {
-      PointF min = transform.WorldToMap(extent.MinX, extent.MinY);
-      PointF max = transform.WorldToMap(extent.MaxX, extent.MaxY);
+      BTPoint min = transform.WorldToMap(extent.MinX, extent.MinY);
+      BTPoint max = transform.WorldToMap(extent.MaxX, extent.MaxY);
       return new RectangleF(min.X, max.Y, max.X - min.X, min.Y - max.Y);
     }
 

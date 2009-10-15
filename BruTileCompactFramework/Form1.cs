@@ -30,7 +30,15 @@ namespace BruTileCompactFramework
     public Form1()
     {
       InitializeComponent();
+
       this.Load += new EventHandler(Form1_Load);
+      this.Resize += new EventHandler(Form1_Resize);
+    }
+
+    void Form1_Resize(object sender, EventArgs e)
+    {
+      mapControl1.Location = new Point(0, 0);
+      mapControl1.Size = new Size(this.Width, this.Height);
     }
 
     void Form1_Load(object sender, EventArgs e)

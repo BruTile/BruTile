@@ -34,7 +34,7 @@ namespace BruTileForms
     private Bitmap buffer;
     private Graphics bufferGraphics;
     private Brush whiteBrush = new SolidBrush(Color.White);
-    private PointF mousePosition;
+    private BTPoint mousePosition;
   
     #endregion
 
@@ -76,7 +76,7 @@ namespace BruTileForms
       Refresh();
     }
 
-    public void ZoomIn(PointF mapPosition)
+    public void ZoomIn(BTPoint mapPosition)
     {
       // When zooming in we want the mouse position to stay above the same world coordinate.
       // We do that in 3 steps.
@@ -185,14 +185,14 @@ namespace BruTileForms
 
     private void MapControl_MouseDown(object sender, MouseEventArgs e)
     {
-      mousePosition = new PointF(e.X, e.Y);
+      mousePosition = new BTPoint(e.X, e.Y);
     }
 
     private void MapControl_MouseMove(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
       {
-        PointF newMousePosition = new PointF(e.X, e.Y);
+        BTPoint newMousePosition = new BTPoint(e.X, e.Y);
         MapTransformHelpers.Pan(transform, newMousePosition, mousePosition);
         mousePosition = newMousePosition;
 
@@ -202,7 +202,7 @@ namespace BruTileForms
     
     private void InitTransform()
     {
-      transform.Center = new PointF(629816, 6805085);
+      transform.Center = new BTPoint(629816, 6805085);
       transform.Resolution = 2445.984904688;
       transform.Width = (float)this.Width;
       transform.Height = (float)this.Height;
