@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileTests", "BruTileTests\BruTileTests.csproj", "{9B47F544-E365-4CBA-ABE8-0ECC405992A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsSample", "WindowsFormsSample\WindowsFormsSample.csproj", "{6EEDF770-D05C-441E-A523-7C97F620B9BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileMap", "BruTileMap\BruTileMap.csproj", "{FAF7E39B-42BC-4E15-A357-3F348243FE46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoConfig", "DemoConfig\DemoConfig.csproj", "{4F8F6A4A-8381-40D8-8AC5-FCF3BA96A866}"
@@ -43,12 +41,6 @@ Global
 		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B47F544-E365-4CBA-ABE8-0ECC405992A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Addins debug|Any CPU.Build.0 = Release|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAF7E39B-42BC-4E15-A357-3F348243FE46}.Addins debug|Any CPU.ActiveCfg = Release|Any CPU
 		{FAF7E39B-42BC-4E15-A357-3F348243FE46}.Addins debug|Any CPU.Build.0 = Release|Any CPU
 		{FAF7E39B-42BC-4E15-A357-3F348243FE46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

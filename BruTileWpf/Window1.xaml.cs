@@ -8,7 +8,7 @@ using BruTileMap;
 using BruTileWindows;
 using System.IO;
 
-namespace BruTileDemo
+namespace BruTileWpf
 {
   /// <summary>
   /// Interaction logic for Window1.xaml

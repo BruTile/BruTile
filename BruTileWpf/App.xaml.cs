@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace BruTileDemo
+namespace BruTileWpf
 {
   /// <summary>
   /// Interaction logic for App.xaml
