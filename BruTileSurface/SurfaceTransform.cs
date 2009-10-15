@@ -20,7 +20,7 @@ using System.Windows.Media;
 using BruTileMap;
 using BruTile;
 
-namespace BruTileDemo
+namespace BruTileSurface
 {
     class SurfaceTransform : ITransform
     {

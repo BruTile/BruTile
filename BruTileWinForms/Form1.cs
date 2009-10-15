@@ -10,7 +10,7 @@ using DemoConfig;
 using BruTileForms;
 using BruTileMap;
 
-namespace WindowsFormsApplication1
+namespace BruTileWinForms
 {
   public partial class Form1 : Form
   {

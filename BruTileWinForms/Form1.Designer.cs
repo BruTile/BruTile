@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace BruTileWinForms
 {
   partial class Form1
   {
