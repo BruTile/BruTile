@@ -8,8 +8,8 @@ namespace BruTileMap
 {
   public interface ITransform
   {
-    PointF WorldToMap(double x, double y);
-    PointF MapToWorld(double x, double y);
+    BTPoint WorldToMap(double x, double y);
+    BTPoint MapToWorld(double x, double y);
     double Resolution { get; }
     Extent Extent { get; }
   }

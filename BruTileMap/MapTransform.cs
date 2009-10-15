@@ -19,16 +19,15 @@ using BruTile;
 
 namespace BruTileMap
 {
-
-    public class PointF
+    public class BTPoint
     {
         public float X, Y;
 
-        public PointF()
+        public BTPoint()
         {
         }
 
-        public PointF(float X, float Y)
+        public BTPoint(float X, float Y)
         {
             this.X = X;
             this.Y = Y;
@@ -40,7 +39,7 @@ namespace BruTileMap
         #region Fields
 
         double resolution;
-        PointF center = new PointF();
+        BTPoint center = new BTPoint();
         float width;
         float height;
         Extent extent;
@@ -62,7 +61,7 @@ namespace BruTileMap
             }
         }
 
-        public PointF Center
+        public BTPoint Center
         {
             set
             {
@@ -100,14 +99,14 @@ namespace BruTileMap
             get { return extent; }
         }
 
-        public PointF WorldToMap(double x, double y)
+        public BTPoint WorldToMap(double x, double y)
         {
-            return new PointF((float)(x - extent.MinX) / (float)resolution, (float)(extent.MaxY - y) / (float)resolution);
+            return new BTPoint((float)(x - extent.MinX) / (float)resolution, (float)(extent.MaxY - y) / (float)resolution);
         }
 
-        public PointF MapToWorld(double x, double y)
+        public BTPoint MapToWorld(double x, double y)
         {
-            return new PointF((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
+            return new BTPoint((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
         }
 
         #endregion
