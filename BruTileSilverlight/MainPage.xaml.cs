@@ -26,7 +26,7 @@ namespace BruTileSilverlight
 
     private void InitTransform()
     {
-      map.Transform.Center = new PointF(629816, 6805085);
+      map.Transform.Center = new BTPoint(629816, 6805085);
       map.Transform.Resolution = 1222.992452344;
       map.Transform.Width = (float)this.Width;
       map.Transform.Height = (float)this.Height;
