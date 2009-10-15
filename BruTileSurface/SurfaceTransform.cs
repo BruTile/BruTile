@@ -157,16 +157,16 @@ namespace BruTileDemo
             return point;
         }
 
-        PointF ITransform.WorldToMap(double x, double y)
+        BTPoint ITransform.WorldToMap(double x, double y)
         {
           Point point = WorldToMap(x, y);
-          return new PointF((float)point.X, (float)point.Y);
+          return new BTPoint((float)point.X, (float)point.Y);
         }
 
-        PointF ITransform.MapToWorld(double x, double y)
+        BTPoint ITransform.MapToWorld(double x, double y)
         {
           Point point = MapToWorld(x, y);
-          return new PointF((float)point.X, (float)point.Y);
+          return new BTPoint((float)point.X, (float)point.Y);
         }
 
         public Vector MapToWorld(Vector vector)
@@ -186,6 +186,5 @@ namespace BruTileDemo
         {
             return ((rect.Top + rect.Bottom) * 0.5F);
         }
- 
   }
 }
