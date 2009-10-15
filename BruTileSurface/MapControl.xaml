@@ -1,7 +1,7 @@
 ﻿<s:SurfaceUserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="http://schemas.microsoft.com/surface/2008" x:Class="BruTileDemo.MapControl"
+    xmlns:s="http://schemas.microsoft.com/surface/2008" x:Class="BruTileSurface.MapControl"
     Foreground="{x:Null}" xmlns:Microsoft_Surface_Presentation_Generic="clr-namespace:Microsoft.Surface.Presentation.Generic;assembly=Microsoft.Surface.Presentation.Generic">
 	
 	<s:SurfaceUserControl.Resources>

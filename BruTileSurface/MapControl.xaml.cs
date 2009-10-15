@@ -30,7 +30,7 @@ using BruTileMap;
 using BruTileWindows;
 using System.IO;
 
-namespace BruTileDemo
+namespace BruTileSurface
 {
     partial class MapControl : SurfaceUserControl
     {
