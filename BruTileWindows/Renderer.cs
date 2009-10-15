@@ -141,8 +141,8 @@ namespace BruTileWindows
     //TODO: remove this method:
     private static Rect WorldToMap(Extent extent, ITransform transform)
     {
-      PointF min = transform.WorldToMap(extent.MinX, extent.MinY);
-      PointF max = transform.WorldToMap(extent.MaxX, extent.MaxY);
+      BTPoint min = transform.WorldToMap(extent.MinX, extent.MinY);
+      BTPoint max = transform.WorldToMap(extent.MaxX, extent.MaxY);
       return new Rect(min.X, max.Y, max.X - min.X, min.Y - max.Y);
     }
 
