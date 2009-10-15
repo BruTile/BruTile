@@ -71,7 +71,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigEsri.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="MapControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
