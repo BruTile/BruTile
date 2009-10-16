@@ -46,6 +46,11 @@ namespace BruTileForms
 
     #region Properties
 
+    public MapTransform Transform
+    {
+      get { return transform; }
+    }
+
     public TileLayer<Bitmap> RootLayer
     {
       get { return rootLayer; }
@@ -67,7 +72,6 @@ namespace BruTileForms
       this.Resize += new EventHandler(MapControl_Resize);
       this.MouseDown += new MouseEventHandler(MapControl_MouseDown);
       this.MouseMove += new MouseEventHandler(MapControl_MouseMove);
-      InitTransform();
     }
 
     public void ZoomIn()
@@ -198,14 +202,6 @@ namespace BruTileForms
 
         Refresh();
       }
-    }
-    
-    private void InitTransform()
-    {
-      transform.Center = new BTPoint(629816, 6805085);
-      transform.Resolution = 2445.984904688;
-      transform.Width = (float)this.Width;
-      transform.Height = (float)this.Height;
     }
 
     private void MapControl_Resize(object sender, EventArgs e)

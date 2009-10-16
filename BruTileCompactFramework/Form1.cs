@@ -30,11 +30,20 @@ namespace BruTileCompactFramework
     public Form1()
     {
       InitializeComponent();
+      InitTransform();
 
       this.Load += new EventHandler(Form1_Load);
       this.Resize += new EventHandler(Form1_Resize);
     }
 
+    private void InitTransform()
+    {
+      mapControl1.Transform.Center = new BTPoint(629816, 6805085);
+      mapControl1.Transform.Resolution = 2445.984904688;
+      mapControl1.Transform.Width = (float)this.Width;
+      mapControl1.Transform.Height = (float)this.Height;
+    }
+    
     void Form1_Resize(object sender, EventArgs e)
     {
       mapControl1.Location = new Point(0, 0);
