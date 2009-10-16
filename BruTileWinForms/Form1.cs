@@ -14,13 +14,14 @@ namespace BruTileWinForms
 {
   public partial class Form1 : Form
   {
+    //WARNING: This WinForms implementation is very basic. 
+    //Contact me if you actually use BruTileWinforms I might make some improvements. PDD
+
     public Form1()
     {
       InitializeComponent();
       this.Load += new EventHandler(Form1_Load);
     }
-
-
 
     void Form1_Load(object sender, EventArgs e)
     {
