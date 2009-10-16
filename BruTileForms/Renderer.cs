@@ -23,7 +23,7 @@ using BruTileMap;
 
 namespace BruTileForms
 {
-  static class Renderer
+  public static class Renderer
   {
     public static void Render(Graphics graphics, ITileSchema schema, 
       MapTransform transform, MemoryCache<Bitmap> cache)
