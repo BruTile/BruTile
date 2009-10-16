@@ -27,7 +27,11 @@ namespace BruTileMap
 
     ITileSchema schema;
     TileFetcher<T> tileFetcher;
+#if PocketPC
+    MemoryCache<T> memoryCache = new MemoryCache<T>(20, 40);
+#else
     MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
+#endif
     const int maxRetries = 3;
     ITileFactory<T> tileFactory;
     
