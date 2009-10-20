@@ -1,4 +1,4 @@
-﻿// Copyright 2008 - Paul den Dulk (Geodan)
+﻿// Copyright 2009 - Tim Ebben (Geodan), Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
-using System.Windows;
 
 namespace BruTile
 {
