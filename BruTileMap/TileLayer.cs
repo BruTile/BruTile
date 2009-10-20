@@ -21,14 +21,14 @@ using BruTile;
 
 namespace BruTileMap
 {
-  public class TileLayer<T>
+  public class TileLayer<T> : IDisposable
   {
     #region Fields
 
     ITileSchema schema;
     TileFetcher<T> tileFetcher;
 #if PocketPC
-    MemoryCache<T> memoryCache = new MemoryCache<T>(20, 40);
+    MemoryCache<T> memoryCache = new MemoryCache<T>(40, 60);
 #else
     MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
 #endif
@@ -104,6 +104,19 @@ namespace BruTileMap
       if (DataUpdated != null)
         DataUpdated(this, e);
     }
+    #endregion
+
+    #region IDisposable Members
+
+    public void Dispose()
+    {
+      if (tileFetcher != null)
+      {
+        UnRegisterEventHandlers();
+        tileFetcher.Dispose();
+      }
+    }
+
     #endregion
   }
 }

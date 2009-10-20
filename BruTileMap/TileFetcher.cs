@@ -22,7 +22,7 @@ using BruTile;
 
 namespace BruTileMap
 {
-  class TileFetcher<T>
+  class TileFetcher<T> : IDisposable
   {
     #region Fields
 
@@ -74,8 +74,6 @@ namespace BruTileMap
 
     ~TileFetcher()
     {
-      closing = true;
-      waitHandle.Set();
     }
 
     #endregion
@@ -198,6 +196,16 @@ namespace BruTileMap
 
       if (this.FetchCompleted != null)
         this.FetchCompleted(this, e);
+    }
+
+    #endregion
+
+    #region IDisposable Members
+
+    public void Dispose()
+    {
+      closing = true;
+      waitHandle.Set();
     }
 
     #endregion
