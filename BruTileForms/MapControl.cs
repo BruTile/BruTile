@@ -56,6 +56,11 @@ namespace BruTileForms
       get { return rootLayer; }
       set
       {
+        if (RootLayer != null)
+        {
+          rootLayer.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
+          rootLayer.Dispose();
+        }
         //todo dispose previous layer
         rootLayer = value;
         rootLayer.DataUpdated += new AsyncCompletedEventHandler(rootLayer_DataUpdated);
@@ -72,6 +77,12 @@ namespace BruTileForms
       this.Resize += new EventHandler(MapControl_Resize);
       this.MouseDown += new MouseEventHandler(MapControl_MouseDown);
       this.MouseMove += new MouseEventHandler(MapControl_MouseMove);
+      this.Disposed += new EventHandler(MapControl_Disposed);
+    }
+
+    void MapControl_Disposed(object sender, EventArgs e)
+    {
+      if (rootLayer != null) rootLayer.Dispose();
     }
 
     public void ZoomIn()
@@ -196,6 +207,7 @@ namespace BruTileForms
     {
       if (e.Button == MouseButtons.Left)
       {
+        if (mousePosition == null) return;
         BTPoint newMousePosition = new BTPoint(e.X, e.Y);
         MapTransformHelpers.Pan(transform, newMousePosition, mousePosition);
         mousePosition = newMousePosition;
