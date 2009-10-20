@@ -20,7 +20,16 @@ namespace BruTileWinForms
     public Form1()
     {
       InitializeComponent();
+      InitTransform();
       this.Load += new EventHandler(Form1_Load);
+    }
+
+    private void InitTransform()
+    {
+      mapControl1.Transform.Center = new BTPoint(629816, 6805085);
+      mapControl1.Transform.Resolution = 1222.992452344;
+      mapControl1.Transform.Width = (float)this.Width;
+      mapControl1.Transform.Height = (float)this.Height;
     }
 
     void Form1_Load(object sender, EventArgs e)
