@@ -33,9 +33,12 @@ namespace BruTileWpf
       InitTransform();
       IConfig config = new ConfigOsm();
       map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      GC.Collect();
       //if you want to use caching to local file system for this layer use this line instead:
       //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
+
+      //todo: move elsewhere
+      TileCountText.DataContext = map.RootLayer.MemoryCache;
+      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
 
       FpsText.DataContext = map.FpsCounter;
       FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
