@@ -1,12 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using BruTile;
-using DemoConfig;
 using BruTileMap;
 using BruTileWindows;
-using System.IO;
+using DemoConfig;
 
 namespace BruTileWpf
 {
@@ -21,6 +20,12 @@ namespace BruTileWpf
       
       InitializeComponent();
       this.map.Loaded += new RoutedEventHandler(map_Loaded);
+      this.Closing += new System.ComponentModel.CancelEventHandler(Window1_Closing);
+    }
+
+    void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        map.RootLayer = null; //to trigger Dispose
     }
 
     void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

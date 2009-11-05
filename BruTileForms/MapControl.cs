@@ -61,9 +61,9 @@ namespace BruTileForms
           rootLayer.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
           rootLayer.Dispose();
         }
-        //todo dispose previous layer
         rootLayer = value;
-        rootLayer.DataUpdated += new AsyncCompletedEventHandler(rootLayer_DataUpdated);
+        if (rootLayer != null)
+            rootLayer.DataUpdated += new AsyncCompletedEventHandler(rootLayer_DataUpdated);
         Refresh();
       }
     }
@@ -123,12 +123,13 @@ namespace BruTileForms
 
     protected override void OnPaint(PaintEventArgs e)
     {
-      //Reset background
-      bufferGraphics.FillRectangle(whiteBrush, 0, 0, buffer.Width, buffer.Height);
-      //Render to the buffer
-      Renderer.Render(bufferGraphics, rootLayer.Schema, transform, rootLayer.MemoryCache);
-      //Render the buffer to the control
-      e.Graphics.DrawImage(buffer, 0, 0);
+        //Reset background
+        bufferGraphics.FillRectangle(whiteBrush, 0, 0, buffer.Width, buffer.Height);
+        //Render to the buffer
+        if (rootLayer != null)
+            Renderer.Render(bufferGraphics, rootLayer.Schema, transform, rootLayer.MemoryCache);
+        //Render the buffer to the control
+        e.Graphics.DrawImage(buffer, 0, 0);
 
       base.OnPaint(e);
     }
@@ -151,7 +152,8 @@ namespace BruTileForms
 
     public override void Refresh()
     {
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
+      if (rootLayer != null)
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
       this.Invalidate();
     }
 

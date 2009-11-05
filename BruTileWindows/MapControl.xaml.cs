@@ -17,14 +17,13 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using BruTileMap;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.IO;
+using BruTileMap;
 
 namespace BruTileWindows
 {
@@ -61,16 +60,18 @@ namespace BruTileWindows
       get { return rootLayer; }
       set
       {
+          if (RootLayer != null)
+          {
+              rootLayer.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
+              rootLayer.Dispose();
+          }
+        renderer = new Renderer(); //todo reset instead of new.
+        rootLayer = value;
         if (rootLayer != null)
         {
-          //todo: rootLayer.Dispose();
-          rootLayer = null;
+          rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
         }
-        renderer = new Renderer(); //todo reset in steat of new.
-        rootLayer = value;
-        rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
-        rootLayer.UpdateData(transform.Extent, transform.Resolution);
-        update = true;
+        Refresh();
       }
     }
 
@@ -128,8 +129,7 @@ namespace BruTileWindows
         transform.Width - mousePosition.X,
         transform.Height - mousePosition.Y);
 
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
+      Refresh();
     }
 
     private void MapControl_Loaded(object sender, RoutedEventArgs e)
@@ -218,7 +218,7 @@ namespace BruTileWindows
       {
         if (e.Error == null && e.Cancelled == false)
         {
-          update = true;
+          Refresh();
         }
         else if (e.Cancelled == true)
         {
@@ -261,8 +261,7 @@ namespace BruTileWindows
       currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
       MapTransformHelpers.Pan(transform, currentMousePosition, previousMousePosition);
       previousMousePosition = currentMousePosition;
-      rootLayer.UpdateData(transform.Extent, transform.Resolution);
-      update = true;
+      Refresh();
     }
 
     private void CompositionTarget_Rendering(object sender, EventArgs e)
@@ -278,6 +277,14 @@ namespace BruTileWindows
     private void OnErrorMessageChanged()
     {
       if (ErrorMessageChanged != null) ErrorMessageChanged(this, null);
+    }
+
+    private void Refresh()
+    {
+        if (rootLayer != null)
+            rootLayer.UpdateData(transform.Extent, transform.Resolution);
+        update = true;
+        this.InvalidateVisual();
     }
 
   }
