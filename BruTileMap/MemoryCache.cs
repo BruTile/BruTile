@@ -18,10 +18,11 @@
 using System;
 using System.Collections.Generic;
 using BruTile;
+using System.ComponentModel;
 
 namespace BruTileMap
 {
-  public class MemoryCache<T> : ITileCache<T>
+  public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
   {
     #region Fields
       
@@ -64,6 +65,7 @@ namespace BruTileMap
           touched.Add(key, DateTime.Now);
           bitmaps.Add(key, item);
           if (bitmaps.Count > maxTiles) CleanUp();
+		  this.OnNotifyPropertyChange("TileCount");
          }
       }
     }
@@ -75,6 +77,7 @@ namespace BruTileMap
         if (!bitmaps.ContainsKey(key)) return; //ignore if not exists
         touched.Remove(key);
         bitmaps.Remove(key);
+		this.OnNotifyPropertyChange("TileCount");
       }
     }
 
@@ -148,5 +151,27 @@ namespace BruTileMap
     }
 
     #endregion
+
+	public int TileCount
+	{
+		get
+		{
+			return this.bitmaps.Count;
+		}
+	}
+
+	#region INotifyPropertyChanged Members
+
+	protected virtual void OnNotifyPropertyChange(string propertyName)
+	{
+		if (this.PropertyChanged != null)
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+
+	public event PropertyChangedEventHandler PropertyChanged;
+
+	#endregion
   }
 }
