@@ -35,6 +35,12 @@ namespace BruTileWindows
     public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
     {
       WebClient webClient = new WebClient();
+
+      //proxy patch by Starnuto Di Topo:
+	  IWebProxy proxy = WebRequest.GetSystemWebProxy();
+	  proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+	  webClient.Proxy = proxy;
+
       webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
       webClient.OpenReadAsync(requestBuilder.GetUrl(tileInfo), new AsyncEventArgs() { TileInfo = tileInfo, FetchCompleted = fetchCompleted } );
     }
