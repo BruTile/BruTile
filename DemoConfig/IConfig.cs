@@ -23,6 +23,7 @@ using BruTile;
 
 namespace DemoConfig
 {
+  //IConfig is currently used for demo purposes. This will probably not be part of a release
   public interface IConfig
   {
     IRequestBuilder RequestBuilder { get; }

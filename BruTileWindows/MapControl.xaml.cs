@@ -45,7 +45,7 @@ namespace BruTileWindows
     double toResolution;
     bool mouseDown = false;
     Renderer renderer = new Renderer();
-    
+
     #endregion
 
     #region Properties
@@ -60,11 +60,6 @@ namespace BruTileWindows
       get { return rootLayer; }
       set
       {
-          if (RootLayer != null)
-          {
-              rootLayer.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
-              rootLayer.Dispose();
-          }
         renderer = new Renderer(); //todo reset instead of new.
         rootLayer = value;
         if (rootLayer != null)
@@ -154,7 +149,7 @@ namespace BruTileWindows
       zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
 #if SILVERLIGHT
       zoomAnimation.EasingFunction = new QuadraticEase();
-#endif      
+#endif
       Storyboard.SetTarget(zoomAnimation, this);
       Storyboard.SetTargetProperty(zoomAnimation, new PropertyPath("Resolution"));
       zoomStoryBoard.Children.Add(zoomAnimation);
@@ -163,7 +158,7 @@ namespace BruTileWindows
     void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
-      
+
       if (toResolution == 0) toResolution = transform.Resolution;
       if (e.Delta > 0)
       {
@@ -242,7 +237,7 @@ namespace BruTileWindows
         }
       }
     }
-    
+
     private void MapControl_MouseDown(object sender, MouseButtonEventArgs e)
     {
       previousMousePosition = e.GetPosition(this);
@@ -269,7 +264,10 @@ namespace BruTileWindows
       fpsCounter.FramePlusOne();
       if (update)
       {
-        renderer.Render(canvas, rootLayer.Schema, transform, rootLayer.MemoryCache);
+        if ((renderer != null) && (rootLayer != null))
+        {
+          renderer.Render(canvas, rootLayer.Schema, transform, rootLayer.MemoryCache);
+        }
         update = false;
       }
     }
@@ -281,10 +279,10 @@ namespace BruTileWindows
 
     private void Refresh()
     {
-        if (rootLayer != null)
-            rootLayer.UpdateData(transform.Extent, transform.Resolution);
-        update = true;
-        this.InvalidateVisual();
+      if (rootLayer != null)
+        rootLayer.UpdateData(transform.Extent, transform.Resolution);
+      update = true;
+      this.InvalidateVisual();
     }
 
   }
