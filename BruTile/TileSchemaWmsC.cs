@@ -27,10 +27,6 @@ namespace BruTile
   {
     //TODO: Abandon this class and move everything in it to RequestWmsC
 
-    #region Fields
-
-    #endregion
-
     #region Properties
 
     public List<string> Layers { get; set; }

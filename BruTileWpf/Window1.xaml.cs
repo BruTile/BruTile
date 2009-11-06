@@ -17,7 +17,7 @@ namespace BruTileWpf
     public Window1()
     {
       AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-      
+
       InitializeComponent();
       this.map.Loaded += new RoutedEventHandler(map_Loaded);
       this.Closing += new System.ComponentModel.CancelEventHandler(Window1_Closing);
@@ -25,7 +25,11 @@ namespace BruTileWpf
 
     void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        map.RootLayer = null; //to trigger Dispose
+      if (map.RootLayer != null)
+      {
+        map.RootLayer.Dispose();
+        map.RootLayer = null;
+      }
     }
 
     void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -36,15 +40,8 @@ namespace BruTileWpf
     void map_Loaded(object sender, RoutedEventArgs e)
     {
       InitTransform();
-      IConfig config = new ConfigOsm();
-      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      //if you want to use caching to local file system for this layer use this line instead:
-      //map.RootLayer = new TileLayer(new WebTileProvider(config.RequestBuilder), config.TileSchema, config.FileCache);
-
-      //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.MemoryCache;
-      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
-
+      this.SetConfig(new ConfigOsm());
+      
       FpsText.DataContext = map.FpsCounter;
       FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
     }
@@ -64,43 +61,37 @@ namespace BruTileWpf
 
     private void Osm_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigOsm();
-      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      
-      //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.MemoryCache;
-      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+      this.SetConfig(new ConfigOsm());
     }
 
     private void GeodanWms_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigWms();
-      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      
-      //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.MemoryCache;
-      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+      this.SetConfig(new ConfigWms());
     }
 
     private void GeodanTms_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigTms();
-      map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      
-      //todo: move elsewhere
-      TileCountText.DataContext = map.RootLayer.MemoryCache;
-      TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+      this.SetConfig(new ConfigTms());
     }
 
     private void BingMaps_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigVE();
+      this.SetConfig(new ConfigVE());
+    }
+
+    private void SetConfig(IConfig config)
+    {
+      if (map.RootLayer != null)
+      {
+        map.RootLayer.Dispose();
+      }
+
       map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-      
+
       //todo: move elsewhere
       TileCountText.DataContext = map.RootLayer.MemoryCache;
       TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
     }
-
   }
 }
+
