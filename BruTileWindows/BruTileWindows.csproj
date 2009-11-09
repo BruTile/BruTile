@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="FetchTileWeb.cs" />
     <Compile Include="FpsCounter.cs" />
+    <Compile Include="Layer.cs" />
     <Compile Include="MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>

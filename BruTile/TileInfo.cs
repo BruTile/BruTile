@@ -26,8 +26,7 @@ namespace BruTile
     private TileKey key;
     private Extent extent;
     private double priority;
-    private int retries;
-
+    
     public TileKey Key
     {
       get { return key; }
@@ -45,11 +44,5 @@ namespace BruTile
       get { return priority; }
       set { priority = value; }
     }    
-
-    public int Retries
-    {
-      get { return retries; }
-      set { retries = value; }
-    }
   }
 }

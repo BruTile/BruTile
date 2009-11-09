@@ -36,10 +36,12 @@ namespace BruTileWindows
     {
       WebClient webClient = new WebClient();
 
+#if !SILVERLIGHT
       //proxy patch by Starnuto Di Topo:
-	  IWebProxy proxy = WebRequest.GetSystemWebProxy();
-	  proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-	  webClient.Proxy = proxy;
+      IWebProxy proxy = WebRequest.GetSystemWebProxy();
+      proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+      webClient.Proxy = proxy;
+#endif
 
       webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
       webClient.OpenReadAsync(requestBuilder.GetUrl(tileInfo), new AsyncEventArgs() { TileInfo = tileInfo, FetchCompleted = fetchCompleted } );
@@ -54,17 +56,18 @@ namespace BruTileWindows
 
       if (e.Error != null || e.Cancelled)
       {
-        FetchCompletedEventArgs args1 = new FetchCompletedEventArgs(e.Error, e.Cancelled, state.TileInfo, null);
-        state.FetchCompleted(this, args1);
-        return;
+        exception = e.Error;
       }
-      try
+      else
       {
-        bytes = BruTile.Util.ReadFully(e.Result);
-      }
-      catch (Exception ex)
-      {
-        exception = ex;
+        try
+        {
+          bytes = BruTile.Util.ReadFully(e.Result);
+        }
+        catch (Exception ex)
+        {
+          exception = ex;
+        }
       }
         
       FetchCompletedEventArgs args = new FetchCompletedEventArgs(exception, e.Cancelled, state.TileInfo, bytes);

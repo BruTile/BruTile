@@ -21,11 +21,11 @@ using System.Collections.Generic;
 
 namespace DemoConfig
 {
-  public class ConfigWms : IConfig
+  public class ConfigWmsC : IConfig
   {
     string format = "png";
-    string name = "Geodan WMS";
-    string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
+    string name = "Geodan TMS";
+    string url = "http://geoserver.nl/tiles/tilecache.aspx?";
 
     private static double[] resolutions = new double[] { 
       156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
@@ -40,8 +40,12 @@ namespace DemoConfig
     {
       get
       {
-        RequestWmsC request = new RequestWmsC(new Uri(url), this.TileSchema, 
-          new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("seriveparam","ortho10");
+        
+        
+        RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
+          new List<string>(new string[] { "world_GM" }), new List<string>(), parameters);
         return request;
       }
     }
@@ -56,10 +60,10 @@ namespace DemoConfig
         schema.Width = 256;
         schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
         schema.OriginX = -20037508.342789;
-        schema.OriginY = 20037508.342789;
+        schema.OriginY = -20037508.342789;
         schema.Name = name;
         schema.Format = format;
-        schema.Axis = AxisDirection.InvertedY;
+        schema.Axis = AxisDirection.Normal;
         schema.Srs = "EPSG:900913";
         return schema;
       }

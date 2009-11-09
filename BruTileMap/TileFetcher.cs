@@ -108,14 +108,15 @@ namespace BruTileMap
 
         UpdateInProgress();
 
-        int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
         if (needUpdate)
         {
+          int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
           tilesNeeded = strategy.GetTilesWanted(schema, extent, level);
           retries.Clear();
           needUpdate = false;
         }
-        tilesNeeded = GetTileNeeded(tilesNeeded, memoryCache);
+
+        tilesNeeded = GetTilesLacking(tilesNeeded, memoryCache);
 
         FetchTiles();
 
@@ -126,15 +127,15 @@ namespace BruTileMap
       }
     }
 
-    private IList<TileInfo> GetTileNeeded(IList<TileInfo> tiles, MemoryCache<T> memoryCache)
+    private IList<TileInfo> GetTilesLacking(IList<TileInfo> tilesIn, MemoryCache<T> memoryCache)
     {
-      IList<TileInfo> tilesNeeded = new List<TileInfo>();
-      foreach (TileInfo tile in tiles)
+      IList<TileInfo> tilesOut = new List<TileInfo>();
+      foreach (TileInfo tile in tilesIn)
       {
         if (memoryCache.Find(tile.Key) == null)
-          tilesNeeded.Add(tile);
+          tilesOut.Add(tile);
       }
-      return tilesNeeded;
+      return tilesOut;
     }
 
     private void UpdateInProgress()

@@ -58,7 +58,6 @@
     <Compile Include="TileKey.cs" />
     <Compile Include="TileRange.cs" />
     <Compile Include="FileCache.cs" />
-    <Compile Include="TileSchemaWmsC.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileSchema.cs" />
     <Compile Include="Extent.cs" />
