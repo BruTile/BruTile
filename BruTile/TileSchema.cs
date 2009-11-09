@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
 namespace BruTile
@@ -39,7 +38,7 @@ namespace BruTile
 
     #endregion
 
-    #region Properties
+    #region Propertiesb
 
     public string Name
     {

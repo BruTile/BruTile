@@ -65,7 +65,7 @@ namespace BruTileMap
           touched.Add(key, DateTime.Now);
           bitmaps.Add(key, item);
           if (bitmaps.Count > maxTiles) CleanUp();
-		  this.OnNotifyPropertyChange("TileCount");
+    		  this.OnNotifyPropertyChange("TileCount");
          }
       }
     }
@@ -77,7 +77,7 @@ namespace BruTileMap
         if (!bitmaps.ContainsKey(key)) return; //ignore if not exists
         touched.Remove(key);
         bitmaps.Remove(key);
-		this.OnNotifyPropertyChange("TileCount");
+		    this.OnNotifyPropertyChange("TileCount");
       }
     }
 
@@ -119,7 +119,7 @@ namespace BruTileMap
     private void TouchPermaCache(Dictionary<TileKey, DateTime> touched)
     {
       List<TileKey> keys = new List<TileKey>();
-      //This is a temporary soluvtion to preserve level zero tiles in memory.
+      //This is a temporary solution to preserve level zero tiles in memory.
       foreach (TileKey key in touched.Keys) if (key.Level == 0) keys.Add(key); 
       foreach (TileKey key in keys) touched[key] = DateTime.Now;
     }
@@ -152,26 +152,26 @@ namespace BruTileMap
 
     #endregion
 
-	public int TileCount
-	{
-		get
-		{
-			return this.bitmaps.Count;
-		}
-	}
+	  public int TileCount
+	  {
+		  get
+		  {
+			  return this.bitmaps.Count;
+		  }
+	  }
 
-	#region INotifyPropertyChanged Members
+	  #region INotifyPropertyChanged Members
 
-	protected virtual void OnNotifyPropertyChange(string propertyName)
-	{
-		if (this.PropertyChanged != null)
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+	  protected virtual void OnNotifyPropertyChange(string propertyName)
+	  {
+		  if (this.PropertyChanged != null)
+		  {
+			  this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		  }
+	  }
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	  public event PropertyChangedEventHandler PropertyChanged;
 
-	#endregion
+	  #endregion
   }
 }

@@ -282,7 +282,9 @@ namespace BruTileWindows
       if (rootLayer != null)
         rootLayer.UpdateData(transform.Extent, transform.Resolution);
       update = true;
+#if !SILVERLIGHT
       this.InvalidateVisual();
+#endif
     }
 
   }

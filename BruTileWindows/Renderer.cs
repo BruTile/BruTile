@@ -53,15 +53,15 @@ namespace BruTileWindows
 
       foreach (TileInfo tile in tiles)
       {
-        MemoryStream bitmapImage = memoryCache.Find(tile.Key);
-        if (bitmapImage == null)
+        MemoryStream image = memoryCache.Find(tile.Key);
+        if (image == null)
         {
           if (level > 0) DrawRecursive(canvas, schema, transform, memoryCache, tile.Extent.Intersect(extent), level - 1);
         }
         else
         {
           Rect dest = WorldToMap(tile.Extent, transform);
-          double opacity = DrawImage(canvas, bitmapImage, dest, tile);
+          double opacity = DrawImage(canvas, image, dest, tile);
           if ((opacity < 1) && (level > 0)) DrawRecursive(canvas, schema, transform, memoryCache, tile.Extent.Intersect(extent), level - 1);
         }
       }
