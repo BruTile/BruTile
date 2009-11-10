@@ -21,13 +21,29 @@ using BruTile;
 
 namespace BruTileWindows
 {
-    static class Util
+    /// <summary>
+    /// Contains some useful helper functions.
+    /// </summary>
+    internal static class Utilities
     {
+        /// <summary>
+        /// Gets the euclidean distance between two points.
+        /// </summary>
+        /// <param name="x1">The first point's X coordinate.</param>
+        /// <param name="y1">The first point's Y coordinate.</param>
+        /// <param name="x2">The second point's X coordinate.</param>
+        /// <param name="y2">The second point's Y coordinate.</param>
+        /// <returns></returns>
         public static double Distance(double x1, double y1, double x2, double y2)
         {
-            return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
+            return Math.Sqrt(Math.Pow(x1 - x2, 2.0) + Math.Pow(y1 - y2, 2.0));
         }
 
+        /// <summary>
+        /// Translate a Rect to an extent.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <returns>The extent represented by the specified rect.</returns>
         public static Extent ToExtent(Rect rect)
         {
             return new Extent(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
