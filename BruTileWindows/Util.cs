@@ -21,16 +21,16 @@ using BruTile;
 
 namespace BruTileWindows
 {
-	static class Util
-	{
-		public static double Distance(double x1, double y1, double x2, double y2)
-		{
-			return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
-		}
+    static class Util
+    {
+        public static double Distance(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
+        }
 
-		public static Extent ToExtent(Rect rect)
-		{
-			return new Extent(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
-		}
-	}
+        public static Extent ToExtent(Rect rect)
+        {
+            return new Extent(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
+        }
+    }
 }

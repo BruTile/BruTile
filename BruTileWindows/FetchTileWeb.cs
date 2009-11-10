@@ -21,65 +21,65 @@ using BruTile;
 
 namespace BruTileWindows
 {
-	public class FetchTileWeb : IFetchTile
-	{
-		IRequestBuilder requestBuilder;
+    public class FetchTileWeb : IFetchTile
+    {
+        IRequestBuilder requestBuilder;
 
-		public FetchTileWeb(IRequestBuilder requestBuilder)
-		{
-			this.requestBuilder = requestBuilder;
-		}
+        public FetchTileWeb(IRequestBuilder requestBuilder)
+        {
+            this.requestBuilder = requestBuilder;
+        }
 
-		#region TileProvider Members
+        #region TileProvider Members
 
-		public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
-		{
-			WebClient webClient = new WebClient();
+        public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+        {
+            WebClient webClient = new WebClient();
 
 #if !SILVERLIGHT
-			//proxy patch by Starnuto Di Topo:
-			IWebProxy proxy = WebRequest.GetSystemWebProxy();
-			proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-			webClient.Proxy = proxy;
+            //proxy patch by Starnuto Di Topo:
+            IWebProxy proxy = WebRequest.GetSystemWebProxy();
+            proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            webClient.Proxy = proxy;
 #endif
 
-			webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
-			webClient.OpenReadAsync(requestBuilder.GetUrl(tileInfo), new AsyncEventArgs() { TileInfo = tileInfo, FetchCompleted = fetchCompleted });
-		}
+            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
+            webClient.OpenReadAsync(requestBuilder.GetUri(tileInfo), new AsyncEventArgs() { TileInfo = tileInfo, FetchCompleted = fetchCompleted });
+        }
 
-		private void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
-		{
-			//TODO rewrite this
-			AsyncEventArgs state = (AsyncEventArgs)e.UserState;
-			Exception exception = null;
-			byte[] bytes = null;
+        private void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            //TODO rewrite this
+            AsyncEventArgs state = (AsyncEventArgs)e.UserState;
+            Exception exception = null;
+            byte[] bytes = null;
 
-			if (e.Error != null || e.Cancelled)
-			{
-				exception = e.Error;
-			}
-			else
-			{
-				try
-				{
-					bytes = BruTile.Util.ReadFully(e.Result);
-				}
-				catch (Exception ex)
-				{
-					exception = ex;
-				}
-			}
+            if (e.Error != null || e.Cancelled)
+            {
+                exception = e.Error;
+            }
+            else
+            {
+                try
+                {
+                    bytes = BruTile.Util.ReadFully(e.Result);
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
+            }
 
-			FetchCompletedEventArgs args = new FetchCompletedEventArgs(exception, e.Cancelled, state.TileInfo, bytes);
-			state.FetchCompleted(this, args);
-		}
+            FetchCompletedEventArgs args = new FetchCompletedEventArgs(exception, e.Cancelled, state.TileInfo, bytes);
+            state.FetchCompleted(this, args);
+        }
 
-		private class AsyncEventArgs
-		{
-			public TileInfo TileInfo { get; set; }
-			public FetchCompletedEventHandler FetchCompleted { get; set; }
-		}
+        private class AsyncEventArgs
+        {
+            public TileInfo TileInfo { get; set; }
+            public FetchCompletedEventHandler FetchCompleted { get; set; }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

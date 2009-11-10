@@ -18,9 +18,9 @@
 
 namespace BruTile
 {
-	internal interface IAxis
-	{
-		TileRange WorldToTile(Extent extent, int level, ITileSchema schema);
-		Extent TileToWorld(TileRange range, int level, ITileSchema schema);
-	}
+    internal interface IAxis
+    {
+        TileRange WorldToTile(Extent extent, int level, ITileSchema schema);
+        Extent TileToWorld(TileRange range, int level, ITileSchema schema);
+    }
 }

@@ -19,29 +19,29 @@ using System;
 
 namespace BruTile
 {
-	internal class AxisNormal : IAxis
-	{
-		public TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
-		{
-			double resolution = schema.Resolutions[level];
-			double tileWorldUnits = resolution * schema.Width;
-			int firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
-			int firstRow = (int)Math.Floor((extent.MinY - schema.OriginY) / tileWorldUnits);
-			int lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
-			int lastRow = (int)Math.Ceiling((extent.MaxY - schema.OriginY) / tileWorldUnits);
-			return new TileRange(firstCol, firstRow, lastCol, lastRow);
-		}
+    internal class AxisNormal : IAxis
+    {
+        public TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
+        {
+            double resolution = schema.Resolutions[level];
+            double tileWorldUnits = resolution * schema.Width;
+            int firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
+            int firstRow = (int)Math.Floor((extent.MinY - schema.OriginY) / tileWorldUnits);
+            int lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
+            int lastRow = (int)Math.Ceiling((extent.MaxY - schema.OriginY) / tileWorldUnits);
+            return new TileRange(firstCol, firstRow, lastCol, lastRow);
+        }
 
-		public Extent TileToWorld(TileRange range, int level, ITileSchema schema)
-		{
-			double resolution = schema.Resolutions[level];
-			double tileWorldUnits = resolution * schema.Width;
-			double minX = range.FirstCol * tileWorldUnits + schema.OriginX;
-			double minY = range.FirstRow * tileWorldUnits + schema.OriginY;
-			double maxX = (range.LastCol + 1) * tileWorldUnits + schema.OriginX;
-			double maxY = (range.LastRow + 1) * tileWorldUnits + schema.OriginY;
-			return new Extent(minX, minY, maxX, maxY);
-		}
+        public Extent TileToWorld(TileRange range, int level, ITileSchema schema)
+        {
+            double resolution = schema.Resolutions[level];
+            double tileWorldUnits = resolution * schema.Width;
+            double minX = range.FirstCol * tileWorldUnits + schema.OriginX;
+            double minY = range.FirstRow * tileWorldUnits + schema.OriginY;
+            double maxX = (range.LastCol + 1) * tileWorldUnits + schema.OriginX;
+            double maxY = (range.LastRow + 1) * tileWorldUnits + schema.OriginY;
+            return new Extent(minX, minY, maxX, maxY);
+        }
 
-	}
+    }
 }

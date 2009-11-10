@@ -19,11 +19,11 @@ using BruTile;
 
 namespace BruTileMap
 {
-	public interface ITransform
-	{
-		BTPoint WorldToMap(double x, double y);
-		BTPoint MapToWorld(double x, double y);
-		double Resolution { get; }
-		Extent Extent { get; }
-	}
+    public interface ITransform
+    {
+        BTPoint WorldToMap(double x, double y);
+        BTPoint MapToWorld(double x, double y);
+        double Resolution { get; }
+        Extent Extent { get; }
+    }
 }

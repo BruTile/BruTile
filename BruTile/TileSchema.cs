@@ -21,146 +21,146 @@ using System.Globalization;
 
 namespace BruTile
 {
-	public class TileSchema : ITileSchema
-	{
-		#region Fields
+    public class TileSchema : ITileSchema
+    {
+        #region Fields
 
-		private string name;
-		private string srs;
-		private Extent extent;
-		private double originX = Double.NaN;
-		private double originY = Double.NaN;
-		private List<double> resolutions = new List<double>();
-		private int width;
-		private int height;
-		private string format;
-		private AxisDirection axis = AxisDirection.Normal;
+        private string name;
+        private string srs;
+        private Extent extent;
+        private double originX = Double.NaN;
+        private double originY = Double.NaN;
+        private List<double> resolutions = new List<double>();
+        private int width;
+        private int height;
+        private string format;
+        private AxisDirection axis = AxisDirection.Normal;
 
-		#endregion
+        #endregion
 
-		#region Propertiesb
+        #region Propertiesb
 
-		public string Name
-		{
-			get { return name; }
-			set { name = value; }
-		}
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
-		public string Srs
-		{
-			get { return srs; }
-			set { srs = value; }
-		}
+        public string Srs
+        {
+            get { return srs; }
+            set { srs = value; }
+        }
 
-		public Extent Extent
-		{
-			get { return extent; }
-			set { extent = value; }
-		}
+        public Extent Extent
+        {
+            get { return extent; }
+            set { extent = value; }
+        }
 
-		public double OriginX
-		{
-			get { return originX; }
-			set { originX = value; }
-		}
+        public double OriginX
+        {
+            get { return originX; }
+            set { originX = value; }
+        }
 
-		public double OriginY
-		{
-			get { return originY; }
-			set { originY = value; }
-		}
+        public double OriginY
+        {
+            get { return originY; }
+            set { originY = value; }
+        }
 
-		public IList<double> Resolutions
-		{
-			get { return resolutions; }
-		}
+        public IList<double> Resolutions
+        {
+            get { return resolutions; }
+        }
 
-		public int Width
-		{
-			get { return width; }
-			set { width = value; }
-		}
+        public int Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
 
-		public int Height
-		{
-			get { return height; }
-			set { height = value; }
-		}
+        public int Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
 
-		public string Format
-		{
-			get { return format; }
-			set { format = value; }
-		}
+        public string Format
+        {
+            get { return format; }
+            set { format = value; }
+        }
 
-		public AxisDirection Axis
-		{
-			get { return axis; }
-			set { axis = value; }
-		}
+        public AxisDirection Axis
+        {
+            get { return axis; }
+            set { axis = value; }
+        }
 
-		public virtual string Additions
-		{
-			get { return ""; }
-		}
+        public virtual string Additions
+        {
+            get { return ""; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Checks if the TileSchema members are properly initialized and throws an exception if not.
-		/// </summary>
-		public virtual void Validate()
-		{
-			if (String.IsNullOrEmpty(srs))
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "The SRS was not set for TileSchema '{0}'", this.Name));
-			}
-			if (extent == new Extent())
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "The BoundingBox was not set for TileSchema '{0}'", this.Name));
-			}
-			if (Double.IsNaN(originX))
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", this.Name));
-			}
-			if (Double.IsNaN(originY))
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", this.Name));
-			}
-			if (resolutions.Count == 0)
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "No Resolutions were added for TileSchema '{0}'", this.Name));
-			}
-			if (width == 0)
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "The Width was not set for TileSchema '{0}'", this.Name));
-			}
-			if (height == 0)
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "The Height was not set for TileSchema '{0}'", this.Name));
-			}
-			if (String.IsNullOrEmpty(format))
-			{
-				throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-				  "The Format was not set for TileSchema '{0}'", this.Name));
-			}
+        /// <summary>
+        /// Checks if the TileSchema members are properly initialized and throws an exception if not.
+        /// </summary>
+        public virtual void Validate()
+        {
+            if (String.IsNullOrEmpty(srs))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "The SRS was not set for TileSchema '{0}'", this.Name));
+            }
+            if (extent == new Extent())
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "The BoundingBox was not set for TileSchema '{0}'", this.Name));
+            }
+            if (Double.IsNaN(originX))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", this.Name));
+            }
+            if (Double.IsNaN(originY))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", this.Name));
+            }
+            if (resolutions.Count == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "No Resolutions were added for TileSchema '{0}'", this.Name));
+            }
+            if (width == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "The Width was not set for TileSchema '{0}'", this.Name));
+            }
+            if (height == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "The Height was not set for TileSchema '{0}'", this.Name));
+            }
+            if (String.IsNullOrEmpty(format))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                  "The Format was not set for TileSchema '{0}'", this.Name));
+            }
 
-			//TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
-			//as TileSchema Srs because we do not project one to the other. 
+            //TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
+            //as TileSchema Srs because we do not project one to the other. 
 
-		}
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 
 
 }

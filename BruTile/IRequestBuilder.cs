@@ -19,8 +19,13 @@ using System;
 
 namespace BruTile
 {
-	public interface IRequestBuilder
-	{
-		Uri GetUrl(TileInfo tile);
-	}
+    public interface IRequestBuilder
+    {
+        /// <summary>
+        /// Generates a URI at which to get the data for a tile.
+        /// </summary>
+        /// <param name="tile">Information about a tile.</param>
+        /// <returns>The URI at which to get the data for the specified tile.</returns>
+        Uri GetUri(TileInfo tile);
+    }
 }

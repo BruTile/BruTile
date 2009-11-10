@@ -22,49 +22,54 @@ using System.Text;
 
 namespace BruTile
 {
-	public class RequestTms : IRequestBuilder
-	{
-		Uri baseUrl;
-		Dictionary<string, string> customParameters;
-		string format;
+    public class RequestTms : IRequestBuilder
+    {
+        Uri baseUrl;
+        Dictionary<string, string> customParameters;
+        string format;
 
-		public RequestTms(Uri baseUrl, string format)
-			: this(baseUrl, format, new Dictionary<string, string>())
-		{
-		}
+        public RequestTms(Uri baseUrl, string format)
+            : this(baseUrl, format, new Dictionary<string, string>())
+        {
+        }
 
-		public RequestTms(Uri baseUrl, string format, Dictionary<string, string> customParameters)
-		{
-			this.baseUrl = baseUrl;
-			this.format = format;
-			this.customParameters = customParameters;
-		}
+        public RequestTms(Uri baseUrl, string format, Dictionary<string, string> customParameters)
+        {
+            this.baseUrl = baseUrl;
+            this.format = format;
+            this.customParameters = customParameters;
+        }
 
-		public Uri GetUrl(TileInfo tile)
-		{
-			System.Text.StringBuilder url = new StringBuilder();
+        /// <summary>
+        /// Generates a URI at which to get the data for a tile.
+        /// </summary>
+        /// <param name="tile">Information about a tile.</param>
+        /// <returns>The URI at which to get the data for the specified tile.</returns>
+        public Uri GetUri(TileInfo tile)
+        {
+            System.Text.StringBuilder url = new StringBuilder();
 
-			url.AppendFormat(CultureInfo.InvariantCulture,
-			  "{0}/{1}/{2}/{3}.{4}",
-			  baseUrl, tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
+            url.AppendFormat(CultureInfo.InvariantCulture,
+              "{0}/{1}/{2}/{3}.{4}",
+              baseUrl, tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
 
-			AppendCustomParameters(url);
-			return new Uri(url.ToString());
-		}
+            AppendCustomParameters(url);
+            return new Uri(url.ToString());
+        }
 
-		private void AppendCustomParameters(System.Text.StringBuilder url)
-		{
-			if (customParameters != null && customParameters.Count > 0)
-			{
-				bool first = true;
-				foreach (string name in customParameters.Keys)
-				{
-					string value = customParameters[name];
-					url.AppendFormat("{0}{1}={2}", first ? "?" : "&", name, value);
-					first = false;
-				}
-			}
-		}
+        private void AppendCustomParameters(System.Text.StringBuilder url)
+        {
+            if (customParameters != null && customParameters.Count > 0)
+            {
+                bool first = true;
+                foreach (string name in customParameters.Keys)
+                {
+                    string value = customParameters[name];
+                    url.AppendFormat("{0}{1}={2}", first ? "?" : "&", name, value);
+                    first = false;
+                }
+            }
+        }
 
-	}
+    }
 }

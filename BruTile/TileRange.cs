@@ -17,77 +17,77 @@
 
 namespace BruTile
 {
-	internal struct TileRange
-	{
-		int firstCol;
-		int lastCol;
-		int firstRow;
-		int lastRow;
+    internal struct TileRange
+    {
+        int firstCol;
+        int lastCol;
+        int firstRow;
+        int lastRow;
 
-		public TileRange(int col, int row) : this(col, row, col, row) { }
+        public TileRange(int col, int row) : this(col, row, col, row) { }
 
-		public TileRange(int firstCol, int firstRow, int lastCol, int lastRow)
-		{
-			this.firstCol = firstCol;
-			this.lastCol = lastCol;
-			this.firstRow = firstRow;
-			this.lastRow = lastRow;
-		}
+        public TileRange(int firstCol, int firstRow, int lastCol, int lastRow)
+        {
+            this.firstCol = firstCol;
+            this.lastCol = lastCol;
+            this.firstRow = firstRow;
+            this.lastRow = lastRow;
+        }
 
-		public int FirstCol
-		{
-			get { return firstCol; }
-			set { firstCol = value; }
-		}
+        public int FirstCol
+        {
+            get { return firstCol; }
+            set { firstCol = value; }
+        }
 
-		public int LastCol
-		{
-			get { return lastCol; }
-			set { lastCol = value; }
-		}
+        public int LastCol
+        {
+            get { return lastCol; }
+            set { lastCol = value; }
+        }
 
-		public int FirstRow
-		{
-			get { return firstRow; }
-			set { firstRow = value; }
-		}
+        public int FirstRow
+        {
+            get { return firstRow; }
+            set { firstRow = value; }
+        }
 
-		public int LastRow
-		{
-			get { return lastRow; }
-			set { lastRow = value; }
-		}
+        public int LastRow
+        {
+            get { return lastRow; }
+            set { lastRow = value; }
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (!(obj is TileRange))
-				return false;
+        public override bool Equals(object obj)
+        {
+            if (!(obj is TileRange))
+                return false;
 
-			return Equals((TileRange)obj);
-		}
+            return Equals((TileRange)obj);
+        }
 
-		public bool Equals(TileRange tileRange)
-		{
-			return
-			  this.firstCol == tileRange.firstCol &&
-			  this.lastCol == tileRange.lastCol &&
-			  this.firstRow == tileRange.firstRow &&
-			  this.lastRow == tileRange.lastRow;
-		}
+        public bool Equals(TileRange tileRange)
+        {
+            return
+              this.firstCol == tileRange.firstCol &&
+              this.lastCol == tileRange.lastCol &&
+              this.firstRow == tileRange.firstRow &&
+              this.lastRow == tileRange.lastRow;
+        }
 
-		public override int GetHashCode()
-		{
-			return firstCol ^ lastCol ^ firstRow ^ lastRow;
-		}
+        public override int GetHashCode()
+        {
+            return firstCol ^ lastCol ^ firstRow ^ lastRow;
+        }
 
-		public static bool operator ==(TileRange tileRange1, TileRange tileRange2)
-		{
-			return Equals(tileRange1, tileRange2);
-		}
+        public static bool operator ==(TileRange tileRange1, TileRange tileRange2)
+        {
+            return Equals(tileRange1, tileRange2);
+        }
 
-		public static bool operator !=(TileRange tileRange1, TileRange tileRange2)
-		{
-			return !Equals(tileRange1, tileRange2);
-		}
-	}
+        public static bool operator !=(TileRange tileRange1, TileRange tileRange2)
+        {
+            return !Equals(tileRange1, tileRange2);
+        }
+    }
 }

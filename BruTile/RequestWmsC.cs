@@ -22,67 +22,72 @@ using System.Text;
 
 namespace BruTile
 {
-	public class RequestWmsC : IRequestBuilder
-	{
-		private ITileSchema schema;
-		private Uri baseUrl;
-		Dictionary<string, string> customParameters;
-		IList<string> layers;
-		IList<string> styles;
+    public class RequestWmsC : IRequestBuilder
+    {
+        private ITileSchema schema;
+        private Uri baseUrl;
+        Dictionary<string, string> customParameters;
+        IList<string> layers;
+        IList<string> styles;
 
-		public RequestWmsC(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, Dictionary<string, string> customParameters)
-		{
-			this.baseUrl = baseUrl;
-			this.schema = schema;
-			this.customParameters = customParameters;
-			this.layers = layers;
-			this.styles = styles;
-		}
+        public RequestWmsC(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, Dictionary<string, string> customParameters)
+        {
+            this.baseUrl = baseUrl;
+            this.schema = schema;
+            this.customParameters = customParameters;
+            this.layers = layers;
+            this.styles = styles;
+        }
 
-		public Uri GetUrl(TileInfo tile)
-		{
-			StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
+        /// <summary>
+        /// Generates a URI at which to get the data for a tile.
+        /// </summary>
+        /// <param name="tile">Information about a tile.</param>
+        /// <returns>The URI at which to get the data for the specified tile.</returns>
+        public Uri GetUri(TileInfo tile)
+        {
+            StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
 
-			//TODO: look at .net's UriBuilder for improvement
-			//http://msdn.microsoft.com/en-us/library/system.uribuilder.aspx
-			//note that the first & assumes a preceiding argument, this is not
-			//always the case.
+            //TODO: look at .net's UriBuilder for improvement
+            //http://msdn.microsoft.com/en-us/library/system.uribuilder.aspx
+            //note that the first & assumes a preceiding argument, this is not
+            //always the case.
 
-			url.Append("&SERVICE=WMS");
-			url.Append("&REQUEST=GetMap");
-			url.AppendFormat("&BBOX={0}", tile.Extent.ToString());
-			url.AppendFormat("&FORMAT={0}", schema.Format);
-			url.AppendFormat("&WIDTH={0}", schema.Width);
-			url.AppendFormat("&HEIGHT={0}", schema.Height);
-			url.AppendFormat("&SRS={0}", schema.Srs);
-			url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(layers));
-			///url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(styles));
+            url.Append("&SERVICE=WMS");
+            url.Append("&REQUEST=GetMap");
+            url.AppendFormat("&BBOX={0}", tile.Extent.ToString());
+            url.AppendFormat("&FORMAT={0}", schema.Format);
+            url.AppendFormat("&WIDTH={0}", schema.Width);
+            url.AppendFormat("&HEIGHT={0}", schema.Height);
+            url.AppendFormat("&SRS={0}", schema.Srs);
+            url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(layers));
+            ///url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(styles));
 
-			AppendCustomParameters(url);
+            AppendCustomParameters(url);
 
-			return new Uri(url.ToString());
-		}
+            return new Uri(url.ToString());
+        }
 
-		private static string ToCommaSeparatedValues(IList<string> items)
-		{
-			StringBuilder result = new StringBuilder();
-			foreach (string str in items)
-			{
-				result.AppendFormat(CultureInfo.InvariantCulture, ",{0}", str);
-			}
-			if (result.Length > 0) result.Remove(0, 1);
-			return result.ToString();
-		}
+        private static string ToCommaSeparatedValues(IList<string> items)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (string str in items)
+            {
+                result.AppendFormat(CultureInfo.InvariantCulture, ",{0}", str);
+            }
+            if (result.Length > 0) result.Remove(0, 1);
+            return result.ToString();
+        }
 
-		private void AppendCustomParameters(System.Text.StringBuilder url)
-		{
-			if (customParameters != null && customParameters.Count > 0)
-			{
-				foreach (string name in customParameters.Keys)
-				{
-					url.AppendFormat("&{0}={1}", name, customParameters[name]);
-				}
-			}
-		}
-	}
+        private void AppendCustomParameters(System.Text.StringBuilder url)
+        {
+            if (customParameters != null && customParameters.Count > 0)
+            {
+                foreach (string name in customParameters.Keys)
+                {
+                    url.AppendFormat("&{0}={1}", name, customParameters[name]);
+                }
+            }
+        }
+    }
 }
