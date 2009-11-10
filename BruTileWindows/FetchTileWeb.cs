@@ -62,7 +62,7 @@ namespace BruTileWindows
             {
                 try
                 {
-                    bytes = BruTile.Util.ReadFully(e.Result);
+                    bytes = BruTile.Utilities.ReadFully(e.Result);
                 }
                 catch (Exception ex)
                 {

@@ -69,7 +69,7 @@ namespace BruTile
                 if (!Exists(key)) return null; // to indicate not found
                 using (FileStream fileStream = new FileStream(GetFileName(key), FileMode.Open, FileAccess.Read))
                 {
-                    return Util.ReadFully(fileStream);
+                    return Utilities.ReadFully(fileStream);
                 }
             }
         }
