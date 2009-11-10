@@ -37,7 +37,7 @@ namespace BruTile
             {
                 using (Stream responseStream = webResponse.GetResponseStream())
                 {
-                    return Util.ReadFully(responseStream);
+                    return Utilities.ReadFully(responseStream);
                 }
             }
             else

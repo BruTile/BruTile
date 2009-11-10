@@ -60,18 +60,13 @@ namespace BruTileMap
 
             for (int i = 0; i < tiles.Count; i++)
             {
-                double priority = -Distance(centerX, centerY, tiles[i].Extent.CenterX, tiles[i].Extent.CenterY);
+                double priority = -Utilities.Distance(centerX, centerY, tiles[i].Extent.CenterX, tiles[i].Extent.CenterY);
                 tiles[i].Priority = priority;
             }
 
             tiles.Sort(sorter);
             return tiles;
-        }
-
-        private static double Distance(double x1, double y1, double x2, double y2)
-        {
-            return Math.Sqrt(Math.Pow(x1 - x2, 2f) + Math.Pow(y1 - y2, 2f));
-        }
+        }       
 
         private class Sorter : IComparer<TileInfo>
         {
