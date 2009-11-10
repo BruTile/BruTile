@@ -19,90 +19,90 @@ using System;
 
 namespace BruTile
 {
-  public struct TileKey : IComparable
-  {
-    private int col;
-    private int row;
-    private int level;
+	public struct TileKey : IComparable
+	{
+		private int col;
+		private int row;
+		private int level;
 
-    public int Col
-    {
-      get { return col; }
-    }
+		public int Col
+		{
+			get { return col; }
+		}
 
-    public int Row
-    {
-      get { return row; }
-    }
+		public int Row
+		{
+			get { return row; }
+		}
 
-    public int Level
-    {
-      get { return level; }
-    }
+		public int Level
+		{
+			get { return level; }
+		}
 
-    public TileKey(int col, int row, int level)
-    {
-      this.col = col;
-      this.row = row;
-      this.level = level;
-    }
+		public TileKey(int col, int row, int level)
+		{
+			this.col = col;
+			this.row = row;
+			this.level = level;
+		}
 
-    public int CompareTo(object obj)
-    {
-      if (!(obj is TileKey))
-      {
-        throw new ArgumentException("object of type TileKey was expected");
-      }
-      return CompareTo((TileKey)obj);
-    }
+		public int CompareTo(object obj)
+		{
+			if (!(obj is TileKey))
+			{
+				throw new ArgumentException("object of type TileKey was expected");
+			}
+			return CompareTo((TileKey)obj);
+		}
 
-    public int CompareTo(TileKey key)
-    {
-      if (col < key.col) return -1;
-      if (col > key.col) return 1;
-      if (row < key.row) return -1;
-      if (row > key.row) return 1;
-      if (level < key.level) return -1;
-      if (level > key.level) return 1;
-      return 0;
-    }
+		public int CompareTo(TileKey key)
+		{
+			if (col < key.col) return -1;
+			if (col > key.col) return 1;
+			if (row < key.row) return -1;
+			if (row > key.row) return 1;
+			if (level < key.level) return -1;
+			if (level > key.level) return 1;
+			return 0;
+		}
 
-    public override bool Equals(object obj)
-    {
-      if (!(obj is TileKey))
-        return false;
-      
-      return Equals((TileKey)obj);
-    }
+		public override bool Equals(object obj)
+		{
+			if (!(obj is TileKey))
+				return false;
 
-    public bool Equals(TileKey key)
-    {
-      return col == key.col && row == key.row && level == key.level;
-    }
+			return Equals((TileKey)obj);
+		}
 
-    public override int GetHashCode()
-    {
-      return col ^ row ^ level;
-    }
+		public bool Equals(TileKey key)
+		{
+			return col == key.col && row == key.row && level == key.level;
+		}
 
-    public static bool operator ==(TileKey key1, TileKey key2)
-    {
-      return Equals(key1, key2);
-    }
+		public override int GetHashCode()
+		{
+			return col ^ row ^ level;
+		}
 
-    public static bool operator !=(TileKey key1, TileKey key2)
-    {
-      return !Equals(key1, key2);
-    }
+		public static bool operator ==(TileKey key1, TileKey key2)
+		{
+			return Equals(key1, key2);
+		}
 
-    public static bool operator <(TileKey key1, TileKey key2)
-    {
-      return (key1.CompareTo(key2) < 0);
-    }
+		public static bool operator !=(TileKey key1, TileKey key2)
+		{
+			return !Equals(key1, key2);
+		}
 
-    public static bool operator >(TileKey key1, TileKey key2)
-    {
-      return (key1.CompareTo(key2) > 0);
-    }  
-  }
+		public static bool operator <(TileKey key1, TileKey key2)
+		{
+			return (key1.CompareTo(key2) < 0);
+		}
+
+		public static bool operator >(TileKey key1, TileKey key2)
+		{
+			return (key1.CompareTo(key2) > 0);
+		}
+	}
 }

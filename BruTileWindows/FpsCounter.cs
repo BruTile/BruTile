@@ -21,83 +21,83 @@ using System.Windows;
 
 namespace BruTileWindows
 {
-  /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
-  public class FpsCounter : DependencyObject, INotifyPropertyChanged
-  {
-    #region Fields
+	/// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
+	public class FpsCounter : DependencyObject, INotifyPropertyChanged
+	{
+		#region Fields
 
-    private double elapsed;
-    private double totalElapsed;
-    private int lastTick;
-    private int currentTick;
-    private int frameCount;
-    private double frameCountTime;
-   
-    #endregion
+		private double elapsed;
+		private double totalElapsed;
+		private int lastTick;
+		private int currentTick;
+		private int frameCount;
+		private double frameCountTime;
 
-    #region DependencyProperties
+		#endregion
 
-    private static readonly DependencyProperty FpsProperty = DependencyProperty.Register(
-      "Fps", typeof(int), typeof(FpsCounter), new PropertyMetadata(0));
+		#region DependencyProperties
+
+		private static readonly DependencyProperty FpsProperty = DependencyProperty.Register(
+		  "Fps", typeof(int), typeof(FpsCounter), new PropertyMetadata(0));
 
 
-    #endregion
+		#endregion
 
-    #region Properties
-    
-    public int Fps
-    {
-      get { return (int)GetValue(FpsProperty); }
-      set
-      {
-        SetValue(FpsProperty, value); 
-        OnPropertyChanged("Fps");
-      }
-    }
+		#region Properties
 
-    #endregion
+		public int Fps
+		{
+			get { return (int)GetValue(FpsProperty); }
+			set
+			{
+				SetValue(FpsProperty, value);
+				OnPropertyChanged("Fps");
+			}
+		}
 
-    #region Methods
+		#endregion
 
-    public FpsCounter()
-    {
-      this.lastTick = Environment.TickCount;
-    }
+		#region Methods
 
-    public void FramePlusOne()
-    {
-      this.currentTick = Environment.TickCount;
-      this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
-      this.totalElapsed += this.elapsed;
-      this.lastTick = this.currentTick;
+		public FpsCounter()
+		{
+			this.lastTick = Environment.TickCount;
+		}
 
-      frameCount++;
-      frameCountTime += elapsed;
-      if (frameCountTime >= 1.0)
-      {
-        frameCountTime -= 1.0;
-        Fps = frameCount;
-        frameCount = 0;
-      }
-    }
+		public void FramePlusOne()
+		{
+			this.currentTick = Environment.TickCount;
+			this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
+			this.totalElapsed += this.elapsed;
+			this.lastTick = this.currentTick;
 
-    private void OnPropertyChanged(string propertyName)
-    {
-      if (PropertyChanged != null)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-      }
+			frameCount++;
+			frameCountTime += elapsed;
+			if (frameCountTime >= 1.0)
+			{
+				frameCountTime -= 1.0;
+				Fps = frameCount;
+				frameCount = 0;
+			}
+		}
 
-    }
+		private void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 
-    #endregion
+		}
 
-    #region INotifyPropertyChanged Members
+		#endregion
 
-    public event PropertyChangedEventHandler PropertyChanged;
+		#region INotifyPropertyChanged Members
 
-    #endregion
-      
-        
-  }
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		#endregion
+
+
+	}
 }

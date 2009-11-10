@@ -16,16 +16,13 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
 
 namespace BruTile
 {
-  public class ValidationException : Exception
-  {
-    public ValidationException() : base() {}
-    public ValidationException(string message) : base(message) {}
-    public ValidationException(string message, Exception innerException) : base(message, innerException) {}
-  }
+	public class ValidationException : Exception
+	{
+		public ValidationException() : base() { }
+		public ValidationException(string message) : base(message) { }
+		public ValidationException(string message, Exception innerException) : base(message, innerException) { }
+	}
 }

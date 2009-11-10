@@ -15,15 +15,12 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BruTile
 {
-  internal interface IAxis
-  {
-    TileRange WorldToTile(Extent extent, int level, ITileSchema schema);
-    Extent TileToWorld(TileRange range, int level, ITileSchema schema);
-  }
+	internal interface IAxis
+	{
+		TileRange WorldToTile(Extent extent, int level, ITileSchema schema);
+		Extent TileToWorld(TileRange range, int level, ITileSchema schema);
+	}
 }
