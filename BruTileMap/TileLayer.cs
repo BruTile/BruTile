@@ -21,102 +21,102 @@ using BruTile;
 
 namespace BruTileMap
 {
-  public class TileLayer<T> : IDisposable
-  {
-    #region Fields
+	public class TileLayer<T> : IDisposable
+	{
+		#region Fields
 
-    ITileSchema schema;
-    TileFetcher<T> tileFetcher;
+		ITileSchema schema;
+		TileFetcher<T> tileFetcher;
 #if PocketPC
     MemoryCache<T> memoryCache = new MemoryCache<T>(40, 60);
 #else
-    MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
+		MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
 #endif
-    const int maxRetries = 3;
-    ITileFactory<T> tileFactory;
-    
-    #endregion
+		const int maxRetries = 3;
+		ITileFactory<T> tileFactory;
 
-    #region EventHandlers
+		#endregion
 
-    public event AsyncCompletedEventHandler DataUpdated;
+		#region EventHandlers
 
-    #endregion
+		public event AsyncCompletedEventHandler DataUpdated;
 
-    #region Properties
+		#endregion
 
-    public ITileSchema Schema
-    {
-      //TODO: check if we need realy need this property
-      get { return schema; }
-    }
+		#region Properties
 
-    public MemoryCache<T> MemoryCache
-    {
-      get { return memoryCache; }
-    }
+		public ITileSchema Schema
+		{
+			//TODO: check if we need realy need this property
+			get { return schema; }
+		}
 
-    #endregion
+		public MemoryCache<T> MemoryCache
+		{
+			get { return memoryCache; }
+		}
 
-    #region Constructors
+		#endregion
 
-    public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
-    {
-      this.schema = schema;
-      tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
-      this.tileFactory = tileFactory;
-      RegisterEventHandlers();
-    }
+		#region Constructors
 
-    ~TileLayer()
-    {
-    }
-    #endregion
+		public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
+		{
+			this.schema = schema;
+			tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
+			this.tileFactory = tileFactory;
+			RegisterEventHandlers();
+		}
 
-    #region Public Methods
+		~TileLayer()
+		{
+		}
+		#endregion
 
-    public void UpdateData(Extent extent, double resolution)
-    {
-      tileFetcher.UpdateData(extent, resolution);
-    }
+		#region Public Methods
 
-    #endregion
+		public void UpdateData(Extent extent, double resolution)
+		{
+			tileFetcher.UpdateData(extent, resolution);
+		}
 
-    #region Private Methods
+		#endregion
 
-    private void RegisterEventHandlers()
-    {
-      tileFetcher.FetchCompleted += new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
-    }
+		#region Private Methods
 
-    private void UnRegisterEventHandlers()
-    {
-      tileFetcher.FetchCompleted -= new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
-    }
+		private void RegisterEventHandlers()
+		{
+			tileFetcher.FetchCompleted += new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+		}
 
-    private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
-    {
-      OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
-    }
-        
-    private void OnDataUpdated(AsyncCompletedEventArgs e)
-    {
-      if (DataUpdated != null)
-        DataUpdated(this, e);
-    }
-    #endregion
+		private void UnRegisterEventHandlers()
+		{
+			tileFetcher.FetchCompleted -= new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+		}
 
-    #region IDisposable Members
+		private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
+		{
+			OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
+		}
 
-    public void Dispose()
-    {
-      if (tileFetcher != null)
-      {
-        UnRegisterEventHandlers();
-        tileFetcher.Dispose();
-      }
-    }
+		private void OnDataUpdated(AsyncCompletedEventArgs e)
+		{
+			if (DataUpdated != null)
+				DataUpdated(this, e);
+		}
+		#endregion
 
-    #endregion
-  }
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			if (tileFetcher != null)
+			{
+				UnRegisterEventHandlers();
+				tileFetcher.Dispose();
+			}
+		}
+
+		#endregion
+	}
 }

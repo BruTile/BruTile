@@ -16,13 +16,11 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BruTile
 {
-  public interface IRequestBuilder
-  {
-    Uri GetUrl(TileInfo tile);
-  }
+	public interface IRequestBuilder
+	{
+		Uri GetUrl(TileInfo tile);
+	}
 }

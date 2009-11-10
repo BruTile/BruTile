@@ -22,61 +22,61 @@ using System.Net;
 
 namespace BruTile
 {
-  public static class ImageRequest
-  {
-    public static byte[] GetImageFromServer(Uri url)
-    {
-      WebRequest webRequest = WebRequest.Create(url);
-      
-      //This clumsy way to do a synchronous request is for compatibility with Silverlight
-      IAsyncResult result = webRequest.BeginGetResponse(null, null);
-      result.AsyncWaitHandle.WaitOne();
-      WebResponse webResponse = webRequest.EndGetResponse(result);
+	public static class ImageRequest
+	{
+		public static byte[] GetImageFromServer(Uri url)
+		{
+			WebRequest webRequest = WebRequest.Create(url);
 
-      if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-      {
-        using (Stream responseStream = webResponse.GetResponseStream())
-        {
-          return Util.ReadFully(responseStream);
-        }
-      }
-      else
-      {
-        string message = CreateErrorMessage(webResponse, url.AbsoluteUri);
-        throw (new WebResponseFormatException(message, null));
-      }
-    }
-   
-    private static string CreateErrorMessage(WebResponse webResponse, string url)
-    {
-      string message = String.Format(CultureInfo.InvariantCulture,
-        "Failed to retrieve tile from this url:\n{0}\n." +
-       "An image was expected but the received type was '{1}'.",
-        url, webResponse.ContentType);
+			//This clumsy way to do a synchronous request is for compatibility with Silverlight
+			IAsyncResult result = webRequest.BeginGetResponse(null, null);
+			result.AsyncWaitHandle.WaitOne();
+			WebResponse webResponse = webRequest.EndGetResponse(result);
 
-      if (webResponse.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase))
-      {
-        using (Stream stream = webResponse.GetResponseStream())
-        {
-          message += String.Format(CultureInfo.InvariantCulture, 
-            "\nThis was returned:\n{0}", ReadAllText(stream));
-        }
-      }
-      return message;
-    }
+			if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+			{
+				using (Stream responseStream = webResponse.GetResponseStream())
+				{
+					return Util.ReadFully(responseStream);
+				}
+			}
+			else
+			{
+				string message = CreateErrorMessage(webResponse, url.AbsoluteUri);
+				throw (new WebResponseFormatException(message, null));
+			}
+		}
 
-    private static string ReadAllText(Stream responseStream)
-    {
-      using (StreamReader streamReader = new StreamReader(responseStream, true))
-      {
-        using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
-        {
-          stringWriter.Write(streamReader.ReadToEnd());
-          return stringWriter.ToString();
-        }
-      }
-    }
+		private static string CreateErrorMessage(WebResponse webResponse, string url)
+		{
+			string message = String.Format(CultureInfo.InvariantCulture,
+			  "Failed to retrieve tile from this url:\n{0}\n." +
+			 "An image was expected but the received type was '{1}'.",
+			  url, webResponse.ContentType);
+
+			if (webResponse.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase))
+			{
+				using (Stream stream = webResponse.GetResponseStream())
+				{
+					message += String.Format(CultureInfo.InvariantCulture,
+					  "\nThis was returned:\n{0}", ReadAllText(stream));
+				}
+			}
+			return message;
+		}
+
+		private static string ReadAllText(Stream responseStream)
+		{
+			using (StreamReader streamReader = new StreamReader(responseStream, true))
+			{
+				using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
+				{
+					stringWriter.Write(streamReader.ReadToEnd());
+					return stringWriter.ToString();
+				}
+			}
+		}
 
 
-  }
+	}
 }

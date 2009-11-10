@@ -15,34 +15,31 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BruTile
 {
-  public class TileInfo
-  {
-    private TileKey key;
-    private Extent extent;
-    private double priority;
-    
-    public TileKey Key
-    {
-      get { return key; }
-      set { key = value; }
-    }
+	public class TileInfo
+	{
+		private TileKey key;
+		private Extent extent;
+		private double priority;
 
-    public Extent Extent
-    {
-      get { return extent; }
-      set { extent = value; }
-    }
+		public TileKey Key
+		{
+			get { return key; }
+			set { key = value; }
+		}
 
-    public double Priority
-    {
-      get { return priority; }
-      set { priority = value; }
-    }    
-  }
+		public Extent Extent
+		{
+			get { return extent; }
+			set { extent = value; }
+		}
+
+		public double Priority
+		{
+			get { return priority; }
+			set { priority = value; }
+		}
+	}
 }

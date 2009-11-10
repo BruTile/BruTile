@@ -15,15 +15,13 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.IO;
 
 namespace BruTile
 {
-  public interface ITileCache<T>
-  {
-    void Add(TileKey key, T image);
-    void Remove(TileKey key);
-    T Find(TileKey key);
-  }
+	public interface ITileCache<T>
+	{
+		void Add(TileKey key, T image);
+		void Remove(TileKey key);
+		T Find(TileKey key);
+	}
 }

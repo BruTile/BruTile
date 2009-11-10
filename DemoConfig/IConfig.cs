@@ -15,18 +15,14 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BruTile;
 
 namespace DemoConfig
 {
-  //IConfig is currently used for demo purposes. This will probably not be part of a release
-  public interface IConfig
-  {
-    IRequestBuilder RequestBuilder { get; }
-    ITileSchema TileSchema { get; }
-  }
+	//IConfig is currently used for demo purposes. This will probably not be part of a release
+	public interface IConfig
+	{
+		IRequestBuilder RequestBuilder { get; }
+		ITileSchema TileSchema { get; }
+	}
 }

@@ -16,59 +16,59 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using BruTile;
 using System.Collections.Generic;
+using BruTile;
 
 namespace DemoConfig
 {
-  public class ConfigWmsC : IConfig
-  {
-    string format = "png";
-    string name = "Geodan TMS";
-    string url = "http://geoserver.nl/tiles/tilecache.aspx?";
+	public class ConfigWmsC : IConfig
+	{
+		string format = "png";
+		string name = "Geodan TMS";
+		string url = "http://geoserver.nl/tiles/tilecache.aspx?";
 
-    private static double[] resolutions = new double[] { 
+		private static double[] resolutions = new double[] { 
       156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
       9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
       611.496226172, 305.748113086, 152.874056543, 76.437028271, 
       38.218514136, 19.109257068, 9.554628534, 4.777314267, 
       2.388657133, 1.194328567, 0.597164283};
 
-    #region IConfig Members
+		#region IConfig Members
 
-    public IRequestBuilder RequestBuilder
-    {
-      get
-      {
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("seriveparam","ortho10");
-        
-        
-        RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
-          new List<string>(new string[] { "world_GM" }), new List<string>(), parameters);
-        return request;
-      }
-    }
+		public IRequestBuilder RequestBuilder
+		{
+			get
+			{
+				Dictionary<string, string> parameters = new Dictionary<string, string>();
+				parameters.Add("seriveparam", "ortho10");
 
-    public ITileSchema TileSchema
-    {
-      get 
-      {
-        TileSchema schema = new TileSchema();
-        foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
-        schema.Height = 256;
-        schema.Width = 256;
-        schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
-        schema.OriginX = -20037508.342789;
-        schema.OriginY = -20037508.342789;
-        schema.Name = name;
-        schema.Format = format;
-        schema.Axis = AxisDirection.Normal;
-        schema.Srs = "EPSG:900913";
-        return schema;
-      }
-    }
 
-    #endregion
-  }
+				RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
+				  new List<string>(new string[] { "world_GM" }), new List<string>(), parameters);
+				return request;
+			}
+		}
+
+		public ITileSchema TileSchema
+		{
+			get
+			{
+				TileSchema schema = new TileSchema();
+				foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
+				schema.Height = 256;
+				schema.Width = 256;
+				schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
+				schema.OriginX = -20037508.342789;
+				schema.OriginY = -20037508.342789;
+				schema.Name = name;
+				schema.Format = format;
+				schema.Axis = AxisDirection.Normal;
+				schema.Srs = "EPSG:900913";
+				return schema;
+			}
+		}
+
+		#endregion
+	}
 }

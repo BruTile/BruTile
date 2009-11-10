@@ -20,8 +20,8 @@ using BruTile;
 
 namespace BruTileMap
 {
-  interface IFetchStrategy
-  {
-    IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level);
-  }
+	interface IFetchStrategy
+	{
+		IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level);
+	}
 }

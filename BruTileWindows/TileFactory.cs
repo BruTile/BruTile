@@ -16,21 +16,19 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System.IO;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using BruTileMap;
 
 namespace BruTileWindows
 {
-  public class TileFactory : ITileFactory<MemoryStream>
-    {
-        #region ITileFactory<Bitmap> Members
+	public class TileFactory : ITileFactory<MemoryStream>
+	{
+		#region ITileFactory<Bitmap> Members
 
-        public MemoryStream GetTile(byte[] bytes)
-        {
-          return new MemoryStream(bytes);
-        }
+		public MemoryStream GetTile(byte[] bytes)
+		{
+			return new MemoryStream(bytes);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

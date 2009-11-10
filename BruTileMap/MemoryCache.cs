@@ -17,161 +17,161 @@
 
 using System;
 using System.Collections.Generic;
-using BruTile;
 using System.ComponentModel;
+using BruTile;
 
 namespace BruTileMap
 {
-  public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
-  {
-    #region Fields
-      
-    private Dictionary<TileKey, T> bitmaps 
-      = new Dictionary<TileKey, T>();
+	public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
+	{
+		#region Fields
 
-    private Dictionary<TileKey, DateTime> touched
-      = new Dictionary<TileKey, DateTime>();
+		private Dictionary<TileKey, T> bitmaps
+		  = new Dictionary<TileKey, T>();
 
-    private object syncRoot = new object();
-    private int maxTiles = 20;
-    private int minTiles = 10;
-    private delegate void SetTileCountDelegate(int count);
-    
-    #endregion
-    
-    #region Public Methods
+		private Dictionary<TileKey, DateTime> touched
+		  = new Dictionary<TileKey, DateTime>();
 
-    public MemoryCache(int minTiles, int maxTiles)
-    {
-      if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
-      if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
-      if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
+		private object syncRoot = new object();
+		private int maxTiles = 20;
+		private int minTiles = 10;
+		private delegate void SetTileCountDelegate(int count);
 
-      this.minTiles = minTiles;
-      this.maxTiles = maxTiles;
-    }
+		#endregion
 
-    public void Add(TileKey key, T item)
-    {
-      lock (syncRoot)
-      {
-        if (bitmaps.ContainsKey(key))
-        {
-          bitmaps[key] = item;
-          touched[key] = DateTime.Now;
-        }
-        else
-        {
-          touched.Add(key, DateTime.Now);
-          bitmaps.Add(key, item);
-          if (bitmaps.Count > maxTiles) CleanUp();
-    		  this.OnNotifyPropertyChange("TileCount");
-         }
-      }
-    }
- 
-    public void Remove(TileKey key)
-    {
-      lock (syncRoot)
-      {
-        if (!bitmaps.ContainsKey(key)) return; //ignore if not exists
-        touched.Remove(key);
-        bitmaps.Remove(key);
-		    this.OnNotifyPropertyChange("TileCount");
-      }
-    }
+		#region Public Methods
 
-    public T Find(TileKey key)
-    {
-      lock (syncRoot)
-      {
-        if (!bitmaps.ContainsKey(key))
-        {
-          return default(T);
-        }
-        else
-        {
-          touched[key] = DateTime.Now;
-          return bitmaps[key];
-        }
-      }
-    }
+		public MemoryCache(int minTiles, int maxTiles)
+		{
+			if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
+			if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
+			if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
 
-    #endregion
+			this.minTiles = minTiles;
+			this.maxTiles = maxTiles;
+		}
 
-    #region Private Methods
+		public void Add(TileKey key, T item)
+		{
+			lock (syncRoot)
+			{
+				if (bitmaps.ContainsKey(key))
+				{
+					bitmaps[key] = item;
+					touched[key] = DateTime.Now;
+				}
+				else
+				{
+					touched.Add(key, DateTime.Now);
+					bitmaps.Add(key, item);
+					if (bitmaps.Count > maxTiles) CleanUp();
+					this.OnNotifyPropertyChange("TileCount");
+				}
+			}
+		}
 
-    private void CleanUp()
-    {
-      lock (syncRoot)
-      {
-        //Purpose: Remove the older tiles so that the newest x tiles are left.
-        TouchPermaCache(touched);
-        DateTime cutoff = GetCutOff(touched, minTiles);
-        List<TileKey> oldItems = GetOldItems(touched, ref cutoff);
-        foreach (TileKey key in oldItems)
-        {
-          Remove(key);
-        }
-      }
-    }
+		public void Remove(TileKey key)
+		{
+			lock (syncRoot)
+			{
+				if (!bitmaps.ContainsKey(key)) return; //ignore if not exists
+				touched.Remove(key);
+				bitmaps.Remove(key);
+				this.OnNotifyPropertyChange("TileCount");
+			}
+		}
 
-    private void TouchPermaCache(Dictionary<TileKey, DateTime> touched)
-    {
-      List<TileKey> keys = new List<TileKey>();
-      //This is a temporary solution to preserve level zero tiles in memory.
-      foreach (TileKey key in touched.Keys) if (key.Level == 0) keys.Add(key); 
-      foreach (TileKey key in keys) touched[key] = DateTime.Now;
-    }
-    
-    private static DateTime GetCutOff(Dictionary<TileKey, DateTime> touched,
-      int lowerLimit)
-    {
-      List<DateTime> times = new List<DateTime>();
-      foreach (DateTime time in touched.Values)
-      {
-        times.Add(time);
-      }
-      times.Sort();
-      return times[times.Count - lowerLimit];
-    }
+		public T Find(TileKey key)
+		{
+			lock (syncRoot)
+			{
+				if (!bitmaps.ContainsKey(key))
+				{
+					return default(T);
+				}
+				else
+				{
+					touched[key] = DateTime.Now;
+					return bitmaps[key];
+				}
+			}
+		}
 
-    private static List<TileKey> GetOldItems(Dictionary<TileKey, DateTime> touched, 
-      ref DateTime cutoff)
-    {
-      List<TileKey> oldItems = new List<TileKey>();
-      foreach (TileKey key in touched.Keys)
-      {
-        if (touched[key] < cutoff)
-        {
-          oldItems.Add(key);
-        }
-      }
-      return oldItems;
-    }
+		#endregion
 
-    #endregion
+		#region Private Methods
 
-	  public int TileCount
-	  {
-		  get
-		  {
-			  return this.bitmaps.Count;
-		  }
-	  }
+		private void CleanUp()
+		{
+			lock (syncRoot)
+			{
+				//Purpose: Remove the older tiles so that the newest x tiles are left.
+				TouchPermaCache(touched);
+				DateTime cutoff = GetCutOff(touched, minTiles);
+				List<TileKey> oldItems = GetOldItems(touched, ref cutoff);
+				foreach (TileKey key in oldItems)
+				{
+					Remove(key);
+				}
+			}
+		}
 
-	  #region INotifyPropertyChanged Members
+		private void TouchPermaCache(Dictionary<TileKey, DateTime> touched)
+		{
+			List<TileKey> keys = new List<TileKey>();
+			//This is a temporary solution to preserve level zero tiles in memory.
+			foreach (TileKey key in touched.Keys) if (key.Level == 0) keys.Add(key);
+			foreach (TileKey key in keys) touched[key] = DateTime.Now;
+		}
 
-	  protected virtual void OnNotifyPropertyChange(string propertyName)
-	  {
-		  if (this.PropertyChanged != null)
-		  {
-			  this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		  }
-	  }
+		private static DateTime GetCutOff(Dictionary<TileKey, DateTime> touched,
+		  int lowerLimit)
+		{
+			List<DateTime> times = new List<DateTime>();
+			foreach (DateTime time in touched.Values)
+			{
+				times.Add(time);
+			}
+			times.Sort();
+			return times[times.Count - lowerLimit];
+		}
 
-	  public event PropertyChangedEventHandler PropertyChanged;
+		private static List<TileKey> GetOldItems(Dictionary<TileKey, DateTime> touched,
+		  ref DateTime cutoff)
+		{
+			List<TileKey> oldItems = new List<TileKey>();
+			foreach (TileKey key in touched.Keys)
+			{
+				if (touched[key] < cutoff)
+				{
+					oldItems.Add(key);
+				}
+			}
+			return oldItems;
+		}
 
-	  #endregion
-  }
+		#endregion
+
+		public int TileCount
+		{
+			get
+			{
+				return this.bitmaps.Count;
+			}
+		}
+
+		#region INotifyPropertyChanged Members
+
+		protected virtual void OnNotifyPropertyChange(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		#endregion
+	}
 }

@@ -19,108 +19,108 @@ using BruTile;
 
 namespace BruTileMap
 {
-    public class BTPoint
-    {
-        public float X, Y;
+	public class BTPoint
+	{
+		public float X, Y;
 
-        public BTPoint()
-        {
-        }
+		public BTPoint()
+		{
+		}
 
-        public BTPoint(float X, float Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-    }
+		public BTPoint(float X, float Y)
+		{
+			this.X = X;
+			this.Y = Y;
+		}
+	}
 
-    public class MapTransform : ITransform
-    {
-        #region Fields
+	public class MapTransform : ITransform
+	{
+		#region Fields
 
-        double resolution;
-        BTPoint center = new BTPoint();
-        float width;
-        float height;
-        Extent extent;
+		double resolution;
+		BTPoint center = new BTPoint();
+		float width;
+		float height;
+		Extent extent;
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
 
-        public double Resolution
-        {
-            set
-            {
-                resolution = value;
-                UpdateExtent();
-            }
-            get
-            {
-                return resolution;
-            }
-        }
+		public double Resolution
+		{
+			set
+			{
+				resolution = value;
+				UpdateExtent();
+			}
+			get
+			{
+				return resolution;
+			}
+		}
 
-        public BTPoint Center
-        {
-            set
-            {
-                center = value;
-                UpdateExtent();
-            }
-            get
-            {
-                return center;
-            }
-        }
+		public BTPoint Center
+		{
+			set
+			{
+				center = value;
+				UpdateExtent();
+			}
+			get
+			{
+				return center;
+			}
+		}
 
-        public float Width
-        {
-            set
-            {
-                width = value;
-                UpdateExtent();
-            }
-            get { return width; }
-        }
+		public float Width
+		{
+			set
+			{
+				width = value;
+				UpdateExtent();
+			}
+			get { return width; }
+		}
 
-        public float Height
-        {
-            set
-            {
-                height = value;
-                UpdateExtent();
-            }
-            get { return height; }
-        }
+		public float Height
+		{
+			set
+			{
+				height = value;
+				UpdateExtent();
+			}
+			get { return height; }
+		}
 
-        public Extent Extent
-        {
-            get { return extent; }
-        }
+		public Extent Extent
+		{
+			get { return extent; }
+		}
 
-        public BTPoint WorldToMap(double x, double y)
-        {
-            return new BTPoint((float)(x - extent.MinX) / (float)resolution, (float)(extent.MaxY - y) / (float)resolution);
-        }
+		public BTPoint WorldToMap(double x, double y)
+		{
+			return new BTPoint((float)(x - extent.MinX) / (float)resolution, (float)(extent.MaxY - y) / (float)resolution);
+		}
 
-        public BTPoint MapToWorld(double x, double y)
-        {
-            return new BTPoint((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
-        }
+		public BTPoint MapToWorld(double x, double y)
+		{
+			return new BTPoint((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
+		}
 
-        #endregion
+		#endregion
 
-        #region Private Methods
+		#region Private Methods
 
-        private void UpdateExtent()
-        {
-            float spanX = width * (float)resolution;
-            float spanY = height * (float)resolution;
-            extent = new Extent(center.X - spanX * 0.5f, center.Y - spanY * 0.5f,
-              center.X + spanX * 0.5f, center.Y + spanY * 0.5f);
-        }
+		private void UpdateExtent()
+		{
+			float spanX = width * (float)resolution;
+			float spanY = height * (float)resolution;
+			extent = new Extent(center.X - spanX * 0.5f, center.Y - spanY * 0.5f,
+			  center.X + spanX * 0.5f, center.Y + spanY * 0.5f);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }
