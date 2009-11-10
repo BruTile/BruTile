@@ -61,7 +61,7 @@ namespace BruTile
             url.AppendFormat("&HEIGHT={0}", schema.Height);
             url.AppendFormat("&SRS={0}", schema.Srs);
             url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(layers));
-            ///url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(styles));
+            ///uri.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(styles));
 
             AppendCustomParameters(url);
 
