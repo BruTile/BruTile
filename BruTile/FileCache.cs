@@ -21,98 +21,98 @@ using System.IO;
 
 namespace BruTile
 {
-	public class FileCache : ITileCache<byte[]>
-	{
-		#region Fields
+    public class FileCache : ITileCache<byte[]>
+    {
+        #region Fields
 
-		private object syncRoot = new object();
-		private string directory;
-		private string format;
+        private object syncRoot = new object();
+        private string directory;
+        private string format;
 
-		#endregion
+        #endregion
 
-		#region Public Methods
-		/// <remarks>The constructor creates the storage directory if it does not exist.</remarks>
-		public FileCache(string directory, string format)
-		{
-			this.directory = directory;
-			this.format = format;
+        #region Public Methods
+        /// <remarks>The constructor creates the storage directory if it does not exist.</remarks>
+        public FileCache(string directory, string format)
+        {
+            this.directory = directory;
+            this.format = format;
 
-			if (!Directory.Exists(directory))
-			{
-				Directory.CreateDirectory(directory);
-			}
-		}
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
 
-		public void Add(TileKey key, byte[] image)
-		{
-			lock (syncRoot)
-			{
-				if (Exists(key)) return; //ignore
-				string dir = GetDirectoryName(key);
-				if (!Directory.Exists(dir))
-				{
-					Directory.CreateDirectory(dir);
-				}
+        public void Add(TileKey key, byte[] image)
+        {
+            lock (syncRoot)
+            {
+                if (Exists(key)) return; //ignore
+                string dir = GetDirectoryName(key);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
 
-				WriteToFile(image, key);
-			}
-		}
+                WriteToFile(image, key);
+            }
+        }
 
-		public byte[] Find(TileKey key)
-		{
-			lock (syncRoot)
-			{
-				if (!Exists(key)) return null; //to indicate not found
-				using (FileStream fileStream = new FileStream(GetFileName(key), FileMode.Open, FileAccess.Read))
-				{
-					return Util.ReadFully(fileStream);
-				}
-			}
-		}
+        public byte[] Find(TileKey key)
+        {
+            lock (syncRoot)
+            {
+                if (!Exists(key)) return null; //to indicate not found
+                using (FileStream fileStream = new FileStream(GetFileName(key), FileMode.Open, FileAccess.Read))
+                {
+                    return Util.ReadFully(fileStream);
+                }
+            }
+        }
 
-		public void Remove(TileKey key)
-		{
-			lock (syncRoot)
-			{
-				if (Exists(key))
-				{
-					File.Delete(GetFileName(key));
-				}
-			}
-		}
+        public void Remove(TileKey key)
+        {
+            lock (syncRoot)
+            {
+                if (Exists(key))
+                {
+                    File.Delete(GetFileName(key));
+                }
+            }
+        }
 
-		private bool Exists(TileKey key)
-		{
-			return File.Exists(GetFileName(key));
-		}
+        private bool Exists(TileKey key)
+        {
+            return File.Exists(GetFileName(key));
+        }
 
-		#endregion
+        #endregion
 
-		#region Private Methods
+        #region Private Methods
 
-		private string GetFileName(TileKey key)
-		{
-			return String.Format(CultureInfo.InvariantCulture,
-			  "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, format);
-		}
+        private string GetFileName(TileKey key)
+        {
+            return String.Format(CultureInfo.InvariantCulture,
+              "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, format);
+        }
 
-		private string GetDirectoryName(TileKey key)
-		{
-			return String.Format(CultureInfo.InvariantCulture,
-			  "{0}\\{1}\\{2}", directory, key.Level, key.Col);
-		}
+        private string GetDirectoryName(TileKey key)
+        {
+            return String.Format(CultureInfo.InvariantCulture,
+              "{0}\\{1}\\{2}", directory, key.Level, key.Col);
+        }
 
-		private void WriteToFile(byte[] image, TileKey key)
-		{
-			using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
-			{
-				fileStream.Write(image, 0, (int)image.Length);
-				fileStream.Flush();
-				fileStream.Close();
-			}
-		}
+        private void WriteToFile(byte[] image, TileKey key)
+        {
+            using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
+            {
+                fileStream.Write(image, 0, (int)image.Length);
+                fileStream.Flush();
+                fileStream.Close();
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

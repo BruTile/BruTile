@@ -21,102 +21,102 @@ using BruTile;
 
 namespace BruTileMap
 {
-	public class TileLayer<T> : IDisposable
-	{
-		#region Fields
+    public class TileLayer<T> : IDisposable
+    {
+        #region Fields
 
-		ITileSchema schema;
-		TileFetcher<T> tileFetcher;
+        ITileSchema schema;
+        TileFetcher<T> tileFetcher;
 #if PocketPC
     MemoryCache<T> memoryCache = new MemoryCache<T>(40, 60);
 #else
-		MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
+        MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
 #endif
-		const int maxRetries = 3;
-		ITileFactory<T> tileFactory;
+        const int maxRetries = 3;
+        ITileFactory<T> tileFactory;
 
-		#endregion
+        #endregion
 
-		#region EventHandlers
+        #region EventHandlers
 
-		public event AsyncCompletedEventHandler DataUpdated;
+        public event AsyncCompletedEventHandler DataUpdated;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public ITileSchema Schema
-		{
-			//TODO: check if we need realy need this property
-			get { return schema; }
-		}
+        public ITileSchema Schema
+        {
+            //TODO: check if we need realy need this property
+            get { return schema; }
+        }
 
-		public MemoryCache<T> MemoryCache
-		{
-			get { return memoryCache; }
-		}
+        public MemoryCache<T> MemoryCache
+        {
+            get { return memoryCache; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
-		{
-			this.schema = schema;
-			tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
-			this.tileFactory = tileFactory;
-			RegisterEventHandlers();
-		}
+        public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
+        {
+            this.schema = schema;
+            tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
+            this.tileFactory = tileFactory;
+            RegisterEventHandlers();
+        }
 
-		~TileLayer()
-		{
-		}
-		#endregion
+        ~TileLayer()
+        {
+        }
+        #endregion
 
-		#region Public Methods
+        #region Public Methods
 
-		public void UpdateData(Extent extent, double resolution)
-		{
-			tileFetcher.UpdateData(extent, resolution);
-		}
+        public void UpdateData(Extent extent, double resolution)
+        {
+            tileFetcher.UpdateData(extent, resolution);
+        }
 
-		#endregion
+        #endregion
 
-		#region Private Methods
+        #region Private Methods
 
-		private void RegisterEventHandlers()
-		{
-			tileFetcher.FetchCompleted += new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
-		}
+        private void RegisterEventHandlers()
+        {
+            tileFetcher.FetchCompleted += new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+        }
 
-		private void UnRegisterEventHandlers()
-		{
-			tileFetcher.FetchCompleted -= new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
-		}
+        private void UnRegisterEventHandlers()
+        {
+            tileFetcher.FetchCompleted -= new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+        }
 
-		private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
-		{
-			OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
-		}
+        private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
+        {
+            OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
+        }
 
-		private void OnDataUpdated(AsyncCompletedEventArgs e)
-		{
-			if (DataUpdated != null)
-				DataUpdated(this, e);
-		}
-		#endregion
+        private void OnDataUpdated(AsyncCompletedEventArgs e)
+        {
+            if (DataUpdated != null)
+                DataUpdated(this, e);
+        }
+        #endregion
 
-		#region IDisposable Members
+        #region IDisposable Members
 
-		public void Dispose()
-		{
-			if (tileFetcher != null)
-			{
-				UnRegisterEventHandlers();
-				tileFetcher.Dispose();
-			}
-		}
+        public void Dispose()
+        {
+            if (tileFetcher != null)
+            {
+                UnRegisterEventHandlers();
+                tileFetcher.Dispose();
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

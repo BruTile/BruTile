@@ -20,58 +20,58 @@ using System.Windows;
 
 namespace BruTileWpf
 {
-	/// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
-	class FpsCounter : DependencyObject
-	{
-		#region DependencyProperty
+    /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
+    class FpsCounter : DependencyObject
+    {
+        #region DependencyProperty
 
-		private static readonly DependencyProperty FpsProperty =
-		  System.Windows.DependencyProperty.Register(
-		  "Fps", typeof(int), typeof(FpsCounter));
+        private static readonly DependencyProperty FpsProperty =
+          System.Windows.DependencyProperty.Register(
+          "Fps", typeof(int), typeof(FpsCounter));
 
-		public int Fps
-		{
-			get { return (int)GetValue(FpsProperty); }
-			set { SetValue(FpsProperty, value); }
-		}
+        public int Fps
+        {
+            get { return (int)GetValue(FpsProperty); }
+            set { SetValue(FpsProperty, value); }
+        }
 
-		#endregion
+        #endregion
 
-		#region Fields
+        #region Fields
 
-		private double elapsed;
-		private double totalElapsed;
-		private int lastTick;
-		private int currentTick;
-		private int frameCount;
-		private double frameCountTime;
+        private double elapsed;
+        private double totalElapsed;
+        private int lastTick;
+        private int currentTick;
+        private int frameCount;
+        private double frameCountTime;
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public FpsCounter()
-		{
-			this.lastTick = Environment.TickCount;
-		}
+        public FpsCounter()
+        {
+            this.lastTick = Environment.TickCount;
+        }
 
-		public void FramePlusOne()
-		{
-			this.currentTick = Environment.TickCount;
-			this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
-			this.totalElapsed += this.elapsed;
-			this.lastTick = this.currentTick;
+        public void FramePlusOne()
+        {
+            this.currentTick = Environment.TickCount;
+            this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
+            this.totalElapsed += this.elapsed;
+            this.lastTick = this.currentTick;
 
-			frameCount++;
-			frameCountTime += elapsed;
-			if (frameCountTime >= 1.0)
-			{
-				frameCountTime -= 1.0;
-				Fps = frameCount;
-				frameCount = 0;
-			}
-		}
+            frameCount++;
+            frameCountTime += elapsed;
+            if (frameCountTime >= 1.0)
+            {
+                frameCountTime -= 1.0;
+                Fps = frameCount;
+                frameCount = 0;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -21,83 +21,83 @@ using System.Windows;
 
 namespace BruTileWindows
 {
-	/// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
-	public class FpsCounter : DependencyObject, INotifyPropertyChanged
-	{
-		#region Fields
+    /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
+    public class FpsCounter : DependencyObject, INotifyPropertyChanged
+    {
+        #region Fields
 
-		private double elapsed;
-		private double totalElapsed;
-		private int lastTick;
-		private int currentTick;
-		private int frameCount;
-		private double frameCountTime;
+        private double elapsed;
+        private double totalElapsed;
+        private int lastTick;
+        private int currentTick;
+        private int frameCount;
+        private double frameCountTime;
 
-		#endregion
+        #endregion
 
-		#region DependencyProperties
+        #region DependencyProperties
 
-		private static readonly DependencyProperty FpsProperty = DependencyProperty.Register(
-		  "Fps", typeof(int), typeof(FpsCounter), new PropertyMetadata(0));
-
-
-		#endregion
-
-		#region Properties
-
-		public int Fps
-		{
-			get { return (int)GetValue(FpsProperty); }
-			set
-			{
-				SetValue(FpsProperty, value);
-				OnPropertyChanged("Fps");
-			}
-		}
-
-		#endregion
-
-		#region Methods
-
-		public FpsCounter()
-		{
-			this.lastTick = Environment.TickCount;
-		}
-
-		public void FramePlusOne()
-		{
-			this.currentTick = Environment.TickCount;
-			this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
-			this.totalElapsed += this.elapsed;
-			this.lastTick = this.currentTick;
-
-			frameCount++;
-			frameCountTime += elapsed;
-			if (frameCountTime >= 1.0)
-			{
-				frameCountTime -= 1.0;
-				Fps = frameCount;
-				frameCount = 0;
-			}
-		}
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-
-		}
-
-		#endregion
-
-		#region INotifyPropertyChanged Members
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		#endregion
+        private static readonly DependencyProperty FpsProperty = DependencyProperty.Register(
+          "Fps", typeof(int), typeof(FpsCounter), new PropertyMetadata(0));
 
 
-	}
+        #endregion
+
+        #region Properties
+
+        public int Fps
+        {
+            get { return (int)GetValue(FpsProperty); }
+            set
+            {
+                SetValue(FpsProperty, value);
+                OnPropertyChanged("Fps");
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public FpsCounter()
+        {
+            this.lastTick = Environment.TickCount;
+        }
+
+        public void FramePlusOne()
+        {
+            this.currentTick = Environment.TickCount;
+            this.elapsed = (double)(this.currentTick - this.lastTick) / 1000.0;
+            this.totalElapsed += this.elapsed;
+            this.lastTick = this.currentTick;
+
+            frameCount++;
+            frameCountTime += elapsed;
+            if (frameCountTime >= 1.0)
+            {
+                frameCountTime -= 1.0;
+                Fps = frameCount;
+                frameCount = 0;
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+
+    }
 }

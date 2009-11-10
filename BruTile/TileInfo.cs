@@ -18,28 +18,28 @@
 
 namespace BruTile
 {
-	public class TileInfo
-	{
-		private TileKey key;
-		private Extent extent;
-		private double priority;
+    public class TileInfo
+    {
+        private TileKey key;
+        private Extent extent;
+        private double priority;
 
-		public TileKey Key
-		{
-			get { return key; }
-			set { key = value; }
-		}
+        public TileKey Key
+        {
+            get { return key; }
+            set { key = value; }
+        }
 
-		public Extent Extent
-		{
-			get { return extent; }
-			set { extent = value; }
-		}
+        public Extent Extent
+        {
+            get { return extent; }
+            set { extent = value; }
+        }
 
-		public double Priority
-		{
-			get { return priority; }
-			set { priority = value; }
-		}
-	}
+        public double Priority
+        {
+            get { return priority; }
+            set { priority = value; }
+        }
+    }
 }

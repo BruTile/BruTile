@@ -18,10 +18,10 @@
 
 namespace BruTile
 {
-	public interface ITileCache<T>
-	{
-		void Add(TileKey key, T image);
-		void Remove(TileKey key);
-		T Find(TileKey key);
-	}
+    public interface ITileCache<T>
+    {
+        void Add(TileKey key, T image);
+        void Remove(TileKey key);
+        T Find(TileKey key);
+    }
 }

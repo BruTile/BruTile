@@ -19,61 +19,61 @@ using System.Collections.Generic;
 
 namespace BruTile
 {
-	public interface ITileSchema
-	{
-		string Name
-		{
-			get;
-		}
+    public interface ITileSchema
+    {
+        string Name
+        {
+            get;
+        }
 
-		string Srs
-		{
-			get;
-		}
+        string Srs
+        {
+            get;
+        }
 
-		Extent Extent
-		{
-			get;
-		}
+        Extent Extent
+        {
+            get;
+        }
 
-		double OriginX
-		{
-			get;
-		}
+        double OriginX
+        {
+            get;
+        }
 
-		double OriginY
-		{
-			get;
-		}
+        double OriginY
+        {
+            get;
+        }
 
-		IList<double> Resolutions
-		{
-			get;
-		}
+        IList<double> Resolutions
+        {
+            get;
+        }
 
-		int Width
-		{
-			get;
-		}
+        int Width
+        {
+            get;
+        }
 
-		int Height
-		{
-			get;
-		}
+        int Height
+        {
+            get;
+        }
 
-		string Format
-		{
-			get;
-		}
+        string Format
+        {
+            get;
+        }
 
-		AxisDirection Axis
-		{
-			get;
-		}
+        AxisDirection Axis
+        {
+            get;
+        }
 
-		string Additions
-		{
-			get;
-		}
-	}
+        string Additions
+        {
+            get;
+        }
+    }
 }

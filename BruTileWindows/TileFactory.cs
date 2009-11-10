@@ -20,15 +20,15 @@ using BruTileMap;
 
 namespace BruTileWindows
 {
-	public class TileFactory : ITileFactory<MemoryStream>
-	{
-		#region ITileFactory<Bitmap> Members
+    public class TileFactory : ITileFactory<MemoryStream>
+    {
+        #region ITileFactory<Bitmap> Members
 
-		public MemoryStream GetTile(byte[] bytes)
-		{
-			return new MemoryStream(bytes);
-		}
+        public MemoryStream GetTile(byte[] bytes)
+        {
+            return new MemoryStream(bytes);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
