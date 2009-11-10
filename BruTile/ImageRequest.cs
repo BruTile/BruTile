@@ -47,12 +47,14 @@ namespace BruTile
             }
         }
 
-        private static string CreateErrorMessage(WebResponse webResponse, string url)
+        private static string CreateErrorMessage(WebResponse webResponse, string uri)
         {
-            string message = String.Format(CultureInfo.InvariantCulture,
-              "Failed to retrieve tile from this url:\n{0}\n." +
-             "An image was expected but the received type was '{1}'.",
-              url, webResponse.ContentType);
+            string message = String.Format(
+                CultureInfo.InvariantCulture,
+              "Failed to retrieve tile from this uri:\n{0}\n.An image was expected but the received type was '{1}'.",
+              uri,
+              webResponse.ContentType
+              );
 
             if (webResponse.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase))
             {
@@ -76,7 +78,5 @@ namespace BruTile
                 }
             }
         }
-
-
     }
 }

@@ -25,18 +25,18 @@ namespace BruTile
     {
         #region Fields
 
-        private object syncRoot = new object();
-        private string directory;
-        private string format;
+        private object _syncRoot = new object();
+        private string _directory;
+        private string _format;
 
         #endregion
 
         #region Public Methods
-        /// <remarks>The constructor creates the storage directory if it does not exist.</remarks>
+        /// <remarks>The constructor creates the storage _directory if it does not exist.</remarks>
         public FileCache(string directory, string format)
         {
-            this.directory = directory;
-            this.format = format;
+            this._directory = directory;
+            this._format = format;
 
             if (!Directory.Exists(directory))
             {
@@ -46,24 +46,27 @@ namespace BruTile
 
         public void Add(TileKey key, byte[] image)
         {
-            lock (syncRoot)
+            lock (this._syncRoot)
             {
-                if (Exists(key)) return; //ignore
+                if (this.Exists(key))
+                {
+                    return; // ignore
+                }
                 string dir = GetDirectoryName(key);
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
                 }
 
-                WriteToFile(image, key);
+                this.WriteToFile(image, key);
             }
         }
 
         public byte[] Find(TileKey key)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
-                if (!Exists(key)) return null; //to indicate not found
+                if (!Exists(key)) return null; // to indicate not found
                 using (FileStream fileStream = new FileStream(GetFileName(key), FileMode.Open, FileAccess.Read))
                 {
                     return Util.ReadFully(fileStream);
@@ -73,7 +76,7 @@ namespace BruTile
 
         public void Remove(TileKey key)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 if (Exists(key))
                 {
@@ -94,13 +97,13 @@ namespace BruTile
         private string GetFileName(TileKey key)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, format);
+              "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, _format);
         }
 
         private string GetDirectoryName(TileKey key)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}\\{2}", directory, key.Level, key.Col);
+              "{0}\\{1}\\{2}", _directory, key.Level, key.Col);
         }
 
         private void WriteToFile(byte[] image, TileKey key)
