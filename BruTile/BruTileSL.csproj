@@ -66,7 +66,7 @@
     <Compile Include="TileKey.cs" />
     <Compile Include="TileRange.cs" />
     <Compile Include="TileSchema.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="WebResponseFormatException.cs" />
   </ItemGroup>

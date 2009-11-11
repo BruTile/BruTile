@@ -52,7 +52,7 @@ namespace BruTileForms
         bytes = fileCache.Find(tileInfo.Key);
         if (bytes == null)
         {
-          bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUrl(tileInfo));
+          bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo));
           if (bytes != null)
             fileCache.Add(tileInfo.Key, bytes);
         }

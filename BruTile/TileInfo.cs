@@ -20,14 +20,13 @@ namespace BruTile
 {
     public class TileInfo
     {
-        private TileKey key;
         private Extent extent;
         private double priority;
 
         public TileKey Key
         {
-            get { return key; }
-            set { key = value; }
+            get;
+            set;
         }
 
         public Extent Extent
