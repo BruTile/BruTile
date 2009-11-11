@@ -160,7 +160,7 @@ namespace BruTileWindows
         {
             this._zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
 #if SILVERLIGHT
-      zoomAnimation.EasingFunction = new QuadraticEase();
+      _zoomAnimation.EasingFunction = new QuadraticEase();
 #endif
             Storyboard.SetTarget(this._zoomAnimation, this);
             Storyboard.SetTargetProperty(this._zoomAnimation, new PropertyPath("Resolution"));
