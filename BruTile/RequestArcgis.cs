@@ -40,7 +40,7 @@ namespace BruTile
             this.customParameters = customParameters;
         }
 
-        public Uri GetUrl(TileInfo tile)
+        public Uri GetUri(TileInfo tile)
         {
             System.Text.StringBuilder url = new StringBuilder();
 
