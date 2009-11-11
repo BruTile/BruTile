@@ -27,13 +27,13 @@ namespace BruTile
         public static byte[] GetImageFromServer(Uri uri)
         {
             WebRequest webRequest = WebRequest.Create(uri);
-
-            //commenting out because of compile error. PDD:
-            //IWebProxy proxy = WebRequest.GetSystemWebProxy();
-            //proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            //webRequest.Proxy = proxy;
-            //webRequest.PreAuthenticate = true;
-
+            
+#if !SILVERLIGHT && !PocketPC
+            IWebProxy proxy = WebRequest.GetSystemWebProxy();
+            proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            webRequest.Proxy = proxy;
+            webRequest.PreAuthenticate = true;
+#endif
 
             //This clumsy way to do a synchronous request is for compatibility with Silverlight
             IAsyncResult result = webRequest.BeginGetResponse(null, null);
