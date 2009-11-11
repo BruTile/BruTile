@@ -24,9 +24,14 @@ namespace BruTile
 {
     public static class ImageRequest
     {
-        public static byte[] GetImageFromServer(Uri url)
+        public static byte[] GetImageFromServer(Uri uri)
         {
-            WebRequest webRequest = WebRequest.Create(url);
+            WebRequest webRequest = WebRequest.Create(uri);
+            IWebProxy proxy = WebRequest.GetSystemWebProxy();
+            proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            webRequest.Proxy = proxy;
+            webRequest.PreAuthenticate = true;
+
 
             //This clumsy way to do a synchronous request is for compatibility with Silverlight
             IAsyncResult result = webRequest.BeginGetResponse(null, null);
@@ -42,7 +47,7 @@ namespace BruTile
             }
             else
             {
-                string message = CreateErrorMessage(webResponse, url.AbsoluteUri);
+                string message = CreateErrorMessage(webResponse, uri.AbsoluteUri);
                 throw (new WebResponseFormatException(message, null));
             }
         }
