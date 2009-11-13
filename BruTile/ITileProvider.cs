@@ -21,7 +21,7 @@ namespace BruTile
 {
     public delegate void FetchCompletedEventHandler(object sender, FetchCompletedEventArgs e);
 
-    public interface IFetchTile
+    public interface ITileProvider
     {
         void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted);
     }

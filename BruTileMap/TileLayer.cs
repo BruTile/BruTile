@@ -60,7 +60,7 @@ namespace BruTileMap
 
         #region Constructors
 
-        public TileLayer(IFetchTile tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
+        public TileLayer(ITileProvider tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
         {
             this.schema = schema;
             tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);

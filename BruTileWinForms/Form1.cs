@@ -35,7 +35,7 @@ namespace BruTileWinForms
     void Form1_Load(object sender, EventArgs e)
     {
       IConfig config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+      mapControl1.RootLayer = new TileLayer<Bitmap>(new WebTileProvider(config.RequestBuilder), config.TileSchema, new TileFactory());
     }
 
     private void zoomIn_Click(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace BruTileWinForms
     {
       IConfig config = new ConfigOsm();
       mapControl1.RootLayer = new TileLayer<Bitmap>(
-        new FetchTileWeb(config.RequestBuilder),
+        new WebTileProvider(config.RequestBuilder),
         config.TileSchema, new TileFactory());
     }
 
@@ -60,7 +60,7 @@ namespace BruTileWinForms
     {
       IConfig config = new ConfigVE();
       mapControl1.RootLayer = new TileLayer<Bitmap>(
-          new FetchTileWeb(config.RequestBuilder),
+          new WebTileProvider(config.RequestBuilder),
           config.TileSchema,
           new TileFactory());
     }
