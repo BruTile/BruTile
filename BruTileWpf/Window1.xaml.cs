@@ -89,7 +89,7 @@ namespace BruTileWpf
                 v.Dispose();
             }
 
-            map.RootLayer = new TileLayer<MemoryStream>(new WebTileProvider(config.RequestBuilder), config.TileSchema, new TileFactory());
+            map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
 
             //todo: move elsewhere
             TileCountText.DataContext = map.RootLayer.MemoryCache;
@@ -99,6 +99,11 @@ namespace BruTileWpf
         private void GeodanWmsC_Click(object sender, RoutedEventArgs e)
         {
             this.SetConfig(new ConfigWmsC());
+        }
+
+        private void SharpMap_Click(object sender, RoutedEventArgs e)
+        {
+            this.SetConfig(new ConfigSharpMap());
         }
     }
 }

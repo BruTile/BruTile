@@ -122,7 +122,13 @@ namespace BruTileWindows
 
             Storyboard storyBoard = new Storyboard();
             storyBoard.Children.Add(animation);
+            storyBoard.Completed += new EventHandler(storyBoard_Completed);
             storyBoard.Begin();
+        }
+
+        static void storyBoard_Completed(object sender, EventArgs e)
+        {
+            //todo: remove that are now invisible.
         }
 
         private static void RemoveCollapsed(Canvas canvas)
