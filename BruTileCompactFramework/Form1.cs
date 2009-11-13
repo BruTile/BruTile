@@ -25,62 +25,63 @@ using BruTile;
 
 namespace BruTileCompactFramework
 {
-  public partial class Form1 : Form
-  {
-    public Form1()
+    public partial class Form1 : Form
     {
-      InitializeComponent();
-      InitTransform();
+        public Form1()
+        {
+            InitializeComponent();
+            InitTransform();
 
-      this.Load += new EventHandler(Form1_Load);
-      this.Resize += new EventHandler(Form1_Resize);
-    }
+            this.Load += new EventHandler(Form1_Load);
+            this.Resize += new EventHandler(Form1_Resize);
+        }
 
-    private void InitTransform()
-    {
-      mapControl1.Transform.Center = new BTPoint(629816, 6805085);
-      mapControl1.Transform.Resolution = 2445.984904688;
-      mapControl1.Transform.Width = (float)this.Width;
-      mapControl1.Transform.Height = (float)this.Height;
-    }
-    
-    void Form1_Resize(object sender, EventArgs e)
-    {
-      mapControl1.Location = new Point(0, 0);
-      mapControl1.Size = new Size(this.Width, this.Height);
-    }
+        private void InitTransform()
+        {
+            mapControl1.Transform.Center = new BTPoint(629816, 6805085);
+            mapControl1.Transform.Resolution = 2445.984904688;
+            mapControl1.Transform.Width = (float)this.Width;
+            mapControl1.Transform.Height = (float)this.Height;
+        }
 
-    void Form1_Load(object sender, EventArgs e)
-    {
-      IConfig config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
-    }
+        void Form1_Resize(object sender, EventArgs e)
+        {
+            mapControl1.Location = new Point(0, 0);
+            mapControl1.Size = new Size(this.Width, this.Height);
+        }
 
-    private void zoomIn_Click(object sender, EventArgs e)
-    {
-      mapControl1.ZoomIn();
-    }
+        void Form1_Load(object sender, EventArgs e)
+        {
+            IConfig config = new ConfigOsm();
+            mapControl1.RootLayer = new TileLayer<Bitmap>(new WebTileProvider(config.RequestBuilder), config.TileSchema, new TileFactory());
+        }
 
-    private void ZoomOut_Click(object sender, EventArgs e)
-    {
-      mapControl1.ZoomOut();
-    }
+        private void zoomIn_Click(object sender, EventArgs e)
+        {
+            mapControl1.ZoomIn();
+        }
 
-    private void osmMenu_Click(object sender, EventArgs e)
-    {
-      IConfig config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(
-        new FetchTileWeb(config.RequestBuilder), 
-        config.TileSchema, new TileFactory());
-    }
+        private void ZoomOut_Click(object sender, EventArgs e)
+        {
+            mapControl1.ZoomOut();
+        }
 
-    private void bingMenu_Click(object sender, EventArgs e)
-    {
-      IConfig config = new ConfigVE();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(
-          new FetchTileWeb(config.RequestBuilder), 
-          config.TileSchema, 
-          new TileFactory());
+        private void osmMenu_Click(object sender, EventArgs e)
+        {
+            IConfig config = new ConfigOsm();
+            mapControl1.RootLayer = new TileLayer<Bitmap>(
+              new WebTileProvider(config.RequestBuilder),
+              config.TileSchema,
+              new TileFactory());
+        }
+
+        private void bingMenu_Click(object sender, EventArgs e)
+        {
+            IConfig config = new ConfigVE();
+            mapControl1.RootLayer = new TileLayer<Bitmap>(
+                new WebTileProvider(config.RequestBuilder),
+                config.TileSchema,
+                new TileFactory());
+        }
     }
-  }
 }

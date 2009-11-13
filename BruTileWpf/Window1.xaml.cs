@@ -89,7 +89,7 @@ namespace BruTileWpf
                 v.Dispose();
             }
 
-            map.RootLayer = new TileLayer<MemoryStream>(new FetchTileWeb(config.RequestBuilder), config.TileSchema, new TileFactory());
+            map.RootLayer = new TileLayer<MemoryStream>(new WebTileProvider(config.RequestBuilder), config.TileSchema, new TileFactory());
 
             //todo: move elsewhere
             TileCountText.DataContext = map.RootLayer.MemoryCache;

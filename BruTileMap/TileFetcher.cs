@@ -27,7 +27,7 @@ namespace BruTileMap
         #region Fields
 
         private MemoryCache<T> memoryCache;
-        private IFetchTile tileProvider;
+        private ITileProvider tileProvider;
         private ITileSchema schema;
         private ITileFactory<T> tileFactory;
         private Extent extent;
@@ -54,7 +54,7 @@ namespace BruTileMap
 
         #region Constructors Destructors
 
-        public TileFetcher(IFetchTile tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileFactory<T> tileFactory)
+        public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileFactory<T> tileFactory)
         {
             if (tileProvider == null) throw new ArgumentException("TileProvider can not be null");
             this.tileProvider = tileProvider;

@@ -21,17 +21,17 @@ using BruTileMap;
 
 namespace BruTileForms
 {
-  public class FetchTileWeb : IFetchTile
+  public class WebTileProvider : ITileProvider
   {
     IRequestBuilder requestBuilder;
     ITileCache<byte[]> fileCache;
 
-    public FetchTileWeb(IRequestBuilder requestBuilder)
+    public WebTileProvider(IRequestBuilder requestBuilder)
       : this(requestBuilder, new NullCache())
     { 
     }
-        
-    public FetchTileWeb(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache)
+
+    public WebTileProvider(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache)
     {
       if (requestBuilder == null) throw new ArgumentException("RequestBuilder can not be null");
       this.requestBuilder = requestBuilder;

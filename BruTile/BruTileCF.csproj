@@ -59,10 +59,10 @@
     <Compile Include="Extent.cs" />
     <Compile Include="FileCache.cs" />
     <Compile Include="IAxis.cs" />
-    <Compile Include="IFetchTile.cs" />
     <Compile Include="ImageRequest.cs" />
     <Compile Include="IRequestBuilder.cs" />
     <Compile Include="ITileCache.cs" />
+    <Compile Include="ITileProvider.cs" />
     <Compile Include="ITileSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestArcgis.cs" />
