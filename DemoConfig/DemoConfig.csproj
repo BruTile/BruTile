@@ -31,10 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpMap, Version=0.9.3604.21068, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\SharpMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -47,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ConfigEsri.cs" />
     <Compile Include="ConfigOsm.cs" />
+    <Compile Include="ConfigSharpMap.cs" />
     <Compile Include="ConfigTms.cs" />
     <Compile Include="ConfigVE.cs" />
     <Compile Include="ConfigWms.cs" />
@@ -55,6 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BruTileWindows\BruTileWindows.csproj">
+      <Project>{9142A5C9-38F9-42DF-8E9A-79E5A919151F}</Project>
+      <Name>BruTileWindows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>
       <Name>BruTile</Name>

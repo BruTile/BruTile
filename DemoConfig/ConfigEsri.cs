@@ -1,4 +1,5 @@
 ﻿using BruTile;
+using BruTileWindows;
 
 namespace DemoConfig
 {
@@ -29,15 +30,15 @@ namespace DemoConfig
 
         #region IConfig Members
 
-        public BruTile.IRequestBuilder RequestBuilder
+        public ITileProvider TileProvider
         {
-            get
+            get 
             {
-                return new RequestBasic(url);
+                return new WebTileProvider(RequestBuilder);
             }
         }
 
-        public BruTile.ITileSchema TileSchema
+        public ITileSchema TileSchema
         {
             get
             {
@@ -57,5 +58,13 @@ namespace DemoConfig
         }
 
         #endregion
+
+        private BruTile.IRequestBuilder RequestBuilder
+        {
+            get
+            {
+                return new RequestBasic(url);
+            }
+        }
     }
 }
