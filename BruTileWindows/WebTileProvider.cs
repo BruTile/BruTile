@@ -21,11 +21,11 @@ using BruTile;
 
 namespace BruTileWindows
 {
-    public class FetchTileWeb : IFetchTile
+    public class WebTileProvider : ITileProvider
     {
         IRequestBuilder requestBuilder;
 
-        public FetchTileWeb(IRequestBuilder requestBuilder)
+        public WebTileProvider(IRequestBuilder requestBuilder)
         {
             this.requestBuilder = requestBuilder;
         }
