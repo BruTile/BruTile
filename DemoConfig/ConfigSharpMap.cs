@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BruTile;
-using BruTileWindows;
-using SharpMap;
-using SharpMap.Layers;
-using SharpMap.Styles;
-using SharpMap.Data.Providers;
-using System.Reflection;
-using System.IO;
 using System.Drawing;
-using SharpMap.Rendering.Thematics;
-using SharpMap.Rendering;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.IO;
+using BruTile;
+using SharpMap;
+using SharpMap.Data.Providers;
+using SharpMap.Layers;
+using SharpMap.Rendering;
+using SharpMap.Rendering.Thematics;
+using SharpMap.Styles;
+using SharpMapProvider;
 
 namespace DemoConfig
 {
