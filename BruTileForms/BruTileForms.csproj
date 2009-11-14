@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FetchTileWeb.cs" />
     <Compile Include="MapControl.cs">
       <SubType>Component</SubType>
     </Compile>
