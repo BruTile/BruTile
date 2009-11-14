@@ -64,6 +64,7 @@
     <Compile Include="TileLayer.cs" />
     <Compile Include="MapTransform.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="WebTileProvider.cs" />
     <Compile Include="ZoomHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -61,13 +61,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileWindows\BruTileWindows.csproj">
-      <Project>{9142A5C9-38F9-42DF-8E9A-79E5A919151F}</Project>
-      <Name>BruTileWindows</Name>
+    <ProjectReference Include="..\BruTileMap\BruTileMap.csproj">
+      <Project>{FAF7E39B-42BC-4E15-A357-3F348243FE46}</Project>
+      <Name>BruTileMap</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>
       <Name>BruTile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpMapProvider\SharpMapProvider.csproj">
+      <Project>{55A31E36-4EA3-42EE-BCAC-2735AA082457}</Project>
+      <Name>SharpMapProvider</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

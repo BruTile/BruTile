@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using BruTile;
-using BruTileWindows;
+using BruTileMap;
 
 namespace DemoConfig
 {
