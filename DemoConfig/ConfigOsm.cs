@@ -58,7 +58,7 @@ namespace DemoConfig
                 schema.Name = name;
                 schema.Format = format;
                 schema.Axis = AxisDirection.InvertedY;
-                schema.Srs = "EPSG:900913";
+                schema.Srs = "EPSG:3785";
                 return schema;
             }
         }
