@@ -132,7 +132,9 @@ namespace BruTileMap
             IList<TileInfo> tilesOut = new List<TileInfo>();
             foreach (TileInfo tile in tilesIn)
             {
-                if (memoryCache.Find(tile.Key) == null)
+                if ((memoryCache.Find(tile.Key) == null) && 
+                    (!retries.Keys.Contains(tile.Key) || retries[tile.Key] < maxRetries)) 
+            
                     tilesOut.Add(tile);
             }
             return tilesOut;
