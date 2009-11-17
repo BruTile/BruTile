@@ -65,12 +65,6 @@ namespace SharpMapProvider
             fetchCompleted(this, new FetchCompletedEventArgs(error, false, tileInfo, bytes));
         }
 
-        private static string GetAppDir()
-        {
-            return System.IO.Path.GetDirectoryName(
-              System.Reflection.Assembly.GetEntryAssembly().GetModules()[0].FullyQualifiedName);
-        }
-
         #endregion
 
         #region Private classes

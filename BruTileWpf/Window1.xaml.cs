@@ -105,6 +105,11 @@ namespace BruTileWpf
         {
             this.SetConfig(new ConfigSharpMap());
         }
+
+        private void MapTiler_Click(object sender, RoutedEventArgs e)
+        {
+            this.SetConfig(new ConfigMapTiler());
+        }
     }
 }
 

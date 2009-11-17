@@ -16,24 +16,21 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 using BruTile;
 using BruTileMap;
 
 namespace DemoConfig
 {
-    public class ConfigWms : IConfig
+    public class ConfigMapTiler : IConfig
     {
         string format = "png";
-        string name = "Geodan WMS";
-        string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
+        string name = "OpenStreetMap";
+        string url = "http://b.tile.openstreetmap.org";
 
-        private static double[] resolutions = new double[] { 
-            156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
-            9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
-            611.496226172, 305.748113086, 152.874056543, 76.437028271, 
-            38.218514136, 19.109257068, 9.554628534, 4.777314267, 
-            2.388657133, 1.194328567, 0.597164283};
+        private static double[] resolutions = new double[] 
+        { 
+            156543.033900000, 78271.516950000
+        };
 
         #region IConfig Members
 
@@ -41,7 +38,7 @@ namespace DemoConfig
         {
             get
             {
-                return new WebTileProvider(RequestBuilder);
+                return new FileTileProvider(new FileCache(GetAppDir() + "\\Resources\\GeoData\\TrueMarble", "png"));
             }
         }
 
@@ -55,24 +52,28 @@ namespace DemoConfig
                 schema.Width = 256;
                 schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
                 schema.OriginX = -20037508.342789;
-                schema.OriginY = 20037508.342789;
+                schema.OriginY = -20037508.342789;
                 schema.Name = name;
                 schema.Format = format;
-                schema.Axis = AxisDirection.InvertedY;
-                schema.Srs = "EPSG:900913";
+                //!!!schema.Axis = AxisDirection.InvertedY;
+                schema.Srs = "EPSG:3785";
                 return schema;
             }
         }
 
         #endregion
 
+        private static string GetAppDir()
+        {
+            return System.IO.Path.GetDirectoryName(
+              System.Reflection.Assembly.GetEntryAssembly().GetModules()[0].FullyQualifiedName);
+        }
+
         private IRequestBuilder RequestBuilder
         {
             get
             {
-                RequestWmsC request = new RequestWmsC(new Uri(url), this.TileSchema,
-                  new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
-                return request;
+                return new RequestTms(new Uri(url), format);
             }
         }
     }
