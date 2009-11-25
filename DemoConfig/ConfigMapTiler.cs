@@ -68,13 +68,5 @@ namespace DemoConfig
             return System.IO.Path.GetDirectoryName(
               System.Reflection.Assembly.GetEntryAssembly().GetModules()[0].FullyQualifiedName);
         }
-
-        private IRequestBuilder RequestBuilder
-        {
-            get
-            {
-                return new RequestTms(new Uri(url), format);
-            }
-        }
     }
 }

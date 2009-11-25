@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AxisInvertedY.cs" />
     <Compile Include="AxisNormal.cs" />
+    <Compile Include="DbCache.cs" />
     <Compile Include="IAxis.cs" />
     <Compile Include="ImageRequest.cs" />
     <Compile Include="IRequestBuilder.cs" />
