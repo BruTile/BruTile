@@ -18,6 +18,7 @@
 using System;
 using System.Net;
 using BruTile;
+using System.Threading;
 
 namespace BruTileMap
 {
@@ -42,55 +43,50 @@ namespace BruTileMap
 
         #region TileProvider Members
 
-#if PocketPC
-        //This if def is very ugly but it is a lot simpler compared to the dependency injection 
+#if !SILVERLIGHT
+        //This #if is ugly but it is a lot simpler compared to the dependency injection 
         //solution I had before. PDD.
-            public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+        public byte[] GetTile(TileInfo tileInfo)
         {
-          Exception error = null;
-          byte[] bytes = null;
+            byte[] bytes = null;
 
-          try
-          {
             bytes = fileCache.Find(tileInfo.Key);
             if (bytes == null)
             {
-              bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo));
-              if (bytes != null)
-                fileCache.Add(tileInfo.Key, bytes);
+                bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo));
+                if (bytes != null)
+                    fileCache.Add(tileInfo.Key, bytes);
             }
-          }
-          catch (Exception ex) //This may seem a bit weird. We catch the exception to pass it as an argument. This is because we are on a worker thread here, we cannot just let it fall through. 
-          {
-            error = ex;
-          }
-          fetchCompleted(this, new FetchCompletedEventArgs(error, false, tileInfo, bytes)); 
-
+            return bytes;
         }
 #else
 
-        public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+        public byte[] GetTile(TileInfo tileInfo)
         {
             WebClient webClient = new WebClient();
 
-#if !SILVERLIGHT
-            //proxy patch by Starnuto Di Topo:
-            IWebProxy proxy = WebRequest.GetSystemWebProxy();
-            proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            webClient.Proxy = proxy;
-#endif
+            AsyncEventArgs asyncEventArgs = new AsyncEventArgs() 
+            { 
+                TileInfo = tileInfo, 
+                
+                WaitHandle = new AutoResetEvent(false)
+            };
 
+            AutoResetEvent waitHandle = new AutoResetEvent(false);
             webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
-            webClient.OpenReadAsync(requestBuilder.GetUri(tileInfo), new AsyncEventArgs() { TileInfo = tileInfo, FetchCompleted = fetchCompleted });
+            webClient.OpenReadAsync(requestBuilder.GetUri(tileInfo), asyncEventArgs);
+
+            //happy hacking:
+            asyncEventArgs.WaitHandle.WaitOne();
+            
+            return asyncEventArgs.Bytes;
         }
 
         private void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
-            //TODO rewrite this
             AsyncEventArgs state = (AsyncEventArgs)e.UserState;
             Exception exception = null;
-            byte[] bytes = null;
-
+           
             if (e.Error != null || e.Cancelled)
             {
                 exception = e.Error;
@@ -99,26 +95,28 @@ namespace BruTileMap
             {
                 try
                 {
-                    bytes = BruTile.Utilities.ReadFully(e.Result);
+                    state.Bytes = BruTile.Utilities.ReadFully(e.Result);
                 }
                 catch (Exception ex)
                 {
                     exception = ex;
                 }
             }
+            state.WaitHandle.Set();
 
-            FetchCompletedEventArgs args = new FetchCompletedEventArgs(exception, e.Cancelled, state.TileInfo, bytes);
-            state.FetchCompleted(this, args);
         }
-
-#endif
 
         private class AsyncEventArgs
         {
             public TileInfo TileInfo { get; set; }
             public FetchCompletedEventHandler FetchCompleted { get; set; }
-        }
+            //happy hacking
+            public AutoResetEvent WaitHandle;
+            public byte[] Bytes;
 
+        }
+#endif
+        
         #endregion
 
         #region Private classes

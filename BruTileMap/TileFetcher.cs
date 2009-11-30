@@ -173,13 +173,23 @@ namespace BruTileMap
             if (!retries.Keys.Contains(tile.Key)) retries.Add(tile.Key, 0);
             else retries[tile.Key]++;
             threadCount++;
-            tileProvider.GetTile(tile, tileProvider_FetchCompleted);
+            StartFetchOnThread(tile);
         }
 
-        private void tileProvider_FetchCompleted(object sender, FetchCompletedEventArgs e)
+        private void StartFetchOnThread(TileInfo tile)
         {
+            FetchOnThread fetchOnThread = new FetchOnThread(tileProvider, tile, new FetchCompletedEventHandler(LocalFetchCompleted));
+            Thread thread = new Thread(fetchOnThread.FetchTile);
+            thread.Name = "Tile Fetcher";
+            thread.Start();
+        }
+
+        private void LocalFetchCompleted(object server, FetchCompletedEventArgs e)
+        {
+            //todo remove object sender
             try
             {
+                
                 if (e.Error == null && e.Cancelled == false)
                     memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
             }
@@ -202,7 +212,7 @@ namespace BruTileMap
         }
 
         #endregion
-
+        
         #region IDisposable Members
 
         public void Dispose()
@@ -212,6 +222,25 @@ namespace BruTileMap
         }
 
         #endregion
+    }
+
+
+    public delegate void FetchCompletedEventHandler(object sender, FetchCompletedEventArgs e);
+
+    public class FetchCompletedEventArgs
+    {
+        public FetchCompletedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
+        {
+            this.Error = error;
+            this.Cancelled = cancelled;
+            this.TileInfo = tileInfo;
+            this.Image = image;
+        }
+
+        public Exception Error;
+        public bool Cancelled;
+        public TileInfo TileInfo;
+        public byte[] Image;
     }
 
 

@@ -35,11 +35,7 @@ namespace BruTile
             webRequest.PreAuthenticate = true;
 #endif
 
-            //This clumsy way to do a synchronous request is for compatibility with Silverlight
-            IAsyncResult result = webRequest.BeginGetResponse(null, null);
-            result.AsyncWaitHandle.WaitOne();
-            WebResponse webResponse = webRequest.EndGetResponse(result);
-
+            WebResponse webResponse = webRequest.GetResponse();
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {
                 using (Stream responseStream = webResponse.GetResponseStream())

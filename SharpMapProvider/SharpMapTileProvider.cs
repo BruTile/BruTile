@@ -38,31 +38,22 @@ namespace SharpMapProvider
 
         #region Private Methods
 
-        public void GetTile(TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+        public byte[] GetTile(TileInfo tileInfo)
         {
-            Exception error = null;
             byte[] bytes = null;
-
-            try
+            bytes = fileCache.Find(tileInfo.Key);
+            if (bytes == null)
             {
-                bytes = fileCache.Find(tileInfo.Key);
-                if (bytes == null)
+                lock (syncRoot)
                 {
-                    lock (syncRoot)
-                    {
-                        Extent extent = tileInfo.Extent;
-                        map.ZoomToBox(new BoundingBox(extent.MinX, extent.MinY, extent.MaxX, extent.MaxY));
-                        bytes = map.GetMapAsByteArray();
-                        if (bytes != null)
-                            fileCache.Add(tileInfo.Key, bytes);
-                    }
+                    Extent extent = tileInfo.Extent;
+                    map.ZoomToBox(new BoundingBox(extent.MinX, extent.MinY, extent.MaxX, extent.MaxY));
+                    bytes = map.GetMapAsByteArray();
+                    if (bytes != null)
+                        fileCache.Add(tileInfo.Key, bytes);
                 }
             }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-            fetchCompleted(this, new FetchCompletedEventArgs(error, false, tileInfo, bytes));
+            return bytes;
         }
 
         #endregion

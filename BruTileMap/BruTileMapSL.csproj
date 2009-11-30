@@ -44,6 +44,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FetchOnThread.cs" />
     <Compile Include="FetchStrategy.cs" />
     <Compile Include="IFetchStrategy.cs" />
     <Compile Include="ITileFactory.cs" />
