@@ -43,9 +43,6 @@ namespace BruTileMap
 
         #region TileProvider Members
 
-#if !SILVERLIGHT
-        //This #if is ugly but it is a lot simpler compared to the dependency injection 
-        //solution I had before. PDD.
         public byte[] GetTile(TileInfo tileInfo)
         {
             byte[] bytes = null;
@@ -59,64 +56,7 @@ namespace BruTileMap
             }
             return bytes;
         }
-#else
 
-        public byte[] GetTile(TileInfo tileInfo)
-        {
-            WebClient webClient = new WebClient();
-
-            AsyncEventArgs asyncEventArgs = new AsyncEventArgs() 
-            { 
-                TileInfo = tileInfo, 
-                
-                WaitHandle = new AutoResetEvent(false)
-            };
-
-            AutoResetEvent waitHandle = new AutoResetEvent(false);
-            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
-            webClient.OpenReadAsync(requestBuilder.GetUri(tileInfo), asyncEventArgs);
-
-            //happy hacking:
-            asyncEventArgs.WaitHandle.WaitOne();
-            
-            return asyncEventArgs.Bytes;
-        }
-
-        private void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
-        {
-            AsyncEventArgs state = (AsyncEventArgs)e.UserState;
-            Exception exception = null;
-           
-            if (e.Error != null || e.Cancelled)
-            {
-                exception = e.Error;
-            }
-            else
-            {
-                try
-                {
-                    state.Bytes = BruTile.Utilities.ReadFully(e.Result);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            }
-            state.WaitHandle.Set();
-
-        }
-
-        private class AsyncEventArgs
-        {
-            public TileInfo TileInfo { get; set; }
-            public FetchCompletedEventHandler FetchCompleted { get; set; }
-            //happy hacking
-            public AutoResetEvent WaitHandle;
-            public byte[] Bytes;
-
-        }
-#endif
-        
         #endregion
 
         #region Private classes
