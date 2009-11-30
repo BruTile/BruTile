@@ -25,8 +25,7 @@ namespace DemoConfig
     {
         string format = "png";
         string name = "OpenStreetMap";
-        string url = "http://b.tile.openstreetmap.org";
-
+        
         private static double[] resolutions = new double[] 
         { 
             156543.033900000, 78271.516950000
