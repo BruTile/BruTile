@@ -19,16 +19,72 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace BruTile
 {
     public static class ImageRequest
     {
+#if SILVERLIGHT
+        //This #if is ugly but it is a lot simpler compared to the dependency injection 
+        //solution I had before. PDD.
+
+        public static byte[] GetImageFromServer(Uri uri)
+        {
+            WebClient webClient = new WebClient();
+
+            AsyncEventArgs asyncEventArgs = new AsyncEventArgs()
+            {
+                WaitHandle = new AutoResetEvent(false)
+            };
+
+            AutoResetEvent waitHandle = new AutoResetEvent(false);
+            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
+            webClient.OpenReadAsync(uri, asyncEventArgs);
+
+            //happy hacking:
+            asyncEventArgs.WaitHandle.WaitOne();
+
+            return asyncEventArgs.Bytes;
+        }
+
+        private static void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            AsyncEventArgs state = (AsyncEventArgs)e.UserState;
+            Exception exception = null;
+
+            if (e.Error != null || e.Cancelled)
+            {
+                exception = e.Error;
+            }
+            else
+            {
+                try
+                {
+                    state.Bytes = BruTile.Utilities.ReadFully(e.Result);
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
+            }
+            state.WaitHandle.Set();
+        }
+
+        private class AsyncEventArgs
+        {
+            public TileInfo TileInfo { get; set; }
+            public AutoResetEvent WaitHandle;
+            public byte[] Bytes;
+
+        }
+
+#else
         public static byte[] GetImageFromServer(Uri uri)
         {
             WebRequest webRequest = WebRequest.Create(uri);
             
-#if !SILVERLIGHT && !PocketPC
+#if !PocketPC
             IWebProxy proxy = WebRequest.GetSystemWebProxy();
             proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
             webRequest.Proxy = proxy;
@@ -49,6 +105,8 @@ namespace BruTile
                 throw (new WebResponseFormatException(message, null));
             }
         }
+
+#endif
 
         private static string CreateErrorMessage(WebResponse webResponse, string uri)
         {
