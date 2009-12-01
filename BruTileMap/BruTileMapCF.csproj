@@ -54,7 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FetchOnThread.cs" />
     <Compile Include="FetchStrategy.cs" />
+    <Compile Include="FileTileProvider.cs" />
     <Compile Include="IFetchStrategy.cs" />
     <Compile Include="ITileFactory.cs" />
     <Compile Include="ITransform.cs" />
