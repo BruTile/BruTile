@@ -38,14 +38,14 @@ namespace BruTile
         /// <summary>
         /// Returns a List of TileInfo that cover the provided extent. 
         /// </summary>
-        public static IList<TileInfo> GetTiles(ITileSchema schema,
+        public static IList<TileInfo> GetTilesInView(ITileSchema schema,
           Extent extent, double resolution)
         {
             int level = GetNearestLevel(schema.Resolutions, resolution);
-            return GetTiles(schema, extent, level);
+            return GetTilesInView(schema, extent, level);
         }
 
-        public static IList<TileInfo> GetTiles(ITileSchema schema, Extent extent, int level)
+        public static IList<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, int level)
         {
             IList<TileInfo> tiles = new List<TileInfo>();
             IAxis tileAxis = GetAxisTransform(schema.Axis);

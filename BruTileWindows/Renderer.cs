@@ -49,7 +49,7 @@ namespace BruTileWindows
 
         private void DrawRecursive(Canvas canvas, ITileSchema schema, ITransform transform, MemoryCache<MemoryStream> memoryCache, Extent extent, int level)
         {
-            IList<TileInfo> tiles = Tile.GetTiles(schema, extent, level);
+            IList<TileInfo> tiles = Tile.GetTilesInView(schema, extent, level);
 
             foreach (TileInfo tile in tiles)
             {

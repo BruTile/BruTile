@@ -1,4 +1,4 @@
-﻿// Copyright 2009 - Tim Ebben (Geodan), Paul den Dulk (Geodan)
+﻿// Copyright 2009 - Tim Ebben (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify

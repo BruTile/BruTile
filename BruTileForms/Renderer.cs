@@ -34,7 +34,7 @@ namespace BruTileForms
 
     private static void DrawRecursive(Graphics graphics, ITileSchema schema, MapTransform transform, MemoryCache<Bitmap> cache, Extent extent, int level)
     {
-      IList<TileInfo> tiles = Tile.GetTiles(schema, extent, level);
+      IList<TileInfo> tiles = Tile.GetTilesInView(schema, extent, level);
 
       foreach (TileInfo tile in tiles)
       {
