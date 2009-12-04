@@ -64,5 +64,15 @@ namespace BruTileWinForms
           config.TileSchema,
           new TileFactory());
     }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      this.mapControl1.ZoomIn();
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+      this.mapControl1.ZoomOut();
+    }
   }
 }
