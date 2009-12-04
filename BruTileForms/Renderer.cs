@@ -20,12 +20,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using BruTile;
 using BruTileMap;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace BruTileForms
 {
   public static class Renderer
   {
-    public static void Render(Graphics graphics, ITileSchema schema, 
+    public static void Render(Graphics graphics, ITileSchema schema,
       MapTransform transform, MemoryCache<Bitmap> cache)
     {
       int level = Tile.GetNearestLevel(schema.Resolutions, transform.Resolution);
@@ -46,7 +48,9 @@ namespace BruTileForms
         else
         {
           RectangleF dest = WorldToMap(tile.Extent, transform);
+          dest = RoundToPixel(dest);
           RectangleF clip = WorldToMap(extent, transform);
+          clip = RoundToPixel(clip);
 
           if (!Contains(clip, dest))
           {
@@ -63,9 +67,21 @@ namespace BruTileForms
       }
     }
 
+    private static RectangleF RoundToPixel(RectangleF dest)
+    {
+      // To get seamless aligning you need to round the locations
+      // not the width and height
+      dest = new RectangleF(
+          (float)Math.Round(dest.Left),
+          (float)Math.Round(dest.Top),
+          (float)(Math.Round(dest.Right) - Math.Round(dest.Left)),
+          (float)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
+      return dest;
+    }
+
     private static bool Contains(RectangleF clip, RectangleF dest)
     {
-      return ((clip.Left <= dest.Left) && (clip.Top <= dest.Top) && 
+      return ((clip.Left <= dest.Left) && (clip.Top <= dest.Top) &&
         (clip.Right >= dest.Right) && (clip.Bottom >= dest.Bottom));
     }
 
@@ -82,7 +98,13 @@ namespace BruTileForms
     {
       Rectangle rectDest = new Rectangle((int)dest.X, (int)dest.Y, (int)dest.Width, (int)dest.Height);
       Rectangle rectSrc = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+#if PocketPC
       graphics.DrawImage(bitmap, rectDest, rectSrc, GraphicsUnit.Pixel);
+#else
+      ImageAttributes imageAttributes = new ImageAttributes();
+      imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
+      graphics.DrawImage(bitmap, rectDest, rectSrc.X, rectSrc.Y, rectSrc.Width, rectSrc.Height, GraphicsUnit.Pixel, imageAttributes);
+#endif
     }
 
     private static void DrawImage(Graphics graphics, Bitmap bitmap, RectangleF dest, TileInfo tile, RectangleF clip)
@@ -95,7 +117,7 @@ namespace BruTileForms
 
     private static Rectangle Inflate(RectangleF clip, int increase)
     {
-      return new Rectangle((int)clip.Left - increase, (int)clip.Top - increase, 
+      return new Rectangle((int)clip.Left - increase, (int)clip.Top - increase,
         (int)clip.Width + increase * 2, (int)clip.Bottom + increase * 2);
     }
 
