@@ -33,7 +33,7 @@ namespace BruTileMap
             // not availeble the renderer can fall back on higher level tiles. 
             while (level >= 0)
             {
-                IList<TileInfo> tilesOfLevel = Tile.GetTiles(schema, extent, level);
+                IList<TileInfo> tilesOfLevel = Tile.GetTilesInView(schema, extent, level);
                 tilesOfLevel = PrioritizeTiles(tilesOfLevel, extent.CenterX, extent.CenterY, sorter);
 
                 foreach (TileInfo tile in tilesOfLevel)
