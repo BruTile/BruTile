@@ -59,6 +59,7 @@
     <Compile Include="FileTileProvider.cs" />
     <Compile Include="IFetchStrategy.cs" />
     <Compile Include="ITileFactory.cs" />
+    <Compile Include="ITileSource.cs" />
     <Compile Include="ITransform.cs" />
     <Compile Include="MemoryCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

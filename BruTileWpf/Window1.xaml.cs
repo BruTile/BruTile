@@ -80,7 +80,7 @@ namespace BruTileWpf
             this.SetConfig(new ConfigVE());
         }
 
-        private void SetConfig(IConfig config)
+        private void SetConfig(ITileSource config)
         {
             if (map.RootLayer != null)
             {

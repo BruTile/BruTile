@@ -21,7 +21,7 @@ using BruTileMap;
 
 namespace DemoConfig
 {
-    public class ConfigMapTiler : IConfig
+    public class ConfigMapTiler : ITileSource
     {
         string format = "png";
         string name = "OpenStreetMap";

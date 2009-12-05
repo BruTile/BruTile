@@ -20,7 +20,7 @@ namespace BruTileSilverlight
     void map_Loaded(object sender, RoutedEventArgs e)
     {
       InitTransform();
-      IConfig config = new ConfigOsm();
+      ITileSource config = new ConfigOsm();
       map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
     }
 
@@ -34,13 +34,13 @@ namespace BruTileSilverlight
 
     private void Osm_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigOsm();
+      ITileSource config = new ConfigOsm();
       map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
     }
 
     private void BingMaps_Click(object sender, RoutedEventArgs e)
     {
-      IConfig config = new ConfigVE();
+      ITileSource config = new ConfigVE();
       map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
     }
 

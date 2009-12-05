@@ -22,7 +22,7 @@ using BruTileMap;
 
 namespace DemoConfig
 {
-    public class ConfigWmsC : IConfig
+    public class ConfigWmsC : ITileSource
     {
         string format = "png";
         string name = "Geodan TMS";
