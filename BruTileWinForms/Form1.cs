@@ -34,7 +34,7 @@ namespace BruTileWinForms
 
     void Form1_Load(object sender, EventArgs e)
     {
-      IConfig config = new ConfigOsm();
+      ITileSource config = new ConfigOsm();
       mapControl1.RootLayer = new TileLayer<Bitmap>(config.TileProvider, config.TileSchema, new TileFactory());
     }
 
@@ -50,7 +50,7 @@ namespace BruTileWinForms
 
     private void osmMenu_Click(object sender, EventArgs e)
     {
-      IConfig config = new ConfigOsm();
+      ITileSource config = new ConfigOsm();
       mapControl1.RootLayer = new TileLayer<Bitmap>(
         config.TileProvider,
         config.TileSchema, new TileFactory());
@@ -58,7 +58,7 @@ namespace BruTileWinForms
 
     private void bingMenu_Click(object sender, EventArgs e)
     {
-      IConfig config = new ConfigVE();
+      ITileSource config = new ConfigVE();
       mapControl1.RootLayer = new TileLayer<Bitmap>(
           config.TileProvider,
           config.TileSchema,
