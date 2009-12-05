@@ -14,7 +14,7 @@ using SharpMapProvider;
 
 namespace DemoConfig
 {
-    public class ConfigSharpMap : IConfig
+    public class ConfigSharpMap : ITileSource
     {
         string format = "jpg";
         string name = "SharpMap";

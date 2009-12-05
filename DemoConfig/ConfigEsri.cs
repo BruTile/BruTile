@@ -3,7 +3,7 @@ using BruTileMap;
 
 namespace DemoConfig
 {
-    public class ConfigEsri : IConfig
+    public class ConfigEsri : ITileSource
     {
         private static double[] resoltions = new double[] { 
             0.3515625,

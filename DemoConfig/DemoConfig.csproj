@@ -58,7 +58,6 @@
     <Compile Include="ConfigVE.cs" />
     <Compile Include="ConfigWms.cs" />
     <Compile Include="ConfigWmsC.cs" />
-    <Compile Include="IConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

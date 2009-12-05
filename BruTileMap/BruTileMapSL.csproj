@@ -48,12 +48,16 @@
     <Compile Include="FetchStrategy.cs" />
     <Compile Include="IFetchStrategy.cs" />
     <Compile Include="ITileFactory.cs" />
+    <Compile Include="ITileSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ITransform.cs" />
     <Compile Include="MapTransform.cs" />
     <Compile Include="MemoryCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileFetcher.cs" />
     <Compile Include="TileLayer.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="WebTileProvider.cs" />
     <Compile Include="ZoomHelper.cs" />
   </ItemGroup>

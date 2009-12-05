@@ -20,7 +20,7 @@ using BruTileMap;
 
 namespace DemoConfig
 {
-    public class ConfigVE : IConfig
+    public class ConfigVE : ITileSource
     {
         string format = "jpg";
         string name = "VirtualEarth";
