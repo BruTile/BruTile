@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BruTileSilverlight")]
+[assembly: AssemblyTitle("BruTile.UI.Silverlight")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geodan")]
-[assembly: AssemblyProduct("BruTileSilverlight")]
+[assembly: AssemblyProduct("BruTile.UI.Silverlight")]
 [assembly: AssemblyCopyright("Copyright © Geodan 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

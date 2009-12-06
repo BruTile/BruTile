@@ -23,28 +23,27 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using BruTileMap;
 using BruTile.Web;
 
-namespace BruTileWindows
+namespace BruTile.UI.Windows
 {
     public partial class MapControl : UserControl
     {
         #region Fields
 
         private const double step = 1.1;
-        private TileLayer<MemoryStream> _rootLayer;
-        private MapTransform _transform = new MapTransform();
-        private Point _previousMousePosition = new Point();
-        private Point _currentMousePosition = new Point();
+        private TileLayer rootLayer;
+        private MapTransform transform = new MapTransform();
+        private Point previousMousePosition = new Point();
+        private Point currentMousePosition = new Point();
         private bool _update = true;
-        private string _errorMessage;
-        private FpsCounter _fpsCounter = new FpsCounter();
-        private DoubleAnimation _zoomAnimation = new DoubleAnimation();
-        private Storyboard _zoomStoryBoard = new Storyboard();
-        private double _toResolution;
-        private bool _mouseDown = false;
-        private Renderer _renderer = new Renderer();
+        private string errorMessage;
+        private FpsCounter fpsCounter = new FpsCounter();
+        private DoubleAnimation zoomAnimation = new DoubleAnimation();
+        private Storyboard zoomStoryBoard = new Storyboard();
+        private double toResolution;
+        private bool mouseDown = false;
+        private Renderer renderer = new Renderer();
 
         public event EventHandler ErrorMessageChanged;
         #endregion
@@ -55,23 +54,23 @@ namespace BruTileWindows
         {
             get
             {
-                return this._transform;
+                return this.transform;
             }
         }
 
-        public TileLayer<MemoryStream> RootLayer
+        public TileLayer RootLayer
         {
             get
             {
-                return this._rootLayer;
+                return this.rootLayer;
             }
             set
             {
-                this._renderer = new Renderer(); //todo reset instead of new.
-                this._rootLayer = value;
-                if (this._rootLayer != null)
+                this.renderer = new Renderer(); //todo reset instead of new.
+                this.rootLayer = value;
+                if (this.rootLayer != null)
                 {
-                    this._rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
+                    this.rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
                 }
                 this.Refresh();
             }
@@ -81,7 +80,7 @@ namespace BruTileWindows
         {
             get
             {
-                return this._fpsCounter;
+                return this.fpsCounter;
             }
         }
 
@@ -89,7 +88,7 @@ namespace BruTileWindows
         {
             get
             {
-                return this._errorMessage;
+                return this.errorMessage;
             }
         }
 
@@ -122,20 +121,20 @@ namespace BruTileWindows
 
         private void ZoomIn(double resolution)
         {
-            Point mousePosition = this._currentMousePosition;
+            Point mousePosition = this.currentMousePosition;
             // When zooming we want the mouse position to stay above the same world coordinate.
             // We calcultate that in 3 steps.
 
             // 1) Temporarily center on the mouse position
-            this._transform.Center = this._transform.MapToWorld(mousePosition.X, mousePosition.Y);
+            this.transform.Center = this.transform.MapToWorld(mousePosition.X, mousePosition.Y);
 
             // 2) Then zoom 
-            this._transform.Resolution = resolution;
+            this.transform.Resolution = resolution;
 
             // 3) Then move the temporary center of the map back to the mouse position
-            this._transform.Center = this._transform.MapToWorld(
-              this._transform.Width - mousePosition.X,
-              this._transform.Height - mousePosition.Y);
+            this.transform.Center = this.transform.MapToWorld(
+              this.transform.Width - mousePosition.X,
+              this.transform.Height - mousePosition.Y);
 
             this.Refresh();
         }
@@ -159,44 +158,44 @@ namespace BruTileWindows
 
         private void InitAnimation()
         {
-            this._zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
+            this.zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
 #if SILVERLIGHT
-      _zoomAnimation.EasingFunction = new QuadraticEase();
+      zoomAnimation.EasingFunction = new QuadraticEase();
 #endif
-            Storyboard.SetTarget(this._zoomAnimation, this);
-            Storyboard.SetTargetProperty(this._zoomAnimation, new PropertyPath("Resolution"));
-            this._zoomStoryBoard.Children.Add(this._zoomAnimation);
+            Storyboard.SetTarget(this.zoomAnimation, this);
+            Storyboard.SetTargetProperty(this.zoomAnimation, new PropertyPath("Resolution"));
+            this.zoomStoryBoard.Children.Add(this.zoomAnimation);
         }
 
         void MapControl_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            this._currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
+            this.currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event for mousewheel event
 
-            if (this._toResolution == 0)
+            if (this.toResolution == 0)
             {
-                this._toResolution = this._transform.Resolution;
+                this.toResolution = this.transform.Resolution;
             }
 
             if (e.Delta > 0)
             {
-                this._toResolution = ZoomHelper.ZoomIn(this._rootLayer.Schema.Resolutions, this._toResolution);
+                this.toResolution = ZoomHelper.ZoomIn(this.rootLayer.Schema.Resolutions, this.toResolution);
             }
             else if (e.Delta < 0)
             {
-                this._toResolution = ZoomHelper.ZoomOut(this._rootLayer.Schema.Resolutions, this._toResolution);
+                this.toResolution = ZoomHelper.ZoomOut(this.rootLayer.Schema.Resolutions, this.toResolution);
             }
 
             e.Handled = true; //so that the scroll event is not sent to the html page.
 
-            this.StartZoomAnimation(this._transform.Resolution, this._toResolution);
+            this.StartZoomAnimation(this.transform.Resolution, this.toResolution);
         }
 
         public void StartZoomAnimation(double begin, double end)
         {
-            this._zoomStoryBoard.Pause(); //using Stop() here causes unexpected results while zooming very fast.
-            this._zoomAnimation.From = begin;
-            this._zoomAnimation.To = end;
-            this._zoomStoryBoard.Begin();
+            this.zoomStoryBoard.Pause(); //using Stop() here causes unexpected results while zooming very fast.
+            this.zoomAnimation.From = begin;
+            this.zoomAnimation.To = end;
+            this.zoomStoryBoard.Begin();
         }
 
         void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -212,12 +211,12 @@ namespace BruTileWindows
 
         private void MapControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            this._previousMousePosition = new Point();
+            this.previousMousePosition = new Point();
         }
 
         private void MapControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            this._previousMousePosition = new Point(); ;
+            this.previousMousePosition = new Point(); ;
         }
 
         private void rootLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -234,22 +233,22 @@ namespace BruTileWindows
                 }
                 else if (e.Cancelled == true)
                 {
-                    this._errorMessage = "Cancelled";
+                    this.errorMessage = "Cancelled";
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
                 else if (e.Error is WebResponseFormatException)
                 {
-                    this._errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
+                    this.errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
                 else if (e.Error is System.Net.WebException)
                 {
-                    this._errorMessage = "WebException: " + e.Error.Message;
+                    this.errorMessage = "WebException: " + e.Error.Message;
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
                 else
                 {
-                    this._errorMessage = "Exception: " + e.Error.Message;
+                    this.errorMessage = "Exception: " + e.Error.Message;
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
             }
@@ -257,40 +256,40 @@ namespace BruTileWindows
 
         private void MapControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this._previousMousePosition = e.GetPosition(this);
-            this._mouseDown = true;
+            this.previousMousePosition = e.GetPosition(this);
+            this.mouseDown = true;
         }
 
         void MapControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this._mouseDown = false;
+            this.mouseDown = false;
         }
 
         private void MapControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (!this._mouseDown)
+            if (!this.mouseDown)
             {
                 return;
             }
-            if (this._previousMousePosition == new Point())
+            if (this.previousMousePosition == new Point())
             {
                 return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
             }
 
-            this._currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
-            MapTransformHelpers.Pan(this._transform, this._currentMousePosition, this._previousMousePosition);
-            this._previousMousePosition = this._currentMousePosition;
+            this.currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
+            MapTransformHelper.Pan(this.transform, this.currentMousePosition, this.previousMousePosition);
+            this.previousMousePosition = this.currentMousePosition;
             this.Refresh();
         }
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
-            this._fpsCounter.FramePlusOne();
+            this.fpsCounter.FramePlusOne();
             if (this._update)
             {
-                if ((this._renderer != null) && (this._rootLayer != null))
+                if ((this.renderer != null) && (this.rootLayer != null))
                 {
-                    this._renderer.Render(this.canvas, this._rootLayer.Schema, this._transform, this._rootLayer.MemoryCache);
+                    this.renderer.Render(this.canvas, this.rootLayer.Schema, this.transform, this.rootLayer.MemoryCache);
                 }
                 this._update = false;
             }
@@ -306,9 +305,9 @@ namespace BruTileWindows
 
         private void Refresh()
         {
-            if (this._rootLayer != null)
+            if (this.rootLayer != null)
             {
-                this._rootLayer.UpdateData(_transform.Extent, _transform.Resolution);
+                this.rootLayer.UpdateData(transform.Extent, transform.Resolution);
             }
             this._update = true;
 #if !SILVERLIGHT

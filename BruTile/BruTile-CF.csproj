@@ -4,16 +4,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9ED6962B-227C-496C-AB26-9A7379227E11}</ProjectGuid>
+    <ProjectGuid>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DemoConfig</RootNamespace>
-    <AssemblyName>DemoConfigCF</AssemblyName>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile-CF</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>
     <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
     <OSVersion>5.2</OSVersion>
-    <DeployDirSuffix>DemoConfig</DeployDirSuffix>
+    <DeployDirSuffix>BruTile</DeployDirSuffix>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
     <FormFactorID>
@@ -54,23 +54,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigEsri.cs" />
-    <Compile Include="ConfigOsm.cs" />
-    <Compile Include="ConfigTms.cs" />
-    <Compile Include="ConfigVE.cs" />
-    <Compile Include="ConfigWms.cs" />
-    <Compile Include="IConfig.cs" />
+    <Compile Include="AxisInvertedY.cs" />
+    <Compile Include="AxisNormal.cs" />
+    <Compile Include="Cache\DbCache.cs" />
+    <Compile Include="Cache\FileCache.cs" />
+    <Compile Include="Cache\ITileCache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Extent.cs" />
+    <Compile Include="FileSystem\FileTileProvider.cs" />
+    <Compile Include="IAxis.cs" />
+    <Compile Include="ITileProvider.cs" />
+    <Compile Include="ITileSchema.cs" />
+    <Compile Include="ITileSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TileInfo.cs" />
+    <Compile Include="TileKey.cs" />
+    <Compile Include="TileRange.cs" />
+    <Compile Include="TileSchema.cs" />
+    <Compile Include="TileSource.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ValidationException.cs" />
+    <Compile Include="Web\ImageRequest.cs" />
+    <Compile Include="Web\IRequestBuilder.cs" />
+    <Compile Include="Web\RequestArcgis.cs" />
+    <Compile Include="Web\RequestBasic.cs" />
+    <Compile Include="Web\RequestTms.cs" />
+    <Compile Include="Web\RequestVE.cs" />
+    <Compile Include="Web\RequestWmsC.cs" />
+    <Compile Include="Web\WebResponseFormatException.cs" />
+    <Compile Include="Web\WebTileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTileMapCF.csproj">
-      <Project>{B219D0B6-E57C-4D2B-8D28-C57E09FA8BEA}</Project>
-      <Name>BruTileMapCF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTileCF.csproj">
-      <Project>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</Project>
-      <Name>BruTileCF</Name>
-    </ProjectReference>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

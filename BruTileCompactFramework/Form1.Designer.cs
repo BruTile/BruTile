@@ -15,9 +15,9 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using BruTileForms;
+using BruTile.UI.Forms;
 
-namespace BruTileCompactFramework
+namespace BruTile.UI.CompactFramework
 {
   partial class Form1
   {
@@ -52,7 +52,7 @@ namespace BruTileCompactFramework
       this.menuItem1 = new System.Windows.Forms.MenuItem();
       this.osmMenu = new System.Windows.Forms.MenuItem();
       this.bingMenu = new System.Windows.Forms.MenuItem();
-      this.mapControl1 = new BruTileForms.MapControl();
+      this.mapControl1 = new BruTile.UI.Forms.MapControl();
       this.ZoomOut = new System.Windows.Forms.Button();
       this.zoomIn = new System.Windows.Forms.Button();
       this.SuspendLayout();

@@ -1,4 +1,4 @@
-﻿// Copyright 2008 - Paul den Dulk (Geodan)
+﻿// Copyright 2009 - Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -15,20 +15,16 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using BruTile;
 using System.Windows;
-using BruTileMap;
 
-namespace BruTileWindows
+namespace BruTile.UI.Windows
 {
-    public static class MapTransformHelpers
+    public interface ITransform
     {
-        public static void Pan(MapTransform transform, Point currentMap, Point previousMap)
-        {
-            BTPoint current = transform.MapToWorld(currentMap.X, currentMap.Y);
-            BTPoint previous = transform.MapToWorld(previousMap.X, previousMap.Y);
-            float diffX = previous.X - current.X;
-            float diffY = previous.Y - current.Y;
-            transform.Center = new BTPoint(transform.Center.X + diffX, transform.Center.Y + diffY);
-        }
+        Point WorldToMap(double x, double y);
+        Point MapToWorld(double x, double y);
+        double Resolution { get; }
+        Extent Extent { get; }
     }
 }

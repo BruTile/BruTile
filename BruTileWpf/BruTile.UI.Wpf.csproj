@@ -8,8 +8,8 @@
     <ProjectGuid>{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileWpf</RootNamespace>
-    <AssemblyName>BruTileWpf</AssemblyName>
+    <RootNamespace>BruTile.UI.Wpf</RootNamespace>
+    <AssemblyName>BruTile.UI.Wpf</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -139,13 +139,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTileMap.csproj">
+    <ProjectReference Include="..\BruTileMap\BruTile.UI.csproj">
       <Project>{FAF7E39B-42BC-4E15-A357-3F348243FE46}</Project>
-      <Name>BruTileMap</Name>
+      <Name>BruTile.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTileWindows\BruTileWindows.csproj">
+    <ProjectReference Include="..\BruTileWindows\BruTile.UI.Windows.csproj">
       <Project>{9142A5C9-38F9-42DF-8E9A-79E5A919151F}</Project>
-      <Name>BruTileWindows</Name>
+      <Name>BruTile.UI.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>

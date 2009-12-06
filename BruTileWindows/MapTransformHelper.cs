@@ -15,27 +15,27 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
+using System.Windows;
 using BruTile;
 
-namespace BruTile.UI
+namespace BruTile.UI.Windows
 {
-    /// <summary>
-    /// Contains some useful helper functions.
-    /// </summary>
-    public static class Utilities
+    public static class MapTransformHelper
     {
-        /// <summary>
-        /// Gets the euclidean distance between two points.
-        /// </summary>
-        /// <param name="x1">The first point's X coordinate.</param>
-        /// <param name="y1">The first point's Y coordinate.</param>
-        /// <param name="x2">The second point's X coordinate.</param>
-        /// <param name="y2">The second point's Y coordinate.</param>
-        /// <returns></returns>
-        public static double Distance(double x1, double y1, double x2, double y2)
+        public static void Pan(MapTransform transform, Point currentMap, Point previousMap)
         {
-            return Math.Sqrt(Math.Pow(x1 - x2, 2.0) + Math.Pow(y1 - y2, 2.0));
+            Point current = transform.MapToWorld(currentMap.X, currentMap.Y);
+            Point previous = transform.MapToWorld(previousMap.X, previousMap.Y);
+            double diffX = previous.X - current.X;
+            double diffY = previous.Y - current.Y;
+            transform.Center = new Point(transform.Center.X + diffX, transform.Center.Y + diffY);
+        }
+
+        public static Rect WorldToMap(Extent extent, ITransform transform)
+        {
+            Point min = transform.WorldToMap(extent.MinX, extent.MinY);
+            Point max = transform.WorldToMap(extent.MaxX, extent.MaxY);
+            return new Rect(min.X, max.Y, max.X - min.X, min.Y - max.Y);
         }
     }
 }

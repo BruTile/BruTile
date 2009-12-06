@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace BruTileSurface
+namespace BruTile.UI.Surface
 {
   /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
   class FpsCounter : DependencyObject

@@ -17,9 +17,9 @@
 
 using System.Drawing;
 using System.IO;
-using BruTileMap;
+using BruTile.UI;
 
-namespace BruTileForms
+namespace BruTile.UI.Forms
 {
     public class TileFactory : ITileFactory<Bitmap>
     {

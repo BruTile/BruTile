@@ -8,8 +8,8 @@
     <ProjectGuid>{DB2276E9-C6BB-4335-9D23-AC26A74E0F08}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileWinForms</RootNamespace>
-    <AssemblyName>BruTileWinForms</AssemblyName>
+    <RootNamespace>BruTile.UI.WinForms</RootNamespace>
+    <AssemblyName>BruTile.UI.WinForms</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -80,13 +80,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileForms\BruTileForms.csproj">
+    <ProjectReference Include="..\BruTileForms\BruTile.UI.Forms.csproj">
       <Project>{4E40E824-96B8-4F98-A0F8-2DBDF9D3DCE5}</Project>
-      <Name>BruTileForms</Name>
+      <Name>BruTile.UI.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTileMap\BruTileMap.csproj">
+    <ProjectReference Include="..\BruTileMap\BruTile.UI.csproj">
       <Project>{FAF7E39B-42BC-4E15-A357-3F348243FE46}</Project>
-      <Name>BruTileMap</Name>
+      <Name>BruTile.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>

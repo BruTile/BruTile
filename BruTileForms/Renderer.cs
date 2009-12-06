@@ -19,12 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using BruTile;
-using BruTileMap;
+using BruTile.UI;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using BruTile.Cache;
 
-namespace BruTileForms
+namespace BruTile.UI.Forms
 {
   public static class Renderer
   {
@@ -124,8 +124,8 @@ namespace BruTileForms
 
     private static RectangleF WorldToMap(Extent extent, MapTransform transform)
     {
-      BTPoint min = transform.WorldToMap(extent.MinX, extent.MinY);
-      BTPoint max = transform.WorldToMap(extent.MaxX, extent.MaxY);
+      PointF min = transform.WorldToMap(extent.MinX, extent.MinY);
+      PointF max = transform.WorldToMap(extent.MaxX, extent.MaxY);
       return new RectangleF(min.X, max.Y, max.X - min.X, min.Y - max.Y);
     }
 

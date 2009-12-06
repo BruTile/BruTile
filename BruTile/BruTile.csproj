@@ -64,7 +64,6 @@
     <Compile Include="TileKey.cs" />
     <Compile Include="TileRange.cs" />
     <Compile Include="Cache\FileCache.cs" />
-    <Compile Include="Tile.cs" />
     <Compile Include="TileSchema.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="Utilities.cs" />

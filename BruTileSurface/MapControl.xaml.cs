@@ -26,12 +26,12 @@ using Microsoft.Surface.Presentation.Manipulations;
 using Microsoft.Surface.Presentation;
 using BruTile;
 using DemoConfig;
-using BruTileMap;
-using BruTileWindows;
+using BruTile.UI;
+using BruTile.UI.Windows;
 using System.IO;
 using BruTile.Web;
 
-namespace BruTileSurface
+namespace BruTile.UI.Surface
 {
     partial class MapControl : SurfaceUserControl
     {

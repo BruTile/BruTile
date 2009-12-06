@@ -1,5 +1,5 @@
-// Copyright 2007 - Paul den Dulk (Geodan)
-//
+﻿// Copyright 2009 - Paul den Dulk (Geodan)
+// 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -15,11 +15,17 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
+using BruTile;
+using System.Windows;
+using System.Drawing;
 
-
-
-namespace BruTile
+namespace BruTile.UI.Forms
 {
+    public interface ITransform
+    {
+        PointF WorldToMap(double x, double y);
+        PointF MapToWorld(double x, double y);
+        double Resolution { get; }
+        Extent Extent { get; }
+    }
 }

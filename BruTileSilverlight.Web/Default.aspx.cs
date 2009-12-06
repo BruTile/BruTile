@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace BruTileSilverlight.Web
+namespace BruTile.UI.Silverlight.Web
 {
   public partial class _Default : System.Web.UI.Page
   {

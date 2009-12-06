@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="BruTileSilverlight.MainPage" 
+﻿<UserControl x:Class="BruTile.UI.Silverlight.MainPage" 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:brutile="clr-namespace:BruTileWindows;assembly=BruTileWindows"
+    xmlns:brutile="clr-namespace:BruTile.UI.Windows;assembly=BruTile.UI.Windows"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" Width="800" Height="600">
   <Grid x:Name="LayoutRoot" Width="800" Height="600">
     <brutile:MapControl x:Name="map" Width="800" Height="600" ErrorMessageChanged="map_ErrorMessageChanged"></brutile:MapControl>

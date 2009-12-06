@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using BruTile;
 
-namespace BruTileMap
+namespace BruTile.UI.Fetcher
 {
     class FetchStrategy : IFetchStrategy
     {

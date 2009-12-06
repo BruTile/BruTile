@@ -4,30 +4,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{066B11A1-B05D-4DD4-B372-1CCEDF929962}</ProjectGuid>
+    <ProjectGuid>{DD028875-B9BD-45B0-8306-797D318FA57B}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileSilverlight</RootNamespace>
-    <AssemblyName>BruTileSilverlight</AssemblyName>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile-SL</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>
-    </SupportedCultures>
-    <XapOutputs>true</XapOutputs>
-    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>BruTileSilverlight.xap</XapFilename>
-    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>BruTileSilverlight.App</SilverlightAppEntry>
-    <TestPageFileName>TestPage.html</TestPageFileName>
-    <CreateTestPage>true</CreateTestPage>
+    <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
-    <EnableOutOfBrowser>false</EnableOutOfBrowser>
-    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
-    <UsePlatformExtensions>false</UsePlatformExtensions>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <LinkedServerProject>
-    </LinkedServerProject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,49 +41,42 @@
     <Reference Include="mscorlib" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AxisInvertedY.cs" />
+    <Compile Include="AxisNormal.cs" />
+    <Compile Include="Cache\FileCache.cs" />
+    <Compile Include="Cache\ITileCache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Extent.cs" />
+    <Compile Include="FileSystem\FileTileProvider.cs" />
+    <Compile Include="IAxis.cs" />
+    <Compile Include="ITileProvider.cs" />
+    <Compile Include="ITileSchema.cs" />
+    <Compile Include="ITileSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TileInfo.cs" />
+    <Compile Include="TileKey.cs" />
+    <Compile Include="TileRange.cs" />
+    <Compile Include="TileSchema.cs" />
+    <Compile Include="TileSource.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ValidationException.cs" />
+    <Compile Include="Web\ImageRequest.cs" />
+    <Compile Include="Web\IRequestBuilder.cs" />
+    <Compile Include="Web\RequestArcgis.cs" />
+    <Compile Include="Web\RequestBasic.cs" />
+    <Compile Include="Web\RequestTms.cs" />
+    <Compile Include="Web\RequestVE.cs" />
+    <Compile Include="Web\RequestWmsC.cs" />
+    <Compile Include="Web\WebResponseFormatException.cs" />
+    <Compile Include="Web\WebTileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-    </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\AppManifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTileMapSL.csproj">
-      <Project>{DF93419D-F269-447F-BFE9-0E2A1A4EE2BF}</Project>
-      <Name>BruTileMapSL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BruTileWindows\BruTileWindowsSL.csproj">
-      <Project>{DC9F828B-9873-4C4C-949C-70358EE06AA4}</Project>
-      <Name>BruTileWindowsSL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTileSL.csproj">
-      <Project>{DD028875-B9BD-45B0-8306-797D318FA57B}</Project>
-      <Name>BruTileSL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DemoConfig\DemoConfigSL.csproj">
-      <Project>{8C3CFBF5-A0B3-496F-B287-2BBD988D2373}</Project>
-      <Name>DemoConfigSL</Name>
-    </ProjectReference>
+    <Content Include="BruTile.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

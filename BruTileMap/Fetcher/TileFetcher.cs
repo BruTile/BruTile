@@ -18,10 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using BruTile;
 using BruTile.Cache;
 
-namespace BruTileMap
+namespace BruTile.UI.Fetcher
 {
     class TileFetcher<T> : IDisposable
     {

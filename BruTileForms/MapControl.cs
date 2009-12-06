@@ -20,22 +20,22 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using BruTile;
-using BruTileMap;
+using BruTile.UI;
 using BruTile.Web;
 
-namespace BruTileForms
+namespace BruTile.UI.Forms
 {
   public class MapControl : System.Windows.Forms.Control
   {
     #region Fields
 
-    private TileLayer<Bitmap> rootLayer;
+    private TileLayer rootLayer;
     private MapTransform transform = new MapTransform();
     private string errorMessage;
     private Bitmap buffer;
     private Graphics bufferGraphics;
     private Brush whiteBrush = new SolidBrush(Color.White);
-    private BTPoint mousePosition;
+    private PointF mousePosition;
   
     #endregion
 
@@ -52,7 +52,7 @@ namespace BruTileForms
       get { return transform; }
     }
 
-    public TileLayer<Bitmap> RootLayer
+    public TileLayer RootLayer
     {
       get { return rootLayer; }
       set
@@ -92,7 +92,7 @@ namespace BruTileForms
       Refresh();
     }
 
-    public void ZoomIn(BTPoint mapPosition)
+    public void ZoomIn(PointF mapPosition)
     {
       // When zooming in we want the mouse position to stay above the same world coordinate.
       // We do that in 3 steps.
@@ -203,7 +203,7 @@ namespace BruTileForms
 
     private void MapControl_MouseDown(object sender, MouseEventArgs e)
     {
-      mousePosition = new BTPoint(e.X, e.Y);
+      mousePosition = new PointF(e.X, e.Y);
     }
 
     private void MapControl_MouseMove(object sender, MouseEventArgs e)
@@ -211,7 +211,7 @@ namespace BruTileForms
       if (e.Button == MouseButtons.Left)
       {
         if (mousePosition == null) return;
-        BTPoint newMousePosition = new BTPoint(e.X, e.Y);
+        PointF newMousePosition = new PointF(e.X, e.Y);
         MapTransformHelpers.Pan(transform, newMousePosition, mousePosition);
         mousePosition = newMousePosition;
 

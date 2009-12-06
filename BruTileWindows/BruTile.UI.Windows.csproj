@@ -8,8 +8,8 @@
     <ProjectGuid>{9142A5C9-38F9-42DF-8E9A-79E5A919151F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileWindows</RootNamespace>
-    <AssemblyName>BruTileWindows</AssemblyName>
+    <RootNamespace>BruTile.UI.Windows</RootNamespace>
+    <AssemblyName>BruTile.UI.Windows</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -55,13 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FpsCounter.cs" />
+    <Compile Include="ITransform.cs" />
     <Compile Include="MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MapTransformHelpers.cs" />
+    <Compile Include="MapTransform.cs" />
+    <Compile Include="MapTransformHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="TileFactory.cs" />
+    <Compile Include="TileLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MapControl.xaml">
@@ -70,9 +73,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTileMap.csproj">
+    <ProjectReference Include="..\BruTileMap\BruTile.UI.csproj">
       <Project>{FAF7E39B-42BC-4E15-A357-3F348243FE46}</Project>
-      <Name>BruTileMap</Name>
+      <Name>BruTile.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>
