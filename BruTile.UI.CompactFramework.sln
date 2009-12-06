@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI-CF", "BruTile.UI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Forms-CF", "BruTile.UI.Forms\BruTile.UI.Forms-CF.csproj", "{B42CFE51-59DF-495F-8962-7C90D27B973D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.CompactFramework", "BruTile.CompactFramework\BruTile.UI.CompactFramework.csproj", "{1932085C-F913-49E1-85B6-7B11E3D026B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.CompactFramework", "BruTile.UI.CompactFramework\BruTile.UI.CompactFramework.csproj", "{1932085C-F913-49E1-85B6-7B11E3D026B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
