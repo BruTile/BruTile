@@ -63,10 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTile.UI-CF.csproj">
-      <Project>{B219D0B6-E57C-4D2B-8D28-C57E09FA8BEA}</Project>
-      <Name>BruTile.UI-CF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile-CF.csproj">
       <Project>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</Project>
       <Name>BruTile-CF</Name>
