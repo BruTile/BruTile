@@ -1,5 +1,0 @@
-C:\Users\paul\Desktop\New folder\brutile\bin\CF\Debug\BruTile.UI-CF.dll
-C:\Users\paul\Desktop\New folder\brutile\bin\CF\Debug\BruTile.UI-CF.pdb
-C:\Users\paul\Desktop\New folder\brutile\BruTile.UI\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\paul\Desktop\New folder\brutile\BruTile.UI\obj\Debug\BruTile.UI-CF.dll
-C:\Users\paul\Desktop\New folder\brutile\BruTile.UI\obj\Debug\BruTile.UI-CF.pdb
