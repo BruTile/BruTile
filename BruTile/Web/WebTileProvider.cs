@@ -27,6 +27,9 @@ namespace BruTile.Web
     {
         IRequestBuilder requestBuilder;
         ITileCache<byte[]> fileCache;
+        string userAgent;
+        string referer;
+        bool keepAlive = true;
 
         public WebTileProvider(IRequestBuilder requestBuilder)
             : this(requestBuilder, new NullCache())
@@ -34,12 +37,31 @@ namespace BruTile.Web
         }
 
         public WebTileProvider(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache)
+            : this(requestBuilder, fileCache, String.Empty, String.Empty, true)
+        {
+        }
+
+        public WebTileProvider(IRequestBuilder requestBuilder, string userAgent, string referer, bool keepAlive)
+            : this(requestBuilder, new NullCache(), userAgent, referer, keepAlive)
+        {
+        }
+
+        public WebTileProvider(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache, 
+            string userAgent, string referer, bool keepAlive)
         {
             if (requestBuilder == null) throw new ArgumentException("RequestBuilder can not be null");
             this.requestBuilder = requestBuilder;
 
-            if (fileCache == null) throw new ArgumentException("File can not be null");
+            if (fileCache == null) throw new ArgumentException("FileCache can not be null");
             this.fileCache = fileCache;
+
+            if (userAgent == null) throw new ArgumentException("UserAgent can not be null");
+            this.userAgent = userAgent;
+
+            if (referer == null) throw new ArgumentException("UserAgent can not be null");
+            this.referer = referer;
+
+            this.keepAlive = keepAlive;
         }
 
         #region TileProvider Members
@@ -51,7 +73,7 @@ namespace BruTile.Web
             bytes = fileCache.Find(tileInfo.Key);
             if (bytes == null)
             {
-                bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo));
+                bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo), userAgent, referer, keepAlive);
                 if (bytes != null)
                     fileCache.Add(tileInfo.Key, bytes);
             }

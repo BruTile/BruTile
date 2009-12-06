@@ -33,6 +33,9 @@ namespace BruTile.Web
         {
             WebClient webClient = new WebClient();
 
+            if (!String.IsNullOrEmpty(userAgent)) webRequest.Headers.Add("user-agent", userAgent);
+            if (!String.IsNullOrEmpty(referer)) webRequest.Headers.Add("Referer", referer);
+
             AsyncEventArgs asyncEventArgs = new AsyncEventArgs()
             {
                 WaitHandle = new AutoResetEvent(false)
@@ -80,16 +83,25 @@ namespace BruTile.Web
         }
 
 #else
+
         public static byte[] GetImageFromServer(Uri uri)
         {
-            WebRequest webRequest = WebRequest.Create(uri);
-            
+            return GetImageFromServer(uri, String.Empty, String.Empty, true);
+        }
+
+        public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
+
 #if !PocketPC
             IWebProxy proxy = WebRequest.GetSystemWebProxy();
             proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
             webRequest.Proxy = proxy;
             webRequest.PreAuthenticate = true;
 #endif
+            webRequest.KeepAlive = keepAlive;
+            if (!String.IsNullOrEmpty(userAgent)) webRequest.UserAgent = userAgent;
+            if (!String.IsNullOrEmpty(referer)) webRequest.Referer = referer;
 
             WebResponse webResponse = webRequest.GetResponse();
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
