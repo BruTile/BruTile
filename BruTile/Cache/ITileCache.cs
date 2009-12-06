@@ -1,4 +1,4 @@
-﻿// Copyright 2008 - Paul den Dulk (Geodan)
+// Copyright 2008 - Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -15,14 +15,13 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using BruTile;
 
-namespace DemoConfig
+namespace BruTile.Cache
 {
-    //IConfig is currently used for demo purposes. This will probably not be part of a release
-    public interface ITileSource
+    public interface ITileCache<T>
     {
-        ITileProvider TileProvider { get; }
-        ITileSchema TileSchema { get; }
+        void Add(TileKey key, T image);
+        void Remove(TileKey key);
+        T Find(TileKey key);
     }
 }

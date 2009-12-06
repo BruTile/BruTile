@@ -19,8 +19,9 @@ using System;
 using System.Net;
 using BruTile;
 using System.Threading;
+using BruTile.Cache;
 
-namespace BruTileMap
+namespace BruTile.Web
 {
     public class WebTileProvider : ITileProvider
     {

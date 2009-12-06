@@ -17,6 +17,7 @@
 
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace BruTile
 {
@@ -45,5 +46,33 @@ namespace BruTile
                 }
             }
         }
+
+        public static int GetNearestLevel(IList<double> resolutions, double resolution)
+        {
+            if (resolutions.Count == 0)
+            {
+                throw new ArgumentException("No tile resolutions");
+            }
+
+            //smaller than smallest
+            if (resolutions[resolutions.Count - 1] > resolution) return resolutions.Count - 1;
+
+            //bigger than biggest
+            if (resolutions[0] < resolution) return 0;
+
+            int result = 0;
+            double resultDistance = double.MaxValue;
+            for (int i = 0; i < resolutions.Count; i++)
+            {
+                double distance = Math.Abs(resolutions[i] - resolution);
+                if (distance < resultDistance)
+                {
+                    result = i;
+                    resultDistance = distance;
+                }
+            }
+            return result;
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 - Tim Ebben (Geodan)
+﻿// Copyright 2008 - Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -17,36 +17,42 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
+using System.Text;
 
-namespace BruTile
+namespace BruTile.Web
 {
-    public class RequestArcgis : IRequestBuilder
+    public class RequestTms : IRequestBuilder
     {
         Uri baseUrl;
         Dictionary<string, string> customParameters;
         string format;
 
-        public RequestArcgis(Uri baseUrl, string format)
+        public RequestTms(Uri baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
         {
         }
 
-        public RequestArcgis(Uri baseUrl, string format, Dictionary<string, string> customParameters)
+        public RequestTms(Uri baseUrl, string format, Dictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.format = format;
             this.customParameters = customParameters;
         }
 
+        /// <summary>
+        /// Generates a URI at which to get the data for a tile.
+        /// </summary>
+        /// <param name="tile">Information about a tile.</param>
+        /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo tile)
         {
             System.Text.StringBuilder url = new StringBuilder();
 
             url.AppendFormat(CultureInfo.InvariantCulture,
               "{0}/{1}/{2}/{3}.{4}",
-              baseUrl, levelToHex(tile.Key.Level), rowToHex(tile.Key.Row), columnToHex(tile.Key.Col), format);
+              baseUrl, tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
+
             AppendCustomParameters(url);
             return new Uri(url.ToString());
         }
@@ -63,30 +69,6 @@ namespace BruTile
                     first = false;
                 }
             }
-        }
-
-        string levelToHex(int zoom)
-        {
-            String zoomUrl;
-
-            if (zoom < 10)
-                zoomUrl = "L0" + (String)zoom.ToString();
-            else
-                zoomUrl = "L" + (String)zoom.ToString();
-
-            return zoomUrl;
-        }
-
-        string columnToHex(int x)
-        {
-            String hexX;
-            return hexX = "C" + String.Format("{0:x8}", x); //Column (xTile naar hex met min/max 8 getallen aanvullen met 0)
-        }
-
-        string rowToHex(int y)
-        {
-            String hexY;
-            return hexY = "R" + String.Format("{0:x8}", y); //Row (yTile naar hex met min/max 8 getallen aanvullen met 0)
         }
 
     }

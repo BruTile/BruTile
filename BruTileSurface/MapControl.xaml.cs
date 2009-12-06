@@ -29,6 +29,7 @@ using DemoConfig;
 using BruTileMap;
 using BruTileWindows;
 using System.IO;
+using BruTile.Web;
 
 namespace BruTileSurface
 {
@@ -208,7 +209,7 @@ namespace BruTileSurface
         {
             InitTransform();
             IConfig config = new ConfigVE();
-            tileLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());  
+            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());  
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             this.MouseDown += new MouseButtonEventHandler(MapControl_MouseDown);
@@ -359,7 +360,7 @@ namespace BruTileSurface
         private void rb1_Click(object sender, RoutedEventArgs e)
         {
             IConfig config = new ConfigOsm();
-            tileLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
+            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());
             tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
             tileLayer.UpdateData(transform.Extent, transform.Resolution);
             update = true;
@@ -369,7 +370,7 @@ namespace BruTileSurface
         private void rb2_Click(object sender, RoutedEventArgs e)
         {
             IConfig config = new ConfigVE();
-            tileLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
+            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());
             tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
             tileLayer.UpdateData(transform.Extent, transform.Resolution);
             update = true;

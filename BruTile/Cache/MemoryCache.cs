@@ -18,9 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BruTile;
 
-namespace BruTileMap
+namespace BruTile.Cache
 {
     public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
     {

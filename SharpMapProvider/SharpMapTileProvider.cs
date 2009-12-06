@@ -5,6 +5,7 @@ using SharpMap.Layers;
 using SharpMap.Styles;
 using BruTile;
 using System;
+using BruTile.Cache;
 
 namespace SharpMapProvider
 {

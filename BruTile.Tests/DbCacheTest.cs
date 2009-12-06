@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BruTile;
 using NUnit.Framework;
 using System.Data.SQLite;
+using BruTile.Cache;
 
 namespace SharpMap.Layers.Tests
 {

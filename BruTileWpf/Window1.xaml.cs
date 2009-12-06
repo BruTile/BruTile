@@ -6,6 +6,7 @@ using System.Windows.Data;
 using BruTileMap;
 using BruTileWindows;
 using DemoConfig;
+using BruTile;
 
 namespace BruTileWpf
 {
@@ -41,7 +42,7 @@ namespace BruTileWpf
         void map_Loaded(object sender, RoutedEventArgs e)
         {
             InitTransform();
-            this.SetConfig(new ConfigOsm());
+            SetConfig(new ConfigOsm());
 
             FpsText.DataContext = map.FpsCounter;
             FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
@@ -62,12 +63,12 @@ namespace BruTileWpf
 
         private void Osm_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigOsm());
+            SetConfig(new ConfigOsm());
         }
 
         private void GeodanWms_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigWms());
+            SetConfig(new ConfigWms());
         }
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
@@ -80,7 +81,7 @@ namespace BruTileWpf
             this.SetConfig(new ConfigVE());
         }
 
-        private void SetConfig(ITileSource config)
+        private void SetConfig(IConfig config)
         {
             if (map.RootLayer != null)
             {
@@ -90,8 +91,7 @@ namespace BruTileWpf
             }
 
             map.RootLayer = new TileLayer<MemoryStream>(
-                config.TileProvider, 
-                config.TileSchema, 
+                config.CreateTileSource(), 
                 new TileFactory());
 
             //todo: move elsewhere

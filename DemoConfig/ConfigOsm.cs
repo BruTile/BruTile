@@ -17,26 +17,18 @@
 
 using System;
 using BruTile;
-using BruTileMap;
+using BruTile.Web;
 
 namespace DemoConfig
 {
-    public class ConfigOsm : ITileSource
+    public class ConfigOsm : IConfig
     {
-        string format = "png";
-        string name = "OpenStreetMap";
-        string url = "http://b.tile.openstreetmap.org";
+        public ITileSource CreateTileSource()
+        {
+            return new TileSource(TileProvider, TileSchema);
+        }
 
-        private static double[] resolutions = new double[] { 
-            156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
-            9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
-            611.496226172, 305.748113086, 152.874056543, 76.437028271, 
-            38.218514136, 19.109257068, 9.554628534, 4.777314267, 
-            2.388657133, 1.194328567, 0.597164283};
-
-        #region IConfig Members
-
-        public ITileProvider TileProvider
+        public static ITileProvider TileProvider
         {
             get
             {
@@ -44,10 +36,19 @@ namespace DemoConfig
             }
         }
 
-        public ITileSchema TileSchema
+        public static ITileSchema TileSchema
         {
             get
             {
+                double[] resolutions = new double[] { 
+                    156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
+                    9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
+                    611.496226172, 305.748113086, 152.874056543, 76.437028271, 
+                    38.218514136, 19.109257068, 9.554628534, 4.777314267, 
+                    2.388657133, 1.194328567, 0.597164283};
+
+                string name = "OpenStreetMap";
+       
                 TileSchema schema = new TileSchema();
                 foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
@@ -56,20 +57,20 @@ namespace DemoConfig
                 schema.OriginX = -20037508.342789;
                 schema.OriginY = 20037508.342789;
                 schema.Name = name;
-                schema.Format = format;
+                schema.Format = "png";
                 schema.Axis = AxisDirection.InvertedY;
                 schema.Srs = "EPSG:3785";
                 return schema;
             }
         }
 
-        #endregion
-
-        private IRequestBuilder RequestBuilder
+        private static IRequestBuilder RequestBuilder
         {
             get
             {
-                return new RequestTms(new Uri(url), format);
+                string url = "http://b.tile.openstreetmap.org";
+
+                return new RequestTms(new Uri(url), "png");
             }
         }
     }

@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using BruTile;
+using BruTile.Cache;
 
 namespace BruTileMap
 {
@@ -27,8 +28,7 @@ namespace BruTileMap
         #region Fields
 
         private MemoryCache<T> memoryCache;
-        private ITileProvider tileProvider;
-        private ITileSchema schema;
+        private ITileSource tileSource;
         private ITileFactory<T> tileFactory;
         private Extent extent;
         private double resolution;
@@ -54,16 +54,13 @@ namespace BruTileMap
 
         #region Constructors Destructors
 
-        public TileFetcher(ITileProvider tileProvider, MemoryCache<T> memoryCache, ITileSchema schema, ITileFactory<T> tileFactory)
+        public TileFetcher(ITileSource source, MemoryCache<T> memoryCache, ITileFactory<T> tileFactory)
         {
-            if (tileProvider == null) throw new ArgumentException("TileProvider can not be null");
-            this.tileProvider = tileProvider;
+            if (source == null) throw new ArgumentException("TileProvider can not be null");
+            this.tileSource = source;
 
             if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
             this.memoryCache = memoryCache;
-
-            if (schema == null) throw new ArgumentException("ITileSchema can not be null");
-            this.schema = schema;
 
             if (tileFactory == null) throw new ArgumentException("ITileFactory can not be null");
             this.tileFactory = tileFactory;
@@ -110,8 +107,8 @@ namespace BruTileMap
 
                 if (needUpdate)
                 {
-                    int level = Tile.GetNearestLevel(schema.Resolutions, resolution);
-                    tilesNeeded = strategy.GetTilesWanted(schema, extent, level);
+                    int level = BruTile.Utilities.GetNearestLevel(tileSource.Schema.Resolutions, resolution);
+                    tilesNeeded = strategy.GetTilesWanted(tileSource.Schema, extent, level);
                     retries.Clear();
                     needUpdate = false;
                 }
@@ -178,7 +175,7 @@ namespace BruTileMap
 
         private void StartFetchOnThread(TileInfo tile)
         {
-            FetchOnThread fetchOnThread = new FetchOnThread(tileProvider, tile, new FetchCompletedEventHandler(LocalFetchCompleted));
+            FetchOnThread fetchOnThread = new FetchOnThread(tileSource.Provider, tile, new FetchCompletedEventHandler(LocalFetchCompleted));
             Thread thread = new Thread(fetchOnThread.FetchTile);
             thread.Name = "Tile Fetcher";
             thread.Start();

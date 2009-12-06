@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using BruTile;
 using BruTileMap;
 using BruTileWindows;
 using DemoConfig;
-using System.Windows.Media.Imaging;
-using System.IO;
 
 namespace BruTileSilverlight
 {
@@ -20,8 +20,8 @@ namespace BruTileSilverlight
     void map_Loaded(object sender, RoutedEventArgs e)
     {
       InitTransform();
-      ITileSource config = new ConfigOsm();
-      map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
+      ITileSource source = new ConfigOsm().CreateTileSource();
+      map.RootLayer = new TileLayer<MemoryStream>(source, new TileFactory());
     }
 
     private void InitTransform()
@@ -34,14 +34,14 @@ namespace BruTileSilverlight
 
     private void Osm_Click(object sender, RoutedEventArgs e)
     {
-      ITileSource config = new ConfigOsm();
-      map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
+      ITileSource source = new ConfigOsm().CreateTileSource();
+      map.RootLayer = new TileLayer<MemoryStream>(source, new TileFactory());
     }
 
     private void BingMaps_Click(object sender, RoutedEventArgs e)
     {
-      ITileSource config = new ConfigVE();
-      map.RootLayer = new TileLayer<MemoryStream>(config.TileProvider, config.TileSchema, new TileFactory());
+      ITileSource source = new ConfigVE().CreateTileSource();
+      map.RootLayer = new TileLayer<MemoryStream>(source, new TileFactory());
     }
 
     private void map_ErrorMessageChanged(object sender, EventArgs e)

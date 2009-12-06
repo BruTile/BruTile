@@ -16,16 +16,14 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.Net;
 
-namespace BruTile
+namespace BruTile.Web
 {
-    public interface IRequestBuilder
+    public class WebResponseFormatException : WebException
     {
-        /// <summary>
-        /// Generates a URI at which to get the data for a tile.
-        /// </summary>
-        /// <param name="tile">Information about a tile.</param>
-        /// <returns>The URI at which to get the data for the specified tile.</returns>
-        Uri GetUri(TileInfo tile);
+        public WebResponseFormatException() : base() { }
+        public WebResponseFormatException(string message) : base(message) { }
+        public WebResponseFormatException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

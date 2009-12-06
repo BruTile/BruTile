@@ -18,26 +18,18 @@
 using System;
 using System.Collections.Generic;
 using BruTile;
-using BruTileMap;
+using BruTile.Web;
 
 namespace DemoConfig
 {
-    public class ConfigWmsC : ITileSource
+    public class ConfigWmsC : IConfig
     {
-        string format = "png";
-        string name = "Geodan TMS";
-        string url = "http://geoserver.nl/tiles/tilecache.aspx?";
+        public ITileSource CreateTileSource()
+        {
+            return new TileSource(TileProvider, TileSchema);
+        }
 
-        private static double[] resolutions = new double[] { 
-            156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
-            9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
-            611.496226172, 305.748113086, 152.874056543, 76.437028271, 
-            38.218514136, 19.109257068, 9.554628534, 4.777314267, 
-            2.388657133, 1.194328567, 0.597164283};
-
-        #region IConfig Members
-
-        public ITileProvider TileProvider
+        private static ITileProvider TileProvider
         {
             get
             {
@@ -45,10 +37,20 @@ namespace DemoConfig
             }
         }
 
-        public ITileSchema TileSchema
+        private static ITileSchema TileSchema
         {
             get
             {
+                string format = "png";
+                string name = "Geodan TMS";
+
+                double[] resolutions = new double[] { 
+                    156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
+                    9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
+                    611.496226172, 305.748113086, 152.874056543, 76.437028271, 
+                    38.218514136, 19.109257068, 9.554628534, 4.777314267, 
+                    2.388657133, 1.194328567, 0.597164283};
+
                 TileSchema schema = new TileSchema();
                 foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
@@ -64,16 +66,13 @@ namespace DemoConfig
             }
         }
 
-        #endregion
-
-        private IRequestBuilder RequestBuilder
+        private static IRequestBuilder RequestBuilder
         {
             get
             {
+                string url = "http://geoserver.nl/tiles/tilecache.aspx?";
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters.Add("seriveparam", "ortho10");
-
-
                 RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
                   new List<string>(new string[] { "world_GM" }), new List<string>(), parameters);
                 return request;
