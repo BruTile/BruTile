@@ -20,12 +20,10 @@
 
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using BruTile;
 using System.Data;
+using System.Data.Common;
 
-namespace SharpMap.Layers
+namespace BruTile.Cache
 {
     /// <summary>
     /// Sql command for inserting tiles in database.

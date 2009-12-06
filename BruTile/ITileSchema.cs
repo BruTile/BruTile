@@ -71,9 +71,8 @@ namespace BruTile
             get;
         }
 
-        string Additions
-        {
-            get;
-        }
+        IList<TileInfo> GetTilesInView(Extent extent, int level);
+
+        Extent GetExtentOfTilesInView(Extent extent, int level);
     }
 }

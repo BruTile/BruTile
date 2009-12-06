@@ -22,6 +22,7 @@ using BruTile;
 using BruTileMap;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using BruTile.Cache;
 
 namespace BruTileForms
 {
@@ -30,13 +31,13 @@ namespace BruTileForms
     public static void Render(Graphics graphics, ITileSchema schema,
       MapTransform transform, MemoryCache<Bitmap> cache)
     {
-      int level = Tile.GetNearestLevel(schema.Resolutions, transform.Resolution);
-      DrawRecursive(graphics, schema, transform, cache, Tile.GetTileExtent(schema, transform.Extent, level), level);
+      int level = BruTile.Utilities.GetNearestLevel(schema.Resolutions, transform.Resolution);
+      DrawRecursive(graphics, schema, transform, cache, schema.GetExtentOfTilesInView(transform.Extent, level), level);
     }
 
     private static void DrawRecursive(Graphics graphics, ITileSchema schema, MapTransform transform, MemoryCache<Bitmap> cache, Extent extent, int level)
     {
-      IList<TileInfo> tiles = Tile.GetTilesInView(schema, extent, level);
+      IList<TileInfo> tiles = schema.GetTilesInView(extent, level);
 
       foreach (TileInfo tile in tiles)
       {

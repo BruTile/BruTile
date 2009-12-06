@@ -21,7 +21,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace BruTile
+namespace BruTile.Web
 {
     public static class ImageRequest
     {

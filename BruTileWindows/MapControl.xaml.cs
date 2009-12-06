@@ -24,6 +24,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using BruTileMap;
+using BruTile.Web;
 
 namespace BruTileWindows
 {
@@ -236,7 +237,7 @@ namespace BruTileWindows
                     this._errorMessage = "Cancelled";
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
-                else if (e.Error is BruTile.WebResponseFormatException)
+                else if (e.Error is WebResponseFormatException)
                 {
                     this._errorMessage = "UnexpectedTileFormat: " + e.Error.Message;
                     this.OnErrorMessageChanged(EventArgs.Empty);

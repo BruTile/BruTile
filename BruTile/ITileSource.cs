@@ -15,15 +15,14 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Net;
+using BruTile;
 
 namespace BruTile
 {
-    public class WebResponseFormatException : WebException
+    //IConfig is currently used for demo purposes. This will probably not be part of a release
+    public interface ITileSource
     {
-        public WebResponseFormatException() : base() { }
-        public WebResponseFormatException(string message) : base(message) { }
-        public WebResponseFormatException(string message, Exception innerException) : base(message, innerException) { }
+        ITileProvider Provider { get; }
+        ITileSchema Schema { get; }
     }
 }

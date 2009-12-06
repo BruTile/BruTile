@@ -14,20 +14,14 @@ using SharpMapProvider;
 
 namespace DemoConfig
 {
-    public class ConfigSharpMap : ITileSource
+    public class ConfigSharpMap : IConfig
     {
-        string format = "jpg";
-        string name = "SharpMap";
+        public ITileSource CreateTileSource()
+        {
+            return new TileSource(TileProvider, TileSchema);
+        }
 
-        private static double[] ScalesOsm = new double[] { 
-            156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
-            9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
-            611.496226172, 305.748113086, 152.874056543, 76.437028271, 
-            38.218514136, 19.109257068, 9.554628534, 4.777314267, 
-            2.388657133, 1.194328567, 0.597164283};
-
-
-        public ITileProvider TileProvider
+        public static ITileProvider TileProvider
         {
             get
             {
@@ -35,26 +29,33 @@ namespace DemoConfig
             }
         }
 
-        public ITileSchema TileSchema
+        public static ITileSchema TileSchema
         {
             get
             {
+                double[] resolutions = new double[] { 
+                    156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
+                    9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
+                    611.496226172, 305.748113086, 152.874056543, 76.437028271, 
+                    38.218514136, 19.109257068, 9.554628534, 4.777314267, 
+                    2.388657133, 1.194328567, 0.597164283};
+
                 TileSchema schema = new TileSchema();
-                foreach (double resolution in ScalesOsm) schema.Resolutions.Add(resolution);
+                foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
                 schema.Width = 256;
                 schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
                 schema.OriginX = -20037508.342789;
                 schema.OriginY = 20037508.342789;
-                schema.Name = name;
-                schema.Format = format;
+                schema.Name = "SharpMap";
+                schema.Format = "jpg";
                 schema.Axis = AxisDirection.InvertedY;
                 schema.Srs = "EPSG:3785";
                 return schema;
             }
         }
 
-        private Map CreateMap1()
+        private static Map CreateMap1()
         {
             Map map = new Map(256, 256);
             map.BackColor = Color.White;

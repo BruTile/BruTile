@@ -19,7 +19,7 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace BruTile
+namespace BruTile.Cache
 {
     public class FileCache : ITileCache<byte[]>
     {
@@ -80,14 +80,14 @@ namespace BruTile
             {
                 if (Exists(key))
                 {
-                    File.Delete(GetFileName(key));
+                  File.Delete(GetFileName(key));
                 }
             }
         }
 
         private bool Exists(TileKey key)
         {
-            return File.Exists(GetFileName(key));
+          return File.Exists(GetFileName(key));
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace BruTile
 
         private void WriteToFile(byte[] image, TileKey key)
         {
-            using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
+          using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
             {
                 fileStream.Write(image, 0, (int)image.Length);
                 fileStream.Flush();

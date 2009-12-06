@@ -18,6 +18,7 @@
 using System;
 using System.ComponentModel;
 using BruTile;
+using BruTile.Cache;
 
 namespace BruTileMap
 {
@@ -60,10 +61,10 @@ namespace BruTileMap
 
         #region Constructors
 
-        public TileLayer(ITileProvider tileProvider, ITileSchema schema, ITileFactory<T> tileFactory)
+        public TileLayer(ITileSource source, ITileFactory<T> tileFactory)
         {
-            this.schema = schema;
-            tileFetcher = new TileFetcher<T>(tileProvider, memoryCache, schema, tileFactory);
+            this.schema = source.Schema;
+            tileFetcher = new TileFetcher<T>(source, memoryCache, tileFactory);
             this.tileFactory = tileFactory;
             RegisterEventHandlers();
         }
@@ -71,6 +72,7 @@ namespace BruTileMap
         ~TileLayer()
         {
         }
+
         #endregion
 
         #region Public Methods

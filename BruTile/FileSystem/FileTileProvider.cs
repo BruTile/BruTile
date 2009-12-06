@@ -1,8 +1,9 @@
 ﻿using System;
 using BruTile;
 using System.IO;
+using BruTile.Cache;
 
-namespace BruTileMap
+namespace BruTile.FileSystem
 {
     public class FileTileProvider : ITileProvider
     {

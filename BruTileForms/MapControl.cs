@@ -21,6 +21,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using BruTile;
 using BruTileMap;
+using BruTile.Web;
 
 namespace BruTileForms
 {

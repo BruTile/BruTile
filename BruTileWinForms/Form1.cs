@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using DemoConfig;
 using BruTileForms;
 using BruTileMap;
+using BruTile;
 
 namespace BruTileWinForms
 {
@@ -34,8 +35,7 @@ namespace BruTileWinForms
 
     void Form1_Load(object sender, EventArgs e)
     {
-      ITileSource config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(config.TileProvider, config.TileSchema, new TileFactory());
+        mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigOsm().CreateTileSource(), new TileFactory());
     }
 
     private void zoomIn_Click(object sender, EventArgs e)
@@ -50,19 +50,12 @@ namespace BruTileWinForms
 
     private void osmMenu_Click(object sender, EventArgs e)
     {
-      ITileSource config = new ConfigOsm();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(
-        config.TileProvider,
-        config.TileSchema, new TileFactory());
+      mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigOsm().CreateTileSource(), new TileFactory());
     }
 
     private void bingMenu_Click(object sender, EventArgs e)
     {
-      ITileSource config = new ConfigVE();
-      mapControl1.RootLayer = new TileLayer<Bitmap>(
-          config.TileProvider,
-          config.TileSchema,
-          new TileFactory());
+      mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigVE().CreateTileSource(), new TileFactory());
     }
 
     private void button1_Click(object sender, EventArgs e)

@@ -24,6 +24,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using BruTile;
 using BruTileMap;
+using BruTile.Cache;
 
 namespace BruTileWindows
 {
@@ -34,7 +35,7 @@ namespace BruTileWindows
         public void Render(Canvas canvas, ITileSchema schema, ITransform transform, MemoryCache<MemoryStream> cache)
         {
             CollapseAll(canvas);
-            int level = Tile.GetNearestLevel(schema.Resolutions, transform.Resolution);
+            int level = BruTile.Utilities.GetNearestLevel(schema.Resolutions, transform.Resolution);
             DrawRecursive(canvas, schema, transform, cache, transform.Extent, level);
             RemoveCollapsed(canvas);
         }
@@ -49,7 +50,7 @@ namespace BruTileWindows
 
         private void DrawRecursive(Canvas canvas, ITileSchema schema, ITransform transform, MemoryCache<MemoryStream> memoryCache, Extent extent, int level)
         {
-            IList<TileInfo> tiles = Tile.GetTilesInView(schema, extent, level);
+            IList<TileInfo> tiles = schema.GetTilesInView(extent, level);
 
             foreach (TileInfo tile in tiles)
             {

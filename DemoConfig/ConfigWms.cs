@@ -18,26 +18,18 @@
 using System;
 using System.Collections.Generic;
 using BruTile;
-using BruTileMap;
+using BruTile.Web;
 
 namespace DemoConfig
 {
-    public class ConfigWms : ITileSource
+    public class ConfigWms : IConfig
     {
-        string format = "png";
-        string name = "Geodan WMS";
-        string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
+        public ITileSource CreateTileSource()
+        {
+            return new TileSource(TileProvider, TileSchema);
+        }
 
-        private static double[] resolutions = new double[] { 
-            156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
-            9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
-            611.496226172, 305.748113086, 152.874056543, 76.437028271, 
-            38.218514136, 19.109257068, 9.554628534, 4.777314267, 
-            2.388657133, 1.194328567, 0.597164283};
-
-        #region IConfig Members
-
-        public ITileProvider TileProvider
+        private static ITileProvider TileProvider
         {
             get
             {
@@ -45,10 +37,20 @@ namespace DemoConfig
             }
         }
 
-        public ITileSchema TileSchema
+        private static ITileSchema TileSchema
         {
             get
             {
+                string format = "png";
+                string name = "Geodan WMS";
+
+                double[] resolutions = new double[] { 
+                    156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
+                    9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
+                    611.496226172, 305.748113086, 152.874056543, 76.437028271, 
+                    38.218514136, 19.109257068, 9.554628534, 4.777314267, 
+                    2.388657133, 1.194328567, 0.597164283};
+
                 TileSchema schema = new TileSchema();
                 foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
@@ -64,13 +66,12 @@ namespace DemoConfig
             }
         }
 
-        #endregion
-
-        private IRequestBuilder RequestBuilder
+        private static IRequestBuilder RequestBuilder
         {
             get
             {
-                RequestWmsC request = new RequestWmsC(new Uri(url), this.TileSchema,
+                string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
+                RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
                   new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
                 return request;
             }

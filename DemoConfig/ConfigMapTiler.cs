@@ -17,23 +17,19 @@
 
 using System;
 using BruTile;
-using BruTileMap;
+using BruTile.FileSystem;
+using BruTile.Cache;
 
 namespace DemoConfig
 {
-    public class ConfigMapTiler : ITileSource
+    public class ConfigMapTiler : IConfig
     {
-        string format = "png";
-        string name = "OpenStreetMap";
-        
-        private static double[] resolutions = new double[] 
-        { 
-            156543.033900000, 78271.516950000
-        };
+        public ITileSource CreateTileSource()
+        {
+            return new TileSource(TileProvider, TileSchema);
+        }
 
-        #region IConfig Members
-
-        public ITileProvider TileProvider
+        public static ITileProvider TileProvider
         {
             get
             {
@@ -41,10 +37,12 @@ namespace DemoConfig
             }
         }
 
-        public ITileSchema TileSchema
+        public static ITileSchema TileSchema
         {
             get
             {
+                double[] resolutions = new double[] { 156543.033900000, 78271.516950000 };
+
                 TileSchema schema = new TileSchema();
                 foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
@@ -52,15 +50,12 @@ namespace DemoConfig
                 schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
                 schema.OriginX = -20037508.342789;
                 schema.OriginY = -20037508.342789;
-                schema.Name = name;
-                schema.Format = format;
-                //!!!schema.Axis = AxisDirection.InvertedY;
+                schema.Name = "OpenStreetMap";
+                schema.Format = "png";
                 schema.Srs = "EPSG:3785";
                 return schema;
             }
         }
-
-        #endregion
 
         private static string GetAppDir()
         {

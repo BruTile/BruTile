@@ -19,8 +19,18 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
+[assembly: CLSCompliant(true)]
+
 namespace BruTile
 {
+    public enum AxisDirection
+    {
+        //Direction is relative to the coordinate system in which the map is presented.
+        Normal,
+        InvertedY
+        //InvertedX and InvertedXY do not exist yet, and may never.
+    }
+
     public class TileSchema : ITileSchema
     {
         #region Fields
@@ -34,11 +44,14 @@ namespace BruTile
         private int width;
         private int height;
         private string format;
-        private AxisDirection axis = AxisDirection.Normal;
+        private AxisDirection axisDirection = AxisDirection.Normal;
+        IAxis axis = new AxisNormal();
 
         #endregion
 
-        #region Propertiesb
+        #region Properties
+
+        //Todo: see if we can replace all setters with constructor arguments. Do this after automatic parser is implemented
 
         public string Name
         {
@@ -95,18 +108,16 @@ namespace BruTile
 
         public AxisDirection Axis
         {
-            get { return axis; }
-            set { axis = value; }
+            get { return axisDirection; }
+            set 
+            { 
+                axisDirection = value;
+                axis = GetAxis(value);
+            }
         }
-
-        public virtual string Additions
-        {
-            get { return ""; }
-        }
-
         #endregion
 
-        #region Methods
+        #region Public Methods
 
         /// <summary>
         /// Checks if the TileSchema members are properly initialized and throws an exception if not.
@@ -156,10 +167,75 @@ namespace BruTile
 
             //TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
             //as TileSchema Srs because we do not project one to the other. 
+        }
 
+        /// <summary>
+        /// Returns a List of TileInfos that cover the provided extent. 
+        /// </summary>
+        public IList<TileInfo> GetTilesInView(Extent extent, double resolution)
+        {
+            int level = Utilities.GetNearestLevel(Resolutions, resolution);
+            return GetTilesInView(extent, level);
+        }
+
+        public IList<TileInfo> GetTilesInView(Extent extent, int level)
+        {
+            IList<TileInfo> tiles = new List<TileInfo>();
+            TileRange range = axis.WorldToTile(extent, level, this);
+            tiles.Clear();
+
+            for (int x = range.FirstCol; x < range.LastCol; x++)
+            {
+                for (int y = range.FirstRow; y < range.LastRow; y++)
+                {
+                    TileInfo tile = new TileInfo();
+                    tile.Extent = axis.TileToWorld(new TileRange(x, y), level, this);
+                    tile.Key = new TileKey(x, y, level);
+
+                    if (WithinSchemaExtent(Extent, tile.Extent))
+                    {
+                        tiles.Add(tile);
+                    }
+                }
+            }
+            return tiles;
+        }
+
+        public Extent GetExtentOfTilesInView(Extent extent, int level)
+        {
+            TileRange range = axis.WorldToTile(extent, level, this);
+            return axis.TileToWorld(range, level, this);
         }
 
         #endregion
+
+        #region Private Methods
+
+        private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
+        {
+            if (!tileExtent.Intersects(schemaExtent)) return false;
+            //We do not accept all tiles that intersect. We reject tiles that have five
+            //percent or less overlap with the schema Extent. It turns out that in practice
+            //that many tiles with a small overlap with the schema extent are not on the server.
+            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.05);
+        }
+
+        private static IAxis GetAxis(AxisDirection axis)
+        {
+            switch (axis)
+            {
+                case AxisDirection.Normal:
+                    return new AxisNormal();
+                case AxisDirection.InvertedY:
+                    return new AxisInvertedY();
+                default:
+                    throw new ArgumentException("could not find axis transformer");
+            }
+        }
+
+        #endregion
+
+
     }
 
 

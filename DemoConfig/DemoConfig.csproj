@@ -58,13 +58,10 @@
     <Compile Include="ConfigVE.cs" />
     <Compile Include="ConfigWms.cs" />
     <Compile Include="ConfigWmsC.cs" />
+    <Compile Include="IConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTileMap\BruTileMap.csproj">
-      <Project>{FAF7E39B-42BC-4E15-A357-3F348243FE46}</Project>
-      <Name>BruTileMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>
       <Name>BruTile</Name>

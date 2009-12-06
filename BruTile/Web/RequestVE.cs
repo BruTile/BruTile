@@ -19,7 +19,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace BruTile
+namespace BruTile.Web
 {
     public class RequestVE : IRequestBuilder
     {
