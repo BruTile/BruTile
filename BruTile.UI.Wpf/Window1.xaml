@@ -12,7 +12,7 @@
         <bruTileWindows:MapControl Grid.Row="0" x:Name="map"  
           VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ErrorMessageChanged="map_ErrorMessageChanged">
         </bruTileWindows:MapControl>
-        <StackPanel Height="220" Width="Auto" Margin="20,20,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" >
+        <StackPanel Height="260" Width="Auto" Margin="20,20,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" >
             <Border ></Border>
             <RadioButton IsChecked="True" FontSize="16" Content="OSM " Margin="4,4,4,4" Click="Osm_Click"/>
             <RadioButton FontSize="16" Content="Bing Maps" Margin="4,4,4,4" Click="BingMaps_Click"/>
@@ -21,6 +21,7 @@
             <RadioButton FontSize="16" Content="WMS-C"  Margin="4,4,4,4" Click="GeodanWmsC_Click"/>
             <RadioButton FontSize="16" Content="SharpMap"  Margin="4,4,4,4" Click="SharpMap_Click" />
             <RadioButton FontSize="16" Content="MapTiler"  Margin="4,4,4,4" Click="MapTiler_Click" />
+            <RadioButton FontSize="16" Content="Google" Margin="4,4,4,4" Click="Google_Click" />
         </StackPanel>
         <StatusBar Grid.Row="1" Height="30" VerticalAlignment="Bottom" Background="Azure">
             <StatusBarItem DockPanel.Dock="Right">
