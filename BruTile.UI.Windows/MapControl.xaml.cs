@@ -139,6 +139,30 @@ namespace BruTile.UI.Windows
             this.Refresh();
         }
 
+         public void ZoomIn()
+        {
+            if (this.toResolution == 0)
+                this.toResolution = this.transform.Resolution;
+
+            this.toResolution = ZoomHelper.ZoomIn(this.rootLayer.Schema.Resolutions, this.toResolution);
+            ZoomMiddle();
+        }
+
+        public void ZoomOut()
+        {
+            if (this.toResolution == 0)
+                this.toResolution = this.transform.Resolution;
+
+            this.toResolution = ZoomHelper.ZoomOut(this.rootLayer.Schema.Resolutions, this.toResolution);
+            ZoomMiddle();
+        }
+
+        void ZoomMiddle()
+        {
+            this.currentMousePosition = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
+            this.StartZoomAnimation(this.transform.Resolution, this.toResolution);
+        }
+
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
 #if SILVERLIGHT
@@ -160,7 +184,7 @@ namespace BruTile.UI.Windows
         {
             this.zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
 #if SILVERLIGHT
-      zoomAnimation.EasingFunction = new QuadraticEase();
+      zoomAnimation.EasingFunction = new QuarticEase();
 #endif
             Storyboard.SetTarget(this.zoomAnimation, this);
             Storyboard.SetTargetProperty(this.zoomAnimation, new PropertyPath("Resolution"));
