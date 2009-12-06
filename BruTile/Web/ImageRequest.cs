@@ -25,16 +25,21 @@ namespace BruTile.Web
 {
     public static class ImageRequest
     {
+        public static byte[] GetImageFromServer(Uri uri)
+        {
+            return GetImageFromServer(uri, String.Empty, String.Empty, true);
+        }
+
 #if SILVERLIGHT
         //This #if is ugly but it is a lot simpler compared to the dependency injection 
         //solution I had before. PDD.
-
-        public static byte[] GetImageFromServer(Uri uri)
+        public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             WebClient webClient = new WebClient();
 
-            if (!String.IsNullOrEmpty(userAgent)) webRequest.Headers.Add("user-agent", userAgent);
-            if (!String.IsNullOrEmpty(referer)) webRequest.Headers.Add("Referer", referer);
+            //todo: figure out what to do with keepAlive here.
+            if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
+            if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
 
             AsyncEventArgs asyncEventArgs = new AsyncEventArgs()
             {
@@ -45,7 +50,8 @@ namespace BruTile.Web
             webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
             webClient.OpenReadAsync(uri, asyncEventArgs);
 
-            //happy hacking:
+            //Here we waitOne in order to fake a synchronous call. This trick won't work when called from the main thread
+            //because the mainthread dispatches the other threads and it starts waiting before it dispatches the worker thread.
             asyncEventArgs.WaitHandle.WaitOne();
 
             return asyncEventArgs.Bytes;
@@ -83,11 +89,6 @@ namespace BruTile.Web
         }
 
 #else
-
-        public static byte[] GetImageFromServer(Uri uri)
-        {
-            return GetImageFromServer(uri, String.Empty, String.Empty, true);
-        }
 
         public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
         {
