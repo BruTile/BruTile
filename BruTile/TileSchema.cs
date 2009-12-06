@@ -112,7 +112,7 @@ namespace BruTile
             set 
             { 
                 axisDirection = value;
-                axis = GetAxis(value);
+                axis = CreateAxis(value);
             }
         }
         #endregion
@@ -213,14 +213,10 @@ namespace BruTile
 
         private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
         {
-            if (!tileExtent.Intersects(schemaExtent)) return false;
-            //We do not accept all tiles that intersect. We reject tiles that have five
-            //percent or less overlap with the schema Extent. It turns out that in practice
-            //that many tiles with a small overlap with the schema extent are not on the server.
-            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.05);
+            return (tileExtent.Intersects(schemaExtent));
         }
 
-        private static IAxis GetAxis(AxisDirection axis)
+        private static IAxis CreateAxis(AxisDirection axis)
         {
             switch (axis)
             {

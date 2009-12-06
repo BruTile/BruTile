@@ -4,16 +4,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B219D0B6-E57C-4D2B-8D28-C57E09FA8BEA}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{1932085C-F913-49E1-85B6-7B11E3D026B8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTileMap</RootNamespace>
-    <AssemblyName>BruTileMapCF</AssemblyName>
+    <RootNamespace>BruTile.CompactFramework</RootNamespace>
+    <AssemblyName>BruTile.CompactFramework</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>
     <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
     <OSVersion>5.2</OSVersion>
-    <DeployDirSuffix>BruTileMap</DeployDirSuffix>
+    <DeployDirSuffix>BruTileCompactFramework</DeployDirSuffix>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
     <FormFactorID>
@@ -51,25 +51,49 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FetchOnThread.cs" />
-    <Compile Include="FetchStrategy.cs" />
-    <Compile Include="IFetchStrategy.cs" />
-    <Compile Include="ITileFactory.cs" />
-    <Compile Include="ITransform.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TileFetcher.cs" />
-    <Compile Include="TileLayer.cs" />
-    <Compile Include="MapTransform.cs" />
-    <Compile Include="Utilities.cs" />
-    <Compile Include="ZoomHelper.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTile\BruTileCF.csproj">
+    <ProjectReference Include="..\BruTileForms\BruTile.UI.Forms-CF.csproj">
+      <Project>{B42CFE51-59DF-495F-8962-7C90D27B973D}</Project>
+      <Name>BruTile.UI.Forms-CF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTileMap\BruTile.UI-CF.csproj">
+      <Project>{B219D0B6-E57C-4D2B-8D28-C57E09FA8BEA}</Project>
+      <Name>BruTile.UI-CF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile\BruTile-CF.csproj">
       <Project>{11D9E4CB-261E-4E22-B07C-DA0B46905CF3}</Project>
-      <Name>BruTileCF</Name>
+      <Name>BruTile-CF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DemoConfig\DemoConfig-CF.csproj">
+      <Project>{9ED6962B-227C-496C-AB26-9A7379227E11}</Project>
+      <Name>DemoConfig-CF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

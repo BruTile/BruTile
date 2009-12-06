@@ -19,8 +19,9 @@ using System;
 using System.ComponentModel;
 using BruTile;
 using BruTile.Cache;
+using BruTile.UI.Fetcher;
 
-namespace BruTileMap
+namespace BruTile.UI
 {
     public class TileLayer<T> : IDisposable
     {
@@ -34,7 +35,6 @@ namespace BruTileMap
         MemoryCache<T> memoryCache = new MemoryCache<T>(100, 200);
 #endif
         const int maxRetries = 3;
-        ITileFactory<T> tileFactory;
 
         #endregion
 
@@ -65,7 +65,6 @@ namespace BruTileMap
         {
             this.schema = source.Schema;
             tileFetcher = new TileFetcher<T>(source, memoryCache, tileFactory);
-            this.tileFactory = tileFactory;
             RegisterEventHandlers();
         }
 

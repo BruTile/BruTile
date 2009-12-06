@@ -23,10 +23,9 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using BruTile;
-using BruTileMap;
 using BruTile.Cache;
 
-namespace BruTileWindows
+namespace BruTile.UI.Windows
 {
     public class Renderer
     {
@@ -61,7 +60,7 @@ namespace BruTileWindows
                 }
                 else
                 {
-                    Rect dest = WorldToMap(tile.Extent, transform);
+                    Rect dest = MapTransformHelper.WorldToMap(tile.Extent, transform);
                     double opacity = DrawImage(canvas, image, dest, tile);
                     if ((opacity < 1) && (level > 0)) DrawRecursive(canvas, schema, transform, memoryCache, tile.Extent.Intersect(extent), level - 1);
                 }
@@ -145,13 +144,6 @@ namespace BruTileWindows
             }
         }
 
-        //TODO: remove this method:
-        private static Rect WorldToMap(Extent extent, ITransform transform)
-        {
-            BTPoint min = transform.WorldToMap(extent.MinX, extent.MinY);
-            BTPoint max = transform.WorldToMap(extent.MaxX, extent.MaxY);
-            return new Rect(min.X, max.Y, max.X - min.X, min.Y - max.Y);
-        }
 
     }
 }

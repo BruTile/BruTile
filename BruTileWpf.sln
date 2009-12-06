@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "BruTile\BruTile.csproj", "{70315167-2BF1-4C7B-9184-728CAABF30D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileMap", "BruTileMap\BruTileMap.csproj", "{FAF7E39B-42BC-4E15-A357-3F348243FE46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI", "BruTileMap\BruTile.UI.csproj", "{FAF7E39B-42BC-4E15-A357-3F348243FE46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoConfig", "DemoConfig\DemoConfig.csproj", "{4F8F6A4A-8381-40D8-8AC5-FCF3BA96A866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileWindows", "BruTileWindows\BruTileWindows.csproj", "{9142A5C9-38F9-42DF-8E9A-79E5A919151F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Windows", "BruTileWindows\BruTile.UI.Windows.csproj", "{9142A5C9-38F9-42DF-8E9A-79E5A919151F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileWpf", "BruTileWpf\BruTileWpf.csproj", "{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Wpf", "BruTileWpf\BruTile.UI.Wpf.csproj", "{90014F5A-11D6-4FE5-B9CF-47E810A5AF90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMapProvider", "SharpMapProvider\SharpMapProvider.csproj", "{55A31E36-4EA3-42EE-BCAC-2735AA082457}"
 EndProject

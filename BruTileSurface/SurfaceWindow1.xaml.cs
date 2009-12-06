@@ -15,7 +15,7 @@ using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 
-namespace BruTileSurface
+namespace BruTile.UI.Surface
 {
     /// <summary>
     /// Interaction logic for SurfaceWindow1.xaml

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BruTileWindows")]
+[assembly: AssemblyTitle("BruTile.UI.Windows")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geodan")]
-[assembly: AssemblyProduct("BruTileWindows")]
+[assembly: AssemblyProduct("BruTile.UI.Windows")]
 [assembly: AssemblyCopyright("Copyright © Geodan 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

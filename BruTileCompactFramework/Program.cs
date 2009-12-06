@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace BruTileCompactFramework
+namespace BruTile.UI.CompactFramework
 {
   static class Program
   {

@@ -18,7 +18,7 @@
 using System;
 using System.Windows;
 
-namespace BruTileWpf
+namespace BruTile.UI.Wpf
 {
     /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
     class FpsCounter : DependencyObject

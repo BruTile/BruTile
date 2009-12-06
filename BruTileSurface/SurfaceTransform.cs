@@ -17,10 +17,11 @@
 
 using System.Windows;
 using System.Windows.Media;
-using BruTileMap;
+using BruTile.UI;
 using BruTile;
+using BruTile.UI.Windows;
 
-namespace BruTileSurface
+namespace BruTile.UI.Surface
 {
     class SurfaceTransform : ITransform
     {
@@ -157,16 +158,16 @@ namespace BruTileSurface
             return point;
         }
 
-        BTPoint ITransform.WorldToMap(double x, double y)
+        Point ITransform.WorldToMap(double x, double y)
         {
           Point point = WorldToMap(x, y);
-          return new BTPoint((float)point.X, (float)point.Y);
+          return new Point((float)point.X, (float)point.Y);
         }
 
-        BTPoint ITransform.MapToWorld(double x, double y)
+        Point ITransform.MapToWorld(double x, double y)
         {
           Point point = MapToWorld(x, y);
-          return new BTPoint((float)point.X, (float)point.Y);
+          return new Point((float)point.X, (float)point.Y);
         }
 
         public Vector MapToWorld(Vector vector)

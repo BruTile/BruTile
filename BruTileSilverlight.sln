@@ -1,22 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileSL", "BruTile\BruTileSL.csproj", "{DD028875-B9BD-45B0-8306-797D318FA57B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile-SL", "BruTile\BruTile-SL.csproj", "{DD028875-B9BD-45B0-8306-797D318FA57B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoConfigSL", "DemoConfig\DemoConfigSL.csproj", "{8C3CFBF5-A0B3-496F-B287-2BBD988D2373}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoConfig-SL", "DemoConfig\DemoConfig-SL.csproj", "{8C3CFBF5-A0B3-496F-B287-2BBD988D2373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileSilverlight", "BruTileSilverlight\BruTileSilverlight.csproj", "{066B11A1-B05D-4DD4-B372-1CCEDF929962}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Silverlight", "BruTileSilverlight\BruTile.UI.Silverlight.csproj", "{066B11A1-B05D-4DD4-B372-1CCEDF929962}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileSilverlight.Web", "BruTileSilverlight.Web\BruTileSilverlight.Web.csproj", "{07D1F6C6-F490-4AA5-B000-0173DEACF572}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Silverlight.Web", "BruTileSilverlight.Web\BruTile.UI.Silverlight.Web.csproj", "{07D1F6C6-F490-4AA5-B000-0173DEACF572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileMapSL", "BruTileMap\BruTileMapSL.csproj", "{DF93419D-F269-447F-BFE9-0E2A1A4EE2BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI-SL", "BruTileMap\BruTile.UI-SL.csproj", "{DF93419D-F269-447F-BFE9-0E2A1A4EE2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTileWindowsSL", "BruTileWindows\BruTileWindowsSL.csproj", "{DC9F828B-9873-4C4C-949C-70358EE06AA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.UI.Windows-SL", "BruTileWindows\BruTile.UI.Windows-SL.csproj", "{DC9F828B-9873-4C4C-949C-70358EE06AA4}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = BruTileDemo.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using BruTile;
 
-namespace BruTileMap
+namespace BruTile.UI.Fetcher
 {
   class FetchOnThread
   {

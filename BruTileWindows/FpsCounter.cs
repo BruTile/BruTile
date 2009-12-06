@@ -19,7 +19,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 
-namespace BruTileWindows
+namespace BruTile.UI.Windows
 {
     /// <remarks>Copied this code from some Silverlight game blog. PDD</remarks>
     public class FpsCounter : DependencyObject, INotifyPropertyChanged

@@ -18,12 +18,11 @@
 using System;
 using System.Windows.Forms;
 using System.Drawing;
-using BruTileMap;
-using BruTileForms;
+using BruTile.UI.Forms;
 using DemoConfig;
 using BruTile;
 
-namespace BruTileCompactFramework
+namespace BruTile.UI.CompactFramework
 {
     public partial class Form1 : Form
     {
@@ -38,7 +37,7 @@ namespace BruTileCompactFramework
 
         private void InitTransform()
         {
-            mapControl1.Transform.Center = new BTPoint(629816, 6805085);
+            mapControl1.Transform.Center = new PointF(629816, 6805085);
             mapControl1.Transform.Resolution = 2445.984904688;
             mapControl1.Transform.Width = (float)this.Width;
             mapControl1.Transform.Height = (float)this.Height;
@@ -52,7 +51,7 @@ namespace BruTileCompactFramework
 
         void Form1_Load(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigOsm().CreateTileSource(), new TileFactory());
+            mapControl1.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
         }
 
         private void zoomIn_Click(object sender, EventArgs e)
@@ -67,12 +66,12 @@ namespace BruTileCompactFramework
 
         private void osmMenu_Click(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigOsm().CreateTileSource(), new TileFactory());
+            mapControl1.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
         }
 
         private void bingMenu_Click(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer<Bitmap>(new ConfigVE().CreateTileSource(), new TileFactory());
+            mapControl1.RootLayer = new TileLayer(new ConfigVE().CreateTileSource());
         }
     }
 }

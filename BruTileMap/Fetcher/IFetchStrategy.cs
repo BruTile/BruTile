@@ -15,15 +15,13 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System.Collections.Generic;
 using BruTile;
 
-namespace BruTileMap
+namespace BruTile.UI.Fetcher
 {
-    public interface ITransform
+    interface IFetchStrategy
     {
-        BTPoint WorldToMap(double x, double y);
-        BTPoint MapToWorld(double x, double y);
-        double Resolution { get; }
-        Extent Extent { get; }
+        IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level);
     }
 }

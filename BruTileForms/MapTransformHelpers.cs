@@ -15,19 +15,20 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using BruTileMap;
+using BruTile.UI;
+using System.Drawing;
 
-namespace BruTileForms
+namespace BruTile.UI.Forms
 {
   public static class MapTransformHelpers
   {
-    public static void Pan(MapTransform transform, BTPoint currentMap, BTPoint previousMap)
+    public static void Pan(MapTransform transform, PointF currentMap, PointF previousMap)
     {
-      BTPoint current = transform.MapToWorld(currentMap.X, currentMap.Y);
-      BTPoint previous = transform.MapToWorld(previousMap.X, previousMap.Y);
+      PointF current = transform.MapToWorld(currentMap.X, currentMap.Y);
+      PointF previous = transform.MapToWorld(previousMap.X, previousMap.Y);
       float diffX = previous.X - current.X;
       float diffY = previous.Y - current.Y;
-      transform.Center = new BTPoint(transform.Center.X + diffX, transform.Center.Y + diffY);
+      transform.Center = new PointF(transform.Center.X + diffX, transform.Center.Y + diffY);
     }
   }
 }

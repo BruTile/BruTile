@@ -18,8 +18,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace BruTileMap
+namespace BruTile.UI
 {
+    //todo: This class belongs in a BruTile.UI assembly but since it is currently one fo the few 
+    //classes that belongs there it would be overkill to create such an assembly
     public static class ZoomHelper
     {
         public static double ZoomIn(IList<double> resolutions, double resolution)

@@ -3,12 +3,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using BruTileMap;
-using BruTileWindows;
+using BruTile.UI.Windows;
 using DemoConfig;
 using BruTile;
 
-namespace BruTileWpf
+namespace BruTile.UI.Wpf
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -50,7 +49,7 @@ namespace BruTileWpf
 
         private void InitTransform()
         {
-            map.Transform.Center = new BTPoint(629816, 6805085);
+            map.Transform.Center = new Point(629816, 6805085);
             map.Transform.Resolution = 1222.992452344;
             map.Transform.Width = (float)this.Width;
             map.Transform.Height = (float)this.Height;
@@ -90,11 +89,8 @@ namespace BruTileWpf
                 v.Dispose();
             }
 
-            map.RootLayer = new TileLayer<MemoryStream>(
-                config.CreateTileSource(), 
-                new TileFactory());
+            map.RootLayer = new TileLayer(config.CreateTileSource());
 
-            //todo: move elsewhere
             TileCountText.DataContext = map.RootLayer.MemoryCache;
             TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
         }

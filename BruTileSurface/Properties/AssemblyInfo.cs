@@ -12,11 +12,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BruTileSurface")]
+[assembly: AssemblyTitle("BruTile.UI.Surface")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BruTileSurface")]
+[assembly: AssemblyProduct("BruTile.UI.Surface")]
 [assembly: AssemblyCopyright("Copyright @  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

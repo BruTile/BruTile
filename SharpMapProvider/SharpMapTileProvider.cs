@@ -1,11 +1,8 @@
-﻿using SharpMap;
-using SharpMap.Data.Providers;
-using SharpMap.Geometries;
-using SharpMap.Layers;
-using SharpMap.Styles;
+﻿using System;
 using BruTile;
-using System;
 using BruTile.Cache;
+using SharpMap;
+using SharpMap.Geometries;
 
 namespace SharpMapProvider
 {

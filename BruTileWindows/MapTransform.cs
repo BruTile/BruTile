@@ -16,30 +16,16 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using BruTile;
+using System.Windows;
 
-namespace BruTileMap
+namespace BruTile.UI.Windows
 {
-    public class BTPoint
-    {
-        public float X, Y;
-
-        public BTPoint()
-        {
-        }
-
-        public BTPoint(float X, float Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-    }
-
     public class MapTransform : ITransform
     {
         #region Fields
 
         double resolution;
-        BTPoint center = new BTPoint();
+        Point center = new Point();
         float width;
         float height;
         Extent extent;
@@ -61,7 +47,7 @@ namespace BruTileMap
             }
         }
 
-        public BTPoint Center
+        public Point Center
         {
             set
             {
@@ -99,14 +85,14 @@ namespace BruTileMap
             get { return extent; }
         }
 
-        public BTPoint WorldToMap(double x, double y)
+        public Point WorldToMap(double x, double y)
         {
-            return new BTPoint((float)(x - extent.MinX) / (float)resolution, (float)(extent.MaxY - y) / (float)resolution);
+            return new Point((x - extent.MinX) / resolution, (extent.MaxY - y) / resolution);
         }
 
-        public BTPoint MapToWorld(double x, double y)
+        public Point MapToWorld(double x, double y)
         {
-            return new BTPoint((float)(extent.MinX + x * resolution), (float)(extent.MaxY - (y * resolution)));
+            return new Point((extent.MinX + x * resolution), (extent.MaxY - (y * resolution)));
         }
 
         #endregion

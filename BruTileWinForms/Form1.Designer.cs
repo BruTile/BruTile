@@ -1,4 +1,4 @@
-﻿namespace BruTileWinForms
+﻿namespace BruTile.UI.WinForms
 {
   partial class Form1
   {
@@ -30,7 +30,7 @@
     {
       this.button1 = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
-      this.mapControl1 = new BruTileForms.MapControl();
+      this.mapControl1 = new BruTile.UI.Forms.MapControl();
       this.SuspendLayout();
       // 
       // button1
@@ -84,7 +84,7 @@
 
     private System.Windows.Forms.Button button1;
     private System.Windows.Forms.Button button2;
-    private BruTileForms.MapControl mapControl1;
+    private BruTile.UI.Forms.MapControl mapControl1;
   }
 }
 

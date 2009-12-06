@@ -1,8 +1,8 @@
-﻿<s:SurfaceWindow x:Class="BruTileSurface.SurfaceWindow1"
+﻿<s:SurfaceWindow x:Class="BruTile.UI.Surface.SurfaceWindow1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:local="clr-namespace:BruTileSurface" 
+    xmlns:local="clr-namespace:BruTile.UI.Surface" 
     Title="BruTileSurface" 
     Width="1024"
     Height="768">
