@@ -1,0 +1,5 @@
+C:\Users\paul\Desktop\New folder\brutile\bin\CF\Debug\BruTile.UI.Forms-CF.dll
+C:\Users\paul\Desktop\New folder\brutile\bin\CF\Debug\BruTile.UI.Forms-CF.pdb
+C:\Users\paul\Desktop\New folder\brutile\BruTile.UI.Forms\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\paul\Desktop\New folder\brutile\BruTile.UI.Forms\obj\Debug\BruTile.UI.Forms-CF.dll
+C:\Users\paul\Desktop\New folder\brutile\BruTile.UI.Forms\obj\Debug\BruTile.UI.Forms-CF.pdb
