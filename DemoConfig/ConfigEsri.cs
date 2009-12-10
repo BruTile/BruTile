@@ -7,10 +7,10 @@ namespace DemoConfig
     {
         public ITileSource CreateTileSource()
         {
-            return new TileSource(TileProvider, TileSchema);
+            return new TileSource(Provider, Schema);
         }
 
-        private static ITileProvider TileProvider
+        private static ITileProvider Provider
         {
             get
             {
@@ -18,7 +18,7 @@ namespace DemoConfig
             }
         }
 
-        private static ITileSchema TileSchema
+        private static ITileSchema Schema
         {
             get
             {
