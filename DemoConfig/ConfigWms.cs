@@ -26,10 +26,10 @@ namespace DemoConfig
     {
         public ITileSource CreateTileSource()
         {
-            return new TileSource(TileProvider, TileSchema);
+            return new TileSource(Provider, Schema);
         }
 
-        private static ITileProvider TileProvider
+        private static ITileProvider Provider
         {
             get
             {
@@ -37,7 +37,7 @@ namespace DemoConfig
             }
         }
 
-        private static ITileSchema TileSchema
+        private static ITileSchema Schema
         {
             get
             {
@@ -71,7 +71,7 @@ namespace DemoConfig
             get
             {
                 string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
-                RequestWmsC request = new RequestWmsC(new Uri(url), TileSchema,
+                RequestWmsC request = new RequestWmsC(new Uri(url), Schema,
                   new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
                 return request;
             }

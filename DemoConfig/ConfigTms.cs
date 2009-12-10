@@ -22,14 +22,14 @@ using BruTile.Web;
 
 namespace DemoConfig
 {
-    public class ConfigTms : IConfig
+    public class ConfigTms: IConfig
     {
         public ITileSource CreateTileSource()
         {
-            return new TileSource(TileProvider, TileSchema);
+            return new TileSource(Provider, Schema);
         }
 
-        private static ITileProvider TileProvider
+        private static ITileProvider Provider
         {
             get
             {
@@ -37,7 +37,7 @@ namespace DemoConfig
             }
         }
 
-        private static ITileSchema TileSchema
+        private static ITileSchema Schema
         {
             get
             {
