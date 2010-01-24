@@ -15,19 +15,19 @@ using BruTile.UI.Windows;
 
 namespace BruTileSilverlight
 {
-	public partial class GUIOverlay : UserControl
-	{
+    public partial class GUIOverlay : UserControl
+    {
         MapControl map;
         bool isMenuDown = false;
 
         public GUIOverlay()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             hideMenu.Completed += new EventHandler(hideMenu_Completed);
             showMenu.Completed += new EventHandler(showMenu_Completed);
             this.Loaded += new RoutedEventHandler(GUIOverlay_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(GUIOverlay_SizeChanged);
-		}
+        }
 
         internal void SetMap(MapControl map)
         {

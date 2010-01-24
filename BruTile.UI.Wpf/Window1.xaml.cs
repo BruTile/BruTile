@@ -109,11 +109,6 @@ namespace BruTile.UI.Wpf
         {
             this.SetConfig(new ConfigMapTiler());
         }
-        
-        private void Google_Click(object sender, RoutedEventArgs e)
-        {
-            this.SetConfig(new ConfigGoogle());
-        }
     }
 }
 
