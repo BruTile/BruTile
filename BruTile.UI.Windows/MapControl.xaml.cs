@@ -327,8 +327,14 @@ namespace BruTile.UI.Windows
             }
         }
 
-        private void Refresh()
+        /// <summary>
+        /// Refreshes this instance.
+        /// </summary>
+        public void Refresh()
         {
+            //TODO: this method should be private and any refresh to the control should be authomatic.
+            //In this version, this method is public to allow users to perfrom actions like "Pan to"; those operations can
+            //be performed in two steps, by setting the mapControl.Transform.Center's property, and then calling Refresh();
             if (this.rootLayer != null)
             {
                 this.rootLayer.UpdateData(transform.Extent, transform.Resolution);
