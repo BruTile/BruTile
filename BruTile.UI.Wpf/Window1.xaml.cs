@@ -19,8 +19,22 @@ namespace BruTile.UI.Wpf
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             InitializeComponent();
-            this.map.Loaded += new RoutedEventHandler(map_Loaded);
             this.Closing += new System.ComponentModel.CancelEventHandler(Window1_Closing);
+            this.map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
+            this.Loaded += new RoutedEventHandler(Window1_Loaded);
+        }
+
+        void Window1_Loaded(object sender, RoutedEventArgs e)
+        {
+            FpsText.DataContext = map.FpsCounter;
+            FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
+
+            SetConfig(new ConfigOsm());
+
+            InitTransform();
+            
+            this.map.Refresh();
+
         }
 
         void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -38,21 +52,10 @@ namespace BruTile.UI.Wpf
             MessageBox.Show("An Unhandled exception occurred, the application will shut down", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        void map_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitTransform();
-            SetConfig(new ConfigOsm());
-
-            FpsText.DataContext = map.FpsCounter;
-            FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
-        }
-
         private void InitTransform()
         {
             map.Transform.Center = new Point(629816, 6805085);
             map.Transform.Resolution = 1222.992452344;
-            map.Transform.Width = (float)this.Width;
-            map.Transform.Height = (float)this.Height;
         }
 
         private void map_ErrorMessageChanged(object sender, EventArgs e)
@@ -72,12 +75,12 @@ namespace BruTile.UI.Wpf
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigTms());
+            SetConfig(new ConfigTms());
         }
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigVE());
+            SetConfig(new ConfigVE());
         }
 
         private void SetConfig(IConfig config)
@@ -97,17 +100,17 @@ namespace BruTile.UI.Wpf
 
         private void GeodanWmsC_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigWmsC());
+            SetConfig(new ConfigWmsC());
         }
 
         private void SharpMap_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigSharpMap());
+            SetConfig(new ConfigSharpMap());
         }
 
         private void MapTiler_Click(object sender, RoutedEventArgs e)
         {
-            this.SetConfig(new ConfigMapTiler());
+            SetConfig(new ConfigMapTiler());
         }
     }
 }

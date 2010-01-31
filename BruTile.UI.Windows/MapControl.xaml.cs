@@ -109,6 +109,7 @@ namespace BruTile.UI.Windows
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(this.MapControl_Loaded);
+
         }
 
         #endregion
@@ -178,6 +179,8 @@ namespace BruTile.UI.Windows
             this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
 
             this.InitAnimation();
+            UpdateSize();
+            this.Refresh();
         }
 
         private void InitAnimation()
@@ -224,13 +227,22 @@ namespace BruTile.UI.Windows
 
         void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            UpdateSize();
+            this.Refresh();
+        }
+
+        private void UpdateSize()
+        {
             RectangleGeometry rect = new RectangleGeometry();
-            rect.Rect = new Rect(0f, 0f, this.Width, this.Height);
+            rect.Rect = new Rect(0f, 0f, this.ActualWidth, this.ActualHeight);
             this.canvas.Clip = rect;
-            this.canvas.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.canvas.VerticalAlignment = VerticalAlignment.Stretch;
-            this.canvas.Width = this.Width;
-            this.canvas.Height = this.Height;
+            this.canvas.Width = this.ActualWidth;
+            this.canvas.Height = this.ActualHeight;
+            if (this.Transform != null)
+            {
+                this.Transform.Width = (float)this.ActualWidth;
+                this.Transform.Height = (float)this.ActualHeight;
+            }
         }
 
         private void MapControl_MouseUp(object sender, MouseButtonEventArgs e)

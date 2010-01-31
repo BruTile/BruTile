@@ -10,13 +10,13 @@ namespace BruTile.UI.Fetcher
   {
     ITileProvider tileProvider;
     TileInfo tileInfo;
-    FetchCompletedEventHandler fetchCompleted;
+    DataChangedEventHandler dataChanged;
 
-    public FetchOnThread(ITileProvider tileProvider, TileInfo tileInfo, FetchCompletedEventHandler fetchCompleted)
+    public FetchOnThread(ITileProvider tileProvider, TileInfo tileInfo, DataChangedEventHandler fetchCompleted)
     {
       this.tileProvider = tileProvider;
       this.tileInfo = tileInfo;
-      this.fetchCompleted = fetchCompleted;
+      this.dataChanged = fetchCompleted;
     }
 
     public void FetchTile()
@@ -32,7 +32,7 @@ namespace BruTile.UI.Fetcher
       {
         error = ex;
       }
-      this.fetchCompleted(this, new FetchCompletedEventArgs(error, false, tileInfo, image)); 
+      this.dataChanged(this, new DataChangedEventArgs(error, false, tileInfo, image)); 
     }
   }
 }

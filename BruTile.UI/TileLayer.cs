@@ -78,7 +78,7 @@ namespace BruTile.UI
 
         public void UpdateData(Extent extent, double resolution)
         {
-            tileFetcher.UpdateData(extent, resolution);
+            tileFetcher.ViewChanged(extent, resolution);
         }
 
         #endregion
@@ -87,15 +87,15 @@ namespace BruTile.UI
 
         private void RegisterEventHandlers()
         {
-            tileFetcher.FetchCompleted += new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+            tileFetcher.DataChanged += new DataChangedEventHandler(tileFetcher_DataChanged);
         }
 
         private void UnRegisterEventHandlers()
         {
-            tileFetcher.FetchCompleted -= new FetchCompletedEventHandler(tileFetcher_FetchCompleted);
+            tileFetcher.DataChanged -= new DataChangedEventHandler(tileFetcher_DataChanged);
         }
 
-        private void tileFetcher_FetchCompleted(object sender, FetchCompletedEventArgs e)
+        private void tileFetcher_DataChanged(object sender, DataChangedEventArgs e)
         {
             OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
         }

@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+
 // SharpMap is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -47,7 +47,7 @@ namespace BruTile.UI.Fetcher
 
         #region EventHandlers
 
-        public event FetchCompletedEventHandler FetchCompleted;
+        public event DataChangedEventHandler DataChanged;
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace BruTile.UI.Fetcher
 
         #region Public Methods
 
-        public void UpdateData(Extent extent, double resolution)
+        public void ViewChanged(Extent extent, double resolution)
         {
             //ignore if there is no change
             if ((this.extent == extent) && (this.resolution == resolution)) return;
@@ -174,18 +174,17 @@ namespace BruTile.UI.Fetcher
 
         private void StartFetchOnThread(TileInfo tile)
         {
-            FetchOnThread fetchOnThread = new FetchOnThread(tileSource.Provider, tile, new FetchCompletedEventHandler(LocalFetchCompleted));
+            FetchOnThread fetchOnThread = new FetchOnThread(tileSource.Provider, tile, new DataChangedEventHandler(LocalFetchCompleted));
             Thread thread = new Thread(fetchOnThread.FetchTile);
             thread.Name = "Tile Fetcher";
             thread.Start();
         }
 
-        private void LocalFetchCompleted(object server, FetchCompletedEventArgs e)
+        private void LocalFetchCompleted(object sender, DataChangedEventArgs e)
         {
             //todo remove object sender
             try
             {
-                
                 if (e.Error == null && e.Cancelled == false)
                     memoryCache.Add(e.TileInfo.Key, tileFactory.GetTile(e.Image));
             }
@@ -203,8 +202,8 @@ namespace BruTile.UI.Fetcher
                 waitHandle.Set();
             }
 
-            if (this.FetchCompleted != null)
-                this.FetchCompleted(this, e);
+            if (this.DataChanged != null)
+                this.DataChanged(this, e);
         }
 
         #endregion
@@ -221,11 +220,11 @@ namespace BruTile.UI.Fetcher
     }
 
 
-    public delegate void FetchCompletedEventHandler(object sender, FetchCompletedEventArgs e);
+    public delegate void DataChangedEventHandler(object sender, DataChangedEventArgs e);
 
-    public class FetchCompletedEventArgs
+    public class DataChangedEventArgs
     {
-        public FetchCompletedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
+        public DataChangedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
         {
             this.Error = error;
             this.Cancelled = cancelled;

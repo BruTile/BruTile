@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+﻿<%@ Page Language="c#" AutoEventWireup="true" %>
 
-<head>
-    <title>BruTileSilverlight</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>BruTile.UI.Silverlight</title>
     <style type="text/css">
     html, body {
 	    height: 100%;
