@@ -3,17 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:BruTile.UI.Wpf"
     xmlns:bruTileWindows="clr-namespace:BruTile.UI.Windows;assembly=BruTile.UI.Windows"
-    Title="BruTile.UI.Wpf" Height="600" Width="800" ResizeMode="NoResize">
+    Title="BruTile.UI.Wpf" >
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <Grid.RowDefinitions>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition Height="Auto" MinHeight="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <bruTileWindows:MapControl Grid.Row="0" x:Name="map"  
-          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ErrorMessageChanged="map_ErrorMessageChanged">
+        <bruTileWindows:MapControl x:Name="map"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </bruTileWindows:MapControl>
         <StackPanel Height="260" Width="Auto" Margin="20,20,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" >
-            <Border ></Border>
             <RadioButton IsChecked="True" FontSize="16" Content="OSM " Margin="4,4,4,4" Click="Osm_Click"/>
             <RadioButton FontSize="16" Content="Bing Maps" Margin="4,4,4,4" Click="BingMaps_Click"/>
             <RadioButton FontSize="16" Content="WMS " Margin="4,4,4,4" Click="GeodanWms_Click"/>

@@ -5,9 +5,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:brutile="clr-namespace:BruTile.UI.Windows;assembly=BruTile.UI.Windows"
     xmlns:local="clr-namespace:BruTileSilverlight"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" Width="800" Height="600">
-    <Grid x:Name="LayoutRoot" Width="800" Height="600">
-        <brutile:MapControl x:Name="map" Width="800" Height="600" ErrorMessageChanged="map_ErrorMessageChanged"></brutile:MapControl>
-        <local:GUIOverlay x:Name="GUI"/>
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" 
+    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid x:Name="LayoutRoot" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <brutile:MapControl x:Name="map" ErrorMessageChanged="map_ErrorMessageChanged"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></brutile:MapControl>
+        <local:GUIOverlay x:Name="GUI" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

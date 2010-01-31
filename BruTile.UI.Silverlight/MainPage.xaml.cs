@@ -15,6 +15,13 @@ namespace BruTile.UI.Silverlight
         {
             InitializeComponent();
             this.map.Loaded += new RoutedEventHandler(map_Loaded);
+            App.Current.Host.Content.Resized += new EventHandler(Content_Resized);
+        }
+
+        void Content_Resized(object sender, EventArgs e)
+        {
+            this.Width = App.Current.Host.Content.ActualWidth;
+            this.Height = App.Current.Host.Content.ActualHeight;
         }
 
         void map_Loaded(object sender, RoutedEventArgs e)
@@ -29,8 +36,6 @@ namespace BruTile.UI.Silverlight
         {
             map.Transform.Center = new Point(629816, 6805085);
             map.Transform.Resolution = 1222.992452344;
-            map.Transform.Width = (float)this.Width;
-            map.Transform.Height = (float)this.Height;
         }
 
         private void Osm_Click(object sender, RoutedEventArgs e)

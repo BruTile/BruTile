@@ -11,7 +11,7 @@
     <RootNamespace>BruTile.UI.Silverlight.Web</RootNamespace>
     <AssemblyName>BruTile.UI.Silverlight.Web</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <SilverlightApplicationList>{066B11A1-B05D-4DD4-B372-1CCEDF929962}|..\BruTileSilverlight\BruTileSilverlight.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{066B11A1-B05D-4DD4-B372-1CCEDF929962}|..\BruTile.UI.Silverlight\BruTile.UI.Silverlight.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,8 +54,8 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BruTileSilverlightTestPage.aspx" />
-    <Content Include="BruTileSilverlightTestPage.html" />
+    <Content Include="BruTile.UI.SilverlightTestPage.aspx" />
+    <Content Include="BruTile.UI.SilverlightTestPage.html" />
     <Content Include="ClientBin\BruTileSilverlight.xap" />
     <Content Include="Default.aspx" />
     <Content Include="Silverlight.js" />
