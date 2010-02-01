@@ -68,6 +68,10 @@
     <Compile Include="Extent.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ValidationException.cs" />
+    <Compile Include="Web\tilemapresource.cs" />
+    <Compile Include="Web\TileSourceBing.cs" />
+    <Compile Include="Web\TileSourceOsm.cs" />
+    <Compile Include="Web\TileSourceTms.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
   </ItemGroup>
