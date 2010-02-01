@@ -39,7 +39,7 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo tile)
         {
-            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}h{1}.jpeg?g=203&token={2}",
+            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}" + "{1}.jpeg?g=203&token={2}",
               baseUrl, TileXYToQuadKey(tile.Key.Col, tile.Key.Row, tile.Key.Level + 1), token));
         }
 
@@ -77,7 +77,5 @@ namespace BruTile.Web
 
             return quadKey.ToString();
         }
-
-
     }
 }

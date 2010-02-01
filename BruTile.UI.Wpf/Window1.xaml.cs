@@ -6,6 +6,7 @@ using System.Windows.Data;
 using BruTile.UI.Windows;
 using DemoConfig;
 using BruTile;
+using BruTile.Web;
 
 namespace BruTile.UI.Wpf
 {
@@ -75,12 +76,14 @@ namespace BruTile.UI.Wpf
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigTms());
+            TileSourceTms tileSource = new TileSourceTms("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/", "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/");
+            map.RootLayer = new TileLayer(tileSource);
         }
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigVE());
+            TileSourceBing tileSource = new TileSourceBing("http://t1.staging.tiles.virtualearth.net/tiles/h");
+            map.RootLayer = new TileLayer(tileSource);
         }
 
         private void SetConfig(IConfig config)

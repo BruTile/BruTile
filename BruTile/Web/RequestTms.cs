@@ -24,16 +24,29 @@ namespace BruTile.Web
 {
     public class RequestTms : IRequestBuilder
     {
-        Uri baseUrl;
+        IList<Uri> baseUrl;
         Dictionary<string, string> customParameters;
         string format;
+        bool isSingleUrl = false; //If single url is added the request uses the same url for every resolution
 
         public RequestTms(Uri baseUrl, string format)
+            : this(new List<Uri>() { baseUrl }, format)
+        {
+            isSingleUrl = true;
+        }
+
+        public RequestTms(Uri baseUrl, string format, Dictionary<string, string> dictionary)
+            : this(new List<Uri>() { baseUrl }, format, dictionary)
+        {
+            isSingleUrl = true;
+        }
+
+        public RequestTms(IList<Uri> baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
         {
         }
 
-        public RequestTms(Uri baseUrl, string format, Dictionary<string, string> customParameters)
+        public RequestTms(IList<Uri> baseUrl, string format, Dictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.format = format;
@@ -49,9 +62,19 @@ namespace BruTile.Web
         {
             System.Text.StringBuilder url = new StringBuilder();
 
-            url.AppendFormat(CultureInfo.InvariantCulture,
-              "{0}/{1}/{2}/{3}.{4}",
-              baseUrl, tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
+            if (isSingleUrl)
+            {
+                url.AppendFormat(CultureInfo.InvariantCulture,
+                      "{0}/{1}/{2}/{3}.{4}",
+                      baseUrl[0], tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
+            }
+            else
+            {
+                url.AppendFormat(CultureInfo.InvariantCulture,
+                  "{0}/{1}/{2}.{3}",
+                  baseUrl[tile.Key.Level], tile.Key.Col, tile.Key.Row, format);
+            }
+
 
             AppendCustomParameters(url);
             return new Uri(url.ToString());
