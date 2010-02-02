@@ -61,6 +61,21 @@ namespace BruTile.UI
             return resolutions[0];
         }
 
+        public static void ZoomToBoudingbox(double xMin, double yMin, double xMax, double yMax, double screenWidth, out double x, out double y, out double resolution)
+        {
+            if (xMin > xMax)//User dragged from right to left
+            {
+                double tempX = xMin;
+                double tempY = yMin;
+                xMin = xMax;
+                yMin = yMax;
+                xMax = tempX;
+                yMax = tempY;
+            }
 
+            x = (xMax + xMin) / 2;
+            y = (yMax + yMin) / 2;
+            resolution = (xMax - xMin) / screenWidth;
+        }
     }
 }

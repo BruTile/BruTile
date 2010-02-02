@@ -1,5 +1,8 @@
 ﻿<UserControl x:Class="BruTile.UI.Windows.MapControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Canvas x:Name="canvas" Background="Transparent"></Canvas>
+    <Grid>
+        <Canvas x:Name="canvas" Background="Transparent" />
+        <Rectangle Fill="Blue" Stroke="Black" StrokeThickness="3" RadiusX="0.5" RadiusY="0.5" StrokeDashArray="3" Opacity="0.3" x:Name="bboxRect" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Visibility="Collapsed"/>
+    </Grid>
 </UserControl>
