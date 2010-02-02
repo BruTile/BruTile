@@ -43,6 +43,7 @@ namespace BruTile.UI.Windows
         private Storyboard zoomStoryBoard = new Storyboard();
         private double toResolution;
         private bool mouseDown = false;
+        private bool isCtrlDown = false;
         private Renderer renderer = new Renderer();
 
         public event EventHandler ErrorMessageChanged;
@@ -177,18 +178,29 @@ namespace BruTile.UI.Windows
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
             this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
             this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
-
+            this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
+            this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
             this.InitAnimation();
             UpdateSize();
             this.Refresh();
+
+            #if !SILVERLIGHT
+                 this.Focusable = true;
+            #endif
+
+            #if SILVERLIGHT
+                this.IsTabStop = true;
+            #endif
+
+            this.Focus();
         }
 
         private void InitAnimation()
         {
             this.zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
-#if SILVERLIGHT
-      zoomAnimation.EasingFunction = new QuarticEase();
-#endif
+            #if SILVERLIGHT
+                  zoomAnimation.EasingFunction = new QuarticEase();
+            #endif
             Storyboard.SetTarget(this.zoomAnimation, this);
             Storyboard.SetTargetProperty(this.zoomAnimation, new PropertyPath("Resolution"));
             this.zoomStoryBoard.Children.Add(this.zoomAnimation);
@@ -294,15 +306,25 @@ namespace BruTile.UI.Windows
         {
             this.previousMousePosition = e.GetPosition(this);
             this.mouseDown = true;
+            this.Focus();
         }
 
         void MapControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (isCtrlDown)
+            {
+                this.ZoomToBbox(previousMousePosition, e.GetPosition(this));
+            }
             this.mouseDown = false;
         }
 
         private void MapControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            if (isCtrlDown)
+            {
+                DrawBbox(e.GetPosition(this));
+                return;
+            }
             if (!this.mouseDown)
             {
                 return;
@@ -356,5 +378,79 @@ namespace BruTile.UI.Windows
             this.InvalidateVisual();
 #endif
         }
+
+        #region BBOX zoom
+
+        void MapControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            String keyName = e.Key.ToString().ToLower();
+            if (keyName.Equals("ctrl") || keyName.Equals("leftctrl") || keyName.Equals("rightctrl"))
+            {
+                isCtrlDown = false;
+                bboxRect.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        void MapControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            String keyName = e.Key.ToString().ToLower();
+            if (keyName.Equals("ctrl") || keyName.Equals("leftctrl") || keyName.Equals("rightctrl"))
+            {
+                isCtrlDown = true;
+                bboxRect.Visibility = Visibility.Visible;
+            }
+        }
+
+        void ZoomToBbox(Point start, Point end)
+        {
+            Point min = this.Transform.MapToWorld(start.X, start.Y);
+            Point max = this.Transform.MapToWorld(end.X, end.Y);
+
+            double x, y, resolution;
+            ZoomHelper.ZoomToBoudingbox(min.X, min.Y, max.X, max.Y, this.ActualWidth, out x, out y, out resolution);
+
+            this.Transform.Center = new Point(x, y);
+            this.Transform.Resolution = resolution;
+            this.toResolution = resolution;
+
+            this.Refresh();
+            ClearBBoxDrawing();
+        }
+
+        void ClearBBoxDrawing()
+        {
+            bboxRect.Margin = new Thickness(0, 0, 0, 0);
+            bboxRect.Width = 0;
+            bboxRect.Height = 0;
+        }
+
+        void DrawBbox(Point newPos)
+        {
+            if(mouseDown)
+            {
+                Point from = previousMousePosition;
+                Point to = newPos;
+
+                if (from.X > to.X)
+                {
+                    Point temp = from;
+                    from.X = to.X;
+                    to.X = temp.X;
+                }
+
+                if (from.Y > to.Y)
+                {
+                    Point temp = from;
+                    from.Y = to.Y;
+                    to.Y = temp.Y;
+                }
+
+                bboxRect.Width = to.X - from.X;
+                bboxRect.Height = to.Y - from.Y;
+                bboxRect.Margin = new Thickness(from.X, from.Y, 0, 0);
+            }
+        }
+
+        #endregion
     }
 }
