@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BruTileMap.LayerConfig;
 using BruTile;
 using System.Globalization;
 using System.Xml.Serialization;
@@ -16,7 +15,7 @@ namespace BruTile.Web
 
         public TileSourceOsm()
           //  : base(url, new SchemaBasicSphericalMercator())
-            : base("")
+            : base(new MemoryStream()) //!!! TEMP
         {
 
         }

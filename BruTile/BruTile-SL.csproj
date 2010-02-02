@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AxisInvertedY.cs" />
@@ -72,6 +73,12 @@
     <Compile Include="Web\RequestTms.cs" />
     <Compile Include="Web\RequestVE.cs" />
     <Compile Include="Web\RequestWmsC.cs" />
+    <Compile Include="Web\tilemapresource.cs">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="Web\TileSourceBing.cs" />
+    <Compile Include="Web\TileSourceOsm.cs" />
+    <Compile Include="Web\TileSourceTms.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
   </ItemGroup>

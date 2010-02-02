@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using BruTile;
 using System.Globalization;
-using System.Xml.Serialization;
 using System.IO;
 using System.Net;
+using System.Xml.Serialization;
 
 namespace BruTile.Web
 {
@@ -13,29 +11,21 @@ namespace BruTile.Web
     {
         TileSchema tileSchema;
         WebTileProvider tileProvider;
-        string overwriteTileURL; //When the configfile points to an invalid tile url fill this one
+        string overrideTileURL; //When the configfile points to an invalid tile url fill this one
 
-        public TileSourceTms(string configUrl)
+        public TileSourceTms(Stream configUrl)
         {
             Create(configUrl);
         }
 
-        public TileSourceTms(string configUrl, string overwriteTileURL)
+        public TileSourceTms(Stream configUrl, string overwriteTileURL)
         {
-            this.overwriteTileURL = overwriteTileURL;
+            this.overrideTileURL = overwriteTileURL;
             Create(configUrl);
         }
 
-        public TileSourceTms(TileSchema tileSchema)
+        private void Create(Stream stream)
         {
-            this.tileSchema = tileSchema;
-
-        }
-
-        private void Create(string url)
-        {
-            //Get stream from url
-            MemoryStream stream = CreateStream(url);
             StreamReader reader = new StreamReader(stream);
             XmlSerializer serializer = new XmlSerializer(typeof(TileMap));
             TileMap tileMap = (TileMap)serializer.Deserialize(reader);
@@ -47,17 +37,6 @@ namespace BruTile.Web
                 tileUrls.Add(new Uri(ts.href));
             }
             tileProvider = new WebTileProvider(CreateRequestBuilder(tileUrls));
-        }
-
-        private MemoryStream CreateStream(String url)
-        {
-            MemoryStream memStream;
-            //TODO: If no internet available try load saved configs
-            WebClient client = new WebClient();
-            try { memStream = new MemoryStream(client.DownloadData(url)); }
-            catch (Exception e) { return null; }
-            client.Dispose();
-            return memStream;
         }
 
         private static TileSchema GenerateSchema(TileMap tileMap)
@@ -87,8 +66,8 @@ namespace BruTile.Web
             parameters.Add("seriveparam", "ortho10");
             IRequestBuilder request;
 
-            if (overwriteTileURL != null)
-                request = new RequestTms(new Uri(overwriteTileURL), Schema.Format, null);
+            if (overrideTileURL != null)
+                request = new RequestTms(new Uri(overrideTileURL), Schema.Format, null);
             else
                 request = new RequestTms(tileUrls, Schema.Format, parameters);
 

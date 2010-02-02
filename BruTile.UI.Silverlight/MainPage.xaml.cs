@@ -6,6 +6,8 @@ using BruTile;
 using BruTile.UI;
 using BruTile.UI.Windows;
 using DemoConfig;
+using BruTile.Web;
+using System.Net;
 
 namespace BruTile.UI.Silverlight
 {
@@ -46,8 +48,8 @@ namespace BruTile.UI.Silverlight
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            ITileSource source = new ConfigVE().CreateTileSource();
-            map.RootLayer = new TileLayer(source);
+            TileSourceBing tileSource = new TileSourceBing("http://t1.staging.tiles.virtualearth.net/tiles/h");
+            map.RootLayer = new TileLayer(tileSource);
         }
 
         private void map_ErrorMessageChanged(object sender, EventArgs e)

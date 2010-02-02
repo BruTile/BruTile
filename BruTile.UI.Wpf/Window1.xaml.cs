@@ -7,6 +7,7 @@ using BruTile.UI.Windows;
 using DemoConfig;
 using BruTile;
 using BruTile.Web;
+using System.Net;
 
 namespace BruTile.UI.Wpf
 {
@@ -76,8 +77,15 @@ namespace BruTile.UI.Wpf
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
         {
-            TileSourceTms tileSource = new TileSourceTms("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/", "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/");
-            map.RootLayer = new TileLayer(tileSource);
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += GetServiceDescriptionCompleted;
+            client.OpenReadAsync(new Uri("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
+        }
+
+        private void GetServiceDescriptionCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            if ((!e.Cancelled) && (e.Error == null))
+                map.RootLayer = new TileLayer(new TileSourceTms(e.Result, "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
         }
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
