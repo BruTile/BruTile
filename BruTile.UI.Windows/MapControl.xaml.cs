@@ -109,8 +109,10 @@ namespace BruTile.UI.Windows
         public MapControl()
         {
             InitializeComponent();
+#if SILVERLIGHT
+            bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
+#endif
             this.Loaded += new RoutedEventHandler(this.MapControl_Loaded);
-
         }
 
         #endregion
@@ -159,7 +161,7 @@ namespace BruTile.UI.Windows
             ZoomMiddle();
         }
 
-        void ZoomMiddle()
+        private void ZoomMiddle()
         {
             this.currentMousePosition = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             this.StartZoomAnimation(this.transform.Resolution, this.toResolution);
@@ -167,9 +169,6 @@ namespace BruTile.UI.Windows
 
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
-#if SILVERLIGHT
-      bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
-#endif
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
@@ -180,7 +179,8 @@ namespace BruTile.UI.Windows
             this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
             this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
             this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
-            this.InitAnimation();
+            InitAnimation();
+
             UpdateSize();
             this.Refresh();
 

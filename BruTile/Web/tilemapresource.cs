@@ -9,12 +9,8 @@
 //------------------------------------------------------------------------------
 
 using System.Xml.Serialization;
-using BruTileMap.LayerConfig;
-namespace BruTileMap.LayerConfig.xsd
-{
-}
 
-namespace BruTileMap.LayerConfig.xsd
+namespace BruTile.LayerConfig.xsd
 {
 }
 
@@ -25,9 +21,9 @@ namespace BruTileMap.LayerConfig.xsd
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
 
@@ -153,9 +149,9 @@ public partial class TileMap {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class TileMapBoundingBox {
     
@@ -214,9 +210,9 @@ public partial class TileMapBoundingBox {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class TileMapOrigin {
     
@@ -249,9 +245,9 @@ public partial class TileMapOrigin {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class TileMapTileFormat {
     
@@ -310,9 +306,9 @@ public partial class TileMapTileFormat {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class TileMapTileSets {
     
@@ -345,9 +341,9 @@ public partial class TileMapTileSets {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class TileMapTileSetsTileSet {
     
@@ -393,9 +389,9 @@ public partial class TileMapTileSetsTileSet {
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-[System.SerializableAttribute()]
+
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
 public partial class NewDataSet {
