@@ -68,9 +68,15 @@ namespace BruTile.UI.Windows
             set
             {
                 this.renderer = new Renderer(); //todo reset instead of new.
+                if (this.rootLayer != null)
+                {
+                    //Detach the DataUpdated eventhandler from the old rootLayer, before it is replaced
+                    this.rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
+                }
                 this.rootLayer = value;
                 if (this.rootLayer != null)
                 {
+                    //Attach the DataUpdated eventhandler to the new rootLayer
                     this.rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
                 }
                 this.Refresh();
@@ -109,10 +115,32 @@ namespace BruTile.UI.Windows
         public MapControl()
         {
             InitializeComponent();
-#if SILVERLIGHT
-            bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
-#endif
             this.Loaded += new RoutedEventHandler(this.MapControl_Loaded);
+            this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
+            this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
+            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
+            this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
+            this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
+            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
+            this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
+            this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
+
+            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+#if !SILVERLIGHT
+            this.Dispatcher.ShutdownStarted += new EventHandler(Dispatcher_ShutdownStarted);
+#endif
+        }
+
+        void Dispatcher_ShutdownStarted(object sender, EventArgs e)
+        {
+            // Here event handlers are detached
+
+            CompositionTarget.Rendering -= new EventHandler(CompositionTarget_Rendering);
+            if (this.rootLayer != null)
+            {
+                this.rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
+            }
         }
 
         #endregion
@@ -161,7 +189,7 @@ namespace BruTile.UI.Windows
             ZoomMiddle();
         }
 
-        private void ZoomMiddle()
+        void ZoomMiddle()
         {
             this.currentMousePosition = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             this.StartZoomAnimation(this.transform.Resolution, this.toResolution);
@@ -169,20 +197,11 @@ namespace BruTile.UI.Windows
 
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
-            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
-            this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
-            this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
-            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
-            this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
-            this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
-            this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
-            this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
-            InitAnimation();
-
-            UpdateSize();
-            this.Refresh();
+#if SILVERLIGHT
+      bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
+#endif
+            this.UpdateSize();
+            this.InitAnimation();
 
             #if !SILVERLIGHT
                  this.Focusable = true;
@@ -239,7 +258,8 @@ namespace BruTile.UI.Windows
 
         void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateSize();
+            this.UpdateSize();
+
             this.Refresh();
         }
 

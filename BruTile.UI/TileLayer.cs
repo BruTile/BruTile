@@ -115,6 +115,7 @@ namespace BruTile.UI
             {
                 UnRegisterEventHandlers();
                 tileFetcher.Dispose();
+                tileFetcher = null;
             }
         }
 

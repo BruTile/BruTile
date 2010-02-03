@@ -66,7 +66,7 @@ namespace DemoConfig
         {
             get
             {
-                string url = "http://t1.staging.tiles.virtualearth.net/tiles/";
+                string url = "http://t1.staging.tiles.virtualearth.net/tiles/h";
                //retrieve your token through your own VE account, see
                 //http://msdn.microsoft.com/en-us/library/cc980844.aspx
                 string token = "";
