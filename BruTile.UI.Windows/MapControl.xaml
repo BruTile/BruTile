@@ -3,6 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Canvas x:Name="canvas" Background="Transparent" />
-        <Rectangle Fill="Blue" Stroke="Black" StrokeThickness="3" RadiusX="0.5" RadiusY="0.5" StrokeDashArray="3" Opacity="0.3" x:Name="bboxRect" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Visibility="Collapsed"/>
+        <Rectangle Fill="Red" Stroke="Black" StrokeThickness="3" RadiusX="0.5" RadiusY="0.5" StrokeDashArray="3" Opacity="0.3" x:Name="bboxRect" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Visibility="Visible"/>
     </Grid>
 </UserControl>
