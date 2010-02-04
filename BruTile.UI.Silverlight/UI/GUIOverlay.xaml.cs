@@ -12,12 +12,16 @@ using System.IO;
 using BruTile;
 using System.Windows.Threading;
 using BruTile.UI.Windows;
+using BruTile.UI;
+using BruTile.UI.Silverlight;
 
 namespace BruTileSilverlight
 {
     public partial class GUIOverlay : UserControl
     {
-        MapControl map;
+        public MapControl map;
+        MainPage main;
+
         bool isMenuDown = false;
 
         public GUIOverlay()
@@ -32,6 +36,11 @@ namespace BruTileSilverlight
         internal void SetMap(MapControl map)
         {
             this.map = map;
+        }
+
+        internal void SetMain(MainPage main)
+        {
+            this.main = main;
         }
 
         void SetClip()
@@ -120,6 +129,7 @@ namespace BruTileSilverlight
         void GUIOverlay_Loaded(object sender, RoutedEventArgs e)
         {
             SetClip();
+            GoTo.SetGui(this);
         }
 
         private void buttonZoomIn_Click(object sender, RoutedEventArgs e)
@@ -136,6 +146,44 @@ namespace BruTileSilverlight
         {
             if (!isMenuDown)
                 ShowMenuStart();
+        }
+
+        private void btnFullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Host.Content.IsFullScreen = !Application.Current.Host.Content.IsFullScreen;
+            main.Width = App.Current.Host.Content.ActualWidth;
+            main.Height = App.Current.Host.Content.ActualHeight;
+        }
+
+        private void btnBbox_Click(object sender, RoutedEventArgs e)
+        {
+            map.isCtrlDown = true;
+        }
+
+        private void btnHand_Click(object sender, RoutedEventArgs e)
+        {
+            map.isCtrlDown = false;
+        }
+
+        private void buttonMaxExtend_Click(object sender, RoutedEventArgs e)
+        {
+            Extent extend = map.RootLayer.Schema.Extent;
+            map.ZoomToBbox(new Point(extend.MinX, extend.MinY), new Point(extend.MaxX, extend.MaxY));
+        }
+
+        private void btnGoto_Click(object sender, RoutedEventArgs e)
+        {
+            GoTo.Visibility = Visibility.Visible;
+            GoTo.ShowGoTo.Begin();
+
+            if (Application.Current.Host.Content.IsFullScreen)
+            {
+                GoTo.errorGrid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GoTo.errorGrid.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
@@ -166,7 +214,7 @@ namespace BruTileSilverlight
 
         private void buttonMaxExtend_MouseEnter(object sender, MouseEventArgs e)
         {
-            txtTooltipTop.Text = "Not Implemented Yet";
+            txtTooltipTop.Text = "Max Extend";
             ShowTopTooltip.Begin();
         }
 
@@ -185,7 +233,31 @@ namespace BruTileSilverlight
             txtTooltipBottom.Text = "Layers";
         }
 
-        private void btnLayers_MouseLeave(object sender, MouseEventArgs e)
+        private void btnFullscreen_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ShowLowerTooltip.Begin();
+            txtTooltipBottom.Text = "Fullscreen";
+        }
+
+        private void btnBbox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ShowLowerTooltip.Begin();
+            txtTooltipBottom.Text = "bbox zoom";
+        }
+
+        private void btnHand_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ShowLowerTooltip.Begin();
+            txtTooltipBottom.Text = "Pan";
+        }
+
+        private void btnGoto_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ShowLowerTooltip.Begin();
+            txtTooltipBottom.Text = "Go To";
+        }
+
+        private void lower_MouseLeave(object sender, MouseEventArgs e)
         {
             HideLowerTooltip.Begin();
         }

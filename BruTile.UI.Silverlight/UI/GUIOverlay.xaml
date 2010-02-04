@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
+    xmlns:local="clr-namespace:BruTile.UI.Silverlight"
 	x:Class="BruTileSilverlight.GUIOverlay"
 	d:DesignWidth="640" d:DesignHeight="480">
     <UserControl.Resources>
@@ -126,8 +127,8 @@
     <Grid x:Name="LayoutRoot">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="100"/>
-			<RowDefinition Height="0.792*"/>
-			<RowDefinition Height="100"/>
+			<RowDefinition/>
+			<RowDefinition Height="74" MaxHeight="75"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="210"/>
@@ -148,7 +149,7 @@
 			</Grid>
     		<TextBlock x:Name="txtTooltipTop" Margin="4,0,0,2" TextWrapping="Wrap" FontFamily="Verdana" FontSize="10.667" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="137"/>
     	</Grid>
-		<Grid Margin="99,0,0,-28" Grid.Column="2" Grid.Row="2" Height="46" VerticalAlignment="Bottom">
+		<Grid Margin="99,0,0,-27" Grid.Column="2" Grid.Row="2" Height="46" VerticalAlignment="Bottom">
 			<Grid x:Name="tooltipBottom" Height="46" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="168" Margin="0,0,-22,0">
 				<Grid.RenderTransform>
 					<TransformGroup>
@@ -202,6 +203,7 @@
 			<Image Margin="0" Width="40" Source="Images/lowerRightButton.png" Stretch="Fill"/>
 			<Image Margin="0" Width="40" Source="Images/lowerRightButton.png" Stretch="Fill"/>
 			<Image Margin="0" Width="40" Source="Images/lowerRightButton.png" Stretch="Fill"/>
+			<Image Margin="0" Width="40" Source="Images/lowerRightButton.png" Stretch="Fill"/>
 			<Image Margin="0" Width="37" Source="Images/lowerRightLeft.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
 				<Image.RenderTransform>
 					<TransformGroup>
@@ -217,7 +219,7 @@
 			<Grid HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Button x:Name="buttonZoomIn" Click="buttonZoomIn_Click" MouseEnter="buttonZoomIn_MouseEnter" MouseLeave="buttonZoomIn_MouseLeave" Height="24" VerticalAlignment="Top" Template="{StaticResource menuButton}" Tag="Images/btnZoomIn.png" RenderTransformOrigin="0.467,0.489" HorizontalAlignment="Left" Width="24"/>
 				<Button x:Name="buttonZoomOut" Click="buttonZoomOut_Click" Height="24" MouseEnter="buttonZoomOut_MouseEnter" MouseLeave="buttonZoomOut_MouseLeave" VerticalAlignment="Top" Template="{StaticResource menuButton}" Tag="Images/btnZoomOut.png" RenderTransformOrigin="0.467,0.489" HorizontalAlignment="Left" Width="24" Margin="40,0,0,0"/>
-				<Button x:Name="buttonMaxExtend" Height="24" VerticalAlignment="Top" MouseEnter="buttonMaxExtend_MouseEnter" MouseLeave="buttonMaxExtend_MouseLeave" Template="{StaticResource menuButton}" Tag="Images/btnMaxExtend.png" RenderTransformOrigin="0.467,0.489" HorizontalAlignment="Left" Width="24" Margin="80,0,0,0"/>
+				<Button x:Name="buttonMaxExtend" Click="buttonMaxExtend_Click" Height="24" VerticalAlignment="Top" MouseEnter="buttonMaxExtend_MouseEnter" MouseLeave="buttonMaxExtend_MouseLeave" Template="{StaticResource menuButton}" Tag="Images/btnMaxExtend.png" RenderTransformOrigin="0.467,0.489" HorizontalAlignment="Left" Width="24" Margin="80,0,0,0"/>
 			</Grid>
 		</Grid>
 		<Grid x:Name="showBtn" MouseEnter="showBtn_MouseEnter" MouseLeave="showBtn_MouseLeave" MouseLeftButtonDown="showBtn_MouseLeftButtonDown" Height="13" Margin="111,0,0,45" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="52">
@@ -228,8 +230,13 @@
 			<Rectangle Fill="#47FFFFFF" Stroke="Black" StrokeThickness="0"/>
 			<TextBlock x:Name="txtCopyright" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="9.333" FontWeight="Bold" FontFamily="Verdana"/>
 		</Grid>
-		<Grid Margin="0" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-			<Button x:Name="btnLayers" HorizontalAlignment="Right" Margin="0,0,8,5" Content="Button" MouseEnter="btnLayers_MouseEnter" MouseLeave="btnLayers_MouseLeave" Click="btnLayers_Click" Template="{StaticResource menuButton}" Tag="Images/btnLayers.png"/>
+		<Grid Margin="50,0,0,0" Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom">
+			<Button x:Name="btnLayers" HorizontalAlignment="Right" Margin="0,0,48,5" Content="Button" MouseEnter="btnLayers_MouseEnter" MouseLeave="lower_MouseLeave" Click="btnLayers_Click" Template="{StaticResource menuButton}" Tag="Images/btnLayers.png"/>
+			<Button x:Name="btnFullscreen" Tag="Images/btnFullscreen.png" HorizontalAlignment="Right" Margin="0,0,8,5" MouseEnter="btnFullscreen_MouseEnter" MouseLeave="lower_MouseLeave" Click="btnFullscreen_Click" Template="{StaticResource menuButton}"/>
+			<Button x:Name="btnBbox" HorizontalAlignment="Right" Margin="0,0,88,5" Content="Button" MouseEnter="btnBbox_MouseEnter" MouseLeave="lower_MouseLeave" Click="btnBbox_Click" Template="{StaticResource menuButton}" Tag="Images/btnBbox.png"/>
+			<Button x:Name="btnHand" HorizontalAlignment="Right" Margin="0,0,128,5" Content="Button" MouseEnter="btnHand_MouseEnter" MouseLeave="lower_MouseLeave" Click="btnHand_Click" Template="{StaticResource menuButton}" Tag="Images/btnHand.png"/>
+			<Button x:Name="btnGoto" HorizontalAlignment="Right" Margin="0,0,168,5" Content="Button" MouseEnter="btnGoto_MouseEnter" MouseLeave="lower_MouseLeave" Click="btnGoto_Click" Template="{StaticResource menuButton}" Tag="Images/btnGoTo.png"/>
 		</Grid>
+        <local:GoTo Grid.Column="1" Grid.Row="1" x:Name="GoTo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
 	</Grid>
 </UserControl>

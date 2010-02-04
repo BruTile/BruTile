@@ -32,6 +32,7 @@ namespace BruTile.UI.Silverlight
             ITileSource source = new ConfigOsm().CreateTileSource();
             map.RootLayer = new TileLayer(source);
             GUI.SetMap(map);
+            GUI.SetMain(this);
         }
 
         private void InitTransform()

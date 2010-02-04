@@ -67,6 +67,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\GoTo.xaml.cs">
+      <DependentUpon>GoTo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\GUIOverlay.xaml.cs">
       <DependentUpon>GUIOverlay.xaml</DependentUpon>
     </Compile>
@@ -79,6 +82,10 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+    <Page Include="UI\GoTo.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\GUIOverlay.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -123,6 +130,12 @@
     <Resource Include="UI\Images\topLeftBrutile.png" />
     <Resource Include="UI\Images\topMiddle.png" />
     <Resource Include="UI\Images\topRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\btnBbox.png" />
+    <Resource Include="UI\Images\btnFullscreen.png" />
+    <Resource Include="UI\Images\btnGoTo.png" />
+    <Resource Include="UI\Images\btnHand.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

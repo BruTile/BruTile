@@ -43,7 +43,7 @@ namespace BruTile.UI.Windows
         private Storyboard zoomStoryBoard = new Storyboard();
         private double toResolution;
         private bool mouseDown = false;
-        private bool isCtrlDown = false;
+        public bool isCtrlDown = false;
         private Renderer renderer = new Renderer();
 
         public event EventHandler ErrorMessageChanged;
@@ -68,15 +68,9 @@ namespace BruTile.UI.Windows
             set
             {
                 this.renderer = new Renderer(); //todo reset instead of new.
-                if (this.rootLayer != null)
-                {
-                    //Detach the DataUpdated eventhandler from the old rootLayer, before it is replaced
-                    this.rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
-                }
                 this.rootLayer = value;
                 if (this.rootLayer != null)
                 {
-                    //Attach the DataUpdated eventhandler to the new rootLayer
                     this.rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
                 }
                 this.Refresh();
@@ -115,32 +109,10 @@ namespace BruTile.UI.Windows
         public MapControl()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(this.MapControl_Loaded);
-            this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
-            this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
-            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
-            this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
-            this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
-            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
-            this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
-            this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
-
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-#if !SILVERLIGHT
-            this.Dispatcher.ShutdownStarted += new EventHandler(Dispatcher_ShutdownStarted);
+#if SILVERLIGHT
+            bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
 #endif
-        }
-
-        void Dispatcher_ShutdownStarted(object sender, EventArgs e)
-        {
-            // Here event handlers are detached
-
-            CompositionTarget.Rendering -= new EventHandler(CompositionTarget_Rendering);
-            if (this.rootLayer != null)
-            {
-                this.rootLayer.DataUpdated -= new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
-            }
+            this.Loaded += new RoutedEventHandler(this.MapControl_Loaded);
         }
 
         #endregion
@@ -171,7 +143,7 @@ namespace BruTile.UI.Windows
             this.Refresh();
         }
 
-         public void ZoomIn()
+        public void ZoomIn()
         {
             if (this.toResolution == 0)
                 this.toResolution = this.transform.Resolution;
@@ -189,7 +161,7 @@ namespace BruTile.UI.Windows
             ZoomMiddle();
         }
 
-        void ZoomMiddle()
+        private void ZoomMiddle()
         {
             this.currentMousePosition = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             this.StartZoomAnimation(this.transform.Resolution, this.toResolution);
@@ -197,19 +169,28 @@ namespace BruTile.UI.Windows
 
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
-#if SILVERLIGHT
-      bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
-#endif
-            this.UpdateSize();
-            this.InitAnimation();
+            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(MapControl_MouseDown);
+            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseLeftButtonUp);
+            this.MouseMove += new System.Windows.Input.MouseEventHandler(MapControl_MouseMove);
+            this.MouseLeave += new MouseEventHandler(MapControl_MouseLeave);
+            this.MouseLeftButtonUp += new MouseButtonEventHandler(MapControl_MouseUp);
+            this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
+            this.SizeChanged += new SizeChangedEventHandler(MapControl_SizeChanged);
+            this.KeyDown += new KeyEventHandler(MapControl_KeyDown);
+            this.KeyUp += new KeyEventHandler(MapControl_KeyUp);
+            InitAnimation();
 
-            #if !SILVERLIGHT
+            UpdateSize();
+            this.Refresh();
+
+#if !SILVERLIGHT
                  this.Focusable = true;
-            #endif
+#endif
 
-            #if SILVERLIGHT
-                this.IsTabStop = true;
-            #endif
+#if SILVERLIGHT
+            this.IsTabStop = true;
+#endif
 
             this.Focus();
         }
@@ -217,9 +198,9 @@ namespace BruTile.UI.Windows
         private void InitAnimation()
         {
             this.zoomAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
-            #if SILVERLIGHT
-                  zoomAnimation.EasingFunction = new QuarticEase();
-            #endif
+#if SILVERLIGHT
+            zoomAnimation.EasingFunction = new QuarticEase();
+#endif
             Storyboard.SetTarget(this.zoomAnimation, this);
             Storyboard.SetTargetProperty(this.zoomAnimation, new PropertyPath("Resolution"));
             this.zoomStoryBoard.Children.Add(this.zoomAnimation);
@@ -258,8 +239,7 @@ namespace BruTile.UI.Windows
 
         void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.UpdateSize();
-
+            UpdateSize();
             this.Refresh();
         }
 
@@ -333,7 +313,9 @@ namespace BruTile.UI.Windows
         {
             if (isCtrlDown)
             {
-                this.ZoomToBbox(previousMousePosition, e.GetPosition(this));
+                Point min = this.Transform.MapToWorld(previousMousePosition.X, previousMousePosition.Y);
+                Point max = this.Transform.MapToWorld(e.GetPosition(this).X, e.GetPosition(this).Y);
+                this.ZoomToBbox(min, max);
             }
             this.mouseDown = false;
         }
@@ -407,7 +389,6 @@ namespace BruTile.UI.Windows
             if (keyName.Equals("ctrl") || keyName.Equals("leftctrl") || keyName.Equals("rightctrl"))
             {
                 isCtrlDown = false;
-                bboxRect.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -417,15 +398,11 @@ namespace BruTile.UI.Windows
             if (keyName.Equals("ctrl") || keyName.Equals("leftctrl") || keyName.Equals("rightctrl"))
             {
                 isCtrlDown = true;
-                bboxRect.Visibility = Visibility.Visible;
             }
         }
 
-        void ZoomToBbox(Point start, Point end)
+        public void ZoomToBbox(Point min, Point max)
         {
-            Point min = this.Transform.MapToWorld(start.X, start.Y);
-            Point max = this.Transform.MapToWorld(end.X, end.Y);
-
             double x, y, resolution;
             ZoomHelper.ZoomToBoudingbox(min.X, min.Y, max.X, max.Y, this.ActualWidth, out x, out y, out resolution);
 
@@ -446,7 +423,7 @@ namespace BruTile.UI.Windows
 
         void DrawBbox(Point newPos)
         {
-            if(mouseDown)
+            if (mouseDown)
             {
                 Point from = previousMousePosition;
                 Point to = newPos;
