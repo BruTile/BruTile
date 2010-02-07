@@ -60,7 +60,7 @@ namespace BruTile.UI.Forms
         if (RootLayer != null)
         {
           rootLayer.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
-          rootLayer.Dispose();
+          rootLayer.AbortFetch();
         }
         rootLayer = value;
         if (rootLayer != null)
@@ -83,7 +83,7 @@ namespace BruTile.UI.Forms
 
     void MapControl_Disposed(object sender, EventArgs e)
     {
-      if (rootLayer != null) rootLayer.Dispose();
+      if (rootLayer != null) rootLayer.AbortFetch();
     }
 
     public void ZoomIn()
@@ -154,7 +154,7 @@ namespace BruTile.UI.Forms
     public override void Refresh()
     {
       if (rootLayer != null)
-        rootLayer.UpdateData(transform.Extent, transform.Resolution);
+        rootLayer.ViewChanged(transform.Extent, transform.Resolution);
       this.Invalidate();
     }
 
