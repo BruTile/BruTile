@@ -34,9 +34,20 @@ namespace BruTile.Cache
         private object syncRoot = new object();
         private int maxTiles = 20;
         private int minTiles = 10;
-        private delegate void SetTileCountDelegate(int count);
 
         #endregion
+
+        #region Properties
+
+        public int TileCount
+        {
+            get
+            {
+                return this.bitmaps.Count;
+            }
+        }
+
+        #endregion 
 
         #region Public Methods
 
@@ -150,14 +161,6 @@ namespace BruTile.Cache
         }
 
         #endregion
-
-        public int TileCount
-        {
-            get
-            {
-                return this.bitmaps.Count;
-            }
-        }
 
         #region INotifyPropertyChanged Members
 

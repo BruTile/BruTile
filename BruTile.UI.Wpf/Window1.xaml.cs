@@ -1,13 +1,11 @@
 ﻿using System;
-using System.IO;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using BruTile.UI.Windows;
-using DemoConfig;
-using BruTile;
 using BruTile.Web;
-using System.Net;
+using DemoConfig;
 
 namespace BruTile.UI.Wpf
 {
@@ -21,32 +19,16 @@ namespace BruTile.UI.Wpf
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             InitializeComponent();
-            this.Closing += new System.ComponentModel.CancelEventHandler(Window1_Closing);
-            this.map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
-            this.Loaded += new RoutedEventHandler(Window1_Loaded);
+            map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
+            Loaded += new RoutedEventHandler(Window1_Loaded);
+            ITileSource tileSource = new ConfigOsm().CreateTileSource();
+            map.RootLayer = new TileLayer(tileSource);
+            InitTransform(tileSource.Schema);
         }
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
-            FpsText.DataContext = map.FpsCounter;
-            FpsText.SetBinding(TextBlock.TextProperty, new Binding("Fps"));
-
-            SetConfig(new ConfigOsm());
-
-            InitTransform();
-            
-            this.map.Refresh();
-
-        }
-
-        void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (map.RootLayer != null)
-            {
-                var v = map.RootLayer;
-                map.RootLayer = null;
-                v.Dispose();
-            }
+            map.Refresh();
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -54,25 +36,26 @@ namespace BruTile.UI.Wpf
             MessageBox.Show("An Unhandled exception occurred, the application will shut down", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void InitTransform()
+        private void InitTransform(ITileSchema schema)
         {
-            map.Transform.Center = new Point(629816, 6805085);
-            map.Transform.Resolution = 1222.992452344;
+            map.Transform.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
+            map.Transform.Resolution = schema.Resolutions[0];
         }
 
         private void map_ErrorMessageChanged(object sender, EventArgs e)
         {
-            this.Error.Text = map.ErrorMessage;
+            Error.Text = map.ErrorMessage;
+            Renderer.AnimateOpacity(errorBorder, 0.75, 0, 8000);
         }
 
         private void Osm_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigOsm());
+            map.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
         }
 
         private void GeodanWms_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigWms());
+            map.RootLayer = new TileLayer(new ConfigWms().CreateTileSource());
         }
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
@@ -85,43 +68,29 @@ namespace BruTile.UI.Wpf
         private void GetServiceDescriptionCompleted(object sender, OpenReadCompletedEventArgs e)
         {
             if ((!e.Cancelled) && (e.Error == null))
+            {
                 map.RootLayer = new TileLayer(new TileSourceTms(e.Result, "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
+            }
         }
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            TileSourceBing tileSource = new TileSourceBing("http://t1.staging.tiles.virtualearth.net/tiles/h");
-            map.RootLayer = new TileLayer(tileSource);
-        }
-
-        private void SetConfig(IConfig config)
-        {
-            if (map.RootLayer != null)
-            {
-                var v = map.RootLayer;
-                map.RootLayer = null;
-                v.Dispose();
-            }
-
-            map.RootLayer = new TileLayer(config.CreateTileSource());
-
-            TileCountText.DataContext = map.RootLayer.MemoryCache;
-            TileCountText.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
+            map.RootLayer = new TileLayer(new TileSourceBing("http://t1.staging.tiles.virtualearth.net/tiles/h"));
         }
 
         private void GeodanWmsC_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigWmsC());
+            map.RootLayer = new TileLayer(new ConfigWmsC().CreateTileSource());
         }
 
         private void SharpMap_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigSharpMap());
+            map.RootLayer = new TileLayer(new ConfigSharpMap().CreateTileSource());
         }
 
         private void MapTiler_Click(object sender, RoutedEventArgs e)
         {
-            SetConfig(new ConfigMapTiler());
+            map.RootLayer = new TileLayer(new ConfigMapTiler().CreateTileSource());
         }
     }
 }

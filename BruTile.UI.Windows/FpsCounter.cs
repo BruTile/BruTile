@@ -87,7 +87,6 @@ namespace BruTile.UI.Windows
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-
         }
 
         #endregion

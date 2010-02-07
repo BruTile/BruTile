@@ -84,7 +84,6 @@ namespace BruTile.UI.Windows
                 image.Source = source;
                 image.EndInit();
 #endif
-
                 images.Add(tile.Key, image);
                 Canvas.SetZIndex(image, tile.Key.Level);
                 image.Opacity = 0;
@@ -109,7 +108,7 @@ namespace BruTile.UI.Windows
             return image.Opacity;
         }
 
-        private static void AnimateOpacity(Image target, double from, double to, int duration)
+        public static void AnimateOpacity(UIElement target, double from, double to, int duration)
         {
             target.Opacity = 0;
             DoubleAnimation animation = new DoubleAnimation();
@@ -129,6 +128,7 @@ namespace BruTile.UI.Windows
         static void storyBoard_Completed(object sender, EventArgs e)
         {
             //todo: remove that are now invisible.
+           
         }
 
         private static void RemoveCollapsed(Canvas canvas)
