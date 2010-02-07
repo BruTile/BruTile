@@ -21,8 +21,11 @@ using System.ComponentModel;
 
 namespace BruTile.Cache
 {
+
     public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
     {
+        //for future implemenations or replacements of this class look 
+        //into .net 4.0 System.Collections.Concurrent namespace.
         #region Fields
 
         private Dictionary<TileKey, T> bitmaps

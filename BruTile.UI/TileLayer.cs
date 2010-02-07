@@ -40,7 +40,7 @@ namespace BruTile.UI
 
         #region EventHandlers
 
-        public event AsyncCompletedEventHandler DataUpdated;
+        public event DataChangedEventHandler DataChanged;
 
         #endregion
 
@@ -103,13 +103,13 @@ namespace BruTile.UI
 
         private void tileFetcher_DataChanged(object sender, DataChangedEventArgs e)
         {
-            OnDataUpdated(new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
+            OnDataChanged(e);
         }
 
-        private void OnDataUpdated(AsyncCompletedEventArgs e)
+        private void OnDataChanged(DataChangedEventArgs e)
         {
-            if (DataUpdated != null)
-                DataUpdated(this, e);
+            if (DataChanged != null)
+                DataChanged(this, e);
         }
         #endregion
     }

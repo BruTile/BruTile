@@ -25,6 +25,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using BruTile.Web;
 using System.Windows.Data;
+using BruTile.UI.Fetcher;
 
 namespace BruTile.UI.Windows
 {
@@ -76,8 +77,9 @@ namespace BruTile.UI.Windows
                 rootLayer = value;
                 if (rootLayer != null)
                 {
-                    rootLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(rootLayer_DataUpdated);
-#if !SILVERLIGHT //In Silverlight async Binding does not work. TODO: We need to sycnronize the property change on the UI thread
+                    rootLayer.DataChanged += new DataChangedEventHandler(rootLayer_DataChanged);
+#if !SILVERLIGHT    //In Silverlight async Binding does not work. TODO: We need to sycnronize the property change on the UI thread
+                    //something like this but for SL: http://www.claassen.net/geek/blog/2007/07/generic-asynchronous.html
                     tileCount.SetBinding(TextBlock.TextProperty, new Binding("TileCount"));
                     tileCount.DataContext = rootLayer.MemoryCache;
 #endif
@@ -321,11 +323,11 @@ namespace BruTile.UI.Windows
             this.previousMousePosition = new Point(); ;
         }
 
-        private void rootLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private void rootLayer_DataChanged(object sender, DataChangedEventArgs e)
         {
             if (!this.Dispatcher.CheckAccess())
             {
-                this.Dispatcher.BeginInvoke(new AsyncCompletedEventHandler(rootLayer_DataUpdated), new object[] { sender, e });
+                this.Dispatcher.BeginInvoke(new DataChangedEventHandler(rootLayer_DataChanged), new object[] { sender, e });
             }
             else
             {
@@ -418,7 +420,7 @@ namespace BruTile.UI.Windows
                 var v = RootLayer;
                 RootLayer = null;
                 v.AbortFetch();
-                v.DataUpdated -= new AsyncCompletedEventHandler(rootLayer_DataUpdated);
+                v.DataChanged -= new DataChangedEventHandler(rootLayer_DataChanged);
             }
         }
 
