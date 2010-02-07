@@ -182,14 +182,14 @@ namespace BruTile.UI.Fetcher
 
         private void StartFetchOnThread(TileInfo tile)
         {
-            FetchOnThread fetchOnThread = new FetchOnThread(tileSource.Provider, tile, new DataChangedEventHandler(LocalFetchCompleted));
+            FetchOnThread fetchOnThread = new FetchOnThread(tileSource.Provider, tile, new FetchTileCompletedEventHandler(LocalFetchCompleted));
             Thread thread = new Thread(fetchOnThread.FetchTile);
             thread.Name = "Tile Fetcher";
             Console.WriteLine("Start tile fetcher");
             thread.Start();
         }
 
-        private void LocalFetchCompleted(object sender, DataChangedEventArgs e)
+        private void LocalFetchCompleted(object sender, FetchTileCompletedEventArgs e)
         {
             //todo remove object sender
             try
@@ -213,7 +213,7 @@ namespace BruTile.UI.Fetcher
             }
 
             if (this.DataChanged != null)
-                this.DataChanged(this, e);
+                this.DataChanged(this, new DataChangedEventArgs(e.Error, e.Cancelled, e.TileInfo.Extent));
         }
 
         #endregion
@@ -223,18 +223,16 @@ namespace BruTile.UI.Fetcher
 
     public class DataChangedEventArgs
     {
-        public DataChangedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
+        public DataChangedEventArgs(Exception error, bool cancelled, Extent extent)
         {
             this.Error = error;
             this.Cancelled = cancelled;
-            this.TileInfo = tileInfo;
-            this.Image = image;
+            this.extent = extent;
         }
 
         public Exception Error;
         public bool Cancelled;
-        public TileInfo TileInfo;
-        public byte[] Image;
+        public Extent extent;
     }
 
 

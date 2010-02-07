@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using BruTile.UI.Windows;
 using BruTile.Web;
 using DemoConfig;
@@ -23,7 +21,7 @@ namespace BruTile.UI.Wpf
             Loaded += new RoutedEventHandler(Window1_Loaded);
             ITileSource tileSource = new ConfigOsm().CreateTileSource();
             map.RootLayer = new TileLayer(tileSource);
-            InitTransform(tileSource.Schema);
+            InitializeTransform(tileSource.Schema);
         }
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
@@ -36,10 +34,10 @@ namespace BruTile.UI.Wpf
             MessageBox.Show("An Unhandled exception occurred, the application will shut down", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void InitTransform(ITileSchema schema)
+        private void InitializeTransform(ITileSchema schema)
         {
             map.Transform.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
-            map.Transform.Resolution = schema.Resolutions[0];
+            map.Transform.Resolution = schema.Resolutions[2];
         }
 
         private void map_ErrorMessageChanged(object sender, EventArgs e)
