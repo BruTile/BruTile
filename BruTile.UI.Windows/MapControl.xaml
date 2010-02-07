@@ -4,5 +4,17 @@
     <Grid>
         <Canvas x:Name="canvas" Background="Transparent" />
         <Rectangle Fill="Red" Stroke="Black" StrokeThickness="3" RadiusX="0.5" RadiusY="0.5" StrokeDashArray="3" Opacity="0.3" x:Name="bboxRect" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Visibility="Visible"/>
+        <Border x:Name="statistics" BorderBrush="White" Opacity="0.75" Margin="20" Background="White" BorderThickness="10" CornerRadius="5" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <StackPanel  Orientation="Vertical" HorizontalAlignment="Right"  >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Fps:  "/>
+                    <TextBlock x:Name="fps"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Tile Count:  "/>
+                    <TextBlock x:Name="tileCount"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

@@ -213,7 +213,14 @@ namespace BruTile
 
         private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
         {
-            return (tileExtent.Intersects(schemaExtent));
+            //Always return false when tile is outsize of schema
+            if (!tileExtent.Intersects(schemaExtent)) return false;
+
+            //Do not always accept when the tile is partially inside the schema. 
+            //Reject tiles that have less than 0.1% percent overlap.
+            //In practice they turn out to be mostly false positives due to rounding errors.
+            //They are not present on the server and the failed requests make slow the application down.
+            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
         }
 
         private static IAxis CreateAxis(AxisDirection axis)
@@ -230,9 +237,6 @@ namespace BruTile
         }
 
         #endregion
-
-
     }
-
 
 }

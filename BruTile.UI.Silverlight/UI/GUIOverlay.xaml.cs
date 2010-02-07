@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using DemoConfig;
-using System.IO;
 using BruTile;
-using System.Windows.Threading;
-using BruTile.UI.Windows;
-using BruTile.UI;
 using BruTile.UI.Silverlight;
+using BruTile.UI.Windows;
+using DemoConfig;
 
 namespace BruTileSilverlight
 {
     public partial class GUIOverlay : UserControl
     {
         public MapControl map;
-        MainPage main;
-
         bool isMenuDown = false;
 
         public GUIOverlay()
@@ -36,11 +27,21 @@ namespace BruTileSilverlight
         internal void SetMap(MapControl map)
         {
             this.map = map;
+            this.map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
+            map.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
+            InitializeTransform(map.RootLayer.Schema);
         }
 
-        internal void SetMain(MainPage main)
+        void map_ErrorMessageChanged(object sender, EventArgs e)
         {
-            this.main = main;
+            Error.Text = map.ErrorMessage;
+            Renderer.AnimateOpacity(errorBorder, 0.75, 0, 8000);
+        }
+
+        private void InitializeTransform(ITileSchema schema)
+        {
+            map.Transform.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
+            map.Transform.Resolution = schema.Resolutions[2];
         }
 
         void SetClip()
@@ -151,8 +152,6 @@ namespace BruTileSilverlight
         private void btnFullscreen_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Host.Content.IsFullScreen = !Application.Current.Host.Content.IsFullScreen;
-            main.Width = App.Current.Host.Content.ActualWidth;
-            main.Height = App.Current.Host.Content.ActualHeight;
         }
 
         private void btnBbox_Click(object sender, RoutedEventArgs e)

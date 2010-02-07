@@ -23,7 +23,7 @@ using BruTile.UI.Fetcher;
 
 namespace BruTile.UI
 {
-    public class TileLayer<T> : IDisposable
+    public class TileLayer<T> 
     {
         #region Fields
 
@@ -65,7 +65,8 @@ namespace BruTile.UI
         {
             this.schema = source.Schema;
             tileFetcher = new TileFetcher<T>(source, memoryCache, tileFactory);
-            RegisterEventHandlers();
+            tileFetcher.DataChanged += new DataChangedEventHandler(tileFetcher_DataChanged);
+
         }
 
         ~TileLayer()
@@ -76,24 +77,29 @@ namespace BruTile.UI
 
         #region Public Methods
 
-        public void UpdateData(Extent extent, double resolution)
+        public void ViewChanged(Extent extent, double resolution)
         {
             tileFetcher.ViewChanged(extent, resolution);
+        }
+
+        /// <summary>
+        /// Aborts the fetch of data that is currently in progress.
+        /// With new ViewChanged calls the fetch will start again. 
+        /// Call this method to speed up garbage collection
+        /// </summary>
+        public void AbortFetch()
+        {
+            if (tileFetcher != null)
+            {
+                tileFetcher.AbortFetch();
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        private void RegisterEventHandlers()
-        {
-            tileFetcher.DataChanged += new DataChangedEventHandler(tileFetcher_DataChanged);
-        }
 
-        private void UnRegisterEventHandlers()
-        {
-            tileFetcher.DataChanged -= new DataChangedEventHandler(tileFetcher_DataChanged);
-        }
 
         private void tileFetcher_DataChanged(object sender, DataChangedEventArgs e)
         {
@@ -105,20 +111,6 @@ namespace BruTile.UI
             if (DataUpdated != null)
                 DataUpdated(this, e);
         }
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            if (tileFetcher != null)
-            {
-                UnRegisterEventHandlers();
-                tileFetcher.Dispose();
-                tileFetcher = null;
-            }
-        }
-
         #endregion
     }
 }

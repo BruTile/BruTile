@@ -8,8 +8,7 @@
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" 
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <Grid x:Name="LayoutRoot" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <brutile:MapControl x:Name="map" ErrorMessageChanged="map_ErrorMessageChanged"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></brutile:MapControl>
+        <brutile:MapControl x:Name="map" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         <local:GUIOverlay x:Name="GUI" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>
