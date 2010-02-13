@@ -44,8 +44,11 @@
     <Compile Include="AxisInvertedY.cs" />
     <Compile Include="AxisNormal.cs" />
     <Compile Include="Cache\DbCache.cs" />
+    <Compile Include="PreDefined\SchemaBing.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="IAxis.cs" />
+    <Compile Include="PreDefined\SchemaWorldSphericalMercator.cs" />
+    <Compile Include="PreDefined\SchemaWorldSphericalMercatorInverted.cs" />
     <Compile Include="TileSource.cs" />
     <Compile Include="Web\ImageRequest.cs" />
     <Compile Include="Web\IRequestBuilder.cs" />
@@ -58,7 +61,7 @@
     <Compile Include="Web\RequestArcgis.cs" />
     <Compile Include="Web\RequestBasic.cs" />
     <Compile Include="Web\RequestTms.cs" />
-    <Compile Include="Web\RequestVE.cs" />
+    <Compile Include="Web\RequestBing.cs" />
     <Compile Include="Web\RequestWmsC.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="TileKey.cs" />

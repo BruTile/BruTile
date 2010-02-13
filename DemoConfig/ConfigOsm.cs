@@ -48,7 +48,7 @@ namespace DemoConfig
                     2.388657133, 1.194328567, 0.597164283};
 
                 string name = "OpenStreetMap";
-       
+
                 TileSchema schema = new TileSchema();
                 foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
                 schema.Height = 256;
@@ -69,7 +69,6 @@ namespace DemoConfig
             get
             {
                 string url = "http://b.tile.openstreetmap.org";
-
                 return new RequestTms(new Uri(url), "png");
             }
         }

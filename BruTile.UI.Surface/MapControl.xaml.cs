@@ -16,20 +16,16 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.ComponentModel;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using BruTile.UI.Fetcher;
+using BruTile.UI.Windows;
+using BruTile.Web;
+using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Manipulations;
-using Microsoft.Surface.Presentation;
-using BruTile;
-using DemoConfig;
-using BruTile.UI;
-using BruTile.UI.Windows;
-using System.IO;
-using BruTile.Web;
 
 namespace BruTile.UI.Surface
 {
@@ -61,6 +57,11 @@ namespace BruTile.UI.Surface
         private const double inertiaScaleStop = 0.8;
 
         Renderer renderer = new Renderer();
+
+        ITileSource sourceOsm = new TileSourceOsm();
+
+        ITileSource sourceBing = new TileSourceBing(RequestBing.UrlBingStaging, String.Empty, MapType.Hybrid);
+            
         
         #endregion
 
@@ -124,7 +125,7 @@ namespace BruTile.UI.Surface
             transform.ScaleAt(e.ScaleDelta, e.ManipulationOrigin);
             transform.Pan(e.Delta);
                
-            tileLayer.UpdateData(transform.Extent, transform.Resolution);
+            tileLayer.ViewChanged(transform.Extent, transform.Resolution);
             update = true;
         }
 
@@ -208,8 +209,7 @@ namespace BruTile.UI.Surface
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitTransform();
-            IConfig config = new ConfigVE();
-            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());  
+            tileLayer = new TileLayer(sourceBing);
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             this.MouseDown += new MouseButtonEventHandler(MapControl_MouseDown);
@@ -218,12 +218,13 @@ namespace BruTile.UI.Surface
             this.MouseUp += new MouseButtonEventHandler(MapControl_MouseUp);
             this.MouseWheel += new MouseWheelEventHandler(MapControl_MouseWheel);
 
-            tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-            tileLayer.UpdateData(transform.Extent, transform.Resolution);
+            tileLayer.DataChanged += new BruTile.UI.Fetcher.DataChangedEventHandler(tileLayer_DataChanged);
+            tileLayer.ViewChanged(transform.Extent, transform.Resolution);
 
             canvas.Width = this.Width;
             canvas.Height = this.Height;
         }
+
 
         private void MapControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -246,7 +247,7 @@ namespace BruTile.UI.Surface
                 ZoomOut();
             }
 
-            tileLayer.UpdateData(transform.Extent, transform.Resolution);
+            tileLayer.ViewChanged(transform.Extent, transform.Resolution);
             update = true;
             this.InvalidateVisual();
         }
@@ -286,7 +287,7 @@ namespace BruTile.UI.Surface
                 Point current = e.GetPosition(this);
                 transform.Pan(current, previous);
                 previous = current;
-                tileLayer.UpdateData(transform.Extent, transform.Resolution);
+                tileLayer.ViewChanged(transform.Extent, transform.Resolution);
                 update = true;
                 this.InvalidateVisual();
             }
@@ -310,12 +311,12 @@ namespace BruTile.UI.Surface
             }
         }
 
-        private void tileLayer_DataUpdated(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private void tileLayer_DataChanged(object sender, DataChangedEventArgs e)
         {
             if (!this.Dispatcher.CheckAccess())
             {
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
-                    new AsyncCompletedEventHandler(tileLayer_DataUpdated), sender, new object[] { e });
+                    new DataChangedEventHandler(tileLayer_DataChanged), sender, new object[] { e });
             }
             else
             {
@@ -359,20 +360,18 @@ namespace BruTile.UI.Surface
 
         private void rb1_Click(object sender, RoutedEventArgs e)
         {
-            IConfig config = new ConfigOsm();
-            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());
-            tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-            tileLayer.UpdateData(transform.Extent, transform.Resolution);
+            tileLayer = new TileLayer(sourceOsm);
+            tileLayer.DataChanged += new DataChangedEventHandler(tileLayer_DataChanged);
+            tileLayer.ViewChanged(transform.Extent, transform.Resolution);
             update = true;
             this.InvalidateVisual();
         }
 
         private void rb2_Click(object sender, RoutedEventArgs e)
         {
-            IConfig config = new ConfigVE();
-            tileLayer = new TileLayer<MemoryStream>(config.CreateTileSource(), new TileFactory());
-            tileLayer.DataUpdated += new System.ComponentModel.AsyncCompletedEventHandler(tileLayer_DataUpdated);
-            tileLayer.UpdateData(transform.Extent, transform.Resolution);
+            tileLayer = new TileLayer(sourceBing);
+            tileLayer.DataChanged += new DataChangedEventHandler(tileLayer_DataChanged);
+            tileLayer.ViewChanged(transform.Extent, transform.Resolution);
             update = true;
             this.InvalidateVisual();
         }

@@ -35,8 +35,8 @@ namespace BruTile.Cache
           = new Dictionary<TileKey, DateTime>();
 
         private object syncRoot = new object();
-        private int maxTiles = 20;
-        private int minTiles = 10;
+        private int maxTiles ;
+        private int minTiles;
 
         #endregion
 

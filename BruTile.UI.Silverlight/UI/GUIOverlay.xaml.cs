@@ -7,6 +7,7 @@ using BruTile;
 using BruTile.UI.Silverlight;
 using BruTile.UI.Windows;
 using DemoConfig;
+using BruTile.Web;
 
 namespace BruTileSilverlight
 {
@@ -62,8 +63,7 @@ namespace BruTileSilverlight
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            ITileSource source = new ConfigVE().CreateTileSource();
-            map.RootLayer = new TileLayer(source);
+            map.RootLayer = new TileLayer(new TileSourceBing(RequestBing.UrlBingStaging, String.Empty, MapType.Aerial));
         }
 
         #endregion

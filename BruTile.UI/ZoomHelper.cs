@@ -42,6 +42,16 @@ namespace BruTile.UI
             return resolutions[resolutions.Count - 1];
         }
 
+        public static double ClipToExtremes(IList<double> resolutions, double resolution)
+        {
+            //smaller than smallest
+            if (resolutions[resolutions.Count - 1] > resolution) return resolutions[resolutions.Count - 1];
+
+            //bigger than biggest
+            if (resolutions[0] < resolution) return resolutions[0];
+
+            return resolution;
+        }
 
         public static double ZoomOut(IList<double> resolutions, double resolution)
         {

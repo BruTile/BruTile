@@ -19,6 +19,7 @@ using System;
 using BruTile;
 using BruTile.FileSystem;
 using BruTile.Cache;
+using BruTile.PreDefined;
 
 namespace DemoConfig
 {
@@ -41,18 +42,10 @@ namespace DemoConfig
         {
             get
             {
-                double[] resolutions = new double[] { 156543.033900000, 78271.516950000 };
-
-                TileSchema schema = new TileSchema();
-                foreach (double resolution in resolutions) schema.Resolutions.Add(resolution);
-                schema.Height = 256;
-                schema.Width = 256;
-                schema.Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
-                schema.OriginX = -20037508.342789;
-                schema.OriginY = -20037508.342789;
-                schema.Name = "OpenStreetMap";
-                schema.Format = "png";
-                schema.Srs = "EPSG:3785";
+                SchemaWorldSphericalMercator schema = new SchemaWorldSphericalMercator();
+                schema.Resolutions.Clear();
+                schema.Resolutions.Add(156543.033900000);
+                schema.Resolutions.Add(78271.516950000);
                 return schema;
             }
         }
