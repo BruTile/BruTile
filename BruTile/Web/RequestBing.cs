@@ -16,20 +16,33 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
 namespace BruTile.Web
 {
-    public class RequestVE : IRequestBuilder
+    public enum MapType
+    {
+        Roads,
+        Aerial,
+        Hybrid
+    }
+
+    public class RequestBing : IRequestBuilder
     {
         string baseUrl;
         string token;
+        char mapType;
+        IDictionary<MapType, char> mapTypes = new Dictionary<MapType, char>();
 
-        public RequestVE(string baseUrl, string token)
+        /// <remarks>You need a token for the the staging and the proper bing maps server, see:
+        /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
+        public RequestBing(string baseUrl, string token, MapType mapType)
         {
             this.baseUrl = baseUrl;
             this.token = token;
+            this.mapType = SetMapType(mapType);
         }
 
         /// <summary>
@@ -39,10 +52,36 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo tile)
         {
-            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}" + "{1}.jpeg?g=203&token={2}",
-              baseUrl, TileXYToQuadKey(tile.Key.Col, tile.Key.Row, tile.Key.Level + 1), token));
+            //todo: use different nodes
+            string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g=203&token={3}",
+              baseUrl, mapType, TileXYToQuadKey(tile.Key.Col, tile.Key.Row, tile.Key.Level + 1), token);
+            return new Uri(url);
         }
 
+        public static string UrlBingStaging
+        {
+            get { return "http://t0.staging.tiles.virtualearth.net/tiles"; }
+        }
+
+        public static string UrlBing
+        {
+            get { return "http://t0.tiles.virtualearth.net/tiles"; }
+        }
+
+        private char SetMapType(MapType mapType)
+        {
+            switch (mapType)
+            {
+                case MapType.Roads:
+                    return 'r';
+                case MapType.Aerial:
+                    return 'a';
+                case MapType.Hybrid:
+                    return 'h';
+                default:
+                    throw new ArgumentException("Unknown MapType");
+            }
+        }
         /// <summary>
         /// Converts tile XY coordinates into a QuadKey at a specified level of detail.
         /// </summary>

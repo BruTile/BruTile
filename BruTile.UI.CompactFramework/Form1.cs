@@ -21,6 +21,7 @@ using System.Drawing;
 using BruTile.UI.Forms;
 using DemoConfig;
 using BruTile;
+using BruTile.Web;
 
 namespace BruTile.UI.CompactFramework
 {
@@ -71,7 +72,7 @@ namespace BruTile.UI.CompactFramework
 
         private void bingMenu_Click(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer(new ConfigVE().CreateTileSource());
+            mapControl1.RootLayer = new TileLayer(new TileSourceBing(RequestBing.UrlBingStaging, String.Empty, MapType.Hybrid));
         }
     }
 }

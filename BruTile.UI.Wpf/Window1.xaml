@@ -21,6 +21,7 @@
                 <RadioButton FontSize="16" Content="WMS-C"  Margin="4,4,4,4" Click="GeodanWmsC_Click"/>
                 <RadioButton FontSize="16" Content="SharpMap"  Margin="4,4,4,4" Click="SharpMap_Click" />
                 <RadioButton FontSize="16" Content="MapTiler"  Margin="4,4,4,4" Click="MapTiler_Click" />
+                <RadioButton FontSize="16" Content="TMS EduGIS (only NL)"  Margin="4,4,4,4"  Click="TmsEduGis_Click" />
             </StackPanel>
         </Border>
         <Border x:Name="errorBorder" BorderBrush="White" Opacity="0" Margin="20" Background="White" BorderThickness="10" CornerRadius="5" VerticalAlignment="Bottom" HorizontalAlignment="Right">

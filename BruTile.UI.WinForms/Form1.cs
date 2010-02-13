@@ -10,6 +10,7 @@ using DemoConfig;
 using BruTile.UI.Forms;
 using BruTile.UI;
 using BruTile;
+using BruTile.Web;
 
 namespace BruTile.UI.WinForms
 {
@@ -55,7 +56,7 @@ namespace BruTile.UI.WinForms
 
     private void bingMenu_Click(object sender, EventArgs e)
     {
-      mapControl1.RootLayer = new TileLayer(new ConfigVE().CreateTileSource());
+      mapControl1.RootLayer = new TileLayer(new TileSourceBing(RequestBing.UrlBingStaging, String.Empty, MapType.Hybrid));
     }
 
     private void button1_Click(object sender, EventArgs e)

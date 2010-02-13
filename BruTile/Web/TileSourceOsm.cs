@@ -6,16 +6,14 @@ using System.Globalization;
 using System.Xml.Serialization;
 using System.IO;
 using System.Net;
+using BruTile.PreDefined;
 
 namespace BruTile.Web
 {
     public class TileSourceOsm : TileSourceTms
     {
-        Uri url = new Uri(""); //todo!!!
-
         public TileSourceOsm()
-          //  : base(url, new SchemaBasicSphericalMercator())
-            : base(new MemoryStream()) //!!! TEMP
+            : base(new Uri("http://b.tile.openstreetmap.org"), new SchemaWorldSphericalMercatorInverted())
         {
 
         }

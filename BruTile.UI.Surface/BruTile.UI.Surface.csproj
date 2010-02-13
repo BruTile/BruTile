@@ -132,10 +132,6 @@
       <Project>{70315167-2BF1-4C7B-9184-728CAABF30D7}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DemoConfig\DemoConfig.csproj">
-      <Project>{4F8F6A4A-8381-40D8-8AC5-FCF3BA96A866}</Project>
-      <Name>DemoConfig</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -432,6 +432,7 @@ namespace BruTile.UI.Windows
         {
             double x, y, resolution;
             ZoomHelper.ZoomToBoudingbox(min.X, min.Y, max.X, max.Y, this.ActualWidth, out x, out y, out resolution);
+            resolution = ZoomHelper.ClipToExtremes(rootLayer.Schema.Resolutions, resolution);
 
             this.Transform.Center = new Point(x, y);
             this.Transform.Resolution = resolution;

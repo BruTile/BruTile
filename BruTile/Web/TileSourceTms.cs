@@ -9,24 +9,35 @@ namespace BruTile.Web
 {
     public class TileSourceTms : ITileSource
     {
-        TileSchema tileSchema;
-        WebTileProvider tileProvider;
+        ITileSchema tileSchema;
+        ITileProvider tileProvider;
         string overrideTileURL; //When the configfile points to an invalid tile url fill this one
 
-        public TileSourceTms(Stream configUrl)
+        public TileSourceTms(string serviceUrl, ITileSchema tileSchema)
+            : this(new Uri(serviceUrl), tileSchema)
         {
-            Create(configUrl);
         }
 
-        public TileSourceTms(Stream configUrl, string overwriteTileURL)
+        public TileSourceTms(Uri serviceUri, ITileSchema tileSchema)
         {
-            this.overrideTileURL = overwriteTileURL;
-            Create(configUrl);
+            this.tileSchema = tileSchema;
+            this.tileProvider = new WebTileProvider(new RequestTms(serviceUri, tileSchema.Format));
         }
 
-        private void Create(Stream stream)
+        public TileSourceTms(Stream serviceDescription)
         {
-            StreamReader reader = new StreamReader(stream);
+            Create(serviceDescription);
+        }
+
+        public TileSourceTms(Stream serviceDescription, string overwriteSourceUrl)
+        {
+            this.overrideTileURL = overwriteSourceUrl;
+            Create(serviceDescription);
+        }
+
+        private void Create(Stream serviceDescription)
+        {
+            StreamReader reader = new StreamReader(serviceDescription);
             XmlSerializer serializer = new XmlSerializer(typeof(TileMap));
             TileMap tileMap = (TileMap)serializer.Deserialize(reader);
             this.tileSchema = GenerateSchema(tileMap);
@@ -61,15 +72,12 @@ namespace BruTile.Web
 
         private IRequestBuilder CreateRequestBuilder(IList<Uri> tileUrls)
         {
-            //TODO: Send parameters with config
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("seriveparam", "ortho10");
             IRequestBuilder request;
 
             if (overrideTileURL != null)
                 request = new RequestTms(new Uri(overrideTileURL), Schema.Format, null);
             else
-                request = new RequestTms(tileUrls, Schema.Format, parameters);
+                request = new RequestTms(tileUrls, Schema.Format, new Dictionary<string, string>());
 
             return request;
         }

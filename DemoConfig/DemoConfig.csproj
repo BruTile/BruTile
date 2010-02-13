@@ -55,7 +55,6 @@
     <Compile Include="ConfigMapTiler.cs" />
     <Compile Include="ConfigSharpMap.cs" />
     <Compile Include="ConfigTms.cs" />
-    <Compile Include="ConfigVE.cs" />
     <Compile Include="ConfigWms.cs" />
     <Compile Include="ConfigWmsC.cs" />
     <Compile Include="IConfig.cs" />

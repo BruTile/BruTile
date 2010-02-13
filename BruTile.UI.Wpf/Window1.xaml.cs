@@ -58,22 +58,12 @@ namespace BruTile.UI.Wpf
 
         private void GeodanTms_Click(object sender, RoutedEventArgs e)
         {
-            WebClient client = new WebClient();
-            client.OpenReadCompleted += GetServiceDescriptionCompleted;
-            client.OpenReadAsync(new Uri("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
-        }
-
-        private void GetServiceDescriptionCompleted(object sender, OpenReadCompletedEventArgs e)
-        {
-            if ((!e.Cancelled) && (e.Error == null))
-            {
-                map.RootLayer = new TileLayer(new TileSourceTms(e.Result, "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
-            }
+            map.RootLayer = new TileLayer(new ConfigTms().CreateTileSource());
         }
 
         private void BingMaps_Click(object sender, RoutedEventArgs e)
         {
-            map.RootLayer = new TileLayer(new TileSourceBing("http://t1.staging.tiles.virtualearth.net/tiles/h"));
+            map.RootLayer = new TileLayer(new TileSourceBing(RequestBing.UrlBingStaging, String.Empty, MapType.Aerial));
         }
 
         private void GeodanWmsC_Click(object sender, RoutedEventArgs e)
@@ -89,6 +79,21 @@ namespace BruTile.UI.Wpf
         private void MapTiler_Click(object sender, RoutedEventArgs e)
         {
             map.RootLayer = new TileLayer(new ConfigMapTiler().CreateTileSource());
+        }
+
+        private void TmsEduGis_Click(object sender, RoutedEventArgs e)
+        {
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += GetServiceDescriptionCompleted;
+            client.OpenReadAsync(new Uri("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
+        }
+
+        private void GetServiceDescriptionCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            if ((!e.Cancelled) && (e.Error == null))
+            {
+                map.RootLayer = new TileLayer(new TileSourceTms(e.Result, "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
+            }
         }
     }
 }
