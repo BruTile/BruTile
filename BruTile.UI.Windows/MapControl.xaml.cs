@@ -352,7 +352,7 @@ namespace BruTile.UI.Windows
                 }
                 else
                 {
-                    this.errorMessage = "Exception: " + e.Error.Message;
+                    this.errorMessage = e.Error.GetType().ToString() + ": " + e.Error.Message;
                     this.OnErrorMessageChanged(EventArgs.Empty);
                 }
             }

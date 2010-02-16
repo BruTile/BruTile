@@ -31,61 +31,33 @@ namespace BruTile.Web
         }
 
 #if SILVERLIGHT
-        //This #if is ugly but it is a lot simpler compared to the dependency injection 
-        //solution I had before. PDD.
+        //I agree this '#if' is rather ugly, but it is a lot simpler like this than using abstraction layers like I did before.
         public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
         {
-            WebClient webClient = new WebClient();
+            HttpWebRequest webClient = (HttpWebRequest)WebRequest.Create(uri);
 
             //todo: figure out what to do with keepAlive here.
             if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
             if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
 
-            AsyncEventArgs asyncEventArgs = new AsyncEventArgs()
-            {
-                WaitHandle = new AutoResetEvent(false)
-            };
-
+            //we use a waithandle to fake a synchronous call
             AutoResetEvent waitHandle = new AutoResetEvent(false);
-            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(webClient_OpenReadCompleted);
-            webClient.OpenReadAsync(uri, asyncEventArgs);
+            IAsyncResult result = webClient.BeginGetResponse(webClient_OpenReadCompleted, waitHandle);
 
-            //Here we waitOne in order to fake a synchronous call. This trick won't work when called from the main thread
-            //because the mainthread dispatches the other threads and it starts waiting before it dispatches the worker thread.
-            asyncEventArgs.WaitHandle.WaitOne();
+            //This trick works because the this is called on a worker thread. In SL it wont work if you call
+            //it from the main thread because the main thead dispatches the worker threads and it starts waiting 
+            //before it dispatches the worker thread.
+            waitHandle.WaitOne();
 
-            return asyncEventArgs.Bytes;
+            WebResponse response = webClient.EndGetResponse(result);
+
+            return BruTile.Utilities.ReadFully(response.GetResponseStream());
         }
 
-        private static void webClient_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        private static void webClient_OpenReadCompleted(IAsyncResult e)
         {
-            AsyncEventArgs state = (AsyncEventArgs)e.UserState;
-            Exception exception = null;
-
-            if (e.Error != null || e.Cancelled)
-            {
-                exception = e.Error;
-            }
-            else
-            {
-                try
-                {
-                    state.Bytes = BruTile.Utilities.ReadFully(e.Result);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            }
-            state.WaitHandle.Set();
-        }
-
-        private class AsyncEventArgs
-        {
-            public TileInfo TileInfo { get; set; }
-            public AutoResetEvent WaitHandle;
-            public byte[] Bytes;
-
+            //Call Set() so that WaitOne can proceed.
+            ((AutoResetEvent)e.AsyncState).Set();
         }
 
 #else
