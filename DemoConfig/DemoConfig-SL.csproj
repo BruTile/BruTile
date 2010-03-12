@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigEsri.cs" />
-    <Compile Include="ConfigOsm.cs" />
     <Compile Include="ConfigTms.cs" />
     <Compile Include="ConfigWms.cs" />
     <Compile Include="IConfig.cs" />

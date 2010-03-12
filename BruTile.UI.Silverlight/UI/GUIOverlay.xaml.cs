@@ -29,7 +29,7 @@ namespace BruTileSilverlight
         {
             this.map = map;
             this.map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
-            map.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
+            map.RootLayer = new TileLayer(new TileSourceOsm());
             InitializeTransform(map.RootLayer.Schema);
         }
 
@@ -57,7 +57,7 @@ namespace BruTileSilverlight
 
         private void Osm_Click(object sender, RoutedEventArgs e)
         {
-            ITileSource source = new ConfigOsm().CreateTileSource();
+            ITileSource source = new TileSourceOsm();
             map.RootLayer = new TileLayer(source);
         }
 

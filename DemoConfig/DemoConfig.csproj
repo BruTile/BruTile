@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigEsri.cs" />
-    <Compile Include="ConfigOsm.cs" />
     <Compile Include="ConfigMapTiler.cs" />
     <Compile Include="ConfigSharpMap.cs" />
     <Compile Include="ConfigTms.cs" />

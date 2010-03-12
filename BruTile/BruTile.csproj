@@ -49,6 +49,8 @@
     <Compile Include="IAxis.cs" />
     <Compile Include="PreDefined\SchemaWorldSphericalMercator.cs" />
     <Compile Include="PreDefined\SchemaWorldSphericalMercatorInverted.cs" />
+    <Compile Include="Web\TileSourceWmsC.cs" />
+    <Compile Include="Web\WmsCapabilties.cs" />
     <Compile Include="TileSource.cs" />
     <Compile Include="Web\ImageRequest.cs" />
     <Compile Include="Web\IRequestBuilder.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Web\TileSourceTms.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
+    <Compile Include="Web\WmsServiceDescription.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

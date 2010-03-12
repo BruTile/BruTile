@@ -27,36 +27,12 @@ namespace DemoConfig
     {
         public ITileSource CreateTileSource()
         {
-            return new TileSource(Provider, Schema);
-        }
-
-        private static ITileProvider Provider
-        {
-            get
-            {
-                return new WebTileProvider(RequestBuilder);
-            }
-        }
-
-        private static ITileSchema Schema
-        {
-            get
-            {
-                SchemaWorldSphericalMercatorInverted schema = new SchemaWorldSphericalMercatorInverted();
-                schema.Srs = "EPSG:900913";
-                return schema;
-            }
-        }
-
-        private static IRequestBuilder RequestBuilder
-        {
-            get
-            {
-                string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
-                RequestWmsC request = new RequestWmsC(new Uri(url), Schema,
-                  new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
-                return request;
-            }
+            SchemaWorldSphericalMercatorInverted schema = new SchemaWorldSphericalMercatorInverted();
+            schema.Srs = "EPSG:900913";
+            string url = "http://geoserver.nl/world/mapserv.cgi?map=world/world.map&VERSION=1.1.1";
+            RequestWmsC request = new RequestWmsC(new Uri(url), schema,
+              new List<string>(new string[] { "world" }), new List<string>(), new Dictionary<string, string>());
+            return new TileSource(new WebTileProvider(request), schema);
         }
     }
 }
