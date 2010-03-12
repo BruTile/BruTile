@@ -4,6 +4,7 @@ using System.Windows;
 using BruTile.UI.Windows;
 using BruTile.Web;
 using DemoConfig;
+using System.Collections.Generic;
 
 namespace BruTile.UI.Wpf
 {
@@ -19,7 +20,8 @@ namespace BruTile.UI.Wpf
             InitializeComponent();
             map.ErrorMessageChanged += new EventHandler(map_ErrorMessageChanged);
             Loaded += new RoutedEventHandler(Window1_Loaded);
-            ITileSource tileSource = new ConfigOsm().CreateTileSource();
+
+            ITileSource tileSource = new TileSourceOsm();
             map.RootLayer = new TileLayer(tileSource);
             InitializeTransform(tileSource.Schema);
         }
@@ -48,7 +50,7 @@ namespace BruTile.UI.Wpf
 
         private void Osm_Click(object sender, RoutedEventArgs e)
         {
-            map.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
+            map.RootLayer = new TileLayer(new TileSourceOsm());
         }
 
         private void GeodanWms_Click(object sender, RoutedEventArgs e)
@@ -69,6 +71,14 @@ namespace BruTile.UI.Wpf
         private void GeodanWmsC_Click(object sender, RoutedEventArgs e)
         {
             map.RootLayer = new TileLayer(new ConfigWmsC().CreateTileSource());
+        }
+
+        private void MetacartaWmsC_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "http://labs.metacarta.com/wms-c/tilecache.py?version=1.1.1&amp;request=GetCapabilities&amp;service=wms-c";
+            var tileSources = TileSourceWmsC.TileSourceBuilder(new Uri(url), null);
+            var tileSource = new List<ITileSource>(tileSources).Find(source => source.Schema.Name == "satellite-merc");
+            map.RootLayer = new TileLayer(tileSource);
         }
 
         private void SharpMap_Click(object sender, RoutedEventArgs e)

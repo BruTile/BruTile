@@ -27,35 +27,11 @@ namespace DemoConfig
     {
         public ITileSource CreateTileSource()
         {
-            return new TileSource(Provider, Schema);
-        }
-
-        private static ITileProvider Provider
-        {
-            get
-            {
-                return new WebTileProvider(RequestBuilder);
-            }
-        }
-
-        private static ITileSchema Schema
-        {
-            get
-            {
-                return new SchemaWorldSphericalMercator();
-            }
-        }
-
-        private static IRequestBuilder RequestBuilder
-        {
-            get
-            {
-                string url = "http://geoserver.nl/tiles/tilecache.aspx/1.0.0/world_GM/";
-                Dictionary<string, string> parameters = new Dictionary<string, string>();
-                parameters.Add("seriveparam", "ortho10");
-                RequestTms request = new RequestTms(new Uri(url), "png", parameters);
-                return request;
-            }
+            string url = "http://geoserver.nl/tiles/tilecache.aspx/1.0.0/world_GM/";
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("seriveparam", "ortho10");
+            RequestTms request = new RequestTms(new Uri(url), "png", parameters);
+            return new TileSource(new WebTileProvider(request), new SchemaWorldSphericalMercator());
         }
     }
 }

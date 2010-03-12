@@ -52,7 +52,7 @@ namespace BruTile.UI.CompactFramework
 
         void Form1_Load(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
+            mapControl1.RootLayer = new TileLayer(new TileSourceOsm());
         }
 
         private void zoomIn_Click(object sender, EventArgs e)
@@ -67,7 +67,7 @@ namespace BruTile.UI.CompactFramework
 
         private void osmMenu_Click(object sender, EventArgs e)
         {
-            mapControl1.RootLayer = new TileLayer(new ConfigOsm().CreateTileSource());
+            mapControl1.RootLayer = new TileLayer(new TileSourceOsm());
         }
 
         private void bingMenu_Click(object sender, EventArgs e)

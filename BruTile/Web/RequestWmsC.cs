@@ -26,11 +26,11 @@ namespace BruTile.Web
     {
         private ITileSchema schema;
         private Uri baseUrl;
-        Dictionary<string, string> customParameters;
+        IDictionary<string, string> customParameters;
         IList<string> layers;
         IList<string> styles;
 
-        public RequestWmsC(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, Dictionary<string, string> customParameters)
+        public RequestWmsC(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.schema = schema;

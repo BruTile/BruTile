@@ -146,7 +146,7 @@ namespace BruTile.UI.Windows
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
 #if SILVERLIGHT
-            bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
+//!!!            bool httpResult = System.Net.WebRequest.RegisterPrefix("http://", System.Net.Browser.WebRequestCreator.ClientHttp);
 #else 
             this.Dispatcher.ShutdownStarted += new EventHandler(Dispatcher_ShutdownStarted);
 #endif

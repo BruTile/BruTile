@@ -84,6 +84,7 @@
     <Compile Include="Web\TileSourceTms.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
+    <Compile Include="Web\WmsServiceDescription.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BruTile.csproj" />

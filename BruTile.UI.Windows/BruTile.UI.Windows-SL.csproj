@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FpsCounter.cs" />
+    <Compile Include="IMapControl.cs" />
     <Compile Include="ITransform.cs" />
     <Compile Include="MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
