@@ -54,7 +54,7 @@ namespace BruTile.Web
         {
             TileSchema schema = new TileSchema();
             schema.OriginX = Double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture);
-            schema.OriginY = Double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture);
+            schema.OriginY = Double.Parse(tileMap.Origin.y, CultureInfo.InvariantCulture);
             schema.Srs = tileMap.SRS;
             schema.Width = Int32.Parse(tileMap.TileFormat.width);
             schema.Height = Int32.Parse(tileMap.TileFormat.height);

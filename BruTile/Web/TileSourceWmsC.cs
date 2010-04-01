@@ -25,7 +25,7 @@ namespace BruTile.Web
             this.tileProvider = tileProvider;
         }
 
-        public static IList<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
+        public static List<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
         {
             WmsCapabilities wmsCapabilities = new WmsCapabilities(uri, proxy);
             return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
@@ -37,7 +37,7 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="xnlVendorSpecificCapabilities">The VendorSpecificCapabilities node of the Capabilties</param>
         /// <param name="nsmgr"></param>
-        private static IList<ITileSource> ParseVendorSpecificCapabilitiesNode(
+        private static List<ITileSource> ParseVendorSpecificCapabilitiesNode(
             XmlNode xnlVendorSpecificCapabilities, string onlineResource)
         {
             var tileSets = new List<ITileSource>();

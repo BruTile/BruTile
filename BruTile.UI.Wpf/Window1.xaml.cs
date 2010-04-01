@@ -4,7 +4,6 @@ using System.Windows;
 using BruTile.UI.Windows;
 using BruTile.Web;
 using DemoConfig;
-using System.Collections.Generic;
 
 namespace BruTile.UI.Wpf
 {
@@ -39,7 +38,7 @@ namespace BruTile.UI.Wpf
         private void InitializeTransform(ITileSchema schema)
         {
             map.Transform.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
-            map.Transform.Resolution = schema.Resolutions[2];
+            map.Transform.Resolution = schema.Resolutions[0];
         }
 
         private void map_ErrorMessageChanged(object sender, EventArgs e)
@@ -77,7 +76,8 @@ namespace BruTile.UI.Wpf
         {
             string url = "http://labs.metacarta.com/wms-c/tilecache.py?version=1.1.1&amp;request=GetCapabilities&amp;service=wms-c";
             var tileSources = TileSourceWmsC.TileSourceBuilder(new Uri(url), null);
-            var tileSource = new List<ITileSource>(tileSources).Find(source => source.Schema.Name == "satellite-merc");
+            var tileSource = tileSources.Find(source => source.Schema.Name == "osm-map");
+            InitializeTransform(tileSource.Schema);
             map.RootLayer = new TileLayer(tileSource);
         }
 
@@ -93,18 +93,19 @@ namespace BruTile.UI.Wpf
 
         private void TmsEduGis_Click(object sender, RoutedEventArgs e)
         {
+            string url = "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/";
             WebClient client = new WebClient();
-            client.OpenReadCompleted += GetServiceDescriptionCompleted;
-            client.OpenReadAsync(new Uri("http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
-        }
+            client.OpenReadCompleted += 
+                delegate(object s, OpenReadCompletedEventArgs eventArgs)
+                {
+                    if ((!eventArgs.Cancelled) && (eventArgs.Error == null))
+                    {
+                        map.RootLayer = new TileLayer(new TileSourceTms(eventArgs.Result, url));
+                    }
+                };
+            client.OpenReadAsync(new Uri(url));
+       }
 
-        private void GetServiceDescriptionCompleted(object sender, OpenReadCompletedEventArgs e)
-        {
-            if ((!e.Cancelled) && (e.Error == null))
-            {
-                map.RootLayer = new TileLayer(new TileSourceTms(e.Result, "http://t4.edugis.nl/tiles/Nederland 17e eeuw (Blaeu)/"));
-            }
-        }
     }
 }
 

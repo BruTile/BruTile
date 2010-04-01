@@ -94,10 +94,12 @@ namespace BruTile.UI.Windows
                 canvas.Children.Add(image);
 
             Rect destRounded = new Rect(
-              new Point(Math.Round(dest.X) - 0.5,
-              Math.Round(dest.Y) - 0.5),
-              new Point(Math.Round(dest.X + dest.Width) + 0.5,
-              Math.Round(dest.Y + dest.Height) + 0.5));
+                new Point(
+                    Math.Round(dest.X) - 0.5,
+                    Math.Round(dest.Y) - 0.5),
+                new Point(
+                    Math.Round(dest.X + dest.Width) + 0.5,
+                    Math.Round(dest.Y + dest.Height) + 0.5));
 
             Canvas.SetLeft(image, destRounded.X);
             Canvas.SetTop(image, destRounded.Y);
