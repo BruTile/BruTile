@@ -55,7 +55,7 @@ namespace WindowsFormsSample
 
         private static RectangleF DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent)
         {
-            // For drawing on winfors there are two things to take into account 
+            // For drawing on WinForms there are two things to take into account 
             // to prevent seams between tiles.
             // 1) The WrapMode should be set to TileFlipXY. This is related 
             //    to how pixels are rounded by GDI+
@@ -99,8 +99,5 @@ namespace WindowsFormsSample
             schema.Srs = "EPSG:900913";
             return schema;
         }
-
-
-
     }
 }
