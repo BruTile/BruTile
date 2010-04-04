@@ -180,25 +180,25 @@ namespace BruTile
 
         public IList<TileInfo> GetTilesInView(Extent extent, int level)
         {
-            IList<TileInfo> tiles = new List<TileInfo>();
+            IList<TileInfo> infos = new List<TileInfo>();
             TileRange range = axis.WorldToTile(extent, level, this);
-            tiles.Clear();
+            infos.Clear();
 
             for (int x = range.FirstCol; x < range.LastCol; x++)
             {
                 for (int y = range.FirstRow; y < range.LastRow; y++)
                 {
-                    TileInfo tile = new TileInfo();
-                    tile.Extent = axis.TileToWorld(new TileRange(x, y), level, this);
-                    tile.Key = new TileIndex(x, y, level);
+                    TileInfo info = new TileInfo();
+                    info.Extent = axis.TileToWorld(new TileRange(x, y), level, this);
+                    info.Index = new TileIndex(x, y, level);
 
-                    if (WithinSchemaExtent(Extent, tile.Extent))
+                    if (WithinSchemaExtent(Extent, info.Extent))
                     {
-                        tiles.Add(tile);
+                        infos.Add(info);
                     }
                 }
             }
-            return tiles;
+            return infos;
         }
 
         public Extent GetExtentOfTilesInView(Extent extent, int level)

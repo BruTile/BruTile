@@ -16,8 +16,8 @@ namespace BruTileTests
         [Test]
         public void CompareToTest()
         {
-            TileKey target = new TileKey(2, 4, 2);
-            TileKey key = new TileKey(2, 5, 2);
+            TileIndex target = new TileIndex(2, 4, 2);
+            TileIndex key = new TileIndex(2, 5, 2);
             int expected = -1;
             int actual;
             actual = target.CompareTo(key);

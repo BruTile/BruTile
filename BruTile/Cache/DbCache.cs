@@ -80,7 +80,7 @@ namespace BruTile.Cache
     /// <item>Image   blob/object</item>
     /// </list>
     /// Furthermore the table should have a primary/unique key on the columns Level, Row and Col.
-    /// Therefore you should take care not to insert more than one item with the same TileKey.
+    /// Therefore you should take care not to insert more than one item with the same TileIndex.
     /// </summary>
     /// <typeparam name="TConnection">A Connection class derived from <see cref="DbConnection"/></typeparam>
     public class DbCache<TConnection> : ITileCache<byte[]>

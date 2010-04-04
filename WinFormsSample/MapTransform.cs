@@ -21,7 +21,7 @@ using BruTile;
 
 namespace WindowsFormsSample
 {
-  class Transform
+  class MapTransform
   {
     #region Fields
 
@@ -35,7 +35,7 @@ namespace WindowsFormsSample
 
     #region Public Methods
 
-    public Transform(PointF center, float resolution, float width, float height)
+    public MapTransform(PointF center, float resolution, float width, float height)
     {
       this.center = center;
       this.resolution = resolution;

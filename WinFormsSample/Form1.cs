@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using BruTile;
 using BruTile.Web;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 
 namespace WindowsFormsSample
 {
@@ -28,25 +28,25 @@ namespace WindowsFormsSample
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Transform transform = new Transform(new PointF(0, 0), 50000f, this.Width, this.Height);
+            MapTransform mapTransform = new MapTransform(new PointF(0, 0), 50000f, this.Width, this.Height);
 
             // Here we use a tile schema that is defined in code. There are a few predefined 
             // tile schemas in the BruTile.dll. In the usual case the schema should be parsed
             // from a tile service description.
             ITileSchema schema = CreateTileSchema();
 
-            int level = Utilities.GetNearestLevel(schema.Resolutions, transform.Resolution);
-            IList<TileInfo> tiles = schema.GetTilesInView(transform.Extent, level);
+            int level = Utilities.GetNearestLevel(schema.Resolutions, mapTransform.Resolution);
+            IList<TileInfo> infos = schema.GetTilesInView(mapTransform.Extent, level);
 
-            IRequestBuilder requestBuilder = new RequestTms(new Uri("http://a.tile.openstreetmap.org"), "png");
+            IRequest requestBuilder = new TmsRequest(new Uri("http://a.tile.openstreetmap.org"), "png");
 
             Graphics graphics = Graphics.FromImage(buffer);
-            foreach (TileInfo tile in tiles)
+            foreach (TileInfo info in infos)
             {
-                Uri url = requestBuilder.GetUri(tile);
-                byte[] bytes = ImageRequest.GetImageFromServer(url);
+                Uri url = requestBuilder.GetUri(info);
+                byte[] bytes = RequestHelper.FetchImage(url);
                 Bitmap bitmap = new Bitmap(new MemoryStream(bytes));
-                RectangleF extent = transform.WorldToMap(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
+                RectangleF extent = mapTransform.WorldToMap(info.Extent.MinX, info.Extent.MinY, info.Extent.MaxX, info.Extent.MaxY);
                 extent = DrawTile(schema, graphics, bitmap, extent);
             }
 
@@ -56,7 +56,7 @@ namespace WindowsFormsSample
         private static RectangleF DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent)
         {
             // For drawing on winfors there are two things to take into account 
-            // to prevent seems between tiles.
+            // to prevent seams between tiles.
             // 1) The WrapMode should be set to TileFlipXY. This is related 
             //    to how pixels are rounded by GDI+
             ImageAttributes imageAttributes = new ImageAttributes();

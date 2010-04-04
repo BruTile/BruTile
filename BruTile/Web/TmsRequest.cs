@@ -58,7 +58,7 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tile">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
-        public Uri GetUri(TileInfo tile)
+        public Uri GetUri(TileInfo info)
         {
             System.Text.StringBuilder url = new StringBuilder();
 
@@ -66,13 +66,13 @@ namespace BruTile.Web
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                       "{0}/{1}/{2}/{3}.{4}",
-                      baseUrl[0], tile.Key.Level, tile.Key.Col, tile.Key.Row, format);
+                      baseUrl[0], info.Index.Level, info.Index.Col, info.Index.Row, format);
             }
             else
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                   "{0}/{1}/{2}.{3}",
-                  baseUrl[tile.Key.Level], tile.Key.Col, tile.Key.Row, format);
+                  baseUrl[info.Index.Level], info.Index.Col, info.Index.Row, format);
             }
 
 

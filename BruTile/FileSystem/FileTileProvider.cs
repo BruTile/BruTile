@@ -18,7 +18,7 @@ namespace BruTile.FileSystem
         {
             byte[] bytes = null;
 
-            bytes = fileCache.Find(tileInfo.Key);
+            bytes = fileCache.Find(tileInfo.Index);
             if (bytes == null) throw new FileNotFoundException("The tile was not found at it's expected location");
             return bytes;
         }

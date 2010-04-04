@@ -50,39 +50,39 @@ namespace SharpMap.Layers.Tests
             bm[0] = 0;
             bm[1] = 0;
             bm[2] = 0;
-            _cache.Add(new TileKey(0, 0, 0), bm);
+            _cache.Add(new TileIndex(0, 0, 0), bm);
             bm[0] = 0;
             bm[1] = 1;
             bm[2] = 0;
-            _cache.Add(new TileKey(0, 1, 0), bm);
+            _cache.Add(new TileIndex(0, 1, 0), bm);
             bm[0] = 0;
             bm[1] = 2;
             bm[2] = 0;
-            _cache.Add(new TileKey(0, 2, 0), bm);
+            _cache.Add(new TileIndex(0, 2, 0), bm);
             bm[0] = 1;
             bm[1] = 0;
             bm[2] = 0;
-            _cache.Add(new TileKey(1, 0, 0), bm);
+            _cache.Add(new TileIndex(1, 0, 0), bm);
             bm[0] = 1;
             bm[1] = 1;
             bm[2] = 0;
-            _cache.Add(new TileKey(1, 1, 0), bm);
+            _cache.Add(new TileIndex(1, 1, 0), bm);
             bm[0] = 1;
             bm[1] = 2;
             bm[2] = 0;
-            _cache.Add(new TileKey(1, 2, 0), bm);
+            _cache.Add(new TileIndex(1, 2, 0), bm);
             bm[0] = 2;
             bm[1] = 0;
             bm[2] = 0;
-            _cache.Add(new TileKey(2, 0, 0), bm);
+            _cache.Add(new TileIndex(2, 0, 0), bm);
             bm[0] = 2;
             bm[1] = 1;
             bm[2] = 0;
-            _cache.Add(new TileKey(2, 1, 0), bm);
+            _cache.Add(new TileIndex(2, 1, 0), bm);
             bm[0] = 2;
             bm[1] = 2;
             bm[2] = 0;
-            _cache.Add(new TileKey(2, 2, 0), bm);
+            _cache.Add(new TileIndex(2, 2, 0), bm);
 
             _cache.Connection.Close();
 
@@ -97,7 +97,7 @@ namespace SharpMap.Layers.Tests
 
         public void FindTile()
         {
-            TileKey tk = new TileKey(1,2,0);
+            TileIndex tk = new TileIndex(1,2,0);
             byte[] bm = _cache.Find(tk);
             Assert.IsNotNull(bm);
             Assert.AreEqual(128*128*1, bm.Length);
@@ -108,7 +108,7 @@ namespace SharpMap.Layers.Tests
 
         public void RemoveTile()
         {
-            TileKey tk = new TileKey(1, 2, 0);
+            TileIndex tk = new TileIndex(1, 2, 0);
             _cache.Remove(tk);
 
             byte[] bm = _cache.Find(tk);
@@ -121,16 +121,16 @@ namespace SharpMap.Layers.Tests
         //    BruTileDataSourceEsri dse = new BruTileDataSourceEsri(
         //        new DbCache<SQLiteConnection>(MakeConnection("esri.sqlite"), (p, c) => c, "main", "cache"));
 
-        //    IList<TileInfo> tiles = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 6);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    IList<TileInfo> infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 6);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
 
-        //    tiles = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 7);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 7);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
 
-        //    tiles = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 8);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 8);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
         //}
 
@@ -150,16 +150,16 @@ namespace SharpMap.Layers.Tests
         //    Double top = dse.TileSchema.Extent.CenterY + 55 * fY;
 
         //    Extent ex = new Extent(left, bottom, right, top);
-        //    IList<TileInfo> tiles = Tile.GetTiles(dse.TileSchema, ex, 6);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    IList<TileInfo> infos = Tile.GetTiles(dse.TileSchema, ex, 6);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
 
-        //    tiles = Tile.GetTiles(dse.TileSchema, ex, 7);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    infos = Tile.GetTiles(dse.TileSchema, ex, 7);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
 
-        //    tiles = Tile.GetTiles(dse.TileSchema, ex, 8);
-        //    foreach (TileInfo tileInfo in tiles)
+        //    infos = Tile.GetTiles(dse.TileSchema, ex, 8);
+        //    foreach (TileInfo tileInfo in infos)
         //        dse.GetTile(tileInfo);
         //}
 
