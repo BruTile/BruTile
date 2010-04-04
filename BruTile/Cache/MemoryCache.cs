@@ -64,48 +64,48 @@ namespace BruTile.Cache
             this.maxTiles = maxTiles;
         }
 
-        public void Add(TileIndex key, T item)
+        public void Add(TileIndex index, T item)
         {
             lock (syncRoot)
             {
-                if (bitmaps.ContainsKey(key))
+                if (bitmaps.ContainsKey(index))
                 {
-                    bitmaps[key] = item;
-                    touched[key] = DateTime.Now;
+                    bitmaps[index] = item;
+                    touched[index] = DateTime.Now;
                 }
                 else
                 {
-                    touched.Add(key, DateTime.Now);
-                    bitmaps.Add(key, item);
+                    touched.Add(index, DateTime.Now);
+                    bitmaps.Add(index, item);
                     if (bitmaps.Count > maxTiles) CleanUp();
                     this.OnNotifyPropertyChange("TileCount");
                 }
             }
         }
 
-        public void Remove(TileIndex key)
+        public void Remove(TileIndex index)
         {
             lock (syncRoot)
             {
-                if (!bitmaps.ContainsKey(key)) return; //ignore if not exists
-                touched.Remove(key);
-                bitmaps.Remove(key);
+                if (!bitmaps.ContainsKey(index)) return; //ignore if not exists
+                touched.Remove(index);
+                bitmaps.Remove(index);
                 this.OnNotifyPropertyChange("TileCount");
             }
         }
 
-        public T Find(TileIndex key)
+        public T Find(TileIndex index)
         {
             lock (syncRoot)
             {
-                if (!bitmaps.ContainsKey(key))
+                if (!bitmaps.ContainsKey(index))
                 {
                     return default(T);
                 }
                 else
                 {
-                    touched[key] = DateTime.Now;
-                    return bitmaps[key];
+                    touched[index] = DateTime.Now;
+                    return bitmaps[index];
                 }
             }
         }
@@ -122,9 +122,9 @@ namespace BruTile.Cache
                 TouchPermaCache(touched);
                 DateTime cutoff = GetCutOff(touched, minTiles);
                 List<TileIndex> oldItems = GetOldItems(touched, ref cutoff);
-                foreach (TileIndex key in oldItems)
+                foreach (TileIndex index in oldItems)
                 {
-                    Remove(key);
+                    Remove(index);
                 }
             }
         }
@@ -133,8 +133,8 @@ namespace BruTile.Cache
         {
             List<TileIndex> keys = new List<TileIndex>();
             //This is a temporary solution to preserve level zero tiles in memory.
-            foreach (TileIndex key in touched.Keys) if (key.Level == 0) keys.Add(key);
-            foreach (TileIndex key in keys) touched[key] = DateTime.Now;
+            foreach (TileIndex index in touched.Keys) if (index.Level == 0) keys.Add(index);
+            foreach (TileIndex index in keys) touched[index] = DateTime.Now;
         }
 
         private static DateTime GetCutOff(Dictionary<TileIndex, DateTime> touched,
@@ -153,11 +153,11 @@ namespace BruTile.Cache
           ref DateTime cutoff)
         {
             List<TileIndex> oldItems = new List<TileIndex>();
-            foreach (TileIndex key in touched.Keys)
+            foreach (TileIndex index in touched.Keys)
             {
-                if (touched[key] < cutoff)
+                if (touched[index] < cutoff)
                 {
-                    oldItems.Add(key);
+                    oldItems.Add(index);
                 }
             }
             return oldItems;

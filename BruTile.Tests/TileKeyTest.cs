@@ -17,10 +17,10 @@ namespace BruTileTests
         public void CompareToTest()
         {
             TileIndex target = new TileIndex(2, 4, 2);
-            TileIndex key = new TileIndex(2, 5, 2);
+            TileIndex index = new TileIndex(2, 5, 2);
             int expected = -1;
             int actual;
-            actual = target.CompareTo(key);
+            actual = target.CompareTo(index);
             Assert.AreEqual(expected, actual);
         }
     }

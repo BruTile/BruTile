@@ -56,14 +56,14 @@ namespace BruTile
             return CompareTo((TileIndex)obj);
         }
 
-        public int CompareTo(TileIndex key)
+        public int CompareTo(TileIndex index)
         {
-            if (col < key.col) return -1;
-            if (col > key.col) return 1;
-            if (row < key.row) return -1;
-            if (row > key.row) return 1;
-            if (level < key.level) return -1;
-            if (level > key.level) return 1;
+            if (col < index.col) return -1;
+            if (col > index.col) return 1;
+            if (row < index.row) return -1;
+            if (row > index.row) return 1;
+            if (level < index.level) return -1;
+            if (level > index.level) return 1;
             return 0;
         }
 
@@ -75,9 +75,9 @@ namespace BruTile
             return Equals((TileIndex)obj);
         }
 
-        public bool Equals(TileIndex key)
+        public bool Equals(TileIndex index)
         {
-            return col == key.col && row == key.row && level == key.level;
+            return col == index.col && row == index.row && level == index.level;
         }
 
         public override int GetHashCode()

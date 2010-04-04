@@ -44,71 +44,71 @@ namespace BruTile.Cache
             }
         }
 
-        public void Add(TileIndex key, byte[] image)
+        public void Add(TileIndex index, byte[] image)
         {
             lock (this._syncRoot)
             {
-                if (this.Exists(key))
+                if (this.Exists(index))
                 {
                     return; // ignore
                 }
-                string dir = GetDirectoryName(key);
+                string dir = GetDirectoryName(index);
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
                 }
 
-                this.WriteToFile(image, key);
+                this.WriteToFile(image, index);
             }
         }
 
-        public byte[] Find(TileIndex key)
+        public byte[] Find(TileIndex index)
         {
             lock (_syncRoot)
             {
-                if (!Exists(key)) return null; // to indicate not found
-                using (FileStream fileStream = new FileStream(GetFileName(key), FileMode.Open, FileAccess.Read))
+                if (!Exists(index)) return null; // to indicate not found
+                using (FileStream fileStream = new FileStream(GetFileName(index), FileMode.Open, FileAccess.Read))
                 {
                     return Utilities.ReadFully(fileStream);
                 }
             }
         }
 
-        public void Remove(TileIndex key)
+        public void Remove(TileIndex index)
         {
             lock (_syncRoot)
             {
-                if (Exists(key))
+                if (Exists(index))
                 {
-                  File.Delete(GetFileName(key));
+                  File.Delete(GetFileName(index));
                 }
             }
         }
 
-        private bool Exists(TileIndex key)
+        private bool Exists(TileIndex index)
         {
-          return File.Exists(GetFileName(key));
+          return File.Exists(GetFileName(index));
         }
 
         #endregion
 
         #region Private Methods
 
-        private string GetFileName(TileIndex key)
+        private string GetFileName(TileIndex index)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, _format);
+              "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
         }
 
-        private string GetDirectoryName(TileIndex key)
+        private string GetDirectoryName(TileIndex index)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}\\{2}", _directory, key.Level, key.Col);
+              "{0}\\{1}\\{2}", _directory, index.Level, index.Col);
         }
 
-        private void WriteToFile(byte[] image, TileIndex key)
+        private void WriteToFile(byte[] image, TileIndex index)
         {
-          using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
+          using (FileStream fileStream = File.Open(GetFileName(index), FileMode.CreateNew))
             {
                 fileStream.Write(image, 0, (int)image.Length);
                 fileStream.Flush();
