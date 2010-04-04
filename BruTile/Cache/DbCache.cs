@@ -235,11 +235,11 @@ namespace BruTile.Cache
 
         #region Implementation of ITileCache<byte[]>
 
-        public void Add(TileIndex key, byte[] image)
+        public void Add(TileIndex index, byte[] image)
         {
-            ((IDataParameter)_addTileCommand.Parameters[0]).Value = key.Level;
-            ((IDataParameter)_addTileCommand.Parameters[1]).Value = key.Row;
-            ((IDataParameter)_addTileCommand.Parameters[2]).Value = key.Col;
+            ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_addTileCommand.Parameters[1]).Value = index.Row;
+            ((IDataParameter)_addTileCommand.Parameters[2]).Value = index.Col;
             ((IDataParameter)_addTileCommand.Parameters[3]).Value = image.Length;
             ((IDataParameter)_addTileCommand.Parameters[4]).Value = image;
 
@@ -250,11 +250,11 @@ namespace BruTile.Cache
             if ( wasClosed ) Connection.Close();
         }
 
-        public void Remove(TileIndex key)
+        public void Remove(TileIndex index)
         {
-            ((IDataParameter)_removeTileCommand.Parameters[0]).Value = key.Level;
-            ((IDataParameter)_removeTileCommand.Parameters[1]).Value = key.Row;
-            ((IDataParameter)_removeTileCommand.Parameters[2]).Value = key.Col;
+            ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_removeTileCommand.Parameters[1]).Value = index.Row;
+            ((IDataParameter)_removeTileCommand.Parameters[2]).Value = index.Col;
 
             Boolean wasClosed = OpenConnectionIfClosed();
 
@@ -263,11 +263,11 @@ namespace BruTile.Cache
             if (wasClosed) Connection.Close();
         }
 
-        public byte[] Find(TileIndex key)
+        public byte[] Find(TileIndex index)
         {
-            ((IDataParameter)_findTileCommand.Parameters[0]).Value = key.Level;
-            ((IDataParameter)_findTileCommand.Parameters[1]).Value = key.Row;
-            ((IDataParameter)_findTileCommand.Parameters[2]).Value = key.Col;
+            ((IDataParameter)_findTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_findTileCommand.Parameters[1]).Value = index.Row;
+            ((IDataParameter)_findTileCommand.Parameters[2]).Value = index.Col;
 
             Boolean wasClosed = OpenConnectionIfClosed();
 

@@ -90,17 +90,17 @@ namespace BruTile.Web
             {
             }
 
-            public void Add(TileIndex key, byte[] image)
+            public void Add(TileIndex index, byte[] image)
             {
                 //do nothing
             }
 
-            public void Remove(TileIndex key)
+            public void Remove(TileIndex index)
             {
                 throw new NotImplementedException(); //and should not
             }
 
-            public byte[] Find(TileIndex key)
+            public byte[] Find(TileIndex index)
             {
                 return null;
             }
