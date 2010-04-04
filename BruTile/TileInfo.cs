@@ -23,7 +23,7 @@ namespace BruTile
         private Extent extent;
         private double priority;
 
-        public TileKey Key
+        public TileIndex Key
         {
             get;
             set;

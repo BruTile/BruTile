@@ -22,31 +22,31 @@ using System.Text;
 
 namespace BruTile.Web
 {
-    public class RequestTms : IRequestBuilder
+    public class TmsRequest : IRequest
     {
         IList<Uri> baseUrl;
         Dictionary<string, string> customParameters;
         string format;
         bool isSingleUrl = false; //If single url is added the request uses the same url for every resolution
 
-        public RequestTms(Uri baseUrl, string format)
+        public TmsRequest(Uri baseUrl, string format)
             : this(new List<Uri>() { baseUrl }, format)
         {
             isSingleUrl = true;
         }
 
-        public RequestTms(Uri baseUrl, string format, Dictionary<string, string> dictionary)
+        public TmsRequest(Uri baseUrl, string format, Dictionary<string, string> dictionary)
             : this(new List<Uri>() { baseUrl }, format, dictionary)
         {
             isSingleUrl = true;
         }
 
-        public RequestTms(IList<Uri> baseUrl, string format)
+        public TmsRequest(IList<Uri> baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
         {
         }
 
-        public RequestTms(IList<Uri> baseUrl, string format, Dictionary<string, string> customParameters)
+        public TmsRequest(IList<Uri> baseUrl, string format, Dictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.format = format;

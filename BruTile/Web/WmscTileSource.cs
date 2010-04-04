@@ -10,7 +10,7 @@ namespace BruTile.Web
     /// <summary>
     /// This class has not been tested.
     /// </summary>
-    public class TileSourceWmsC : ITileSource
+    public class WmscTileSource : ITileSource
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace BruTile.Web
 
         #endregion
 
-        private TileSourceWmsC(ITileSchema tileSchema, ITileProvider tileProvider)
+        private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
         {
             this.tileSchema = tileSchema;
             this.tileProvider = tileProvider;
@@ -138,7 +138,7 @@ namespace BruTile.Web
                 }
             }
 
-            return new TileSourceWmsC(schema, new WebTileProvider(new RequestWmsC(new Uri(onlineResource), schema, layers, styles, new Dictionary<string, string>())));
+            return new WmscTileSource(schema, new WebTileProvider(new WmscRequest(new Uri(onlineResource), schema, layers, styles, new Dictionary<string, string>())));
         }
 
         private static string CreateDefaultName(List<string> layers)

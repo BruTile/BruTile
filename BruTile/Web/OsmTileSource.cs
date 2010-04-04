@@ -10,10 +10,10 @@ using BruTile.PreDefined;
 
 namespace BruTile.Web
 {
-    public class TileSourceOsm : TileSourceTms
+    public class OsmTileSource : TmsTileSource
     {
-        public TileSourceOsm()
-            : base(new Uri("http://b.tile.openstreetmap.org"), new SchemaWorldSphericalMercatorInverted())
+        public OsmTileSource()
+            : base(new Uri("http://b.tile.openstreetmap.org"), new SphericalMercatorInvertedWorldSchema())
         {
 
         }

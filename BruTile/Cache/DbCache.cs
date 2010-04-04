@@ -235,7 +235,7 @@ namespace BruTile.Cache
 
         #region Implementation of ITileCache<byte[]>
 
-        public void Add(TileKey key, byte[] image)
+        public void Add(TileIndex key, byte[] image)
         {
             ((IDataParameter)_addTileCommand.Parameters[0]).Value = key.Level;
             ((IDataParameter)_addTileCommand.Parameters[1]).Value = key.Row;
@@ -250,7 +250,7 @@ namespace BruTile.Cache
             if ( wasClosed ) Connection.Close();
         }
 
-        public void Remove(TileKey key)
+        public void Remove(TileIndex key)
         {
             ((IDataParameter)_removeTileCommand.Parameters[0]).Value = key.Level;
             ((IDataParameter)_removeTileCommand.Parameters[1]).Value = key.Row;
@@ -263,7 +263,7 @@ namespace BruTile.Cache
             if (wasClosed) Connection.Close();
         }
 
-        public byte[] Find(TileKey key)
+        public byte[] Find(TileIndex key)
         {
             ((IDataParameter)_findTileCommand.Parameters[0]).Value = key.Level;
             ((IDataParameter)_findTileCommand.Parameters[1]).Value = key.Row;

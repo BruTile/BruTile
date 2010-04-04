@@ -29,7 +29,7 @@ namespace BruTile.Web
         Hybrid
     }
 
-    public class RequestBing : IRequestBuilder
+    public class BingRequest : IRequest
     {
         string baseUrl;
         string token;
@@ -38,7 +38,7 @@ namespace BruTile.Web
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
-        public RequestBing(string baseUrl, string token, MapType mapType)
+        public BingRequest(string baseUrl, string token, MapType mapType)
         {
             this.baseUrl = baseUrl;
             this.token = token;

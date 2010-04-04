@@ -19,7 +19,7 @@ using System;
 
 namespace BruTile.Web
 {
-    public interface IRequestBuilder
+    public interface IRequest
     {
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
