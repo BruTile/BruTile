@@ -37,11 +37,11 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tile">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
-        public Uri GetUri(TileInfo tile)
+        public Uri GetUri(TileInfo info)
         {
             string result = String.Format(
               CultureInfo.InvariantCulture, urlFormatter,
-              tile.Key.Level, tile.Key.Col, tile.Key.Row);
+              info.Index.Level, info.Index.Col, info.Index.Row);
 
             return new Uri(result);
         }

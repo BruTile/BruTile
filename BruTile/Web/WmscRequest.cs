@@ -44,7 +44,7 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tile">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
-        public Uri GetUri(TileInfo tile)
+        public Uri GetUri(TileInfo info)
         {
             StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
 
@@ -55,7 +55,7 @@ namespace BruTile.Web
 
             url.Append("&SERVICE=WMS");
             url.Append("&REQUEST=GetMap");
-            url.AppendFormat("&BBOX={0}", tile.Extent.ToString());
+            url.AppendFormat("&BBOX={0}", info.Extent.ToString());
             url.AppendFormat("&FORMAT={0}", schema.Format);
             url.AppendFormat("&WIDTH={0}", schema.Width);
             url.AppendFormat("&HEIGHT={0}", schema.Height);

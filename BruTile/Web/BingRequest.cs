@@ -50,11 +50,11 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tile">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
-        public Uri GetUri(TileInfo tile)
+        public Uri GetUri(TileInfo info)
         {
             //todo: use different nodes
             string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g=203&token={3}",
-              baseUrl, mapType, TileXYToQuadKey(tile.Key.Col, tile.Key.Row, tile.Key.Level + 1), token);
+              baseUrl, mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), token);
             return new Uri(url);
         }
 

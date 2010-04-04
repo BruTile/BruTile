@@ -51,7 +51,7 @@ namespace BruTile
         {
             if (!(obj is TileIndex))
             {
-                throw new ArgumentException("object of type TileKey was expected");
+                throw new ArgumentException("object of type TileIndex was expected");
             }
             return CompareTo((TileIndex)obj);
         }

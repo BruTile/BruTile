@@ -70,12 +70,12 @@ namespace BruTile.Web
         {
             byte[] bytes = null;
 
-            bytes = fileCache.Find(tileInfo.Key);
+            bytes = fileCache.Find(tileInfo.Index);
             if (bytes == null)
             {
                 bytes = RequestHelper.FetchImage(requestBuilder.GetUri(tileInfo), userAgent, referer, keepAlive);
                 if (bytes != null)
-                    fileCache.Add(tileInfo.Key, bytes);
+                    fileCache.Add(tileInfo.Index, bytes);
             }
             return bytes;
         }

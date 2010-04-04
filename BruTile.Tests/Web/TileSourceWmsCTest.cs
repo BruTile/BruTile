@@ -15,7 +15,7 @@ namespace BruTile.Tests.Web
             //todo: configure the test data in the proper way.
             string url = @"\Resources\CapabiltiesWmsC.xml";
             string directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var tileSources = TileSourceWmsC.TileSourceBuilder(new Uri("file://" + directory + "\\" + url), null);
+            var tileSources = WmscTileSource.TileSourceBuilder(new Uri("file://" + directory + "\\" + url), null);
             int count = 54;
             Assert.AreEqual(tileSources.Count, count);
             foreach (var tileSource in tileSources)

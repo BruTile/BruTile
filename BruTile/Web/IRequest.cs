@@ -26,6 +26,6 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tile">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
-        Uri GetUri(TileInfo tile);
+        Uri GetUri(TileInfo info);
     }
 }
