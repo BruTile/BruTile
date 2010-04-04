@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BruTile.PreDefined
 {
-    public class SchemaBing : SchemaWorldSphericalMercatorInverted
+    public class BingSchema : SphericalMercatorInvertedWorldSchema
     {
-        public SchemaBing() : base()
+        public BingSchema() : base()
         {
             this.Format = "jpg";
             this.Name = "BingMaps";

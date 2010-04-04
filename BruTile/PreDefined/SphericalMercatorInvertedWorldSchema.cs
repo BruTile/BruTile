@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BruTile.PreDefined
 {
-    public class SchemaWorldSphericalMercatorInverted : SchemaWorldSphericalMercator
+    public class SphericalMercatorInvertedWorldSchema : SphericalMercatorWorldSchema
     {
-        public SchemaWorldSphericalMercatorInverted() : base()
+        public SphericalMercatorInvertedWorldSchema() : base()
         {
             this.Axis = AxisDirection.InvertedY;
             this.OriginY = -this.OriginY; 

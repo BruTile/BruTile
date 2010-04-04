@@ -7,29 +7,29 @@ using System.Xml.Serialization;
 
 namespace BruTile.Web
 {
-    public class TileSourceTms : ITileSource
+    public class TmsTileSource : ITileSource
     {
         ITileSchema tileSchema;
         ITileProvider tileProvider;
         string overrideTileURL; //When the configfile points to an invalid tile url fill this one
 
-        public TileSourceTms(string serviceUrl, ITileSchema tileSchema)
+        public TmsTileSource(string serviceUrl, ITileSchema tileSchema)
             : this(new Uri(serviceUrl), tileSchema)
         {
         }
 
-        public TileSourceTms(Uri serviceUri, ITileSchema tileSchema)
+        public TmsTileSource(Uri serviceUri, ITileSchema tileSchema)
         {
             this.tileSchema = tileSchema;
-            this.tileProvider = new WebTileProvider(new RequestTms(serviceUri, tileSchema.Format));
+            this.tileProvider = new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format));
         }
 
-        public TileSourceTms(Stream serviceDescription)
+        public TmsTileSource(Stream serviceDescription)
         {
             Create(serviceDescription);
         }
 
-        public TileSourceTms(Stream serviceDescription, string overwriteSourceUrl)
+        public TmsTileSource(Stream serviceDescription, string overwriteSourceUrl)
         {
             this.overrideTileURL = overwriteSourceUrl;
             Create(serviceDescription);
@@ -70,14 +70,14 @@ namespace BruTile.Web
             return schema;
         }
 
-        private IRequestBuilder CreateRequestBuilder(IList<Uri> tileUrls)
+        private IRequest CreateRequestBuilder(IList<Uri> tileUrls)
         {
-            IRequestBuilder request;
+            IRequest request;
 
             if (overrideTileURL != null)
-                request = new RequestTms(new Uri(overrideTileURL), Schema.Format, null);
+                request = new TmsRequest(new Uri(overrideTileURL), Schema.Format, null);
             else
-                request = new RequestTms(tileUrls, Schema.Format, new Dictionary<string, string>());
+                request = new TmsRequest(tileUrls, Schema.Format, new Dictionary<string, string>());
 
             return request;
         }

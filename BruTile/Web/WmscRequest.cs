@@ -22,7 +22,7 @@ using System.Text;
 
 namespace BruTile.Web
 {
-    public class RequestWmsC : IRequestBuilder
+    public class WmscRequest : IRequest
     {
         private ITileSchema schema;
         private Uri baseUrl;
@@ -30,7 +30,7 @@ namespace BruTile.Web
         IList<string> layers;
         IList<string> styles;
 
-        public RequestWmsC(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.schema = schema;

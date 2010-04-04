@@ -19,7 +19,7 @@ using System;
 
 namespace BruTile
 {
-    public struct TileKey : IComparable
+    public struct TileIndex : IComparable
     {
         private int col;
         private int row;
@@ -40,7 +40,7 @@ namespace BruTile
             get { return level; }
         }
 
-        public TileKey(int col, int row, int level)
+        public TileIndex(int col, int row, int level)
         {
             this.col = col;
             this.row = row;
@@ -49,14 +49,14 @@ namespace BruTile
 
         public int CompareTo(object obj)
         {
-            if (!(obj is TileKey))
+            if (!(obj is TileIndex))
             {
                 throw new ArgumentException("object of type TileKey was expected");
             }
-            return CompareTo((TileKey)obj);
+            return CompareTo((TileIndex)obj);
         }
 
-        public int CompareTo(TileKey key)
+        public int CompareTo(TileIndex key)
         {
             if (col < key.col) return -1;
             if (col > key.col) return 1;
@@ -69,13 +69,13 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TileKey))
+            if (!(obj is TileIndex))
                 return false;
 
-            return Equals((TileKey)obj);
+            return Equals((TileIndex)obj);
         }
 
-        public bool Equals(TileKey key)
+        public bool Equals(TileIndex key)
         {
             return col == key.col && row == key.row && level == key.level;
         }
@@ -85,22 +85,22 @@ namespace BruTile
             return col ^ row ^ level;
         }
 
-        public static bool operator ==(TileKey key1, TileKey key2)
+        public static bool operator ==(TileIndex key1, TileIndex key2)
         {
             return Equals(key1, key2);
         }
 
-        public static bool operator !=(TileKey key1, TileKey key2)
+        public static bool operator !=(TileIndex key1, TileIndex key2)
         {
             return !Equals(key1, key2);
         }
 
-        public static bool operator <(TileKey key1, TileKey key2)
+        public static bool operator <(TileIndex key1, TileIndex key2)
         {
             return (key1.CompareTo(key2) < 0);
         }
 
-        public static bool operator >(TileKey key1, TileKey key2)
+        public static bool operator >(TileIndex key1, TileIndex key2)
         {
             return (key1.CompareTo(key2) > 0);
         }

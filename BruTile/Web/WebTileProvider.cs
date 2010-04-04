@@ -25,28 +25,28 @@ namespace BruTile.Web
 {
     public class WebTileProvider : ITileProvider
     {
-        IRequestBuilder requestBuilder;
+        IRequest requestBuilder;
         ITileCache<byte[]> fileCache;
         string userAgent;
         string referer;
         bool keepAlive = true;
 
-        public WebTileProvider(IRequestBuilder requestBuilder)
+        public WebTileProvider(IRequest requestBuilder)
             : this(requestBuilder, new NullCache())
         {
         }
 
-        public WebTileProvider(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache)
+        public WebTileProvider(IRequest requestBuilder, ITileCache<byte[]> fileCache)
             : this(requestBuilder, fileCache, String.Empty, String.Empty, true)
         {
         }
 
-        public WebTileProvider(IRequestBuilder requestBuilder, string userAgent, string referer, bool keepAlive)
+        public WebTileProvider(IRequest requestBuilder, string userAgent, string referer, bool keepAlive)
             : this(requestBuilder, new NullCache(), userAgent, referer, keepAlive)
         {
         }
 
-        public WebTileProvider(IRequestBuilder requestBuilder, ITileCache<byte[]> fileCache, 
+        public WebTileProvider(IRequest requestBuilder, ITileCache<byte[]> fileCache, 
             string userAgent, string referer, bool keepAlive)
         {
             if (requestBuilder == null) throw new ArgumentException("RequestBuilder can not be null");
@@ -73,7 +73,7 @@ namespace BruTile.Web
             bytes = fileCache.Find(tileInfo.Key);
             if (bytes == null)
             {
-                bytes = ImageRequest.GetImageFromServer(requestBuilder.GetUri(tileInfo), userAgent, referer, keepAlive);
+                bytes = RequestHelper.FetchImage(requestBuilder.GetUri(tileInfo), userAgent, referer, keepAlive);
                 if (bytes != null)
                     fileCache.Add(tileInfo.Key, bytes);
             }
@@ -90,17 +90,17 @@ namespace BruTile.Web
             {
             }
 
-            public void Add(TileKey key, byte[] image)
+            public void Add(TileIndex key, byte[] image)
             {
                 //do nothing
             }
 
-            public void Remove(TileKey key)
+            public void Remove(TileIndex key)
             {
                 throw new NotImplementedException(); //and should not
             }
 
-            public byte[] Find(TileKey key)
+            public byte[] Find(TileIndex key)
             {
                 return null;
             }

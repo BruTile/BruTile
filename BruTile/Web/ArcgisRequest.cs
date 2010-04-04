@@ -22,18 +22,18 @@ using System.Globalization;
 
 namespace BruTile.Web
 {
-    public class RequestArcgis : IRequestBuilder
+    public class ArcgisRequest : IRequest
     {
         Uri baseUrl;
         Dictionary<string, string> customParameters;
         string format;
 
-        public RequestArcgis(Uri baseUrl, string format)
+        public ArcgisRequest(Uri baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
         {
         }
 
-        public RequestArcgis(Uri baseUrl, string format, Dictionary<string, string> customParameters)
+        public ArcgisRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters)
         {
             this.baseUrl = baseUrl;
             this.format = format;

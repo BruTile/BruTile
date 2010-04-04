@@ -23,11 +23,11 @@ namespace BruTile.Web
     /// <summary>
     /// A flexible request builder that can be used for a number of simple cases.
     /// </summary>
-    public class RequestBasic : IRequestBuilder
+    public class BasicRequest : IRequest
     {
         string urlFormatter;
 
-        public RequestBasic(string urlFormatter)
+        public BasicRequest(string urlFormatter)
         {
             this.urlFormatter = urlFormatter;
         }

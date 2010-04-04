@@ -20,8 +20,8 @@ namespace BruTile.Cache
 {
     public interface ITileCache<T>
     {
-        void Add(TileKey key, T image);
-        void Remove(TileKey key);
-        T Find(TileKey key);
+        void Add(TileIndex key, T image);
+        void Remove(TileIndex key);
+        T Find(TileIndex key);
     }
 }

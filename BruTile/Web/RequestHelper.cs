@@ -23,11 +23,11 @@ using System.Threading;
 
 namespace BruTile.Web
 {
-    public static class ImageRequest
+    public static class RequestHelper
     {
-        public static byte[] GetImageFromServer(Uri uri)
+        public static byte[] FetchImage(Uri uri)
         {
-            return GetImageFromServer(uri, String.Empty, String.Empty, true);
+            return FetchImage(uri, String.Empty, String.Empty, true);
         }
 
 #if SILVERLIGHT
@@ -62,7 +62,7 @@ namespace BruTile.Web
 
 #else
 
-        public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
+        public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
 

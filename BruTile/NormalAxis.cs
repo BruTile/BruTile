@@ -19,7 +19,7 @@ using System;
 
 namespace BruTile
 {
-    internal class AxisNormal : IAxis
+    internal class NormalAxis : IAxis
     {
         public TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
         {

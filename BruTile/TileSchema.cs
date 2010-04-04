@@ -45,7 +45,7 @@ namespace BruTile
         private int height;
         private string format;
         private AxisDirection axisDirection = AxisDirection.Normal;
-        IAxis axis = new AxisNormal();
+        IAxis axis = new NormalAxis();
 
         #endregion
 
@@ -190,7 +190,7 @@ namespace BruTile
                 {
                     TileInfo tile = new TileInfo();
                     tile.Extent = axis.TileToWorld(new TileRange(x, y), level, this);
-                    tile.Key = new TileKey(x, y, level);
+                    tile.Key = new TileIndex(x, y, level);
 
                     if (WithinSchemaExtent(Extent, tile.Extent))
                     {
@@ -228,9 +228,9 @@ namespace BruTile
             switch (axis)
             {
                 case AxisDirection.Normal:
-                    return new AxisNormal();
+                    return new NormalAxis();
                 case AxisDirection.InvertedY:
-                    return new AxisInvertedY();
+                    return new InvertedYAxis();
                 default:
                     throw new ArgumentException("could not find axis transformer");
             }

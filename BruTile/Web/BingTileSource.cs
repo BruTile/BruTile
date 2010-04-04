@@ -3,15 +3,15 @@ using BruTile.PreDefined;
 
 namespace BruTile.Web
 {
-    public class TileSourceBing : ITileSource
+    public class BingTileSource : ITileSource
     {
         TileSchema tileSchema;
         WebTileProvider tileProvider;
 
-        public TileSourceBing(String url, string token, MapType mapType)
+        public BingTileSource(String url, string token, MapType mapType)
         {
-            tileSchema = new SchemaBing();
-            tileProvider = new WebTileProvider(new RequestBing(url, token, mapType));
+            tileSchema = new BingSchema();
+            tileProvider = new WebTileProvider(new BingRequest(url, token, mapType));
         }
 
         #region ITileSource Members

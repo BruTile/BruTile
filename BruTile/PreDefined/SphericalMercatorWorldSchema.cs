@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BruTile.PreDefined
 {
-    public class SchemaWorldSphericalMercator : TileSchema
+    public class SphericalMercatorWorldSchema : TileSchema
     {
-        public SchemaWorldSphericalMercator()
+        public SphericalMercatorWorldSchema()
         {
             double[] resolutions = new double[] { 
                 156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 

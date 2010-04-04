@@ -44,7 +44,7 @@ namespace BruTile.Cache
             }
         }
 
-        public void Add(TileKey key, byte[] image)
+        public void Add(TileIndex key, byte[] image)
         {
             lock (this._syncRoot)
             {
@@ -62,7 +62,7 @@ namespace BruTile.Cache
             }
         }
 
-        public byte[] Find(TileKey key)
+        public byte[] Find(TileIndex key)
         {
             lock (_syncRoot)
             {
@@ -74,7 +74,7 @@ namespace BruTile.Cache
             }
         }
 
-        public void Remove(TileKey key)
+        public void Remove(TileIndex key)
         {
             lock (_syncRoot)
             {
@@ -85,7 +85,7 @@ namespace BruTile.Cache
             }
         }
 
-        private bool Exists(TileKey key)
+        private bool Exists(TileIndex key)
         {
           return File.Exists(GetFileName(key));
         }
@@ -94,19 +94,19 @@ namespace BruTile.Cache
 
         #region Private Methods
 
-        private string GetFileName(TileKey key)
+        private string GetFileName(TileIndex key)
         {
             return String.Format(CultureInfo.InvariantCulture,
               "{0}\\{1}.{2}", GetDirectoryName(key), key.Row, _format);
         }
 
-        private string GetDirectoryName(TileKey key)
+        private string GetDirectoryName(TileIndex key)
         {
             return String.Format(CultureInfo.InvariantCulture,
               "{0}\\{1}\\{2}", _directory, key.Level, key.Col);
         }
 
-        private void WriteToFile(byte[] image, TileKey key)
+        private void WriteToFile(byte[] image, TileIndex key)
         {
           using (FileStream fileStream = File.Open(GetFileName(key), FileMode.CreateNew))
             {
