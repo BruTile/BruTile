@@ -32,7 +32,7 @@ namespace BruTile.Web
 
 #if SILVERLIGHT
         //I agree this '#if' is rather ugly, but it is a lot simpler like this than using abstraction layers like I did before.
-        public static byte[] GetImageFromServer(Uri uri, string userAgent, string referer, bool keepAlive)
+        public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             HttpWebRequest webClient = (HttpWebRequest)WebRequest.Create(uri);
 
