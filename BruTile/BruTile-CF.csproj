@@ -77,7 +77,7 @@
     <Compile Include="TileSource.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="Web\ArcGisRequest.cs" />
+    <Compile Include="Web\ArcGisTileRequest.cs" />
     <Compile Include="Web\BasicRequest.cs" />
     <Compile Include="Web\BingRequest.cs" />
     <Compile Include="Web\BingTileSource.cs" />
