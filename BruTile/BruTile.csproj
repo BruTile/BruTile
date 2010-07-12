@@ -44,11 +44,14 @@
     <Compile Include="InvertedYAxis.cs" />
     <Compile Include="NormalAxis.cs" />
     <Compile Include="Cache\DbCache.cs" />
+    <Compile Include="Cache\NullCache.cs" />
     <Compile Include="PreDefined\BingSchema.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="IAxis.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
+    <Compile Include="Web\GoogleRequest.cs" />
+    <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\WmscTileSource.cs" />
     <Compile Include="Web\WmsCapabilties.cs" />
     <Compile Include="TileSource.cs" />

@@ -22,7 +22,7 @@ using System.Text;
 
 namespace BruTile.Web
 {
-    public enum MapType
+    public enum BingMapType
     {
         Roads,
         Aerial,
@@ -34,15 +34,15 @@ namespace BruTile.Web
         string baseUrl;
         string token;
         char mapType;
-        IDictionary<MapType, char> mapTypes = new Dictionary<MapType, char>();
+        IDictionary<BingMapType, char> mapTypes = new Dictionary<BingMapType, char>();
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
-        public BingRequest(string baseUrl, string token, MapType mapType)
+        public BingRequest(string baseUrl, string token, BingMapType mapType)
         {
             this.baseUrl = baseUrl;
             this.token = token;
-            this.mapType = SetMapType(mapType);
+            this.mapType = ToMapTypeChar(mapType);
         }
 
         /// <summary>
@@ -68,15 +68,15 @@ namespace BruTile.Web
             get { return "http://t0.tiles.virtualearth.net/tiles"; }
         }
 
-        private char SetMapType(MapType mapType)
+        private char ToMapTypeChar(BingMapType mapType)
         {
             switch (mapType)
             {
-                case MapType.Roads:
+                case BingMapType.Roads:
                     return 'r';
-                case MapType.Aerial:
+                case BingMapType.Aerial:
                     return 'a';
-                case MapType.Hybrid:
+                case BingMapType.Hybrid:
                     return 'h';
                 default:
                     throw new ArgumentException("Unknown MapType");
