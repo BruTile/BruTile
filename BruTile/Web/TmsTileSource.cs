@@ -47,7 +47,7 @@ namespace BruTile.Web
             {
                 tileUrls.Add(new Uri(ts.href));
             }
-            tileProvider = new WebTileProvider(CreateRequestBuilder(tileUrls));
+            tileProvider = new WebTileProvider(CreateRequest(tileUrls));
         }
 
         private static TileSchema GenerateSchema(TileMap tileMap)
@@ -70,7 +70,7 @@ namespace BruTile.Web
             return schema;
         }
 
-        private IRequest CreateRequestBuilder(IList<Uri> tileUrls)
+        private IRequest CreateRequest(IList<Uri> tileUrls)
         {
             IRequest request;
 

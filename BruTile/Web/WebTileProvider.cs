@@ -25,32 +25,69 @@ namespace BruTile.Web
 {
     public class WebTileProvider : ITileProvider
     {
-        IRequest requestBuilder;
-        ITileCache<byte[]> fileCache;
+        #region Fields
+
+        readonly IRequest request;
+        readonly ITileCache<byte[]> fileCache;
         string userAgent;
         string referer;
-        bool keepAlive = true;
+        readonly bool keepAlive = true;
 
-        public WebTileProvider(IRequest requestBuilder)
-            : this(requestBuilder, new NullCache())
+        #endregion
+
+        #region Properties
+
+        public IRequest Request
+        {
+            get { return request; }
+        }
+
+        protected string UserAgent
+        {
+            get { return userAgent; }
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentNullException("value", "UserAgent cannot be set to null!");
+                userAgent = value;
+            }
+        }
+
+        protected string Referer
+        {
+            get { return referer; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value", "Reverer cannot be set to null!");
+                referer = value;
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public WebTileProvider(IRequest request)
+            : this(request, new NullCache())
         {
         }
 
-        public WebTileProvider(IRequest requestBuilder, ITileCache<byte[]> fileCache)
-            : this(requestBuilder, fileCache, String.Empty, String.Empty, true)
+        public WebTileProvider(IRequest request, ITileCache<byte[]> fileCache)
+            : this(request, fileCache, String.Empty, String.Empty, true)
         {
         }
 
-        public WebTileProvider(IRequest requestBuilder, string userAgent, string referer, bool keepAlive)
-            : this(requestBuilder, new NullCache(), userAgent, referer, keepAlive)
+        public WebTileProvider(IRequest request, string userAgent, string referer, bool keepAlive)
+            : this(request, new NullCache(), userAgent, referer, keepAlive)
         {
         }
 
-        public WebTileProvider(IRequest requestBuilder, ITileCache<byte[]> fileCache, 
+        public WebTileProvider(IRequest request, ITileCache<byte[]> fileCache,
             string userAgent, string referer, bool keepAlive)
         {
-            if (requestBuilder == null) throw new ArgumentException("RequestBuilder can not be null");
-            this.requestBuilder = requestBuilder;
+            if (request == null) throw new ArgumentException("RequestBuilder can not be null");
+            this.request = request;
 
             if (fileCache == null) throw new ArgumentException("FileCache can not be null");
             this.fileCache = fileCache;
@@ -64,6 +101,8 @@ namespace BruTile.Web
             this.keepAlive = keepAlive;
         }
 
+        #endregion
+
         #region TileProvider Members
 
         public byte[] GetTile(TileInfo tileInfo)
@@ -73,37 +112,11 @@ namespace BruTile.Web
             bytes = fileCache.Find(tileInfo.Index);
             if (bytes == null)
             {
-                bytes = RequestHelper.FetchImage(requestBuilder.GetUri(tileInfo), userAgent, referer, keepAlive);
+                bytes = RequestHelper.FetchImage(request.GetUri(tileInfo), userAgent, referer, keepAlive);
                 if (bytes != null)
                     fileCache.Add(tileInfo.Index, bytes);
             }
             return bytes;
-        }
-
-        #endregion
-
-        #region Private classes
-
-        private class NullCache : ITileCache<byte[]>
-        {
-            public NullCache()
-            {
-            }
-
-            public void Add(TileIndex index, byte[] image)
-            {
-                //do nothing
-            }
-
-            public void Remove(TileIndex index)
-            {
-                throw new NotImplementedException(); //and should not
-            }
-
-            public byte[] Find(TileIndex index)
-            {
-                return null;
-            }
         }
 
         #endregion

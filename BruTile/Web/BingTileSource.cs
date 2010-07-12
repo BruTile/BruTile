@@ -7,11 +7,16 @@ namespace BruTile.Web
     {
         TileSchema tileSchema;
         WebTileProvider tileProvider;
+        
+        public BingTileSource(String url, string token, BingMapType mapType)
+            :this(new BingRequest(url, token, mapType))
+        {
+        }
 
-        public BingTileSource(String url, string token, MapType mapType)
+        public BingTileSource(BingRequest bingRequest)
         {
             tileSchema = new BingSchema();
-            tileProvider = new WebTileProvider(new BingRequest(url, token, mapType));
+            tileProvider = new WebTileProvider(bingRequest);
         }
 
         #region ITileSource Members
