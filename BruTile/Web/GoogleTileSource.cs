@@ -9,8 +9,8 @@ namespace BruTile.Web
 {
     public class GoogleTileSource : ITileSource
     {
-        private readonly SphericalMercatorInvertedWorldSchema tileSchema;
-        private readonly WebTileProvider tileProvider;
+        private readonly SphericalMercatorInvertedWorldSchema _tileSchema;
+        private readonly WebTileProvider _tileProvider;
         private const string UserAgent = @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
         private const string Referer = "http://maps.google.com/";
 
@@ -25,20 +25,20 @@ namespace BruTile.Web
         
         public GoogleTileSource(GoogleRequest request, ITileCache<byte[]> fileCache)
         {
-            tileSchema = new SphericalMercatorInvertedWorldSchema();
-            this.tileProvider = new WebTileProvider(request, fileCache, UserAgent, Referer, true);
+            _tileSchema = new SphericalMercatorInvertedWorldSchema();
+            _tileProvider = new WebTileProvider(request, fileCache, UserAgent, Referer, true);
         }
 
         #region Implementation of ITileSource
 
         public ITileProvider Provider
         {
-            get { return tileProvider; }
+            get { return _tileProvider; }
         }
 
         public ITileSchema Schema
         {
-            get { return tileSchema; }
+            get { return _tileSchema; }
         }
 
         #endregion

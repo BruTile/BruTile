@@ -22,7 +22,7 @@ namespace BruTile.Web
 {
     public class WebResponseFormatException : WebException
     {
-        public WebResponseFormatException() : base() { }
+        public WebResponseFormatException() { }
         public WebResponseFormatException(string message) : base(message) { }
         public WebResponseFormatException(string message, Exception innerException) : base(message, innerException) { }
     }

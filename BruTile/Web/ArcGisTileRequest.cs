@@ -24,9 +24,9 @@ namespace BruTile.Web
 {
     public class ArcGisTileRequest : IRequest
     {
-        Uri baseUrl;
-        Dictionary<string, string> customParameters;
-        string format;
+        readonly Uri _baseUrl;
+        readonly Dictionary<string, string> _customParameters;
+        readonly string _format;
 
         public ArcGisTileRequest(Uri baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
@@ -35,58 +35,55 @@ namespace BruTile.Web
 
         public ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters)
         {
-            this.baseUrl = baseUrl;
-            this.format = format;
-            this.customParameters = customParameters;
+            _baseUrl = baseUrl;
+            _format = format;
+            _customParameters = customParameters;
         }
 
         public Uri GetUri(TileInfo info)
         {
-            System.Text.StringBuilder url = new StringBuilder();
+            var url = new StringBuilder();
 
-            url.AppendFormat(CultureInfo.InvariantCulture,
-              "{0}/{1}/{2}/{3}.{4}",
-              baseUrl, levelToHex(info.Index.Level), rowToHex(info.Index.Row), columnToHex(info.Index.Col), format);
+            url.AppendFormat(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}.{4}",
+                _baseUrl, LevelToHex(info.Index.Level), RowToHex(info.Index.Row), ColumnToHex(info.Index.Col), _format);
             AppendCustomParameters(url);
             return new Uri(url.ToString());
         }
 
-        private void AppendCustomParameters(System.Text.StringBuilder url)
+        private void AppendCustomParameters(StringBuilder url)
         {
-            if (customParameters != null && customParameters.Count > 0)
+            if (_customParameters != null && _customParameters.Count > 0)
             {
                 bool first = true;
-                foreach (string name in customParameters.Keys)
+                foreach (string name in _customParameters.Keys)
                 {
-                    string value = customParameters[name];
+                    string value = _customParameters[name];
                     url.AppendFormat("{0}{1}={2}", first ? "?" : "&", name, value);
                     first = false;
                 }
             }
         }
 
-        string levelToHex(int zoom)
+        private static string LevelToHex(int zoom)
         {
             String zoomUrl;
 
             if (zoom < 10)
-                zoomUrl = "L0" + (String)zoom.ToString();
+                zoomUrl = "L0" + zoom;
             else
-                zoomUrl = "L" + (String)zoom.ToString();
+                zoomUrl = "L" + zoom;
 
             return zoomUrl;
         }
 
-        string columnToHex(int x)
+        static string ColumnToHex(int x)
         {
-            String hexX;
-            return hexX = "C" + String.Format("{0:x8}", x); //Column (xTile naar hex met min/max 8 getallen aanvullen met 0)
+            return "C" + String.Format("{0:x8}", x); //Column (xTile naar hex met min/max 8 getallen aanvullen met 0)
         }
 
-        string rowToHex(int y)
+        static string RowToHex(int y)
         {
-            String hexY;
-            return hexY = "R" + String.Format("{0:x8}", y); //Row (yTile naar hex met min/max 8 getallen aanvullen met 0)
+            return "R" + String.Format("{0:x8}", y); //Row (yTile naar hex met min/max 8 getallen aanvullen met 0)
         }
 
     }

@@ -15,30 +15,12 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-
 namespace BruTile
 {
     public class TileInfo
     {
-        private Extent extent;
-        private double priority;
-
-        public TileIndex Index
-        {
-            get;
-            set;
-        }
-
-        public Extent Extent
-        {
-            get { return extent; }
-            set { extent = value; }
-        }
-
-        public double Priority
-        {
-            get { return priority; }
-            set { priority = value; }
-        }
+        public TileIndex Index { get; set; }
+        public Extent Extent { get; set; }
+        public double Priority { get; set; }
     }
 }

@@ -25,10 +25,10 @@ namespace BruTile
         {
             double resolution = schema.Resolutions[level];
             double tileWorldUnits = resolution * schema.Width;
-            int firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
-            int firstRow = (int)Math.Floor((-extent.MaxY + schema.OriginY) / tileWorldUnits);
-            int lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
-            int lastRow = (int)Math.Ceiling((-extent.MinY + schema.OriginY) / tileWorldUnits);
+            var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
+            var firstRow = (int)Math.Floor((-extent.MaxY + schema.OriginY) / tileWorldUnits);
+            var lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
+            var lastRow = (int)Math.Ceiling((-extent.MinY + schema.OriginY) / tileWorldUnits);
             return new TileRange(firstCol, firstRow, lastCol, lastRow);
         }
 

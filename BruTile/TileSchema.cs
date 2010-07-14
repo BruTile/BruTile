@@ -35,17 +35,15 @@ namespace BruTile
     {
         #region Fields
 
-        private string name;
-        private string srs;
-        private Extent extent;
-        private double originX = Double.NaN;
-        private double originY = Double.NaN;
-        private List<double> resolutions = new List<double>();
-        private int width;
-        private int height;
-        private string format;
-        private AxisDirection axisDirection = AxisDirection.Normal;
-        IAxis axis = new NormalAxis();
+        private readonly List<double> _resolutions = new List<double>();
+        private AxisDirection _axisDirection = AxisDirection.Normal;
+        IAxis _axis = new NormalAxis();
+
+        public TileSchema()
+        {
+            OriginY = Double.NaN;
+            OriginX = Double.NaN;
+        }
 
         #endregion
 
@@ -53,66 +51,27 @@ namespace BruTile
 
         //Todo: see if we can replace all setters with constructor arguments. Do this after automatic parser is implemented
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        public string Srs
-        {
-            get { return srs; }
-            set { srs = value; }
-        }
-
-        public Extent Extent
-        {
-            get { return extent; }
-            set { extent = value; }
-        }
-
-        public double OriginX
-        {
-            get { return originX; }
-            set { originX = value; }
-        }
-
-        public double OriginY
-        {
-            get { return originY; }
-            set { originY = value; }
-        }
+        public string Name { get; set; }
+        public string Srs { get; set; }
+        public Extent Extent { get; set; }
+        public double OriginX { get; set; }
+        public double OriginY { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string Format { get; set; }
 
         public IList<double> Resolutions
         {
-            get { return resolutions; }
-        }
-
-        public int Width
-        {
-            get { return width; }
-            set { width = value; }
-        }
-
-        public int Height
-        {
-            get { return height; }
-            set { height = value; }
-        }
-
-        public string Format
-        {
-            get { return format; }
-            set { format = value; }
+            get { return _resolutions; }
         }
 
         public AxisDirection Axis
         {
-            get { return axisDirection; }
+            get { return _axisDirection; }
             set 
             { 
-                axisDirection = value;
-                axis = CreateAxis(value);
+                _axisDirection = value;
+                _axis = CreateAxis(value);
             }
         }
         #endregion
@@ -124,45 +83,45 @@ namespace BruTile
         /// </summary>
         public virtual void Validate()
         {
-            if (String.IsNullOrEmpty(srs))
+            if (String.IsNullOrEmpty(Srs))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The SRS was not set for TileSchema '{0}'", this.Name));
+                  "The SRS was not set for TileSchema '{0}'", Name));
             }
-            if (extent == new Extent())
+            if (Extent == new Extent())
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The BoundingBox was not set for TileSchema '{0}'", this.Name));
+                  "The BoundingBox was not set for TileSchema '{0}'", Name));
             }
-            if (Double.IsNaN(originX))
+            if (Double.IsNaN(OriginX))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", this.Name));
+                  "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", Name));
             }
-            if (Double.IsNaN(originY))
+            if (Double.IsNaN(OriginY))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", this.Name));
+                  "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", Name));
             }
-            if (resolutions.Count == 0)
+            if (_resolutions.Count == 0)
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "No Resolutions were added for TileSchema '{0}'", this.Name));
+                  "No Resolutions were added for TileSchema '{0}'", Name));
             }
-            if (width == 0)
+            if (Width == 0)
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Width was not set for TileSchema '{0}'", this.Name));
+                  "The Width was not set for TileSchema '{0}'", Name));
             }
-            if (height == 0)
+            if (Height == 0)
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Height was not set for TileSchema '{0}'", this.Name));
+                  "The Height was not set for TileSchema '{0}'", Name));
             }
-            if (String.IsNullOrEmpty(format))
+            if (String.IsNullOrEmpty(Format))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Format was not set for TileSchema '{0}'", this.Name));
+                  "The Format was not set for TileSchema '{0}'", Name));
             }
 
             //TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
@@ -181,15 +140,15 @@ namespace BruTile
         public IList<TileInfo> GetTilesInView(Extent extent, int level)
         {
             IList<TileInfo> infos = new List<TileInfo>();
-            TileRange range = axis.WorldToTile(extent, level, this);
+            TileRange range = _axis.WorldToTile(extent, level, this);
             infos.Clear();
 
             for (int x = range.FirstCol; x < range.LastCol; x++)
             {
                 for (int y = range.FirstRow; y < range.LastRow; y++)
                 {
-                    TileInfo info = new TileInfo();
-                    info.Extent = axis.TileToWorld(new TileRange(x, y), level, this);
+                    var info = new TileInfo();
+                    info.Extent = _axis.TileToWorld(new TileRange(x, y), level, this);
                     info.Index = new TileIndex(x, y, level);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
@@ -203,8 +162,8 @@ namespace BruTile
 
         public Extent GetExtentOfTilesInView(Extent extent, int level)
         {
-            TileRange range = axis.WorldToTile(extent, level, this);
-            return axis.TileToWorld(range, level, this);
+            TileRange range = _axis.WorldToTile(extent, level, this);
+            return _axis.TileToWorld(range, level, this);
         }
 
         #endregion

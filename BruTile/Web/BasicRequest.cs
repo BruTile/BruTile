@@ -25,22 +25,22 @@ namespace BruTile.Web
     /// </summary>
     public class BasicRequest : IRequest
     {
-        string urlFormatter;
+        readonly string _urlFormatter;
 
         public BasicRequest(string urlFormatter)
         {
-            this.urlFormatter = urlFormatter;
+            _urlFormatter = urlFormatter;
         }
 
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
         /// </summary>
-        /// <param name="tile">Information about a tile.</param>
+        /// <param name="info">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
             string result = String.Format(
-              CultureInfo.InvariantCulture, urlFormatter,
+              CultureInfo.InvariantCulture, _urlFormatter,
               info.Index.Level, info.Index.Col, info.Index.Row);
 
             return new Uri(result);

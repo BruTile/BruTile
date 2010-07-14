@@ -64,11 +64,11 @@ namespace BruTile.Web
 
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
 #if !PocketPC
             IWebProxy proxy = WebRequest.GetSystemWebProxy();
-            proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            proxy.Credentials = CredentialCache.DefaultCredentials;
             webRequest.Proxy = proxy;
             webRequest.PreAuthenticate = true;
 #endif
@@ -115,9 +115,9 @@ namespace BruTile.Web
 
         private static string ReadAllText(Stream responseStream)
         {
-            using (StreamReader streamReader = new StreamReader(responseStream, true))
+            using (var streamReader = new StreamReader(responseStream, true))
             {
-                using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
+                using (var stringWriter = new StringWriter(CultureInfo.InvariantCulture))
                 {
                     stringWriter.Write(streamReader.ReadToEnd());
                     return stringWriter.ToString();

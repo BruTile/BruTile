@@ -56,6 +56,7 @@
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\NullCache.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="IAxis.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="Web\BasicRequest.cs" />
     <Compile Include="Web\BingRequest.cs" />
     <Compile Include="Web\BingTileSource.cs" />
+    <Compile Include="Web\GoogleRequest.cs" />
+    <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\IRequest.cs" />
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
