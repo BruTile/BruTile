@@ -21,30 +21,30 @@ namespace BruTile
 {
     public struct TileIndex : IComparable
     {
-        private int col;
-        private int row;
-        private int level;
+        private readonly int _col;
+        private readonly int _row;
+        private readonly int _level;
 
         public int Col
         {
-            get { return col; }
+            get { return _col; }
         }
 
         public int Row
         {
-            get { return row; }
+            get { return _row; }
         }
 
         public int Level
         {
-            get { return level; }
+            get { return _level; }
         }
 
         public TileIndex(int col, int row, int level)
         {
-            this.col = col;
-            this.row = row;
-            this.level = level;
+            _col = col;
+            _row = row;
+            _level = level;
         }
 
         public int CompareTo(object obj)
@@ -58,12 +58,12 @@ namespace BruTile
 
         public int CompareTo(TileIndex index)
         {
-            if (col < index.col) return -1;
-            if (col > index.col) return 1;
-            if (row < index.row) return -1;
-            if (row > index.row) return 1;
-            if (level < index.level) return -1;
-            if (level > index.level) return 1;
+            if (_col < index._col) return -1;
+            if (_col > index._col) return 1;
+            if (_row < index._row) return -1;
+            if (_row > index._row) return 1;
+            if (_level < index._level) return -1;
+            if (_level > index._level) return 1;
             return 0;
         }
 
@@ -77,12 +77,12 @@ namespace BruTile
 
         public bool Equals(TileIndex index)
         {
-            return col == index.col && row == index.row && level == index.level;
+            return _col == index._col && _row == index._row && _level == index._level;
         }
 
         public override int GetHashCode()
         {
-            return col ^ row ^ level;
+            return _col ^ _row ^ _level;
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)

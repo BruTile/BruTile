@@ -22,16 +22,16 @@ namespace BruTile
 {
     public struct Extent
     {
-        private double minX;
-        private double minY;
-        private double maxX;
-        private double maxY;
+        private readonly double _minX;
+        private readonly double _minY;
+        private readonly double _maxX;
+        private readonly double _maxY;
 
         public double MinX
         {
             get
             {
-                return this.minX;
+                return _minX;
             }
         }
 
@@ -39,7 +39,7 @@ namespace BruTile
         {
             get
             {
-                return this.minY;
+                return _minY;
             }
         }
 
@@ -47,7 +47,7 @@ namespace BruTile
         {
             get
             {
-                return this.maxX;
+                return _maxX;
             }
         }
 
@@ -55,7 +55,7 @@ namespace BruTile
         {
             get
             {
-                return this.maxY;
+                return _maxY;
             }
         }
 
@@ -63,7 +63,7 @@ namespace BruTile
         {
             get
             {
-                return (this.minX + this.maxX) / 2.0;
+                return (_minX + _maxX) / 2.0;
             }
         }
 
@@ -71,7 +71,7 @@ namespace BruTile
         {
             get
             {
-                return (this.minY + this.maxY) / 2.0;
+                return (_minY + _maxY) / 2.0;
             }
         }
 
@@ -79,7 +79,7 @@ namespace BruTile
         {
             get
             {
-                return this.maxX - this.minX;
+                return _maxX - _minX;
             }
         }
 
@@ -87,7 +87,7 @@ namespace BruTile
         {
             get
             {
-                return this.maxY - this.minY;
+                return _maxY - _minY;
             }
         }
 
@@ -95,25 +95,26 @@ namespace BruTile
         {
             get
             {
-                return this.Width * this.Height;
+                return Width * Height;
             }
         }
 
         public Extent Intersect(Extent other) //TODO: check out how to name this method.
         {
             return new Extent(
-              Math.Max(this.minX, other.minX),
-              Math.Max(this.minY, other.minY),
-              Math.Min(this.maxX, other.maxX),
-              Math.Min(this.maxY, other.maxY));
+              Math.Max(_minX, other._minX),
+              Math.Max(_minY, other._minY),
+              Math.Min(_maxX, other._maxX),
+              Math.Min(_maxY, other._maxY));
         }
 
         public Extent(double minX, double minY, double maxX, double maxY)
         {
-            this.minX = minX;
-            this.minY = minY;
-            this.maxX = maxX;
-            this.maxY = maxY;
+            _minX = minX;
+            _minY = minY;
+            _maxX = maxX;
+            _maxY = maxY;
+
             if (minX > maxX || minY > maxY)
             {
                 throw new ArgumentException("min should be smaller than max");
@@ -123,16 +124,16 @@ namespace BruTile
         public bool Intersects(Extent box)
         {
             return !(
-              box.MinX > this.MaxX ||
-              box.MaxX < this.MinX ||
-              box.MinY > this.MaxY ||
-              box.MaxY < this.MinY);
+              box.MinX > MaxX ||
+              box.MaxX < MinX ||
+              box.MinY > MaxY ||
+              box.MaxY < MinY);
         }
 
         public override string ToString()
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0},{1},{2},{3}", this.MinX, this.MinY, this.MaxX, this.MaxY);
+              "{0},{1},{2},{3}", MinX, MinY, MaxX, MaxY);
         }
 
         public override bool Equals(object obj)
@@ -146,22 +147,22 @@ namespace BruTile
 
         public bool Equals(Extent extent)
         {
-            if (this.minX != extent.minX)
+            if (_minX != extent._minX)
             {
                 return false;
             }
 
-            if (this.minY != extent.minY)
+            if (_minY != extent._minY)
             {
                 return false;
             }
 
-            if (this.maxX != extent.maxX)
+            if (_maxX != extent._maxX)
             {
                 return false;
             }
 
-            if (this.maxY != extent.maxY)
+            if (_maxY != extent._maxY)
             {
                 return false;
             }
@@ -171,7 +172,7 @@ namespace BruTile
 
         public override int GetHashCode()
         {
-            return minX.GetHashCode() ^ minY.GetHashCode() ^ maxX.GetHashCode() ^ maxY.GetHashCode();
+            return _minX.GetHashCode() ^ _minY.GetHashCode() ^ _maxX.GetHashCode() ^ _maxY.GetHashCode();
         }
 
         public static bool operator ==(Extent extent1, Extent extent2)

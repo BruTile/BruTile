@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Xml.Serialization;
 
 namespace BruTile.Web
 {
     public class TmsTileSource : ITileSource
     {
-        ITileSchema tileSchema;
-        ITileProvider tileProvider;
-        string overrideTileURL; //When the configfile points to an invalid tile url fill this one
+        ITileSchema _tileSchema;
+        ITileProvider _tileProvider;
+        readonly string _overrideTileUrl; //When the configfile points to an invalid tile url fill this one
 
         public TmsTileSource(string serviceUrl, ITileSchema tileSchema)
             : this(new Uri(serviceUrl), tileSchema)
@@ -20,8 +19,8 @@ namespace BruTile.Web
 
         public TmsTileSource(Uri serviceUri, ITileSchema tileSchema)
         {
-            this.tileSchema = tileSchema;
-            this.tileProvider = new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format));
+            _tileSchema = tileSchema;
+            _tileProvider = new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format));
         }
 
         public TmsTileSource(Stream serviceDescription)
@@ -31,28 +30,28 @@ namespace BruTile.Web
 
         public TmsTileSource(Stream serviceDescription, string overwriteSourceUrl)
         {
-            this.overrideTileURL = overwriteSourceUrl;
+            _overrideTileUrl = overwriteSourceUrl;
             Create(serviceDescription);
         }
 
         private void Create(Stream serviceDescription)
         {
-            StreamReader reader = new StreamReader(serviceDescription);
-            XmlSerializer serializer = new XmlSerializer(typeof(TileMap));
-            TileMap tileMap = (TileMap)serializer.Deserialize(reader);
-            this.tileSchema = GenerateSchema(tileMap);
+            var reader = new StreamReader(serviceDescription);
+            var serializer = new XmlSerializer(typeof(TileMap));
+            var tileMap = (TileMap)serializer.Deserialize(reader);
+            _tileSchema = GenerateSchema(tileMap);
 
-            List<Uri> tileUrls = new List<Uri>();
+            var tileUrls = new List<Uri>();
             foreach (TileMapTileSetsTileSet ts in tileMap.TileSets.TileSet)
             {
                 tileUrls.Add(new Uri(ts.href));
             }
-            tileProvider = new WebTileProvider(CreateRequest(tileUrls));
+            _tileProvider = new WebTileProvider(CreateRequest(tileUrls));
         }
 
         private static TileSchema GenerateSchema(TileMap tileMap)
         {
-            TileSchema schema = new TileSchema();
+            var schema = new TileSchema();
             schema.OriginX = Double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture);
             schema.OriginY = Double.Parse(tileMap.Origin.y, CultureInfo.InvariantCulture);
             schema.Srs = tileMap.SRS;
@@ -74,8 +73,8 @@ namespace BruTile.Web
         {
             IRequest request;
 
-            if (overrideTileURL != null)
-                request = new TmsRequest(new Uri(overrideTileURL), Schema.Format, null);
+            if (_overrideTileUrl != null)
+                request = new TmsRequest(new Uri(_overrideTileUrl), Schema.Format, null);
             else
                 request = new TmsRequest(tileUrls, Schema.Format, new Dictionary<string, string>());
 
@@ -86,12 +85,12 @@ namespace BruTile.Web
 
         public ITileProvider Provider
         {
-            get { return tileProvider; }
+            get { return _tileProvider; }
         }
 
         public ITileSchema Schema
         {
-            get { return tileSchema; }
+            get { return _tileSchema; }
         }
 
         #endregion

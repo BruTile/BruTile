@@ -1,4 +1,21 @@
-﻿using System;
+﻿// Copyright 2009 - Paul den Dulk (Geodan)
+// 
+// This file is part of SharpMap.
+// SharpMap is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+// 
+// SharpMap is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+
+// You should have received a copy of the GNU Lesser General Public License
+// along with SharpMap; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
@@ -14,20 +31,20 @@ namespace BruTile.Web
     {
         #region Fields
 
-        ITileSchema tileSchema;
-        ITileProvider tileProvider;
+        readonly ITileSchema _tileSchema;
+        readonly ITileProvider _tileProvider;
 
         #endregion
 
         private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
         {
-            this.tileSchema = tileSchema;
-            this.tileProvider = tileProvider;
+            _tileSchema = tileSchema;
+            _tileProvider = tileProvider;
         }
 
         public static List<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
         {
-            WmsCapabilities wmsCapabilities = new WmsCapabilities(uri, proxy);
+            var wmsCapabilities = new WmsCapabilities(uri, proxy);
             return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
         }
 
@@ -36,20 +53,24 @@ namespace BruTile.Web
         /// and adds them to the TileSets member
         /// </summary>
         /// <param name="xnlVendorSpecificCapabilities">The VendorSpecificCapabilities node of the Capabilties</param>
-        /// <param name="nsmgr"></param>
+        /// <param name="onlineResource"></param>
+        /// 
         private static List<ITileSource> ParseVendorSpecificCapabilitiesNode(
             XmlNode xnlVendorSpecificCapabilities, string onlineResource)
         {
             var tileSets = new List<ITileSource>();
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(new NameTable());
+            var nsmgr = new XmlNamespaceManager(new NameTable());
             nsmgr.AddNamespace("sm", "");
 
             XmlNodeList xnlTileSets = xnlVendorSpecificCapabilities.SelectNodes("sm:TileSet", nsmgr);
 
-            foreach (XmlNode xnlTileSet in xnlTileSets)
+            if (xnlTileSets != null)
             {
-                ITileSource tileSource = ParseTileSetNode(xnlTileSet, nsmgr, onlineResource);
-                tileSets.Add(tileSource);
+                foreach (XmlNode xnlTileSet in xnlTileSets)
+                {
+                    ITileSource tileSource = ParseTileSetNode(xnlTileSet, nsmgr, onlineResource);
+                    tileSets.Add(tileSource);
+                }
             }
             return tileSets;
         }
@@ -59,7 +80,7 @@ namespace BruTile.Web
             var schema = new TileSchema();
             var layers = new List<string>();
             var styles = new List<string>();
-            
+
             XmlNode xnStyles = xnlTileSet.SelectSingleNode("sm:Styles", nsmgr);
             if (xnStyles != null)
                 styles.AddRange(xnStyles.InnerText.Split(new char[] { ',' }));
@@ -69,7 +90,7 @@ namespace BruTile.Web
                 layers.AddRange(xnLayers.InnerText.Split(new char[] { ',' }));
 
             schema.Name = CreateDefaultName(layers);
-            
+
             XmlNode xnSRS = xnlTileSet.SelectSingleNode("sm:SRS", nsmgr);
             if (xnSRS != null)
                 schema.Srs = xnSRS.InnerText;
@@ -103,17 +124,11 @@ namespace BruTile.Web
                 double miny = 0;
                 double maxx = 0;
                 double maxy = 0;
-                if
-                    (
-                    !double.TryParse(xnBoundingBox.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out minx) &
-                    !double.TryParse(xnBoundingBox.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out miny) &
-                    !double.TryParse(xnBoundingBox.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out maxx) &
-                    !double.TryParse(xnBoundingBox.Attributes["maxy"].Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out maxy)
-                    )
+
+                if (!double.TryParse(xnBoundingBox.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
+                    !double.TryParse(xnBoundingBox.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
+                    !double.TryParse(xnBoundingBox.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
+                    !double.TryParse(xnBoundingBox.Attributes["maxy"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy))
                 {
                     throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
                 }
@@ -128,10 +143,10 @@ namespace BruTile.Web
             XmlNode xnResolutions = xnlTileSet.SelectSingleNode("sm:Resolutions", nsmgr);
             if (xnResolutions != null)
             {
-                double resolution;
                 string[] resolutions = xnResolutions.InnerText.Split(new char[] { ' ' });
                 foreach (string resolutionStr in resolutions)
                 {
+                    double resolution;
                     if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
                     schema.Resolutions.Add(resolution);
@@ -141,9 +156,9 @@ namespace BruTile.Web
             return new WmscTileSource(schema, new WebTileProvider(new WmscRequest(new Uri(onlineResource), schema, layers, styles, new Dictionary<string, string>())));
         }
 
-        private static string CreateDefaultName(List<string> layers)
+        private static string CreateDefaultName(IEnumerable<string> layers)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             foreach (string layer in layers)
             {
                 stringBuilder.Append(layer + ",");
@@ -156,12 +171,12 @@ namespace BruTile.Web
 
         public ITileProvider Provider
         {
-            get { return tileProvider; }
+            get { return _tileProvider; }
         }
 
         public ITileSchema Schema
         {
-            get { return tileSchema; }
+            get { return _tileSchema; }
         }
 
         #endregion

@@ -58,6 +58,7 @@
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\NullCache.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="IAxis.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Web\TmsTileSource.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
-    <Compile Include="Web\WmscRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

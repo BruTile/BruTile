@@ -16,9 +16,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Net;
-using BruTile;
-using System.Threading;
 using BruTile.Cache;
 
 namespace BruTile.Web
@@ -27,11 +24,11 @@ namespace BruTile.Web
     {
         #region Fields
 
-        readonly IRequest request;
-        readonly ITileCache<byte[]> fileCache;
-        string userAgent;
-        string referer;
-        readonly bool keepAlive = true;
+        readonly IRequest _request;
+        readonly ITileCache<byte[]> _fileCache;
+        string _userAgent;
+        string _referer;
+        readonly bool _keepAlive = true;
 
         #endregion
 
@@ -39,28 +36,28 @@ namespace BruTile.Web
 
         public IRequest Request
         {
-            get { return request; }
+            get { return _request; }
         }
 
         protected string UserAgent
         {
-            get { return userAgent; }
+            get { return _userAgent; }
             set
             {
                 if (String.IsNullOrEmpty(value))
                     throw new ArgumentNullException("value", "UserAgent cannot be set to null!");
-                userAgent = value;
+                _userAgent = value;
             }
         }
 
         protected string Referer
         {
-            get { return referer; }
+            get { return _referer; }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("value", "Reverer cannot be set to null!");
-                referer = value;
+                _referer = value;
             }
         }
 
@@ -87,18 +84,18 @@ namespace BruTile.Web
             string userAgent, string referer, bool keepAlive)
         {
             if (request == null) throw new ArgumentException("RequestBuilder can not be null");
-            this.request = request;
+            _request = request;
 
             if (fileCache == null) throw new ArgumentException("FileCache can not be null");
-            this.fileCache = fileCache;
+            _fileCache = fileCache;
 
             if (userAgent == null) throw new ArgumentException("UserAgent can not be null");
-            this.userAgent = userAgent;
+            _userAgent = userAgent;
 
             if (referer == null) throw new ArgumentException("UserAgent can not be null");
-            this.referer = referer;
+            _referer = referer;
 
-            this.keepAlive = keepAlive;
+            _keepAlive = keepAlive;
         }
 
         #endregion
@@ -107,14 +104,13 @@ namespace BruTile.Web
 
         public byte[] GetTile(TileInfo tileInfo)
         {
-            byte[] bytes = null;
+            byte[] bytes = _fileCache.Find(tileInfo.Index);
 
-            bytes = fileCache.Find(tileInfo.Index);
             if (bytes == null)
             {
-                bytes = RequestHelper.FetchImage(request.GetUri(tileInfo), userAgent, referer, keepAlive);
+                bytes = RequestHelper.FetchImage(_request.GetUri(tileInfo), _userAgent, _referer, _keepAlive);
                 if (bytes != null)
-                    fileCache.Add(tileInfo.Index, bytes);
+                    _fileCache.Add(tileInfo.Index, bytes);
             }
             return bytes;
         }

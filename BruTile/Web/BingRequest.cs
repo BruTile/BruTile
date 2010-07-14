@@ -16,7 +16,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -31,30 +30,29 @@ namespace BruTile.Web
 
     public class BingRequest : IRequest
     {
-        string baseUrl;
-        string token;
-        char mapType;
-        IDictionary<BingMapType, char> mapTypes = new Dictionary<BingMapType, char>();
+        readonly string _baseUrl;
+        readonly string _token;
+        readonly char _mapType;
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
         public BingRequest(string baseUrl, string token, BingMapType mapType)
         {
-            this.baseUrl = baseUrl;
-            this.token = token;
-            this.mapType = ToMapTypeChar(mapType);
+            _baseUrl = baseUrl;
+            _token = token;
+            _mapType = ToMapTypeChar(mapType);
         }
 
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
         /// </summary>
-        /// <param name="tile">Information about a tile.</param>
+        /// <param name="info">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
             //todo: use different nodes
             string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g=203&token={3}",
-              baseUrl, mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), token);
+              _baseUrl, _mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), _token);
             return new Uri(url);
         }
 
@@ -68,7 +66,7 @@ namespace BruTile.Web
             get { return "http://t0.tiles.virtualearth.net/tiles"; }
         }
 
-        private char ToMapTypeChar(BingMapType mapType)
+        private static char ToMapTypeChar(BingMapType mapType)
         {
             switch (mapType)
             {

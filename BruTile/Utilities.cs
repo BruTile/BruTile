@@ -32,8 +32,8 @@ namespace BruTile
         public static byte[] ReadFully(Stream stream)
         {
             //thanks to: http://www.yoda.arachsys.com/csharp/readbinary.html
-            byte[] buffer = new byte[32768];
-            using (MemoryStream ms = new MemoryStream())
+            var buffer = new byte[32768];
+            using (var ms = new MemoryStream())
             {
                 while (true)
                 {

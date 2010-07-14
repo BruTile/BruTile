@@ -28,15 +28,15 @@ namespace BruTile.Cache
         //into .net 4.0 System.Collections.Concurrent namespace.
         #region Fields
 
-        private Dictionary<TileIndex, T> bitmaps
+        private readonly Dictionary<TileIndex, T> _bitmaps
           = new Dictionary<TileIndex, T>();
 
-        private Dictionary<TileIndex, DateTime> touched
+        private readonly Dictionary<TileIndex, DateTime> _touched
           = new Dictionary<TileIndex, DateTime>();
 
-        private object syncRoot = new object();
-        private int maxTiles ;
-        private int minTiles;
+        private readonly object _syncRoot = new object();
+        private readonly int _maxTiles;
+        private readonly int _minTiles;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace BruTile.Cache
         {
             get
             {
-                return this.bitmaps.Count;
+                return _bitmaps.Count;
             }
         }
 
@@ -60,52 +60,52 @@ namespace BruTile.Cache
             if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
             if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
 
-            this.minTiles = minTiles;
-            this.maxTiles = maxTiles;
+            _minTiles = minTiles;
+            _maxTiles = maxTiles;
         }
 
         public void Add(TileIndex index, T item)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
-                if (bitmaps.ContainsKey(index))
+                if (_bitmaps.ContainsKey(index))
                 {
-                    bitmaps[index] = item;
-                    touched[index] = DateTime.Now;
+                    _bitmaps[index] = item;
+                    _touched[index] = DateTime.Now;
                 }
                 else
                 {
-                    touched.Add(index, DateTime.Now);
-                    bitmaps.Add(index, item);
-                    if (bitmaps.Count > maxTiles) CleanUp();
-                    this.OnNotifyPropertyChange("TileCount");
+                    _touched.Add(index, DateTime.Now);
+                    _bitmaps.Add(index, item);
+                    if (_bitmaps.Count > _maxTiles) CleanUp();
+                    OnNotifyPropertyChange("TileCount");
                 }
             }
         }
 
         public void Remove(TileIndex index)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
-                if (!bitmaps.ContainsKey(index)) return; //ignore if not exists
-                touched.Remove(index);
-                bitmaps.Remove(index);
-                this.OnNotifyPropertyChange("TileCount");
+                if (!_bitmaps.ContainsKey(index)) return; //ignore if not exists
+                _touched.Remove(index);
+                _bitmaps.Remove(index);
+                OnNotifyPropertyChange("TileCount");
             }
         }
 
         public T Find(TileIndex index)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
-                if (!bitmaps.ContainsKey(index))
+                if (!_bitmaps.ContainsKey(index))
                 {
                     return default(T);
                 }
                 else
                 {
-                    touched[index] = DateTime.Now;
-                    return bitmaps[index];
+                    _touched[index] = DateTime.Now;
+                    return _bitmaps[index];
                 }
             }
         }
@@ -116,12 +116,12 @@ namespace BruTile.Cache
 
         private void CleanUp()
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 //Purpose: Remove the older tiles so that the newest x tiles are left.
-                TouchPermaCache(touched);
-                DateTime cutoff = GetCutOff(touched, minTiles);
-                List<TileIndex> oldItems = GetOldItems(touched, ref cutoff);
+                TouchPermaCache(_touched);
+                DateTime cutoff = GetCutOff(_touched, _minTiles);
+                IEnumerable<TileIndex> oldItems = GetOldItems(_touched, ref cutoff);
                 foreach (TileIndex index in oldItems)
                 {
                     Remove(index);
@@ -129,9 +129,9 @@ namespace BruTile.Cache
             }
         }
 
-        private void TouchPermaCache(Dictionary<TileIndex, DateTime> touched)
+        private static void TouchPermaCache(Dictionary<TileIndex, DateTime> touched)
         {
-            List<TileIndex> keys = new List<TileIndex>();
+            var keys = new List<TileIndex>();
             //This is a temporary solution to preserve level zero tiles in memory.
             foreach (TileIndex index in touched.Keys) if (index.Level == 0) keys.Add(index);
             foreach (TileIndex index in keys) touched[index] = DateTime.Now;
@@ -140,7 +140,7 @@ namespace BruTile.Cache
         private static DateTime GetCutOff(Dictionary<TileIndex, DateTime> touched,
           int lowerLimit)
         {
-            List<DateTime> times = new List<DateTime>();
+            var times = new List<DateTime>();
             foreach (DateTime time in touched.Values)
             {
                 times.Add(time);
@@ -149,10 +149,10 @@ namespace BruTile.Cache
             return times[times.Count - lowerLimit];
         }
 
-        private static List<TileIndex> GetOldItems(Dictionary<TileIndex, DateTime> touched,
+        private static IEnumerable<TileIndex> GetOldItems(Dictionary<TileIndex, DateTime> touched,
           ref DateTime cutoff)
         {
-            List<TileIndex> oldItems = new List<TileIndex>();
+            var oldItems = new List<TileIndex>();
             foreach (TileIndex index in touched.Keys)
             {
                 if (touched[index] < cutoff)
@@ -169,9 +169,9 @@ namespace BruTile.Cache
 
         protected virtual void OnNotifyPropertyChange(string propertyName)
         {
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 

@@ -24,21 +24,21 @@ namespace BruTile.Web
 {
     public class TmsRequest : IRequest
     {
-        IList<Uri> baseUrl;
-        Dictionary<string, string> customParameters;
-        string format;
-        bool isSingleUrl = false; //If single url is added the request uses the same url for every resolution
+        readonly IList<Uri> _baseUrl;
+        readonly Dictionary<string, string> _customParameters;
+        readonly string _format;
+        readonly bool _isSingleUrl; //If single url is added the request uses the same url for every resolution
 
         public TmsRequest(Uri baseUrl, string format)
-            : this(new List<Uri>() { baseUrl }, format)
+            : this(new List<Uri> { baseUrl }, format)
         {
-            isSingleUrl = true;
+            _isSingleUrl = true;
         }
 
         public TmsRequest(Uri baseUrl, string format, Dictionary<string, string> dictionary)
-            : this(new List<Uri>() { baseUrl }, format, dictionary)
+            : this(new List<Uri> { baseUrl }, format, dictionary)
         {
-            isSingleUrl = true;
+            _isSingleUrl = true;
         }
 
         public TmsRequest(IList<Uri> baseUrl, string format)
@@ -48,31 +48,31 @@ namespace BruTile.Web
 
         public TmsRequest(IList<Uri> baseUrl, string format, Dictionary<string, string> customParameters)
         {
-            this.baseUrl = baseUrl;
-            this.format = format;
-            this.customParameters = customParameters;
+            _baseUrl = baseUrl;
+            _format = format;
+            _customParameters = customParameters;
         }
 
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
         /// </summary>
-        /// <param name="tile">Information about a tile.</param>
+        /// <param name="info">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            System.Text.StringBuilder url = new StringBuilder();
+            var url = new StringBuilder();
 
-            if (isSingleUrl)
+            if (_isSingleUrl)
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                       "{0}/{1}/{2}/{3}.{4}",
-                      baseUrl[0], info.Index.Level, info.Index.Col, info.Index.Row, format);
+                      _baseUrl[0], info.Index.Level, info.Index.Col, info.Index.Row, _format);
             }
             else
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                   "{0}/{1}/{2}.{3}",
-                  baseUrl[info.Index.Level], info.Index.Col, info.Index.Row, format);
+                  _baseUrl[info.Index.Level], info.Index.Col, info.Index.Row, _format);
             }
 
 
@@ -80,14 +80,14 @@ namespace BruTile.Web
             return new Uri(url.ToString());
         }
 
-        private void AppendCustomParameters(System.Text.StringBuilder url)
+        private void AppendCustomParameters(StringBuilder url)
         {
-            if (customParameters != null && customParameters.Count > 0)
+            if (_customParameters != null && _customParameters.Count > 0)
             {
                 bool first = true;
-                foreach (string name in customParameters.Keys)
+                foreach (string name in _customParameters.Keys)
                 {
-                    string value = customParameters[name];
+                    string value = _customParameters[name];
                     url.AppendFormat("{0}{1}={2}", first ? "?" : "&", name, value);
                     first = false;
                 }

@@ -24,29 +24,29 @@ namespace BruTile.Web
 {
     public class WmscRequest : IRequest
     {
-        private ITileSchema schema;
-        private Uri baseUrl;
-        IDictionary<string, string> customParameters;
-        IList<string> layers;
-        IList<string> styles;
+        readonly ITileSchema _schema;
+        readonly Uri _baseUrl;
+        readonly IDictionary<string, string> _customParameters;
+        readonly IList<string> _layers;
+        readonly IList<string> _styles;
 
         public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
         {
-            this.baseUrl = baseUrl;
-            this.schema = schema;
-            this.customParameters = customParameters;
-            this.layers = layers;
-            this.styles = styles;
+            _baseUrl = baseUrl;
+            _schema = schema;
+            _customParameters = customParameters;
+            _layers = layers;
+            _styles = styles;
         }
 
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
         /// </summary>
-        /// <param name="tile">Information about a tile.</param>
+        /// <param name="info">Information about a tile.</param>
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            StringBuilder url = new StringBuilder(baseUrl.AbsoluteUri);
+            var url = new StringBuilder(_baseUrl.AbsoluteUri);
 
             //TODO: look at .net's UriBuilder for improvement
             //http://msdn.microsoft.com/en-us/library/system.uribuilder.aspx
@@ -55,22 +55,22 @@ namespace BruTile.Web
 
             url.Append("&SERVICE=WMS");
             url.Append("&REQUEST=GetMap");
-            url.AppendFormat("&BBOX={0}", info.Extent.ToString());
-            url.AppendFormat("&FORMAT={0}", schema.Format);
-            url.AppendFormat("&WIDTH={0}", schema.Width);
-            url.AppendFormat("&HEIGHT={0}", schema.Height);
-            url.AppendFormat("&SRS={0}", schema.Srs);
-            url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(layers));
-            ///uri.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(styles));
+            url.AppendFormat("&BBOX={0}", info.Extent);
+            url.AppendFormat("&FORMAT={0}", _schema.Format);
+            url.AppendFormat("&WIDTH={0}", _schema.Width);
+            url.AppendFormat("&HEIGHT={0}", _schema.Height);
+            url.AppendFormat("&SRS={0}", _schema.Srs);
+            url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(_layers));
+            //uri.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
 
             AppendCustomParameters(url);
 
             return new Uri(url.ToString());
         }
 
-        private static string ToCommaSeparatedValues(IList<string> items)
+        private static string ToCommaSeparatedValues(IEnumerable<string> items)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             foreach (string str in items)
             {
                 result.AppendFormat(CultureInfo.InvariantCulture, ",{0}", str);
@@ -79,13 +79,13 @@ namespace BruTile.Web
             return result.ToString();
         }
 
-        private void AppendCustomParameters(System.Text.StringBuilder url)
+        private void AppendCustomParameters(StringBuilder url)
         {
-            if (customParameters != null && customParameters.Count > 0)
+            if (_customParameters != null && _customParameters.Count > 0)
             {
-                foreach (string name in customParameters.Keys)
+                foreach (string name in _customParameters.Keys)
                 {
-                    url.AppendFormat("&{0}={1}", name, customParameters[name]);
+                    url.AppendFormat("&{0}={1}", name, _customParameters[name]);
                 }
             }
         }

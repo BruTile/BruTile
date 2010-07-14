@@ -292,8 +292,8 @@ namespace BruTile.Web
         public Uri GetUri(TileInfo tileInfo)
         {
 
-            string sec1 = ""; // after &x=...
-            string sec2 = ""; // after &zoom=...
+            string sec1; // after &x=...
+            string sec2; // after &zoom=...
             GetSecGoogleWords(tileInfo.Index, out sec1, out sec2);
             //TryCorrectGoogleVersions();
 
@@ -312,7 +312,7 @@ namespace BruTile.Web
         /// <summary>
         /// gets secure google words based on position
         /// </summary>
-        /// <param name="pos"></param>
+        /// <param name="tileIndex"></param>
         /// <param name="sec1"></param>
         /// <param name="sec2"></param>
         internal void GetSecGoogleWords(TileIndex tileIndex, out string sec1, out string sec2)

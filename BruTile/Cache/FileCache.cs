@@ -25,9 +25,9 @@ namespace BruTile.Cache
     {
         #region Fields
 
-        private object _syncRoot = new object();
-        private string _directory;
-        private string _format;
+        private readonly object _syncRoot = new object();
+        private readonly string _directory;
+        private readonly string _format;
 
         #endregion
 
@@ -35,8 +35,8 @@ namespace BruTile.Cache
         /// <remarks>The constructor creates the storage _directory if it does not exist.</remarks>
         public FileCache(string directory, string format)
         {
-            this._directory = directory;
-            this._format = format;
+            _directory = directory;
+            _format = format;
 
             if (!Directory.Exists(directory))
             {
@@ -46,9 +46,9 @@ namespace BruTile.Cache
 
         public void Add(TileIndex index, byte[] image)
         {
-            lock (this._syncRoot)
+            lock (_syncRoot)
             {
-                if (this.Exists(index))
+                if (Exists(index))
                 {
                     return; // ignore
                 }
@@ -58,7 +58,7 @@ namespace BruTile.Cache
                     Directory.CreateDirectory(dir);
                 }
 
-                this.WriteToFile(image, index);
+                WriteToFile(image, index);
             }
         }
 
@@ -67,7 +67,7 @@ namespace BruTile.Cache
             lock (_syncRoot)
             {
                 if (!Exists(index)) return null; // to indicate not found
-                using (FileStream fileStream = new FileStream(GetFileName(index), FileMode.Open, FileAccess.Read))
+                using (var fileStream = new FileStream(GetFileName(index), FileMode.Open, FileAccess.Read))
                 {
                     return Utilities.ReadFully(fileStream);
                 }
@@ -110,7 +110,7 @@ namespace BruTile.Cache
         {
           using (FileStream fileStream = File.Open(GetFileName(index), FileMode.CreateNew))
             {
-                fileStream.Write(image, 0, (int)image.Length);
+                fileStream.Write(image, 0, image.Length);
                 fileStream.Flush();
                 fileStream.Close();
             }
