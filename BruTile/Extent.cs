@@ -22,48 +22,16 @@ namespace BruTile
 {
     public struct Extent
     {
-        private readonly double _minX;
-        private readonly double _minY;
-        private readonly double _maxX;
-        private readonly double _maxY;
-
-        public double MinX
-        {
-            get
-            {
-                return _minX;
-            }
-        }
-
-        public double MinY
-        {
-            get
-            {
-                return _minY;
-            }
-        }
-
-        public double MaxX
-        {
-            get
-            {
-                return _maxX;
-            }
-        }
-
-        public double MaxY
-        {
-            get
-            {
-                return _maxY;
-            }
-        }
+        public double MinX { get; private set; }
+        public double MinY { get; private set; }
+        public double MaxX { get; private set; }
+        public double MaxY { get; private set; }
 
         public double CenterX
         {
             get
             {
-                return (_minX + _maxX) / 2.0;
+                return (MinX + MaxX) / 2.0;
             }
         }
 
@@ -71,7 +39,7 @@ namespace BruTile
         {
             get
             {
-                return (_minY + _maxY) / 2.0;
+                return (MinY + MaxY) / 2.0;
             }
         }
 
@@ -79,7 +47,7 @@ namespace BruTile
         {
             get
             {
-                return _maxX - _minX;
+                return MaxX - MinX;
             }
         }
 
@@ -87,7 +55,7 @@ namespace BruTile
         {
             get
             {
-                return _maxY - _minY;
+                return MaxY - MinY;
             }
         }
 
@@ -102,18 +70,18 @@ namespace BruTile
         public Extent Intersect(Extent other) //TODO: check out how to name this method.
         {
             return new Extent(
-              Math.Max(_minX, other._minX),
-              Math.Max(_minY, other._minY),
-              Math.Min(_maxX, other._maxX),
-              Math.Min(_maxY, other._maxY));
+              Math.Max(MinX, other.MinX),
+              Math.Max(MinY, other.MinY),
+              Math.Min(MaxX, other.MaxX),
+              Math.Min(MaxY, other.MaxY));
         }
 
-        public Extent(double minX, double minY, double maxX, double maxY)
+        public Extent(double minX, double minY, double maxX, double maxY) : this()
         {
-            _minX = minX;
-            _minY = minY;
-            _maxX = maxX;
-            _maxY = maxY;
+            MinX = minX;
+            MinY = minY;
+            MaxX = maxX;
+            MaxY = maxY;
 
             if (minX > maxX || minY > maxY)
             {
@@ -147,22 +115,22 @@ namespace BruTile
 
         public bool Equals(Extent extent)
         {
-            if (_minX != extent._minX)
+            if (MinX != extent.MinX)
             {
                 return false;
             }
 
-            if (_minY != extent._minY)
+            if (MinY != extent.MinY)
             {
                 return false;
             }
 
-            if (_maxX != extent._maxX)
+            if (MaxX != extent.MaxX)
             {
                 return false;
             }
 
-            if (_maxY != extent._maxY)
+            if (MaxY != extent.MaxY)
             {
                 return false;
             }
@@ -172,7 +140,7 @@ namespace BruTile
 
         public override int GetHashCode()
         {
-            return _minX.GetHashCode() ^ _minY.GetHashCode() ^ _maxX.GetHashCode() ^ _maxY.GetHashCode();
+            return MinX.GetHashCode() ^ MinY.GetHashCode() ^ MaxX.GetHashCode() ^ MaxY.GetHashCode();
         }
 
         public static bool operator ==(Extent extent1, Extent extent2)

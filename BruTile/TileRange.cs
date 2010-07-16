@@ -19,43 +19,19 @@ namespace BruTile
 {
     internal struct TileRange
     {
-        int _firstCol;
-        int _lastCol;
-        int _firstRow;
-        int _lastRow;
+        public int FirstCol { get; set; }
+        public int LastCol { get; set; }
+        public int FirstRow { get; set; }
+        public int LastRow { get; set; }
 
         public TileRange(int col, int row) : this(col, row, col, row) { }
 
-        public TileRange(int firstCol, int firstRow, int lastCol, int lastRow)
+        public TileRange(int firstCol, int firstRow, int lastCol, int lastRow) : this()
         {
-            _firstCol = firstCol;
-            _lastCol = lastCol;
-            _firstRow = firstRow;
-            _lastRow = lastRow;
-        }
-
-        public int FirstCol
-        {
-            get { return _firstCol; }
-            set { _firstCol = value; }
-        }
-
-        public int LastCol
-        {
-            get { return _lastCol; }
-            set { _lastCol = value; }
-        }
-
-        public int FirstRow
-        {
-            get { return _firstRow; }
-            set { _firstRow = value; }
-        }
-
-        public int LastRow
-        {
-            get { return _lastRow; }
-            set { _lastRow = value; }
+            FirstCol = firstCol;
+            LastCol = lastCol;
+            FirstRow = firstRow;
+            LastRow = lastRow;
         }
 
         public override bool Equals(object obj)
@@ -69,15 +45,15 @@ namespace BruTile
         public bool Equals(TileRange tileRange)
         {
             return
-              _firstCol == tileRange._firstCol &&
-              _lastCol == tileRange._lastCol &&
-              _firstRow == tileRange._firstRow &&
-              _lastRow == tileRange._lastRow;
+              FirstCol == tileRange.FirstCol &&
+              LastCol == tileRange.LastCol &&
+              FirstRow == tileRange.FirstRow &&
+              LastRow == tileRange.LastRow;
         }
 
         public override int GetHashCode()
         {
-            return _firstCol ^ _lastCol ^ _firstRow ^ _lastRow;
+            return FirstCol ^ LastCol ^ FirstRow ^ LastRow;
         }
 
         public static bool operator ==(TileRange tileRange1, TileRange tileRange2)
