@@ -21,58 +21,17 @@ namespace BruTile
 {
     public interface ITileSchema
     {
-        string Name
-        {
-            get;
-        }
-
-        string Srs
-        {
-            get;
-        }
-
-        Extent Extent
-        {
-            get;
-        }
-
-        double OriginX
-        {
-            get;
-        }
-
-        double OriginY
-        {
-            get;
-        }
-
-        IList<double> Resolutions
-        {
-            get;
-        }
-
-        int Width
-        {
-            get;
-        }
-
-        int Height
-        {
-            get;
-        }
-
-        string Format
-        {
-            get;
-        }
-
-        AxisDirection Axis
-        {
-            get;
-        }
-
+        string Name { get; }
+        string Srs { get; }
+        Extent Extent { get; }
+        double OriginX { get; }
+        double OriginY { get; }
+        IList<double> Resolutions { get; }
+        int Width { get; }
+        int Height { get; }
+        string Format { get; }
+        AxisDirection Axis { get; }
         IList<TileInfo> GetTilesInView(Extent extent, int level);
-
         Extent GetExtentOfTilesInView(Extent extent, int level);
     }
 }

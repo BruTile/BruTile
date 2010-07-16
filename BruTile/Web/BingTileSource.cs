@@ -5,9 +5,9 @@ namespace BruTile.Web
 {
     public class BingTileSource : ITileSource
     {
-        readonly TileSchema _tileSchema;
-        readonly WebTileProvider _tileProvider;
-        
+        public ITileProvider Provider { get; private set; }
+        public ITileSchema Schema { get; private set; }
+
         public BingTileSource(String url, string token, BingMapType mapType)
             :this(new BingRequest(url, token, mapType))
         {
@@ -15,22 +15,8 @@ namespace BruTile.Web
 
         public BingTileSource(BingRequest bingRequest)
         {
-            _tileSchema = new BingSchema();
-            _tileProvider = new WebTileProvider(bingRequest);
+            Schema = new BingSchema();
+            Provider = new WebTileProvider(bingRequest);
         }
-
-        #region ITileSource Members
-
-        public ITileProvider Provider
-        {
-            get { return _tileProvider; }
-        }
-
-        public ITileSchema Schema
-        {
-            get { return _tileSchema; }
-        }
-
-        #endregion
     }
 }
