@@ -36,12 +36,11 @@ namespace BruTile.Web
         {
             var webClient = (HttpWebRequest)WebRequest.Create(uri);
 
-#if !SILVERLIGHT
             //it seems Silverlight has explicit exceptions built in for assigning user-agent and referer. 
             //I seems there is no way around this. PDD.
-            if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
-            if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
-#endif                    
+            //Todo: remove this overload from SL or throw exception.
+            //!!!if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
+            //!!!if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
             
             //we use a waithandle to fake a synchronous call
             var waitHandle = new AutoResetEvent(false);
@@ -52,9 +51,21 @@ namespace BruTile.Web
             //before it dispatches the worker thread.
             waitHandle.WaitOne();
 
-            WebResponse response = webClient.EndGetResponse(result);
+            var response = (HttpWebResponse)webClient.EndGetResponse(result);
 
-            return Utilities.ReadFully(response.GetResponseStream());
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception("An error occurred while fetching the tile");
+            }
+            if (!response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = CreateErrorMessage(response, uri.AbsoluteUri);
+                throw (new WebResponseFormatException(message, null));
+            }
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                return Utilities.ReadFully(responseStream);
+            }
         }
 
         private static void webClient_OpenReadCompleted(IAsyncResult e)

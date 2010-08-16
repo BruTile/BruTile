@@ -110,6 +110,15 @@ namespace BruTile.Cache
             }
         }
 
+        public void Clear()
+        {
+            lock (_syncRoot)
+            {
+                _bitmaps.Clear();
+                _touched.Clear();
+            }
+        }
+
         #endregion
 
         #region Private Methods
