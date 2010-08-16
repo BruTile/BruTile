@@ -34,14 +34,17 @@ namespace BruTile.Web
         //I agree this '#if' is rather ugly, but it is a lot simpler like this than using abstraction layers like I did before.
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
-            HttpWebRequest webClient = (HttpWebRequest)WebRequest.Create(uri);
+            var webClient = (HttpWebRequest)WebRequest.Create(uri);
 
-            //todo: figure out what to do with keepAlive here.
+#if !SILVERLIGHT
+            //it seems Silverlight has explicit exceptions built in for assigning user-agent and referer. 
+            //I seems there is no way around this. PDD.
             if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
             if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
-
+#endif                    
+            
             //we use a waithandle to fake a synchronous call
-            AutoResetEvent waitHandle = new AutoResetEvent(false);
+            var waitHandle = new AutoResetEvent(false);
             IAsyncResult result = webClient.BeginGetResponse(webClient_OpenReadCompleted, waitHandle);
 
             //This trick works because the this is called on a worker thread. In SL it wont work if you call
@@ -51,7 +54,7 @@ namespace BruTile.Web
 
             WebResponse response = webClient.EndGetResponse(result);
 
-            return BruTile.Utilities.ReadFully(response.GetResponseStream());
+            return Utilities.ReadFully(response.GetResponseStream());
         }
 
         private static void webClient_OpenReadCompleted(IAsyncResult e)
