@@ -34,6 +34,8 @@ namespace BruTile.Web
         readonly string _token;
         readonly char _mapType;
 
+        private static readonly string VersionBingMaps = "517";
+
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
         public BingRequest(string baseUrl, string token, BingMapType mapType)
@@ -51,8 +53,8 @@ namespace BruTile.Web
         public Uri GetUri(TileInfo info)
         {
             //todo: use different nodes
-            string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g=203&token={3}",
-              _baseUrl, _mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), _token);
+            string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g={4}&token={3}",
+              _baseUrl, _mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), _token, VersionBingMaps);
             return new Uri(url);
         }
 

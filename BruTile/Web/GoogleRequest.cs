@@ -1,21 +1,7 @@
-// This code is based on information provided by http://greatmaps.codeplex.com
-// Adapted for BruTile by Felix Obermaier. 2010
-// 
-// This file is part of SharpMap.
-// SharpMap is free software; you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-// 
-// SharpMap is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-
-// You should have received a copy of the GNU Lesser General Public License
-// along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
-
+/*  
+ *  This code is based on information provided by http://greatmaps.codeplex.com
+ *  
+ */
 using System;
 using System.ComponentModel;
 
@@ -201,10 +187,10 @@ namespace BruTile.Web
         }
 
         // Google version strings
-        public static readonly string VersionGoogleMap = "m@129";
-        public static readonly string VersionGoogleSatellite = "63";
-        public static readonly string VersionGoogleLabels = "h@129";
-        public static readonly string VersionGoogleTerrain = "t@125,r@129";
+        public static readonly string VersionGoogleMap = "m@130";
+        public static readonly string VersionGoogleSatellite = "66";
+        public static readonly string VersionGoogleLabels = "h@130";
+        public static readonly string VersionGoogleTerrain = "t@125,r@130";
         public static readonly string SecGoogleWord = "Galileo";
 
         private static readonly System.Globalization.CultureInfo FormatProvider =
