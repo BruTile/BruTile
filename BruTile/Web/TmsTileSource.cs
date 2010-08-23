@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
+using System.Net;
 
 namespace BruTile.Web
 {
     public class TmsTileSource : ITileSource
     {
-        ITileSchema _tileSchema;
-        ITileProvider _tileProvider;
-        readonly string _overrideTileUrl; //When the configfile points to an invalid tile url fill this one
+        private ITileSchema _tileSchema;
+        private ITileProvider _tileProvider;
+        private readonly string _overrideTileUrl; //When the configfile points to an invalid tile url fill this one
+
+        public TmsTileSource(string serviceUrl)
+        {
+            LoadTmsDescription(serviceUrl);
+        }
+
+        public TmsTileSource(string serviceUrl, string overrrideUrl) :
+            this(serviceUrl)
+        {
+            _overrideTileUrl = overrrideUrl;
+        }
 
         public TmsTileSource(string serviceUrl, ITileSchema tileSchema)
             : this(new Uri(serviceUrl), tileSchema)
@@ -32,6 +44,20 @@ namespace BruTile.Web
         {
             _overrideTileUrl = overwriteSourceUrl;
             Create(serviceDescription);
+        }
+        
+        private void LoadTmsDescription(string url)
+        {
+            var client = new WebClient();
+            client.OpenReadCompleted +=
+                delegate(object s, OpenReadCompletedEventArgs eventArgs)
+                {
+                    if ((!eventArgs.Cancelled) && (eventArgs.Error == null))
+                    {
+                        Create(eventArgs.Result);
+                    }
+                };
+            client.OpenReadAsync(new Uri(url));
         }
 
         private void Create(Stream serviceDescription)
