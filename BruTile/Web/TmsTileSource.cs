@@ -13,16 +13,21 @@ namespace BruTile.Web
         private ITileProvider _tileProvider;
         private readonly string _overrideTileUrl; //When the configfile points to an invalid tile url fill this one
 
-        public TmsTileSource(string serviceUrl)
+        public delegate void TmsLoaded(ITileSource tileSource, Exception error);
+
+
+#if !PocketPC
+        public TmsTileSource(string serviceUrl, TmsLoaded callback)
         {
-            LoadTmsDescription(serviceUrl);
+            LoadTmsDescription(serviceUrl, callback);
         }
 
-        public TmsTileSource(string serviceUrl, string overrrideUrl) :
-            this(serviceUrl)
+        public TmsTileSource(string serviceUrl, string overrrideUrl, TmsLoaded callback) :
+            this(serviceUrl, callback)
         {
             _overrideTileUrl = overrrideUrl;
         }
+#endif
 
         public TmsTileSource(string serviceUrl, ITileSchema tileSchema)
             : this(new Uri(serviceUrl), tileSchema)
@@ -45,8 +50,10 @@ namespace BruTile.Web
             _overrideTileUrl = overwriteSourceUrl;
             Create(serviceDescription);
         }
-        
-        private void LoadTmsDescription(string url)
+
+#if (!PocketPC)
+        //TODO use HttpWebRequest so it works on PocketPC
+        private void LoadTmsDescription(string url, TmsLoaded callback)
         {
             var client = new WebClient();
             client.OpenReadCompleted +=
@@ -55,10 +62,12 @@ namespace BruTile.Web
                     if ((!eventArgs.Cancelled) && (eventArgs.Error == null))
                     {
                         Create(eventArgs.Result);
+                        if (callback != null) callback(this, eventArgs.Error);
                     }
                 };
             client.OpenReadAsync(new Uri(url));
         }
+#endif
 
         private void Create(Stream serviceDescription)
         {
