@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +87,10 @@
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Web\TmsRequest.cs" />
-    <Compile Include="Web\TmsSchemaXmlSerialization.cs" />
+    <Compile Include="Web\Tms\TmsSchemaXmlSerialization.cs" />
     <Compile Include="Web\TmsTileSource.cs" />
+    <Compile Include="Web\Tms\Services.cs" />
+    <Compile Include="Web\Tms\TileMapService.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
     <Compile Include="Web\WmscRequest.cs" />
