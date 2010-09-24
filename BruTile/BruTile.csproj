@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BruTile</RootNamespace>
     <AssemblyName>BruTile</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
@@ -37,8 +37,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InvertedYAxis.cs" />
@@ -52,6 +58,9 @@
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="Web\GoogleRequest.cs" />
     <Compile Include="Web\GoogleTileSource.cs" />
+    <Compile Include="Web\Tms\Services.cs" />
+    <Compile Include="Web\Tms\TileMapService.cs" />
+    <Compile Include="Web\Tms\TmsSchemaXmlSerialization.cs" />
     <Compile Include="Web\WmscTileSource.cs" />
     <Compile Include="Web\WmsCapabilties.cs" />
     <Compile Include="TileSource.cs" />
@@ -76,7 +85,6 @@
     <Compile Include="Extent.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="Web\TmsSchemaXmlSerialization.cs" />
     <Compile Include="Web\BingTileSource.cs" />
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\TmsTileSource.cs" />
