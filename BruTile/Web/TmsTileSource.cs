@@ -11,7 +11,7 @@ namespace BruTile.Web
     {
         private ITileSchema _tileSchema;
         private ITileProvider _tileProvider;
-        private readonly string _overrideTileUrl; //When the configfile points to an invalid tile url fill this one
+        private readonly string _overrideTileUrl; //When the config file points to an invalid tile url fill this one
 
         public delegate void TmsLoaded(ITileSource tileSource, Exception error);
 
