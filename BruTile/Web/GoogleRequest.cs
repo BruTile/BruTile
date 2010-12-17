@@ -4,9 +4,17 @@
  */
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace BruTile.Web
 {
+    /// <summary>
+    /// This enum contains the map types offered by Google Maps
+    /// </summary>
     [Flags]
     public enum GoogleMapType
     {
@@ -18,6 +26,12 @@ namespace BruTile.Web
 
     public class GoogleRequest : IRequest
     {
+        
+        static GoogleRequest()
+        {
+            TryCorrectGoogleVersions();
+        }
+        
         /// <summary>
         /// This enum contains all possible languages for the Google maps. 
         /// You can find latest information about supported languages in the:
@@ -187,11 +201,11 @@ namespace BruTile.Web
         }
 
         // Google version strings
-        public static readonly string VersionGoogleMap = "m@130";
-        public static readonly string VersionGoogleSatellite = "66";
-        public static readonly string VersionGoogleLabels = "h@130";
-        public static readonly string VersionGoogleTerrain = "t@125,r@130";
-        public static readonly string SecGoogleWord = "Galileo";
+        private static string VersionGoogleMap = "m@130";
+        private static string VersionGoogleSatellite = "66";
+        private static string VersionGoogleLabels = "h@130";
+        private static string VersionGoogleTerrain = "t@125,r@130";
+        private static readonly string SecGoogleWord = "Galileo";
 
         private static readonly System.Globalization.CultureInfo FormatProvider =
             System.Globalization.CultureInfo.InvariantCulture;
@@ -295,14 +309,9 @@ namespace BruTile.Web
             string sec1; // after &x=...
             string sec2; // after &zoom=...
             GetSecGoogleWords(tileInfo.Index, out sec1, out sec2);
-            //TryCorrectGoogleVersions();
 
             TileIndex tileIndex = tileInfo.Index;
-            /*
-            System.Diagnostics.Debug.WriteLine(string.Format(FormatProvider, UrlFormatString,
-                              _server, GetServerNum(tileIndex, 4), _request, _version, _language,
-                              tileIndex.Col, sec1, tileIndex.Row, tileIndex.Level, sec2, _versionKey));
-            */
+
             return new Uri(
                 string.Format(FormatProvider, UrlFormatString,
                               _server, GetServerNum(tileIndex, 4), _request, _version, _language,
@@ -327,6 +336,112 @@ namespace BruTile.Web
             }
         }
 
+        private static void TryCorrectGoogleVersions()
+        {
+                string url = @"http://maps.google.com";
+                try
+                {
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+//                    if (Proxy != null)
+//                    {
+//                        request.Proxy = Proxy;
+//#if !PocketPC
+//                        request.PreAuthenticate = true;
+//#endif
+//                    }
+
+                    request.UserAgent = GoogleTileSource.UserAgent;
+                    request.Timeout = 60000;
+                    request.ReadWriteTimeout = 360000;
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response != null)
+                        {
+                            using (Stream responseStream = response.GetResponseStream())
+                            {
+                                if (responseStream != null)
+                                {
+                                    using (StreamReader read = new StreamReader(responseStream))
+                                    {
+                                        string html = read.ReadToEnd();
+
+                                        Regex reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
+                                                              RegexOptions.IgnoreCase);
+                                        Match mat = reg.Match(html);
+                                        if (mat.Success)
+                                        {
+                                            GroupCollection gc = mat.Groups;
+                                            int count = gc.Count;
+                                            if (count > 0)
+                                            {
+                                                VersionGoogleMap = string.Format("m@{0}", gc[1].Value);
+                                                //VersionGoogleMapChina = VersionGoogleMap;
+                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleMap: " +
+                                                                VersionGoogleMap);
+                                            }
+                                        }
+
+                                        reg = new Regex("\"*http://mt0.google.com/vt/lyrs=h@(\\d*)",
+                                                        RegexOptions.IgnoreCase);
+                                        mat = reg.Match(html);
+                                        if (mat.Success)
+                                        {
+                                            GroupCollection gc = mat.Groups;
+                                            int count = gc.Count;
+                                            if (count > 0)
+                                            {
+                                                VersionGoogleLabels = string.Format("h@{0}", gc[1].Value);
+                                                //VersionGoogleLabelsChina = VersionGoogleLabels;
+                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleLabels: " +
+                                                                VersionGoogleLabels);
+                                            }
+                                        }
+
+                                        reg = new Regex("\"*http://khm0.google.com/kh/v=(\\d*)", RegexOptions.IgnoreCase);
+                                        mat = reg.Match(html);
+                                        if (mat.Success)
+                                        {
+                                            GroupCollection gc = mat.Groups;
+                                            int count = gc.Count;
+                                            if (count > 0)
+                                            {
+                                                VersionGoogleSatellite = gc[1].Value;
+                                                //VersionGoogleSatelliteKorea = VersionGoogleSatellite;
+                                                //VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
+                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleSatellite: " +
+                                                                VersionGoogleSatellite);
+                                            }
+                                        }
+
+                                        reg = new Regex("\"*http://mt0.google.com/vt/lyrs=t@(\\d*),r@(\\d*)",
+                                                        RegexOptions.IgnoreCase);
+                                        mat = reg.Match(html);
+                                        if (mat.Success)
+                                        {
+                                            GroupCollection gc = mat.Groups;
+                                            int count = gc.Count;
+                                            if (count > 1)
+                                            {
+                                                VersionGoogleTerrain = string.Format("t@{0},r@{1}", gc[1].Value,
+                                                                                     gc[2].Value);
+                                                //VersionGoogleTerrainChina = VersionGoogleTerrain;
+                                                Debug.WriteLine(
+                                                    "TryCorrectGoogleVersions, VersionGoogleTerrain: " +
+                                                    VersionGoogleTerrain);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex);
+                }
+            }
 
     }
 }
