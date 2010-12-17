@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "BruTile\BruTile.csproj", "{70315167-2BF1-4C7B-9184-728CAABF30D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Tests", "BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"

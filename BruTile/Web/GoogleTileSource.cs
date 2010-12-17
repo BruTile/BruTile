@@ -25,7 +25,7 @@ namespace BruTile.Web
     {
         private readonly SphericalMercatorInvertedWorldSchema _tileSchema;
         private readonly WebTileProvider _tileProvider;
-        private const string UserAgent = @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
+        public const string UserAgent = @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
         private const string Referer = "http://maps.google.com/";
 
         public GoogleTileSource(GoogleMapType mapType)
