@@ -25,12 +25,13 @@ namespace BruTile.Web
     }
 
     public class GoogleRequest : IRequest
-    {
-        
+    {        
+#if !SILVERLIGHT
         static GoogleRequest()
         {
             TryCorrectGoogleVersions();
         }
+#endif
         
         /// <summary>
         /// This enum contains all possible languages for the Google maps. 
@@ -336,6 +337,7 @@ namespace BruTile.Web
             }
         }
 
+#if !SILVERLIGHT
         private static void TryCorrectGoogleVersions()
         {
                 string url = @"http://maps.google.com";
@@ -442,6 +444,6 @@ namespace BruTile.Web
                     Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex);
                 }
             }
-
+#endif
     }
 }
