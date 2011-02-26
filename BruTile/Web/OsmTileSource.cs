@@ -20,12 +20,15 @@ using BruTile.PreDefined;
 
 namespace BruTile.Web
 {
-    public class OsmTileSource : TmsTileSource
+    public class OsmTileSource : ITileSource
     {
-        public OsmTileSource()
-            : base(new Uri("http://b.tile.openstreetmap.org"), new SphericalMercatorInvertedWorldSchema())
-        {
+        public ITileSchema Schema { get; private set; }
+        public ITileProvider Provider { get; private set; }
 
+        public OsmTileSource()
+        {
+            Schema = new SphericalMercatorInvertedWorldSchema();
+            Provider = new WebTileProvider(new TmsRequest(new Uri("http://b.tile.openstreetmap.org"), "png"));
         }
     }
 }

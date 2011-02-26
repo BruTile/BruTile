@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\CachingTileProvider.cs" />
     <Compile Include="InvertedYAxis.cs" />
     <Compile Include="NormalAxis.cs" />
     <Compile Include="Cache\DbCache.cs" />
