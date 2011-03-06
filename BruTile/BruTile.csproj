@@ -76,9 +76,10 @@
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="Web\GoogleRequest.cs" />
     <Compile Include="Web\GoogleTileSource.cs" />
-    <Compile Include="Web\Tms\Services.cs" />
-    <Compile Include="Web\Tms\TileMapService.cs" />
-    <Compile Include="Web\Tms\TmsSchemaXmlSerialization.cs" />
+    <Compile Include="Web\TmsService\Root.cs" />
+    <Compile Include="Web\TmsService\TileMapParser.cs" />
+    <Compile Include="Web\TmsService\TileMapService.cs" />
+    <Compile Include="Web\TmsService\TileMap.cs" />
     <Compile Include="Web\WmscTileSource.cs" />
     <Compile Include="Web\WmsCapabilties.cs" />
     <Compile Include="TileSource.cs" />
