@@ -143,7 +143,7 @@ namespace BruTile.Web
             XmlNode xnResolutions = xnlTileSet.SelectSingleNode("sm:Resolutions", nsmgr);
             if (xnResolutions != null)
             {
-                string[] resolutions = xnResolutions.InnerText.Split(new char[] { ' ' });
+                string[] resolutions = xnResolutions.InnerText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string resolutionStr in resolutions)
                 {
                     double resolution;

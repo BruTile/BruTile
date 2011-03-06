@@ -86,14 +86,11 @@
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Web\TmsRequest.cs" />
+    <Compile Include="Web\TmsService\Root.cs" />
+    <Compile Include="Web\TmsService\TileMap.cs" />
+    <Compile Include="Web\TmsService\TileMapParser.cs" />
+    <Compile Include="Web\TmsService\TileMapService.cs" />
     <Compile Include="Web\TmsTileSource.cs" />
-    <Compile Include="Web\Tms\Services.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Web\Tms\TileMapService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Web\Tms\TmsSchemaXmlSerialization.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
     <Compile Include="Web\WmscRequest.cs" />
