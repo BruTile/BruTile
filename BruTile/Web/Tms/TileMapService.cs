@@ -3,14 +3,14 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Tms
+namespace BruTile.Web.TmsService
 {
     public class TileMapService
     {
-        public IEnumerable<TileMap> TileMaps { get; set; }
+        public IEnumerable<TileMapItem> TileMaps { get; set; }
         public string Version { get; set; }
 
-        public static TileMapService CreateFromXmlStream(Stream result)
+        public static TileMapService CreateFromResource(Stream result)
         {
             var tileMapService = new TileMapService();
             
@@ -18,7 +18,7 @@ namespace BruTile.Web.Tms
 
             tileMapService.TileMaps =
                 from tileMap in xml.Root.Descendants("TileMap")
-                select new TileMap
+                select new TileMapItem
                 {
                     Href = tileMap.Attribute("href").Value,
                     Srs = tileMap.Attribute("srs").Value,
@@ -30,7 +30,7 @@ namespace BruTile.Web.Tms
         }
     }
 
-    public class TileMap
+    public class TileMapItem 
     {
         public string Href { get; set; }
         public string Srs { get; set; }
