@@ -348,9 +348,9 @@ namespace BruTile.Web
             XmlNodeList xnlCrs = xmlLayer.SelectNodes("sm:CRS", _nsmgr);
             if (xnlCrs != null)
             {
-                layer.CRS = new string[xnlCrs.Count];
+                layer.Crs = new string[xnlCrs.Count];
                 for (int i = 0; i < xnlCrs.Count; i++)
-                    layer.CRS[i] = xnlCrs[i].InnerText;
+                    layer.Crs[i] = xnlCrs[i].InnerText;
             }
             XmlNodeList xnlStyle = xmlLayer.SelectNodes("sm:Style", _nsmgr);
             if (xnlStyle != null)
@@ -395,10 +395,8 @@ namespace BruTile.Web
             node = xmlLayer.SelectSingleNode("sm:LatLonBoundingBox", _nsmgr);
             if (node != null)
             {
-                double minx = 0;
-                double miny = 0;
-                double maxx = 0;
-                double maxy = 0;
+                double minx, miny, maxx, maxy;
+
                 if (!double.TryParse(node.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
                     !double.TryParse(node.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
                     !double.TryParse(node.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
@@ -486,7 +484,7 @@ namespace BruTile.Web
             /// <summary>
             /// Coordinate Reference Systems supported by layer
             /// </summary>
-            public string[] CRS;
+            public string[] Crs;
 
             /// <summary>
             /// Keywords

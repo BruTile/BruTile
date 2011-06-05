@@ -34,7 +34,7 @@ namespace BruTile.Web
         readonly string _token;
         readonly char _mapType;
 
-        private static readonly string VersionBingMaps = "517";
+        private const string VersionBingMaps = "517";
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
@@ -54,7 +54,7 @@ namespace BruTile.Web
         {
             //todo: use different nodes
             string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g={4}&token={3}",
-              _baseUrl, _mapType, TileXYToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level + 1), _token, VersionBingMaps);
+              _baseUrl, _mapType, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.LevelId), _token, VersionBingMaps);
             return new Uri(url);
         }
 
@@ -91,7 +91,7 @@ namespace BruTile.Web
         /// to 23 (highest detail).</param>
         /// <returns>A string containing the QuadKey.</returns>
         /// Stole this methode from this nice blog: http://www.silverlightshow.net/items/Virtual-earth-deep-zooming.aspx. PDD.
-        private static string TileXYToQuadKey(int tileX, int tileY, int levelOfDetail)
+        private static string TileXyToQuadKey(int tileX, int tileY, int levelOfDetail)
         {
             var quadKey = new StringBuilder();
 

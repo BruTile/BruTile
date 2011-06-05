@@ -53,17 +53,17 @@ namespace BruTile.Web
         /// <summary>
         /// Maximum number of layers allowed (0=no restrictions)
         /// </summary>
-        public uint LayerLimit;
+        public int LayerLimit;
 
         /// <summary>
         /// Maximum height allowed in pixels (0=no restrictions)
         /// </summary>
-        public uint MaxHeight;
+        public int MaxHeight;
 
         /// <summary>
         /// Maximum width allowed in pixels (0=no restrictions)
         /// </summary>
-        public uint MaxWidth;
+        public int MaxWidth;
 
         /// <summary>
         /// Mandatory Top-level web address of service or service provider.

@@ -143,13 +143,14 @@ namespace BruTile.Web
             XmlNode xnResolutions = xnlTileSet.SelectSingleNode("sm:Resolutions", nsmgr);
             if (xnResolutions != null)
             {
+                var count = 0;
                 string[] resolutions = xnResolutions.InnerText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string resolutionStr in resolutions)
                 {
                     double resolution;
                     if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
-                    schema.Resolutions.Add(resolution);
+                    schema.Resolutions.Add(new Resolution { Id = count++, UnitsPerPixel = resolution });
                 }
             }
 

@@ -13,7 +13,7 @@ namespace BruTile.Web
         {
         }
 
-        public BingTileSource(BingRequest bingRequest)
+        public BingTileSource(IRequest bingRequest)
         {
             Schema = new BingSchema();
             Provider = new WebTileProvider(bingRequest);

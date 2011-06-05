@@ -74,6 +74,7 @@
     <Compile Include="IAxis.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
+    <Compile Include="Resolution.cs" />
     <Compile Include="Web\GoogleRequest.cs" />
     <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\TmsService\Root.cs" />

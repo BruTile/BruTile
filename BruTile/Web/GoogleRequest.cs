@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace BruTile.Web
 {
@@ -316,7 +315,7 @@ namespace BruTile.Web
             return new Uri(
                 string.Format(FormatProvider, UrlFormatString,
                               _server, GetServerNum(tileIndex, 4), _request, _version, _language,
-                              tileIndex.Col, sec1, tileIndex.Row, tileIndex.Level, sec2, _versionKey));
+                              tileIndex.Col, sec1, tileIndex.Row, tileIndex.LevelId, sec2, _versionKey));
         }
 
         /// <summary>
