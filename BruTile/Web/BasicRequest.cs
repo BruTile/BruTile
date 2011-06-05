@@ -41,7 +41,7 @@ namespace BruTile.Web
         {
             string result = String.Format(
               CultureInfo.InvariantCulture, _urlFormatter,
-              info.Index.Level, info.Index.Col, info.Index.Row);
+              info.Index.LevelId, info.Index.Col, info.Index.Row);
 
             return new Uri(result);
         }

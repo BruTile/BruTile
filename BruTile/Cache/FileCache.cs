@@ -103,7 +103,7 @@ namespace BruTile.Cache
         private string GetDirectoryName(TileIndex index)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}\\{2}", _directory, index.Level, index.Col);
+              "{0}\\{1}\\{2}", _directory, index.LevelId, index.Col);
         }
 
         private void WriteToFile(byte[] image, TileIndex index)

@@ -23,8 +23,8 @@ namespace BruTile
     {
         public TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
         {
-            double resolution = schema.Resolutions[level];
-            double tileWorldUnits = resolution * schema.Width;
+            var resolution = schema.Resolutions[level];
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
             var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
             var firstRow = (int)Math.Floor((extent.MinY - schema.OriginY) / tileWorldUnits);
             var lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
@@ -34,12 +34,12 @@ namespace BruTile
 
         public Extent TileToWorld(TileRange range, int level, ITileSchema schema)
         {
-            double resolution = schema.Resolutions[level];
-            double tileWorldUnits = resolution * schema.Width;
-            double minX = range.FirstCol * tileWorldUnits + schema.OriginX;
-            double minY = range.FirstRow * tileWorldUnits + schema.OriginY;
-            double maxX = (range.LastCol + 1) * tileWorldUnits + schema.OriginX;
-            double maxY = (range.LastRow + 1) * tileWorldUnits + schema.OriginY;
+            var resolution = schema.Resolutions[level];
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
+            var minX = range.FirstCol * tileWorldUnits + schema.OriginX;
+            var minY = range.FirstRow * tileWorldUnits + schema.OriginY;
+            var maxX = (range.LastCol + 1) * tileWorldUnits + schema.OriginX;
+            var maxY = (range.LastRow + 1) * tileWorldUnits + schema.OriginY;
             return new Extent(minX, minY, maxX, maxY);
         }
 

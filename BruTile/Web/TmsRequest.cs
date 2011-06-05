@@ -66,13 +66,13 @@ namespace BruTile.Web
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                       "{0}/{1}/{2}/{3}.{4}",
-                      _baseUrl[0], info.Index.Level, info.Index.Col, info.Index.Row, _format);
+                      _baseUrl[0], info.Index.LevelId, info.Index.Col, info.Index.Row, _format);
             }
             else
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                   "{0}/{1}/{2}.{3}",
-                  _baseUrl[info.Index.Level], info.Index.Col, info.Index.Row, _format);
+                  _baseUrl[info.Index.LevelId], info.Index.Col, info.Index.Row, _format);
             }
 
 

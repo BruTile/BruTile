@@ -1,19 +1,23 @@
-﻿// Copyright 2008 - Paul den Dulk (Geodan)
+﻿#region License
+
+// Copyright 2008 - Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
-// SharpMap is free software; you can redistribute it and/or modify
+//  SharpMap is free software; you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//  
 // SharpMap is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-
+// 
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+#endregion
 
 using System;
 using System.Globalization;
@@ -29,51 +33,36 @@ namespace BruTile
 
         public double CenterX
         {
-            get
-            {
-                return (MinX + MaxX) / 2.0;
-            }
+            get { return (MinX + MaxX)/2.0; }
         }
 
         public double CenterY
         {
-            get
-            {
-                return (MinY + MaxY) / 2.0;
-            }
+            get { return (MinY + MaxY)/2.0; }
         }
 
         public double Width
         {
-            get
-            {
-                return MaxX - MinX;
-            }
+            get { return MaxX - MinX; }
         }
 
         public double Height
         {
-            get
-            {
-                return MaxY - MinY;
-            }
+            get { return MaxY - MinY; }
         }
 
         public double Area
         {
-            get
-            {
-                return Width * Height;
-            }
+            get { return Width*Height; }
         }
 
         public Extent Intersect(Extent other) //TODO: check out how to name this method.
         {
             return new Extent(
-              Math.Max(MinX, other.MinX),
-              Math.Max(MinY, other.MinY),
-              Math.Min(MaxX, other.MaxX),
-              Math.Min(MaxY, other.MaxY));
+                Math.Max(MinX, other.MinX),
+                Math.Max(MinY, other.MinY),
+                Math.Min(MaxX, other.MaxX),
+                Math.Min(MaxY, other.MaxY));
         }
 
         public Extent(double minX, double minY, double maxX, double maxY) : this()
@@ -92,16 +81,16 @@ namespace BruTile
         public bool Intersects(Extent box)
         {
             return !(
-              box.MinX > MaxX ||
-              box.MaxX < MinX ||
-              box.MinY > MaxY ||
-              box.MaxY < MinY);
+                        box.MinX > MaxX ||
+                        box.MaxX < MinX ||
+                        box.MinY > MaxY ||
+                        box.MaxY < MinY);
         }
 
         public override string ToString()
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0},{1},{2},{3}", MinX, MinY, MaxX, MaxY);
+                                 "{0},{1},{2},{3}", MinX, MinY, MaxX, MaxY);
         }
 
         public override bool Equals(object obj)
@@ -110,7 +99,7 @@ namespace BruTile
             {
                 return false;
             }
-            return Equals((Extent)obj);
+            return Equals((Extent) obj);
         }
 
         public bool Equals(Extent extent)

@@ -19,6 +19,7 @@
  */
 
 #endregion
+
 using System;
 using System.Data;
 using System.Data.Common;
@@ -186,7 +187,7 @@ namespace BruTile.Cache
         public readonly String Table;
 
         public DbCache(TConnection connection)
-            :this(connection, delegate(string parent, string child){ return string.Format( "[{0}].[{1}]", parent, child);}, "public", "Tiles")
+            :this(connection, (parent, child) => string.Format("[{0}].[{1}]", parent, child), "public", "Tiles")
         {
         }
 
@@ -237,7 +238,7 @@ namespace BruTile.Cache
 
         public void Add(TileIndex index, byte[] image)
         {
-            ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.LevelId;
             ((IDataParameter)_addTileCommand.Parameters[1]).Value = index.Row;
             ((IDataParameter)_addTileCommand.Parameters[2]).Value = index.Col;
             ((IDataParameter)_addTileCommand.Parameters[3]).Value = image.Length;
@@ -252,7 +253,7 @@ namespace BruTile.Cache
 
         public void Remove(TileIndex index)
         {
-            ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.LevelId;
             ((IDataParameter)_removeTileCommand.Parameters[1]).Value = index.Row;
             ((IDataParameter)_removeTileCommand.Parameters[2]).Value = index.Col;
 
@@ -265,7 +266,7 @@ namespace BruTile.Cache
 
         public byte[] Find(TileIndex index)
         {
-            ((IDataParameter)_findTileCommand.Parameters[0]).Value = index.Level;
+            ((IDataParameter)_findTileCommand.Parameters[0]).Value = index.LevelId;
             ((IDataParameter)_findTileCommand.Parameters[1]).Value = index.Row;
             ((IDataParameter)_findTileCommand.Parameters[2]).Value = index.Col;
 

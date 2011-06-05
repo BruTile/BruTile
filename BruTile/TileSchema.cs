@@ -35,7 +35,7 @@ namespace BruTile
     {
         #region Fields
 
-        private readonly List<double> _resolutions = new List<double>();
+        private IList<Resolution> _resolutions = new List<Resolution>();
         private AxisDirection _axisDirection = AxisDirection.Normal;
         IAxis _axis = new NormalAxis();
 
@@ -60,7 +60,7 @@ namespace BruTile
         public int Height { get; set; }
         public string Format { get; set; }
 
-        public IList<double> Resolutions
+        public IList<Resolution> Resolutions
         {
             get { return _resolutions; }
         }
@@ -149,7 +149,7 @@ namespace BruTile
                 {
                     var info = new TileInfo();
                     info.Extent = _axis.TileToWorld(new TileRange(x, y), level, this);
-                    info.Index = new TileIndex(x, y, level);
+                    info.Index = new TileIndex(x, y, Resolutions[level].Id);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {

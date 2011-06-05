@@ -21,6 +21,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
+using BruTile.PreDefined;
 
 namespace BruTile.Web.TmsService
 {
@@ -39,6 +40,7 @@ namespace BruTile.Web.TmsService
             var serializer = new XmlSerializer(typeof(TileMap));
             var tileMap = (TileMap)serializer.Deserialize(reader);
             var tileSchema = CreateSchema(tileMap);
+            tileSchema = new SphericalMercatorWorldSchema();
 
             var tileUrls = new List<Uri>();
             foreach (TileMapTileSetsTileSet ts in tileMap.TileSets.TileSet)
@@ -91,7 +93,7 @@ namespace BruTile.Web.TmsService
             for (int i = 0; i < tileMap.TileSets.TileSet.Length; i++)
             {
                 double resolution = Double.Parse(tileMap.TileSets.TileSet[i].unitsperpixel, CultureInfo.InvariantCulture);
-                schema.Resolutions.Add(resolution);
+                schema.Resolutions.Add(new Resolution { Id = i, UnitsPerPixel = resolution });
             }
             return schema;
         }
