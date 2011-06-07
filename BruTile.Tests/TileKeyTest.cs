@@ -1,26 +1,22 @@
-﻿using BruTile;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace BruTileTests
+namespace BruTile.Tests
 {
-    /// <summary>
-    ///This is a test class for TileKeyTest and is intended
-    ///to contain all TileKeyTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class TileKeyTest
     {
-        /// <summary>
-        ///A test for CompareTo
-        ///</summary>
         [Test]
         public void CompareToTest()
         {
-            TileIndex target = new TileIndex(2, 4, 2);
-            TileIndex index = new TileIndex(2, 5, 2);
-            int expected = -1;
-            int actual;
-            actual = target.CompareTo(index);
+            // arrange
+            var target = new TileIndex(2, 4, 2);
+            var index = new TileIndex(2, 5, 2);
+            const int expected = -1;
+
+            // act
+            int actual = target.CompareTo(index);
+
+            // assert
             Assert.AreEqual(expected, actual);
         }
     }

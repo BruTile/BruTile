@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Xml.Serialization;
-
 namespace BruTile.Web.TmsService
 {
     // 

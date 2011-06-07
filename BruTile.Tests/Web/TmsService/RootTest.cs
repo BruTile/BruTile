@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using NUnit.Framework;
 using BruTile.Web.TmsService;
-using System.IO;
+using NUnit.Framework;
 
 namespace BruTile.Tests.Web.TmsService
 {
     [TestFixture]
     class RootTest
     {
-        string rootResource =
+        const string RootResource =
             "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
             "<Services>" +
             "<TileMapService title=\"Example Tile Map Service\" version=\"1.0.0\" href=\"http://tms.osgeo.org/1.0.0/\" />" +
@@ -22,7 +19,7 @@ namespace BruTile.Tests.Web.TmsService
         [Test]
         public void CreateFromResource()
         {
-            var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rootResource));
+            var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(RootResource));
             var root = Root.CreateFromResource(stream);
             Assert.True(root.TileMapServices.Count() == 2);
             Assert.True(root.TileMapServices.First(tms => tms.Title == "Example Tile Map Service").Version == "1.0.0");

@@ -56,7 +56,7 @@ namespace BruTile
             get { return Width*Height; }
         }
 
-        public Extent Intersect(Extent other) //TODO: check out how to name this method.
+        public Extent Intersect(Extent other) //TODO: check how to name this method.
         {
             return new Extent(
                 Math.Max(MinX, other.MinX),

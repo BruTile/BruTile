@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
-using BruTile;
-using NUnit.Framework;
 using System.Data.SQLite;
 using BruTile.Cache;
+using NUnit.Framework;
 
-namespace SharpMap.Layers.Tests
+namespace BruTile.Tests
 {
     [TestFixture]
     public class DbCacheTest
     {
-        private DbCache<SQLiteConnection> _cache;
+        private readonly DbCache<SQLiteConnection> _cache;
 
         static SQLiteConnection MakeConnection(String datasource)
         {
-            SQLiteConnection cn = new SQLiteConnection(string.Format("Data Source={0}", datasource));
+            var cn = new SQLiteConnection(string.Format("Data Source={0}", datasource));
             cn.Open();
             SQLiteCommand cmd = cn.CreateCommand();
             cmd.CommandText =
@@ -44,7 +42,7 @@ namespace SharpMap.Layers.Tests
         
         public void InsertTiles()
         {
-            byte[] bm = new byte[128*128*1];
+            var bm = new byte[128*128*1];
 
             _cache.Connection.Open();
             bm[0] = 0;
@@ -86,7 +84,7 @@ namespace SharpMap.Layers.Tests
 
             _cache.Connection.Close();
 
-            using (SQLiteConnection cn = (SQLiteConnection)_cache.Connection.Clone())
+            using (var cn = (SQLiteConnection)_cache.Connection.Clone())
             {
                 cn.Open();
                 SQLiteCommand cmd = cn.CreateCommand();
@@ -97,7 +95,7 @@ namespace SharpMap.Layers.Tests
 
         public void FindTile()
         {
-            TileIndex tk = new TileIndex(1,2,0);
+            var tk = new TileIndex(1,2,0);
             byte[] bm = _cache.Find(tk);
             Assert.IsNotNull(bm);
             Assert.AreEqual(128*128*1, bm.Length);
@@ -108,7 +106,7 @@ namespace SharpMap.Layers.Tests
 
         public void RemoveTile()
         {
-            TileIndex tk = new TileIndex(1, 2, 0);
+            var tk = new TileIndex(1, 2, 0);
             _cache.Remove(tk);
 
             byte[] bm = _cache.Find(tk);
