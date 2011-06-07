@@ -1,4 +1,6 @@
-﻿// Copyright 2008 - Paul den Dulk (Geodan)
+﻿#region License
+
+// Copyright 2008 - Paul den Dulk (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -10,10 +12,12 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-
+// 
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+#endregion
 
 using System;
 using System.Globalization;
@@ -32,7 +36,10 @@ namespace BruTile.Cache
         #endregion
 
         #region Public Methods
-        /// <remarks>The constructor creates the storage _directory if it does not exist.</remarks>
+
+        /// <remarks>
+        ///   The constructor creates the storage _directory if it does not exist.
+        /// </remarks>
         public FileCache(string directory, string format)
         {
             _directory = directory;
@@ -80,14 +87,14 @@ namespace BruTile.Cache
             {
                 if (Exists(index))
                 {
-                  File.Delete(GetFileName(index));
+                    File.Delete(GetFileName(index));
                 }
             }
         }
 
         private bool Exists(TileIndex index)
         {
-          return File.Exists(GetFileName(index));
+            return File.Exists(GetFileName(index));
         }
 
         #endregion
@@ -97,18 +104,18 @@ namespace BruTile.Cache
         private string GetFileName(TileIndex index)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
+                                 "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
         }
 
         private string GetDirectoryName(TileIndex index)
         {
             return String.Format(CultureInfo.InvariantCulture,
-              "{0}\\{1}\\{2}", _directory, index.LevelId, index.Col);
+                                 "{0}\\{1}\\{2}", _directory, index.LevelId, index.Col);
         }
 
         private void WriteToFile(byte[] image, TileIndex index)
         {
-          using (FileStream fileStream = File.Open(GetFileName(index), FileMode.CreateNew))
+            using (FileStream fileStream = File.Open(GetFileName(index), FileMode.CreateNew))
             {
                 fileStream.Write(image, 0, image.Length);
                 fileStream.Flush();

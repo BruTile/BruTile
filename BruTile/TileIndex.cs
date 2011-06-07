@@ -31,24 +31,24 @@ namespace BruTile
 
         public int Col
         {
-            get { return this._col; }
+            get { return _col; }
         }
 
         public int Row
         {
-            get { return this._row; }
+            get { return _row; }
         }
 
         public int LevelId
         {
-            get { return this._levelId; }
+            get { return _levelId; }
         }
 
         public TileIndex(int col, int row, int level)
         {
-            this._col = col;
-            this._row = row;
-            this._levelId = level;
+            _col = col;
+            _row = row;
+            _levelId = level;
         }
 
         public int CompareTo(object obj)
@@ -62,12 +62,12 @@ namespace BruTile
 
         public int CompareTo(TileIndex index)
         {
-            if (this._col < index._col) return -1;
-            if (this._col > index._col) return 1;
-            if (this._row < index._row) return -1;
-            if (this._row > index._row) return 1;
-            if (this._levelId < index._levelId) return -1;
-            if (this._levelId > index._levelId) return 1;
+            if (_col < index._col) return -1;
+            if (_col > index._col) return 1;
+            if (_row < index._row) return -1;
+            if (_row > index._row) return 1;
+            if (_levelId < index._levelId) return -1;
+            if (_levelId > index._levelId) return 1;
             return 0;
         }
 
@@ -81,12 +81,12 @@ namespace BruTile
 
         public bool Equals(TileIndex index)
         {
-            return this._col == index._col && this._row == index._row && this._levelId == index._levelId;
+            return _col == index._col && _row == index._row && _levelId == index._levelId;
         }
 
         public override int GetHashCode()
         {
-            return this._col ^ this._row ^ this._levelId;
+            return _col ^ _row ^ _levelId;
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)

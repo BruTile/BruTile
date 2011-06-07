@@ -1,4 +1,6 @@
-﻿// Copyright 2009 - Tim Ebben (Geodan)
+﻿#region License
+
+// Copyright 2009 - Tim Ebben (Geodan)
 // 
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
@@ -14,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+#endregion
 
 using System;
 using System.Collections.Generic;

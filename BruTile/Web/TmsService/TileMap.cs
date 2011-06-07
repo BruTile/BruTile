@@ -51,11 +51,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.titleField;
+                return titleField;
             }
             set
             {
-                this.titleField = value;
+                titleField = value;
             }
         }
 
@@ -65,11 +65,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.abstractField;
+                return abstractField;
             }
             set
             {
-                this.abstractField = value;
+                abstractField = value;
             }
         }
 
@@ -79,11 +79,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.sRSField;
+                return sRSField;
             }
             set
             {
-                this.sRSField = value;
+                sRSField = value;
             }
         }
 
@@ -93,11 +93,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.boundingBoxField;
+                return boundingBoxField;
             }
             set
             {
-                this.boundingBoxField = value;
+                boundingBoxField = value;
             }
         }
 
@@ -107,11 +107,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.originField;
+                return originField;
             }
             set
             {
-                this.originField = value;
+                originField = value;
             }
         }
 
@@ -121,11 +121,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.tileFormatField;
+                return tileFormatField;
             }
             set
             {
-                this.tileFormatField = value;
+                tileFormatField = value;
             }
         }
 
@@ -135,11 +135,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.tileSetsField;
+                return tileSetsField;
             }
             set
             {
-                this.tileSetsField = value;
+                tileSetsField = value;
             }
         }
 
@@ -149,11 +149,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.versionField;
+                return versionField;
             }
             set
             {
-                this.versionField = value;
+                versionField = value;
             }
         }
 
@@ -163,11 +163,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.tilemapserviceField;
+                return tilemapserviceField;
             }
             set
             {
-                this.tilemapserviceField = value;
+                tilemapserviceField = value;
             }
         }
     }
@@ -195,11 +195,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.minxField;
+                return minxField;
             }
             set
             {
-                this.minxField = value;
+                minxField = value;
             }
         }
 
@@ -209,11 +209,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.minyField;
+                return minyField;
             }
             set
             {
-                this.minyField = value;
+                minyField = value;
             }
         }
 
@@ -223,11 +223,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.maxxField;
+                return maxxField;
             }
             set
             {
-                this.maxxField = value;
+                maxxField = value;
             }
         }
 
@@ -237,11 +237,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.maxyField;
+                return maxyField;
             }
             set
             {
-                this.maxyField = value;
+                maxyField = value;
             }
         }
     }
@@ -265,11 +265,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.xField;
+                return xField;
             }
             set
             {
-                this.xField = value;
+                xField = value;
             }
         }
 
@@ -279,11 +279,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.yField;
+                return yField;
             }
             set
             {
-                this.yField = value;
+                yField = value;
             }
         }
     }
@@ -311,11 +311,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.widthField;
+                return widthField;
             }
             set
             {
-                this.widthField = value;
+                widthField = value;
             }
         }
 
@@ -325,11 +325,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.heightField;
+                return heightField;
             }
             set
             {
-                this.heightField = value;
+                heightField = value;
             }
         }
 
@@ -339,11 +339,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.mimetypeField;
+                return mimetypeField;
             }
             set
             {
-                this.mimetypeField = value;
+                mimetypeField = value;
             }
         }
 
@@ -353,11 +353,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.extensionField;
+                return extensionField;
             }
             set
             {
-                this.extensionField = value;
+                extensionField = value;
             }
         }
     }
@@ -381,11 +381,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.tileSetField;
+                return tileSetField;
             }
             set
             {
-                this.tileSetField = value;
+                tileSetField = value;
             }
         }
 
@@ -395,11 +395,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.profileField;
+                return profileField;
             }
             set
             {
-                this.profileField = value;
+                profileField = value;
             }
         }
     }
@@ -425,11 +425,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.hrefField;
+                return hrefField;
             }
             set
             {
-                this.hrefField = value;
+                hrefField = value;
             }
         }
 
@@ -439,11 +439,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.unitsperpixelField;
+                return unitsperpixelField;
             }
             set
             {
-                this.unitsperpixelField = value;
+                unitsperpixelField = value;
             }
         }
 
@@ -453,11 +453,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.orderField;
+                return orderField;
             }
             set
             {
-                this.orderField = value;
+                orderField = value;
             }
         }
     }
@@ -479,11 +479,11 @@ namespace BruTile.Web.TmsService
         {
             get
             {
-                return this.itemsField;
+                return itemsField;
             }
             set
             {
-                this.itemsField = value;
+                itemsField = value;
             }
         }
     }

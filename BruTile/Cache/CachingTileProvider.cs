@@ -19,8 +19,6 @@
 
 #endregion
 
-using System;
-
 namespace BruTile.Cache
 {
     internal class CachingTileProvider : ITileProvider
