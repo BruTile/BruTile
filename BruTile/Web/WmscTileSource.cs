@@ -87,17 +87,17 @@ namespace BruTile.Web
 
             XmlNode xnStyles = xnlTileSet.SelectSingleNode("sm:Styles", nsmgr);
             if (xnStyles != null)
-                styles.AddRange(xnStyles.InnerText.Split(new char[] { ',' }));
+                styles.AddRange(xnStyles.InnerText.Split(new [] { ',' }));
 
             XmlNode xnLayers = xnlTileSet.SelectSingleNode("sm:Layers", nsmgr);
             if (xnLayers != null)
-                layers.AddRange(xnLayers.InnerText.Split(new char[] { ',' }));
+                layers.AddRange(xnLayers.InnerText.Split(new [] { ',' }));
 
             schema.Name = CreateDefaultName(layers);
 
-            XmlNode xnSRS = xnlTileSet.SelectSingleNode("sm:SRS", nsmgr);
-            if (xnSRS != null)
-                schema.Srs = xnSRS.InnerText;
+            XmlNode xnSrs = xnlTileSet.SelectSingleNode("sm:SRS", nsmgr);
+            if (xnSrs != null)
+                schema.Srs = xnSrs.InnerText;
 
             XmlNode xnWidth = xnlTileSet.SelectSingleNode("sm:Width", nsmgr);
             if (xnWidth != null)
@@ -109,10 +109,10 @@ namespace BruTile.Web
             }
 
             XmlNode xnHeight = xnlTileSet.SelectSingleNode("sm:Height", nsmgr);
-            if (xnHeight != null)
+            if (xnHeight != null )
             {
                 int height;
-                if (!Int32.TryParse(xnWidth.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                if (!Int32.TryParse(xnHeight.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
                     throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
                 schema.Height = height;
             }
@@ -124,11 +124,7 @@ namespace BruTile.Web
             XmlNode xnBoundingBox = xnlTileSet.SelectSingleNode("sm:BoundingBox", nsmgr);
             if (xnBoundingBox != null)
             {
-                double minx = 0;
-                double miny = 0;
-                double maxx = 0;
-                double maxy = 0;
-
+                double minx, miny, maxx, maxy;
                 if (!double.TryParse(xnBoundingBox.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
                     !double.TryParse(xnBoundingBox.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
                     !double.TryParse(xnBoundingBox.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
@@ -148,7 +144,7 @@ namespace BruTile.Web
             if (xnResolutions != null)
             {
                 var count = 0;
-                string[] resolutions = xnResolutions.InnerText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] resolutions = xnResolutions.InnerText.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string resolutionStr in resolutions)
                 {
                     double resolution;

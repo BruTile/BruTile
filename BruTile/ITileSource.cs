@@ -21,7 +21,6 @@
 
 namespace BruTile
 {
-    //IConfig is currently used for demo purposes. This will probably not be part of a release
     public interface ITileSource
     {
         ITileProvider Provider { get; }

@@ -71,6 +71,7 @@
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolution.cs" />
     <Compile Include="TileIndex.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="TileRange.cs" />

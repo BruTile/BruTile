@@ -46,6 +46,5 @@ namespace BruTile
             var maxY = (range.LastRow + 1) * tileWorldUnits + schema.OriginY;
             return new Extent(minX, minY, maxX, maxY);
         }
-
     }
 }

@@ -23,6 +23,9 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
+#if SILVERLIGHT
+using System.Threading;
+#endif
 
 namespace BruTile.Web
 {
@@ -47,7 +50,7 @@ namespace BruTile.Web
             
             //we use a waithandle to fake a synchronous call
             var waitHandle = new AutoResetEvent(false);
-            IAsyncResult result = webClient.BeginGetResponse(webClient_OpenReadCompleted, waitHandle);
+            IAsyncResult result = webClient.BeginGetResponse(WebClientOpenReadCompleted, waitHandle);
 
             //This trick works because the this is called on a worker thread. In SL it wont work if you call
             //it from the main thread because the main thead dispatches the worker threads and it starts waiting 
@@ -71,7 +74,7 @@ namespace BruTile.Web
             }
         }
 
-        private static void webClient_OpenReadCompleted(IAsyncResult e)
+        private static void WebClientOpenReadCompleted(IAsyncResult e)
         {
             //Call Set() so that WaitOne can proceed.
             ((AutoResetEvent)e.AsyncState).Set();

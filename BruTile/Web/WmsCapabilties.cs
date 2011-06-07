@@ -160,12 +160,7 @@ namespace BruTile.Web
                     throw new ApplicationException("WMS Version " + _wmsVersion + " not supported");
 
                 _nsmgr.AddNamespace(String.Empty, "http://www.opengis.net/wms");
-                if (_wmsVersion == "1.3.0")
-                {
-                    _nsmgr.AddNamespace("sm", "http://www.opengis.net/wms");
-                }
-                else
-                    _nsmgr.AddNamespace("sm", "");
+                _nsmgr.AddNamespace("sm", _wmsVersion == "1.3.0" ? "http://www.opengis.net/wms" : "");
                 _nsmgr.AddNamespace("xlink", "http://www.w3.org/1999/xlink");
                 _nsmgr.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
             }
