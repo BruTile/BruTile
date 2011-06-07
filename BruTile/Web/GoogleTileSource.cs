@@ -1,3 +1,5 @@
+#region License
+
 // This code is based on information provided by http://greatmaps.codeplex.com
 // Adapted for BruTile by Felix Obermaier. 2010
 // 
@@ -15,6 +17,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+#endregion
 
 using BruTile.PreDefined;
 using BruTile.Cache;

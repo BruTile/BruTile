@@ -1,7 +1,7 @@
 #region License
 
 /*
- *  The attached / following is part of SharpMap.Layers.BruTile.
+ *  This file is part of SharpMap.Layers.BruTile.
  *  
  *  SharpMap.Layers.BruTile is free software © 2009 Ingenieurgruppe IVV GmbH & Co. KG, 
  *  www.ivv-aachen.de; you can redistribute it and/or modify it under the terms 
