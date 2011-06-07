@@ -19,6 +19,8 @@
 
 #endregion
 
+using System;
+
 namespace BruTile.Cache
 {
     internal class NullCache : ITileCache<byte[]>
