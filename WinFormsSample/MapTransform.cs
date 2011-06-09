@@ -24,11 +24,11 @@ namespace WinFormsSample
   {
     #region Fields
 
-    float resolution; 
-    PointF center;
-    float width;
-    float height;
-    Extent extent;
+    float _resolution; 
+    PointF _center;
+    float _width;
+    float _height;
+    Extent _extent;
 
     #endregion
 
@@ -36,10 +36,10 @@ namespace WinFormsSample
 
     public MapTransform(PointF center, float resolution, float width, float height)
     {
-      this.center = center;
-      this.resolution = resolution;
-      this.width = width;
-      this.height = height;
+      this._center = center;
+      this._resolution = resolution;
+      this._width = width;
+      this._height = height;
       UpdateExtent();
     }
 
@@ -47,12 +47,12 @@ namespace WinFormsSample
     {
       set 
       { 
-        resolution = value;
+        this._resolution = value;
         UpdateExtent();
       }
       get
       {
-        return resolution;
+        return this._resolution;
       }
     }
 
@@ -60,7 +60,7 @@ namespace WinFormsSample
     {
       set 
       { 
-        center = value;
+        this._center = value;
         UpdateExtent();
       }
     }
@@ -69,7 +69,7 @@ namespace WinFormsSample
     {
       set 
       { 
-        width = value;
+        this._width = value;
         UpdateExtent();
       }
     }
@@ -78,24 +78,24 @@ namespace WinFormsSample
     {
       set 
       { 
-        height = value;
+        this._height = value;
         UpdateExtent();
       }
     }
  
     public Extent Extent
     {
-      get { return extent; }
+      get { return this._extent; }
     }
 
     public PointF WorldToMap(double x, double y)
     {
-      return new PointF((float)(x - extent.MinX) / resolution, (float)(extent.MaxY - y) / resolution);
+      return new PointF((float)(x - this._extent.MinX) / this._resolution, (float)(this._extent.MaxY - y) / this._resolution);
     }
 
     public PointF MapToWorld(double x, double y)
     {
-      return new PointF((float)(extent.MinX + x) * resolution, (float)(extent.MaxY - y) * resolution);
+      return new PointF((float)(this._extent.MinX + x) * this._resolution, (float)(this._extent.MaxY - y) * this._resolution);
     }
 
     public RectangleF WorldToMap(double x1, double y1, double x2, double y2)
@@ -111,10 +111,10 @@ namespace WinFormsSample
 
     private void UpdateExtent()
     {
-      float spanX = width * resolution;
-      float spanY = height * resolution;
-      extent = new Extent(center.X - spanX * 0.5f, center.Y - spanY * 0.5f, 
-        center.X + spanX * 0.5f, center.Y + spanY * 0.5f);
+      float spanX = this._width * this._resolution;
+      float spanY = this._height * this._resolution;
+      this._extent = new Extent(this._center.X - spanX * 0.5f, this._center.Y - spanY * 0.5f, 
+        this._center.X + spanX * 0.5f, this._center.Y + spanY * 0.5f);
     }
 
     #endregion

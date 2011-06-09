@@ -141,7 +141,7 @@ namespace BruTile.Cache
         {
             var keys = new List<TileIndex>();
             //This is a temporary solution to preserve level zero tiles in memory.
-            foreach (TileIndex index in touched.Keys) if (index.LevelId == 0) keys.Add(index);
+            foreach (TileIndex index in touched.Keys) if (index.LevelId == "0") keys.Add(index);
             foreach (TileIndex index in keys) touched[index] = DateTime.Now;
         }
 

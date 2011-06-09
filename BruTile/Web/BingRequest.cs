@@ -58,7 +58,7 @@ namespace BruTile.Web
         {
             //todo: use different nodes
             string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g={4}&token={3}",
-              _baseUrl, _mapType, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.LevelId), _token, VersionBingMaps);
+              _baseUrl, _mapType, TileXyToQuadKey(info.Index.Col, info.Index.Row, int.Parse(info.Index.LevelId)), _token, VersionBingMaps);
             return new Uri(url);
         }
 

@@ -35,7 +35,8 @@ namespace BruTile.PreDefined
             var count = 0;
             foreach (var resolution in resolutions)
             {
-                Resolutions.Add(new Resolution {Id = count++, UnitsPerPixel = resolution});
+                Resolutions.Add(new Resolution {Id = count.ToString(), UnitsPerPixel = resolution});
+                count++;
             }
             Height = 256;
             Width = 256;

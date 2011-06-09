@@ -28,29 +28,29 @@ namespace BruTile.Web
 {
     public class TmsRequest : IRequest
     {
-        readonly IList<Uri> _baseUrl;
+        readonly IDictionary<string, Uri> _baseUrl;
         readonly Dictionary<string, string> _customParameters;
         readonly string _format;
         readonly bool _isSingleUrl; //If single url is added the request uses the same url for every resolution
 
         public TmsRequest(Uri baseUrl, string format)
-            : this(new List<Uri> { baseUrl }, format)
+            : this(new Dictionary<string, Uri> { { "0", baseUrl } }, format)
         {
             _isSingleUrl = true;
         }
 
         public TmsRequest(Uri baseUrl, string format, Dictionary<string, string> dictionary)
-            : this(new List<Uri> { baseUrl }, format, dictionary)
+            : this(new Dictionary<string, Uri> { { "0", baseUrl } }, format, dictionary)
         {
             _isSingleUrl = true;
         }
 
-        public TmsRequest(IList<Uri> baseUrl, string format)
+        public TmsRequest(IDictionary<string, Uri> baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
         {
         }
 
-        public TmsRequest(IList<Uri> baseUrl, string format, Dictionary<string, string> customParameters)
+        public TmsRequest(IDictionary<string, Uri> baseUrl, string format, Dictionary<string, string> customParameters)
         {
             _baseUrl = baseUrl;
             _format = format;
@@ -70,7 +70,7 @@ namespace BruTile.Web
             {
                 url.AppendFormat(CultureInfo.InvariantCulture,
                       "{0}/{1}/{2}/{3}.{4}",
-                      _baseUrl[0], info.Index.LevelId, info.Index.Col, info.Index.Row, _format);
+                      _baseUrl["0"], info.Index.LevelId, info.Index.Col, info.Index.Row, _format);
             }
             else
             {

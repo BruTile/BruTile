@@ -68,9 +68,11 @@ namespace BruTile.Web
             }
         }
 
-        private static string LevelToHex(int zoom)
+        private static string LevelToHex(string zoomLevelId)
         {
-            String zoomUrl;
+            var zoom = int.Parse(zoomLevelId);
+
+            string zoomUrl;
 
             if (zoom < 10)
                 zoomUrl = "L0" + zoom;

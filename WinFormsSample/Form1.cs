@@ -90,7 +90,8 @@ namespace WinFormsSample
             int count = 0;
             foreach (float resolution in resolutions)
             {
-                schema.Resolutions.Add(new Resolution {Id = count++, UnitsPerPixel = resolution});
+                schema.Resolutions.Add(new Resolution {Id = count.ToString(), UnitsPerPixel = resolution});
+                count++;
             }
             schema.OriginX = -20037508.342789;
             schema.OriginY = 20037508.342789;
