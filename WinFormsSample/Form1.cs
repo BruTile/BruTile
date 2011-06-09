@@ -12,23 +12,23 @@ namespace WinFormsSample
 {
     public partial class Form1 : Form
     {
-        readonly Bitmap buffer;
+        readonly Bitmap _buffer;
 
         public Form1()
         {
             InitializeComponent();
 
-            buffer = new Bitmap(this.Width, this.Height);
+            _buffer = new Bitmap(Width, Height);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.DrawImage(buffer, 0, 0);
+            e.Graphics.DrawImage(_buffer, 0, 0);
         }
 
         private void Form1Load(object sender, EventArgs e)
         {
-            var mapTransform = new MapTransform(new PointF(0, 0), 50000f, this.Width, this.Height);
+            var mapTransform = new MapTransform(new PointF(0, 0), 50000f, Width, Height);
 
             // Here we use a tile schema that is defined in code. There are a few predefined 
             // tile schemas in the BruTile.dll. In the usual case the schema should be parsed
@@ -40,7 +40,7 @@ namespace WinFormsSample
 
             IRequest requestBuilder = new TmsRequest(new Uri("http://a.tile.openstreetmap.org"), "png");
 
-            Graphics graphics = Graphics.FromImage(buffer);
+            Graphics graphics = Graphics.FromImage(_buffer);
             foreach (TileInfo info in infos)
             {
                 Uri url = requestBuilder.GetUri(info);
@@ -50,7 +50,7 @@ namespace WinFormsSample
                 DrawTile(schema, graphics, bitmap, extent);
             }
 
-            this.Invalidate();
+            Invalidate();
         }
 
         private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent)
