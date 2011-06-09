@@ -26,7 +26,7 @@ namespace BruTile
 {
     public struct Resolution
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public double UnitsPerPixel { get; set; }
     }
 }
