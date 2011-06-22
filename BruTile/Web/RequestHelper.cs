@@ -94,9 +94,10 @@ namespace BruTile.Web
 #endif
             webRequest.KeepAlive = keepAlive;
             webRequest.AllowAutoRedirect = true;
-            webRequest.Timeout = 3000;
-            if (!String.IsNullOrEmpty(userAgent)) webRequest.UserAgent = userAgent;
-            if (!String.IsNullOrEmpty(referer)) webRequest.Referer = referer;
+            webRequest.Timeout = 5000;
+            
+            webRequest.UserAgent = (string.IsNullOrEmpty(userAgent)) ? Utilities.DefaultUserAgent : userAgent;
+            webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer: referer;
 
             WebResponse webResponse = webRequest.GetResponse();
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
