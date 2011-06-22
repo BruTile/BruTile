@@ -46,7 +46,7 @@ namespace BruTile.PreDefined
             Name = "WorldShericalMercator";
             Format = "png";
             Axis = AxisDirection.Normal;
-            Srs = "EPSG:3785";
+            Srs = "EPSG:3857";
         }
     }
 }

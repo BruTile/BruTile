@@ -93,6 +93,8 @@ namespace BruTile.Web
             webRequest.PreAuthenticate = true;
 #endif
             webRequest.KeepAlive = keepAlive;
+            webRequest.AllowAutoRedirect = true;
+            webRequest.Timeout = 3000;
             if (!String.IsNullOrEmpty(userAgent)) webRequest.UserAgent = userAgent;
             if (!String.IsNullOrEmpty(referer)) webRequest.Referer = referer;
 
