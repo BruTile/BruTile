@@ -84,9 +84,16 @@ namespace BruTile
         {
             get
             {
-                Assembly asm = Assembly.GetExecutingAssembly();
-                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(asm.Location);
-                return String.Format("{0}.{1}", fvi.ProductMajorPart, fvi.ProductMinorPart);
+#if PocketPC
+                return string.Empty; 
+#else
+                string name = Assembly.GetExecutingAssembly().FullName;
+                AssemblyName asmName = new AssemblyName(name);
+
+                // http://www.dotnet247.com/247reference/msgs/45/225355.aspx
+                return asmName.Version.Major + "." + asmName.Version.Minor;
+#endif
+
             }
         }
 
