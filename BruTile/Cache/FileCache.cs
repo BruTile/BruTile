@@ -92,24 +92,24 @@ namespace BruTile.Cache
             }
         }
 
-        private bool Exists(TileIndex index)
+        public bool Exists(TileIndex index)
         {
             return File.Exists(GetFileName(index));
+        }
+
+        public string GetFileName(TileIndex index)
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                                 "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
         }
 
         #endregion
 
         #region Private Methods
 
-        private string GetFileName(TileIndex index)
-        {
-            return String.Format(CultureInfo.InvariantCulture,
-                                 "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
-        }
-
         private string GetDirectoryName(TileIndex index)
         {
-            return String.Format(CultureInfo.InvariantCulture,
+            return string.Format(CultureInfo.InvariantCulture,
                                  "{0}\\{1}\\{2}", _directory, index.LevelId, index.Col);
         }
 
