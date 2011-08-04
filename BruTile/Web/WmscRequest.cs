@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BruTile.Web
@@ -65,7 +66,7 @@ namespace BruTile.Web
             url.AppendFormat("&HEIGHT={0}", _schema.Height);
             url.AppendFormat("&SRS={0}", _schema.Srs);
             url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(_layers));
-            //uri.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
+            if (_styles != null && _styles.Count > 0) url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
 
             AppendCustomParameters(url);
 
