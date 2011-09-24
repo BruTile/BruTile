@@ -12,12 +12,16 @@ namespace BruTile.Tests.Web
         [Test]
         public void ParseCapabiltiesWmsC()
         {
-            //todo: configure the test data in the proper way.
-            string url = @"\Resources\CapabiltiesWmsC.xml";
+            // arrange
+            const string url = @"\Resources\CapabiltiesWmsC.xml";
             string directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            // act
             var tileSources = WmscTileSource.TileSourceBuilder(new Uri("file://" + directory + "\\" + url), null);
-            int count = 54;
-            Assert.AreEqual(tileSources.Count, count);
+           
+            // assert
+            const int numberOfTileSources = 54;
+            Assert.AreEqual(tileSources.Count, numberOfTileSources);
             foreach (var tileSource in tileSources)
             {
                 Assert.NotNull(tileSource.Provider);
@@ -27,7 +31,6 @@ namespace BruTile.Tests.Web
                 Assert.NotNull(tileSource.Schema.Extent);
                 Assert.NotNull(tileSource.Schema.Srs);
             }
-
         }
     }
 }

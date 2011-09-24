@@ -63,6 +63,7 @@
     <Compile Include="Web\TileSourceWmsCTest.cs" />
     <Compile Include="Web\TmsService\RootTest.cs" />
     <Compile Include="Web\TmsService\TileMapServiceTest.cs" />
+    <Compile Include="Web\WmsCapabilitiesTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">

@@ -8,7 +8,7 @@ namespace BruTile.Tests.Web.TmsService
     [TestFixture]
     class TileMapServiceTest
     {
-        string tileMapServiceResource = 
+        const string TileMapServiceResource = 
             "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
             "<TileMapService version=\"1.0.0\" services=\"http://tms.osgeo.org\">" +
             "<Title>Example Tile Map Service</Title>" +
@@ -49,7 +49,7 @@ namespace BruTile.Tests.Web.TmsService
         [Test]
         public void CreateFromResource()
         {
-            var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(tileMapServiceResource));
+            var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TileMapServiceResource));
             var tileMapService = TileMapService.CreateFromResource(stream);
             Assert.True(tileMapService.TileMaps.Count() == 2);
             Assert.True(tileMapService.TileMaps.Count((t) => t.Profile == "global-geodetic") == 1);
