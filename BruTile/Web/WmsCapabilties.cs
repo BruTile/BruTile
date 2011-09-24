@@ -99,7 +99,6 @@ namespace BruTile.Web
             ParseCapabilities(xml);
         }
 
-
         public static string CreateCapabiltiesRequest(string url)
         {
             var strReq = new StringBuilder(url);
