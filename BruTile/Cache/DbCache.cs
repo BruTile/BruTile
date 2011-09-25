@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 
@@ -85,7 +86,7 @@ namespace BruTile.Cache
     /// </summary>
     /// <typeparam name="TConnection">A Connection class derived from <see cref="DbConnection"/></typeparam>
     public class DbCache<TConnection> : ITileCache<byte[]>
-        where TConnection: DbConnection
+        where TConnection: DbConnection, new()
     {
         private static DbCommand BasicAddTileCommand(DbConnection connection, 
             DecorateDbObjects qualifier, String schema, String table)
@@ -186,6 +187,11 @@ namespace BruTile.Cache
         public readonly String Schema;
         public readonly String Table;
 
+        private readonly object _addLock = new object();
+        private readonly object _removeLock = new object();
+
+        private readonly BankOfSelectTileCommands _bank;
+
         public DbCache(TConnection connection)
             :this(connection, (parent, child) => string.Format("[{0}].[{1}]", parent, child), "public", "Tiles")
         {
@@ -207,6 +213,8 @@ namespace BruTile.Cache
             _addTileCommand = atc(connection, decorator, schema, table);
             _removeTileCommand = rtc(connection, decorator, schema, table);
             _findTileCommand = ftc(connection, decorator, schema, table);
+
+            _bank = new BankOfSelectTileCommands(_findTileCommand);
 
             if (Connection.State == ConnectionState.Open)
                 Connection.Close();
@@ -238,41 +246,50 @@ namespace BruTile.Cache
 
         public void Add(TileIndex index, byte[] image)
         {
-            ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.LevelId;
-            ((IDataParameter)_addTileCommand.Parameters[1]).Value = index.Row;
-            ((IDataParameter)_addTileCommand.Parameters[2]).Value = index.Col;
-            ((IDataParameter)_addTileCommand.Parameters[3]).Value = image.Length;
-            ((IDataParameter)_addTileCommand.Parameters[4]).Value = image;
 
-            Boolean wasClosed = OpenConnectionIfClosed();
+            lock (_addLock)
+            {
+                ((IDataParameter) _addTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter) _addTileCommand.Parameters[1]).Value = index.Row;
+                ((IDataParameter) _addTileCommand.Parameters[2]).Value = index.Col;
+                ((IDataParameter) _addTileCommand.Parameters[3]).Value = image.Length;
+                ((IDataParameter) _addTileCommand.Parameters[4]).Value = image;
 
-            _addTileCommand.ExecuteNonQuery();
+                Boolean wasClosed = OpenConnectionIfClosed();
 
-            if ( wasClosed ) Connection.Close();
+                _addTileCommand.ExecuteNonQuery();
+
+                if (wasClosed) Connection.Close();
+            }
         }
 
         public void Remove(TileIndex index)
         {
-            ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.LevelId;
-            ((IDataParameter)_removeTileCommand.Parameters[1]).Value = index.Row;
-            ((IDataParameter)_removeTileCommand.Parameters[2]).Value = index.Col;
+            lock (_removeLock)
+            {
+                ((IDataParameter) _removeTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter) _removeTileCommand.Parameters[1]).Value = index.Row;
+                ((IDataParameter) _removeTileCommand.Parameters[2]).Value = index.Col;
 
-            Boolean wasClosed = OpenConnectionIfClosed();
+                Boolean wasClosed = OpenConnectionIfClosed();
 
-            _removeTileCommand.ExecuteNonQuery();
+                _removeTileCommand.ExecuteNonQuery();
 
-            if (wasClosed) Connection.Close();
+                if (wasClosed) Connection.Close();
+            }
         }
 
         public byte[] Find(TileIndex index)
         {
-            ((IDataParameter)_findTileCommand.Parameters[0]).Value = index.LevelId;
-            ((IDataParameter)_findTileCommand.Parameters[1]).Value = index.Row;
-            ((IDataParameter)_findTileCommand.Parameters[2]).Value = index.Col;
+            IDbCommand cmd = _bank.Borrow();
 
-            Boolean wasClosed = OpenConnectionIfClosed();
+            ((IDataParameter)cmd.Parameters[0]).Value = index.LevelId;
+            ((IDataParameter)cmd.Parameters[1]).Value = index.Row;
+            ((IDataParameter)cmd.Parameters[2]).Value = index.Col;
 
-            IDataReader dr = _findTileCommand.ExecuteReader();
+            //Boolean wasClosed = OpenConnectionIfClosed();
+
+            IDataReader dr = cmd.ExecuteReader();
             byte[] ret = null;
             if (dr.Read())
             {
@@ -282,7 +299,9 @@ namespace BruTile.Cache
             }
             dr.Close();
 
-            if ( wasClosed )Connection.Close();
+            cmd.Connection.Close();
+            
+            _bank.Return(cmd);
 
             return ret;
 
@@ -291,7 +310,8 @@ namespace BruTile.Cache
         #endregion
 
         #region Private Helpers
-        private Boolean OpenConnectionIfClosed()
+
+        private bool OpenConnectionIfClosed()
         {
             if (Connection.State != ConnectionState.Open)
             {
@@ -300,6 +320,103 @@ namespace BruTile.Cache
             }
             return false;
         }
+
         #endregion
+
+        internal class BankOfSelectTileCommands
+        {
+            private int _maxStore;
+            private int _maxBorrowed;
+
+            public BankOfSelectTileCommands(IDbCommand template)
+            {
+                _template = template;
+                for (int i = 0; i < 5; i++)
+                {
+                    _store.Enqueue(CreateNew());
+                }
+            }
+
+            private IDbCommand CreateNew()
+            {
+                var conn = new TConnection {ConnectionString = _template.Connection.ConnectionString};
+
+                var newItem = conn.CreateCommand();
+                newItem.CommandText = _template.CommandText;
+
+                foreach (IDbDataParameter parameter in _template.Parameters)
+                {
+                    IDbDataParameter pNew = newItem.CreateParameter();
+
+                    pNew.DbType = parameter.DbType;
+                    pNew.Direction = parameter.Direction;
+                    //pNew.IsNullable = parameter.IsNullable;
+                    pNew.ParameterName = parameter.ParameterName;
+                    pNew.Precision = parameter.Precision;
+                    pNew.Scale = parameter.Scale;
+                    pNew.Size = parameter.Size;
+                    pNew.SourceColumn = parameter.SourceColumn;
+                    pNew.SourceVersion = parameter.SourceVersion;
+                    //pNew.Value = ()parameter.Value.
+
+                    newItem.Parameters.Add(pNew);
+                }
+                _maxStore++;
+                return newItem;
+            }
+
+            private readonly Queue<IDbCommand> _store = new Queue<IDbCommand>(20);
+            private readonly IDbCommand _template;
+            private readonly object _lock = new object();
+
+            public IDbCommand Borrow()
+            {
+                IDbCommand command;
+                lock (_lock)
+                {
+                    if (_store.Count == 0)
+                        _store.Enqueue(CreateNew());
+
+                    var borrowed = _maxStore - _store.Count;
+                    _maxBorrowed = Math.Max(borrowed, _maxBorrowed);
+
+                    command = _store.Dequeue();
+                }
+                //Debug.Assert(command.Connection.State == ConnectionState.Closed);
+
+                command.Connection.Open();
+                return command;
+            }
+
+            public void Return(IDbCommand command)
+            {
+                //Debug.Assert(command.Connection.State == ConnectionState.Closed);
+                lock (_lock)
+                {
+                    _store.Enqueue(command);
+                }
+            }
+
+            public int CommandsInStore
+            {
+                get { return _store.Count; }
+            }
+
+            public int MaxBorrowed
+            {
+                get { return _maxBorrowed; }
+            }
+        }
+
+        public int CommandsInStore
+        {
+            get { return _bank.CommandsInStore; }
+        }
+
+        public int MaxBorrowed
+        {
+            get { return _bank.MaxBorrowed; }
+        }
+
     }
 }
