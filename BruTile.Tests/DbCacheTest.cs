@@ -5,11 +5,8 @@ using NUnit.Framework;
 
 namespace BruTile.Tests
 {
-    [TestFixture]
-    public class DbCacheTest
+    public class DbCacheTest : CacheTest<DbCache<SQLiteConnection>>
     {
-        private readonly DbCache<SQLiteConnection> _cache;
-
         static SQLiteConnection MakeConnection(String datasource)
         {
             var cn = new SQLiteConnection(string.Format("Data Source={0}", datasource));
@@ -23,143 +20,60 @@ namespace BruTile.Tests
         }
 
         public DbCacheTest()
+            :base(CleanConnection())
+        {
+        }
+
+        private static DbCache<SQLiteConnection> CleanConnection()
         {
             if (System.IO.File.Exists("test.db"))
                 System.IO.File.Delete("test.db");
             SQLiteConnection cn = MakeConnection("test.db");
-
-            //_cache = new DbCache<SQLiteConnection>(cn, delegate(string p, string c) { return c; }, "main", "cache");
-            _cache = new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
+            return new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
         [Test]
-        public void TestInsertFindRemove()
+        public void Test()
         {
-            InsertTiles();
-            FindTile();
-            RemoveTile();
+            TestInsertFindRemove();
+            Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
+            Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
         }
         
-        public void InsertTiles()
+        public override void InsertTiles()
         {
-            var bm = new byte[128*128*1];
+            var bm = new byte[TileSizeX*TileSizeY*BitsPerPixel];
 
-            _cache.Connection.Open();
-            bm[0] = 0;
-            bm[1] = 0;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(0, 0, 0), bm);
-            bm[0] = 0;
-            bm[1] = 1;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(0, 1, 0), bm);
-            bm[0] = 0;
-            bm[1] = 2;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(0, 2, 0), bm);
-            bm[0] = 1;
-            bm[1] = 0;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(1, 0, 0), bm);
-            bm[0] = 1;
-            bm[1] = 1;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(1, 1, 0), bm);
-            bm[0] = 1;
-            bm[1] = 2;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(1, 2, 0), bm);
-            bm[0] = 2;
-            bm[1] = 0;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(2, 0, 0), bm);
-            bm[0] = 2;
-            bm[1] = 1;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(2, 1, 0), bm);
-            bm[0] = 2;
-            bm[1] = 2;
-            bm[2] = 0;
-            _cache.Add(new TileIndex(2, 2, 0), bm);
+            Cache.Connection.Open();
+            var trans = Cache.Connection.BeginTransaction();
 
-            _cache.Connection.Close();
+            var count = 0;
+            for (byte level = 0; level < MaxLevel; level++)
+            {
+                var numberOfTiles = Math.Pow(2, level);
+                for (byte i = 0; i < numberOfTiles; i++)
+                    for (byte j = 0; j < numberOfTiles; j++)
+                    {
+                        bm[0] = i;
+                        bm[1] = j;
+                        bm[2] = level;
+                        Cache.Add(new TileIndex(i, j, level), bm);
+                        count++;
+                    }
+            }
 
-            using (var cn = (SQLiteConnection)_cache.Connection.Clone())
+            trans.Commit();
+            Cache.Connection.Close();
+
+            using (var cn = (SQLiteConnection) Cache.Connection.Clone())
             {
                 cn.Open();
                 SQLiteCommand cmd = cn.CreateCommand();
                 cmd.CommandText = "SELECT count(*) FROM cache";
-                Assert.AreEqual(9, Convert.ToInt32(cmd.ExecuteScalar()));
+                Assert.AreEqual(count, Convert.ToInt32(cmd.ExecuteScalar()));
             }
+
+            Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
         }
-
-        public void FindTile()
-        {
-            var tk = new TileIndex(1,2,0);
-            byte[] bm = _cache.Find(tk);
-            Assert.IsNotNull(bm);
-            Assert.AreEqual(128*128*1, bm.Length);
-            Assert.AreEqual(1, Convert.ToInt32(bm[0]));
-            Assert.AreEqual(2, Convert.ToInt32(bm[1]));
-            Assert.AreEqual(0, Convert.ToInt32(bm[2]));
-        }
-
-        public void RemoveTile()
-        {
-            var tk = new TileIndex(1, 2, 0);
-            _cache.Remove(tk);
-
-            byte[] bm = _cache.Find(tk);
-            Assert.IsNull(bm);
-        }
-
-        //[Test]
-        //public void EsriTest()
-        //{
-        //    BruTileDataSourceEsri dse = new BruTileDataSourceEsri(
-        //        new DbCache<SQLiteConnection>(MakeConnection("esri.sqlite"), (p, c) => c, "main", "cache"));
-
-        //    IList<TileInfo> infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 6);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-
-        //    infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 7);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-
-        //    infos = Tile.GetTiles(dse.TileSchema, new Extent(7, 48, 9, 55), 8);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-        //}
-
-        //[Test]
-        //public void BingTest()
-        //{
-        //    BruTileDataSource dse = BruTileDataSource.Create(BruTileDataSources.Bing, 
-        //        new DbCache<SQLiteConnection>(MakeConnection("bing.sqlite"), (p, c) => c, "main", "cache"));
-
-        //    Double eWidth = dse.TileSchema.Extent.MaxX - dse.TileSchema.Extent.MinX;
-        //    Double eHeight = dse.TileSchema.Extent.MaxY - dse.TileSchema.Extent.MinY;
-        //    Double fX = Math.Abs(eWidth/360d);
-        //    Double fY = Math.Abs(eHeight/180d);
-        //    Double left = dse.TileSchema.Extent.CenterX + 7*fX;
-        //    Double bottom = dse.TileSchema.Extent.CenterY + 48*fY;
-        //    Double right = dse.TileSchema.Extent.CenterX + 9 * fX;
-        //    Double top = dse.TileSchema.Extent.CenterY + 55 * fY;
-
-        //    Extent ex = new Extent(left, bottom, right, top);
-        //    IList<TileInfo> infos = Tile.GetTiles(dse.TileSchema, ex, 6);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-
-        //    infos = Tile.GetTiles(dse.TileSchema, ex, 7);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-
-        //    infos = Tile.GetTiles(dse.TileSchema, ex, 8);
-        //    foreach (TileInfo tileInfo in infos)
-        //        dse.GetTile(tileInfo);
-        //}
-
     }
 }
