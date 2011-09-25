@@ -116,7 +116,7 @@ namespace BruTile.Cache
             cmd.Parameters.Add(par);
 
             par = cmd.CreateParameter();
-            par.DbType = DbType.Object;
+            par.DbType = DbType.Binary;
             par.ParameterName = "Image";
             cmd.Parameters.Add(par);
 
@@ -209,6 +209,15 @@ namespace BruTile.Cache
             Table = table;
 
             _decorator = decorator;
+
+            if (atc == null)
+                atc = BasicAddTileCommand;
+
+            if (rtc == null)
+                rtc = BasicRemoveTileCommand;
+
+            if (ftc == null)
+                ftc = BasicFindTileCommand;
 
             _addTileCommand = atc(connection, decorator, schema, table);
             _removeTileCommand = rtc(connection, decorator, schema, table);
