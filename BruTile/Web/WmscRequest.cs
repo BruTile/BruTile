@@ -44,6 +44,12 @@ namespace BruTile.Web
             _styles = styles;
         }
 
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters, string version)
+            : this(baseUrl, schema, layers, styles, customParameters)
+        {
+            Version = version;
+        }
+
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
         /// </summary>
@@ -59,12 +65,15 @@ namespace BruTile.Web
             //always the case.
 
             url.Append("&SERVICE=WMS");
+            if (!string.IsNullOrEmpty(Version))
+                url.AppendFormat("&VERSION={0}", Version);
             url.Append("&REQUEST=GetMap");
             url.AppendFormat("&BBOX={0}", info.Extent);
             url.AppendFormat("&FORMAT={0}", _schema.Format);
             url.AppendFormat("&WIDTH={0}", _schema.Width);
             url.AppendFormat("&HEIGHT={0}", _schema.Height);
-            url.AppendFormat("&SRS={0}", _schema.Srs);
+            var crsFormat = !string.IsNullOrEmpty(Version) && String.Compare(Version, "1.3.0") >= 0 ? "&CRS={0}" : "&SRS={0}";
+            url.AppendFormat(crsFormat, _schema.Srs);
             url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(_layers));
             if (_styles != null && _styles.Count > 0) url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
 
@@ -73,6 +82,14 @@ namespace BruTile.Web
             return new Uri(url.ToString());
         }
 
+        /// <summary>
+        /// Sets or gets the WMS Version to use in GetMap requests
+        /// </summary>
+        public string Version
+        {
+            get;
+            set;
+        }
         private static string ToCommaSeparatedValues(IEnumerable<string> items)
         {
             var result = new StringBuilder();
