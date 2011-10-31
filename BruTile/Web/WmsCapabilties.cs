@@ -23,7 +23,6 @@ namespace BruTile.Web
         private WmsServerLayer _layer;
         private WmsServiceDescription _serviceDescription;
         private string _wmsVersion;
-
         #endregion
 
         #region Properties
@@ -99,6 +98,12 @@ namespace BruTile.Web
             ParseCapabilities(xml);
         }
 
+        public WmsCapabilities(Stream stream)
+        {
+            XmlDocument xml = GetXml(stream);
+            ParseCapabilities(xml);
+        }
+
         public static string CreateCapabiltiesRequest(string url)
         {
             var strReq = new StringBuilder(url);
@@ -159,7 +164,11 @@ namespace BruTile.Web
                     throw new ApplicationException("WMS Version " + _wmsVersion + " not supported");
 
                 _nsmgr.AddNamespace(String.Empty, "http://www.opengis.net/wms");
-                _nsmgr.AddNamespace("sm", _wmsVersion == "1.3.0" ? "http://www.opengis.net/wms" : "");
+                if (_wmsVersion == "1.3.0" && !string.IsNullOrEmpty(doc.DocumentElement.NamespaceURI))
+                    _nsmgr.AddNamespace("sm", "http://www.opengis.net/wms");
+                else
+                    _nsmgr.AddNamespace("sm", "");
+
                 _nsmgr.AddNamespace("xlink", "http://www.w3.org/1999/xlink");
                 _nsmgr.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
             }
@@ -167,6 +176,7 @@ namespace BruTile.Web
                 throw (new ApplicationException("No service version number found!"));
 
             XmlNode xnService = doc.DocumentElement.SelectSingleNode("sm:Service", _nsmgr);
+
             XmlNode xnCapability = doc.DocumentElement.SelectSingleNode("sm:Capability", _nsmgr);
             if (xnService != null)
                 ParseServiceDescription(xnService);
@@ -245,10 +255,31 @@ namespace BruTile.Web
             if (xnRequest == null)
                 throw (new Exception("Request parameter not specified in Service Description"));
             ParseRequest(xnRequest);
-            XmlNode xnLayer = xnCapability.SelectSingleNode("sm:Layer", _nsmgr);
-            if (xnLayer == null)
+
+            XmlNodeList xnlLayers = xnCapability.SelectNodes("sm:Layer", _nsmgr);
+            if(xnlLayers == null || xnlLayers.Count == 0)
                 throw (new Exception("No layer tag found in Service Description"));
-            _layer = ParseLayer(xnLayer);
+
+            if (xnlLayers.Count == 1)
+                _layer = ParseLayer(xnlLayers[0]);
+            else
+            {
+                // If multiple layers at top level in XML, create a single placeholder WmsServerLayer and put the layers underneath it as child layers
+                _layer = new WmsServerLayer()
+                {
+                    Name = null,
+                    Title = "Root Layer",
+                    Queryable = false,
+                    Keywords = new string[0],
+                    Crs = null,
+                    Style = null,
+                    BoundingBoxes = new WmsLayerBoundingBox[0],
+                };
+
+                _layer.ChildLayers = new WmsServerLayer[xnlLayers.Count];
+                for (var i = 0; i < xnlLayers.Count; i++)
+                    _layer.ChildLayers[i] = ParseLayer(xnlLayers[i]);
+            }
 
             XmlNode xnException = xnCapability.SelectSingleNode("sm:Exception", _nsmgr);
             if (xnException != null)
@@ -301,9 +332,13 @@ namespace BruTile.Web
                 {
                     var wor = new WmsOnlineResource();
                     wor.Type = xnlHttp.ChildNodes[i].Name;
-                    wor.OnlineResource =
-                        xnlHttp.ChildNodes[i].SelectSingleNode("sm:OnlineResource", _nsmgr).Attributes["xlink:href"].
-                            InnerText;
+                    XmlNode xnlOnlineResource = xnlHttp.ChildNodes[i].SelectSingleNode("sm:OnlineResource", _nsmgr);
+                    if (null != xnlOnlineResource)
+                    {
+                        XmlAttribute hRefAttribute = xnlOnlineResource.Attributes["xlink:href"];
+                        if(null != hRefAttribute)
+                            wor.OnlineResource = hRefAttribute.InnerText;
+                    }
                     _getMapRequests[i] = wor;
                 }
             }
@@ -397,6 +432,45 @@ namespace BruTile.Web
                     !double.TryParse(node.Attributes["maxy"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy))
                     throw new ArgumentException("Invalid LatLonBoundingBox on layer '" + layer.Name + "'");
                 layer.LatLonBoundingBox = new Extent(minx, miny, maxx, maxy);
+            }
+
+            XmlNodeList xnlBoundingBox = xmlLayer.SelectNodes("sm:BoundingBox", _nsmgr);
+            if (xnlBoundingBox != null)
+            {
+                layer.BoundingBoxes = new WmsLayerBoundingBox[xnlBoundingBox.Count];
+                for (int i = 0; i < xnlBoundingBox.Count; i++)
+                {
+                    node = xnlBoundingBox[i];
+                    var CRS = node.Attributes["CRS"];
+                    if (null == CRS)
+                        CRS = node.Attributes["crs"];
+                    if(null == CRS)
+                        CRS = node.Attributes["SRS"];
+                    if(null == CRS)
+                        CRS = node.Attributes["srs"];
+                    if(null != CRS)
+                        layer.BoundingBoxes[i].CRS = CRS.Value;
+
+                    double minx, miny, maxx, maxy;
+                    double.TryParse(node.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx);
+                    double.TryParse(node.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny);
+                    double.TryParse(node.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx);
+                    double.TryParse(node.Attributes["maxy"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy);
+                    layer.BoundingBoxes[i].minx = minx;
+                    layer.BoundingBoxes[i].miny = miny;
+                    layer.BoundingBoxes[i].maxx = maxx;
+                    layer.BoundingBoxes[i].maxy = maxy;
+
+                    double resx=0, resy=0;
+                    var resxAtt = node.Attributes["resx"];
+                    if(null != resxAtt)
+                        double.TryParse(resxAtt.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out resx);
+                    var resyAtt = node.Attributes["resy"];
+                    if (null != resyAtt)
+                        double.TryParse(resyAtt.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out resy);
+                    layer.BoundingBoxes[i].resx = resx;
+                    layer.BoundingBoxes[i].resy = resy;
+                }
             }
             return layer;
         }
@@ -509,6 +583,11 @@ namespace BruTile.Web
             /// Layer title
             /// </summary>
             public string Title;
+
+            /// <summary>
+            /// Bounding Boxes
+            /// </summary>
+            public WmsLayerBoundingBox[] BoundingBoxes;
         }
 
         #endregion
@@ -534,6 +613,28 @@ namespace BruTile.Web
 
         #endregion
 
+        #region Nested type: WmsLayerBoundingBox
+        /// <summary>
+        /// Structure for holding information about a bounding box
+        /// </summary>
+        public struct WmsLayerBoundingBox
+        {
+            /// <summary>
+            /// Layer CRS that applies to this bounding box
+            /// </summary>
+            public string CRS;
+
+            /// <summary>
+            /// Limits of the bounding box using the axis units and order of the specified CRS
+            /// </summary>
+            public double minx, miny, maxx, maxy;
+
+            /// <summary>
+            /// Optional resx and resy attributes indicate the X and Y spatial resolution in the units of that CRS
+            /// </summary>
+            public double resx, resy;
+        }
+        #endregion
         #endregion
 
     }
