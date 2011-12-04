@@ -31,22 +31,40 @@ namespace BruTile.Web
 {
     public static class RequestHelper
     {
+        internal sealed class EmptyWebProxy : IWebProxy
+        {
+            public ICredentials Credentials { get; set; }
+
+            public Uri GetProxy(Uri uri)
+            {
+                return uri;
+            }
+
+            public bool IsBypassed(Uri uri)
+            {
+                return true;
+            }
+        }
+
+        static RequestHelper()
+        {
+            WebProxy = new EmptyWebProxy();
+        }
+
+        private static IWebProxy WebProxy { get; set; }
         public static byte[] FetchImage(Uri uri)
         {
             return FetchImage(uri, String.Empty, String.Empty, true);
         }
 
 #if SILVERLIGHT
-        //I agree this '#if' is rather ugly, but it is a lot simpler like this than using abstraction layers like I did before.
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             var webClient = (HttpWebRequest)WebRequest.Create(uri);
 
-            //it seems Silverlight has explicit exceptions built in for assigning user-agent and referer. 
-            //I seems there is no way around this. PDD.
-            //Todo: remove this overload from SL or throw exception.
-            //!!!if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
-            //!!!if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
+            // Silverlight does not allow setting user-agent or referer.
+            // if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
+            // if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
             
             //we use a waithandle to fake a synchronous call
             var waitHandle = new AutoResetEvent(false);
@@ -86,18 +104,20 @@ namespace BruTile.Web
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
+            if (WebProxy != null)
+            {
+                webRequest.Proxy = WebProxy;
 #if !PocketPC
-            IWebProxy proxy = WebRequest.GetSystemWebProxy();
-            proxy.Credentials = CredentialCache.DefaultCredentials;
-            webRequest.Proxy = proxy;
-            webRequest.PreAuthenticate = true;
+                webRequest.PreAuthenticate = true;
 #endif
+            }
+
             webRequest.KeepAlive = keepAlive;
             webRequest.AllowAutoRedirect = true;
             webRequest.Timeout = 5000;
-            
+
             webRequest.UserAgent = (string.IsNullOrEmpty(userAgent)) ? Utilities.DefaultUserAgent : userAgent;
-            webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer: referer;
+            webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer : referer;
 
             WebResponse webResponse = webRequest.GetResponse();
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
@@ -107,11 +127,8 @@ namespace BruTile.Web
                     return Utilities.ReadFully(responseStream);
                 }
             }
-            else
-            {
-                string message = CreateErrorMessage(webResponse, uri.AbsoluteUri);
-                throw (new WebResponseFormatException(message, null));
-            }
+            string message = CreateErrorMessage(webResponse, uri.AbsoluteUri);
+            throw (new WebResponseFormatException(message, null));
         }
 
 #endif
@@ -120,10 +137,10 @@ namespace BruTile.Web
         {
             string message = String.Format(
                 CultureInfo.InvariantCulture,
-              "Failed to retrieve tile from this uri:\n{0}\n.An image was expected but the received type was '{1}'.",
-              uri,
-              webResponse.ContentType
-              );
+                "Failed to retrieve tile from this uri:\n{0}\n.An image was expected but the received type was '{1}'.",
+                uri,
+                webResponse.ContentType
+            );
 
             if (webResponse.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase))
             {
