@@ -28,22 +28,75 @@
     /// </summary>
     private void InitializeComponent()
     {
-        this.SuspendLayout();
-        // 
-        // Form1
-        // 
-        this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(784, 585);
-        this.Margin = new System.Windows.Forms.Padding(2);
-        this.Name = "Form1";
-        this.Text = "Form1";
-        this.Load += new System.EventHandler(this.Form1Load);
-        this.ResumeLayout(false);
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.osmImage1 = new WinFormsSample.OsmImage();
+            this.SuspendLayout();
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(12, 12);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(153, 524);
+            this.listBox1.TabIndex = 3;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 541);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "ApiKey";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(9, 557);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(153, 20);
+            this.textBox1.TabIndex = 5;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // osmImage1
+            // 
+            this.osmImage1.ApiKey = null;
+            this.osmImage1.Location = new System.Drawing.Point(171, 12);
+            this.osmImage1.Name = "osmImage1";
+            this.osmImage1.OsmServer = BruTile.Web.KnownOsmTileServers.Osma;
+            this.osmImage1.ShowExtent = false;
+            this.osmImage1.ShowGrid = false;
+            this.osmImage1.Size = new System.Drawing.Size(601, 561);
+            this.osmImage1.TabIndex = 2;
+            this.osmImage1.Text = "osmImage1";
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(784, 585);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.osmImage1);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
     }
 
     #endregion
+
+    private OsmImage osmImage1;
+    private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.TextBox textBox1;
+
+
 
   }
 }
