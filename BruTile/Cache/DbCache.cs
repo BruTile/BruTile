@@ -288,8 +288,23 @@ namespace BruTile.Cache
             }
         }
 
+        protected virtual byte[] GetBytes(IDataReader reader)
+        {
+            byte[] ret = null;
+            if (reader.Read())
+            {
+                Int32 size = reader.GetInt32(0);
+                ret = new byte[size];
+                reader.GetBytes(1, 0, ret, 0, size);
+            }
+            return ret;
+        }
+
         public byte[] Find(TileIndex index)
         {
+            if (!IsTileIndexValid(index))
+                return null;
+            
             IDbCommand cmd = _bank.Borrow();
 
             ((IDataParameter)cmd.Parameters[0]).Value = index.LevelId;
@@ -299,13 +314,7 @@ namespace BruTile.Cache
             //Boolean wasClosed = OpenConnectionIfClosed();
 
             IDataReader dr = cmd.ExecuteReader();
-            byte[] ret = null;
-            if (dr.Read())
-            {
-                Int32 size = dr.GetInt32(0);
-                ret = new byte[size];
-                dr.GetBytes(1, 0, ret, 0, size);
-            }
+            byte[] ret = GetBytes(dr);
             dr.Close();
 
             cmd.Connection.Close();
@@ -314,6 +323,11 @@ namespace BruTile.Cache
 
             return ret;
 
+        }
+
+        protected virtual bool IsTileIndexValid(TileIndex index)
+        {
+            return true;
         }
 
         #endregion

@@ -15,16 +15,16 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#endregion
+#endregion License
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
+using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace BruTile.Web
 {
@@ -38,7 +38,7 @@ namespace BruTile.Web
         readonly ITileSchema _tileSchema;
         readonly ITileProvider _tileProvider;
 
-        #endregion
+        #endregion Fields
 
         private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
         {
@@ -46,89 +46,97 @@ namespace BruTile.Web
             _tileProvider = tileProvider;
         }
 
-        public static List<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
-        {
-            var wmsCapabilities = new WmsCapabilities(uri, proxy);
-            return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
-        }
+#if !SILVERLIGHT
+
+        //public static List<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
+        //{
+        //    //var s = new DataContractSerializer(typeof (WmsCapabilities));
+        //    //var wms = (WmsCapabilities)s.ReadObject()
+        //    //WmsCapabilities =System.Runtime.Serialization.DataContractSerializer
+        //    //var wmsCapabilities = new WmsCapabilities(uri, proxy);
+
+        //    //return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.Capability.Request.[0].OnlineResource);
+        //}
+
+#else
+        //public static List<ITileSource> TileSourceBuilder(Uri uri)
+        //{
+        //    var wmsCapabilities = new WmsCapabilities(uri);
+        //    return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
+        //}
+#endif
 
         /// <summary>
-        /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties 
+        /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties
         /// and adds them to the TileSets member
         /// </summary>
         /// <param name="xnlVendorSpecificCapabilities">The VendorSpecificCapabilities node of the Capabilties</param>
         /// <param name="onlineResource"></param>
-        /// 
+        ///
         private static List<ITileSource> ParseVendorSpecificCapabilitiesNode(
-            XmlNode xnlVendorSpecificCapabilities, string onlineResource)
+            XElement xnlVendorSpecificCapabilities, string onlineResource)
         {
             var tileSets = new List<ITileSource>();
-            var nsmgr = new XmlNamespaceManager(new NameTable());
-            nsmgr.AddNamespace("sm", "");
 
-            XmlNodeList xnlTileSets = xnlVendorSpecificCapabilities.SelectNodes("sm:TileSet", nsmgr);
+            var xnlTileSets = xnlVendorSpecificCapabilities.Elements(XName.Get("TileSet"));
 
             if (xnlTileSets != null)
             {
-                foreach (XmlNode xnlTileSet in xnlTileSets)
+                foreach (var xnlTileSet in xnlTileSets)
                 {
-                    ITileSource tileSource = ParseTileSetNode(xnlTileSet, nsmgr, onlineResource);
+                    ITileSource tileSource = ParseTileSetNode(xnlTileSet, onlineResource);
                     tileSets.Add(tileSource);
                 }
             }
             return tileSets;
         }
 
-        private static ITileSource ParseTileSetNode(XmlNode xnlTileSet, XmlNamespaceManager nsmgr, string onlineResource)
+        private static ITileSource ParseTileSetNode(XElement xnlTileSet, string onlineResource)
         {
             var schema = new TileSchema();
-            var layers = new List<string>();
-            var styles = new List<string>();
 
-            XmlNode xnStyles = xnlTileSet.SelectSingleNode("sm:Styles", nsmgr);
-            if (xnStyles != null)
-                styles.AddRange(xnStyles.InnerText.Split(new [] { ',' }));
+            var xnStyles = xnlTileSet.Elements("Styles");
+            var styles = xnStyles.Select(xnStyle => xnStyle.Value).ToList();
 
-            XmlNode xnLayers = xnlTileSet.SelectSingleNode("sm:Layers", nsmgr);
-            if (xnLayers != null)
-                layers.AddRange(xnLayers.InnerText.Split(new [] { ',' }));
+            var xnLayers = xnlTileSet.Elements("Layers");
+            var layers = xnLayers.Select(xnLayer => xnLayer.Value).ToList();
 
             schema.Name = CreateDefaultName(layers);
 
-            XmlNode xnSrs = xnlTileSet.SelectSingleNode("sm:SRS", nsmgr);
+            var xnSrs = xnlTileSet.Element("SRS");
             if (xnSrs != null)
-                schema.Srs = xnSrs.InnerText;
+                schema.Srs = xnSrs.Value;
 
-            XmlNode xnWidth = xnlTileSet.SelectSingleNode("sm:Width", nsmgr);
+            var xnWidth = xnlTileSet.Element("Width");
             if (xnWidth != null)
             {
                 int width;
-                if (!Int32.TryParse(xnWidth.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
+                if (!Int32.TryParse(xnWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
                     throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
                 schema.Width = width;
             }
 
-            XmlNode xnHeight = xnlTileSet.SelectSingleNode("sm:Height", nsmgr);
-            if (xnHeight != null )
+            var xnHeight = xnlTileSet.Element("Height");
+            if (xnHeight != null)
             {
                 int height;
-                if (!Int32.TryParse(xnHeight.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                if (!Int32.TryParse(xnHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
                     throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
                 schema.Height = height;
             }
 
-            XmlNode xnFormat = xnlTileSet.SelectSingleNode("sm:Format", nsmgr);
+            var xnFormat = xnlTileSet.Element("Format");
             if (xnFormat != null)
-                schema.Format = xnFormat.InnerText;
+                schema.Format = xnFormat.Value;
 
-            XmlNode xnBoundingBox = xnlTileSet.SelectSingleNode("sm:BoundingBox", nsmgr);
+            var xnBoundingBox = xnlTileSet.Element("BoundingBox");
             if (xnBoundingBox != null)
             {
                 double minx, miny, maxx, maxy;
-                if (!double.TryParse(xnBoundingBox.Attributes["minx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
-                    !double.TryParse(xnBoundingBox.Attributes["miny"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
-                    !double.TryParse(xnBoundingBox.Attributes["maxx"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
-                    !double.TryParse(xnBoundingBox.Attributes["maxy"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy))
+                if (!double.TryParse(xnBoundingBox.Attribute("minx").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
+                    !double.TryParse(xnBoundingBox.Attribute("miny").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
+                    !double.TryParse(xnBoundingBox.Attribute("maxx").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
+                    !double.TryParse(xnBoundingBox.Attribute("maxy").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy))
                 {
                     throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
                 }
@@ -140,12 +148,12 @@ namespace BruTile.Web
                 schema.OriginY = miny;
             }
 
-            XmlNode xnResolutions = xnlTileSet.SelectSingleNode("sm:Resolutions", nsmgr);
+            var xnResolutions = xnlTileSet.Element("Resolutions");
             if (xnResolutions != null)
             {
                 var count = 0;
-                string[] resolutions = xnResolutions.InnerText.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string resolutionStr in resolutions)
+                string[] resolutions = xnResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var resolutionStr in resolutions)
                 {
                     double resolution;
                     if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
@@ -181,6 +189,6 @@ namespace BruTile.Web
             get { return _tileSchema; }
         }
 
-        #endregion
+        #endregion ITileSource Members
     }
 }

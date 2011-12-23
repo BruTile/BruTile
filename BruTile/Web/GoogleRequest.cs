@@ -1,7 +1,8 @@
-/*  
+/*
  *  This code is based on information provided by http://greatmaps.codeplex.com
- *  
+ *
  */
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,16 +25,14 @@ namespace BruTile.Web
     }
 
     public class GoogleRequest : IRequest
-    {        
-#if !SILVERLIGHT
+    {
         static GoogleRequest()
         {
             TryCorrectGoogleVersions();
         }
-#endif
-        
+
         /// <summary>
-        /// This enum contains all possible languages for the Google maps. 
+        /// This enum contains all possible languages for the Google maps.
         /// You can find latest information about supported languages in the:
         /// http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1
         /// </summary>
@@ -233,6 +232,7 @@ namespace BruTile.Web
         private string _versionKey;
 
         private GoogleMapType _mapType;
+
         /// <summary>
         /// MapType
         /// </summary>
@@ -305,7 +305,6 @@ namespace BruTile.Web
 
         public Uri GetUri(TileInfo tileInfo)
         {
-
             string sec1; // after &x=...
             string sec2; // after &zoom=...
             GetSecGoogleWords(tileInfo.Index, out sec1, out sec2);
@@ -314,7 +313,7 @@ namespace BruTile.Web
 
             return new Uri(
                 string.Format(FormatProvider, UrlFormatString,
-                              _server, GetServerNum(tileIndex, 4), _request, _version, _language,
+                              _server, GetServerNum(tileIndex, 4), _request, _version, _language.AsString(),
                               tileIndex.Col, sec1, tileIndex.Row, tileIndex.LevelId, sec2, _versionKey));
         }
 
@@ -336,101 +335,103 @@ namespace BruTile.Web
             }
         }
 
-#if !SILVERLIGHT
         private static void TryCorrectGoogleVersions()
         {
-                string url = @"http://maps.google.com";
-                try
+            var url = @"http://maps.google.com";
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                //                    if (Proxy != null)
+                //                    {
+                //                        request.Proxy = Proxy;
+                //#if !PocketPC
+                //                        request.PreAuthenticate = true;
+                //#endif
+                //                    }
+
+                request.UserAgent = GoogleTileSource.UserAgent;
+#if !SILVERLIGHT
+                request.Timeout = 60000;
+                request.ReadWriteTimeout = 360000;
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+#else
+                    using (var response = request.GetResponse(60000))
+#endif
                 {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-//                    if (Proxy != null)
-//                    {
-//                        request.Proxy = Proxy;
-//#if !PocketPC
-//                        request.PreAuthenticate = true;
-//#endif
-//                    }
-
-                    request.UserAgent = GoogleTileSource.UserAgent;
-                    request.Timeout = 60000;
-                    request.ReadWriteTimeout = 360000;
-
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    if (response != null)
                     {
-                        if (response != null)
+                        using (Stream responseStream = response.GetResponseStream())
                         {
-                            using (Stream responseStream = response.GetResponseStream())
+                            if (responseStream != null)
                             {
-                                if (responseStream != null)
+                                using (StreamReader read = new StreamReader(responseStream))
                                 {
-                                    using (StreamReader read = new StreamReader(responseStream))
+                                    string html = read.ReadToEnd();
+
+                                    Regex reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
+                                                          RegexOptions.IgnoreCase);
+                                    Match mat = reg.Match(html);
+                                    if (mat.Success)
                                     {
-                                        string html = read.ReadToEnd();
-
-                                        Regex reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
-                                                              RegexOptions.IgnoreCase);
-                                        Match mat = reg.Match(html);
-                                        if (mat.Success)
+                                        GroupCollection gc = mat.Groups;
+                                        int count = gc.Count;
+                                        if (count > 0)
                                         {
-                                            GroupCollection gc = mat.Groups;
-                                            int count = gc.Count;
-                                            if (count > 0)
-                                            {
-                                                VersionGoogleMap = string.Format("m@{0}", gc[1].Value);
-                                                //VersionGoogleMapChina = VersionGoogleMap;
-                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleMap: " +
-                                                                VersionGoogleMap);
-                                            }
+                                            VersionGoogleMap = string.Format("m@{0}", gc[1].Value);
+                                            //VersionGoogleMapChina = VersionGoogleMap;
+                                            Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleMap: " +
+                                                            VersionGoogleMap);
                                         }
+                                    }
 
-                                        reg = new Regex("\"*http://mt0.google.com/vt/lyrs=h@(\\d*)",
-                                                        RegexOptions.IgnoreCase);
-                                        mat = reg.Match(html);
-                                        if (mat.Success)
+                                    reg = new Regex("\"*http://mt0.google.com/vt/lyrs=h@(\\d*)",
+                                                    RegexOptions.IgnoreCase);
+                                    mat = reg.Match(html);
+                                    if (mat.Success)
+                                    {
+                                        GroupCollection gc = mat.Groups;
+                                        int count = gc.Count;
+                                        if (count > 0)
                                         {
-                                            GroupCollection gc = mat.Groups;
-                                            int count = gc.Count;
-                                            if (count > 0)
-                                            {
-                                                VersionGoogleLabels = string.Format("h@{0}", gc[1].Value);
-                                                //VersionGoogleLabelsChina = VersionGoogleLabels;
-                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleLabels: " +
-                                                                VersionGoogleLabels);
-                                            }
+                                            VersionGoogleLabels = string.Format("h@{0}", gc[1].Value);
+                                            //VersionGoogleLabelsChina = VersionGoogleLabels;
+                                            Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleLabels: " +
+                                                            VersionGoogleLabels);
                                         }
+                                    }
 
-                                        reg = new Regex("\"*http://khm0.google.com/kh/v=(\\d*)", RegexOptions.IgnoreCase);
-                                        mat = reg.Match(html);
-                                        if (mat.Success)
+                                    reg = new Regex("\"*http://khm0.google.com/kh/v=(\\d*)", RegexOptions.IgnoreCase);
+                                    mat = reg.Match(html);
+                                    if (mat.Success)
+                                    {
+                                        GroupCollection gc = mat.Groups;
+                                        int count = gc.Count;
+                                        if (count > 0)
                                         {
-                                            GroupCollection gc = mat.Groups;
-                                            int count = gc.Count;
-                                            if (count > 0)
-                                            {
-                                                VersionGoogleSatellite = gc[1].Value;
-                                                //VersionGoogleSatelliteKorea = VersionGoogleSatellite;
-                                                //VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
-                                                Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleSatellite: " +
-                                                                VersionGoogleSatellite);
-                                            }
+                                            VersionGoogleSatellite = gc[1].Value;
+                                            //VersionGoogleSatelliteKorea = VersionGoogleSatellite;
+                                            //VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
+                                            Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleSatellite: " +
+                                                            VersionGoogleSatellite);
                                         }
+                                    }
 
-                                        reg = new Regex("\"*http://mt0.google.com/vt/lyrs=t@(\\d*),r@(\\d*)",
-                                                        RegexOptions.IgnoreCase);
-                                        mat = reg.Match(html);
-                                        if (mat.Success)
+                                    reg = new Regex("\"*http://mt0.google.com/vt/lyrs=t@(\\d*),r@(\\d*)",
+                                                    RegexOptions.IgnoreCase);
+                                    mat = reg.Match(html);
+                                    if (mat.Success)
+                                    {
+                                        GroupCollection gc = mat.Groups;
+                                        int count = gc.Count;
+                                        if (count > 1)
                                         {
-                                            GroupCollection gc = mat.Groups;
-                                            int count = gc.Count;
-                                            if (count > 1)
-                                            {
-                                                VersionGoogleTerrain = string.Format("t@{0},r@{1}", gc[1].Value,
-                                                                                     gc[2].Value);
-                                                //VersionGoogleTerrainChina = VersionGoogleTerrain;
-                                                Debug.WriteLine(
-                                                    "TryCorrectGoogleVersions, VersionGoogleTerrain: " +
-                                                    VersionGoogleTerrain);
-                                            }
+                                            VersionGoogleTerrain = string.Format("t@{0},r@{1}", gc[1].Value,
+                                                                                 gc[2].Value);
+                                            //VersionGoogleTerrainChina = VersionGoogleTerrain;
+                                            Debug.WriteLine(
+                                                "TryCorrectGoogleVersions, VersionGoogleTerrain: " +
+                                                VersionGoogleTerrain);
                                         }
                                     }
                                 }
@@ -438,11 +439,30 @@ namespace BruTile.Web
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex);
-                }
             }
-#endif
+            catch (Exception ex)
+            {
+                Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex);
+            }
+        }
+
+        //#endif
+    }
+
+    internal static class EnumExtensions
+    {
+        public static string AsString(this Enum en)
+        {
+            var type = en.GetType();
+            var memInfo = type.GetMember(en.ToString());
+            if (memInfo != null && memInfo.Length > 0)
+            {
+                var attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs != null && attrs.Length > 0)
+                    return ((DescriptionAttribute)attrs[0]).Description;
+            }
+
+            return en.ToString();
+        }
     }
 }

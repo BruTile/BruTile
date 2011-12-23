@@ -34,6 +34,8 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,17 +74,18 @@
     <Compile Include="PreDefined\BingSchema.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="IAxis.cs" />
+    <Compile Include="PreDefined\GlobalMercator.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Web\GoogleRequest.cs" />
     <Compile Include="Web\GoogleTileSource.cs" />
+    <Compile Include="Web\OsmRequest.cs" />
     <Compile Include="Web\TmsService\Root.cs" />
     <Compile Include="Web\TmsService\TileMapParser.cs" />
     <Compile Include="Web\TmsService\TileMapService.cs" />
     <Compile Include="Web\TmsService\TileMap.cs" />
     <Compile Include="Web\WmscTileSource.cs" />
-    <Compile Include="Web\WmsCapabilties.cs" />
     <Compile Include="TileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Web\IRequest.cs" />
@@ -110,7 +113,13 @@
     <Compile Include="Web\TmsTileSource.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
-    <Compile Include="Web\WmsServiceDescription.cs" />
+    <Compile Include="Web\Wms\WmsLayerBoundingBox.cs" />
+    <Compile Include="Web\Wms\WmsLayerStyle.cs" />
+    <Compile Include="Web\Wms\WmsNamespaces.cs" />
+    <Compile Include="Web\Wms\WmsOnlineRessource.cs" />
+    <Compile Include="Web\Wms\WmsServerLayer.cs" />
+    <Compile Include="Web\Wms\WmsServiceDescription.cs" />
+    <Compile Include="Web\Wms\WmsStyleLegend.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -134,6 +143,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -63,6 +63,7 @@ namespace WinFormsSample
                 _center = value;
                 UpdateExtent();
             }
+            get { return _center; }
         }
 
         public float Width
@@ -95,7 +96,12 @@ namespace WinFormsSample
 
         public PointF MapToWorld(double x, double y)
         {
-            return new PointF((float)(_extent.MinX + x) * _resolution, (float)(_extent.MaxY - y) * _resolution);
+            return new PointF((float)(_extent.MinX + (x * _resolution)), (float)(_extent.MaxY -( y * _resolution)));
+        }
+
+        public RectangleF WorldToMap(Extent extent)
+        {
+            return WorldToMap(extent.MinX, extent.MinY, extent.MaxX, extent.MaxY);
         }
 
         public RectangleF WorldToMap(double x1, double y1, double x2, double y2)

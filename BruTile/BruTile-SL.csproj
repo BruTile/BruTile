@@ -72,6 +72,7 @@
     <Compile Include="ITileSchema.cs" />
     <Compile Include="ITileSource.cs" />
     <Compile Include="NormalAxis.cs" />
+    <Compile Include="OsmRequest.cs" />
     <Compile Include="PreDefined\BingSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Web\IRequest.cs" />
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
+    <Compile Include="Web\RequestHelper.SL.cs" />
     <Compile Include="Web\TmsRequest.cs" />
     <Compile Include="Web\TmsService\Root.cs" />
     <Compile Include="Web\TmsService\TileMap.cs" />
@@ -103,9 +105,6 @@
     <Compile Include="Web\WebTileProvider.cs" />
     <Compile Include="Web\WmscRequest.cs" />
     <Compile Include="Web\WmsServiceDescription.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="BruTile.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
