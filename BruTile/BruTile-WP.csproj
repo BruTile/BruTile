@@ -78,9 +78,8 @@
     <Compile Include="Web\BasicRequest.cs" />
     <Compile Include="Web\BingRequest.cs" />
     <Compile Include="Web\BingTileSource.cs" />
-    <Compile Include="Web\GoogleRequest.cs" />
-    <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\IRequest.cs" />
+    <Compile Include="Web\OsmRequest.cs" />
     <Compile Include="Web\OsmTileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Web\TmsRequest.cs" />
