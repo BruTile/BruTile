@@ -19,6 +19,7 @@ namespace BruTile.Tests
         }
 
         [Test]
+        [Ignore]
         public void Test()
         {
             TestInsertFindRemove();

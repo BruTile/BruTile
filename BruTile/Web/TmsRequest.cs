@@ -28,32 +28,49 @@ namespace BruTile.Web
 {
     public class TmsRequest : IRequest
     {
-        readonly IDictionary<string, Uri> _baseUrl;
-        readonly Dictionary<string, string> _customParameters;
-        readonly string _format;
-        readonly bool _isSingleUrl; //If single url is added the request uses the same url for every resolution
+        private readonly string _baseUrl;
+        private readonly IDictionary<string, Uri> _baseUrls;
+        private readonly string _imageFormat;
+        private readonly Dictionary<string, string> _customParameters;
+        private readonly IList<string> _serverNodes;
+        private readonly Random _random = new Random();
+        private const string ServerNodeTag = "{S}";
 
-        public TmsRequest(Uri baseUrl, string format)
-            : this(new Dictionary<string, Uri> { { "0", baseUrl } }, format)
-        {
-            _isSingleUrl = true;
-        }
-
-        public TmsRequest(Uri baseUrl, string format, Dictionary<string, string> dictionary)
-            : this(new Dictionary<string, Uri> { { "0", baseUrl } }, format, dictionary)
-        {
-            _isSingleUrl = true;
-        }
-
-        public TmsRequest(IDictionary<string, Uri> baseUrl, string format)
-            : this(baseUrl, format, new Dictionary<string, string>())
-        {
-        }
-
-        public TmsRequest(IDictionary<string, Uri> baseUrl, string format, Dictionary<string, string> customParameters)
+        public TmsRequest(string baseUrl, string imageFormat, IList<string> serverNodes = null,
+         Dictionary<string, string> customParameters = null)
+            : this(imageFormat, serverNodes, customParameters)
         {
             _baseUrl = baseUrl;
-            _format = format;
+            if (_baseUrl.Contains(ServerNodeTag))
+            {
+                if (serverNodes == null || serverNodes.Count == 0)
+                    throw new Exception("The '" + ServerNodeTag + "' tag was set but no server nodes were specified");
+            }
+            if (serverNodes != null && serverNodes.Count > 0)
+            {
+               if (!_baseUrl.Contains(ServerNodeTag))
+                    throw new Exception("Server nodes were specified but no '" + ServerNodeTag + "' tag was set");
+            }
+        }
+
+        public TmsRequest(Uri baseUrl, string imageFormat, Dictionary<string, string> customParameters = null)
+            : this(imageFormat, null, customParameters)
+        {
+            _baseUrl = baseUrl.ToString();
+        }
+
+        public TmsRequest(IDictionary<string, Uri> baseUrls, string imageFormat, 
+            Dictionary<string, string> customParameters = null)
+            : this(imageFormat, null, customParameters)
+        {
+            _baseUrls = baseUrls;
+        }
+
+        private TmsRequest(string imageFormat, IList<string> serverNodes = null, 
+            Dictionary<string, string> customParameters = null)
+        {
+            _imageFormat = imageFormat;
+            _serverNodes = serverNodes;
             _customParameters = customParameters;
         }
 
@@ -64,39 +81,57 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            var url = new StringBuilder();
-
-            if (_isSingleUrl)
-            {
-                url.AppendFormat(CultureInfo.InvariantCulture,
-                      "{0}/{1}/{2}/{3}.{4}",
-                      _baseUrl["0"], info.Index.LevelId, info.Index.Col, info.Index.Row, _format);
-            }
-            else
-            {
-                url.AppendFormat(CultureInfo.InvariantCulture,
-                  "{0}/{1}/{2}.{3}",
-                  _baseUrl[info.Index.LevelId], info.Index.Col, info.Index.Row, _format);
-            }
-
-
-            AppendCustomParameters(url);
+            var url = new StringBuilder(GetUrlForLevel(info.Index.LevelId));
+            InsertRandomServerNode(url, _serverNodes, _random);
+            AppendXY(url, info);
+            AppendImageFormat(url, _imageFormat);
+            AppendCustomParameters(url, _customParameters);
             return new Uri(url.ToString());
         }
 
-        private void AppendCustomParameters(StringBuilder url)
+        private string GetUrlForLevel(string levelId)
         {
-            if (_customParameters != null && _customParameters.Count > 0)
+            // if a single url is specified for all levevls return that one plus the level id
+            if (_baseUrl != null)
             {
-                bool first = true;
-                foreach (string name in _customParameters.Keys)
-                {
-                    string value = _customParameters[name];
-                    url.AppendFormat("{0}{1}={2}", first ? "?" : "&", name, value);
-                    first = false;
-                }
+                return string.Format(CultureInfo.InvariantCulture, "{0}/{1}/", _baseUrl, levelId);
+            }
+            // else return the url that was defined for the specific level
+            return _baseUrls[levelId].ToString();
+        }
+
+        private static void InsertRandomServerNode(StringBuilder baseUrl, IList<string> serverNodes, Random random)
+        {
+            if (serverNodes != null)
+            {
+                baseUrl.Replace(ServerNodeTag, serverNodes[random.Next(serverNodes.Count)]);
             }
         }
 
+        private static void AppendImageFormat(StringBuilder url, string imageFormat)
+        {
+            if (!string.IsNullOrEmpty(imageFormat))
+            {
+                url.AppendFormat(CultureInfo.InvariantCulture, ".{0}", imageFormat);
+            }
+        }
+
+        private static void AppendXY(StringBuilder url, TileInfo info)
+        {
+            url.AppendFormat(CultureInfo.InvariantCulture, "{0}/{1}", info.Index.Col, info.Index.Row);
+        }
+
+        private static void AppendCustomParameters(StringBuilder url, Dictionary<string, string> customParameters)
+        {
+            if (customParameters == null) return;
+            
+            bool first = true;
+            foreach (string name in customParameters.Keys)
+            {
+                string value = customParameters[name];
+                url.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}={2}", first ? "?" : "&", name, value);
+                first = false;
+            }
+        }
     }
 }
