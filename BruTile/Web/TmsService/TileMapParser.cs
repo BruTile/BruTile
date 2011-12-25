@@ -104,9 +104,9 @@ namespace BruTile.Web.TmsService
         private static IRequest CreateRequest(IDictionary<string, Uri> tileUrls, string format, string overrideUrl)
         {
             if (string.IsNullOrEmpty(overrideUrl))
-                return new TmsRequest(tileUrls, format, new Dictionary<string, string>());
+                return new TmsRequest(tileUrls, format);
 
-            return new TmsRequest(new Uri(overrideUrl), format, null);
+            return new TmsRequest(new Uri(overrideUrl), format);
         }
     }
 }
