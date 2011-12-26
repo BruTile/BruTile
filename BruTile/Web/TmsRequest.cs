@@ -36,8 +36,8 @@ namespace BruTile.Web
         private readonly Random _random = new Random();
         private const string ServerNodeTag = "{S}";
 
-        public TmsRequest(string baseUrl, string imageFormat, IList<string> serverNodes = null,
-         Dictionary<string, string> customParameters = null)
+        public TmsRequest(string baseUrl, string imageFormat, IList<string> serverNodes,
+         Dictionary<string, string> customParameters)
             : this(imageFormat, serverNodes, customParameters)
         {
             _baseUrl = baseUrl;
@@ -53,21 +53,21 @@ namespace BruTile.Web
             }
         }
 
-        public TmsRequest(Uri baseUrl, string imageFormat, Dictionary<string, string> customParameters = null)
+        public TmsRequest(Uri baseUrl, string imageFormat, Dictionary<string, string> customParameters)
             : this(imageFormat, null, customParameters)
         {
             _baseUrl = baseUrl.ToString();
         }
 
         public TmsRequest(IDictionary<string, Uri> baseUrls, string imageFormat, 
-            Dictionary<string, string> customParameters = null)
+            Dictionary<string, string> customParameters)
             : this(imageFormat, null, customParameters)
         {
             _baseUrls = baseUrls;
         }
 
-        private TmsRequest(string imageFormat, IList<string> serverNodes = null, 
-            Dictionary<string, string> customParameters = null)
+        private TmsRequest(string imageFormat, IList<string> serverNodes, 
+            Dictionary<string, string> customParameters)
         {
             _imageFormat = imageFormat;
             _serverNodes = serverNodes;

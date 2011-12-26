@@ -38,7 +38,7 @@ namespace BruTile.Web
 
         public TmsTileSource(Uri serviceUri, ITileSchema tileSchema)
         {
-            Provider = new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format));
+            Provider = new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format, null));
             Schema = tileSchema;
         }
     }
