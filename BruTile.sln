@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "Silverlight\BruTile\BruTile.csproj", "{82F3FDB6-7794-4FA4-8296-5CBD079E2F2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
+	ProjectSection(SolutionItems) = preProject
+		BruTile.MbTiles.nuspec = BruTile.MbTiles.nuspec
+		BruTile.nuspec = BruTile.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

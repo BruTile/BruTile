@@ -23,19 +23,20 @@ namespace BruTile.Web
         private WmsServerLayer _layer;
         private WmsServiceDescription _serviceDescription;
         private string _wmsVersion;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
 
         /// <summary>
-        /// Exposes the capabilitie's VendorSpecificCapabilities as XmlNode object. External modules 
+        /// Exposes the capabilitie's VendorSpecificCapabilities as XmlNode object. External modules
         /// could use this to parse the vendor specific capabilities for their specific purpose.
         /// </summary>
         public XmlNode VendorSpecificCapabilities
         {
             get { return _vendorSpecificCapabilities; }
         }
-        
+
         /// <summary>
         /// Gets the service description
         /// </summary>
@@ -84,9 +85,9 @@ namespace BruTile.Web
             get { return _layer; }
         }
 
-        #endregion
+        #endregion Properties
 
-        public WmsCapabilities(Uri uri, WebProxy proxy)
+        public WmsCapabilities(Uri uri, IWebProxy proxy)
         {
             Stream stream;
             if (uri.IsAbsoluteUri && uri.IsFile) //assume web if relative because IsFile is not supported on relative paths
@@ -150,7 +151,6 @@ namespace BruTile.Web
             return stream;
         }
 
-
         /// <summary>
         /// Parses a servicedescription and stores the data in the ServiceDescription property
         /// </summary>
@@ -182,7 +182,6 @@ namespace BruTile.Web
                 ParseServiceDescription(xnService);
             else
                 throw (new ApplicationException("No service tag found!"));
-
 
             if (xnCapability != null)
                 ParseCapability(xnCapability);
@@ -257,7 +256,7 @@ namespace BruTile.Web
             ParseRequest(xnRequest);
 
             XmlNodeList xnlLayers = xnCapability.SelectNodes("sm:Layer", _nsmgr);
-            if(xnlLayers == null || xnlLayers.Count == 0)
+            if (xnlLayers == null || xnlLayers.Count == 0)
                 throw (new Exception("No layer tag found in Service Description"));
 
             if (xnlLayers.Count == 1)
@@ -315,7 +314,7 @@ namespace BruTile.Web
             ParseGetMapRequest(xnGetMap);
             //TODO: figure out what we need to do with lines below:
             //XmlNode xnGetFeatureInfo = xmlRequestNodes.SelectSingleNode("sm:GetFeatureInfo", nsmgr);
-            //XmlNode xnCapa = xmlRequestNodes.SelectSingleNode("sm:GetCapabilities", nsmgr); <-- We don't really need this do we?			
+            //XmlNode xnCapa = xmlRequestNodes.SelectSingleNode("sm:GetCapabilities", nsmgr); <-- We don't really need this do we?
         }
 
         /// <summary>
@@ -336,7 +335,7 @@ namespace BruTile.Web
                     if (null != xnlOnlineResource)
                     {
                         XmlAttribute hRefAttribute = xnlOnlineResource.Attributes["xlink:href"];
-                        if(null != hRefAttribute)
+                        if (null != hRefAttribute)
                             wor.OnlineResource = hRefAttribute.InnerText;
                     }
                     _getMapRequests[i] = wor;
@@ -365,7 +364,6 @@ namespace BruTile.Web
             layer.Abstract = (node != null ? node.InnerText : null);
             XmlAttribute attr = xmlLayer.Attributes["queryable"];
             layer.Queryable = (attr != null && attr.InnerText == "1");
-
 
             XmlNodeList xnlKeywords = xmlLayer.SelectNodes("sm:KeywordList/sm:Keyword", _nsmgr);
             if (xnlKeywords != null)
@@ -444,11 +442,11 @@ namespace BruTile.Web
                     var CRS = node.Attributes["CRS"];
                     if (null == CRS)
                         CRS = node.Attributes["crs"];
-                    if(null == CRS)
+                    if (null == CRS)
                         CRS = node.Attributes["SRS"];
-                    if(null == CRS)
+                    if (null == CRS)
                         CRS = node.Attributes["srs"];
-                    if(null != CRS)
+                    if (null != CRS)
                         layer.BoundingBoxes[i].CRS = CRS.Value;
 
                     double minx, miny, maxx, maxy;
@@ -461,9 +459,9 @@ namespace BruTile.Web
                     layer.BoundingBoxes[i].maxx = maxx;
                     layer.BoundingBoxes[i].maxy = maxy;
 
-                    double resx=0, resy=0;
+                    double resx = 0, resy = 0;
                     var resxAtt = node.Attributes["resx"];
-                    if(null != resxAtt)
+                    if (null != resxAtt)
                         double.TryParse(resxAtt.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out resx);
                     var resyAtt = node.Attributes["resy"];
                     if (null != resyAtt)
@@ -510,7 +508,7 @@ namespace BruTile.Web
             public string Title;
         }
 
-        #endregion
+        #endregion Nested type: WmsLayerStyle
 
         #region Nested type: WmsOnlineResource
 
@@ -530,12 +528,12 @@ namespace BruTile.Web
             public string Type;
         }
 
-        #endregion
+        #endregion Nested type: WmsOnlineResource
 
         #region Nested type: WmsServerLayer
 
         /// <summary>
-        /// Structure for holding information about a WMS Layer 
+        /// Structure for holding information about a WMS Layer
         /// </summary>
         public struct WmsServerLayer
         {
@@ -590,7 +588,7 @@ namespace BruTile.Web
             public WmsLayerBoundingBox[] BoundingBoxes;
         }
 
-        #endregion
+        #endregion Nested type: WmsServerLayer
 
         #region Nested type: WmsStyleLegend
 
@@ -600,7 +598,7 @@ namespace BruTile.Web
         public struct WmsStyleLegend
         {
             /// <summary>
-            /// Online resource for legend style 
+            /// Online resource for legend style
             /// </summary>
             public WmsOnlineResource OnlineResource;
 
@@ -611,9 +609,10 @@ namespace BruTile.Web
             public int Height;
         }
 
-        #endregion
+        #endregion Nested type: WmsStyleLegend
 
         #region Nested type: WmsLayerBoundingBox
+
         /// <summary>
         /// Structure for holding information about a bounding box
         /// </summary>
@@ -634,10 +633,9 @@ namespace BruTile.Web
             /// </summary>
             public double resx, resy;
         }
-        #endregion
-        #endregion
 
+        #endregion Nested type: WmsLayerBoundingBox
+
+        #endregion WMS Data structures
     }
-
-
 }

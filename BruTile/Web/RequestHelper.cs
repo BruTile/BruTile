@@ -15,25 +15,28 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#endregion
+#endregion License
 
 using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
+
 #if SILVERLIGHT
+
 using System.Threading;
+
 #endif
 
 namespace BruTile.Web
 {
-    public static class RequestHelper
+    public static partial class RequestHelper
     {
-
 #if !SILVERLIGHT
-        internal sealed class EmptyWebProxy : IWebProxy
+
+        public sealed class EmptyWebProxy : IWebProxy
         {
             public ICredentials Credentials { get; set; }
 
@@ -51,58 +54,12 @@ namespace BruTile.Web
         static RequestHelper()
         {
             WebProxy = new EmptyWebProxy();
+            Timeout = 5000;
         }
 
-        private static IWebProxy WebProxy { get; set; }
-#endif
+        public static IWebProxy WebProxy { get; set; }
 
-        public static byte[] FetchImage(Uri uri)
-        {
-            return FetchImage(uri, String.Empty, String.Empty, true);
-        }
-
-#if SILVERLIGHT
-        public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
-        {
-            var webClient = (HttpWebRequest)WebRequest.Create(uri);
-
-            // Silverlight does not allow setting user-agent or referer.
-            // if (!String.IsNullOrEmpty(userAgent)) webClient.Headers["user-agent"] = userAgent;
-            // if (!String.IsNullOrEmpty(referer)) webClient.Headers["Referer"] = referer;
-
-            //we use a waithandle to fake a synchronous call
-            var waitHandle = new AutoResetEvent(false);
-            IAsyncResult result = webClient.BeginGetResponse(WebClientOpenReadCompleted, waitHandle);
-
-            //This trick works because the this is called on a worker thread. In SL it wont work if you call
-            //it from the main thread because the main thead dispatches the worker threads and it starts waiting 
-            //before it dispatches the worker thread.
-            waitHandle.WaitOne();
-
-            var response = (HttpWebResponse)webClient.EndGetResponse(result);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("An error occurred while fetching the tile");
-            }
-            if (!response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-            {
-                string message = CreateErrorMessage(response, uri.AbsoluteUri);
-                throw (new WebResponseFormatException(message, null));
-            }
-            using (Stream responseStream = response.GetResponseStream())
-            {
-                return Utilities.ReadFully(responseStream);
-            }
-        }
-
-        private static void WebClientOpenReadCompleted(IAsyncResult e)
-        {
-            //Call Set() so that WaitOne can proceed.
-            ((AutoResetEvent)e.AsyncState).Set();
-        }
-
-#else
+        public static int Timeout { get; set; }
 
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
@@ -118,7 +75,7 @@ namespace BruTile.Web
 
             webRequest.KeepAlive = keepAlive;
             webRequest.AllowAutoRedirect = true;
-            webRequest.Timeout = 5000;
+            webRequest.Timeout = Timeout;
 
             webRequest.UserAgent = (string.IsNullOrEmpty(userAgent)) ? Utilities.DefaultUserAgent : userAgent;
             webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer : referer;
@@ -136,6 +93,11 @@ namespace BruTile.Web
         }
 
 #endif
+
+        public static byte[] FetchImage(Uri uri)
+        {
+            return FetchImage(uri, String.Empty, String.Empty, true);
+        }
 
         private static string CreateErrorMessage(WebResponse webResponse, string uri)
         {
