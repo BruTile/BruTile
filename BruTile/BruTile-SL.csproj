@@ -60,6 +60,9 @@
     <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Silverlight\BruTile\Web\RequestHelper.SL.cs">
+      <Link>Web\RequestHelper.SL.cs</Link>
+    </Compile>
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />

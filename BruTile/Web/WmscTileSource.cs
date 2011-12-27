@@ -23,8 +23,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml.Linq;
+using BruTile.Web.Wms;
 
 namespace BruTile.Web
 {
@@ -48,15 +50,14 @@ namespace BruTile.Web
 
 #if !SILVERLIGHT
 
-        //public static List<ITileSource> TileSourceBuilder(Uri uri, WebProxy proxy)
-        //{
-        //    //var s = new DataContractSerializer(typeof (WmsCapabilities));
-        //    //var wms = (WmsCapabilities)s.ReadObject()
-        //    //WmsCapabilities =System.Runtime.Serialization.DataContractSerializer
-        //    //var wmsCapabilities = new WmsCapabilities(uri, proxy);
+        public static List<ITileSource> TileSourceBuilder(Uri uri, IWebProxy proxy)
+        {
+            var wmsCapabilities = new WmsCapabilities(uri, proxy);
 
-        //    //return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.Capability.Request.[0].OnlineResource);
-        //}
+            return ParseVendorSpecificCapabilitiesNode(
+                (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
+                wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
+        }
 
 #else
         //public static List<ITileSource> TileSourceBuilder(Uri uri)
@@ -74,7 +75,7 @@ namespace BruTile.Web
         /// <param name="onlineResource"></param>
         ///
         private static List<ITileSource> ParseVendorSpecificCapabilitiesNode(
-            XElement xnlVendorSpecificCapabilities, string onlineResource)
+            XElement xnlVendorSpecificCapabilities, OnlineResource onlineResource)
         {
             var tileSets = new List<ITileSource>();
 
@@ -91,7 +92,7 @@ namespace BruTile.Web
             return tileSets;
         }
 
-        private static ITileSource ParseTileSetNode(XElement xnlTileSet, string onlineResource)
+        private static ITileSource ParseTileSetNode(XElement xnlTileSet, OnlineResource onlineResource)
         {
             var schema = new TileSchema();
 
@@ -163,7 +164,7 @@ namespace BruTile.Web
                 }
             }
 
-            return new WmscTileSource(schema, new WebTileProvider(new WmscRequest(new Uri(onlineResource), schema, layers, styles, new Dictionary<string, string>())));
+            return new WmscTileSource(schema, new WebTileProvider(new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles, new Dictionary<string, string>())));
         }
 
         private static string CreateDefaultName(IEnumerable<string> layers)

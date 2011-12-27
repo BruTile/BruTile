@@ -203,26 +203,122 @@
     <Compile Include="..\..\BruTile\Web\WmscTileSource.cs">
       <Link>Web\WmscTileSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsLayerBoundingBox.cs">
-      <Link>Web\Wms\WmsLayerBoundingBox.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\Attribution.cs">
+      <Link>Web\Wms\Attribution.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsLayerStyle.cs">
-      <Link>Web\Wms\WmsLayerStyle.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\AuthorityURL.cs">
+      <Link>Web\Wms\AuthorityURL.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsNamespaces.cs">
-      <Link>Web\Wms\WmsNamespaces.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\BoundingBox.cs">
+      <Link>Web\Wms\BoundingBox.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsOnlineRessource.cs">
-      <Link>Web\Wms\WmsOnlineRessource.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\Capability.cs">
+      <Link>Web\Wms\Capability.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsServerLayer.cs">
-      <Link>Web\Wms\WmsServerLayer.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactAddress.cs">
+      <Link>Web\Wms\ContactAddress.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsServiceDescription.cs">
-      <Link>Web\Wms\WmsServiceDescription.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactInformation.cs">
+      <Link>Web\Wms\ContactInformation.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Web\Wms\WmsStyleLegend.cs">
-      <Link>Web\Wms\WmsStyleLegend.cs</Link>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactPersonPrimary.cs">
+      <Link>Web\Wms\ContactPersonPrimary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DataURL.cs">
+      <Link>Web\Wms\DataURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DCPType.cs">
+      <Link>Web\Wms\DCPType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DCPTypeElement.cs">
+      <Link>Web\Wms\DCPTypeElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Dimension.cs">
+      <Link>Web\Wms\Dimension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Exception.cs">
+      <Link>Web\Wms\Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ExGeographicBoundingBox.cs">
+      <Link>Web\Wms\ExGeographicBoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\FeatureListURL.cs">
+      <Link>Web\Wms\FeatureListURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Get.cs">
+      <Link>Web\Wms\Get.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\HTTP.cs">
+      <Link>Web\Wms\HTTP.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Identifier.cs">
+      <Link>Web\Wms\Identifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Keyword.cs">
+      <Link>Web\Wms\Keyword.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\KeywordList.cs">
+      <Link>Web\Wms\KeywordList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Layer.cs">
+      <Link>Web\Wms\Layer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\LegendURL.cs">
+      <Link>Web\Wms\LegendURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\LogoURL.cs">
+      <Link>Web\Wms\LogoURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\MetadataURL.cs">
+      <Link>Web\Wms\MetadataURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\OnlineResource.cs">
+      <Link>Web\Wms\OnlineResource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\OperationType.cs">
+      <Link>Web\Wms\OperationType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Post.cs">
+      <Link>Web\Wms\Post.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Request.cs">
+      <Link>Web\Wms\Request.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Service.cs">
+      <Link>Web\Wms\Service.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceException.cs">
+      <Link>Web\Wms\ServiceException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceExceptionReport.cs">
+      <Link>Web\Wms\ServiceExceptionReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceName.cs">
+      <Link>Web\Wms\ServiceName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Style.cs">
+      <Link>Web\Wms\Style.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\StyleSheetURL.cs">
+      <Link>Web\Wms\StyleSheetURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\StyleURL.cs">
+      <Link>Web\Wms\StyleURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsCapabilities.cs">
+      <Link>Web\Wms\WmsCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsParsingException.cs">
+      <Link>Web\Wms\WmsParsingException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsPropertyException.cs">
+      <Link>Web\Wms\WmsPropertyException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsVersion.cs">
+      <Link>Web\Wms\WmsVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\XmlObject.cs">
+      <Link>Web\Wms\XmlObject.cs</Link>
     </Compile>
     <Compile Include="Web\RequestHelper.SL.cs" />
   </ItemGroup>

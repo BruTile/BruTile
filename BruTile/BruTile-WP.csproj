@@ -50,6 +50,9 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Silverlight\BruTile\Web\RequestHelper.SL.cs">
+      <Link>Web\RequestHelper.SL.cs</Link>
+    </Compile>
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
