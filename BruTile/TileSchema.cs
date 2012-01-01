@@ -39,12 +39,10 @@ namespace BruTile
     {
         #region Fields
 
-        private IList<Resolution> _resolutions = new List<Resolution>();
-        private AxisDirection _axisDirection = AxisDirection.Normal;
-        IAxis _axis = new NormalAxis();
-
         public TileSchema()
         {
+            Resolutions = new List<Resolution>();
+            Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
         }
@@ -52,8 +50,6 @@ namespace BruTile
         #endregion
 
         #region Properties
-
-        //Todo: see if we can replace all setters with constructor arguments. Do this after automatic parser is implemented
 
         public string Name { get; set; }
         public string Srs { get; set; }
@@ -63,21 +59,9 @@ namespace BruTile
         public int Width { get; set; }
         public int Height { get; set; }
         public string Format { get; set; }
+        public IList<Resolution> Resolutions { get; private set; }
+        public AxisDirection Axis { get; set; }
 
-        public IList<Resolution> Resolutions
-        {
-            get { return _resolutions; }
-        }
-
-        public AxisDirection Axis
-        {
-            get { return _axisDirection; }
-            set 
-            { 
-                _axisDirection = value;
-                _axis = CreateAxis(value);
-            }
-        }
         #endregion
 
         #region Public Methods
@@ -107,7 +91,7 @@ namespace BruTile
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
                   "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", Name));
             }
-            if (_resolutions.Count == 0)
+            if (Resolutions.Count == 0)
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
                   "No Resolutions were added for TileSchema '{0}'", Name));
@@ -144,15 +128,15 @@ namespace BruTile
         public IList<TileInfo> GetTilesInView(Extent extent, int level)
         {
             IList<TileInfo> infos = new List<TileInfo>();
-            TileRange range = _axis.WorldToTile(extent, level, this);
+            TileRange range = TileTransform.WorldToTile(extent, level, this);
             infos.Clear();
-
-            for (int x = range.FirstCol; x < range.LastCol; x++)
+            
+            for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
-                for (int y = range.FirstRow; y < range.LastRow; y++)
+                for (int y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
                 {
                     var info = new TileInfo();
-                    info.Extent = _axis.TileToWorld(new TileRange(x, y), level, this);
+                    info.Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this);
                     info.Index = new TileIndex(x, y, Resolutions[level].Id);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
@@ -166,8 +150,8 @@ namespace BruTile
 
         public Extent GetExtentOfTilesInView(Extent extent, int level)
         {
-            TileRange range = _axis.WorldToTile(extent, level, this);
-            return _axis.TileToWorld(range, level, this);
+            TileRange range = TileTransform.WorldToTile(extent, level, this);
+            return TileTransform.TileToWorld(range, level, this);
         }
 
         #endregion
@@ -176,27 +160,14 @@ namespace BruTile
 
         private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
         {
-            //Always return false when tile is outsize of schema
+            // Always return false when the tile is outsize of the schema
             if (!tileExtent.Intersects(schemaExtent)) return false;
 
-            //Do not always accept when the tile is partially inside the schema. 
-            //Reject tiles that have less than 0.1% percent overlap.
-            //In practice they turn out to be mostly false positives due to rounding errors.
-            //They are not present on the server and the failed requests make slow the application down.
+            // Do not always accept when the tile is partially inside the schema. 
+            // Reject tiles that have less than 0.1% percent overlap.
+            // In practice they turn out to be mostly false positives due to rounding errors.
+            // They are not present on the server and the failed requests slow the application down.
             return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
-        }
-
-        private static IAxis CreateAxis(AxisDirection axis)
-        {
-            switch (axis)
-            {
-                case AxisDirection.Normal:
-                    return new NormalAxis();
-                case AxisDirection.InvertedY:
-                    return new InvertedYAxis();
-                default:
-                    throw new ArgumentException("could not find axis transformer");
-            }
         }
 
         #endregion

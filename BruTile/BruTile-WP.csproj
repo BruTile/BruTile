@@ -59,12 +59,9 @@
     <Compile Include="Cache\NullCache.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
-    <Compile Include="IAxis.cs" />
-    <Compile Include="InvertedYAxis.cs" />
     <Compile Include="ITileProvider.cs" />
     <Compile Include="ITileSchema.cs" />
     <Compile Include="ITileSource.cs" />
-    <Compile Include="NormalAxis.cs" />
     <Compile Include="PreDefined\BingSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
@@ -75,6 +72,7 @@
     <Compile Include="TileRange.cs" />
     <Compile Include="TileSchema.cs" />
     <Compile Include="TileSource.cs" />
+    <Compile Include="TileTransform.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="Web\ArcGisTileRequest.cs" />
