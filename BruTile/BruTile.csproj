@@ -67,13 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\CachingTileProvider.cs" />
-    <Compile Include="InvertedYAxis.cs" />
-    <Compile Include="NormalAxis.cs" />
+    <Compile Include="TileTransform.cs" />
     <Compile Include="Cache\DbCache.cs" />
     <Compile Include="Cache\NullCache.cs" />
     <Compile Include="PreDefined\BingSchema.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
-    <Compile Include="IAxis.cs" />
     <Compile Include="PreDefined\GlobalMercator.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />

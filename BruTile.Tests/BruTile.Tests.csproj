@@ -65,6 +65,7 @@
     <Compile Include="FileCacheTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileKeyTest.cs" />
+    <Compile Include="TileTransformTest.cs" />
     <Compile Include="Web\SerializationTest.cs" />
     <Compile Include="Web\TileSourceWmsCTest.cs" />
     <Compile Include="Web\TmsRequestTest.cs" />

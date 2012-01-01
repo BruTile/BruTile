@@ -91,7 +91,7 @@ namespace BruTile.Web
 
         private string GetUrlForLevel(string levelId)
         {
-            // if a single url is specified for all levevls return that one plus the level id
+            // if a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)
             {
                 return string.Format(CultureInfo.InvariantCulture, "{0}/{1}/", _baseUrl, levelId);

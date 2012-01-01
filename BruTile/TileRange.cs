@@ -21,21 +21,21 @@
 
 namespace BruTile
 {
-    internal struct TileRange
+    public struct TileRange
     {
-        public int FirstCol { get; set; }
-        public int LastCol { get; set; }
-        public int FirstRow { get; set; }
-        public int LastRow { get; set; }
+        public int FirstCol { get; private set; }
+        public int FirstRow { get; private set; }
+        public int ColCount { get; private set; }
+        public int RowCount { get; private set; }
 
-        public TileRange(int col, int row) : this(col, row, col, row) { }
+        public TileRange(int col, int row) : this(col, row, 1, 1) { }
 
-        public TileRange(int firstCol, int firstRow, int lastCol, int lastRow) : this()
+        public TileRange(int firstCol, int firstRow, int colCount, int rowCount) : this()
         {
             FirstCol = firstCol;
-            LastCol = lastCol;
             FirstRow = firstRow;
-            LastRow = lastRow;
+            ColCount = colCount;
+            RowCount = rowCount;
         }
 
         public override bool Equals(object obj)
@@ -50,14 +50,14 @@ namespace BruTile
         {
             return
               FirstCol == tileRange.FirstCol &&
-              LastCol == tileRange.LastCol &&
+              ColCount == tileRange.ColCount &&
               FirstRow == tileRange.FirstRow &&
-              LastRow == tileRange.LastRow;
+              RowCount == tileRange.RowCount;
         }
 
         public override int GetHashCode()
         {
-            return FirstCol ^ LastCol ^ FirstRow ^ LastRow;
+            return FirstCol ^ ColCount ^ FirstRow ^ RowCount;
         }
 
         public static bool operator ==(TileRange tileRange1, TileRange tileRange2)

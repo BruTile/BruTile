@@ -86,12 +86,6 @@
     <Compile Include="..\..\BruTile\FileSystem\FileTileProvider.cs">
       <Link>FileSystem\FileTileProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\IAxis.cs">
-      <Link>IAxis.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\InvertedYAxis.cs">
-      <Link>InvertedYAxis.cs</Link>
-    </Compile>
     <Compile Include="..\..\BruTile\ITileProvider.cs">
       <Link>ITileProvider.cs</Link>
     </Compile>
@@ -100,9 +94,6 @@
     </Compile>
     <Compile Include="..\..\BruTile\ITileSource.cs">
       <Link>ITileSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\NormalAxis.cs">
-      <Link>NormalAxis.cs</Link>
     </Compile>
     <Compile Include="..\..\BruTile\PreDefined\BingSchema.cs">
       <Link>PreDefined\BingSchema.cs</Link>
@@ -136,6 +127,9 @@
     </Compile>
     <Compile Include="..\..\BruTile\TileSource.cs">
       <Link>TileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileTransform.cs">
+      <Link>TileTransform.cs</Link>
     </Compile>
     <Compile Include="..\..\BruTile\Utilities.cs">
       <Link>Utilities.cs</Link>
@@ -334,7 +328,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" />
+      <UserProperties ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
