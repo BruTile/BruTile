@@ -15,11 +15,11 @@ namespace BruTile.Web.Wms
         public BoundingBox(XElement node, string nameSpace)
         {
             var att = node.Attribute(XName.Get("CRS"));
-            if (att == null) att = node.Attribute(XName.Get("srs"));
+            if (att == null) att = node.Attribute(XName.Get("SRS"));
             if (att != null)
                 CRS = att.Value;
             else
-                throw WmsParsingException.AttributeNotFound("CRS/srs");
+                throw WmsParsingException.AttributeNotFound("CRS/SRS");
 
             att = node.Attribute(XName.Get("minx"));
             if (att == null) throw WmsParsingException.AttributeNotFound("minx");
