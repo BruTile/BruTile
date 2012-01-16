@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{82F3FDB6-7794-4FA4-8296-5CBD079E2F2A}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <TargetFrameworkProfile />
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\BruTile\BruTile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\BruTile\Cache\CachingTileProvider.cs">
+      <Link>Cache\CachingTileProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Cache\FileCache.cs">
+      <Link>Cache\FileCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Cache\ITileCache.cs">
+      <Link>Cache\ITileCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Cache\MemoryCache.cs">
+      <Link>Cache\MemoryCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Cache\NullCache.cs">
+      <Link>Cache\NullCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Extent.cs">
+      <Link>Extent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\FileSystem\FileTileProvider.cs">
+      <Link>FileSystem\FileTileProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\ITileProvider.cs">
+      <Link>ITileProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\ITileSchema.cs">
+      <Link>ITileSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\ITileSource.cs">
+      <Link>ITileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\PreDefined\BingSchema.cs">
+      <Link>PreDefined\BingSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\PreDefined\GlobalMercator.cs">
+      <Link>PreDefined\GlobalMercator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\PreDefined\SphericalMercatorInvertedWorldSchema.cs">
+      <Link>PreDefined\SphericalMercatorInvertedWorldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\PreDefined\SphericalMercatorWorldSchema.cs">
+      <Link>PreDefined\SphericalMercatorWorldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Resolution.cs">
+      <Link>Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileIndex.cs">
+      <Link>TileIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileInfo.cs">
+      <Link>TileInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileRange.cs">
+      <Link>TileRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileSchema.cs">
+      <Link>TileSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileSource.cs">
+      <Link>TileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\TileTransform.cs">
+      <Link>TileTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Utilities.cs">
+      <Link>Utilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\ValidationException.cs">
+      <Link>ValidationException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\ArcGisTileRequest.cs">
+      <Link>Web\ArcGisTileRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\BasicRequest.cs">
+      <Link>Web\BasicRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\BingRequest.cs">
+      <Link>Web\BingRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\BingTileSource.cs">
+      <Link>Web\BingTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\GoogleRequest.cs">
+      <Link>Web\GoogleRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\GoogleTileSource.cs">
+      <Link>Web\GoogleTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\IRequest.cs">
+      <Link>Web\IRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\OsmRequest.cs">
+      <Link>Web\OsmRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\OsmTileSource.cs">
+      <Link>Web\OsmTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\RequestHelper.cs">
+      <Link>Web\RequestHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsRequest.cs">
+      <Link>Web\TmsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsService\Root.cs">
+      <Link>Web\TmsService\Root.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsService\TileMap.cs">
+      <Link>Web\TmsService\TileMap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsService\TileMapParser.cs">
+      <Link>Web\TmsService\TileMapParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsService\TileMapService.cs">
+      <Link>Web\TmsService\TileMapService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\TmsTileSource.cs">
+      <Link>Web\TmsTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\WebResponseFormatException.cs">
+      <Link>Web\WebResponseFormatException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\WebTileProvider.cs">
+      <Link>Web\WebTileProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\WmscRequest.cs">
+      <Link>Web\WmscRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\WmscTileSource.cs">
+      <Link>Web\WmscTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Attribution.cs">
+      <Link>Web\Wms\Attribution.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\AuthorityURL.cs">
+      <Link>Web\Wms\AuthorityURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\BoundingBox.cs">
+      <Link>Web\Wms\BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Capability.cs">
+      <Link>Web\Wms\Capability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactAddress.cs">
+      <Link>Web\Wms\ContactAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactInformation.cs">
+      <Link>Web\Wms\ContactInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ContactPersonPrimary.cs">
+      <Link>Web\Wms\ContactPersonPrimary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DataURL.cs">
+      <Link>Web\Wms\DataURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DCPType.cs">
+      <Link>Web\Wms\DCPType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\DCPTypeElement.cs">
+      <Link>Web\Wms\DCPTypeElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Dimension.cs">
+      <Link>Web\Wms\Dimension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Exception.cs">
+      <Link>Web\Wms\Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ExGeographicBoundingBox.cs">
+      <Link>Web\Wms\ExGeographicBoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\FeatureListURL.cs">
+      <Link>Web\Wms\FeatureListURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Get.cs">
+      <Link>Web\Wms\Get.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\HTTP.cs">
+      <Link>Web\Wms\HTTP.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Identifier.cs">
+      <Link>Web\Wms\Identifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Keyword.cs">
+      <Link>Web\Wms\Keyword.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\KeywordList.cs">
+      <Link>Web\Wms\KeywordList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Layer.cs">
+      <Link>Web\Wms\Layer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\LegendURL.cs">
+      <Link>Web\Wms\LegendURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\LogoURL.cs">
+      <Link>Web\Wms\LogoURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\MetadataURL.cs">
+      <Link>Web\Wms\MetadataURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\OnlineResource.cs">
+      <Link>Web\Wms\OnlineResource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\OperationType.cs">
+      <Link>Web\Wms\OperationType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Post.cs">
+      <Link>Web\Wms\Post.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Request.cs">
+      <Link>Web\Wms\Request.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Service.cs">
+      <Link>Web\Wms\Service.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceException.cs">
+      <Link>Web\Wms\ServiceException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceExceptionReport.cs">
+      <Link>Web\Wms\ServiceExceptionReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\ServiceName.cs">
+      <Link>Web\Wms\ServiceName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\Style.cs">
+      <Link>Web\Wms\Style.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\StyleSheetURL.cs">
+      <Link>Web\Wms\StyleSheetURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\StyleURL.cs">
+      <Link>Web\Wms\StyleURL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsCapabilities.cs">
+      <Link>Web\Wms\WmsCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsParsingException.cs">
+      <Link>Web\Wms\WmsParsingException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsPropertyException.cs">
+      <Link>Web\Wms\WmsPropertyException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\WmsVersion.cs">
+      <Link>Web\Wms\WmsVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Web\Wms\XmlObject.cs">
+      <Link>Web\Wms\XmlObject.cs</Link>
+    </Compile>
+    <Compile Include="Web\RequestHelper.SL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\BruTile\BruTile.snk">
+      <Link>BruTile.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
