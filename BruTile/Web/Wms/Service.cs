@@ -11,24 +11,46 @@ namespace BruTile.Web.Wms
         private OnlineResource _onlineResourceField;
         private ContactInformation _contactInformationField;
 
+        /// <summary>
+        /// ParseName - Many WMS' do not set the Name correctly, so a client may set to false to allow these slightly out of spec servers
+        /// </summary>
+        public static bool ParseName { get; set; }
+        static Service()
+        {
+            ParseName = true;
+        }
+
         public Service()
         {
         }
 
         public Service(XElement node, string @namespace)
         {
-            var element = node.Element(XName.Get("Name", @namespace));
-            if (element == null)
-                throw WmsParsingException.ElementNotFound("Name");
-            var value = element.Value;
-            if (value.StartsWith("OGC:")) value = value.Substring(4);
+            XElement element;
+            if (ParseName)
+            {
+                element = node.Element(XName.Get("Name", @namespace));
+                if (element == null)
+                    throw WmsParsingException.ElementNotFound("Name");
+                var value = element.Value;
+                if (value.StartsWith("OGC:")) value = value.Substring(4);
+                try
+                {
 #if !SILVERLIGHT
-            Name = (ServiceName)Enum.Parse(typeof(ServiceName), value);
+                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value);
 #else
-            Name = (ServiceName)Enum.Parse(typeof(ServiceName), value, true);
+                Name = (ServiceName)Enum.Parse(typeof(ServiceName), value, true);
 #endif
-            if (Name != ServiceName.WMS)
-                throw new WmsParsingException("Invalid service name");
+                }
+                catch (System.Exception exception)
+                {
+                    throw new WmsParsingException(String.Format("Invalid service name: {0}. Must be WMS", value),
+                                                  exception);
+                }
+
+                if (Name != ServiceName.WMS)
+                    throw new WmsParsingException(String.Format("Invalid service name: {0}. Must be WMS", value));
+            }
 
             element = node.Element(XName.Get("Title", @namespace));
             if (element == null)
