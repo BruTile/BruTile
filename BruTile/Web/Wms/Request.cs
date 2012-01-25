@@ -33,7 +33,7 @@ namespace BruTile.Web.Wms
                         GetFeatureInfo = new OperationType(element, @namespace);
                         break;
                     default:
-                        _extendedOperationField.Add(node.Name, new OperationType(element, @namespace));
+                       ExtendedOperation.Add(node.Name, new OperationType(element, @namespace));
                         break;
                 }
             }
@@ -140,12 +140,10 @@ namespace BruTile.Web.Wms
                             break;
 
                         default:
-                            if (_extendedOperationField == null)
-                                _extendedOperationField = new Dictionary<XName, OperationType>();
                             var name = XName.Get(reader.LocalName, reader.NamespaceURI);
                             var operation = new OperationType();
                             operation.ReadXml(reader);
-                            _extendedOperationField.Add(name, operation);
+                            ExtendedOperation.Add(name, operation);
                             break;
                     }
                 }
