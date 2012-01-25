@@ -20,6 +20,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 
 namespace BruTile
 {
@@ -48,7 +49,7 @@ namespace BruTile
         {
             _col = col;
             _row = row;
-            _levelId = level.ToString();
+            _levelId = level.ToString(CultureInfo.InvariantCulture);
         }
 
         public TileIndex(int col, int row, string levelId)
@@ -73,7 +74,7 @@ namespace BruTile
             if (_col > index._col) return 1;
             if (_row < index._row) return -1;
             if (_row > index._row) return 1;
-            return _levelId.CompareTo(index._levelId);
+            return string.CompareOrdinal(_levelId, index._levelId);
         }
 
         public override bool Equals(object obj)

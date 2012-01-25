@@ -69,7 +69,7 @@ namespace BruTile
         /// <summary>
         /// Checks if the TileSchema members are properly initialized and throws an exception if not.
         /// </summary>
-        public virtual void Validate()
+        public void Validate()
         {
             if (String.IsNullOrEmpty(Srs))
             {
@@ -119,13 +119,13 @@ namespace BruTile
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
-        public IList<TileInfo> GetTilesInView(Extent extent, double resolution)
+        public IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution)
         {
             int level = Utilities.GetNearestLevel(Resolutions, resolution);
             return GetTilesInView(extent, level);
         }
 
-        public IList<TileInfo> GetTilesInView(Extent extent, int level)
+        public IEnumerable<TileInfo> GetTilesInView(Extent extent, int level)
         {
             IList<TileInfo> infos = new List<TileInfo>();
             TileRange range = TileTransform.WorldToTile(extent, level, this);
