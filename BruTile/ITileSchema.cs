@@ -36,7 +36,7 @@ namespace BruTile
         int Height { get; }
         string Format { get; }
         AxisDirection Axis { get; }
-        IList<TileInfo> GetTilesInView(Extent extent, int level);
+        IEnumerable<TileInfo> GetTilesInView(Extent extent, int level);
         Extent GetExtentOfTilesInView(Extent extent, int level);
     }
 }
