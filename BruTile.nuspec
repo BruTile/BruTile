@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>BruTile</id>
+    <version>0.5.3</version>
+    <title>BruTile</title>
+    <authors>Paul den Dulk</authors>
+    <owners>Paul den Dulk</owners>
+    <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
+    <projectUrl>http://brutile.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap
+    </description>
+    <tags>tiling gis osm geo</tags>
+    <language>en-US</language>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net35" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="sl4" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin\Release\BruTile.dll" target="lib\net35\BruTile.dll" />
+    <file src="Silverlight\BruTile\bin\Release\BruTile.dll" target="lib\sl4\BruTile.dll" />
+  </files>
+</package>

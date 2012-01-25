@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>BruTile.MbTiles</id>
+    <version>0.5.3</version>
+    <title>BruTile.MbTiles</title>
+    <authors>Paul den Dulk</authors>
+    <owners>Paul den Dulk</owners>
+    <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
+    <projectUrl>http://brutile.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Tile provider for MbTiles files (http://mapbox.com/mbtiles-spec)
+    </description>
+    <tags>tiling mbtiles</tags>
+    <language>en-US</language>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+    </frameworkAssemblies>
+    <dependencies>
+      <dependency id="BruTile" version="0.5.3" />
+      <dependency id="System.Data.SQLite.x86" version="1.0.77.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="BruTile.MbTiles\bin\x86\Release\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+  </files>
+</package>
