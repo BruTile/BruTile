@@ -341,14 +341,6 @@ namespace BruTile.Web
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                //                    if (Proxy != null)
-                //                    {
-                //                        request.Proxy = Proxy;
-                //#if !PocketPC
-                //                        request.PreAuthenticate = true;
-                //#endif
-                //                    }
-
                 request.UserAgent = GoogleTileSource.UserAgent;
 #if !SILVERLIGHT
                 request.Timeout = 60000;

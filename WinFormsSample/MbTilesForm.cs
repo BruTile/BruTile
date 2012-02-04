@@ -168,7 +168,6 @@ namespace WinFormsSample
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
             var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
             var success = true;
-            req.Proxy = new RequestHelper.EmptyWebProxy();
             try
             {
                 Enabled = false;

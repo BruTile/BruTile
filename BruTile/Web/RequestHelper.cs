@@ -36,43 +36,16 @@ namespace BruTile.Web
     {
 #if !SILVERLIGHT
 
-        public sealed class EmptyWebProxy : IWebProxy
-        {
-            public ICredentials Credentials { get; set; }
-
-            public Uri GetProxy(Uri uri)
-            {
-                return uri;
-            }
-
-            public bool IsBypassed(Uri uri)
-            {
-                return true;
-            }
-        }
-
         static RequestHelper()
         {
-            WebProxy = new EmptyWebProxy();
             Timeout = 5000;
         }
-
-        public static IWebProxy WebProxy { get; set; }
 
         public static int Timeout { get; set; }
 
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
-
-            if (WebProxy != null)
-            {
-                webRequest.Proxy = WebProxy;
-#if !PocketPC
-                webRequest.PreAuthenticate = true;
-#endif
-            }
-
             webRequest.KeepAlive = keepAlive;
             webRequest.AllowAutoRedirect = true;
             webRequest.Timeout = Timeout;
