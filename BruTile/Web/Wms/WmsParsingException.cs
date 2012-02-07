@@ -40,7 +40,7 @@ namespace BruTile.Web.Wms
 
         public static WmsParsingException AttributeNotFound(string attribute)
         {
-            return new WmsParsingException(string.Format("'@{0}' attribute not found", attribute));
+            return new WmsParsingException(string.Format("'{0}' attribute not found", attribute));
         }
 
         public static WmsParsingException ElementNotFound(string element)
