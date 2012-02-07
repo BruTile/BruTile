@@ -2,23 +2,23 @@
 
 /*
  *  This file is part of SharpMap.Layers.BruTile.
- *  
- *  SharpMap.Layers.BruTile is free software © 2009 Ingenieurgruppe IVV GmbH & Co. KG, 
- *  www.ivv-aachen.de; you can redistribute it and/or modify it under the terms 
- *  of the current GNU Lesser General Public License (LGPL) as published by and 
- *  available from the Free Software Foundation, Inc., 
+ *
+ *  SharpMap.Layers.BruTile is free software © 2009 Ingenieurgruppe IVV GmbH & Co. KG,
+ *  www.ivv-aachen.de; you can redistribute it and/or modify it under the terms
+ *  of the current GNU Lesser General Public License (LGPL) as published by and
+ *  available from the Free Software Foundation, Inc.,
  *  59 Temple Place, Suite 330, Boston, MA 02111-1307 USA: http://fsf.org/.
- *  This program is distributed without any warranty; 
+ *  This program is distributed without any warranty;
  *  without even the implied warranty of merchantability or fitness for purpose.
- *  See the GNU Lesser General Public License for the full details. 
- *  
+ *  See the GNU Lesser General Public License for the full details.
+ *
  *  Author: Felix Obermaier 2009
  *
  *  This work is inspired by FileCache.cs by Paul den Dulk for Brutile
- *  
+ *
  */
 
-#endregion
+#endregion License
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,9 @@ namespace BruTile.Cache
     /// <param name="qualifier">a delegate to decorate schema-table and table-column pairs</param>
     /// <param name="schema">the schema in which the table resides, usually 'public'</param>
     /// <param name="table">the name of the table</param>
+    /// <param name="parameterPrefix">Prefix to use for decorating parameters in the query</param>
     /// <returns>the <see cref="DbCommand"/> to insert a tile</returns>
-    public delegate DbCommand AddTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table);
+    public delegate DbCommand AddTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@');
 
     /// <summary>
     /// Sql command for deleting tiles from database
@@ -44,8 +45,9 @@ namespace BruTile.Cache
     /// <param name="qualifier">a delegate to decorate schema-table and table-column pairs</param>
     /// <param name="schema">the schema in which the table resides, usually 'public'</param>
     /// <param name="table">the name of the table</param>
+    /// <param name="parameterPrefix">Prefix to use for decorating parameters in the query</param>
     /// <returns>the <see cref="DbCommand"/> to insert a tile</returns>
-    public delegate DbCommand RemoveTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table);
+    public delegate DbCommand RemoveTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@');
 
     /// <summary>
     /// Sql command for finding a tiles
@@ -54,8 +56,9 @@ namespace BruTile.Cache
     /// <param name="qualifier">a delegate to decorate schema-table and table-column pairs</param>
     /// <param name="schema">the schema in which the table resides, usually 'public'</param>
     /// <param name="table">the name of the table</param>
+    /// <param name="parameterPrefix">Prefix to use for decorating parameters in the query</param>
     /// <returns>the <see cref="IDbCommand"/> to find a tile</returns>
-    public delegate DbCommand FindTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table);
+    public delegate DbCommand FindTileCommand(DbConnection connection, DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@');
 
     /// <summary>
     /// Declaration of schema-table and table-column pairs decorator
@@ -86,14 +89,14 @@ namespace BruTile.Cache
     /// </summary>
     /// <typeparam name="TConnection">A Connection class derived from <see cref="DbConnection"/></typeparam>
     public class DbCache<TConnection> : ITileCache<byte[]>
-        where TConnection: DbConnection, new()
+        where TConnection : DbConnection, new()
     {
-        private static DbCommand BasicAddTileCommand(DbConnection connection, 
-            DecorateDbObjects qualifier, String schema, String table)
+        private static DbCommand BasicAddTileCommand(DbConnection connection,
+            DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@')
         {
             DbCommand cmd = connection.CreateCommand();
             cmd.CommandText = String.Format(
-                "INSERT INTO {0} VALUES(@Level, @Row, @Col, @Size, @Image);", qualifier(schema, table));
+                "INSERT INTO {0} VALUES({1}Level, {1}Row, {1}Col, {1}Size, {1}Image);", qualifier(schema, table), parameterPrefix);
 
             DbParameter par = cmd.CreateParameter();
             par.DbType = DbType.Int32;
@@ -124,12 +127,12 @@ namespace BruTile.Cache
         }
 
         private static DbCommand BasicRemoveTileCommand(DbConnection connection,
-            DecorateDbObjects qualifier, String schema, String table)
+            DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@')
         {
             DbCommand cmd = connection.CreateCommand();
-            cmd.CommandText = string.Format("DELETE FROM {0} WHERE ({1}=@Level AND {2}=@Row AND {3}=@Col);",
+            cmd.CommandText = string.Format("DELETE FROM {0} WHERE ({1}={4}Level AND {2}={4}Row AND {3}={4}Col);",
                 qualifier(schema, table), qualifier(table, "Level"), qualifier(table, "Row"),
-                qualifier(table, "Col"));
+                qualifier(table, "Col"), parameterPrefix);
 
             DbParameter par = cmd.CreateParameter();
             par.DbType = DbType.Int32;
@@ -147,16 +150,15 @@ namespace BruTile.Cache
             cmd.Parameters.Add(par);
 
             return cmd;
-
         }
 
-        private static DbCommand BasicFindTileCommand(DbConnection connection, 
-            DecorateDbObjects qualifier, String schema, String table)
+        private static DbCommand BasicFindTileCommand(DbConnection connection,
+            DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@')
         {
             DbCommand cmd = connection.CreateCommand();
-            cmd.CommandText = String.Format("SELECT [SIZE], [IMAGE] FROM {0} WHERE ({1}=@Level AND {2}=@Row AND {3}=@Col);",
+            cmd.CommandText = String.Format("SELECT [SIZE], [IMAGE] FROM {0} WHERE ({1}={4}Level AND {2}={4}Row AND {3}={4}Col);",
                 qualifier(schema, table), qualifier(table, "Level"), qualifier(table, "Row"),
-                qualifier(table, "Col"));
+                qualifier(table, "Col"), parameterPrefix);
 
             DbParameter par = cmd.CreateParameter();
             par.DbType = DbType.Int32;
@@ -193,12 +195,12 @@ namespace BruTile.Cache
         private readonly BankOfSelectTileCommands _bank;
 
         public DbCache(TConnection connection)
-            :this(connection, (parent, child) => string.Format("[{0}].[{1}]", parent, child), "public", "Tiles")
+            : this(connection, (parent, child) => string.Format("[{0}].[{1}]", parent, child), "public", "Tiles")
         {
         }
 
         public DbCache(TConnection connection, DecorateDbObjects qualifier, String schema, String table)
-            :this(connection, qualifier, schema, table, BasicAddTileCommand, BasicRemoveTileCommand, BasicFindTileCommand)
+            : this(connection, qualifier, schema, table, BasicAddTileCommand, BasicRemoveTileCommand, BasicFindTileCommand)
         {
         }
 
@@ -210,17 +212,19 @@ namespace BruTile.Cache
 
             _decorator = decorator;
 
-            if (atc == null)
-                atc = BasicAddTileCommand;
+            if (atc != null)
+            {
+                _addTileCommand = atc(connection, decorator, schema, table);
+            }
 
-            if (rtc == null)
-                rtc = BasicRemoveTileCommand;
+            if (rtc != null)
+            {
+                _removeTileCommand = rtc(connection, decorator, schema, table);
+            }
 
             if (ftc == null)
                 ftc = BasicFindTileCommand;
 
-            _addTileCommand = atc(connection, decorator, schema, table);
-            _removeTileCommand = rtc(connection, decorator, schema, table);
             _findTileCommand = ftc(connection, decorator, schema, table);
 
             _bank = new BankOfSelectTileCommands(_findTileCommand);
@@ -238,7 +242,7 @@ namespace BruTile.Cache
             Boolean wasClosed = OpenConnectionIfClosed();
             cmd.ExecuteNonQuery();
 
-            if(wasClosed) Connection.Close();
+            if (wasClosed) Connection.Close();
         }
 
         public void Clear()
@@ -255,14 +259,16 @@ namespace BruTile.Cache
 
         public void Add(TileIndex index, byte[] image)
         {
+            if (_addTileCommand == null)
+                throw new InvalidOperationException("Cache is readonly");
 
             lock (_addLock)
             {
-                ((IDataParameter) _addTileCommand.Parameters[0]).Value = index.LevelId;
-                ((IDataParameter) _addTileCommand.Parameters[1]).Value = index.Row;
-                ((IDataParameter) _addTileCommand.Parameters[2]).Value = index.Col;
-                ((IDataParameter) _addTileCommand.Parameters[3]).Value = image.Length;
-                ((IDataParameter) _addTileCommand.Parameters[4]).Value = image;
+                ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter)_addTileCommand.Parameters[1]).Value = index.Row;
+                ((IDataParameter)_addTileCommand.Parameters[2]).Value = index.Col;
+                ((IDataParameter)_addTileCommand.Parameters[3]).Value = image.Length;
+                ((IDataParameter)_addTileCommand.Parameters[4]).Value = image;
 
                 Boolean wasClosed = OpenConnectionIfClosed();
 
@@ -274,11 +280,14 @@ namespace BruTile.Cache
 
         public void Remove(TileIndex index)
         {
+            if (_removeTileCommand == null)
+                throw new InvalidOperationException("Cache is readonly");
+
             lock (_removeLock)
             {
-                ((IDataParameter) _removeTileCommand.Parameters[0]).Value = index.LevelId;
-                ((IDataParameter) _removeTileCommand.Parameters[1]).Value = index.Row;
-                ((IDataParameter) _removeTileCommand.Parameters[2]).Value = index.Col;
+                ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter)_removeTileCommand.Parameters[1]).Value = index.Row;
+                ((IDataParameter)_removeTileCommand.Parameters[2]).Value = index.Col;
 
                 Boolean wasClosed = OpenConnectionIfClosed();
 
@@ -304,7 +313,7 @@ namespace BruTile.Cache
         {
             if (!IsTileIndexValid(index))
                 return null;
-            
+
             IDbCommand cmd = _bank.Borrow();
 
             ((IDataParameter)cmd.Parameters[0]).Value = index.LevelId;
@@ -318,11 +327,10 @@ namespace BruTile.Cache
             dr.Close();
 
             cmd.Connection.Close();
-            
+
             _bank.Return(cmd);
 
             return ret;
-
         }
 
         protected virtual bool IsTileIndexValid(TileIndex index)
@@ -330,7 +338,7 @@ namespace BruTile.Cache
             return true;
         }
 
-        #endregion
+        #endregion Implementation of ITileCache<byte[]>
 
         #region Private Helpers
 
@@ -344,7 +352,7 @@ namespace BruTile.Cache
             return false;
         }
 
-        #endregion
+        #endregion Private Helpers
 
         internal class BankOfSelectTileCommands
         {
@@ -362,7 +370,7 @@ namespace BruTile.Cache
 
             private IDbCommand CreateNew()
             {
-                var conn = new TConnection {ConnectionString = _template.Connection.ConnectionString};
+                var conn = new TConnection { ConnectionString = _template.Connection.ConnectionString };
 
                 var newItem = conn.CreateCommand();
                 newItem.CommandText = _template.CommandText;
@@ -379,7 +387,9 @@ namespace BruTile.Cache
                     pNew.Scale = parameter.Scale;
                     pNew.Size = parameter.Size;
                     pNew.SourceColumn = parameter.SourceColumn;
+#if !(SILVERLIGHT || WINDOWS_PHONE)
                     pNew.SourceVersion = parameter.SourceVersion;
+#endif
                     //pNew.Value = ()parameter.Value.
 
                     newItem.Parameters.Add(pNew);
@@ -440,6 +450,5 @@ namespace BruTile.Cache
         {
             get { return _bank.MaxBorrowed; }
         }
-
     }
 }
