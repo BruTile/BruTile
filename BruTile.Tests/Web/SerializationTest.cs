@@ -11,13 +11,13 @@ using Exception = BruTile.Web.Wms.Exception;
 
 namespace BruTile.Tests.Web
 {
+    [Ignore("not completely implemented")]
     public class SerializationTest
     {
         [Test]
         public void TestLocal()
         {
-            var path = Path.Combine("Schema", "1.3.0");
-            using (var fs = new StreamReader(File.OpenRead(Path.Combine(path, @"capabilities_1_3_0.xml"))))
+            using (var fs = new StreamReader(File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml"))))
             {
                 var xml = fs.ReadToEnd();
                 //var xmlReader = XmlReader.Create(new StringReader(xml));
@@ -25,7 +25,7 @@ namespace BruTile.Tests.Web
                 var wms1 = new WmsCapabilities(doc);
             }
 
-            var wms = WmsCapabilities.Parse(File.OpenRead(Path.Combine(path, @"capabilities_1_3_0.xml")));
+            var wms = WmsCapabilities.Parse(File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml")));
 
             Console.WriteLine(wms);
 

@@ -2196,7 +2196,7 @@ namespace BruTile.Tests.Web
                 Console.Write(useUri);
                 try
                 {
-                    new WmsCapabilities(uri, RequestHelper.WebProxy);
+                    new WmsCapabilities(uri, null);
                     Console.WriteLine("; ... passed");
                     tested++;
                 }
