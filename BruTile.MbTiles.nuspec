@@ -16,15 +16,20 @@
     <language>en-US</language>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net35" />
       <frameworkAssembly assemblyName="System.Core" targetFramework="" />
     </frameworkAssemblies>
     <dependencies>
       <dependency id="BruTile" version="0.5.3" />
-      <dependency id="System.Data.SQLite.x86" version="1.0.77.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="BruTile.MbTiles\bin\x86\Release\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+    <file src="BruTile.MbTiles\bin\Release\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+    <file src="BruTile.MbTiles\bin\Release\Community.CsharpSqlite.dll" target="lib\net35\Community.CsharpSqlite.dll" />
+    <file src="BruTile.MbTiles\bin\Release\Community.CsharpSqlite.SQLiteClient.dll" target="lib\net35\Community.CsharpSqlite.SQLiteClient.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\BruTile.MbTiles.dll" target="lib\sl4\BruTile.MbTiles.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\Community.CsharpSqlite.Silverlight.dll" target="lib\sl4\Community.CsharpSqlite.Silverlight.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\Community.CsharpSqlite.SQLiteClient.SL.dll" target="lib\sl4\Community.CsharpSqlite.SQLiteClient.SL.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\System.Data.Ersatz.dll" target="lib\sl4\System.Data.Ersatz.dll" />
   </files>
 </package>

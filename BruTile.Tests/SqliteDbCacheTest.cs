@@ -1,17 +1,18 @@
-using System;
-using System.Data.SQLite;
+﻿using System;
 using BruTile.Cache;
+using Community.CsharpSqlite.SQLiteClient;
 using NUnit.Framework;
 
 namespace BruTile.Tests
 {
-    public class SQLiteDbCacheTest : CacheTest<DbCache<SQLiteConnection>>
+    public class SqliteDbCacheTest : CacheTest<DbCache<SqliteConnection>>
     {
-        private static SQLiteConnection MakeConnection(String datasource)
+        private static SqliteConnection MakeConnection(String datasource)
         {
-            var cn = new SQLiteConnection(string.Format("Data Source={0}", datasource));
+            //DbCache<SqliteConnection>.ParameterPrefix = '$';
+            var cn = new SqliteConnection(string.Format("Data Source=file://{0}", datasource));
             cn.Open();
-            SQLiteCommand cmd = cn.CreateCommand();
+            var cmd = cn.CreateCommand();
             cmd.CommandText =
                 "CREATE TABLE IF NOT EXISTS cache (level integer, row integer, col integer, size integer, image blob, primary key (level, row, col) on conflict replace);";
             cmd.ExecuteNonQuery();
@@ -19,21 +20,27 @@ namespace BruTile.Tests
             return cn;
         }
 
-        public SQLiteDbCacheTest()
+        //[TestFixtureSetUp]
+        //public void SetUp()
+        //{
+        //    DbCache<SqliteConnection>.ParameterPrefix = '$';
+        //}
+
+        public SqliteDbCacheTest()
             : base(CleanConnection())
         {
         }
 
-        private static DbCache<SQLiteConnection> CleanConnection()
+        private static DbCache<SqliteConnection> CleanConnection()
         {
             if (System.IO.File.Exists("test.db"))
                 System.IO.File.Delete("test.db");
-            SQLiteConnection cn = MakeConnection("test.db");
-            return new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
+            var cn = MakeConnection("test.db");
+            return new DbCache<SqliteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
         [Test]
-        [Ignore("Need to come up with some logic to replace @ parameter prefix before this works!")]
+        [Ignore]
         public void Test()
         {
             TestInsertFindRemove();
@@ -66,10 +73,10 @@ namespace BruTile.Tests
             trans.Commit();
             Cache.Connection.Close();
 
-            using (var cn = (SQLiteConnection)Cache.Connection.Clone())
+            using (var cn = new SqliteConnection(Cache.Connection.ConnectionString))
             {
                 cn.Open();
-                SQLiteCommand cmd = cn.CreateCommand();
+                var cmd = cn.CreateCommand();
                 cmd.CommandText = "SELECT count(*) FROM cache";
                 Assert.AreEqual(count, Convert.ToInt32(cmd.ExecuteScalar()));
             }

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8717A4E9-16A4-4BBE-ACAF-C40B5479DE79}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Brutile.MbTiles</RootNamespace>
+    <AssemblyName>Brutile.MbTiles</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\bt\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\BruTile.MbTiles\Cache\MbTilesCache.cs">
+      <Link>Cache\MbTilesCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile.MbTiles\FileSystem\MbTilesProvider.cs">
+      <Link>FileSystem\MbTilesProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile.MbTiles\MbTilesFormat.cs">
+      <Link>MbTilesFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile.MbTiles\MbTilesTileSource.cs">
+      <Link>MbTilesTileSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile.MbTiles\MbTilesType.cs">
+      <Link>MbTilesType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BruTile\Cache\DbCache.cs">
+      <Link>Cache\DbCache.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\csharpsqlite\Community.CsharpSqlite.SQLiteClient.SL\Community.CsharpSqlite.SQLiteClient.SL.csproj">
+      <Project>{238EAD8B-B811-4FA6-8581-4CA4B816066D}</Project>
+      <Name>Community.CsharpSqlite.SQLiteClient.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\csharpsqlite\System.Data.Ersatz\Silverlight\System.Data.Ersatz.Silverlight.csproj">
+      <Project>{D7194231-DBAD-422B-819E-911037934F45}</Project>
+      <Name>System.Data.Ersatz.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile\BruTile.csproj">
+      <Project>{82F3FDB6-7794-4FA4-8296-5CBD079E2F2A}</Project>
+      <Name>BruTile %28Silverlight\BruTile%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
