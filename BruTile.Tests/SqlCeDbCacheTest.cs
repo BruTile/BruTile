@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Data.SqlServerCe;
 using BruTile.Cache;
 using NUnit.Framework;
@@ -32,7 +31,7 @@ namespace BruTile.Tests
         {
         }
 
-        public override void InsertTiles()
+        protected override void InsertTiles()
         {
             var bm = new byte[TileSizeX * TileSizeY * BitsPerPixel];
             var count = 0;
@@ -68,11 +67,11 @@ namespace BruTile.Tests
         }
 
         private static DbCommand SqlCeAddTileCommand(DbConnection connection,
-            DecorateDbObjects qualifier, String schema, String table)
+            DecorateDbObjects qualifier, String schema, String table, char parameterPrefix)
         {
             var cmd = ((SqlCeConnection)connection).CreateCommand();
             cmd.CommandText = String.Format(
-                "INSERT INTO {0} VALUES(@Level, @Row, @Col, @Size, @Image);", qualifier(schema, table));
+                "INSERT INTO {0} VALUES({1}Level, {1}Row, {1}Col, {1}Size, {1}Image);", qualifier(schema, table), parameterPrefix);
 
             SqlCeParameter par = cmd.CreateParameter();
             par.DbType = DbType.Int32;

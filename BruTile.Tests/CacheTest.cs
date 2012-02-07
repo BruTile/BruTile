@@ -16,6 +16,7 @@ namespace BruTile.Tests
         protected const int MaxLevel = 7;
 
         protected readonly TCache Cache;
+
         protected CacheTest(TCache cache)
         {
             Cache = cache;
@@ -29,7 +30,7 @@ namespace BruTile.Tests
             RemoveTile();
         }
 
-        public virtual void InsertTiles()
+        protected virtual void InsertTiles()
         {
             var bm = new byte[TileSizeX * TileSizeY * BitsPerPixel];
             var count = 0;
@@ -106,17 +107,17 @@ namespace BruTile.Tests
                 waitHandle.WaitOne();
             }
             sw.Stop();
-            Console.WriteLine(string.Format("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds ));
-
+            Console.WriteLine(string.Format("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds));
         }
 
         private static readonly Random _random = new Random(93765783);
+
         private static IEnumerable<TileIndex> GetRandomTileIndices(int numberOfTileInfos)
         {
             for (int i = 0; i < numberOfTileInfos; i++)
             {
                 int level = _random.Next(MaxLevel);
-                var maxValue = (int) Math.Pow(2, level);
+                var maxValue = (int)Math.Pow(2, level);
                 yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level);
             }
         }
@@ -138,7 +139,7 @@ namespace BruTile.Tests
             Assert.AreEqual(buffer[0], tileIndex.Col);
             Assert.AreEqual(buffer[1], tileIndex.Row);
             Console.WriteLine("Found Tile({0}, {1}, {2}) in {3}ms", tileIndex.LevelId, tileIndex.Row, tileIndex.Col, sw.ElapsedMilliseconds);
-            
+
             resetEvent.Set();
         }
 
@@ -150,6 +151,5 @@ namespace BruTile.Tests
             byte[] bm = Cache.Find(tk);
             Assert.IsNull(bm);
         }
-
     }
 }

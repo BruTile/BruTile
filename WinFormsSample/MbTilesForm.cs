@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 using BruTile;
@@ -37,9 +36,9 @@ namespace WinFormsSample
             if (File.Exists(path))
             {
                 _source = new MbTilesTileSource(path);
-                var scale = (float)(1.1 * Math.Max(_source.Extent.Width/picMap.Width, _source.Extent.Height/picMap.Height));
+                var scale = (float)(1.1 * Math.Max(_source.Extent.Width / picMap.Width, _source.Extent.Height / picMap.Height));
                 _mapTransform = new MapTransform(
-                    new PointF((float) _source.Extent.CenterX, (float) _source.Extent.CenterY),
+                    new PointF((float)_source.Extent.CenterX, (float)_source.Extent.CenterY),
                     scale, picMap.Width, picMap.Height);
 
                 RenderToBuffer();
@@ -57,7 +56,7 @@ namespace WinFormsSample
             if (e.Delta < 0)
                 factor = 1.2f;
             else if (e.Delta > 0)
-                factor = 1/1.2f;
+                factor = 1 / 1.2f;
             else
                 return;
 
@@ -69,7 +68,7 @@ namespace WinFormsSample
 
             var newCenter = _mapTransform.MapToWorld(point.X + dx, point.Y + dy);
 
-            var transform = new MapTransform(newCenter, res*factor, picMap.Width, picMap.Height);
+            var transform = new MapTransform(newCenter, res * factor, picMap.Width, picMap.Height);
             _mapTransform = transform;
             RenderToBuffer();
 
@@ -80,6 +79,7 @@ namespace WinFormsSample
         {
             base.OnResize(e);
             if (_mapTransform == null) return;
+            if (picMap.Width == 0 || picMap.Height == 0) return;
 
             _buffer = new Bitmap(picMap.Width, picMap.Height);
             _mapTransform = new MapTransform(_mapTransform.Center, _mapTransform.Resolution, picMap.Width, picMap.Height);
@@ -89,7 +89,7 @@ namespace WinFormsSample
         private void RenderToBuffer()
         {
             var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.Resolution);
-            
+
             using (var g = Graphics.FromImage(_buffer))
             {
                 g.Clear(Color.White);
@@ -101,7 +101,7 @@ namespace WinFormsSample
                     if (res != null)
                     {
                         var tileStream = new MemoryStream(res);
-                        var tile = (Bitmap) Image.FromStream(tileStream);
+                        var tile = (Bitmap)Image.FromStream(tileStream);
 
                         DrawTile(_source.Schema, g, tile, extent);
                     }
@@ -109,7 +109,7 @@ namespace WinFormsSample
                     g.DrawRectangle(Pens.Black, roundedExtent);
                     g.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.LevelId), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
                 }
-                g.DrawRectangle(new Pen(Color.Tomato, 2),  RoundToPixel(_mapTransform.WorldToMap(_source.Extent)));
+                g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Extent)));
             }
 
             tsslExtent.Text = string.Format("[({0:N}/{1:N})/({2:N}/{3:N})]", _mapTransform.Extent.MinX,
@@ -120,13 +120,13 @@ namespace WinFormsSample
 
         private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent)
         {
-            // For drawing on WinForms there are two things to take into account 
+            // For drawing on WinForms there are two things to take into account
             // to prevent seams between tiles.
-            // 1) The WrapMode should be set to TileFlipXY. This is related 
+            // 1) The WrapMode should be set to TileFlipXY. This is related
             //    to how pixels are rounded by GDI+
             var imageAttributes = new ImageAttributes();
             imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
-            // 2) The rectangle should be rounded to actual pixels. 
+            // 2) The rectangle should be rounded to actual pixels.
             Rectangle roundedExtent = RoundToPixel(extent);
             graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.Width, schema.Height, GraphicsUnit.Pixel, imageAttributes);
         }
@@ -179,7 +179,7 @@ namespace WinFormsSample
                     {
                         using (var stream = response.GetResponseStream())
                         {
-                            var buffer = new byte[4*8192];
+                            var buffer = new byte[4 * 8192];
                             while (true)
                             {
                                 var read = stream.Read(buffer, 0, buffer.Length);
@@ -213,7 +213,6 @@ namespace WinFormsSample
                 }
                 Enabled = true;
             }
-
         }
     }
 }

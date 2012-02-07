@@ -15,28 +15,28 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#endregion
+#endregion License
 
 using System;
-using System.Data.SQLite;
 using BruTile.FileSystem;
+using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile
 {
     public class MbTilesTileSource : ITileSource
     {
         public MbTilesTileSource(string file)
-            :this(new SQLiteConnection(string.Format("Data Source={0}", file)))
+            : this(new SqliteConnection(string.Format("Data Source={0}", new Uri(file))))
         {
         }
 
-        internal MbTilesTileSource(SQLiteConnection connection)
+        internal MbTilesTileSource(SqliteConnection connection)
         {
             _tileSource = new MbTilesProvider(connection);
         }
-        
+
         private readonly MbTilesProvider _tileSource;
 
         #region Implementation of ITileSource
@@ -51,15 +51,15 @@ namespace BruTile
             get { return _tileSource.Schema; }
         }
 
-        public MbTilesFormat Format 
+        public MbTilesFormat Format
         {
             get { return _tileSource.Cache.Format; }
         }
 
         public MbTilesType Type { get { return _tileSource.Cache.Type; } }
 
-        public Extent Extent 
-        { 
+        public Extent Extent
+        {
             get
             {
                 var tmp = _tileSource.Cache.Extent;
@@ -71,16 +71,16 @@ namespace BruTile
 
                 return new Extent(ll[0], ll[1], ur[0], ur[1]);
             }
-        
         }
 
-        static double[] ToMercator(double lon, double lat, double scale)
+        private static double[] ToMercator(double lon, double lat, double scale)
         {
             var x = lon * scale / 180;
             var y = Math.Log(Math.Tan((90 + lat) * Math.PI / 360)) / (Math.PI / 180);
             y = y * scale / 180;
             return new[] { x, y };
         }
-        #endregion
+
+        #endregion Implementation of ITileSource
     }
 }
