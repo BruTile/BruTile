@@ -1,11 +1,11 @@
 ﻿// Copyright 2008 - Paul den Dulk (Geodan)
-// 
+//
 // This file is part of SharpMap.
 // SharpMap is free software; you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // SharpMap is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,28 +13,75 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System.Drawing;
 using BruTile;
 
 namespace WinFormsSample
 {
-    class MapTransform
+    public struct PointD
+    {
+        private bool _isSet;
+        private double _x;
+
+        public double X
+        {
+            get { return _x; }
+            set
+            {
+                _x = value;
+                _isSet = true;
+            }
+        }
+
+        private double _y;
+
+        public double Y
+        {
+            get { return _y; }
+            set
+            {
+                _y = value;
+                _isSet = true;
+            }
+        }
+
+        public PointD(double x, double y)
+        {
+            _x = x;
+            _y = y;
+            _isSet = false;
+        }
+
+        public bool IsEmpty { get { return !_isSet; } }
+
+        public static implicit operator PointD(PointF pd)
+        {
+            return new PointD(pd.X, pd.Y);
+        }
+
+        public static implicit operator PointF(PointD pd)
+        {
+            return new PointF((float)pd.X, (float)pd.Y);
+        }
+    }
+
+    internal class MapTransform
     {
         #region Fields
 
-        float _resolution;
-        PointF _center;
-        float _width;
-        float _height;
+        double _resolution;
+        PointD _center;
+        double _width;
+        double _height;
         Extent _extent;
 
-        #endregion
+        #endregion Fields
 
         #region Public Methods
 
-        public MapTransform(PointF center, float resolution, float width, float height)
+        public MapTransform(PointD center, double resolution, double width, double height)
         {
             _center = center;
             _resolution = resolution;
@@ -43,7 +90,7 @@ namespace WinFormsSample
             UpdateExtent();
         }
 
-        public float Resolution
+        public double Resolution
         {
             set
             {
@@ -56,7 +103,7 @@ namespace WinFormsSample
             }
         }
 
-        public PointF Center
+        public PointD Center
         {
             set
             {
@@ -66,7 +113,7 @@ namespace WinFormsSample
             get { return _center; }
         }
 
-        public float Width
+        public double Width
         {
             set
             {
@@ -75,7 +122,7 @@ namespace WinFormsSample
             }
         }
 
-        public float Height
+        public double Height
         {
             set
             {
@@ -91,12 +138,12 @@ namespace WinFormsSample
 
         public PointF WorldToMap(double x, double y)
         {
-            return new PointF((float)(x - _extent.MinX) / _resolution, (float)(_extent.MaxY - y) / _resolution);
+            return new PointD((x - _extent.MinX) / _resolution, (_extent.MaxY - y) / _resolution);
         }
 
-        public PointF MapToWorld(double x, double y)
+        public PointD MapToWorld(double x, double y)
         {
-            return new PointF((float)(_extent.MinX + (x * _resolution)), (float)(_extent.MaxY -( y * _resolution)));
+            return new PointD((_extent.MinX + (x * _resolution)), (_extent.MaxY - (y * _resolution)));
         }
 
         public RectangleF WorldToMap(Extent extent)
@@ -106,24 +153,24 @@ namespace WinFormsSample
 
         public RectangleF WorldToMap(double x1, double y1, double x2, double y2)
         {
-            PointF point1 = WorldToMap(x1, y1);
-            PointF point2 = WorldToMap(x2, y2);
+            var point1 = WorldToMap(x1, y1);
+            var point2 = WorldToMap(x2, y2);
             return new RectangleF(point1.X, point2.Y, point2.X - point1.X, point1.Y - point2.Y);
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Private Methods
 
         private void UpdateExtent()
         {
-            float spanX = _width * _resolution;
-            float spanY = _height * _resolution;
+            var spanX = _width * _resolution;
+            var spanY = _height * _resolution;
             _extent = new Extent(
                 _center.X - spanX * 0.5f, _center.Y - spanY * 0.5f,
                 _center.X + spanX * 0.5f, _center.Y + spanY * 0.5f);
         }
 
-        #endregion
+        #endregion Private Methods
     }
 }

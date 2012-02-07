@@ -15,13 +15,12 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#endregion
-using System;
-using System.Data.SQLite;
-using System.Linq;
+#endregion License
+
 using BruTile.Cache;
+using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile.FileSystem
 {
@@ -30,11 +29,11 @@ namespace BruTile.FileSystem
         private readonly MbTilesCache _cache;
 
         public MbTilesProvider(string file)
-            :this(new SQLiteConnection(string.Format("Data Source={0}", file)))
+            : this(new SqliteConnection(string.Format("Data Source={0}", file)))
         {
         }
 
-        public MbTilesProvider(SQLiteConnection connection)
+        public MbTilesProvider(SqliteConnection connection)
         {
             _cache = new MbTilesCache(connection);
         }
@@ -43,7 +42,8 @@ namespace BruTile.FileSystem
 
         internal MbTilesCache Cache
         {
-            get {
+            get
+            {
                 return _cache;
             }
         }
@@ -55,8 +55,6 @@ namespace BruTile.FileSystem
             return _cache.Find(tileInfo.Index);
         }
 
-        #endregion
-
-
+        #endregion Implementation of ITileProvider
     }
 }
