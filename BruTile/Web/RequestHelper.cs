@@ -23,19 +23,12 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
-
-#if SILVERLIGHT
-
-using System.Threading;
-
-#endif
+using BruTile.Extensions;
 
 namespace BruTile.Web
 {
-    public static partial class RequestHelper
+    public static class RequestHelper
     {
-#if !SILVERLIGHT
-
         static RequestHelper()
         {
             Timeout = 5000;
@@ -46,14 +39,13 @@ namespace BruTile.Web
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
-            webRequest.KeepAlive = keepAlive;
+#if !SILVERLIGHT
             webRequest.AllowAutoRedirect = true;
-            webRequest.Timeout = Timeout;
-
+            webRequest.KeepAlive = keepAlive;
             webRequest.UserAgent = (string.IsNullOrEmpty(userAgent)) ? Utilities.DefaultUserAgent : userAgent;
             webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer : referer;
-
-            WebResponse webResponse = webRequest.GetResponse();
+#endif
+            WebResponse webResponse = webRequest.GetSyncResponse(Timeout);
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {
                 using (Stream responseStream = webResponse.GetResponseStream())
@@ -61,18 +53,16 @@ namespace BruTile.Web
                     return Utilities.ReadFully(responseStream);
                 }
             }
-            string message = CreateErrorMessage(webResponse, uri.AbsoluteUri);
+            string message = ComposeErrorMessage(webResponse, uri.AbsoluteUri);
             throw (new WebResponseFormatException(message, null));
         }
-
-#endif
 
         public static byte[] FetchImage(Uri uri)
         {
             return FetchImage(uri, String.Empty, String.Empty, true);
         }
 
-        private static string CreateErrorMessage(WebResponse webResponse, string uri)
+        private static string ComposeErrorMessage(WebResponse webResponse, string uri)
         {
             string message = String.Format(
                 CultureInfo.InvariantCulture,

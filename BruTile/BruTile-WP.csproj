@@ -57,6 +57,7 @@
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\NullCache.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="ITileProvider.cs" />
