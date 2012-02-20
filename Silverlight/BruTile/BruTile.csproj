@@ -81,6 +81,9 @@
     <Compile Include="..\..\BruTile\Cache\NullCache.cs">
       <Link>Cache\NullCache.cs</Link>
     </Compile>
+    <Compile Include="..\..\BruTile\Extensions\HttpWebRequestExtensions.cs">
+      <Link>HttpWebRequestExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\BruTile\Extent.cs">
       <Link>Extent.cs</Link>
     </Compile>
@@ -329,7 +332,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

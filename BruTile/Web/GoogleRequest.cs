@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using BruTile.Extensions;
 
 namespace BruTile.Web
 {
@@ -348,7 +349,7 @@ namespace BruTile.Web
 
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
 #else
-                    using (var response = request.GetResponse(60000))
+                    using (var response = request.GetSyncResponse(60000))
 #endif
                 {
                     if (response != null)

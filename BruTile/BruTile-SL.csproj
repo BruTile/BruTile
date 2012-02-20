@@ -60,9 +60,6 @@
     <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Silverlight\BruTile\Web\RequestHelper.SL.cs">
-      <Link>Web\RequestHelper.SL.cs</Link>
-    </Compile>
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
@@ -89,6 +86,9 @@
     <Compile Include="Web\BasicRequest.cs" />
     <Compile Include="Web\BingRequest.cs" />
     <Compile Include="Web\BingTileSource.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="Web\GoogleRequest.cs" />
+    <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\IRequest.cs" />
     <Compile Include="Web\OsmRequest.cs" />
     <Compile Include="Web\OsmTileSource.cs" />

@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using BruTile.Extensions;
 
 namespace BruTile.Web.Wms
 {
@@ -245,7 +246,7 @@ namespace BruTile.Web.Wms
         private static Stream GetRemoteXmlStream(Uri uri)
         {
             var myRequest = (HttpWebRequest)WebRequest.Create(uri);
-            var myResponse = myRequest.GetResponse(60000);
+            var myResponse = myRequest.GetSyncResponse(60000);
             var stream = myResponse.GetResponseStream();
             return stream;
         }
