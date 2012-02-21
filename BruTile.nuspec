@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>BruTile</id>
-    <version>0.5.3</version>
+    <version>0.6.0</version>
     <title>BruTile</title>
     <authors>Paul den Dulk</authors>
     <owners>Paul den Dulk</owners>
