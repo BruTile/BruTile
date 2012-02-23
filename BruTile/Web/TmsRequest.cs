@@ -94,9 +94,11 @@ namespace BruTile.Web
             // if a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)
             {
-                return string.Format(CultureInfo.InvariantCulture, "{0}/{1}/", _baseUrl, levelId);
+                if (!_baseUrl.EndsWith("/")) _baseUrl += "/";
+                return string.Format(CultureInfo.InvariantCulture, "{0}{1}/", _baseUrl, levelId);
             }
             // else return the url that was defined for the specific level
+            if (!_baseUrls[levelId].EndsWith("/")) _baseUrls[levelId] += "/";
             return _baseUrls[levelId].ToString();
         }
 
