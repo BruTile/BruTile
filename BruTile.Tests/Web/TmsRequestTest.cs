@@ -22,6 +22,7 @@ namespace BruTile.Tests.Web
             Assert.AreEqual(uri.ToString(), "http://tileserver.com/3/1/2.png"); 
         }
 
+
         [Test]
         public void WhenInitializedWithServerNodesShouldReturnCorrectUri()
         {

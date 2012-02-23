@@ -84,10 +84,6 @@
       <Project>{D7194231-DBAD-422B-819E-911037934F45}</Project>
       <Name>System.Data.Ersatz.Silverlight</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTile.csproj">
-      <Project>{82F3FDB6-7794-4FA4-8296-5CBD079E2F2A}</Project>
-      <Name>BruTile %28Silverlight\BruTile%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
