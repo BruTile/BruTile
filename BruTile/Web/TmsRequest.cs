@@ -41,6 +41,7 @@ namespace BruTile.Web
             : this(imageFormat, serverNodes, customParameters)
         {
             _baseUrl = baseUrl;
+               
             if (_baseUrl.Contains(ServerNodeTag))
             {
                 if (serverNodes == null || serverNodes.Count == 0)
@@ -91,15 +92,20 @@ namespace BruTile.Web
 
         private string GetUrlForLevel(string levelId)
         {
+            var url = new StringBuilder();
             // if a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)
             {
-                if (!_baseUrl.EndsWith("/")) _baseUrl += "/";
-                return string.Format(CultureInfo.InvariantCulture, "{0}{1}/", _baseUrl, levelId);
+                url.Append(_baseUrl);
+                if (!_baseUrl.EndsWith("/")) url.Append("/");
+                url.Append(levelId).Append("/");
             }
-            // else return the url that was defined for the specific level
-            if (!_baseUrls[levelId].EndsWith("/")) _baseUrls[levelId] += "/";
-            return _baseUrls[levelId].ToString();
+            else
+            {
+                url.Append(_baseUrls[levelId].ToString());
+                if (!_baseUrls[levelId].ToString().EndsWith("/")) url.Append("/");
+            }
+            return url.ToString();
         }
 
         private static void InsertRandomServerNode(StringBuilder baseUrl, IList<string> serverNodes, Random random)
