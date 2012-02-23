@@ -37,7 +37,8 @@ namespace BruTile.Web.TmsService
             return CreateTileSource(tileMapResource, null);
         }
 
-        public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl)
+        public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl,
+            Dictionary<string, string> customParameters = null)
         {
             var reader = new StreamReader(tileMapResource);
             var serializer = new XmlSerializer(typeof(TileMap));
@@ -49,7 +50,7 @@ namespace BruTile.Web.TmsService
             {
                 tileUrls[ts.order] = new Uri(ts.href);
             }
-            var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl));
+            var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters));
 
             return new TileSource(tileProvider, tileSchema);
         }
@@ -101,12 +102,13 @@ namespace BruTile.Web.TmsService
             return schema;
         }
 
-        private static IRequest CreateRequest(IDictionary<string, Uri> tileUrls, string format, string overrideUrl)
+        private static IRequest CreateRequest(IDictionary<string, Uri> tileUrls, string format, string overrideUrl,
+            Dictionary<string, string> customParameters = null)
         {
             if (string.IsNullOrEmpty(overrideUrl))
-                return new TmsRequest(tileUrls, format);
+                return new TmsRequest(tileUrls, format, customParameters);
 
-            return new TmsRequest(new Uri(overrideUrl), format);
+            return new TmsRequest(new Uri(overrideUrl), format, customParameters);
         }
     }
 }
