@@ -127,9 +127,7 @@ namespace BruTile
 
         public IEnumerable<TileInfo> GetTilesInView(Extent extent, int level)
         {
-            IList<TileInfo> infos = new List<TileInfo>();
             TileRange range = TileTransform.WorldToTile(extent, level, this);
-            infos.Clear();
             
             for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
@@ -141,11 +139,10 @@ namespace BruTile
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {
-                        infos.Add(info);
+                        yield return info;
                     }
                 }
             }
-            return infos;
         }
 
         public Extent GetExtentOfTilesInView(Extent extent, int level)
