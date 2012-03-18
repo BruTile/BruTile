@@ -21,7 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -84,16 +83,9 @@ namespace BruTile
         {
             get
             {
-#if PocketPC
-                return string.Empty; 
-#else
                 string name = Assembly.GetExecutingAssembly().FullName;
-                AssemblyName asmName = new AssemblyName(name);
-
-                // http://www.dotnet247.com/247reference/msgs/45/225355.aspx
+                var asmName = new AssemblyName(name);
                 return asmName.Version.Major + "." + asmName.Version.Minor;
-#endif
-
             }
         }
 
