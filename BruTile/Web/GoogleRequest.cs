@@ -6,10 +6,10 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using BruTile.Extensions;
 
 namespace BruTile.Web
 {
@@ -201,14 +201,13 @@ namespace BruTile.Web
         }
 
         // Google version strings
-        private static string VersionGoogleMap = "m@130";
-        private static string VersionGoogleSatellite = "66";
-        private static string VersionGoogleLabels = "h@130";
-        private static string VersionGoogleTerrain = "t@125,r@130";
-        private static readonly string SecGoogleWord = "Galileo";
+        private static string _versionGoogleMap = "m@130";
+        private static string _versionGoogleSatellite = "66";
+        private static string _versionGoogleLabels = "h@130";
+        private static string _versionGoogleTerrain = "t@125,r@130";
+        private const string SecGoogleWord = "Galileo";
 
-        private static readonly System.Globalization.CultureInfo FormatProvider =
-            System.Globalization.CultureInfo.InvariantCulture;
+        private static readonly CultureInfo FormatProvider = CultureInfo.InvariantCulture;
 
         /// <summary>
         /// 0 ... Name of Server [mt|khm]
@@ -248,25 +247,25 @@ namespace BruTile.Web
                     case GoogleMapType.GoogleMap:
                         _server = "mt";
                         _request = "vt";
-                        _version = VersionGoogleMap;
+                        _version = _versionGoogleMap;
                         _versionKey = "lyrs";
                         break;
                     case GoogleMapType.GoogleSatellite:
                         _server = "khm";
                         _request = "kh";
-                        _version = VersionGoogleSatellite;
+                        _version = _versionGoogleSatellite;
                         _versionKey = "v";
                         break;
                     case GoogleMapType.GoogleLabels:
                         _server = "mt";
                         _request = "vt";
-                        _version = VersionGoogleLabels;
+                        _version = _versionGoogleLabels;
                         _versionKey = "lyrs";
                         break;
                     case GoogleMapType.GoogleTerrain:
                         _server = "mt";
                         _request = "vt";
-                        _version = VersionGoogleTerrain;
+                        _version = _versionGoogleTerrain;
                         _versionKey = "lyrs";
                         break;
                 }
@@ -338,16 +337,16 @@ namespace BruTile.Web
 
         private static void TryCorrectGoogleVersions()
         {
-            var url = @"http://maps.google.com";
+            const string url = @"http://maps.google.com";
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = GoogleTileSource.UserAgent;
 #if !SILVERLIGHT
                 request.Timeout = 60000;
                 request.ReadWriteTimeout = 360000;
 
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                using (var response = request.GetResponse() as HttpWebResponse)
 #else
                     using (var response = request.GetSyncResponse(60000))
 #endif
@@ -358,11 +357,11 @@ namespace BruTile.Web
                         {
                             if (responseStream != null)
                             {
-                                using (StreamReader read = new StreamReader(responseStream))
+                                using (var read = new StreamReader(responseStream))
                                 {
                                     string html = read.ReadToEnd();
 
-                                    Regex reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
+                                    var reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
                                                           RegexOptions.IgnoreCase);
                                     Match mat = reg.Match(html);
                                     if (mat.Success)
@@ -371,10 +370,10 @@ namespace BruTile.Web
                                         int count = gc.Count;
                                         if (count > 0)
                                         {
-                                            VersionGoogleMap = string.Format("m@{0}", gc[1].Value);
+                                            _versionGoogleMap = string.Format("m@{0}", gc[1].Value);
                                             //VersionGoogleMapChina = VersionGoogleMap;
                                             Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleMap: " +
-                                                            VersionGoogleMap);
+                                                            _versionGoogleMap);
                                         }
                                     }
 
@@ -387,10 +386,10 @@ namespace BruTile.Web
                                         int count = gc.Count;
                                         if (count > 0)
                                         {
-                                            VersionGoogleLabels = string.Format("h@{0}", gc[1].Value);
+                                            _versionGoogleLabels = string.Format("h@{0}", gc[1].Value);
                                             //VersionGoogleLabelsChina = VersionGoogleLabels;
                                             Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleLabels: " +
-                                                            VersionGoogleLabels);
+                                                            _versionGoogleLabels);
                                         }
                                     }
 
@@ -402,11 +401,11 @@ namespace BruTile.Web
                                         int count = gc.Count;
                                         if (count > 0)
                                         {
-                                            VersionGoogleSatellite = gc[1].Value;
+                                            _versionGoogleSatellite = gc[1].Value;
                                             //VersionGoogleSatelliteKorea = VersionGoogleSatellite;
                                             //VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
                                             Debug.WriteLine("TryCorrectGoogleVersions, VersionGoogleSatellite: " +
-                                                            VersionGoogleSatellite);
+                                                            _versionGoogleSatellite);
                                         }
                                     }
 
@@ -419,12 +418,12 @@ namespace BruTile.Web
                                         int count = gc.Count;
                                         if (count > 1)
                                         {
-                                            VersionGoogleTerrain = string.Format("t@{0},r@{1}", gc[1].Value,
+                                            _versionGoogleTerrain = string.Format("t@{0},r@{1}", gc[1].Value,
                                                                                  gc[2].Value);
                                             //VersionGoogleTerrainChina = VersionGoogleTerrain;
                                             Debug.WriteLine(
                                                 "TryCorrectGoogleVersions, VersionGoogleTerrain: " +
-                                                VersionGoogleTerrain);
+                                                _versionGoogleTerrain);
                                         }
                                     }
                                 }
@@ -448,10 +447,10 @@ namespace BruTile.Web
         {
             var type = en.GetType();
             var memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
+            if (memInfo.Length > 0)
             {
                 var attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
+                if (attrs.Length > 0)
                     return ((DescriptionAttribute)attrs[0]).Description;
             }
 

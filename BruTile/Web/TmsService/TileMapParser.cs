@@ -55,7 +55,6 @@ namespace BruTile.Web.TmsService
             return new TileSource(tileProvider, tileSchema);
         }
 
-#if !PocketPC
         public static void CreateTileSourceAsync(string tileMapResourceUrl, CreateTileSourceCompleted callback)
         {
             CreateTileSourceAsync(tileMapResourceUrl, callback, null);
@@ -75,7 +74,6 @@ namespace BruTile.Web.TmsService
                 };
             client.OpenReadAsync(new Uri(url));
         }
-#endif
 
         private static TileSchema CreateSchema(TileMap tileMap)
         {
