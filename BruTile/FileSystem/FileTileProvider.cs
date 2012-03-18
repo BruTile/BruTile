@@ -19,6 +19,7 @@
 
 #endregion
 
+using System;
 using System.IO;
 using BruTile.Cache;
 
@@ -27,6 +28,11 @@ namespace BruTile.FileSystem
     public class FileTileProvider : ITileProvider
     {
         readonly FileCache _fileCache;
+
+        public FileTileProvider(string directory, string format, TimeSpan cacheExpireTime)
+        {
+            _fileCache = new FileCache(directory, format, cacheExpireTime);
+        }
 
         public FileTileProvider(FileCache fileCache)
         {
