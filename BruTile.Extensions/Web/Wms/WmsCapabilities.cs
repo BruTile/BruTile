@@ -26,6 +26,12 @@ namespace BruTile.Web.Wms
             Version = new WmsVersion(version);
         }
 
+        public string Soep
+        {
+            get { return null; }
+            set { value = null; }
+        }
+
         public WmsCapabilities(WmsVersionEnum version)
         {
             Version = new WmsVersion(version);
@@ -75,15 +81,6 @@ namespace BruTile.Web.Wms
 
             Capability = new Capability(element, @namespace);
         }
-
-#if !SILVERLIGHT
-
-        public WmsCapabilities(Uri uri, IWebProxy proxy)
-            : this(ToXDocument(uri, proxy))
-        {
-        }
-
-#endif
 
         public Service Service
         {
@@ -219,25 +216,19 @@ namespace BruTile.Web.Wms
 
 #if !SILVERLIGHT
 
-        private static XDocument ToXDocument(Uri uri, IWebProxy proxy)
+        private static XDocument ToXDocument(Uri uri)
         {
-            Stream stream;
-            if (uri.IsAbsoluteUri && uri.IsFile) //assume web if relative because IsFile is not supported on relative paths
-                stream = File.OpenRead(uri.LocalPath);
-            else
-                stream = GetRemoteXmlStream(uri, proxy);
-
+            Stream stream = GetRemoteXmlStream(uri);
             var sr = new StreamReader(stream);
-
             var ret = XDocument.Load(sr);
             return ret;
         }
 
-        private static Stream GetRemoteXmlStream(Uri uri, IWebProxy proxy)
+        private static Stream GetRemoteXmlStream(Uri uri)
         {
-            var myRequest = WebRequest.Create(uri);
-            if (proxy != null) myRequest.Proxy = proxy;
-            var myResponse = myRequest.GetResponse();
+            var myRequest = (HttpWebRequest)WebRequest.Create(uri);
+            //!!!var myResponse = myRequest.GetSyncResponse(30000);
+            var myResponse = myRequest.GetResponse();//!!!
             var stream = myResponse.GetResponseStream();
             return stream;
         }

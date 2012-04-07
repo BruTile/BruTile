@@ -23,7 +23,7 @@ using System;
 
 namespace BruTile.Cache
 {
-    internal class NullCache : ITileCache<byte[]>
+    public class NullCache : ITileCache<byte[]>
     {
         public void Add(TileIndex index, byte[] image)
         {

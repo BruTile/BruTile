@@ -62,17 +62,33 @@ namespace BruTile.Web.TmsService
 
         public static void CreateTileSourceAsync(string url, CreateTileSourceCompleted callback, string overrideUrl)
         {
-            var client = new WebClient();
-            client.OpenReadCompleted +=
-                delegate(object s, OpenReadCompletedEventArgs eventArgs)
-                {
-                    if ((!eventArgs.Cancelled) && (eventArgs.Error == null))
-                    {
-                        var tileSource = CreateTileSource(eventArgs.Result, overrideUrl);
-                        if (callback != null) callback(tileSource, eventArgs.Error);
-                    }
-                };
-            client.OpenReadAsync(new Uri(url));
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+
+            request.BeginGetResponse(MethodOnThread, 
+                new object[] { callback, request, overrideUrl });
+        }
+
+        public static void MethodOnThread(IAsyncResult ar)
+        {
+            CreateTileSourceCompleted callback = null;
+            Exception error = null;
+            ITileSource tileSource = null;
+
+            try
+            {
+                var args = (object[])ar.AsyncState;
+                callback = (CreateTileSourceCompleted)args[0];
+                var request = (HttpWebRequest)args[1];
+                var overrideUrl = (string)args[2];
+
+                var response = request.EndGetResponse(ar);
+                tileSource = CreateTileSource(response.GetResponseStream(), overrideUrl);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            if (callback != null) callback(tileSource, error);            
         }
 
         private static TileSchema CreateSchema(TileMap tileMap)

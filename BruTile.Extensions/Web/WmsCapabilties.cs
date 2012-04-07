@@ -87,13 +87,13 @@ namespace BruTile.Web
 
         #endregion Properties
 
-        public WmsCapabilities(Uri uri, IWebProxy proxy)
+        public WmsCapabilities(Uri uri)
         {
             Stream stream;
             if (uri.IsAbsoluteUri && uri.IsFile) //assume web if relative because IsFile is not supported on relative paths
                 stream = File.OpenRead(uri.LocalPath);
             else
-                stream = GetRemoteXmlStream(uri, proxy);
+                stream = GetRemoteXmlStream(uri);
 
             XmlDocument xml = GetXml(stream);
             ParseCapabilities(xml);
@@ -142,10 +142,9 @@ namespace BruTile.Web
             }
         }
 
-        private static Stream GetRemoteXmlStream(Uri uri, WebProxy proxy)
+        private static Stream GetRemoteXmlStream(Uri uri)
         {
             WebRequest myRequest = WebRequest.Create(uri);
-            if (proxy != null) myRequest.Proxy = proxy;
             WebResponse myResponse = myRequest.GetResponse();
             Stream stream = myResponse.GetResponseStream();
             return stream;

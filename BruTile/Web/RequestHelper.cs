@@ -39,12 +39,6 @@ namespace BruTile.Web
         public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
-#if !SILVERLIGHT
-            webRequest.AllowAutoRedirect = true;
-            webRequest.KeepAlive = keepAlive;
-            webRequest.UserAgent = (string.IsNullOrEmpty(userAgent)) ? Utilities.DefaultUserAgent : userAgent;
-            webRequest.Referer = (string.IsNullOrEmpty(referer)) ? Utilities.DefaultReferer : referer;
-#endif
             WebResponse webResponse = webRequest.GetSyncResponse(Timeout);
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {

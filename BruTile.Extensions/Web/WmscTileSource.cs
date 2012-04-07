@@ -48,24 +48,15 @@ namespace BruTile.Web
             _tileProvider = tileProvider;
         }
 
-#if !SILVERLIGHT
 
-        public static List<ITileSource> TileSourceBuilder(Uri uri, IWebProxy proxy)
+        public static List<ITileSource> TileSourceBuilder(Uri uri)
         {
-            var wmsCapabilities = new WmsCapabilities(uri, proxy);
+            var wmsCapabilities = new WmsCapabilities(uri.ToString());
 
             return ParseVendorSpecificCapabilitiesNode(
                 (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
-
-#else
-        //public static List<ITileSource> TileSourceBuilder(Uri uri)
-        //{
-        //    var wmsCapabilities = new WmsCapabilities(uri);
-        //    return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
-        //}
-#endif
 
         /// <summary>
         /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties

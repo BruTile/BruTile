@@ -68,26 +68,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\CachingTileProvider.cs" />
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
     <Compile Include="TileTransform.cs" />
-    <Compile Include="Cache\DbCache.cs" />
     <Compile Include="Cache\NullCache.cs" />
     <Compile Include="PreDefined\BingSchema.cs" />
-    <Compile Include="FileSystem\FileTileProvider.cs" />
     <Compile Include="PreDefined\GlobalMercator.cs" />
     <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Web\ArcGisTileSource.cs" />
-    <Compile Include="Web\GoogleRequest.cs" />
-    <Compile Include="Web\GoogleTileSource.cs" />
     <Compile Include="Web\OsmRequest.cs" />
     <Compile Include="Web\TmsService\Root.cs" />
     <Compile Include="Web\TmsService\TileMapParser.cs" />
     <Compile Include="Web\TmsService\TileMapService.cs" />
     <Compile Include="Web\TmsService\TileMap.cs" />
-    <Compile Include="Web\WmscTileSource.cs" />
     <Compile Include="TileSource.cs" />
     <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Web\IRequest.cs" />
@@ -101,11 +95,9 @@
     <Compile Include="Web\BasicRequest.cs" />
     <Compile Include="Web\TmsRequest.cs" />
     <Compile Include="Web\BingRequest.cs" />
-    <Compile Include="Web\WmscRequest.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="TileIndex.cs" />
     <Compile Include="TileRange.cs" />
-    <Compile Include="Cache\FileCache.cs" />
     <Compile Include="TileSchema.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="Utilities.cs" />
@@ -115,45 +107,6 @@
     <Compile Include="Web\TmsTileSource.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
-    <Compile Include="Web\Wms\Attribution.cs" />
-    <Compile Include="Web\Wms\AuthorityURL.cs" />
-    <Compile Include="Web\Wms\BoundingBox.cs" />
-    <Compile Include="Web\Wms\Capability.cs" />
-    <Compile Include="Web\Wms\ContactAddress.cs" />
-    <Compile Include="Web\Wms\ContactInformation.cs" />
-    <Compile Include="Web\Wms\ContactPersonPrimary.cs" />
-    <Compile Include="Web\Wms\DataURL.cs" />
-    <Compile Include="Web\Wms\DCPType.cs" />
-    <Compile Include="Web\Wms\DCPTypeElement.cs" />
-    <Compile Include="Web\Wms\Dimension.cs" />
-    <Compile Include="Web\Wms\Exception.cs" />
-    <Compile Include="Web\Wms\ExGeographicBoundingBox.cs" />
-    <Compile Include="Web\Wms\FeatureListURL.cs" />
-    <Compile Include="Web\Wms\Get.cs" />
-    <Compile Include="Web\Wms\HTTP.cs" />
-    <Compile Include="Web\Wms\Identifier.cs" />
-    <Compile Include="Web\Wms\Keyword.cs" />
-    <Compile Include="Web\Wms\KeywordList.cs" />
-    <Compile Include="Web\Wms\Layer.cs" />
-    <Compile Include="Web\Wms\LegendURL.cs" />
-    <Compile Include="Web\Wms\LogoURL.cs" />
-    <Compile Include="Web\Wms\MetadataURL.cs" />
-    <Compile Include="Web\Wms\OnlineResource.cs" />
-    <Compile Include="Web\Wms\OperationType.cs" />
-    <Compile Include="Web\Wms\Post.cs" />
-    <Compile Include="Web\Wms\Request.cs" />
-    <Compile Include="Web\Wms\Service.cs" />
-    <Compile Include="Web\Wms\ServiceException.cs" />
-    <Compile Include="Web\Wms\ServiceExceptionReport.cs" />
-    <Compile Include="Web\Wms\ServiceName.cs" />
-    <Compile Include="Web\Wms\Style.cs" />
-    <Compile Include="Web\Wms\StyleSheetURL.cs" />
-    <Compile Include="Web\Wms\StyleURL.cs" />
-    <Compile Include="Web\Wms\WmsCapabilities.cs" />
-    <Compile Include="Web\Wms\WmsParsingException.cs" />
-    <Compile Include="Web\Wms\WmsPropertyException.cs" />
-    <Compile Include="Web\Wms\WmsVersion.cs" />
-    <Compile Include="Web\Wms\XmlObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -176,7 +129,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FileSystem\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
