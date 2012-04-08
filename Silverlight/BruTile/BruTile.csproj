@@ -66,12 +66,6 @@
     <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\BruTile\Cache\CachingTileProvider.cs">
-      <Link>Cache\CachingTileProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\Cache\FileCache.cs">
-      <Link>Cache\FileCache.cs</Link>
-    </Compile>
     <Compile Include="..\..\BruTile\Cache\ITileCache.cs">
       <Link>Cache\ITileCache.cs</Link>
     </Compile>
@@ -86,9 +80,6 @@
     </Compile>
     <Compile Include="..\..\BruTile\Extent.cs">
       <Link>Extent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\FileSystem\FileTileProvider.cs">
-      <Link>FileSystem\FileTileProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\BruTile\ITileProvider.cs">
       <Link>ITileProvider.cs</Link>
@@ -152,12 +143,6 @@
     </Compile>
     <Compile Include="..\..\BruTile\Web\BingTileSource.cs">
       <Link>Web\BingTileSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\Web\GoogleRequest.cs">
-      <Link>Web\GoogleRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\BruTile\Web\GoogleTileSource.cs">
-      <Link>Web\GoogleTileSource.cs</Link>
     </Compile>
     <Compile Include="..\..\BruTile\Web\IRequest.cs">
       <Link>Web\IRequest.cs</Link>
@@ -325,14 +310,16 @@
       <Link>BruTile.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FileSystem\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" />
+      <UserProperties ProjectLinkReference="70315167-2bf1-4c7b-9184-728caabf30d7" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

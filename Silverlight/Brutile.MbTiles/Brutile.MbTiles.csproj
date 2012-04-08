@@ -68,9 +68,7 @@
     <Compile Include="..\..\BruTile.MbTiles\MbTilesType.cs">
       <Link>MbTilesType.cs</Link>
     </Compile>
-    <Compile Include="..\..\BruTile\Cache\DbCache.cs">
-      <Link>Cache\DbCache.cs</Link>
-    </Compile>
+    <Compile Include="Cache\DbCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
