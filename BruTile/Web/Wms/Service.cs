@@ -37,7 +37,7 @@ namespace BruTile.Web.Wms
                 try
                 {
 #if !SILVERLIGHT
-                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value);
+                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value, true);
 #else
                 Name = (ServiceName)Enum.Parse(typeof(ServiceName), value, true);
 #endif
@@ -209,7 +209,7 @@ namespace BruTile.Web.Wms
                     {
                         case "Name":
 #if !SILVERLIGHT
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), reader.ReadElementContentAsString());
+                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), reader.ReadElementContentAsString(), true);
 #else
                             reader.ReadStartElement("ServiceName");
                             var name = reader.ReadContentAsString();

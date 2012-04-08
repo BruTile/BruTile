@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile-PCL", "BruTile\BruT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Extensions", "BruTile.Extensions\BruTile.Extensions.csproj", "{F606930D-DF76-4785-98B5-C6B0FDD96D4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Extensions.Tests", "BruTile.Extensions.Tests\BruTile.Extensions.Tests.csproj", "{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6CF42333-35F4-4929-BA27-3BC9EF8B7F19}.Release|x86.ActiveCfg = Release|Any CPU
 		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{6EEDF770-D05C-441E-A523-7C97F620B9BB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU

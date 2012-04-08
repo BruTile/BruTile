@@ -26,12 +26,6 @@ namespace BruTile.Web.Wms
             Version = new WmsVersion(version);
         }
 
-        public string Soep
-        {
-            get { return null; }
-            set { value = null; }
-        }
-
         public WmsCapabilities(WmsVersionEnum version)
         {
             Version = new WmsVersion(version);
@@ -227,8 +221,8 @@ namespace BruTile.Web.Wms
         private static Stream GetRemoteXmlStream(Uri uri)
         {
             var myRequest = (HttpWebRequest)WebRequest.Create(uri);
-            //!!!var myResponse = myRequest.GetSyncResponse(30000);
-            var myResponse = myRequest.GetResponse();//!!!
+            var myResponse = myRequest.GetSyncResponse(30000);
+            //!!!var myResponse = myRequest.GetResponse();//!!!
             var stream = myResponse.GetResponseStream();
             return stream;
         }

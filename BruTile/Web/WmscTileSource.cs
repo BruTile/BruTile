@@ -58,6 +58,15 @@ namespace BruTile.Web
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
+        public static List<ITileSource> TileSourceBuilder(XDocument document)
+        {
+            var wmsCapabilities = new WmsCapabilities(document);
+
+            return ParseVendorSpecificCapabilitiesNode(
+                (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
+                wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
+        }
+
         /// <summary>
         /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties
         /// and adds them to the TileSets member
