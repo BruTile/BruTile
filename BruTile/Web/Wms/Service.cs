@@ -36,11 +36,7 @@ namespace BruTile.Web.Wms
                 if (value.StartsWith("OGC:")) value = value.Substring(4);
                 try
                 {
-#if !SILVERLIGHT
                     Name = (ServiceName) Enum.Parse(typeof (ServiceName), value, true);
-#else
-                Name = (ServiceName)Enum.Parse(typeof(ServiceName), value, true);
-#endif
                 }
                 catch (System.Exception exception)
                 {
@@ -200,7 +196,7 @@ namespace BruTile.Web.Wms
         {
             if (CheckEmptyNode(reader, "Service", string.Empty, true))
                 throw WmsParsingException.ElementNotFound("Service");
-
+           
             while (!reader.EOF)
             {
                 if (reader.IsStartElement())
@@ -208,14 +204,7 @@ namespace BruTile.Web.Wms
                     switch (reader.LocalName)
                     {
                         case "Name":
-#if !SILVERLIGHT
                             Name = (ServiceName)Enum.Parse(typeof(ServiceName), reader.ReadElementContentAsString(), true);
-#else
-                            reader.ReadStartElement("ServiceName");
-                            var name = reader.ReadContentAsString();
-                            reader.ReadEndElement();
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name, false);
-#endif
                             break;
                         case "Title":
                             Title = reader.ReadElementContentAsString();
