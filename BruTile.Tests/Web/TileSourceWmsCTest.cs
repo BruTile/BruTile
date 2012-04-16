@@ -14,6 +14,7 @@ namespace BruTile.Tests.Web
         public void ParseCapabilitiesWmsC()
         {
             // arrange
+            const int expectedNumberOfTileSources = 54;
             using (var fs = new StreamReader(File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml"))))
             {
                 var document = XDocument.Load(fs);
@@ -22,8 +23,7 @@ namespace BruTile.Tests.Web
                 var tileSources = WmscTileSource.TileSourceBuilder(document);
 
                 // assert
-                const int numberOfTileSources = 54;
-                Assert.AreEqual(tileSources.Count, numberOfTileSources);
+                Assert.AreEqual(tileSources.Count, expectedNumberOfTileSources);
                 foreach (var tileSource in tileSources)
                 {
                     Assert.NotNull(tileSource.Provider);

@@ -23,13 +23,8 @@ namespace BruTile.Extensions
         {
             if (request == null) throw new ArgumentNullException("request");
 
-#if SILVERLIGHT
-            if (System.Windows.Deployment.Current.Dispatcher.CheckAccess())
-            {
-                const string msg = "Invoking this method on the UI thread is forbidden.";
-                throw new InvalidOperationException(msg);
-            }
-#endif
+            //TODO: check if this method is usable when called from the UI thread in Silverlight
+            //if not, see how we could throw an exception when this is the case (otherwise it just hangs)
 
             var waitHandle = new AutoResetEvent(false);
             HttpWebResponse response = null;

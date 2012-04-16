@@ -117,7 +117,9 @@ namespace BruTile.Web.Wms
 
         public static WmsCapabilities Parse(Stream stream)
         {
-            using (var reader = XmlReader.Create(stream))
+            var settings = new XmlReaderSettings {DtdProcessing = DtdProcessing.Ignore};
+            
+            using (var reader = XmlReader.Create(stream, settings))
             {
                 reader.MoveToContent();
 
@@ -208,8 +210,6 @@ namespace BruTile.Web.Wms
 
         #endregion Overrides of XmlObject
 
-#if !SILVERLIGHT
-
         private static XDocument ToXDocument(Uri uri)
         {
             Stream stream = GetRemoteXmlStream(uri);
@@ -222,19 +222,8 @@ namespace BruTile.Web.Wms
         {
             var myRequest = (HttpWebRequest)WebRequest.Create(uri);
             var myResponse = myRequest.GetSyncResponse(30000);
-            //!!!var myResponse = myRequest.GetResponse();//!!!
             var stream = myResponse.GetResponseStream();
             return stream;
         }
-
-#else
-        private static Stream GetRemoteXmlStream(Uri uri)
-        {
-            var myRequest = (HttpWebRequest)WebRequest.Create(uri);
-            var myResponse = myRequest.GetSyncResponse(60000);
-            var stream = myResponse.GetResponseStream();
-            return stream;
-        }
-#endif
     }
 }

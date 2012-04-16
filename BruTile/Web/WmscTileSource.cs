@@ -48,7 +48,6 @@ namespace BruTile.Web
             _tileProvider = tileProvider;
         }
 
-
         public static List<ITileSource> TileSourceBuilder(Uri uri)
         {
             var wmsCapabilities = new WmsCapabilities(uri.ToString());
