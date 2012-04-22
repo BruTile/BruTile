@@ -6,6 +6,11 @@ namespace BruTile
     public enum MbTilesType
     {
         /// <summary>
+        /// None
+        /// </summary>
+        None,
+
+        /// <summary>
         /// Base layer
         /// </summary>
         BaseLayer, 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using BruTile;
+using BruTile.PreDefined;
 using BruTile.Web;
 
 namespace WinFormsSample
@@ -15,7 +16,7 @@ namespace WinFormsSample
     {
         private Bitmap _buffer;
         private MapTransform _mapTransform;
-        private MbTilesTileSource _source;
+        private ITileSource _source;
 
         public MbTilesForm()
         {
@@ -36,9 +37,9 @@ namespace WinFormsSample
             if (File.Exists(path))
             {
                 _source = new MbTilesTileSource(path);
-                var scale = (float)(1.1 * Math.Max(_source.Extent.Width / picMap.Width, _source.Extent.Height / picMap.Height));
+                var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                 _mapTransform = new MapTransform(
-                    new PointF((float)_source.Extent.CenterX, (float)_source.Extent.CenterY),
+                    new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
                     scale, picMap.Width, picMap.Height);
 
                 RenderToBuffer();
@@ -109,7 +110,7 @@ namespace WinFormsSample
                     g.DrawRectangle(Pens.Black, roundedExtent);
                     g.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.LevelId), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
                 }
-                g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Extent)));
+                g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Schema.Extent)));
             }
 
             tsslExtent.Text = string.Format("[({0:N}/{1:N})/({2:N}/{3:N})]", _mapTransform.Extent.MinX,
@@ -153,9 +154,9 @@ namespace WinFormsSample
                 if (ofn.ShowDialog() == DialogResult.OK)
                 {
                     _source = new MbTilesTileSource(ofn.FileName);
-                    var scale = (float)(1.1 * Math.Max(_source.Extent.Width / picMap.Width, _source.Extent.Height / picMap.Height));
+                    var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
-                        new PointF((float)_source.Extent.CenterX, (float)_source.Extent.CenterY),
+                        new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
                     RenderToBuffer();
@@ -204,9 +205,9 @@ namespace WinFormsSample
                 if (success)
                 {
                     _source = new MbTilesTileSource(path);
-                    var scale = (float)(1.1 * Math.Max(_source.Extent.Width / picMap.Width, _source.Extent.Height / picMap.Height));
+                    var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
-                        new PointF((float)_source.Extent.CenterX, (float)_source.Extent.CenterY),
+                        new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
                     RenderToBuffer();

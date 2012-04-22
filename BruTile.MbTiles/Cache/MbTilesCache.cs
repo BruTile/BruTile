@@ -122,9 +122,9 @@ namespace BruTile.Cache
         private readonly int[] _declaredZoomLevels;
         private readonly Dictionary<int, int[]> _tileRange;
 
-        private readonly GlobalMercator _schema;
+        private readonly ITileSchema _schema;
 
-        public MbTilesCache(SqliteConnection connection)
+        public MbTilesCache(SqliteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
             : base(connection, (parent, child) => string.Format("\"{0}\"", child), string.Empty, "tiles",
             null, null, FindTileCommand)
         {
@@ -134,24 +134,61 @@ namespace BruTile.Cache
                 Connection.Open();
                 wasOpen = false;
             }
+            
+            if (type == MbTilesType.None)
+            {
+                // Type (if defined)
+                _type = ReadType(connection);
+            }
 
-            //Declared zoom levels
-            _declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
+            if (schema == null)
+            {
+                // Format (if defined)
+                _format = ReadFormat(connection);
 
-            //Format (if defined)
-            _format = ReadFormat(connection);
+                // Extent
+                _extent = ReadExtent(connection);
 
-            //Type (if defined)
-            _type = ReadType(connection);
+                
+                if (HasMapTable(connection))
+                {
+                    // it is possible to override the schema by definining it in a 'map' table.
+                    // This method depends on reading tiles from an 'images' table, which
+                    // is not part of the MBTiles spec
+                    
+                    // Declared zoom levels
+                    _declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
 
-            //Extent
-            _extent = ReadExtent(connection);
-
-            //Create schema
-            _schema = new GlobalMercator(Format.ToString(), _declaredZoomLevels);
+                    // Create schema
+                    _schema = new GlobalMercator(Format.ToString(), _declaredZoomLevels);
+                }
+                else
+                {
+                    // this is actually the most regular case:
+                    _schema = new SphericalMercatorWorldSchema();
+                }
+            }
+            else
+            {
+                _schema = schema;
+            }
 
             if (!wasOpen)
                 Connection.Close();
+        }
+
+        private static bool HasMapTable(SqliteConnection connection)
+        {
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name='map';";
+                var reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                return reader.HasRows;
+            }
         }
 
         private static Extent ReadExtent(SqliteConnection connection)
@@ -171,12 +208,15 @@ namespace BruTile.Cache
                     {
                         var extentString = reader.GetString(0);
                         var components = extentString.Split(',');
-                        return new Extent(
+                        var extent = new Extent(
                             double.Parse(components[0], System.Globalization.NumberFormatInfo.InvariantInfo),
                             double.Parse(components[1], System.Globalization.NumberFormatInfo.InvariantInfo),
                             double.Parse(components[2], System.Globalization.NumberFormatInfo.InvariantInfo),
                             double.Parse(components[3], System.Globalization.NumberFormatInfo.InvariantInfo)
                             );
+
+                        return ToMercator(extent);
+
                     }
                     catch { }
                     /*
@@ -185,7 +225,13 @@ namespace BruTile.Cache
                         */
                 }
             }
-            return new Extent(-180, -90, 180, 90);
+            return new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
+        }
+
+        private static Extent ToMercator(Extent extent)
+        {
+            // todo: convert to mercator
+            return extent;
         }
 
         private static int[] ReadZoomLevels(SqliteConnection connection, out Dictionary<int, int[]> tileRange)
@@ -226,6 +272,7 @@ namespace BruTile.Cache
                             "min(\"tile_column\"), max(\"tile_column\"), " +
                             "min(\"tile_row\"), max(\"tile_row\") " +
                             "from \"" + name + "\" group by \"zoom_level\";";
+
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -367,6 +414,9 @@ namespace BruTile.Cache
 
         protected override bool IsTileIndexValid(TileIndex index)
         {
+            if (_tileRange == null) return true;
+
+            // this is an optimization that makes use of an additional 'map' table which is not part of the spec
             int[] range;
             if (_tileRange.TryGetValue(int.Parse(index.LevelId), out range))
             {
@@ -387,7 +437,7 @@ namespace BruTile.Cache
             return ret;
         }
 
-        internal TileSchema TileSchema
+        internal ITileSchema TileSchema
         {
             get { return _schema; }
         }
