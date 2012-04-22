@@ -27,14 +27,14 @@ namespace BruTile
 {
     public class MbTilesTileSource : ITileSource
     {
-        public MbTilesTileSource(string file)
-            : this(new SqliteConnection(string.Format("Data Source={0}", new Uri(file))))
+        public MbTilesTileSource(string file, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
+            : this(new SqliteConnection(string.Format("Data Source={0}", new Uri(file))), schema, type)
         {
         }
 
-        internal MbTilesTileSource(SqliteConnection connection)
+        internal MbTilesTileSource(SqliteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
-            _tileSource = new MbTilesProvider(connection);
+            _tileSource = new MbTilesProvider(connection, schema, type);
         }
 
         private readonly MbTilesProvider _tileSource;
@@ -57,29 +57,6 @@ namespace BruTile
         }
 
         public MbTilesType Type { get { return _tileSource.Cache.Type; } }
-
-        public Extent Extent
-        {
-            get
-            {
-                var tmp = _tileSource.Cache.Extent;
-
-                var schemaExtent = Schema.Extent;
-
-                var ll = ToMercator(tmp.MinX, tmp.MinY, schemaExtent.MaxX);
-                var ur = ToMercator(tmp.MaxX, tmp.MaxY, schemaExtent.MaxX);
-
-                return new Extent(ll[0], ll[1], ur[0], ur[1]);
-            }
-        }
-
-        private static double[] ToMercator(double lon, double lat, double scale)
-        {
-            var x = lon * scale / 180;
-            var y = Math.Log(Math.Tan((90 + lat) * Math.PI / 360)) / (Math.PI / 180);
-            y = y * scale / 180;
-            return new[] { x, y };
-        }
 
         #endregion Implementation of ITileSource
     }

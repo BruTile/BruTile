@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Cache\CachingTileProvider.cs" />
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="PreDefined\WkstNederlandSchema.cs" />
     <Compile Include="TileTransform.cs" />
     <Compile Include="Cache\DbCache.cs" />
     <Compile Include="Cache\NullCache.cs" />
