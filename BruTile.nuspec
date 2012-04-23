@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>BruTile</id>
-    <version>0.6.0</version>
+    <version>0.6.4</version>
     <title>BruTile</title>
     <authors>Paul den Dulk</authors>
     <owners>Paul den Dulk</owners>
@@ -25,6 +25,5 @@
   </metadata>
   <files>
     <file src="bin\Release\BruTile.dll" target="lib\net35\BruTile.dll" />
-    <file src="Silverlight\BruTile\bin\Release\BruTile.dll" target="lib\sl4\BruTile.dll" />
   </files>
 </package>
