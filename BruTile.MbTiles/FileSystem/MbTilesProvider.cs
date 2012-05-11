@@ -33,12 +33,12 @@ namespace BruTile.FileSystem
         {
         }
 
-        public MbTilesProvider(SqliteConnection connection)
+        public MbTilesProvider(SqliteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
-            _cache = new MbTilesCache(connection);
+            _cache = new MbTilesCache(connection, schema, type);
         }
 
-        public TileSchema Schema { get { return _cache.TileSchema; } }
+        public ITileSchema Schema { get { return _cache.TileSchema; } }
 
         internal MbTilesCache Cache
         {

@@ -204,7 +204,10 @@ namespace BruTile.Web.Wms
                     switch (reader.LocalName)
                     {
                         case "Name":
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), reader.ReadElementContentAsString(), true);
+                            string name = reader.ReadElementContentAsString();
+                            const string prefix = "ogc:";
+                            if (name.ToLower().StartsWith(prefix)) name = name.Substring(prefix.Length);
+                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name , true);
                             break;
                         case "Title":
                             Title = reader.ReadElementContentAsString();

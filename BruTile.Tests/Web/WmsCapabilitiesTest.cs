@@ -14,6 +14,23 @@ namespace BruTile.Tests.Web
     [TestFixture]
     internal class WmsCapabilitiesTest
     {
+		
+        [Test]
+        public void WmsCapabilities_WhenParsed_ShouldSetCorrectGetMapUrl()
+        {
+            // arrange
+            using (var fs = File.OpenRead(Path.Combine("Resources", @"whymap.xml")))
+            {
+                const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
+
+                // act
+                var capabilities = new WmsCapabilities(XDocument.Load(fs)); 
+
+                // assert
+                Assert.True(expectedUrl == capabilities.Capability.Request.GetMap.DCPType[0].Http.Get.OnlineResource.Href);
+            }
+        }
+
         [Ignore]
         [Test]
         public void WmsCapabilities_WhenSet_ShouldNotBeNull()
