@@ -19,7 +19,6 @@ namespace BruTile.Web.Wms
             att = node.Attribute(XName.Get("type", WmsNamespaces.Xlink));
             if (att != null)
                 Type = att.Value;
-            //!!!Debug.Assert(Type.Equals("simple", StringComparison.OrdinalIgnoreCase));
         }
 
         public override XElement ToXElement(string nameSpace)
