@@ -415,7 +415,6 @@ namespace BruTile.Cache
 
                     command = _store.Dequeue();
                 }
-                //Debug.Assert(command.Connection.State == ConnectionState.Closed);
 
                 command.Connection.Open();
                 return command;
@@ -423,7 +422,6 @@ namespace BruTile.Cache
 
             public void Return(IDbCommand command)
             {
-                //Debug.Assert(command.Connection.State == ConnectionState.Closed);
                 lock (_lock)
                 {
                     _store.Enqueue(command);
