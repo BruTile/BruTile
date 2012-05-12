@@ -38,10 +38,8 @@ namespace BruTile.Web.Wms
             if (doc.FirstNode is XDocumentType)
             {
                 var docType = doc.FirstNode;
-                node = (XElement)docType.NextNode;
             }
-            else
-                node = (XElement)doc.FirstNode;
+            node = doc.Element(XName.Get("WMT_MS_Capabilities"));
 
             var att = node.Attribute(XName.Get("version"));
             if (att == null)
