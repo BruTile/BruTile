@@ -5,17 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C847C0EA-38EC-49B8-AF07-12B65CA9C708}</ProjectGuid>
+    <ProjectGuid>{C2F848EF-E0AE-4A0C-909B-C9C10AFB2CEC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTile</RootNamespace>
-    <AssemblyName>BruTile.MbTiles</AssemblyName>
+    <RootNamespace>BruTile.Desktop.Tests</RootNamespace>
+    <AssemblyName>BruTile.Desktop.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,38 +31,55 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\ExternalAssemblies\System.Data.SQLite.DLL</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\DbCache.cs" />
-    <Compile Include="Cache\MbTilesCache.cs" />
-    <Compile Include="FileSystem\MbTilesProvider.cs" />
-    <Compile Include="MbTilesFormat.cs" />
-    <Compile Include="MbTilesTileSource.cs" />
-    <Compile Include="MbTilesType.cs" />
+    <Compile Include="Cache\CacheTest.cs" />
+    <Compile Include="Cache\FileCacheTest.cs" />
+    <Compile Include="Cache\SqlCeDbCacheTest.cs" />
+    <Compile Include="Cache\SQLiteCacheTest.cs" />
+    <Compile Include="Cache\SqliteDbCacheTest.cs" />
+    <Compile Include="FileSystem\FileTileProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BruTile.Desktop\BruTile.Desktop.csproj">
+      <Project>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</Project>
+      <Name>BruTile.Desktop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\csharpsqlite\Community.CsharpSqlite.SQLiteClient\Community.CsharpSqlite.SQLiteClient.csproj">
+    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite.SQLiteClient\Community.CsharpSqlite.SQLiteClient.csproj">
       <Project>{7BC68E61-C64C-488C-975F-1E2248383B80}</Project>
       <Name>Community.CsharpSqlite.SQLiteClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite\Community.CsharpSqlite.csproj">
+      <Project>{F1653F20-D47D-4F29-8C55-3C835542AF5F}</Project>
+      <Name>Community.CsharpSqlite</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
