@@ -128,9 +128,9 @@
       <Project>{C847C0EA-38EC-49B8-AF07-12B65CA9C708}</Project>
       <Name>BruTile.MbTiles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTile-PCL.csproj">
-      <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
-      <Name>BruTile-PCL</Name>
+    <ProjectReference Include="..\BruTile\BruTile.csproj">
+      <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
+      <Name>BruTile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
