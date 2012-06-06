@@ -129,7 +129,7 @@ namespace BruTile.Cache
 
         private void WriteToFile(byte[] image, TileIndex index)
         {
-            using (FileStream fileStream = File.Open(GetFileName(index), FileMode.CreateNew))
+            using (FileStream fileStream = File.Open(GetFileName(index), FileMode.Create))
             {
                 fileStream.Write(image, 0, image.Length);
                 fileStream.Flush();
