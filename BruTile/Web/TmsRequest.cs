@@ -64,15 +64,17 @@ namespace BruTile.Web
 
             if (_isSingleUrl)
             {
+                var baseUrl = _baseUrl[0];
                 url.AppendFormat(CultureInfo.InvariantCulture,
-                      "{0}/{1}/{2}/{3}.{4}",
-                      _baseUrl[0], info.Index.Level, info.Index.Col, info.Index.Row, _format);
+                      "{0}{1}/{2}/{3}.{4}",
+                      baseUrl, info.Index.Level, info.Index.Col, info.Index.Row, _format);
             }
             else
             {
+                var baseUrl = _baseUrl[info.Index.Level];
                 url.AppendFormat(CultureInfo.InvariantCulture,
-                  "{0}/{1}/{2}.{3}",
-                  _baseUrl[info.Index.Level], info.Index.Col, info.Index.Row, _format);
+                    "{0}{1}/{2}.{3}",
+                    baseUrl, info.Index.Col, info.Index.Row, _format);
             }
 
 
