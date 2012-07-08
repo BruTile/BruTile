@@ -91,6 +91,7 @@ namespace BruTile.Tests
             //ThreadPool.GetMaxThreads(out threads1, out threads2);
             //Console.WriteLine("ThreadPool settings: {0}, {1}", threads1, threads2);
 
+			
             var sw = new Stopwatch();
             IList<WaitHandle> waitHandles = new List<WaitHandle>();
             IList<TileIndex> randomTileIndices = new List<TileIndex>(GetRandomTileIndices(NumberToSearch));
