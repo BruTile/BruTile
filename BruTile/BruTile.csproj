@@ -35,7 +35,9 @@
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\NullCache.cs" />
-    <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extent.cs" />
     <Compile Include="ITileProvider.cs" />
     <Compile Include="ITileSchema.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Web\Wms\WmsVersion.cs" />
     <Compile Include="Web\Wms\XmlObject.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -74,6 +74,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BruTile\BruTile.csproj">
+      <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
+      <Name>BruTile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\csharpsqlite\Community.CsharpSqlite.SQLiteClient.SL\Community.CsharpSqlite.SQLiteClient.SL.csproj">
       <Project>{238EAD8B-B811-4FA6-8581-4CA4B816066D}</Project>
       <Name>Community.CsharpSqlite.SQLiteClient.SL</Name>
@@ -81,10 +85,6 @@
     <ProjectReference Include="..\..\csharpsqlite\System.Data.Ersatz\Silverlight\System.Data.Ersatz.Silverlight.csproj">
       <Project>{D7194231-DBAD-422B-819E-911037934F45}</Project>
       <Name>System.Data.Ersatz.Silverlight</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTile.csproj">
-      <Project>{82F3FDB6-7794-4FA4-8296-5CBD079E2F2A}</Project>
-      <Name>BruTile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
