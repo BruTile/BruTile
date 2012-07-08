@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+// This file was created by Tim Ebben (Geodan) 2009
+
+using System;
 using System.Linq;
-using System.Text;
 
 namespace BruTile.Web
 {
