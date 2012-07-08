@@ -13,7 +13,7 @@ namespace BruTile.Tests.Web
 {
     public class SerializationTest
     {
-        [Ignore("not working correctly")]
+        [Ignore("not completely implemented")]
         [Test]
         public void TestLocal()
         {

@@ -10,7 +10,6 @@ namespace BruTile.Tests.Web
     [TestFixture]
     internal class TileSourceWmsCTest
     {
-        [Ignore("There is a bug here that is fixed in the PLC version")]
         [Test]
         public void ParseCapabilitiesWmsC()
         {
