@@ -20,7 +20,6 @@ namespace BruTile.Tests.Web
             using (var fs = new StreamReader(File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml"))))
             {
                 var xml = fs.ReadToEnd();
-                //var xmlReader = XmlReader.Create(new StringReader(xml));
                 var doc = XDocument.Parse(xml);
                 var wms1 = new WmsCapabilities(doc);
             }
