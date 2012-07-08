@@ -1,6 +1,6 @@
 ﻿﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-// This file was created by Felix Obermaier (www.ivv-aachen.de) 2010
+// This file was created by Felix Obermaier (www.ivv-aachen.de) 2010.
 
 using BruTile.Cache;
 using Community.CsharpSqlite.SQLiteClient;
