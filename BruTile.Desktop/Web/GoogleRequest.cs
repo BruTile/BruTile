@@ -1,7 +1,6 @@
-/*
- *  This code is based on information provided by http://greatmaps.codeplex.com
- *
- */
+// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+// This code is based on information provided by http://greatmaps.codeplex.com
 
 using System;
 using System.ComponentModel;
