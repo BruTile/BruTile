@@ -31,7 +31,7 @@ namespace BruTile.Demo
             _renderer = new Renderer(_canvas);
 
             _tileSource = new OsmTileSource();
-            
+
             CompositionTarget.Rendering += CompositionTargetRendering;
             MouseWheel += MapControlMouseWheel;
             _fetcher.DataChanged += FetcherDataChanged;
@@ -65,8 +65,9 @@ namespace BruTile.Demo
             if (_viewport == null)
             {
                 _viewport = TryInitializeViewport(ActualWidth, ActualHeight, _tileSource.Schema);
+                if (_viewport != null) _fetcher.Fetch(_viewport, _tileSource, _tileCache);
             }
-            if (_viewport == null) return; 
+            if (_viewport == null) return;
             if (!_invalid) return;
 
             if (_renderer != null)
@@ -83,7 +84,7 @@ namespace BruTile.Demo
             var viewport = new Viewport();
             viewport.Width = actualWidth;
             viewport.Height = actualHeight;
-            viewport.Resolution = schema.Extent.Width / actualWidth;
+            viewport.Resolution = schema.Resolutions[Utilities.GetNearestLevel(schema.Resolutions, schema.Extent.Width / actualWidth)].UnitsPerPixel;
             viewport.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
             return viewport;
         }
