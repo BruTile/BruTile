@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://schemas.opengis.net/wms/1.1.1/WMS_MS_Capabilities.dtd"
+ [
+ <!ELEMENT VendorSpecificCapabilities EMPTY>
+ ]>  <!-- end of DOCTYPE declaration -->
+
+<WMT_MS_Capabilities version="1.1.1">
+
+<!-- MapServer version 5.6.5 OUTPUT=GIF OUTPUT=PNG OUTPUT=JPEG OUTPUT=WBMP OUTPUT=PDF OUTPUT=SWF OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=ICONV SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT SUPPORTS=WCS_SERVER SUPPORTS=SOS_SERVER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS SUPPORTS=RGBA_PNG SUPPORTS=TILECACHE INPUT=JPEG INPUT=POSTGIS INPUT=OGR INPUT=GDAL INPUT=SHAPEFILE -->
+
+<Service>
+  <Name>OGC:WMS</Name>
+  <Title>BGR Groundwater: WHYMAP</Title>
+  <Abstract>The World-wide Hydrogeological Mapping and Assessment Programme (WHYMAP) compiles data on groundwater from national, regional and global sources, and visualises them as printed maps, web map application and web map service. Internet: http://www.whymap.org/</Abstract>
+        <KeywordList>
+          <Keyword>geodata</Keyword>
+          <Keyword>geo information system</Keyword>
+          <Keyword> groundwater</Keyword>
+          <Keyword> hydrogeology</Keyword>
+          <Keyword> map</Keyword>
+          <Keyword> world map</Keyword>
+          <Keyword> vector data</Keyword>
+          <Keyword> water</Keyword>
+          <Keyword> aquifer</Keyword>
+          <Keyword> WMS</Keyword>
+          <Keyword>Web Map Service</Keyword>
+          <Keyword>OGC</Keyword>
+          <Keyword>Open GIS</Keyword>
+          <Keyword>web mapping</Keyword>
+          <Keyword>GIS</Keyword>
+          <Keyword>WHYMAP</Keyword>
+        </KeywordList>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.whymap.org/"/>
+  <ContactInformation>
+    <ContactPersonPrimary>
+      <ContactPerson>Dr. W.F. Struckmeier &amp; A. Richts</ContactPerson>
+      <ContactOrganization>Federal Institute for Geosciences and Natural Resources (BGR)</ContactOrganization>
+    </ContactPersonPrimary>
+      <ContactPosition>NONE</ContactPosition>
+    <ContactAddress>
+        <AddressType>postal</AddressType>
+        <Address>Stilleweg 2</Address>
+        <City>Hannover</City>
+        <StateOrProvince></StateOrProvince>
+        <PostCode>30655</PostCode>
+        <Country>DE</Country>
+    </ContactAddress>
+      <ContactVoiceTelephone>+49-511-643-0</ContactVoiceTelephone>
+      <ContactFacsimileTelephone>+49-511-643-2304</ContactFacsimileTelephone>
+  <ContactElectronicMailAddress>whymap@bgr.de</ContactElectronicMailAddress>
+  </ContactInformation>
+  <Fees>NONE</Fees>
+  <AccessConstraints>The information made available shall be quoted as follows in case of reuse: Data source: WHYMAP, (C) BGR Hannover &amp; UNESCO Paris</AccessConstraints>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>application/vnd.ogc.wms_xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/vnd.wap.wbmp</Format>
+      <Format>image/tiff</Format>
+      <Format>image/svg+xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>text/html</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <DescribeLayer>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </DescribeLayer>
+    <GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/vnd.wap.wbmp</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetLegendGraphic>
+    <GetStyles>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetStyles>
+  </Request>
+  <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+    <Format>application/vnd.ogc.se_inimage</Format>
+    <Format>application/vnd.ogc.se_blank</Format>
+  </Exception>
+  <VendorSpecificCapabilities />
+  <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
+  <Layer>
+    <Name>bgr_groundwater_whymap</Name>
+    <Title>BGR Groundwater: WHYMAP</Title>
+    <Abstract>The World-wide Hydrogeological Mapping and Assessment Programme (WHYMAP) compiles data on groundwater from national, regional and global sources, and visualises them as printed maps, web map application and web map service. Internet: http://www.whymap.org/</Abstract>
+    <KeywordList>
+     <Keyword>geodata</Keyword>
+     <Keyword>geo information system</Keyword>
+     <Keyword> groundwater</Keyword>
+     <Keyword> hydrogeology</Keyword>
+     <Keyword> map</Keyword>
+     <Keyword> world map</Keyword>
+     <Keyword> vector data</Keyword>
+     <Keyword> water</Keyword>
+     <Keyword> aquifer</Keyword>
+     <Keyword> WMS</Keyword>
+     <Keyword>Web Map Service</Keyword>
+     <Keyword>OGC</Keyword>
+     <Keyword>Open GIS</Keyword>
+     <Keyword>web mapping</Keyword>
+     <Keyword>GIS</Keyword>
+     <Keyword>WHYMAP</Keyword>
+    </KeywordList>
+    <SRS>EPSG:4326</SRS>
+    <SRS>EPSG:25832</SRS>
+    <SRS>EPSG:25833</SRS>
+    <SRS>EPSG:31466</SRS>
+    <SRS>EPSG:31467</SRS>
+    <SRS>EPSG:31468</SRS>
+    <SRS>EPSG:31469</SRS>
+    <SRS>EPSG:3034</SRS>
+    <SRS>EPSG:3035</SRS>
+    <SRS>EPSG:102013</SRS>
+    <SRS>EPSG:102014</SRS>
+    <SRS>EPSG:54030</SRS>
+    <SRS>EPSG:54004</SRS>
+    <SRS>EPSG:54027</SRS>
+    <SRS>EPSG:900913</SRS>
+    <LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+    <BoundingBox SRS="EPSG:4326"
+                minx="-180" miny="-90" maxx="180" maxy="90" />
+    <Attribution>
+        <Title></Title>
+        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=""/>
+        <LogoURL width="46" height="63">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../graphics/logo_unesco_sw_2.gif"/>
+          </LogoURL>
+    </Attribution>
+    <ScaleHint min="0" max="374177.136322228" />
+    <Layer>
+      <Name>gp_groundwater</Name>
+      <Title>Groundwater</Title>
+      <Abstract></Abstract>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>Hydrogeo1</Name>
+        <Title>Groundwater resources and recharge</Title>
+        <Abstract>groundwater resources and recharge (three main hydrogeological units and up to five different recharge categories)</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="83.6236" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-180" miny="-90" maxx="180" maxy="83.6236" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="294" height="243">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Hydrogeo1&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>Nonreneg</Name>
+        <Title>area of low rainfall</Title>
+        <Abstract>area of low rainfall ( &lt; 200 mm/year)</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-120.484" miny="-52.3814" maxx="140.904" maxy="49.9205" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-120.484" miny="-52.3814" maxx="140.904" maxy="49.9205" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="239" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Nonreneg&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>Salinegr</Name>
+        <Title>area of saline groundwater</Title>
+        <Abstract>area of saline groundwater ( &gt; 5g/l total dissolved solids)</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-69.8088" miny="-50.1233" maxx="148.446" maxy="49.4511" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-69.8088" miny="-50.1233" maxx="148.446" maxy="49.4511" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="262" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Salinegr&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+    </Layer>
+    <Layer>
+      <Name>gp_surface_water</Name>
+      <Title>Surface Water</Title>
+      <Abstract></Abstract>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>ice</Name>
+        <Title>continuous ice sheet</Title>
+        <Abstract>No further information</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-179.994" miny="-89.9906" maxx="179.994" maxy="82.5349" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-179.994" miny="-89.9906" maxx="179.994" maxy="82.5349" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="85" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=ice&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>River</Name>
+        <Title>major river</Title>
+        <Abstract>No further information</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-164.507" miny="-50.5528" maxx="177.395" maxy="73.2719" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-164.507" miny="-50.5528" maxx="177.395" maxy="73.2719" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="99" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=River&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>Lake</Name>
+        <Title>large freshwater lake</Title>
+        <Abstract>No further information</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-164.507" miny="-39.0861" maxx="176.092" maxy="75.1685" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-164.507" miny="-39.0861" maxx="176.092" maxy="75.1685" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="154" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Lake&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>Saltlake</Name>
+        <Title>large saltwater lake</Title>
+        <Abstract>No further information</Abstract>
+        <SRS>EPSG:4326</SRS>
+        <LatLonBoundingBox minx="-164.507" miny="-39.0861" maxx="176.092" maxy="75.1685" />
+        <BoundingBox SRS="EPSG:4326"
+                    minx="-164.507" miny="-39.0861" maxx="176.092" maxy="75.1685" />
+        <MetadataURL type="TC211">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://csw.bgr.de/deegree-webservices/services?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;ID=http://www.bgr.de/app/Produktblatt/show.php?productid=W-PR-0915&amp;elementsetname=full&amp;outputschema=http://www.isotc211.org/2005/gmd"/>
+        </MetadataURL>
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="115" height="22">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.bgr.de/Service/groundwater/whymap/?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Saltlake&amp;format=image/png&amp;STYLE=default"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+    </Layer>
+  </Layer>
+</Capability>
+</WMT_MS_Capabilities>
