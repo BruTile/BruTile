@@ -1,3 +1,5 @@
+// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
 using System;
 using System.Globalization;
 using System.Xml;
@@ -36,11 +38,7 @@ namespace BruTile.Web.Wms
                 if (value.StartsWith("OGC:")) value = value.Substring(4);
                 try
                 {
-#if !SILVERLIGHT
-                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value);
-#else
-                Name = (ServiceName)Enum.Parse(typeof(ServiceName), value, true);
-#endif
+                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value, true);
                 }
                 catch (System.Exception exception)
                 {
@@ -200,7 +198,7 @@ namespace BruTile.Web.Wms
         {
             if (CheckEmptyNode(reader, "Service", string.Empty, true))
                 throw WmsParsingException.ElementNotFound("Service");
-
+           
             while (!reader.EOF)
             {
                 if (reader.IsStartElement())
@@ -208,14 +206,10 @@ namespace BruTile.Web.Wms
                     switch (reader.LocalName)
                     {
                         case "Name":
-#if !SILVERLIGHT
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), reader.ReadElementContentAsString());
-#else
-                            reader.ReadStartElement("ServiceName");
-                            var name = reader.ReadContentAsString();
-                            reader.ReadEndElement();
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name, false);
-#endif
+                            string name = reader.ReadElementContentAsString();
+                            const string prefix = "ogc:";
+                            if (name.ToLower().StartsWith(prefix)) name = name.Substring(prefix.Length);
+                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name , true);
                             break;
                         case "Title":
                             Title = reader.ReadElementContentAsString();

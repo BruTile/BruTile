@@ -1,3 +1,5 @@
+// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -40,7 +42,7 @@ namespace BruTile.Web.Wms
                 var docType = doc.FirstNode;
             }
             node = doc.Element(XName.Get("WMT_MS_Capabilities"));
-
+            
             var att = node.Attribute(XName.Get("version"));
             if (att == null)
                 throw WmsParsingException.AttributeNotFound("version");
@@ -73,15 +75,6 @@ namespace BruTile.Web.Wms
 
             Capability = new Capability(element, @namespace);
         }
-
-#if !SILVERLIGHT
-
-        public WmsCapabilities(Uri uri, IWebProxy proxy)
-            : this(ToXDocument(uri, proxy))
-        {
-        }
-
-#endif
 
         public Service Service
         {
@@ -124,7 +117,9 @@ namespace BruTile.Web.Wms
 
         public static WmsCapabilities Parse(Stream stream)
         {
-            using (var reader = XmlReader.Create(stream))
+            var settings = new XmlReaderSettings {DtdProcessing = DtdProcessing.Ignore};
+            
+            using (var reader = XmlReader.Create(stream, settings))
             {
                 reader.MoveToContent();
 
@@ -215,39 +210,20 @@ namespace BruTile.Web.Wms
 
         #endregion Overrides of XmlObject
 
-#if !SILVERLIGHT
-
-        private static XDocument ToXDocument(Uri uri, IWebProxy proxy)
+        private static XDocument ToXDocument(Uri uri)
         {
-            Stream stream;
-            if (uri.IsAbsoluteUri && uri.IsFile) //assume web if relative because IsFile is not supported on relative paths
-                stream = File.OpenRead(uri.LocalPath);
-            else
-                stream = GetRemoteXmlStream(uri, proxy);
-
+            Stream stream = GetRemoteXmlStream(uri);
             var sr = new StreamReader(stream);
-
             var ret = XDocument.Load(sr);
             return ret;
         }
 
-        private static Stream GetRemoteXmlStream(Uri uri, IWebProxy proxy)
-        {
-            var myRequest = WebRequest.Create(uri);
-            if (proxy != null) myRequest.Proxy = proxy;
-            var myResponse = myRequest.GetResponse();
-            var stream = myResponse.GetResponseStream();
-            return stream;
-        }
-
-#else
         private static Stream GetRemoteXmlStream(Uri uri)
         {
             var myRequest = (HttpWebRequest)WebRequest.Create(uri);
-            var myResponse = myRequest.GetSyncResponse(60000);
+            var myResponse = myRequest.GetSyncResponse(30000);
             var stream = myResponse.GetResponseStream();
             return stream;
         }
-#endif
     }
 }

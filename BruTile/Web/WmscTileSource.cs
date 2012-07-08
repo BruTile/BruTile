@@ -1,23 +1,4 @@
-﻿#region License
-
-// Copyright 2009 - Paul den Dulk (Geodan)
-//
-// This file is part of SharpMap.
-// SharpMap is free software; you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// SharpMap is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-#endregion License
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -48,24 +29,23 @@ namespace BruTile.Web
             _tileProvider = tileProvider;
         }
 
-#if !SILVERLIGHT
-
-        public static List<ITileSource> TileSourceBuilder(Uri uri, IWebProxy proxy)
+        public static List<ITileSource> TileSourceBuilder(Uri uri)
         {
-            var wmsCapabilities = new WmsCapabilities(uri, proxy);
+            var wmsCapabilities = new WmsCapabilities(uri.ToString());
 
             return ParseVendorSpecificCapabilitiesNode(
                 (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
-#else
-        //public static List<ITileSource> TileSourceBuilder(Uri uri)
-        //{
-        //    var wmsCapabilities = new WmsCapabilities(uri);
-        //    return ParseVendorSpecificCapabilitiesNode(wmsCapabilities.VendorSpecificCapabilities, wmsCapabilities.GetMapRequests[0].OnlineResource);
-        //}
-#endif
+        public static List<ITileSource> TileSourceBuilder(XDocument document)
+        {
+            var wmsCapabilities = new WmsCapabilities(document);
+
+            return ParseVendorSpecificCapabilitiesNode(
+                (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
+                wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
+        }
 
         /// <summary>
         /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties
