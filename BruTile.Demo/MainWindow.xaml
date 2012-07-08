@@ -1,0 +1,8 @@
+﻿<Window x:Class="BruTile.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Demo="clr-namespace:BruTile.Demo"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Demo:MapControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Pink"></Demo:MapControl>
+    </Grid>
+</Window>

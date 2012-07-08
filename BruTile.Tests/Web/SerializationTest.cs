@@ -11,7 +11,6 @@ using Exception = BruTile.Web.Wms.Exception;
 
 namespace BruTile.Tests.Web
 {
-    [Ignore("not completely implemented")]
     public class SerializationTest
     {
         [Test]
@@ -37,6 +36,7 @@ namespace BruTile.Tests.Web
              */
         }
 
+        [Ignore("not completely implemented")]
         [Test]
         public void TestWrite()
         {
@@ -50,6 +50,7 @@ namespace BruTile.Tests.Web
             Console.WriteLine(sb.ToString());
         }
 
+        [Ignore("not completely implemented")]
         [Test]
         public void TestSimple()
         {
