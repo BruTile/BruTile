@@ -1,6 +1,6 @@
-Copyright (c) BruTile dev team.  All rights reserved.
+Copyright (c) BruTile developers team. All rights reserved.
 
-For list of contributor see: http://brutile.codeplex.com/team/view
+For the list of contributors see: http://brutile.codeplex.com/team/view
 
 Licensed under the Apache License, Version 2.0 (the "License"); you
 may not use this file except in compliance with the License. You may
