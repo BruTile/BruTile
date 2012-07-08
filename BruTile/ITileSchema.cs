@@ -18,6 +18,7 @@ namespace BruTile
         string Format { get; }
         AxisDirection Axis { get; }
         IEnumerable<TileInfo> GetTilesInView(Extent extent, int level);
+        IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution);
         Extent GetExtentOfTilesInView(Extent extent, int level);
     }
 }

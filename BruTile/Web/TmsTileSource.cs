@@ -1,6 +1,8 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.IO;
+using BruTile.Web.TmsService;
 
 namespace BruTile.Web
 {
@@ -14,6 +16,11 @@ namespace BruTile.Web
         public TmsTileSource(Uri serviceUri, ITileSchema tileSchema) : 
             base(new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format)), tileSchema)
         {
+        }
+
+        public static ITileSource CreateFromTileMapResource(Stream tileMapResource)
+        {
+            return TileMapParser.CreateTileSource(tileMapResource);
         }
     }
 }
