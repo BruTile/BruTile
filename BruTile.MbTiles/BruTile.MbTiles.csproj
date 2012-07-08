@@ -55,9 +55,13 @@
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\csharpsqlite\Community.CsharpSqlite.SQLiteClient\Community.CsharpSqlite.SQLiteClient.csproj">
+    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite.SQLiteClient\Community.CsharpSqlite.SQLiteClient.csproj">
       <Project>{7BC68E61-C64C-488C-975F-1E2248383B80}</Project>
       <Name>Community.CsharpSqlite.SQLiteClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite\Community.CsharpSqlite.csproj">
+      <Project>{F1653F20-D47D-4F29-8C55-3C835542AF5F}</Project>
+      <Name>Community.CsharpSqlite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
