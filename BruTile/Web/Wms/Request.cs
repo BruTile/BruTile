@@ -35,7 +35,7 @@ namespace BruTile.Web.Wms
                         GetFeatureInfo = new OperationType(element, @namespace);
                         break;
                     default:
-                        ExtendedOperation.Add(node.Name, new OperationType(element, @namespace));
+                        ExtendedOperation.Add(element.Name.LocalName, new OperationType(element, @namespace));
                         break;
                 }
             }
