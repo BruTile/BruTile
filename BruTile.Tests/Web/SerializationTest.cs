@@ -28,6 +28,7 @@ namespace BruTile.Tests.Web
             Console.WriteLine(wms);
 
             /*
+             * 
             s = new XmlSerializer(typeof(ServiceExceptionReport));
             var ser = (ServiceExceptionReport)s.Deserialize(XmlReader.Create(File.OpenRead(Path.Combine(path, @"exceptions_1_3_0.xml")),
                 new XmlReaderSettings { IgnoreComments = true }));
