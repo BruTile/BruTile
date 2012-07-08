@@ -7,6 +7,8 @@ using NUnit.Framework;
 
 namespace BruTile.Tests
 {
+    [Ignore]
+    [TestFixture]
     public class SqlCeDbCacheTest : CacheTest<DbCache<SqlCeConnection>>
     {
         private static SqlCeConnection MakeConnection(String datasource)
@@ -101,9 +103,9 @@ namespace BruTile.Tests
             return cmd;
         }
 
-        [Test]
         [Ignore]
-        public void Test()
+        [Test]
+        public void DoTest()
         {
             TestInsertFindRemove();
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);

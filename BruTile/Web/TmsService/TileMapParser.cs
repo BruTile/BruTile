@@ -1,23 +1,6 @@
-﻿#region License
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-// Copyright 2008 - Paul den Dulk (Geodan)
-//
-// This file is part of SharpMap.
-// SharpMap is free software; you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// SharpMap is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
-
-#endregion
+// This file was created by Tim Ebben (Geodan) 2009
 
 using System;
 using System.Collections.Generic;
@@ -62,17 +45,33 @@ namespace BruTile.Web.TmsService
 
         public static void CreateTileSourceAsync(string url, CreateTileSourceCompleted callback, string overrideUrl)
         {
-            var client = new WebClient();
-            client.OpenReadCompleted +=
-                delegate(object s, OpenReadCompletedEventArgs eventArgs)
-                {
-                    if ((!eventArgs.Cancelled) && (eventArgs.Error == null))
-                    {
-                        var tileSource = CreateTileSource(eventArgs.Result, overrideUrl);
-                        if (callback != null) callback(tileSource, eventArgs.Error);
-                    }
-                };
-            client.OpenReadAsync(new Uri(url));
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+
+            request.BeginGetResponse(MethodOnThread, 
+                new object[] { callback, request, overrideUrl });
+        }
+
+        public static void MethodOnThread(IAsyncResult ar)
+        {
+            CreateTileSourceCompleted callback = null;
+            Exception error = null;
+            ITileSource tileSource = null;
+
+            try
+            {
+                var args = (object[])ar.AsyncState;
+                callback = (CreateTileSourceCompleted)args[0];
+                var request = (HttpWebRequest)args[1];
+                var overrideUrl = (string)args[2];
+
+                var response = request.EndGetResponse(ar);
+                tileSource = CreateTileSource(response.GetResponseStream(), overrideUrl);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            if (callback != null) callback(tileSource, error);            
         }
 
         private static TileSchema CreateSchema(TileMap tileMap)
