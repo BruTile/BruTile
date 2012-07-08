@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6EEDF770-D05C-441E-A523-7C97F620B9BB}</ProjectGuid>
+    <ProjectGuid>{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WinFormsSample</RootNamespace>
@@ -124,11 +124,11 @@
     <Compile Include="MapTransform.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTile.MbTiles\BruTile.MbTiles.csproj">
+    <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj">
       <Project>{C847C0EA-38EC-49B8-AF07-12B65CA9C708}</Project>
       <Name>BruTile.MbTiles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTile.csproj">
+    <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
