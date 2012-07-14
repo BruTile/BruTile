@@ -15,8 +15,10 @@ namespace BruTile.Web.Wms
     {
         private Service _serviceField;
         private Capability _capabilityField;
-
         public int? UpdateSequence { get; set; }
+        public ServiceExceptionReport ServiceExceptionReport { get; private set; }
+        public WmsVersion Version { get; set; }
+
 
         public WmsCapabilities()
             : this(WmsVersionEnum.Version_1_3_0)
@@ -33,15 +35,21 @@ namespace BruTile.Web.Wms
             Version = new WmsVersion(version);
         }
 
+        public WmsCapabilities(Stream stream)
+            : this(XDocument.Load(stream))
+        {
+        }
+        
         public WmsCapabilities(XDocument doc)
             : this()
         {
-            XElement node;
-            if (doc.FirstNode is XDocumentType)
+            if (doc.Root.Name == "ServiceExceptionReport")
             {
-                var docType = doc.FirstNode;
+                ServiceExceptionReport = new ServiceExceptionReport(doc.Root, "");
+                return;
             }
-            node = doc.Element(XName.Get("WMT_MS_Capabilities"));
+
+            var node = doc.Element(XName.Get("WMT_MS_Capabilities"));
             
             var att = node.Attribute(XName.Get("version"));
             if (att == null)
@@ -70,6 +78,7 @@ namespace BruTile.Web.Wms
             Service = new Service(element, @namespace);
 
             element = node.Element(XName.Get("Capability", @namespace));
+
             if (element == null)
                 throw WmsParsingException.ElementNotFound("Capability");
 
@@ -107,11 +116,6 @@ namespace BruTile.Web.Wms
                 _capabilityField = value;
             }
         }
-
-        [Obsolete("Use Version instead")]
-        public string WmsVersion { get { return Version.VersionString; } }
-
-        public WmsVersion Version { get; set; }
 
         #region Overrides of XmlObject
 

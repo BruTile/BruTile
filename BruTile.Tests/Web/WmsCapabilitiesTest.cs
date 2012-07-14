@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using BruTile.Web;
@@ -14,62 +15,61 @@ namespace BruTile.Tests.Web
     [TestFixture]
     internal class WmsCapabilitiesTest
     {
-
         [Test]
         public void WmsCapabilities_WhenParsed_ShouldSetCorrectGetMapUrl()
         {
             // arrange
-            using (var fs = File.OpenRead(Path.Combine("Resources", @"whymap.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"whymap.xml")))
             {
                 const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
 
                 // act
-                var capabilities = new WmsCapabilities(XDocument.Load(new XmlTextReader(fs)));
+                var capabilities = new WmsCapabilities(stream);
 
                 // assert
                 Assert.True(expectedUrl == capabilities.Capability.Request.GetMap.DCPType[0].Http.Get.OnlineResource.Href);
             }
         }
 
-        [Ignore]
         [Test]
         public void WmsCapabilities_WhenSet_ShouldNotBeNull()
         {
             // arrange
-            using (var fs = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml")))
             {
                 // act
-                var capabilities = WmsCapabilities.Parse(fs);
+                var capabilities = new WmsCapabilities(stream);
 
                 // assert
-                Assert.NotNull(capabilities.WmsVersion);
+                Assert.NotNull(capabilities.Version);
                 var capability = capabilities.Capability;
                 Assert.AreEqual(54, capability.Layer.ChildLayers.Count);
             }
         }
-
+        
         [Ignore("Not working properly")]
         [Test]
         public void WmsCapabilities_SyntheticRoot()
         {
             // arrange
-            using (var fs = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsMultiTopLayers.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsMultiTopLayers.xml")))
             {
                 // act
-                var capabilities = WmsCapabilities.Parse(fs);
+                var capabilities = new WmsCapabilities(stream);
 
                 // assert
-                Assert.NotNull(capabilities.WmsVersion);
+                Assert.NotNull(capabilities.Version);
                 var capability = capabilities.Capability;
                 Assert.AreEqual("Root Layer", capability.Layer.Title);
                 Assert.AreEqual(4, capability.Layer.ChildLayers.Count);
             }
         }
 
-        [Test, Ignore("Need to come up with something better, maybe http://www.searchogc.com")]
+        [Ignore("Too slow. Also: Need to come up with something better, maybe http://www.searchogc.com")]
+        [Test]
         public void TestSeveral()
         {
-            var rnd = new Random();
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             var urls = new List<Uri>
                            {
@@ -2203,8 +2203,9 @@ namespace BruTile.Tests.Web
 
             RequestHelper.Timeout = 1000;
             var tested = 0;
+            var serviceExceptionCount = 0;
 
-            while (tested < 25)
+            while (tested < 40)
             {
                 //Pick random from list
                 var uri = urls[rnd.Next(0, urls.Count - 1)];
@@ -2216,7 +2217,10 @@ namespace BruTile.Tests.Web
                 Console.Write(useUri);
                 try
                 {
-                    new WmsCapabilities(XDocument.Load(uri.ToString()));
+                    var capabilities = new WmsCapabilities(XDocument.Load(uri.ToString()));
+                    if (capabilities.ServiceExceptionReport != null)
+                        serviceExceptionCount++;
+                    
                     Console.WriteLine("; ... passed");
                     tested++;
                 }

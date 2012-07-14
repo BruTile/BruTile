@@ -17,17 +17,13 @@ namespace BruTile.Tests.Web
         [Test]
         public void TestLocal()
         {
-            using (var fs = new StreamReader(File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml"))))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml")))
             {
-                var xml = fs.ReadToEnd();
-                var doc = XDocument.Parse(xml);
-                var wms1 = new WmsCapabilities(doc);
+                var doc = XDocument.Load(stream);
+                //var wms1 = new WmsCapabilities(doc);
+                var wms = WmsCapabilities.Parse(stream);
             }
-
-            var wms = WmsCapabilities.Parse(File.OpenRead(Path.Combine("Resources", @"capabilities_1_3_0.xml")));
-
-            Console.WriteLine(wms);
-
+            
             /*
              * 
             s = new XmlSerializer(typeof(ServiceExceptionReport));

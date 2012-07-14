@@ -29,7 +29,7 @@ namespace BruTile.Web
             _tileProvider = tileProvider;
         }
 
-        public static List<ITileSource> TileSourceBuilder(Uri uri)
+        public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
         {
             var wmsCapabilities = new WmsCapabilities(uri.ToString());
 
@@ -38,7 +38,7 @@ namespace BruTile.Web
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
-        public static List<ITileSource> TileSourceBuilder(XDocument document)
+        public static IEnumerable<ITileSource> CreateFromWmscCapabilties(XDocument document)
         {
             var wmsCapabilities = new WmsCapabilities(document);
 
@@ -47,14 +47,8 @@ namespace BruTile.Web
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
-        /// <summary>
-        /// Parses the TileSets from the VendorSpecificCapabilities node of the WMS Capabilties
-        /// and adds them to the TileSets member
-        /// </summary>
-        /// <param name="xnlVendorSpecificCapabilities">The VendorSpecificCapabilities node of the Capabilties</param>
-        /// <param name="onlineResource"></param>
-        ///
-        private static List<ITileSource> ParseVendorSpecificCapabilitiesNode(
+        /// <remarks> WMS-C uses the VendorSpecificCapabilities to specify the tile schema.</remarks>
+        private static IEnumerable<ITileSource> ParseVendorSpecificCapabilitiesNode(
             XElement xnlVendorSpecificCapabilities, OnlineResource onlineResource)
         {
             var tileSets = new List<ITileSource>();
