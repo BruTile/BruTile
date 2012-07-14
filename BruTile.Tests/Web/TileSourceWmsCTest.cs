@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Xml.Linq;
 using BruTile.Web;
 using NUnit.Framework;
@@ -15,15 +15,13 @@ namespace BruTile.Tests.Web
         {
             // arrange
             const int expectedNumberOfTileSources = 54;
-            using (var fs = new StreamReader(File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml"))))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml")))
             {
-                var document = XDocument.Load(fs);
-
                 // act
-                var tileSources = WmscTileSource.TileSourceBuilder(document);
+                var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
 
                 // assert
-                Assert.AreEqual(tileSources.Count, expectedNumberOfTileSources);
+                Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
                 foreach (var tileSource in tileSources)
                 {
                     Assert.NotNull(tileSource.Provider);

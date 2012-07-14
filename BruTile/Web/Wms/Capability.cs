@@ -143,6 +143,7 @@ namespace BruTile.Web.Wms
                 throw WmsParsingException.ElementNotFound("Capability");
 
             bool baseLayerCreated = false;
+
             while (!reader.EOF)
             {
                 if (reader.IsStartElement())
@@ -151,7 +152,7 @@ namespace BruTile.Web.Wms
                     {
                         case "Request":
                             _requestField = new Request();
-                            _requestField.ReadXml(reader);
+                            _requestField.ReadXml(reader.ReadSubtree());
                             break;
 
                         case "Exception":

@@ -9,26 +9,25 @@ namespace BruTile.Web.Wms
 
     public class ServiceExceptionReport : XmlObject
     {
+        public List<ServiceException> ServiceException { get; private set; }
+
+        public string Version { get; set; }
+
         public ServiceExceptionReport()
         {
             ServiceException = new List<ServiceException>();
             Version = "1.3.0";
         }
 
-        public ServiceExceptionReport(XElement node, string @namespace)
-            : base()
+        public ServiceExceptionReport(XElement node, string ns) : this()
         {
             var att = node.Attribute(XName.Get("version"));
             if (att != null)
                 Version = att.Value;
 
-            foreach (var serviceException in node.Elements(XName.Get("ServiceException", @namespace)))
-                ServiceException.Add(new ServiceException(serviceException, @namespace));
+            foreach (var serviceException in node.Elements(XName.Get("ServiceException", ns)))
+                ServiceException.Add(new ServiceException(serviceException, ns));
         }
-
-        public List<ServiceException> ServiceException { get; private set; }
-
-        public string Version { get; set; }
 
         #region Overrides of XmlObject
 
