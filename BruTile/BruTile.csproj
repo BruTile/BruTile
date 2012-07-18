@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile95</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Cache\ITileCache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\NullCache.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extent.cs" />
+    <Compile Include="ITileProvider.cs" />
+    <Compile Include="ITileSchema.cs" />
+    <Compile Include="ITileSource.cs" />
+    <Compile Include="PreDefined\BingSchema.cs" />
+    <Compile Include="PreDefined\GlobalMercator.cs" />
+    <Compile Include="PreDefined\SphericalMercatorInvertedWorldSchema.cs" />
+    <Compile Include="PreDefined\SphericalMercatorWorldSchema.cs" />
+    <Compile Include="PreDefined\WkstNederlandSchema.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolution.cs" />
+    <Compile Include="TileIndex.cs" />
+    <Compile Include="TileInfo.cs" />
+    <Compile Include="TileRange.cs" />
+    <Compile Include="TileSchema.cs" />
+    <Compile Include="TileSource.cs" />
+    <Compile Include="TileTransform.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ValidationException.cs" />
+    <Compile Include="Web\ArcGisTileRequest.cs" />
+    <Compile Include="Web\ArcGisTileSource.cs" />
+    <Compile Include="Web\BasicRequest.cs" />
+    <Compile Include="Web\BingRequest.cs" />
+    <Compile Include="Web\BingTileSource.cs" />
+    <Compile Include="Web\IRequest.cs" />
+    <Compile Include="Web\OsmRequest.cs" />
+    <Compile Include="Web\OsmTileSource.cs" />
+    <Compile Include="Web\RequestHelper.cs" />
+    <Compile Include="Web\TmsRequest.cs" />
+    <Compile Include="Web\TmsService\Root.cs" />
+    <Compile Include="Web\TmsService\TileMap.cs" />
+    <Compile Include="Web\TmsService\TileMapParser.cs" />
+    <Compile Include="Web\TmsService\TileMapService.cs" />
+    <Compile Include="Web\TmsTileSource.cs" />
+    <Compile Include="Web\WebResponseFormatException.cs" />
+    <Compile Include="Web\WebTileProvider.cs" />
+    <Compile Include="Web\WmscRequest.cs" />
+    <Compile Include="Web\WmscTileSource.cs" />
+    <Compile Include="Web\Wms\Attribution.cs" />
+    <Compile Include="Web\Wms\AuthorityURL.cs" />
+    <Compile Include="Web\Wms\BoundingBox.cs" />
+    <Compile Include="Web\Wms\Capability.cs" />
+    <Compile Include="Web\Wms\ContactAddress.cs" />
+    <Compile Include="Web\Wms\ContactInformation.cs" />
+    <Compile Include="Web\Wms\ContactPersonPrimary.cs" />
+    <Compile Include="Web\Wms\DataURL.cs" />
+    <Compile Include="Web\Wms\DCPType.cs" />
+    <Compile Include="Web\Wms\DCPTypeElement.cs" />
+    <Compile Include="Web\Wms\Dimension.cs" />
+    <Compile Include="Web\Wms\Exception.cs" />
+    <Compile Include="Web\Wms\ExGeographicBoundingBox.cs" />
+    <Compile Include="Web\Wms\FeatureListURL.cs" />
+    <Compile Include="Web\Wms\Get.cs" />
+    <Compile Include="Web\Wms\HTTP.cs" />
+    <Compile Include="Web\Wms\Identifier.cs" />
+    <Compile Include="Web\Wms\Keyword.cs" />
+    <Compile Include="Web\Wms\KeywordList.cs" />
+    <Compile Include="Web\Wms\Layer.cs" />
+    <Compile Include="Web\Wms\LegendURL.cs" />
+    <Compile Include="Web\Wms\LogoURL.cs" />
+    <Compile Include="Web\Wms\MetadataURL.cs" />
+    <Compile Include="Web\Wms\OnlineResource.cs" />
+    <Compile Include="Web\Wms\OperationType.cs" />
+    <Compile Include="Web\Wms\Post.cs" />
+    <Compile Include="Web\Wms\Request.cs" />
+    <Compile Include="Web\Wms\Service.cs" />
+    <Compile Include="Web\Wms\ServiceException.cs" />
+    <Compile Include="Web\Wms\ServiceExceptionReport.cs" />
+    <Compile Include="Web\Wms\ServiceName.cs" />
+    <Compile Include="Web\Wms\Style.cs" />
+    <Compile Include="Web\Wms\StyleSheetURL.cs" />
+    <Compile Include="Web\Wms\StyleURL.cs" />
+    <Compile Include="Web\Wms\WmsCapabilities.cs" />
+    <Compile Include="Web\Wms\WmsParsingException.cs" />
+    <Compile Include="Web\Wms\WmsPropertyException.cs" />
+    <Compile Include="Web\Wms\WmsVersion.cs" />
+    <Compile Include="Web\Wms\XmlObject.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
