@@ -13,7 +13,7 @@ namespace BruTile.Web
         public ITileProvider Provider { get; private set; }
 
         public OsmTileSource()
-            :this(new OsmRequest(KnownOsmTileServers.Mapnic))
+            :this(new OsmRequest(KnownOsmTileServers.Mapnik))
         {}
 
         public OsmTileSource(OsmRequest osmRequest)
