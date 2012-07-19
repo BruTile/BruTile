@@ -26,7 +26,7 @@ namespace BruTile.PreDefined
             Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
             OriginX = -20037508.342789;
             OriginY = -20037508.342789;
-            Name = "WorldShericalMercator";
+            Name = "WorldSphericalMercator";
             Format = "png";
             Axis = AxisDirection.Normal;
             Srs = "EPSG:3857";
