@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using BruTile.Cache;
 
 namespace BruTile.Demo
