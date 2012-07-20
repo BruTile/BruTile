@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using BruTile.Web;
 using BruTile.Web.Wms;
 using NUnit.Framework;
-using Exception = System.Exception;
 
 namespace BruTile.Tests.Web
 {
@@ -46,7 +40,6 @@ namespace BruTile.Tests.Web
             }
         }
         
-        //[Ignore("Not working properly")]
         [Test]
         public void WmsCapabilities_WhenCreatedWithCapabilitiesWithMultipleRootLayers_ShouldInitializeCorrectly()
         {
