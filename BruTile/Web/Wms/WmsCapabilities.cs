@@ -50,7 +50,8 @@ namespace BruTile.Web.Wms
             }
 
             var node = doc.Element(XName.Get("WMT_MS_Capabilities"));
-            
+            if (node == null) node = doc.Element(XName.Get("WMS_Capabilities"));
+
             var att = node.Attribute(XName.Get("version"));
             if (att == null)
                 throw WmsParsingException.AttributeNotFound("version");

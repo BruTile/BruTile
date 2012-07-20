@@ -15,7 +15,7 @@ namespace BruTile.Tests.Web
         {
             // arrange
             const int expectedNumberOfTileSources = 54;
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"CapabilitiesWmsC.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"WmsCCapabilities_1_1_1.xml")))
             {
                 // act
                 var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
