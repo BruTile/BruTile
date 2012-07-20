@@ -14,7 +14,7 @@ namespace WinFormsSample
     {
         public OsmImage()
         {
-            OsmServer = KnownOsmTileServers.Mapnic;
+            OsmServer = KnownOsmTileServers.Mapnik;
         }
         
         private Bitmap _buffer;
@@ -38,7 +38,7 @@ namespace WinFormsSample
         /// <summary>
         /// Gets or sets the default OpenStreetmap renderer
         /// </summary>
-        [DefaultValue(KnownOsmTileServers.Mapnic)]
+        [DefaultValue(KnownOsmTileServers.Mapnik)]
         public KnownOsmTileServers OsmServer
         {
             get { return _osmRenderer; }
