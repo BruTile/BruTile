@@ -9,13 +9,13 @@ namespace BruTile.Web.Wms
 
     public class ServiceExceptionReport : XmlObject
     {
-        public List<ServiceException> ServiceException { get; private set; }
+        public List<ServiceException> ServiceExceptions { get; private set; }
 
         public string Version { get; set; }
 
         public ServiceExceptionReport()
         {
-            ServiceException = new List<ServiceException>();
+            ServiceExceptions = new List<ServiceException>();
             Version = "1.3.0";
         }
 
@@ -26,7 +26,7 @@ namespace BruTile.Web.Wms
                 Version = att.Value;
 
             foreach (var serviceException in node.Elements(XName.Get("ServiceException", ns)))
-                ServiceException.Add(new ServiceException(serviceException, ns));
+                ServiceExceptions.Add(new ServiceException(serviceException, ns));
         }
 
         #region Overrides of XmlObject
