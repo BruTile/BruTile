@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using BruTile.Cache;
 using BruTile.Web;
-using SharpMap.Utilities;
 
 namespace BruTile.Demo
 {
