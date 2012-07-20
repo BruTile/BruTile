@@ -13,9 +13,9 @@ namespace BruTile.Web
     {
         Custom,
         /// <summary>
-        /// Mapnic
+        /// Mapnik
         /// </summary>
-        Mapnic,
+        Mapnik,
         /// <summary>
         /// OSMA
         /// </summary>
@@ -94,7 +94,7 @@ namespace BruTile.Web
         {
             switch (knownOsmRenderer)
             {
-                case KnownOsmTileServers.Mapnic:
+                case KnownOsmTileServers.Mapnik:
                 default:
                     return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18);
                 case KnownOsmTileServers.Osma:

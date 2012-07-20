@@ -8,7 +8,7 @@ namespace BruTile.PreDefined
         {
             Axis = AxisDirection.InvertedY;
             OriginY = -OriginY; 
-            Name = "WorldShericalMercatorInverted";
+            Name = "WorldSphericalMercatorInverted";
         }
     }
 }
