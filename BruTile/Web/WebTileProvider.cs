@@ -10,7 +10,7 @@ namespace BruTile.Web
         #region Fields
 
         readonly IRequest _request;
-        readonly ITileCache<byte[]> _fileCache;
+        readonly ITileCache<byte[]> _cache;
         string _userAgent;
         string _referer;
         readonly bool _keepAlive = true;
@@ -55,8 +55,8 @@ namespace BruTile.Web
         {
         }
 
-        public WebTileProvider(IRequest request, ITileCache<byte[]> fileCache)
-            : this(request, fileCache, String.Empty, String.Empty, true)
+        public WebTileProvider(IRequest request, ITileCache<byte[]> cache)
+            : this(request, cache, String.Empty, String.Empty, true)
         {
         }
 
@@ -65,14 +65,14 @@ namespace BruTile.Web
         {
         }
 
-        public WebTileProvider(IRequest request, ITileCache<byte[]> fileCache,
+        public WebTileProvider(IRequest request, ITileCache<byte[]> cache,
             string userAgent, string referer, bool keepAlive)
         {
             if (request == null) throw new ArgumentException("RequestBuilder can not be null");
             _request = request;
 
-            if (fileCache == null) throw new ArgumentException("FileCache can not be null");
-            _fileCache = fileCache;
+            if (cache == null) throw new ArgumentException("FileCache can not be null");
+            _cache = cache;
 
             if (userAgent == null) throw new ArgumentException("UserAgent can not be null");
             _userAgent = userAgent;
@@ -89,13 +89,12 @@ namespace BruTile.Web
 
         public byte[] GetTile(TileInfo tileInfo)
         {
-            byte[] bytes = _fileCache.Find(tileInfo.Index);
-
+            var bytes = _cache.Find(tileInfo.Index);
             if (bytes == null)
             {
                 bytes = RequestHelper.FetchImage(_request.GetUri(tileInfo), _userAgent, _referer, _keepAlive);
                 if (bytes != null)
-                    _fileCache.Add(tileInfo.Index, bytes);
+                    _cache.Add(tileInfo.Index, bytes);
             }
             return bytes;
         }
