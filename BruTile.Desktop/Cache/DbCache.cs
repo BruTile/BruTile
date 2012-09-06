@@ -409,7 +409,7 @@ namespace BruTile.Cache
                     _store.Enqueue(command);
                 }
             }
-
+#if DEBUG
             public int CommandsInStore
             {
                 get { return _store.Count; }
@@ -419,8 +419,9 @@ namespace BruTile.Cache
             {
                 get { return _maxBorrowed; }
             }
+#endif
         }
-
+#if DEBUG
         public int CommandsInStore
         {
             get { return _bank.CommandsInStore; }
@@ -430,5 +431,6 @@ namespace BruTile.Cache
         {
             get { return _bank.MaxBorrowed; }
         }
+#endif
     }
 }
