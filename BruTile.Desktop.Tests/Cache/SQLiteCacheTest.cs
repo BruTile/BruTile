@@ -3,7 +3,7 @@ using System.Data.SQLite;
 using BruTile.Cache;
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests.Cache
 {
     public class SQLiteDbCacheTest : CacheTest<DbCache<SQLiteConnection>>
     {

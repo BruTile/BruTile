@@ -2,7 +2,7 @@ using System.IO;
 using BruTile.Cache;
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests.Cache
 {
     public class FileCacheTest : CacheTest<FileCache>
     {
