@@ -8,7 +8,7 @@
     <ProjectGuid>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BruTile.Desktop</RootNamespace>
+    <RootNamespace>BruTile</RootNamespace>
     <AssemblyName>BruTile.Desktop</AssemblyName>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
