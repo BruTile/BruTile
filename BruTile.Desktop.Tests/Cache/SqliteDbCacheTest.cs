@@ -3,7 +3,7 @@ using BruTile.Cache;
 using Community.CsharpSqlite.SQLiteClient;
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests.Cache
 {
     public class SqliteDbCacheTest : CacheTest<DbCache<SqliteConnection>>
     {

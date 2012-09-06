@@ -5,7 +5,7 @@ using System.Threading;
 using BruTile.Cache;
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests.Cache
 {
     public abstract class CacheTest<TCache>
         where TCache : ITileCache<byte[]>

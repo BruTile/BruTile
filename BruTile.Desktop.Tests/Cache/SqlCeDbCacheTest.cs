@@ -5,7 +5,7 @@ using System.Data.SqlServerCe;
 using BruTile.Cache;
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests.Cache
 {
     [Ignore]
     [TestFixture]
