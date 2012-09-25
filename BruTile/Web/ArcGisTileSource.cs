@@ -7,31 +7,20 @@ using System.Linq;
 
 namespace BruTile.Web
 {
-    public class ArcGisTileSource : ITileSource
+    public class ArcGisTileSource : TileSource
     {
-        public ITileProvider Provider { get; private set; }
-        public ITileSchema Schema { get; private set; }
-        public static string BaseUrl { get; private set; }
+        public string BaseUrl { get; private set; }
 
         public ArcGisTileSource(string baseUrl, ITileSchema schema)
+            :base(CreateProvider(baseUrl), schema)
         {
             BaseUrl = baseUrl;
-            Provider = CreateProvider();
-            Schema = schema;
         }
 
-        private static ITileProvider CreateProvider()
+        private static ITileProvider CreateProvider(string baseUrl)
         {
-            return new WebTileProvider(RequestBuilder);
-        }
-
-        private static IRequest RequestBuilder
-        {
-            get
-            {
-                var requestUrl = string.Format("{0}/tile/{1}", BaseUrl, "{0}/{2}/{1}");                
-                return new BasicRequest(requestUrl);
-            }
+            var requestBuilder = new BasicRequest(string.Format("{0}/tile/{1}", baseUrl, "{0}/{2}/{1}"));
+            return new WebTileProvider(requestBuilder);
         }
     }
 }

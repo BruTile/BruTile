@@ -60,11 +60,17 @@
     <Compile Include="Cache\SqliteDbCacheTest.cs" />
     <Compile Include="FileSystem\FileTileProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\ReflectionTest.cs" />
+    <Compile Include="Serialization\SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile.Desktop\BruTile.Desktop.csproj">
       <Project>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</Project>
       <Name>BruTile.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile.Serialization\BruTile.Serialization.csproj">
+      <Project>{8d357be0-ab5a-4b62-891c-fc76cb35db99}</Project>
+      <Name>BruTile.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>

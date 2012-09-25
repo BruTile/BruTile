@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Runtime.Serialization;
 
 namespace BruTile.Cache
 {
@@ -70,7 +71,8 @@ namespace BruTile.Cache
     /// Therefore you should take care not to insert more than one item with the same TileIndex.
     /// </summary>
     /// <typeparam name="TConnection">A Connection class derived from <see cref="DbConnection"/></typeparam>
-    public class DbCache<TConnection> : ITileCache<byte[]>
+    [Serializable]
+    public class DbCache<TConnection> : ITileCache<byte[]>, ISerializable
         where TConnection : DbConnection, new()
     {
         private static DbCommand BasicAddTileCommand(DbConnection connection,
@@ -162,7 +164,8 @@ namespace BruTile.Cache
 
         public readonly TConnection Connection;
 
-        private readonly DecorateDbObjects _decorator;
+        [NonSerialized]
+        private readonly DecorateDbObjects _decorator = (parent, child) => string.Format("\"{0}\".\"{1}\"", parent, child);
 
         private readonly IDbCommand _addTileCommand;
         private readonly IDbCommand _removeTileCommand;
@@ -171,9 +174,12 @@ namespace BruTile.Cache
         public readonly String Schema;
         public readonly String Table;
 
+        [NonSerialized]
         private readonly object _addLock = new object();
+        [NonSerialized]
         private readonly object _removeLock = new object();
 
+        [NonSerialized]
         private readonly BankOfSelectTileCommands _bank;
 
         public DbCache(TConnection connection)
@@ -192,7 +198,7 @@ namespace BruTile.Cache
             Schema = schema;
             Table = table;
 
-            _decorator = decorator;
+            //_decorator = decorator;
 
             if (atc != null)
             {
@@ -213,6 +219,19 @@ namespace BruTile.Cache
 
             if (Connection.State == ConnectionState.Open)
                 Connection.Close();
+        }
+
+        public DbCache(SerializationInfo info, StreamingContext context)
+        {
+            Connection = (TConnection) info.GetValue("connection", typeof (TConnection));
+            Schema = info.GetString("schema");
+            Table = info.GetString("table");
+
+            _addTileCommand = (IDbCommand) info.GetValue("add", typeof (IDbCommand));
+            _removeTileCommand = (IDbCommand)info.GetValue("remove", typeof(IDbCommand));
+            _findTileCommand = (IDbCommand)info.GetValue("find", typeof(IDbCommand));
+
+            _bank = new BankOfSelectTileCommands(_findTileCommand);
         }
 
         public virtual void Clear(Int32 level)
@@ -432,5 +451,20 @@ namespace BruTile.Cache
             get { return _bank.MaxBorrowed; }
         }
 #endif
+
+        #region Implementation of ISerializable
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("connection", Connection);
+            info.AddValue("schema", Schema);
+            info.AddValue("table", Table);
+
+            info.AddValue("add", _addTileCommand);
+            info.AddValue("remove", _removeTileCommand);
+            info.AddValue("find", _findTileCommand);
+        }
+
+        #endregion
     }
 }

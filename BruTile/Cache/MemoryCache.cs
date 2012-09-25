@@ -39,6 +39,10 @@ namespace BruTile.Cache
 
         #region Public Methods
 
+        public MemoryCache():
+            this(50, 100)
+        {}
+        
         public MemoryCache(int minTiles, int maxTiles)
         {
             if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
@@ -167,5 +171,23 @@ namespace BruTile.Cache
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+#if DEBUG
+        public bool EqualSetup(MemoryCache<T> other)
+        {
+            if (_minTiles != other._minTiles)
+                return false;
+
+            if (_maxTiles != other._maxTiles)
+                return false;
+
+            System.Diagnostics.Debug.Assert(_syncRoot != null && other._syncRoot != null && _syncRoot != other._syncRoot);
+            System.Diagnostics.Debug.Assert(_bitmaps != null && other._bitmaps != null && _bitmaps != other._bitmaps);
+            System.Diagnostics.Debug.Assert(_touched != null && other._touched != null && _touched != other._touched);
+
+            return true;
+        }
+#endif
+
     }
 }

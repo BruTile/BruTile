@@ -24,6 +24,7 @@ namespace BruTile.Web
         GoogleTerrain = 16
     }
 
+    [Serializable]
     public class GoogleRequest : IRequest
     {
         static GoogleRequest()

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Tests", "BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{C847C0EA-38EC-49B8-AF07-12B65CA9C708}"
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{57766550-A465-4797-80B7-9D7746D2DCF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSample", "Samples\WinFormsSample\WinFormsSample.csproj", "{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Serialization", "BruTile.Serialization\BruTile.Serialization.csproj", "{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -136,6 +138,16 @@ Global
 		{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}.Release|x86.ActiveCfg = Release|x86
 		{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}.Release|x86.Build.0 = Release|x86
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

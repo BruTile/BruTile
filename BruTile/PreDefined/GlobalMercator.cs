@@ -17,6 +17,12 @@ namespace BruTile.PreDefined
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
+        public GlobalMercator()
+        {}
+
+        /// <summary>
+        /// Creates an instance of this class
+        /// </summary>
         /// <param name="format">The image format of the tiles</param>
         public GlobalMercator(string format)
             :this(format, 20)

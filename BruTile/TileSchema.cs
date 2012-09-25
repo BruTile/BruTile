@@ -8,21 +8,36 @@ using System.Globalization;
 
 namespace BruTile
 {
+    /// <summary>
+    /// Enumeration of possible axis directions
+    /// </summary>
+    /// <remarks>
+    /// Direction is relative to the coordinate system in which the map is presented.
+    /// <para/>
+    /// InvertedX and InvertedXY do not exist yet, and may never.
+    /// </remarks>
     public enum AxisDirection
     {
-        //Direction is relative to the coordinate system in which the map is presented.
+        /// <summary>
+        /// The axis direction of the tiles match that of the map
+        /// </summary>
         Normal,
+
+        /// <summary>
+        /// The y-axis direction is inverted compared to that of the map
+        /// </summary>
         InvertedY
-        //InvertedX and InvertedXY do not exist yet, and may never.
     }
 
     public class TileSchema : ITileSchema
     {
+        private readonly IList<Resolution> _resolutions;
+
         #region Fields
 
         public TileSchema()
         {
-            Resolutions = new List<Resolution>();
+            _resolutions = new List<Resolution>();
             Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
@@ -40,7 +55,11 @@ namespace BruTile
         public int Width { get; set; }
         public int Height { get; set; }
         public string Format { get; set; }
-        public IList<Resolution> Resolutions { get; private set; }
+        public IList<Resolution> Resolutions
+        {
+            get { return _resolutions; }
+        }
+
         public AxisDirection Axis { get; set; }
 
         #endregion

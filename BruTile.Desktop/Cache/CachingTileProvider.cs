@@ -1,8 +1,11 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System;
+
 namespace BruTile.Cache
 {
-    internal class CachingTileProvider : ITileProvider
+    [Serializable]
+    public class CachingTileProvider : ITileProvider
     {
         private readonly ITileProvider _provider;
         private readonly ITileCache<byte[]> _cache;

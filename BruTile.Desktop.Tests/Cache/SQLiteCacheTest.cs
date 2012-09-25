@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
+    /*
     public class SQLiteDbCacheTest : CacheTest<DbCache<SQLiteConnection>>
     {
         private static SQLiteConnection MakeConnection(String datasource)
@@ -77,4 +78,5 @@ namespace BruTile.Tests.Cache
             Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
         }
     }
+     */
 }

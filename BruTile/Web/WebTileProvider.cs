@@ -50,6 +50,14 @@ namespace BruTile.Web
 
         #region Constructors
 
+        /// <summary>
+        /// Creates an instance of this class using <see cref="NullRequest"/> as a placeholder for the actual request builder.
+        /// </summary>
+        /// <remarks>This constructor is needed to make serialization possible.</remarks>
+        public WebTileProvider()
+            :this(new NullRequest())
+        {}
+
         public WebTileProvider(IRequest request)
             : this(request, new NullCache())
         {

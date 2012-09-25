@@ -10,16 +10,24 @@ namespace BruTile.Web
 {
     public class WmscRequest : IRequest
     {
-        readonly ITileSchema _schema;
+        //readonly ITileSchema _schema;
         readonly Uri _baseUrl;
         readonly IDictionary<string, string> _customParameters;
         readonly IList<string> _layers;
         readonly IList<string> _styles;
+        
+        private readonly string _format;
+        private readonly int _width, _height;
+        private readonly string _srs;
 
         public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
         {
             _baseUrl = baseUrl;
-            _schema = schema;
+            _format = schema.Format;
+            _width = schema.Width;
+            _height = schema.Height;
+            _srs = schema.Srs;
+            //_schema = schema;
             _customParameters = customParameters;
             _layers = layers;
             _styles = styles;
@@ -50,11 +58,11 @@ namespace BruTile.Web
                 url.AppendFormat("&VERSION={0}", Version);
             url.Append("&REQUEST=GetMap");
             url.AppendFormat("&BBOX={0}", info.Extent);
-            url.AppendFormat("&FORMAT={0}", _schema.Format);
-            url.AppendFormat("&WIDTH={0}", _schema.Width);
-            url.AppendFormat("&HEIGHT={0}", _schema.Height);
+            url.AppendFormat("&FORMAT={0}", _format/*_schema.Format*/);
+            url.AppendFormat("&WIDTH={0}", _width/*_schema.Width*/);
+            url.AppendFormat("&HEIGHT={0}", _height/*_schema.Height*/);
             var crsFormat = !string.IsNullOrEmpty(Version) && String.Compare(Version, "1.3.0") >= 0 ? "&CRS={0}" : "&SRS={0}";
-            url.AppendFormat(crsFormat, _schema.Srs);
+            url.AppendFormat(crsFormat, _srs/*_schema.Srs*/);
             url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(_layers));
             if (_styles != null && _styles.Count > 0) url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
 

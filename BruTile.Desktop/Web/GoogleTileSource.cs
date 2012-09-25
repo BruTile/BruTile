@@ -2,11 +2,13 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2010.
 
+using System;
 using BruTile.PreDefined;
 using BruTile.Cache;
 
 namespace BruTile.Web
 {
+    [Serializable]
     public class GoogleTileSource : ITileSource
     {
         private readonly SphericalMercatorInvertedWorldSchema _tileSchema;

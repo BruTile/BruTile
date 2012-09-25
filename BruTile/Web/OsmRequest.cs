@@ -95,7 +95,7 @@ namespace BruTile.Web
         {
             switch (knownOsmRenderer)
             {
-                case KnownOsmTileServers.Mapnik:
+                /*case KnownOsmTileServers.Mapnik:*/
                 default:
                     return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18);
                 case KnownOsmTileServers.OpenCycleMap:
@@ -140,13 +140,17 @@ namespace BruTile.Web
     {
         public readonly OsmTileServerConfig OsmConfig;
 
-        public OsmRequest(KnownOsmTileServers renderer, string apiKey)
-            : this(OsmTileServerConfig.Create(renderer, apiKey))
-        {
-        }
+        public OsmRequest()
+            :this(KnownOsmTileServers.Mapnik)
+        {}
 
         public OsmRequest(KnownOsmTileServers knownOsmTileServers)
             :this(OsmTileServerConfig.Create(knownOsmTileServers, null))
+        {
+        }
+
+        public OsmRequest(KnownOsmTileServers renderer, string apiKey)
+            : this(OsmTileServerConfig.Create(renderer, apiKey))
         {
         }
 

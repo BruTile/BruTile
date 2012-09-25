@@ -6,6 +6,7 @@ using System.IO;
 
 namespace BruTile.Cache
 {
+    [Serializable]
     public class FileCache : ITileCache<byte[]>
     {
         #region Fields
@@ -119,5 +120,23 @@ namespace BruTile.Cache
         }
 
         #endregion Private Methods
+
+#if DEBUG
+        public bool EqualSetup(FileCache other)
+        {
+            if (!string.Equals(_directory, other._directory))
+                return false;
+
+            if (!string.Equals(_format, other._format))
+                return false;
+
+            if (!_cacheExpireTime.Equals(other._cacheExpireTime))
+                return false;
+
+            System.Diagnostics.Debug.Assert(_syncRoot != null && other._syncRoot != null && _syncRoot != other._syncRoot);
+
+            return true;
+        }
+#endif
     }
 }

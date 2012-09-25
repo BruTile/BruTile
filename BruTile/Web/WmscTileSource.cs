@@ -14,19 +14,15 @@ namespace BruTile.Web
     /// <summary>
     /// This class has not been tested.
     /// </summary>
-    public class WmscTileSource : ITileSource
+    public class WmscTileSource : TileSource
     {
         #region Fields
-
-        readonly ITileSchema _tileSchema;
-        readonly ITileProvider _tileProvider;
 
         #endregion Fields
 
         private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
+            :base(tileProvider, tileSchema)
         {
-            _tileSchema = tileSchema;
-            _tileProvider = tileProvider;
         }
 
         public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
@@ -151,19 +147,5 @@ namespace BruTile.Web
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
             return stringBuilder.ToString();
         }
-
-        #region ITileSource Members
-
-        public ITileProvider Provider
-        {
-            get { return _tileProvider; }
-        }
-
-        public ITileSchema Schema
-        {
-            get { return _tileSchema; }
-        }
-
-        #endregion ITileSource Members
     }
 }

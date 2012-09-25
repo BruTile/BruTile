@@ -7,11 +7,8 @@ using BruTile.PreDefined;
 
 namespace BruTile.Web
 {
-    public class OsmTileSource : ITileSource
+    public class OsmTileSource : TileSource
     {
-        public ITileSchema Schema { get; private set; }
-        public ITileProvider Provider { get; private set; }
-
         public OsmTileSource()
             :this(new OsmRequest(KnownOsmTileServers.Mapnik))
         {}
@@ -22,17 +19,16 @@ namespace BruTile.Web
         }
 
         public OsmTileSource(OsmRequest osmRequest, ITileCache<byte[]> cache)
+            : base(new WebTileProvider(osmRequest, cache), new SphericalMercatorInvertedWorldSchema())
         {
-            Schema = new SphericalMercatorInvertedWorldSchema();
-            
             var resolutionsToDelete = new List<int>();
             var resolutions = Schema.Resolutions;
-            for(var i = 0; i < resolutions.Count; i++)
+            for (var i = 0; i < resolutions.Count; i++)
             {
                 var id = int.Parse(resolutions[i].Id);
                 if (id < osmRequest.OsmConfig.MinResolution || id > osmRequest.OsmConfig.MaxResolution)
                 {
-                    System.Diagnostics.Debug.WriteLine(string.Format("must remove resolution at index {0}", i));
+                    //System.Diagnostics.Debug.WriteLine(string.Format("must remove resolution at index {0}", i));
                     resolutionsToDelete.Add(i);
                 }
             }
@@ -42,8 +38,6 @@ namespace BruTile.Web
             {
                 resolutions.RemoveAt(i - numDeleted++);
             }
-
-            Provider = new WebTileProvider(osmRequest, cache);
         }
 
         public Extent Extent { get { return Schema.Extent; } }
