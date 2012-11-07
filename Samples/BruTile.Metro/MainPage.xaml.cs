@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
+using GeodanCloudClientApi;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,7 +28,7 @@ namespace BruTile.Metro
     public sealed partial class MainPage : Page
     {
         private bool first = true;
-        Viewport viewport;           
+        Viewport viewport;
 
         public MainPage()
         {
@@ -46,8 +48,6 @@ namespace BruTile.Metro
 
         async void CompositionTarget_Rendering(object sender, object e)
         {
-            //if (!first) return;
-            
             var osmTileSource = new OsmTileSource();
             if (viewport == null)
             {
@@ -55,6 +55,12 @@ namespace BruTile.Metro
                 if (viewport == null) return;
             }
             if (viewport == null) return;
+
+            foreach (var child in canvas.Children)
+            {
+                if (child is Image) canvas.Children.Remove(child);
+            }
+
             var level = Utilities.GetNearestLevel(osmTileSource.Schema.Resolutions, viewport.Resolution);
             var tileInfos = osmTileSource.Schema.GetTilesInView(viewport.Extent, level);
 
@@ -70,7 +76,7 @@ namespace BruTile.Metro
                 Canvas.SetTop(image, point1.Y);
                 image.Width = point2.X - point1.X;
                 image.Height = point2.Y - point1.Y;
-                canvas.Children.Add(image);                
+                canvas.Children.Add(image);
             }
 
             first = false;
@@ -83,7 +89,7 @@ namespace BruTile.Metro
                 var ims = await ByteArrayToRandomAccessStream(tile);
                 var bitmapImage = new BitmapImage();
                 bitmapImage.SetSource(ims);
-               return bitmapImage;
+                return bitmapImage;
             }
             catch (Exception ex)
             {
@@ -109,7 +115,7 @@ namespace BruTile.Metro
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+
         }
 
         private static Viewport TryInitializeViewport(Viewport viewport, double actualWidth, double actualHeight, ITileSchema schema)
@@ -124,11 +130,40 @@ namespace BruTile.Metro
             return viewport;
         }
 
+        private async void callback(List<Bevoegdgezag> bevoegdgezagen)
+        {
+            if (!this.Dispatcher.HasThreadAccess)
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => callback(bevoegdgezagen));
+            }
+            else
+            {
+                string text = "";
+
+                foreach (var bg in bevoegdgezagen)
+                {
+                    text += bg.Name + "\n";
+                }
+                var textBlock = new TextBlock { Text = text, FontSize = 24 };
+                
+                canvas.Children.Add(textBlock);
+                Canvas.SetZIndex(textBlock, 1000);
+                this.InvalidateArrange();
+                this.InvalidateMeasure();
+            }
+        }
+
         private void canvas_PointerPressed_1(object sender, PointerRoutedEventArgs e)
         {
             var x = e.GetCurrentPoint(canvas).Position.X;
             var y = e.GetCurrentPoint(canvas).Position.Y;
 
+            GeodanCloudApi.GetBevoegdgezag(4.9128153, 52.3423183, callback);
+
+            var world = viewport.ViewToWorld(x, y);
+            viewport.Center = world;
+            this.InvalidateArrange();
+            this.InvalidateMeasure();
         }
     }
 }
