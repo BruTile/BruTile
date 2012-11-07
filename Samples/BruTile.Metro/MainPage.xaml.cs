@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
-using GeodanCloudClientApi;
 using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -130,36 +129,35 @@ namespace BruTile.Metro
             return viewport;
         }
 
-        private async void callback(List<Bevoegdgezag> bevoegdgezagen)
-        {
-            if (!this.Dispatcher.HasThreadAccess)
-            {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => callback(bevoegdgezagen));
-            }
-            else
-            {
-                string text = "";
+        //private async void callback(List<Bevoegdgezag> bevoegdgezagen)
+        //{
+        //    if (!this.Dispatcher.HasThreadAccess)
+        //    {
+        //        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => callback(bevoegdgezagen));
+        //    }
+        //    else
+        //    {
+        //        string text = "";
 
-                foreach (var bg in bevoegdgezagen)
-                {
-                    text += bg.Name + "\n";
-                }
-                var textBlock = new TextBlock { Text = text, FontSize = 24 };
+        //        foreach (var bg in bevoegdgezagen)
+        //        {
+        //            text += bg.Name + "\n";
+        //        }
+        //        var textBlock = new TextBlock { Text = text, FontSize = 24 };
                 
-                canvas.Children.Add(textBlock);
-                Canvas.SetZIndex(textBlock, 1000);
-                this.InvalidateArrange();
-                this.InvalidateMeasure();
-            }
-        }
+        //        canvas.Children.Add(textBlock);
+        //        Canvas.SetZIndex(textBlock, 1000);
+        //        this.InvalidateArrange();
+        //        this.InvalidateMeasure();
+        //    }
+        //}
 
         private void canvas_PointerPressed_1(object sender, PointerRoutedEventArgs e)
         {
+            //!!!GeodanCloudApi.GetBevoegdgezag(4.9128153, 52.3423183, callback);
+
             var x = e.GetCurrentPoint(canvas).Position.X;
             var y = e.GetCurrentPoint(canvas).Position.Y;
-
-            GeodanCloudApi.GetBevoegdgezag(4.9128153, 52.3423183, callback);
-
             var world = viewport.ViewToWorld(x, y);
             viewport.Center = world;
             this.InvalidateArrange();
