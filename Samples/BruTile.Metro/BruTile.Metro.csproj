@@ -149,9 +149,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GeodanCloudClientApi">
-      <HintPath>..\..\packages\GeodanCloudApi.1.0.0\lib\GeodanCloudClientApi.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\packages\GeodanCloudApi.1.0.0\lib\RestSharp.dll</HintPath>
     </Reference>
