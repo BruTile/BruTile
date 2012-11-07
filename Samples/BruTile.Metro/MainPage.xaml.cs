@@ -36,17 +36,17 @@ namespace BruTile.Metro
 
         void Button_Click_Zoomin(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Hallo");
+            viewport.Resolution = viewport.Resolution / 2;
         }
 
         void Button_Click_Zoomout(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Hallo");
+            viewport.Resolution = viewport.Resolution * 2;
         }
 
         async void CompositionTarget_Rendering(object sender, object e)
         {
-            if (!first) return;
+            //if (!first) return;
             
             var osmTileSource = new OsmTileSource();
             if (viewport == null)
