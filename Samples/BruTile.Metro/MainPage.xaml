@@ -11,7 +11,7 @@
   <Grid>
     <Canvas Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="canvas" PointerPressed="canvas_PointerPressed_1">
     </Canvas>
-    <Button Content="Zoomin" HorizontalAlignment="Left" Click="Button_Click_Zoomin"  />
-    <Button Content="Zoomout" HorizontalAlignment="Left" Click="Button_Click_Zoomout" />
+    <Button Content="Zoomin" HorizontalAlignment="Left" Click="Button_Click_Zoomin" Margin="0,365" Width="96"  />
+    <Button Content="Zoomout" HorizontalAlignment="Left" Click="Button_Click_Zoomout" Margin="0,403,0,327" />
   </Grid>
 </Page>
