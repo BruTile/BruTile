@@ -16,8 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
 using Windows.UI;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using BruTile.Cache;
 
 namespace BruTile.Metro
 {
@@ -26,87 +25,21 @@ namespace BruTile.Metro
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private bool first = true;
-        Viewport viewport;
-
         public MainPage()
         {
             this.InitializeComponent();
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
         void Button_Click_Zoomin(object sender, RoutedEventArgs e)
         {
-            viewport.Resolution = viewport.Resolution / 2;
+            canvas.ZoomInOneStep();            
         }
 
         void Button_Click_Zoomout(object sender, RoutedEventArgs e)
         {
-            viewport.Resolution = viewport.Resolution * 2;
-        }
-
-        async void CompositionTarget_Rendering(object sender, object e)
-        {
-            var osmTileSource = new OsmTileSource();
-            if (viewport == null)
-            {
-                viewport = TryInitializeViewport(viewport, ActualWidth, ActualHeight, osmTileSource.Schema);
-                if (viewport == null) return;
-            }
-            if (viewport == null) return;
-
-            foreach (var child in canvas.Children)
-            {
-                if (child is Image) canvas.Children.Remove(child);
-            }
-
-            var level = Utilities.GetNearestLevel(osmTileSource.Schema.Resolutions, viewport.Resolution);
-            var tileInfos = osmTileSource.Schema.GetTilesInView(viewport.Extent, level);
-
-            foreach (var tileInfo in tileInfos)
-            {
-                var tile = osmTileSource.Provider.GetTile(tileInfo);
-                var image = new Image();
-                image.Source = await TileToImage(tile);
-                var point1 = viewport.WorldToView(tileInfo.Extent.MinX, tileInfo.Extent.MaxY);
-                var point2 = viewport.WorldToView(tileInfo.Extent.MaxX, tileInfo.Extent.MinY);
-
-                Canvas.SetLeft(image, point1.X);
-                Canvas.SetTop(image, point1.Y);
-                image.Width = point2.X - point1.X;
-                image.Height = point2.Y - point1.Y;
-                canvas.Children.Add(image);
-            }
-
-            first = false;
-        }
-
-        private async Task<BitmapImage> TileToImage(byte[] tile)
-        {
-            try
-            {
-                var ims = await ByteArrayToRandomAccessStream(tile);
-                var bitmapImage = new BitmapImage();
-                bitmapImage.SetSource(ims);
-                return bitmapImage;
-            }
-            catch (Exception ex)
-            {
-                var stromg = ex.Message;
-                return null;
-            }
-        }
-
-        private static async Task<InMemoryRandomAccessStream> ByteArrayToRandomAccessStream(byte[] tile)
-        {
-            var stream = new InMemoryRandomAccessStream();
-            DataWriter dataWriter = new DataWriter(stream);
-            dataWriter.WriteBytes(tile);
-            await dataWriter.StoreAsync();
-            stream.Seek(0);
-            return stream;
-        }
-
+            canvas.ZoomOutOneStep();
+        }        
+        
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -116,52 +49,6 @@ namespace BruTile.Metro
         {
 
         }
-
-        private static Viewport TryInitializeViewport(Viewport viewport, double actualWidth, double actualHeight, ITileSchema schema)
-        {
-            if (double.IsNaN(actualWidth)) return null;
-            if (actualWidth <= 0) return null;
-            viewport = new Viewport();
-            viewport.Width = actualWidth;
-            viewport.Height = actualHeight;
-            viewport.Resolution = schema.Extent.Width / actualWidth;
-            viewport.Center = new Point(schema.Extent.CenterX, schema.Extent.CenterY);
-            return viewport;
-        }
-
-        //private async void callback(List<Bevoegdgezag> bevoegdgezagen)
-        //{
-        //    if (!this.Dispatcher.HasThreadAccess)
-        //    {
-        //        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => callback(bevoegdgezagen));
-        //    }
-        //    else
-        //    {
-        //        string text = "";
-
-        //        foreach (var bg in bevoegdgezagen)
-        //        {
-        //            text += bg.Name + "\n";
-        //        }
-        //        var textBlock = new TextBlock { Text = text, FontSize = 24 };
-                
-        //        canvas.Children.Add(textBlock);
-        //        Canvas.SetZIndex(textBlock, 1000);
-        //        this.InvalidateArrange();
-        //        this.InvalidateMeasure();
-        //    }
-        //}
-
-        private void canvas_PointerPressed_1(object sender, PointerRoutedEventArgs e)
-        {
-            //!!!GeodanCloudApi.GetBevoegdgezag(4.9128153, 52.3423183, callback);
-
-            var x = e.GetCurrentPoint(canvas).Position.X;
-            var y = e.GetCurrentPoint(canvas).Position.Y;
-            var world = viewport.ViewToWorld(x, y);
-            viewport.Center = world;
-            this.InvalidateArrange();
-            this.InvalidateMeasure();
-        }
+       
     }
 }

@@ -112,12 +112,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Fetcher.cs" />
+    <Compile Include="FetchStrategy.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapControl.cs" />
     <Compile Include="MemoryRandomAccessStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="Fetcher.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Viewport.cs" />
     <Compile Include="ZoomHelper.cs" />
   </ItemGroup>
