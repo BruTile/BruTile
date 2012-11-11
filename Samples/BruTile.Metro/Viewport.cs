@@ -5,7 +5,7 @@ using Windows.Foundation;
 
 namespace BruTile.Metro
 {
-    class Viewport
+    public class Viewport
     {
         #region Fields
 
