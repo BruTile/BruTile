@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSample", "Samples\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Metro", "Samples\BruTile.Metro\BruTile.Metro.csproj", "{A4899E9E-0D26-4347-8553-C67ECE5669CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

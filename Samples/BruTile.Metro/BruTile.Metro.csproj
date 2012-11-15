@@ -103,13 +103,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\BruTile.Samples.Common\BruTile.Samples.Common.csproj">
-      <Project>{24a0d64a-f894-4eb4-8cb7-8f6081bfe324}</Project>
-      <Name>BruTile.Samples.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
       <Name>BruTile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile.Samples.Common\BruTile.Samples.Common.csproj">
+      <Project>{24a0d64a-f894-4eb4-8cb7-8f6081bfe324}</Project>
+      <Name>BruTile.Samples.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
