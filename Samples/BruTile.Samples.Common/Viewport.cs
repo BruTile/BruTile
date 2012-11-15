@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
-using Windows.Foundation;
 
-namespace BruTile.Metro
+namespace BruTile.Samples.Common
 {
+    public struct Point
+    {
+        public Point(double X, double Y)
+        {
+            this.X = X;
+            this.Y = Y;
+        }
+
+        public double X;
+        public double Y;
+    }
+    
     public class Viewport
     {
         #region Fields
@@ -85,24 +95,24 @@ namespace BruTile.Metro
             get { return (_extent == default(Extent)) ? (_extent = new Extent(0, 0, 0, 0)) : _extent; }
         }
 
-        public Point WorldToView(Point point)
+        public Point WorldToScreen(Point worldPosition)
         {
-            return WorldToView(point.X, point.Y);
+            return WorldToScreen(worldPosition.X, worldPosition.Y);
         }
 
-        public Point ViewToWorld(Point point)
+        public Point ScreenToWorld(Point screenPosition)
         {
-            return ViewToWorld(point.X, point.Y);
+            return ScreenToWorld(screenPosition.X, screenPosition.Y);
         }
 
-        public Point WorldToView(double x, double y)
+        public Point WorldToScreen(double worldX, double worldY)
         {
-            return new Point((x - _extent.MinX) / _resolution, (_extent.MaxY - y) / _resolution);
+            return new Point((worldX - _extent.MinX) / _resolution, (_extent.MaxY - worldY) / _resolution);
         }
 
-        public Point ViewToWorld(double x, double y)
+        public Point ScreenToWorld(double screenX, double screenY)
         {
-            return new Point((_extent.MinX + x * _resolution), (_extent.MaxY - (y * _resolution)));
+            return new Point((_extent.MinX + screenX * _resolution), (_extent.MaxY - (screenY * _resolution)));
         }
 
         #endregion

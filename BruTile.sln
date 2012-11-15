@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSample", "Samples\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Metro", "Samples\BruTile.Metro\BruTile.Metro.csproj", "{A4899E9E-0D26-4347-8553-C67ECE5669CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -208,6 +210,20 @@ Global
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA}.Release|x86.ActiveCfg = Release|x86
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA}.Release|x86.Build.0 = Release|x86
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA}.Release|x86.Deploy.0 = Release|x86
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|ARM.ActiveCfg = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|x64.ActiveCfg = Release|Any CPU
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -218,5 +234,6 @@ Global
 		{57766550-A465-4797-80B7-9D7746D2DCF3} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
+		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 	EndGlobalSection
 EndGlobal
