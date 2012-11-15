@@ -1,15 +1,13 @@
 ﻿﻿// Copyright 2008 - Paul den Dulk (Geodan)
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using BruTile;
 using BruTile.Cache;
-using Windows.System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using Windows.Foundation;
+using Windows.System.Threading;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Core;
 
 namespace SharpMap.Fetcher
 {
@@ -154,7 +152,7 @@ namespace SharpMap.Fetcher
                     if (DataChanged != null && !isAborted)
                         DataChanged(this, new DataChangedEventArgs(error, false, tileInfo, image));
 
-                });
+                }, WorkItemPriority.Low, WorkItemOptions.TimeSliced);
         }
 
         /// <summary>

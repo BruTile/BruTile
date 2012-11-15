@@ -11,7 +11,7 @@ namespace BruTile.Metro
 {
     public static class Renderer
     {
-        public static void Render(Viewport viewport, Canvas canvas,
+        public static void Render(BruTile.Samples.Common.Viewport viewport, Canvas canvas,
             ITileSource tileSource, ITileCache<Image> tileCache)
         {
             if (viewport == null) return;
@@ -25,10 +25,10 @@ namespace BruTile.Metro
             {
                 var image = tileCache.Find(tileInfo.Index);
                 if (image == null) continue;
-                var point1 = viewport.WorldToView(tileInfo.Extent.MinX, tileInfo.Extent.MaxY);
-                var point2 = viewport.WorldToView(tileInfo.Extent.MaxX, tileInfo.Extent.MinY);
+                var point1 = viewport.WorldToScreen(tileInfo.Extent.MinX, tileInfo.Extent.MaxY);
+                var point2 = viewport.WorldToScreen(tileInfo.Extent.MaxX, tileInfo.Extent.MinY);
 
-                var dest = new Rect(point1, point2);
+                var dest = new Rect(point1.ToMetroPoint(), point2.ToMetroPoint());
                 dest = RoundToPixel(dest);
 
                 Canvas.SetLeft(image, dest.X);
@@ -51,5 +51,11 @@ namespace BruTile.Metro
                 (Math.Round(dest.Bottom) - Math.Round(dest.Top)));
             return dest;
         }
+
+        public static Point ToMetroPoint(this BruTile.Samples.Common.Point point)
+        {
+            return new Point(point.X, point.Y);
+        }
+
     }
 }
