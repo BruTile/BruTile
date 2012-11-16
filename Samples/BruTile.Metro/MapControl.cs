@@ -18,8 +18,7 @@ namespace BruTile.Metro
         OsmTileSource osmTileSource = new OsmTileSource();
         Fetcher fetcher;
         BruTile.Samples.Common.Viewport viewport;
-        Windows.Foundation.Point previousPosition;
-        
+        Windows.Foundation.Point previousPosition;        
 
         public MapControl()
         {
@@ -53,9 +52,8 @@ namespace BruTile.Metro
                 previousPosition = default(Point);
                 return;
             }
-
             PanAndZoom(e.Position.X, e.Position.Y, e.Delta.Scale);
-
+            
             previousPosition = e.Position;
             fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
         }
@@ -71,6 +69,7 @@ namespace BruTile.Metro
             var zoomCorrectionX = (1 - deltaScale) * (current.X - viewport.CenterX);
             var zoomCorrectionY = (1 - deltaScale) * (current.Y - viewport.CenterY);
             viewport.Resolution = viewport.Resolution / deltaScale;
+            
             viewport.Center = new BruTile.Samples.Common.Point(newX - zoomCorrectionX, newY - zoomCorrectionY);
         }
         
@@ -127,7 +126,9 @@ namespace BruTile.Metro
 
         void CompositionTarget_Rendering(object sender, object e)
         {
-            Renderer.Render(viewport, this, osmTileSource, tileCache);
+            var tileToRender = TileLayer.GetTilesInView(viewport.Extent, viewport.Resolution,
+                osmTileSource.Schema, tileCache);
+            Renderer.Render(viewport, this, tileToRender);
         }
 
         private static bool CanInitializeViewport(double actualWidth, double actualHeight)
