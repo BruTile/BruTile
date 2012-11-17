@@ -23,23 +23,23 @@ namespace BruTile.Metro
             for (int i = 0; i < tileList.Count; i++)
             {
                 var tile = tileList[i];
-                if (tile.image == null) continue;
-                var point1 = viewport.WorldToScreen(tile.info.Extent.MinX, tile.info.Extent.MaxY);
-                var point2 = viewport.WorldToScreen(tile.info.Extent.MaxX, tile.info.Extent.MinY);
+                if (tile.Image == null) continue;
+                var point1 = viewport.WorldToScreen(tile.Info.Extent.MinX, tile.Info.Extent.MaxY);
+                var point2 = viewport.WorldToScreen(tile.Info.Extent.MaxX, tile.Info.Extent.MinY);
 
                 var dest = new Rect(point1.ToMetroPoint(), point2.ToMetroPoint());
                 dest = RoundToPixel(dest);
 
-                Canvas.SetLeft(tile.image, dest.X);
-                Canvas.SetTop(tile.image, dest.Y);
-                tile.image.Width = dest.Width;
-                tile.image.Height = dest.Height;
-                canvas.Children.Add(tile.image);
+                Canvas.SetLeft(tile.Image, dest.X);
+                Canvas.SetTop(tile.Image, dest.Y);
+                tile.Image.Width = dest.Width;
+                tile.Image.Height = dest.Height;
+                canvas.Children.Add(tile.Image);
 
-                if (tile.image.Tag == null)
+                if (tile.Image.Tag == null)
                 {
-                    tile.image.Tag = DateTime.Now.Ticks;
-                    Animate(tile.image, "Opacity", 0, 1, 600, (s, e) => { });
+                    tile.Image.Tag = DateTime.Now.Ticks;
+                    Animate(tile.Image, "Opacity", 0, 1, 600, (s, e) => { });
                 }
             }
         }
@@ -76,6 +76,5 @@ namespace BruTile.Metro
         {
             return new Point(point.X, point.Y);
         }
-
     }
 }

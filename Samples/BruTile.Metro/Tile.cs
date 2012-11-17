@@ -4,7 +4,7 @@ namespace BruTile.Metro
 {
     public struct Tile
     {
-        public TileInfo info { get; set; }
-        public Image image { get; set; }
+        public TileInfo Info { get; set; }
+        public Image Image { get; set; }
     }
 }
