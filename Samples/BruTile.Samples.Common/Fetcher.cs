@@ -5,15 +5,12 @@ using BruTile.Cache;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Windows.Foundation;
-using Windows.System.Threading;
-using Windows.UI.Xaml.Controls;
 
-namespace SharpMap.Fetcher
+namespace BruTile.Samples.Common
 {
-    class Fetcher
+    public class Fetcher<T>
     {
-        private readonly ITileCache<Image> memoryCache;
+        private readonly ITileCache<T> memoryCache;
         private readonly ITileSource tileSource;
         private Extent extent;
         private double resolution;
@@ -27,7 +24,7 @@ namespace SharpMap.Fetcher
 
         public event DataChangedEventHandler DataChanged;
 
-        public Fetcher(ITileSource tileSource, ITileCache<Image> memoryCache)
+        public Fetcher(ITileSource tileSource, ITileCache<T> memoryCache)
         {
             if (tileSource == null) throw new ArgumentException("TileProvider can not be null");
             this.tileSource = tileSource;
@@ -46,9 +43,9 @@ namespace SharpMap.Fetcher
             waitHandle.Set();
         }
 
-        private async void StartFetchLoop()
+        private void StartFetchLoop()
         {
-            await ThreadPool.RunAsync(FetchLoop, WorkItemPriority.Low, WorkItemOptions.TimeSliced);
+            ThreadPool.QueueUserWorkItem(FetchLoop);
         }
 
         public void AbortFetch()
@@ -57,7 +54,7 @@ namespace SharpMap.Fetcher
             waitHandle.Set(); // active fetch loop so it can run out of the loop
         }
 
-        private void FetchLoop(IAsyncAction operation)
+        private void FetchLoop(object state)
         {
             IEnumerable<TileInfo> tilesWanted = null;
 
@@ -90,7 +87,7 @@ namespace SharpMap.Fetcher
         }
 
         private static IList<TileInfo> GetTilesMissing(IEnumerable<TileInfo> tilesWanted,
-            ITileCache<Image> memoryCache, Retries retries)
+            ITileCache<T> memoryCache, Retries retries)
         {
             var tilesNeeded = new List<TileInfo>();
             foreach (TileInfo info in tilesWanted)
@@ -115,7 +112,7 @@ namespace SharpMap.Fetcher
             // first some checks
             if (tilesInProgress.Contains(info.Index)) return;
             if (retries.ReachedMax(info.Index)) return;
-            
+
             // prepare for request
             lock (tilesInProgress) { tilesInProgress.Add(info.Index); }
             retries.PlusOne(info.Index);
@@ -126,7 +123,7 @@ namespace SharpMap.Fetcher
 
         private void FetchAsync(TileInfo tileInfo)
         {
-            ThreadPool.RunAsync(
+            ThreadPool.QueueUserWorkItem(
                 (source) =>
                 {
                     Exception error = null;
@@ -152,7 +149,7 @@ namespace SharpMap.Fetcher
                     if (DataChanged != null && !isAborted)
                         DataChanged(this, new DataChangedEventArgs(error, false, tileInfo, image));
 
-                }, WorkItemPriority.Low, WorkItemOptions.TimeSliced);
+                });
         }
 
         /// <summary>
@@ -162,12 +159,12 @@ namespace SharpMap.Fetcher
         class Retries
         {
             private readonly IDictionary<TileIndex, int> retries = new Dictionary<TileIndex, int>();
-            private int maxRetries = 2;
+            private int maxRetries = 0;
 
             public bool ReachedMax(TileIndex index)
             {
                 int retryCount = (!retries.Keys.Contains(index)) ? 0 : retries[index];
-                return retryCount >= maxRetries;
+                return retryCount > maxRetries;
             }
 
             public void PlusOne(TileIndex index)

@@ -1,10 +1,7 @@
 ﻿using BruTile.Cache;
 using BruTile.Web;
-using SharpMap.Fetcher;
 using System;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -16,13 +13,13 @@ namespace BruTile.Metro
     {
         ITileCache<Image> tileCache = new MemoryCache<Image>(200, 300);
         OsmTileSource osmTileSource = new OsmTileSource();
-        Fetcher fetcher;
+        BruTile.Samples.Common.Fetcher<Image> fetcher;
         BruTile.Samples.Common.Viewport viewport;
         Windows.Foundation.Point previousPosition;        
 
         public MapControl()
         {
-            fetcher = new Fetcher(osmTileSource, tileCache);
+            fetcher = new BruTile.Samples.Common.Fetcher<Image>(osmTileSource, tileCache);
             fetcher.DataChanged += fetcher_DataChanged;
 
             CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -83,7 +80,7 @@ namespace BruTile.Metro
             previousPosition = default(Point);
         }
 
-        async void fetcher_DataChanged(object sender, DataChangedEventArgs e)
+        async void fetcher_DataChanged(object sender, BruTile.Samples.Common.DataChangedEventArgs e)
         {
             if (!Dispatcher.HasThreadAccess)
                 Dispatcher.RunAsync(
@@ -126,9 +123,9 @@ namespace BruTile.Metro
 
         void CompositionTarget_Rendering(object sender, object e)
         {
-            var tileToRender = TileLayer.GetTilesInView(viewport.Extent, viewport.Resolution,
+            var tilesToRender = TileLayer.GetTilesInView(viewport.Extent, viewport.Resolution,
                 osmTileSource.Schema, tileCache);
-            Renderer.Render(viewport, this, tileToRender);
+            Renderer.Render(viewport, this, tilesToRender);
         }
 
         private static bool CanInitializeViewport(double actualWidth, double actualHeight)

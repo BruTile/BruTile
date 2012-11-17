@@ -9,8 +9,7 @@ using Windows.UI.Xaml.Controls;
 namespace BruTile.Metro
 {
     public static class TileLayer
-    {
-        
+    {        
         public static IEnumerable<Tile> GetTilesInView(Extent extent, double resolution,
             ITileSchema schema, ITileCache<Image> tileCache)
         {
@@ -38,7 +37,7 @@ namespace BruTile.Metro
                 }
                 else
                 {
-                    resultTiles[tileInfo.Index] = new Tile { image = feature, info = tileInfo };
+                    resultTiles[tileInfo.Index] = new Tile { Image = feature, Info = tileInfo };
                     if (!IsFullyShown(feature))
                     {
                         GetRecursive(resultTiles, schema, cache, tileInfo.Extent.Intersect(extent), level - 1);

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SharpMap.Fetcher
+namespace BruTile.Samples.Common
 {
     interface IFetchStrategy
     {
