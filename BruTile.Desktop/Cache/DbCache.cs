@@ -246,7 +246,7 @@ namespace BruTile.Cache
 
             lock (_addLock)
             {
-                ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter)_addTileCommand.Parameters[0]).Value = index.Level;
                 ((IDataParameter)_addTileCommand.Parameters[1]).Value = index.Row;
                 ((IDataParameter)_addTileCommand.Parameters[2]).Value = index.Col;
                 ((IDataParameter)_addTileCommand.Parameters[3]).Value = image.Length;
@@ -267,7 +267,7 @@ namespace BruTile.Cache
 
             lock (_removeLock)
             {
-                ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.LevelId;
+                ((IDataParameter)_removeTileCommand.Parameters[0]).Value = index.Level;
                 ((IDataParameter)_removeTileCommand.Parameters[1]).Value = index.Row;
                 ((IDataParameter)_removeTileCommand.Parameters[2]).Value = index.Col;
 
@@ -298,7 +298,7 @@ namespace BruTile.Cache
 
             IDbCommand cmd = _bank.Borrow();
 
-            ((IDataParameter)cmd.Parameters[0]).Value = index.LevelId;
+            ((IDataParameter)cmd.Parameters[0]).Value = index.Level;
             ((IDataParameter)cmd.Parameters[1]).Value = index.Row;
             ((IDataParameter)cmd.Parameters[2]).Value = index.Col;
 

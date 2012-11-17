@@ -1,4 +1,5 @@
 ﻿using BruTile.Cache;
+using BruTile.Samples.Common;
 using BruTile.Web;
 using System;
 using Windows.Foundation;
@@ -11,7 +12,7 @@ namespace BruTile.Metro
 {
     public class MapControl : Canvas
     {
-        ITileCache<Image> tileCache = new MemoryCache<Image>(200, 300);
+        ITileCache<Tile<Image>> tileCache = new MemoryCache<Tile<Image>>(200, 300);
         OsmTileSource osmTileSource = new OsmTileSource();
         BruTile.Samples.Common.Fetcher<Image> fetcher;
         BruTile.Samples.Common.Viewport viewport;
@@ -67,7 +68,7 @@ namespace BruTile.Metro
             var zoomCorrectionY = (1 - deltaScale) * (current.Y - viewport.CenterY);
             viewport.Resolution = viewport.Resolution / deltaScale;
             
-            viewport.Center = new BruTile.Samples.Common.Point(newX - zoomCorrectionX, newY - zoomCorrectionY);
+            viewport.Center = new BruTile.Samples.Common.Geometries.Point(newX - zoomCorrectionX, newY - zoomCorrectionY);
         }
         
         public static double Distance(double x1, double y1, double x2, double y2)
@@ -80,26 +81,31 @@ namespace BruTile.Metro
             previousPosition = default(Point);
         }
 
-        async void fetcher_DataChanged(object sender, BruTile.Samples.Common.DataChangedEventArgs e)
+        async void fetcher_DataChanged(object sender, BruTile.Samples.Common.DataChangedEventArgs<Image> e)
         {
             if (!Dispatcher.HasThreadAccess)
                 Dispatcher.RunAsync(
-                   Windows.UI.Core.CoreDispatcherPriority.High, 
+                   Windows.UI.Core.CoreDispatcherPriority.High,
                    () => fetcher_DataChanged(sender, e));
             else
             {
-                if (e.Error == null && e.Image != null)
+                if (e.Error == null && e.Tile != null)
                 {
-                    var feature = new Image()
-                    {
-                        Source = await BruTile.Metro.Utilities.TileToImage(e.Image),
-                    };
-                    feature.Stretch = Stretch.Fill;
-                    feature.IsHitTestVisible = false;
-                    tileCache.Add(e.TileInfo.Index, feature);
+                    e.Tile.Image = await CreateImage(e.Tile.Data);
+                    tileCache.Add(e.Tile.Info.Index, e.Tile);
                     InvalidateArrange();
                 }
             }
+        }
+
+        private static async System.Threading.Tasks.Task<Image> CreateImage(byte[] data)
+        {
+            return new Image()
+            {
+                Source = await BruTile.Metro.Utilities.TileToImage(data),
+                Stretch = Stretch.Fill,
+                IsHitTestVisible = false
+            };
         }
 
         void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -123,8 +129,7 @@ namespace BruTile.Metro
 
         void CompositionTarget_Rendering(object sender, object e)
         {
-            var tilesToRender = TileLayer.GetTilesInView(viewport.Extent, viewport.Resolution,
-                osmTileSource.Schema, tileCache);
+            var tilesToRender = TileLayer<Image>.SelectTilesToRender(tileCache, osmTileSource.Schema, viewport.Extent, viewport.Resolution);
             Renderer.Render(viewport, this, tilesToRender);
         }
 
@@ -140,7 +145,7 @@ namespace BruTile.Metro
             viewport.Width = actualWidth;
             viewport.Height = actualHeight;
             viewport.Resolution = extent.Width / actualWidth;
-            viewport.Center = new BruTile.Samples.Common.Point(extent.CenterX, extent.CenterY);
+            viewport.Center = new BruTile.Samples.Common.Geometries.Point(extent.CenterX, extent.CenterY);
             return viewport;
         }
 

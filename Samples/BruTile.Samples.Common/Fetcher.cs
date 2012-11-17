@@ -10,7 +10,7 @@ namespace BruTile.Samples.Common
 {
     public class Fetcher<T>
     {
-        private readonly ITileCache<T> memoryCache;
+        private readonly ITileCache<Tile<T>> memoryCache;
         private readonly ITileSource tileSource;
         private Extent extent;
         private double resolution;
@@ -22,9 +22,9 @@ namespace BruTile.Samples.Common
         private volatile bool isViewChanged;
         private Retries retries = new Retries();
 
-        public event DataChangedEventHandler DataChanged;
+        public event DataChangedEventHandler<T> DataChanged;
 
-        public Fetcher(ITileSource tileSource, ITileCache<T> memoryCache)
+        public Fetcher(ITileSource tileSource, ITileCache<Tile<T>> memoryCache)
         {
             if (tileSource == null) throw new ArgumentException("TileProvider can not be null");
             this.tileSource = tileSource;
@@ -87,7 +87,7 @@ namespace BruTile.Samples.Common
         }
 
         private static IList<TileInfo> GetTilesMissing(IEnumerable<TileInfo> tilesWanted,
-            ITileCache<T> memoryCache, Retries retries)
+            ITileCache<Tile<T>> memoryCache, Retries retries)
         {
             var tilesNeeded = new List<TileInfo>();
             foreach (TileInfo info in tilesWanted)
@@ -127,11 +127,15 @@ namespace BruTile.Samples.Common
                 (source) =>
                 {
                     Exception error = null;
-                    byte[] image = null;
+                    Tile<T> tile = null;
 
                     try
                     {
-                        if (tileSource != null) image = tileSource.Provider.GetTile(tileInfo);
+                        if (tileSource != null)
+                        {
+                            byte[] data = tileSource.Provider.GetTile(tileInfo);
+                            tile = new Tile<T> { Data = data, Info = tileInfo };
+                        }
                     }
                     catch (Exception ex) //This may seem a bit weird. We catch the exception to pass it as an argument. This is because we are on a worker thread here, we cannot just let it fall through. 
                     {
@@ -147,7 +151,7 @@ namespace BruTile.Samples.Common
                     waitHandle.Set();
 
                     if (DataChanged != null && !isAborted)
-                        DataChanged(this, new DataChangedEventArgs(error, false, tileInfo, image));
+                        DataChanged(this, new DataChangedEventArgs<T>(error, false, tile));
 
                 });
         }
@@ -180,21 +184,19 @@ namespace BruTile.Samples.Common
         }
     }
 
-    public delegate void DataChangedEventHandler(object sender, DataChangedEventArgs e);
+    public delegate void DataChangedEventHandler<T>(object sender, DataChangedEventArgs<T> e);
 
-    public class DataChangedEventArgs
+    public class DataChangedEventArgs <T>
     {
-        public DataChangedEventArgs(Exception error, bool cancelled, TileInfo tileInfo, byte[] image)
+        public DataChangedEventArgs(Exception error, bool cancelled, Tile<T> tile)
         {
             Error = error;
             Cancelled = cancelled;
-            TileInfo = tileInfo;
-            Image = image;
+            Tile = tile;
         }
 
         public Exception Error { get; private set; }
         public bool Cancelled { get; private set; }
-        public TileInfo TileInfo { get; private set; }
-        public byte[] Image { get; private set; }
+        public Tile<T> Tile { get; private set; }
     }
 }

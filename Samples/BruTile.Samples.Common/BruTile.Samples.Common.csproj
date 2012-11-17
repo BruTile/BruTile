@@ -43,7 +43,9 @@
     <Compile Include="Fetcher.cs" />
     <Compile Include="FetchStrategy.cs" />
     <Compile Include="HashSet.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="Viewport.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

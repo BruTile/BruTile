@@ -399,7 +399,7 @@ namespace BruTile.Cache
 
             // this is an optimization that makes use of an additional 'map' table which is not part of the spec
             int[] range;
-            if (_tileRange.TryGetValue(int.Parse(index.LevelId), out range))
+            if (_tileRange.TryGetValue(index.Level, out range))
             {
                 return ((range[0] <= index.Col) && (index.Col <= range[1]) &&
                         (range[2] <= index.Row) && (index.Row <= range[3]));

@@ -1,20 +1,9 @@
-﻿using System;
+﻿using BruTile.Samples.Common.Geometries;
+using System;
 using System.Linq;
 
 namespace BruTile.Samples.Common
 {
-    public struct Point
-    {
-        public Point(double X, double Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-
-        public double X;
-        public double Y;
-    }
-    
     public class Viewport
     {
         #region Fields
