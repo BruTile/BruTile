@@ -88,7 +88,7 @@ namespace BruTile.Web
         {
             var server = ServerIdentifier[GetServerIdentifierIndex(tileIndex, NumberOfServers)];
 
-            return new Uri(string.Format(UrlFormat, server, tileIndex.LevelId, tileIndex.Col, tileIndex.Row));
+            return new Uri(string.Format(UrlFormat, server, tileIndex.Level, tileIndex.Col, tileIndex.Row));
         }
 
         public static OsmTileServerConfig Create(KnownOsmTileServers knownOsmRenderer, string apiKey)
@@ -132,7 +132,7 @@ namespace BruTile.Web
         {
             var server = ServerIdentifier[GetServerIdentifierIndex(tileIndex, NumberOfServers)];
 
-            return new Uri(string.Format(UrlFormat, server, tileIndex.LevelId, tileIndex.Col, tileIndex.Row, ApiKey));
+            return new Uri(string.Format(UrlFormat, server, tileIndex.Level, tileIndex.Col, tileIndex.Row, ApiKey));
         }
     }
 

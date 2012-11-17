@@ -116,7 +116,7 @@ namespace BruTile
                 {
                     var info = new TileInfo();
                     info.Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this);
-                    info.Index = new TileIndex(x, y, Resolutions[level].Id);
+                    info.Index = new TileIndex(x, y, level);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {

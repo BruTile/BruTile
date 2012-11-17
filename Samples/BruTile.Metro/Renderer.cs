@@ -1,9 +1,7 @@
-﻿using BruTile.Cache;
+﻿using BruTile.Samples.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,7 +11,7 @@ namespace BruTile.Metro
 {
     public static class Renderer
     {
-        public static void Render(BruTile.Samples.Common.Viewport viewport, Canvas canvas, IEnumerable<Tile> tiles)
+        public static void Render(BruTile.Samples.Common.Viewport viewport, Canvas canvas, IEnumerable<Tile<Image>> tiles)
         {
             if (viewport == null) return;
 
@@ -36,9 +34,9 @@ namespace BruTile.Metro
                 tile.Image.Height = dest.Height;
                 canvas.Children.Add(tile.Image);
 
-                if (tile.Image.Tag == null)
+                if (tile.StartAnimation == default(long))
                 {
-                    tile.Image.Tag = DateTime.Now.Ticks;
+                    tile.StartAnimation = DateTime.Now.Ticks;
                     Animate(tile.Image, "Opacity", 0, 1, 600, (s, e) => { });
                 }
             }
@@ -72,7 +70,7 @@ namespace BruTile.Metro
             return dest;
         }
 
-        public static Point ToMetroPoint(this BruTile.Samples.Common.Point point)
+        public static Point ToMetroPoint(this BruTile.Samples.Common.Geometries.Point point)
         {
             return new Point(point.X, point.Y);
         }

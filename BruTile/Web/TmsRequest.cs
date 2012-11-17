@@ -63,7 +63,7 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            var url = new StringBuilder(GetUrlForLevel(info.Index.LevelId));
+            var url = new StringBuilder(GetUrlForLevel(info.Index.Level));
             InsertRandomServerNode(url, _serverNodes, _random);
             AppendXY(url, info);
             AppendImageFormat(url, _imageFormat);
@@ -71,8 +71,9 @@ namespace BruTile.Web
             return new Uri(url.ToString());
         }
 
-        private string GetUrlForLevel(string levelId)
+        private string GetUrlForLevel(int level)
         {
+            var levelId = level.ToString();
             var url = new StringBuilder();
             // if a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)
