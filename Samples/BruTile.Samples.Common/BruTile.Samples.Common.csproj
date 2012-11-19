@@ -42,11 +42,13 @@
   <ItemGroup>
     <Compile Include="Fetcher.cs" />
     <Compile Include="FetchStrategy.cs" />
+    <Compile Include="Geometries\Point.cs" />
     <Compile Include="HashSet.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderSelect.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Viewport.cs" />
+    <Compile Include="ZoomHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

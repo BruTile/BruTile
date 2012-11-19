@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -12,9 +9,9 @@ namespace BruTile.Metro
     {
         public static async Task<BitmapImage> TileToImage(byte[] tile)
         {
-            var ims = await ByteArrayToRandomAccessStream(tile);
+            var image = await ByteArrayToRandomAccessStream(tile);
             var bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(ims);
+            bitmapImage.SetSource(image);
             return bitmapImage;
         }
 

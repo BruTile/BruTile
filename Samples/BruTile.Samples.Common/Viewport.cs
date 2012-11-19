@@ -104,6 +104,24 @@ namespace BruTile.Samples.Common
             return new Point((_extent.MinX + screenX * _resolution), (_extent.MaxY - (screenY * _resolution)));
         }
 
+        public void Transform(double screenX, double screenY, double previousScreenX, double previousScreenY, double deltaScale = 1)
+        {         
+            var previous = ScreenToWorld(previousScreenX, previousScreenY);
+            var current = ScreenToWorld(screenX, screenY);
+            
+            var newX = CenterX + previous.X - current.X;
+            var newY = CenterY + previous.Y - current.Y;
+
+            // When you pinch zoom outside the center of the map 
+            // this will also affect the new center. 
+            var scaleCorrectionX = (1 - deltaScale) * (current.X - CenterX);
+            var scaleCorrectionY = (1 - deltaScale) * (current.Y - CenterY);
+
+            Resolution = Resolution / deltaScale;
+            CenterX = newX - scaleCorrectionX;
+            CenterY = newY - scaleCorrectionY;
+        }
+
         #endregion
 
         #region Private Methods
