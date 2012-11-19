@@ -123,9 +123,7 @@
     <Compile Include="MemoryRandomAccessStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="TileLayer.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ZoomHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

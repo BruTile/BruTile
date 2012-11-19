@@ -50,27 +50,13 @@ namespace BruTile.Metro
                 previousPosition = default(Point);
                 return;
             }
-            PanAndZoom(e.Position.X, e.Position.Y, e.Delta.Scale);
+
+            viewport.Transform(e.Position.X, e.Position.Y, previousPosition.X, previousPosition.Y, e.Delta.Scale);
             
             previousPosition = e.Position;
             fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
         }
 
-        private void PanAndZoom(double positionX, double positionY, double deltaScale)
-        {
-            var previous = viewport.ScreenToWorld(previousPosition.X, previousPosition.Y);
-            var current = viewport.ScreenToWorld(positionX, positionY);
-            var diffX = previous.X - current.X;
-            var diffY = previous.Y - current.Y;
-            var newX = viewport.CenterX + diffX;
-            var newY = viewport.CenterY + diffY;
-            var zoomCorrectionX = (1 - deltaScale) * (current.X - viewport.CenterX);
-            var zoomCorrectionY = (1 - deltaScale) * (current.Y - viewport.CenterY);
-            viewport.Resolution = viewport.Resolution / deltaScale;
-            
-            viewport.Center = new BruTile.Samples.Common.Geometries.Point(newX - zoomCorrectionX, newY - zoomCorrectionY);
-        }
-        
         public static double Distance(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt(Math.Pow(x1 - x2, 2.0) + Math.Pow(y1 - y2, 2.0));
