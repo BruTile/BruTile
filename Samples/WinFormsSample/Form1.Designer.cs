@@ -65,7 +65,7 @@
             this.osmImage1.ApiKey = null;
             this.osmImage1.Location = new System.Drawing.Point(171, 12);
             this.osmImage1.Name = "osmImage1";
-            this.osmImage1.OsmServer = BruTile.Web.KnownOsmTileServers.Osma;
+            this.osmImage1.OsmServer = BruTile.Web.KnownOsmTileServers.Mapnik;
             this.osmImage1.ShowExtent = false;
             this.osmImage1.ShowGrid = false;
             this.osmImage1.Size = new System.Drawing.Size(601, 561);
