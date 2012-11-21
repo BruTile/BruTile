@@ -236,7 +236,7 @@ namespace BruTile.Tests.Serialization
                         if (ti == null)
                             Console.WriteLine("No tile info!");
                         else
-                            Console.WriteLine("TileInfo: {0}, {1}, {2}\n{3}\n{4}", ti.Index.LevelId, ti.Index.Col, ti.Index.Row,
+                            Console.WriteLine("TileInfo: {0}, {1}, {2}\n{3}\n{4}", ti.Index.Level, ti.Index.Col, ti.Index.Row,
                                               ex.Message, ex.Response.ResponseUri);
                     }
                 }
@@ -300,7 +300,7 @@ namespace BruTile.Tests.Serialization
         {
             var level = Rnd.Next(3, 12);
             var max = 2 ^ level;
-            return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level), Priority = Rnd.Next(0,5)};
+            return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level) };
         }
 
         private static bool EqualTileSchemas(ITileSchema ts1, ITileSchema ts2, out string message)

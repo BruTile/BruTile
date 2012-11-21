@@ -18,8 +18,7 @@ namespace BruTile.Tests.Cache
             return new FileCache("FileCacheTest", "buf");
         }
 
-        [Test]
-        [Ignore]
+        [Test, Category("CacheTest"), Ignore("Long running, only test once in a while")]
         public void Test()
         {
             TestInsertFindRemove();
