@@ -22,7 +22,7 @@ namespace BruTile.Tests.Cache
             cn.Open();
             SqlCeCommand cmd = cn.CreateCommand();
             cmd.CommandText =
-                "CREATE TABLE cache (level integer, row integer, col integer, size integer, [image] image, primary key (level, row, col));";
+                "CREATE TABLE cache (\"Level\" integer, \"Row\" integer, \"Col\" integer, \"Size\" integer, \"Image\" image, primary key (\"Level\", \"Row\", \"Col\"));";
             cmd.ExecuteNonQuery();
             cn.Close();
             return cn;
@@ -63,9 +63,9 @@ namespace BruTile.Tests.Cache
         {
             if (System.IO.File.Exists("test.sdf"))
                 System.IO.File.Delete("test.sdf");
-            SqlCeConnection cn = MakeConnection("test.sdf");
-            return new DbCache<SqlCeConnection>(cn, (p, c) => c, "main", "cache",
-               SqlCeAddTileCommand, null, null);
+            var cn = MakeConnection("test.sdf");
+            return new DbCache<SqlCeConnection>(cn, (p, c) => string.Format("\"{0}\"", c), "main", "cache",
+               SqlCeAddTileCommand, SqlCeRemoveTileCommand, null);
         }
 
         private static DbCommand SqlCeAddTileCommand(DbConnection connection,
@@ -73,7 +73,7 @@ namespace BruTile.Tests.Cache
         {
             var cmd = ((SqlCeConnection)connection).CreateCommand();
             cmd.CommandText = String.Format(
-                "INSERT INTO {0} VALUES({1}Level, {1}Row, {1}Col, {1}Size, {1}Image);", qualifier(schema, table), parameterPrefix);
+                "INSERT INTO {0} VALUES({1}Level, {1}row, {1}Col, {1}Size, {1}Image);", qualifier(schema, table), parameterPrefix);
 
             SqlCeParameter par = cmd.CreateParameter();
             par.DbType = DbType.Int32;
@@ -103,8 +103,33 @@ namespace BruTile.Tests.Cache
             return cmd;
         }
 
-        [Ignore]
-        [Test]
+        private static DbCommand SqlCeRemoveTileCommand(DbConnection connection,
+            DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = '@')
+        {
+            DbCommand cmd = connection.CreateCommand();
+            cmd.CommandText = string.Format("DELETE FROM {0} WHERE ({1}={4}Level AND {2}={4}Row AND {3}={4}Col);",
+                qualifier(schema, table), qualifier(table, "Level"), qualifier(table, "Row"),
+                qualifier(table, "Col"), parameterPrefix);
+
+            DbParameter par = cmd.CreateParameter();
+            par.DbType = DbType.Int32;
+            par.ParameterName = "Level";
+            cmd.Parameters.Add(par);
+
+            par = cmd.CreateParameter();
+            par.DbType = DbType.Int32;
+            par.ParameterName = "Row";
+            cmd.Parameters.Add(par);
+
+            par = cmd.CreateParameter();
+            par.DbType = DbType.Int32;
+            par.ParameterName = "Col";
+            cmd.Parameters.Add(par);
+
+            return cmd;
+        }
+
+        [Test, Category("CacheTest"), Ignore("Long running, only test once in a while")]
         public void DoTest()
         {
             TestInsertFindRemove();
