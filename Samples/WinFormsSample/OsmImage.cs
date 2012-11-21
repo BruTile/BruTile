@@ -178,7 +178,7 @@ namespace WinFormsSample
                         g.DrawRectangle(Pens.Black, roundedExtent);
                         g.DrawString(
                             string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row,
-                                          tileInfo.Index.LevelId),
+                                          tileInfo.Index.Level),
                             new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent,
                             new StringFormat
                                 {

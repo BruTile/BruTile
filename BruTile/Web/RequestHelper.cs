@@ -12,7 +12,7 @@ namespace BruTile.Web
     {
         static RequestHelper()
         {
-            Timeout = 5000;
+            Timeout = 10000;
         }
 
         public static int Timeout { get; set; }
@@ -21,6 +21,7 @@ namespace BruTile.Web
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             WebResponse webResponse = webRequest.GetSyncResponse(Timeout);
+            if (webResponse == null) throw (new WebException("An error occurred while fetching tile", null));
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {
                 using (Stream responseStream = webResponse.GetResponseStream())
