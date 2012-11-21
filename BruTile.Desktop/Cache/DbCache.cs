@@ -454,7 +454,7 @@ namespace BruTile.Cache
 
         #region Implementation of ISerializable
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("connection", Connection);
             info.AddValue("schema", Schema);

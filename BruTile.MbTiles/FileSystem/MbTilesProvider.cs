@@ -2,11 +2,14 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2010.
 
+using System;
+using System.Runtime.Serialization;
 using BruTile.Cache;
 using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile.FileSystem
 {
+    [Serializable]
     public class MbTilesProvider : ITileProvider
     {
         private readonly MbTilesCache _cache;

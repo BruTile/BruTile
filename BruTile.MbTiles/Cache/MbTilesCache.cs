@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.IO;
+using System.Runtime.Serialization;
 using BruTile.PreDefined;
 using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile.Cache
 {
-    internal class MbTilesCache : DbCache<SqliteConnection>
+    [Serializable]
+    internal class MbTilesCache : DbCache<SqliteConnection>, ISerializable
     {
         //private static DbCommand AddTileCommand(DbConnection connection,
         //    DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = ':')
@@ -121,6 +123,10 @@ namespace BruTile.Cache
                 // Type (if defined)
                 _type = ReadType(connection);
             }
+            else
+            {
+                _type = type;
+            }
 
             if (schema == null)
             {
@@ -156,6 +162,30 @@ namespace BruTile.Cache
 
             if (!wasOpen)
                 Connection.Close();
+        }
+
+        public MbTilesCache(SerializationInfo info, StreamingContext context)
+            :this(ConnectionFromInfo(info), SchemaFromInfo(info), MbTilesTypeFromInfo(info))
+        {
+            
+        }
+
+        private static SqliteConnection ConnectionFromInfo(SerializationInfo info)
+        {
+            var connectionString = info.GetString("connectionString");
+            return new SqliteConnection(connectionString);
+        }
+
+        private static ITileSchema SchemaFromInfo(SerializationInfo info)
+        {
+            var schemaType = (Type)info.GetValue("schemaType", typeof (Type));
+            var schema = (ITileSchema)info.GetValue("schema", schemaType);
+            return schema;
+        }
+
+        private static MbTilesType MbTilesTypeFromInfo(SerializationInfo info)
+        {
+            return (MbTilesType)info.GetInt32("mbTilesType");
         }
 
         private static bool HasMapTable(SqliteConnection connection)
@@ -440,6 +470,14 @@ namespace BruTile.Cache
         public Extent Extent
         {
             get { return _extent; }
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("connectionString", Connection.ConnectionString);
+            info.AddValue("schemaType", _schema.GetType());
+            info.AddValue("schema", _schema);
+            info.AddValue("mbTilesType", (int)_type);
         }
     }
 }
