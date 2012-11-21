@@ -153,6 +153,19 @@ namespace BruTile.Tests.Serialization
             Assert.AreEqual(tsc1.MaxResolution, tsc2.MaxResolution, "Max resolution levels don't match");
         }
 
+        [Test]
+        public void TestMbTiles()
+        {
+            var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
+            var p2 = SandD(p1);
+            Assert.IsNotNull(p2);
+            Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
+            Assert.AreEqual(p1.Type, p2.Type, "MbTiles Type not equal");
+            string msg;
+            Assert.IsTrue(EqualTileSources(p1, p2, out msg), msg);
+            //Assert.IsTrue(EqualTileSchemas(p1.Schema, p2.Schema, out msg), msg);
+        }
+
         #endregion
 
         #region private helper methods
@@ -360,6 +373,9 @@ namespace BruTile.Tests.Serialization
             message = "Schemas are equal!";
             return true;
         }
+
+
+
 
         private static T SandD<T>(T obj, IFormatter formatter = null)
         {

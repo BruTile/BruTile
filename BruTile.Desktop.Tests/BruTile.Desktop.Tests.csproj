@@ -68,6 +68,10 @@
       <Project>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</Project>
       <Name>BruTile.Desktop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BruTile.MbTiles\BruTile.MbTiles.csproj">
+      <Project>{c847c0ea-38ec-49b8-af07-12b65ca9c708}</Project>
+      <Name>BruTile.MbTiles</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BruTile.Serialization\BruTile.Serialization.csproj">
       <Project>{8d357be0-ab5a-4b62-891c-fc76cb35db99}</Project>
       <Name>BruTile.Serialization</Name>

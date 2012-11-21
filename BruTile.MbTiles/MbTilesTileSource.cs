@@ -3,12 +3,14 @@
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
 using System;
+using System.Runtime.Serialization;
 using BruTile.FileSystem;
 using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile
 {
-    public class MbTilesTileSource : ITileSource
+    [Serializable]
+    public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
         public MbTilesTileSource(string file, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
             : this(new SqliteConnection(string.Format("Data Source={0}", new Uri(file))), schema, type)
