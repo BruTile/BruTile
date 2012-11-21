@@ -2,13 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BruTile.Cache;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using BruTile.Cache;
 
 namespace BruTile.Demo
 {
-    class Fetcher : Grid
+    class Fetcher 
     {
         public event EventHandler DataChanged;
 

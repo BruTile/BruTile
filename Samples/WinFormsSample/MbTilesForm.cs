@@ -108,7 +108,7 @@ namespace WinFormsSample
                     }
                     var roundedExtent = RoundToPixel(extent);
                     g.DrawRectangle(Pens.Black, roundedExtent);
-                    g.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.LevelId), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
+                    g.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.Level), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
                 }
                 g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Schema.Extent)));
             }

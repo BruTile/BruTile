@@ -65,7 +65,7 @@ namespace BruTile.Tests.Cache
             Assert.AreEqual(2, Convert.ToInt32(bm[1]));
             Assert.AreEqual(2, Convert.ToInt32(bm[2]));
 
-            Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.LevelId, tk.Row, tk.Col, sw.ElapsedMilliseconds));
+            Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.Level, tk.Row, tk.Col, sw.ElapsedMilliseconds));
 
             sw.Reset();
             tk = new TileIndex(5, 5, MaxLevel - 1);
@@ -78,7 +78,7 @@ namespace BruTile.Tests.Cache
             Assert.AreEqual(5, Convert.ToInt32(bm[1]));
             Assert.AreEqual(MaxLevel - 1, Convert.ToInt32(bm[2]));
 
-            Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.LevelId, tk.Row, tk.Col, sw.ElapsedMilliseconds));
+            Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.Level, tk.Row, tk.Col, sw.ElapsedMilliseconds));
         }
 
         private const int NumberToSearch = 64;
@@ -138,7 +138,7 @@ namespace BruTile.Tests.Cache
 
             Assert.AreEqual(buffer[0], tileIndex.Col);
             Assert.AreEqual(buffer[1], tileIndex.Row);
-            Console.WriteLine("Found Tile({0}, {1}, {2}) in {3}ms", tileIndex.LevelId, tileIndex.Row, tileIndex.Col, sw.ElapsedMilliseconds);
+            Console.WriteLine("Found Tile({0}, {1}, {2}) in {3}ms", tileIndex.Level, tileIndex.Row, tileIndex.Col, sw.ElapsedMilliseconds);
 
             resetEvent.Set();
         }

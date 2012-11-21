@@ -6,6 +6,5 @@ namespace BruTile
     {
         public TileIndex Index { get; set; }
         public Extent Extent { get; set; }
-        public double Priority { get; set; }
     }
 }

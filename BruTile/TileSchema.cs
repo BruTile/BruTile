@@ -1,4 +1,4 @@
-﻿﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -135,7 +135,7 @@ namespace BruTile
                 {
                     var info = new TileInfo();
                     info.Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this);
-                    info.Index = new TileIndex(x, y, Resolutions[level].Id);
+                    info.Index = new TileIndex(x, y, level);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {
