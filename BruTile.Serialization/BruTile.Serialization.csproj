@@ -51,7 +51,6 @@
     <Compile Include="Web\ArcGisTileRequestSurrogate.cs" />
     <Compile Include="Web\ArcGisTileSourceSurrogate.cs" />
     <Compile Include="Web\BasicRequestSurrogate.cs" />
-    <Compile Include="Web\BingRequestSurrogate.cs" />
     <Compile Include="Web\OsmRequestSurrogate.cs" />
     <Compile Include="Web\TileSourceSurrogate.cs" />
     <Compile Include="Web\TmsRequestSurrogate.cs" />

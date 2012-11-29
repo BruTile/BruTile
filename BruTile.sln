@@ -30,6 +30,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSample", "Samples\WinFormsSample\WinFormsSample.csproj", "{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Serialization", "BruTile.Serialization\BruTile.Serialization.csproj", "{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Metro", "Samples\BruTile.Metro\BruTile.Metro.csproj", "{A4899E9E-0D26-4347-8553-C67ECE5669CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
@@ -183,13 +184,17 @@ Global
 		{1F7FD1E9-4152-4D75-ABB4-224AB6FDCB3F}.Release|x86.Build.0 = Release|x86
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|ARM.ActiveCfg = Release|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|x64.ActiveCfg = Release|Any CPU
 		{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4899E9E-0D26-4347-8553-C67ECE5669CA}.Debug|Any CPU.Build.0 = Debug|Any CPU

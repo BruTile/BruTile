@@ -143,8 +143,8 @@ namespace BruTile
                             new ArcGisTileSourceSurrogate());
             ss.AddSurrogate(typeof (BasicRequest), new StreamingContext(StreamingContextStates.All),
                             new BasicRequestSurrogate());
-            ss.AddSurrogate(typeof(BingRequest), new StreamingContext(StreamingContextStates.All),
-                            new BingRequestSurrogate());
+            //ss.AddSurrogate(typeof(BingRequest), new StreamingContext(StreamingContextStates.All),
+            //                new BingRequestSurrogate());
             ss.AddSurrogate(typeof (OsmRequest), new StreamingContext(StreamingContextStates.All),
                             new OsmRequestSurrogate());
             ss.AddSurrogate(typeof (OsmTileServerConfig), new StreamingContext(StreamingContextStates.All),
