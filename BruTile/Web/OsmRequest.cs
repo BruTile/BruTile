@@ -73,7 +73,8 @@ namespace BruTile.Web
         public OsmTileServerConfig(string urlFormat, int numberOfServers, string[] serverIdentifier, int minResolution, int maxResolution)
             : this(minResolution, maxResolution)
         {
-            UrlFormat = urlFormat;
+            // make sure no trailing spaces. Produces errors on Mac (Monno?)
+            UrlFormat = urlFormat.Trim();
             NumberOfServers = numberOfServers;
             ServerIdentifier = serverIdentifier;
 
@@ -97,21 +98,21 @@ namespace BruTile.Web
             {
                 /*case KnownOsmTileServers.Mapnik:*/
                 default:
-                    return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18);
+                    return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
                 case KnownOsmTileServers.OpenCycleMap:
-                    return new OsmTileServerConfig("http://{0}.tile.opencyclemap.org/cycle/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 16);
+                    return new OsmTileServerConfig("http://{0}.tile.opencyclemap.org/cycle/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 16);
                 case KnownOsmTileServers.OpenCycleMapTransport:
-                    return new OsmTileServerConfig("http://{0}.tile2.opencyclemap.org/transport/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18);
+                    return new OsmTileServerConfig("http://{0}.tile2.opencyclemap.org/transport/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
                 case KnownOsmTileServers.CloudMadeWebStyle:
-                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
+                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
                 case KnownOsmTileServers.CloudMadeFineLineStyle:
-                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/2/256/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
+                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/2/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
                 case KnownOsmTileServers.CloudMadeNoNames:
-                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png ", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
+                    return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
                 case KnownOsmTileServers.MapQuest:
-                    return new OsmTileServerConfig("http://otile{0}.mqcdn.com/tiles/1.0.0/osm/{1}/{2}/{3}.png ", 4, new[] { "1", "2", "3", "4" }, 0, 18);
+                    return new OsmTileServerConfig("http://otile{0}.mqcdn.com/tiles/1.0.0/osm/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 18);
                 case KnownOsmTileServers.MapQuestAerial:
-                    return new OsmTileServerConfig("http://oatile{0}.mqcdn.com/naip/{1}/{2}/{3}.png ", 4, new[] { "1", "2", "3", "4" }, 0, 11);
+                    return new OsmTileServerConfig("http://oatile{0}.mqcdn.com/naip/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 11);
                 case KnownOsmTileServers.Custom:
                     throw new InvalidOperationException("Cannot create a custom 'OsmTileServerConfig' using Create(...) statement.");
             }
