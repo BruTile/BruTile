@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>BruTile.MbTiles</id>
+    <version>0.5.3</version>
+    <title>BruTile.MbTiles</title>
+    <authors>Paul den Dulk</authors>
+    <owners>Paul den Dulk</owners>
+    <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
+    <projectUrl>http://brutile.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Tile provider for MbTiles files (http://mapbox.com/mbtiles-spec)
+    </description>
+    <tags>tiling mbtiles</tags>
+    <language>en-US</language>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net35" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+    </frameworkAssemblies>
+    <dependencies>
+      <dependency id="BruTile" version="0.5.3" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="BruTile.MbTiles\bin\Release\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+    <file src="BruTile.MbTiles\bin\Release\Community.CsharpSqlite.dll" target="lib\net35\Community.CsharpSqlite.dll" />
+    <file src="BruTile.MbTiles\bin\Release\Community.CsharpSqlite.SQLiteClient.dll" target="lib\net35\Community.CsharpSqlite.SQLiteClient.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\BruTile.MbTiles.dll" target="lib\sl4\BruTile.MbTiles.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\Community.CsharpSqlite.Silverlight.dll" target="lib\sl4\Community.CsharpSqlite.Silverlight.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\Community.CsharpSqlite.SQLiteClient.SL.dll" target="lib\sl4\Community.CsharpSqlite.SQLiteClient.SL.dll" />
+    <file src="Silverlight\BruTile.MbTiles\bin\Release\System.Data.Ersatz.dll" target="lib\sl4\System.Data.Ersatz.dll" />
+  </files>
+</package>
