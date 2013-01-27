@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace BruTile.Cache
 {
 
-    public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged
+    public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged, IDisposable
     {
         //for future implemenations or replacements of this class look 
         //into .net 4.0 System.Collections.Concurrent namespace.
@@ -22,6 +22,7 @@ namespace BruTile.Cache
         private readonly object _syncRoot = new object();
         private readonly int _maxTiles;
         private readonly int _minTiles;
+        private bool _haveDisposed;
 
         #endregion
 
@@ -171,6 +172,35 @@ namespace BruTile.Cache
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+		~MemoryCache()
+        {
+            if (!_haveDisposed)
+                Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (_haveDisposed)
+                return;
+
+            if (_bitmaps != null)
+            {
+                foreach (var kvp in _bitmaps)
+                {
+                    if (kvp.Value != null)
+                    {
+                        if (kvp.Value is IDisposable)
+                        {
+                            (kvp.Value as IDisposable).Dispose();
+                        }
+                        
+                    }
+                }
+                _bitmaps.Clear();
+            }
+            _haveDisposed = true;
+        }
 
 #if DEBUG
         public bool EqualSetup(MemoryCache<T> other)
