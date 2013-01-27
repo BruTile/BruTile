@@ -129,6 +129,7 @@ namespace BruTile.Tests.Cache
             return cmd;
         }
 
+#if DEBUG
         [Test, Category("CacheTest"), Ignore("Long running, only test once in a while")]
         public void DoTest()
         {
@@ -136,5 +137,6 @@ namespace BruTile.Tests.Cache
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
         }
+#endif
     }
 }
