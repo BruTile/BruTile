@@ -73,7 +73,8 @@ namespace BruTile.Web
         public OsmTileServerConfig(string urlFormat, int numberOfServers, string[] serverIdentifier, int minResolution, int maxResolution)
             : this(minResolution, maxResolution)
         {
-            UrlFormat = urlFormat;
+            // make sure no trailing spaces. Produces errors on Mac (Monno?)
+            UrlFormat = urlFormat.Trim();
             NumberOfServers = numberOfServers;
             ServerIdentifier = serverIdentifier;
 
