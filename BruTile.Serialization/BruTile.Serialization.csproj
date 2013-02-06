@@ -34,11 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\MemoryCacheSurrogate.cs" />
@@ -51,6 +46,7 @@
     <Compile Include="Web\ArcGisTileRequestSurrogate.cs" />
     <Compile Include="Web\ArcGisTileSourceSurrogate.cs" />
     <Compile Include="Web\BasicRequestSurrogate.cs" />
+    <Compile Include="Web\BingRequestSurrogate.cs" />
     <Compile Include="Web\OsmRequestSurrogate.cs" />
     <Compile Include="Web\TileSourceSurrogate.cs" />
     <Compile Include="Web\TmsRequestSurrogate.cs" />
@@ -59,10 +55,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BruTile.Desktop\BruTile.Desktop.csproj">
-      <Project>{2f6d9e1c-2001-40c8-89ba-fdf8597bb719}</Project>
-      <Name>BruTile.Desktop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
       <Name>BruTile</Name>

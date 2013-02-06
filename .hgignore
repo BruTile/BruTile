@@ -1,5 +1,6 @@
 syntax: glob
 obj
+[Rr]elease
 packages
 syntax: regexp
 [_\.]ReSharper\.+
