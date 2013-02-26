@@ -10,7 +10,7 @@
     <RootNamespace>BruTile</RootNamespace>
     <AssemblyName>BruTile</AssemblyName>
     <FileAlignment>512</FileAlignment>
-	<Net40>NET40</Net40>
+    <Net40>NET40</Net40>
     <!--<ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>-->
   </PropertyGroup>
   <PropertyGroup>
@@ -65,6 +65,12 @@
     <DefineConstants>TRACE;$(NET40)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>BruTile.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -157,13 +163,15 @@
     <Compile Include="Web\Wms\WmsVersion.cs" />
     <Compile Include="Web\Wms\XmlObject.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="BruTile.snk" />
+  </ItemGroup>
   <Import Condition="'$(Portability)' == 'Desktop'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Portability)' == 'PCL'" Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.-->
   <Target Name="BeforeBuild">
-    <Message Text="Building for $(TargetFrameworkVersion), $(TargetFrameworkProfile)"/>
+    <Message Text="Building for $(TargetFrameworkVersion), $(TargetFrameworkProfile)" />
   </Target>
   <!--
   <Target Name="AfterBuild">

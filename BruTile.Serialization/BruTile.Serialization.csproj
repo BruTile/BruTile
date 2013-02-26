@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>BruTile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,7 +59,9 @@
     <Compile Include="Web\WebProviderSurrogate.cs" />
     <Compile Include="Web\WmscRequestSurrogate.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="BruTile.snk" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
