@@ -35,7 +35,7 @@ namespace BruTile.Web.Wms
             Version = new WmsVersion(version);
         }
 
-#if NET40
+#if !NET35
         public WmsCapabilities(Stream stream)
             : this(XDocument.Load(stream))
         {
@@ -125,10 +125,10 @@ namespace BruTile.Web.Wms
         public static WmsCapabilities Parse(Stream stream)
         {
             var settings = new XmlReaderSettings
-#if NET40
-                               {DtdProcessing = DtdProcessing.Ignore};
+#if NET35
+            { ProhibitDtd = false };
 #else
-                               { ProhibitDtd = false };
+            { DtdProcessing = DtdProcessing.Ignore };
 #endif
             
             using (var reader = XmlReader.Create(stream, settings))
