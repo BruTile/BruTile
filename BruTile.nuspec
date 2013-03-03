@@ -4,7 +4,7 @@
     <id>BruTile</id>
     <version>$version$</version>
     <title>BruTile</title>
-    <authors>Paul den Dulk, BruTile Developers</authors>
+    <authors>Paul den Dulk, Felix Obermaier</authors>
     <owners>Paul den Dulk</owners>
     <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
     <projectUrl>http://brutile.codeplex.com</projectUrl>
