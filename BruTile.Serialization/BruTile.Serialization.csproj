@@ -34,7 +34,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>BruTile.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -58,9 +59,6 @@
     <Compile Include="Web\TmsRequestSurrogate.cs" />
     <Compile Include="Web\WebProviderSurrogate.cs" />
     <Compile Include="Web\WmscRequestSurrogate.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BruTile.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">

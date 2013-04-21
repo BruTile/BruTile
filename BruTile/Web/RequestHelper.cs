@@ -17,9 +17,8 @@ namespace BruTile.Web
 
         public static int Timeout { get; set; }
 
-        public static byte[] FetchImage(Uri uri, string userAgent, string referer, bool keepAlive)
+        public static byte[] FetchImage(HttpWebRequest webRequest)
         {
-            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             WebResponse webResponse = webRequest.GetSyncResponse(Timeout);
             if (webResponse == null) throw (new WebException("An error occurred while fetching tile", null));
             if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
@@ -29,13 +28,14 @@ namespace BruTile.Web
                     return Utilities.ReadFully(responseStream);
                 }
             }
-            string message = ComposeErrorMessage(webResponse, uri.AbsoluteUri);
+            string message = ComposeErrorMessage(webResponse, webRequest.RequestUri.AbsoluteUri);
             throw (new WebResponseFormatException(message, null));
         }
 
         public static byte[] FetchImage(Uri uri)
         {
-            return FetchImage(uri, String.Empty, String.Empty, true);
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+            return FetchImage(webRequest);
         }
 
         private static string ComposeErrorMessage(WebResponse webResponse, string uri)
