@@ -9,17 +9,9 @@ namespace BruTile.Web
 {
     public class OsmTileSource : TileSource
     {
-        public OsmTileSource()
-            :this(new OsmRequest(KnownOsmTileServers.Mapnik))
-        {}
-
-        public OsmTileSource(OsmRequest osmRequest)
-            :this(osmRequest, new MemoryCache<byte[]>(50, 100))
-        {
-        }
-
-        public OsmTileSource(OsmRequest osmRequest, ITileCache<byte[]> cache)
-            : base(new WebTileProvider(osmRequest, cache), new SphericalMercatorInvertedWorldSchema())
+        public OsmTileSource(OsmRequest osmRequest = null, ITileCache<byte[]> cache = null)
+            : base(new WebTileProvider(osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), cache), 
+                new SphericalMercatorInvertedWorldSchema())
         {
             var resolutionsToDelete = new List<int>();
             var resolutions = Schema.Resolutions;

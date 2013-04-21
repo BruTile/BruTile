@@ -43,6 +43,7 @@ namespace BruTile.Web
             webRequest.Timeout = Timeout;
             webRequest.UserAgent = userAgent;
             webRequest.Referer = referer;
+            webRequest.KeepAlive = keepAlive;
             using (var webResponse = webRequest.GetResponse())
             {
                 if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))

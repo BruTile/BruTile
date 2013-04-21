@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Metro", "Samples\Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Tests", "BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{BE518630-1B4E-41F1-8364-EC225C18F80B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Portable|Any CPU = Debug Portable|Any CPU
@@ -410,6 +412,34 @@ Global
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|x64.ActiveCfg = Release|Any CPU
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|x86.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|Any CPU.Build.0 = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|ARM.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|x64.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug Portable|x86.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|Any CPU.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|Any CPU.Build.0 = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|ARM.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|Mixed Platforms.Build.0 = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|x64.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release Portable|x86.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|x64.ActiveCfg = Release|Any CPU
+		{BE518630-1B4E-41F1-8364-EC225C18F80B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
