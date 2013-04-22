@@ -4,6 +4,8 @@
 
 using System;
 using System.Linq;
+using System.Net;
+using BruTile.Cache;
 
 namespace BruTile.Web
 {
@@ -11,16 +13,16 @@ namespace BruTile.Web
     {
         public string BaseUrl { get; private set; }
 
-        public ArcGisTileSource(string baseUrl, ITileSchema schema)
-            :base(CreateProvider(baseUrl), schema)
+        public ArcGisTileSource(string baseUrl, ITileSchema schema, ITileCache<byte[]> persistentCache = null,
+            Func<Uri, HttpWebRequest> webRequestFactory = null)
+            : base(new WebTileProvider(CreateArcGISRequest(baseUrl), persistentCache, webRequestFactory), schema)
         {
             BaseUrl = baseUrl;
         }
 
-        private static ITileProvider CreateProvider(string baseUrl)
+        private static IRequest CreateArcGISRequest(string baseUrl)
         {
-            var requestBuilder = new BasicRequest(string.Format("{0}/tile/{1}", baseUrl, "{0}/{2}/{1}"));
-            return new WebTileProvider(requestBuilder);
+            return new BasicRequest(string.Format("{0}/tile/{1}", baseUrl, "{0}/{2}/{1}"));
         }
     }
 }

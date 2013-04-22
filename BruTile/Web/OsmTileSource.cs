@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using BruTile.Cache;
 using BruTile.PreDefined;
 
@@ -9,8 +10,11 @@ namespace BruTile.Web
 {
     public class OsmTileSource : TileSource
     {
-        public OsmTileSource(OsmRequest osmRequest = null, ITileCache<byte[]> cache = null)
-            : base(new WebTileProvider(osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), cache), 
+        public OsmTileSource(OsmRequest osmRequest = null, 
+            ITileCache<byte[]> persistentCache = null,
+            Func<Uri, HttpWebRequest> webRequestFactory = null)
+            : base(new WebTileProvider(osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), persistentCache,
+                webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {
             var resolutionsToDelete = new List<int>();

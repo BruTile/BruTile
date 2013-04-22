@@ -1,6 +1,8 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Net;
+using BruTile.Cache;
 using BruTile.PreDefined;
 
 namespace BruTile.Web
@@ -12,8 +14,9 @@ namespace BruTile.Web
         {
         }
 
-        public BingTileSource(IRequest bingRequest)
-            : base(new WebTileProvider(bingRequest), new BingSchema())
+        public BingTileSource(BingRequest bingRequest, ITileCache<byte[]> persistentCache = null,
+            Func<Uri, HttpWebRequest> webRequestFactory = null)
+            : base(new WebTileProvider(bingRequest, persistentCache, webRequestFactory), new BingSchema())
         {
         }
     }
