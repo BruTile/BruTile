@@ -27,8 +27,7 @@ namespace BruTile.Web
             if (bytes == null)
             {
                 bytes = RequestHelper.FetchImage(_webRequestFactory(Request.GetUri(tileInfo)));
-                if (bytes != null)
-                    PersistentCache.Add(tileInfo.Index, bytes);
+                if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             }
             return bytes;
         }

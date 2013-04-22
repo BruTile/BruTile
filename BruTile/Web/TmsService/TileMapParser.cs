@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
+using BruTile.Cache;
 
 namespace BruTile.Web.TmsService
 {
@@ -15,13 +16,9 @@ namespace BruTile.Web.TmsService
     {
         public delegate void CreateTileSourceCompleted(ITileSource tileSource, Exception error);
 
-        public static ITileSource CreateTileSource(Stream tileMapResource)
-        {
-            return CreateTileSource(tileMapResource, null);
-        }
-
-        public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl,
-            Dictionary<string, string> customParameters = null)
+        public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl = null,
+            Dictionary<string, string> customParameters = null , ITileCache<byte[]> persistentCache = null,
+            Func<Uri, HttpWebRequest> webRequestFactory = null)
         {
             var reader = new StreamReader(tileMapResource);
             var serializer = new XmlSerializer(typeof(TileMap));
@@ -33,7 +30,8 @@ namespace BruTile.Web.TmsService
             {
                 tileUrls[ts.order] = new Uri(ts.href);
             }
-            var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters));
+            var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
+                persistentCache, webRequestFactory);
 
             return new TileSource(tileProvider, tileSchema);
         }
