@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\CacheTest.cs" />
+    <Compile Include="Cache\FakePersistentCache.cs" />
     <Compile Include="Cache\FileCacheTest.cs" />
     <Compile Include="Cache\SqlCeDbCacheTest.cs" />
     <Compile Include="Cache\SQLiteCacheTest.cs" />

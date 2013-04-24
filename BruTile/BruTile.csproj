@@ -79,6 +79,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\IPersistentCache.cs" />
     <Compile Include="Cache\ITileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\NullCache.cs" />

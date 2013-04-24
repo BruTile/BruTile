@@ -10,24 +10,24 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, HttpWebRequest> _webRequestFactory;
 
-        private ITileCache<byte[]> _memoryCache;
+        private IPersistentCache<byte[]> _persistentCache;
         public IRequest Request { get; private set; }
 
-        public WebTileProvider(IRequest request = null, ITileCache<byte[]> memoryCache = null,
+        public WebTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
         {
             Request = request ?? new NullRequest();
-            _memoryCache = memoryCache ?? new NullCache();
+            _persistentCache = persistentCache ?? new NullCache();
             _webRequestFactory = webRequestFactory ?? (uri => (HttpWebRequest) WebRequest.Create(uri));
         }
 
         public byte[] GetTile(TileInfo tileInfo)
         {
-            var bytes = _memoryCache.Find(tileInfo.Index);
+            var bytes = _persistentCache.Find(tileInfo.Index);
             if (bytes == null)
             {
                 bytes = RequestHelper.FetchImage(_webRequestFactory(Request.GetUri(tileInfo)));
-                if (bytes != null) _memoryCache.Add(tileInfo.Index, bytes);
+                if (bytes != null) _persistentCache.Add(tileInfo.Index, bytes);
             }
             return bytes;
         }
