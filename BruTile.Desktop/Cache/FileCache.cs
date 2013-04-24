@@ -7,7 +7,7 @@ using System.IO;
 namespace BruTile.Cache
 {
     [Serializable]
-    public class FileCache : ITileCache<byte[]>
+    public class FileCache : IPersistentCache<byte[]>
     {
         private readonly object _syncRoot = new object();
         private readonly string _directory;

@@ -10,12 +10,12 @@ namespace BruTile.Web
 {
     public class OsmTileSource : TileSource
     {
-        public OsmTileSource(OsmRequest osmRequest = null, 
-            ITileCache<byte[]> memoryCache = null,
+        public OsmTileSource(OsmRequest osmRequest = null,
+            IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
             : base(new WebTileProvider(
                         osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), 
-                        memoryCache,
+                        persistentCache,
                         webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {
