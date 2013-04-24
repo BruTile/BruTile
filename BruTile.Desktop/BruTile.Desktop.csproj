@@ -62,7 +62,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\CachingTileProvider.cs" />
     <Compile Include="Cache\DbCache.cs" />
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
