@@ -13,8 +13,10 @@ namespace BruTile.Web
         public OsmTileSource(OsmRequest osmRequest = null, 
             ITileCache<byte[]> persistentCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
-            : base(new WebTileProvider(osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), persistentCache,
-                webRequestFactory), 
+            : base(new WebTileProvider(
+                        osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), 
+                        persistentCache,
+                        webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {
             var resolutionsToDelete = new List<int>();

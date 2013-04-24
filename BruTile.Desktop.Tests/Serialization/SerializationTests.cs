@@ -154,6 +154,7 @@ namespace BruTile.Tests.Serialization
         }
 
         [Test]
+        [Ignore("Test a path to a folder on a specific machine")]
         public void TestMbTiles()
         {
             var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
@@ -373,9 +374,6 @@ namespace BruTile.Tests.Serialization
             message = "Schemas are equal!";
             return true;
         }
-
-
-
 
         private static T SandD<T>(T obj, IFormatter formatter = null)
         {
