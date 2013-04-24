@@ -17,7 +17,7 @@ namespace BruTile.Web.TmsService
         public delegate void CreateTileSourceCompleted(ITileSource tileSource, Exception error);
 
         public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl = null,
-            Dictionary<string, string> customParameters = null , ITileCache<byte[]> persistentCache = null,
+            Dictionary<string, string> customParameters = null , ITileCache<byte[]> memoryCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
         {
             var reader = new StreamReader(tileMapResource);
@@ -31,7 +31,7 @@ namespace BruTile.Web.TmsService
                 tileUrls[ts.order] = new Uri(ts.href);
             }
             var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
-                persistentCache, webRequestFactory);
+                memoryCache, webRequestFactory);
 
             return new TileSource(tileProvider, tileSchema);
         }

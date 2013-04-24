@@ -14,9 +14,9 @@ namespace BruTile.Web
         {
         }
 
-        public BingTileSource(BingRequest bingRequest, ITileCache<byte[]> persistentCache = null,
+        public BingTileSource(BingRequest bingRequest, ITileCache<byte[]> memoryCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
-            : base(new WebTileProvider(bingRequest, persistentCache, webRequestFactory), new BingSchema())
+            : base(new WebTileProvider(bingRequest, memoryCache, webRequestFactory), new BingSchema())
         {
         }
     }

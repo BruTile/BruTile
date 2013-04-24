@@ -22,10 +22,10 @@ namespace BruTile.Web
             info.AddValue("_webRequestFactory", webRequestFactory);
 
             ITileCache<byte[]> defaultCache = new NullCache();
-            var cache = Utility.GetFieldValue(wp, "PersistentCache", BindingFlags.Public | BindingFlags.Instance, defaultCache);
+            var cache = Utility.GetFieldValue(wp, "_memoryCache", BindingFlags.Public | BindingFlags.Instance, defaultCache);
             if (cache == null) cache = new NullCache();
-            info.AddValue("PersistentCacheType", cache.GetType());
-            info.AddValue("PersistentCache", cache);
+            info.AddValue("_memoryCacheType", cache.GetType());
+            info.AddValue("_memoryCache", cache);
 
             info.AddValue("userAgent", Utility.GetPropertyValue(obj, "UserAgent", BindingFlags.NonPublic | BindingFlags.Instance, string.Empty));
             info.AddValue("referer", Utility.GetPropertyValue(obj, "Referer", BindingFlags.NonPublic | BindingFlags.Instance, string.Empty));
@@ -40,8 +40,8 @@ namespace BruTile.Web
             type = (Type)info.GetValue("_webRequestFactoryType", typeof(Type));
             Utility.SetFieldValue(ref obj, "_webRequestFactory", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_webRequestFactory", type));
 
-            type = (Type)info.GetValue("PersistentCacheType", typeof(Type));
-            Utility.SetPropertyValue(ref obj, "PersistentCache", BindingFlags.Public | BindingFlags.Instance, info.GetValue("PersistentCache", type));
+            type = (Type)info.GetValue("_memoryCacheType", typeof(Type));
+            Utility.SetFieldValue(ref obj, "_memoryCache", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_memoryCache", type));
 
             Utility.SetFieldValue(ref obj, "_userAgent", newValue: info.GetString("userAgent"));
             Utility.SetFieldValue(ref obj, "_referer", newValue: info.GetString("referer"));

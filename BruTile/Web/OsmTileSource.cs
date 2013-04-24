@@ -11,11 +11,11 @@ namespace BruTile.Web
     public class OsmTileSource : TileSource
     {
         public OsmTileSource(OsmRequest osmRequest = null, 
-            ITileCache<byte[]> persistentCache = null,
+            ITileCache<byte[]> memoryCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
             : base(new WebTileProvider(
                         osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), 
-                        persistentCache,
+                        memoryCache,
                         webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {

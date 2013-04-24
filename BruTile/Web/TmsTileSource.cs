@@ -15,9 +15,9 @@ namespace BruTile.Web
         {
         }
 
-        public TmsTileSource(Uri serviceUri, ITileSchema tileSchema, ITileCache<byte[]> persistentCache = null,
+        public TmsTileSource(Uri serviceUri, ITileSchema tileSchema, ITileCache<byte[]> memoryCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null) :
-            base(new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format), persistentCache,
+            base(new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format), memoryCache,
                 webRequestFactory), tileSchema)
         {
         }
