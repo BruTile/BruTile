@@ -13,8 +13,9 @@ namespace BruTile.Web
         public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
         {
             var wp = (WebTileProvider)obj;
-            info.AddValue("RequestType", wp.Request.GetType());
-            info.AddValue("Request", wp.Request);
+            var request = Utility.GetFieldValue<IRequest>(wp, "_request");
+            info.AddValue("_requestType", request.GetType());
+            info.AddValue("_request", request);
 
             Func<Uri, HttpWebRequest> defaultWebRequestFactory = (uri => (HttpWebRequest) WebRequest.Create(uri));
             var webRequestFactory = Utility.GetFieldValue(wp, "_webRequestFactory", BindingFlags.NonPublic | BindingFlags.Instance, defaultWebRequestFactory);
@@ -34,8 +35,8 @@ namespace BruTile.Web
         public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
         {
             var wp = (WebTileProvider)obj;
-            var type = (Type)info.GetValue("RequestType", typeof(Type));
-            Utility.SetPropertyValue(ref obj, "Request", BindingFlags.Public | BindingFlags.Instance, (IRequest)info.GetValue("Request", type));
+            var type = (Type)info.GetValue("_requestType", typeof(Type));
+            Utility.SetFieldValue(ref obj, "_request", BindingFlags.NonPublic | BindingFlags.Instance, (IRequest)info.GetValue("_request", type));
 
             type = (Type)info.GetValue("_webRequestFactoryType", typeof(Type));
             Utility.SetFieldValue(ref obj, "_webRequestFactory", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_webRequestFactory", type));
