@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using BruTile.Cache;
-using BruTile.Web;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Cache

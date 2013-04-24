@@ -19,6 +19,7 @@ namespace BruTile.Web
                         webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {
+            if (osmRequest == null) osmRequest = new OsmRequest(KnownOsmTileServers.Mapnik);
             var resolutionsToDelete = new List<int>();
             var resolutions = Schema.Resolutions;
             for (var i = 0; i < resolutions.Count; i++)
