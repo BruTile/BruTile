@@ -22,7 +22,7 @@ namespace BruTile.Web
             info.AddValue("_webRequestFactoryType", webRequestFactory.GetType());
             info.AddValue("_webRequestFactory", webRequestFactory);
 
-            ITileCache<byte[]> defaultCache = new NullCache();
+            IPersistentCache<byte[]> defaultCache = new NullCache();
             var cache = Utility.GetFieldValue(wp, "_persistentCache", BindingFlags.Public | BindingFlags.Instance, defaultCache);
             if (cache == null) cache = new NullCache();
             info.AddValue("_persistentCacheType", cache.GetType());

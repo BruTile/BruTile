@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace BruTile.Cache
 {
@@ -11,7 +12,6 @@ namespace BruTile.Cache
     {
         //for future implemenations or replacements of this class look 
         //into .net 4.0 System.Collections.Concurrent namespace.
-        #region Fields
 
         private readonly Dictionary<TileIndex, T> _bitmaps
           = new Dictionary<TileIndex, T>();
@@ -23,11 +23,8 @@ namespace BruTile.Cache
         private readonly int _maxTiles;
         private readonly int _minTiles;
         private bool _haveDisposed;
-
-        #endregion
-
-        #region Properties
-
+        private readonly Func<TileIndex, bool> _keepTileInMemory = null; 
+        
         public int TileCount
         {
             get
@@ -36,22 +33,15 @@ namespace BruTile.Cache
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
-        public MemoryCache():
-            this(50, 100)
-        {}
-        
-        public MemoryCache(int minTiles, int maxTiles)
+        public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool> keepTileInMemory = null)
         {
             if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
             if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
             if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
-
+            
             _minTiles = minTiles;
             _maxTiles = maxTiles;
+            _keepTileInMemory = keepTileInMemory;
         }
 
         public void Add(TileIndex index, T item)
@@ -104,16 +94,12 @@ namespace BruTile.Cache
             }
         }
 
-        #endregion
-
-        #region Private Methods
-
         private void CleanUp()
         {
             lock (_syncRoot)
             {
                 //Purpose: Remove the older tiles so that the newest x tiles are left.
-                TouchPermaCache(_touched);
+                if (_keepTileInMemory != null) TouchPermaCache(_touched, _keepTileInMemory);
                 DateTime cutoff = GetCutOff(_touched, _minTiles);
                 IEnumerable<TileIndex> oldItems = GetOldItems(_touched, ref cutoff);
                 foreach (TileIndex index in oldItems)
@@ -123,22 +109,18 @@ namespace BruTile.Cache
             }
         }
 
-        private static void TouchPermaCache(Dictionary<TileIndex, DateTime> touched)
+        private static void TouchPermaCache(Dictionary<TileIndex, DateTime> touched, Func<TileIndex, bool> keepTileInMemory)
         {
-            var keys = new List<TileIndex>();
             //This is a temporary solution to preserve level zero tiles in memory.
-            foreach (TileIndex index in touched.Keys) if (index.Level == 0) keys.Add(index);
+            var keys = touched.Keys.Where(keepTileInMemory).ToList();
+            
             foreach (TileIndex index in keys) touched[index] = DateTime.Now;
         }
 
         private static DateTime GetCutOff(Dictionary<TileIndex, DateTime> touched,
           int lowerLimit)
         {
-            var times = new List<DateTime>();
-            foreach (DateTime time in touched.Values)
-            {
-                times.Add(time);
-            }
+            var times = touched.Values.ToList();
             times.Sort();
             return times[times.Count - lowerLimit];
         }
@@ -156,8 +138,6 @@ namespace BruTile.Cache
             }
             return oldItems;
         }
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 
