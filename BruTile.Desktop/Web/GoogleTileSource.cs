@@ -22,10 +22,10 @@ namespace BruTile.Web
         {
         }
 
-        public GoogleTileSource(GoogleRequest request, ITileCache<byte[]> persistentCache = null)
+        public GoogleTileSource(GoogleRequest request, ITileCache<byte[]> memoryCache = null)
         {
             _tileSchema = new SphericalMercatorInvertedWorldSchema();
-            _tileProvider = new WebTileProvider(request, persistentCache, 
+            _tileProvider = new WebTileProvider(request, memoryCache, 
                 // The Google requests needs to fake the UserAgent en Referer.
                 uri =>
                     {

@@ -13,9 +13,9 @@ namespace BruTile.Web
     {
         public string BaseUrl { get; private set; }
 
-        public ArcGisTileSource(string baseUrl, ITileSchema schema, ITileCache<byte[]> persistentCache = null,
+        public ArcGisTileSource(string baseUrl, ITileSchema schema, ITileCache<byte[]> memoryCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
-            : base(new WebTileProvider(CreateArcGISRequest(baseUrl), persistentCache, webRequestFactory), schema)
+            : base(new WebTileProvider(CreateArcGISRequest(baseUrl), memoryCache, webRequestFactory), schema)
         {
             BaseUrl = baseUrl;
         }
