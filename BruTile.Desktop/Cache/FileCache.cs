@@ -9,16 +9,10 @@ namespace BruTile.Cache
     [Serializable]
     public class FileCache : ITileCache<byte[]>
     {
-        #region Fields
-
         private readonly object _syncRoot = new object();
         private readonly string _directory;
         private readonly string _format;
         private readonly TimeSpan _cacheExpireTime = TimeSpan.Zero;
-
-        #endregion Fields
-
-        #region Public Methods
 
         /// <remarks>
         ///   The constructor creates the storage _directory if it does not exist.
@@ -95,18 +89,15 @@ namespace BruTile.Cache
 
         public string GetFileName(TileIndex index)
         {
-            return string.Format(CultureInfo.InvariantCulture,
-                                 "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
+            return Path.Combine(GetDirectoryName(index), 
+                string.Format(CultureInfo.InvariantCulture, "{0}.{1}", index.Row, _format));
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private string GetDirectoryName(TileIndex index)
         {
-            return string.Format(CultureInfo.InvariantCulture,
-                                 "{0}\\{1}\\{2}", _directory, index.Level, index.Col);
+            return Path.Combine(_directory, 
+                index.Level.ToString(CultureInfo.InvariantCulture), 
+                index.Col.ToString(CultureInfo.InvariantCulture));
         }
 
         private void WriteToFile(byte[] image, TileIndex index)
@@ -118,8 +109,6 @@ namespace BruTile.Cache
                 fileStream.Close();
             }
         }
-
-        #endregion Private Methods
 
 #if DEBUG
         public bool EqualSetup(FileCache other)
