@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     /// <summary>
     /// Tile schema for Global Mercator 

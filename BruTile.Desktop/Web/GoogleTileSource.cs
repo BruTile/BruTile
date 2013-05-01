@@ -4,8 +4,8 @@
 
 using System;
 using System.Net;
-using BruTile.PreDefined;
 using BruTile.Cache;
+using BruTile.Predefined;
 
 namespace BruTile.Web
 {

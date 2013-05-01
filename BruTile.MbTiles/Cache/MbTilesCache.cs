@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Runtime.Serialization;
-using BruTile.PreDefined;
+using BruTile.Predefined;
 using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile.Cache

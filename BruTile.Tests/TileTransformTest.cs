@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using BruTile.PreDefined;
+using BruTile.Predefined;
 using NUnit.Framework;
 
 namespace BruTile.Tests

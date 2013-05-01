@@ -2,7 +2,7 @@
 
 using System.Globalization;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     public class SphericalMercatorWorldSchema : TileSchema
     {

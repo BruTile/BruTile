@@ -53,7 +53,7 @@ namespace BruTile
         #endregion
     }
 
-    namespace PreDefined
+    namespace Predefined
     {
         internal class BingSchemaSurrogate : TileSchemaSurrogate
         {

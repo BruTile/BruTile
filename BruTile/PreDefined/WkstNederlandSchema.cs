@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     public class WkstNederlandSchema : TileSchema
     {
