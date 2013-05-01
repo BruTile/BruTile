@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BruTile.Predefined;
 using BruTile.Web;
-using BruTile.PreDefined;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web

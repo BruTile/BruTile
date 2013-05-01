@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     public class BingSchema : SphericalMercatorInvertedWorldSchema
     {

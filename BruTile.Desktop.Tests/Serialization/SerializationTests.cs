@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using BruTile.Cache;
+using BruTile.Predefined;
 using BruTile.Web;
 using NUnit.Framework;
 
@@ -37,7 +38,7 @@ namespace BruTile.Tests.Serialization
         public void TestBingSchema()
         {
             string message;
-            var s1 = new PreDefined.BingSchema();
+            var s1 = new BingSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -47,7 +48,7 @@ namespace BruTile.Tests.Serialization
         public void TestSphericalMercatorWorldSchema()
         {
             string message;
-            var s1 = new PreDefined.SphericalMercatorWorldSchema();
+            var s1 = new SphericalMercatorWorldSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -57,7 +58,7 @@ namespace BruTile.Tests.Serialization
         public void TestSphericalMercatorInvertedWorldSchema()
         {
             string message;
-            var s1 = new PreDefined.SphericalMercatorInvertedWorldSchema();
+            var s1 = new SphericalMercatorInvertedWorldSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -67,7 +68,7 @@ namespace BruTile.Tests.Serialization
         public void TestGlobalMercatorSchema()
         {
             string message;
-            var s1 = new PreDefined.GlobalMercator("png", 2, 11);
+            var s1 = new GlobalMercator("png", 2, 11);
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -77,7 +78,7 @@ namespace BruTile.Tests.Serialization
         public void TestWkstNederlandSchema()
         {
             string message;
-            var s1 = new PreDefined.WkstNederlandSchema();
+            var s1 = new WkstNederlandSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
