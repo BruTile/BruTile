@@ -8,10 +8,9 @@ namespace BruTile.Web
 {
     public class WebTileProvider : ITileProvider
     {
-        private readonly Func<Uri, HttpWebRequest> _webRequestFactory;
-
         private readonly IPersistentCache<byte[]> _persistentCache;
         private readonly IRequest _request;
+        private readonly Func<Uri, HttpWebRequest> _webRequestFactory;
 
         public WebTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)

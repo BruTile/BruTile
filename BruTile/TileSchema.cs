@@ -33,8 +33,6 @@ namespace BruTile
     {
         private readonly IList<Resolution> _resolutions;
 
-        #region Fields
-
         public TileSchema()
         {
             _resolutions = new List<Resolution>();
@@ -42,10 +40,6 @@ namespace BruTile
             OriginY = Double.NaN;
             OriginX = Double.NaN;
         }
-
-        #endregion
-
-        #region Properties
 
         public string Name { get; set; }
         public string Srs { get; set; }
@@ -55,66 +49,13 @@ namespace BruTile
         public int Width { get; set; }
         public int Height { get; set; }
         public string Format { get; set; }
+
         public IList<Resolution> Resolutions
         {
             get { return _resolutions; }
         }
 
         public AxisDirection Axis { get; set; }
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// Checks if the TileSchema members are properly initialized and throws an exception if not.
-        /// </summary>
-        public void Validate()
-        {
-            if (String.IsNullOrEmpty(Srs))
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The SRS was not set for TileSchema '{0}'", Name));
-            }
-            if (Extent == new Extent())
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The BoundingBox was not set for TileSchema '{0}'", Name));
-            }
-            if (Double.IsNaN(OriginX))
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", Name));
-            }
-            if (Double.IsNaN(OriginY))
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", Name));
-            }
-            if (Resolutions.Count == 0)
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "No Resolutions were added for TileSchema '{0}'", Name));
-            }
-            if (Width == 0)
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Width was not set for TileSchema '{0}'", Name));
-            }
-            if (Height == 0)
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Height was not set for TileSchema '{0}'", Name));
-            }
-            if (String.IsNullOrEmpty(Format))
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                  "The Format was not set for TileSchema '{0}'", Name));
-            }
-
-            //TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
-            //as TileSchema Srs because we do not project one to the other. 
-        }
 
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
@@ -128,14 +69,16 @@ namespace BruTile
         public IEnumerable<TileInfo> GetTilesInView(Extent extent, int level)
         {
             TileRange range = TileTransform.WorldToTile(extent, level, this);
-            
+
             for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
                 for (int y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
                 {
-                    var info = new TileInfo();
-                    info.Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this);
-                    info.Index = new TileIndex(x, y, level);
+                    var info = new TileInfo
+                        {
+                            Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this),
+                            Index = new TileIndex(x, y, level)
+                        };
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {
@@ -151,9 +94,57 @@ namespace BruTile
             return TileTransform.TileToWorld(range, level, this);
         }
 
-        #endregion
+        /// <summary>
+        /// Checks if the TileSchema members are properly initialized and throws an exception if not.
+        /// </summary>
+        public void Validate()
+        {
+            if (String.IsNullOrEmpty(Srs))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "The SRS was not set for TileSchema '{0}'", Name));
+            }
+            if (Extent == new Extent())
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "The BoundingBox was not set for TileSchema '{0}'", Name));
+            }
+            if (Double.IsNaN(OriginX))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.",
+                                                            Name));
+            }
+            if (Double.IsNaN(OriginY))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.",
+                                                            Name));
+            }
+            if (Resolutions.Count == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "No Resolutions were added for TileSchema '{0}'", Name));
+            }
+            if (Width == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "The Width was not set for TileSchema '{0}'", Name));
+            }
+            if (Height == 0)
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "The Height was not set for TileSchema '{0}'", Name));
+            }
+            if (String.IsNullOrEmpty(Format))
+            {
+                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                                                            "The Format was not set for TileSchema '{0}'", Name));
+            }
 
-        #region Private Methods
+            // TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
+            // as TileSchema Srs because we do not project one to the other. 
+        }
 
         private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
         {
@@ -164,10 +155,7 @@ namespace BruTile
             // Reject tiles that have less than 0.1% percent overlap.
             // In practice they turn out to be mostly false positives due to rounding errors.
             // They are not present on the server and the failed requests slow the application down.
-            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
+            return ((tileExtent.Intersect(schemaExtent).Area/tileExtent.Area) > 0.001);
         }
-
-        #endregion
     }
-
 }
