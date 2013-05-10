@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\MemoryCacheTest.cs" />
+    <Compile Include="Predefined\GlobalSphericalMercatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileIndexTest.cs" />
     <Compile Include="TileTransformTest.cs" />

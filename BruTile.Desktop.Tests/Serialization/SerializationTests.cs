@@ -361,13 +361,13 @@ namespace BruTile.Tests.Serialization
                 return false;
             }
 
-            for (var i = 0; i < ts1.Resolutions.Count; i++ )
+            foreach (var key in ts1.Resolutions.Keys)
             {
-                var r1 = ts1.Resolutions[i];
-                var r2 = ts2.Resolutions[i];
+                var r1 = ts1.Resolutions[key];
+                var r2 = ts2.Resolutions[key];
                 if (r1.Id != r2.Id || r1.UnitsPerPixel != r2.UnitsPerPixel)
                 {
-                    message = string.Format("Resolution doesn't match at index {0}", i);
+                    message = string.Format("Resolution doesn't match at index {0}", key);
                     return false;
                 }
             }

@@ -35,7 +35,7 @@ namespace BruTile.Web
             int numDeleted = 0;
             foreach (var i in resolutionsToDelete)
             {
-                resolutions.RemoveAt(i - numDeleted++);
+                resolutions.Remove(i - numDeleted++);
             }
         }
 

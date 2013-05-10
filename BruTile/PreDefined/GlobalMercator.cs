@@ -70,8 +70,12 @@ namespace BruTile.Predefined
             Height = 256;
             Width = 256;
 
+            var count = 0;
             foreach (var resolution in resolutions)
-                Resolutions.Add(resolution);
+            {
+                Resolutions[count] = resolution;
+                count++;
+            }
 
             OriginX = -ScaleFactor*Width;
             OriginY = -ScaleFactor*Height;

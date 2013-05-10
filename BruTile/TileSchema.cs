@@ -19,23 +19,23 @@ namespace BruTile
     public enum AxisDirection
     {
         /// <summary>
-        /// The axis direction of the tiles match that of the map
+        /// The axis direction of the tiles match that of the map. This is used by TMS.
         /// </summary>
         Normal,
 
         /// <summary>
-        /// The y-axis direction is inverted compared to that of the map
+        /// The y-axis direction is inverted compared to that of the map. This is used by OpenStreetMap
         /// </summary>
         InvertedY
     }
 
     public class TileSchema : ITileSchema
     {
-        private readonly IList<Resolution> _resolutions;
+        private readonly IDictionary<int, Resolution> _resolutions;
 
         public TileSchema()
         {
-            _resolutions = new List<Resolution>();
+            _resolutions = new Dictionary<int, Resolution>();
             Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
@@ -50,7 +50,7 @@ namespace BruTile
         public int Height { get; set; }
         public string Format { get; set; }
 
-        public IList<Resolution> Resolutions
+        public IDictionary<int, Resolution> Resolutions
         {
             get { return _resolutions; }
         }

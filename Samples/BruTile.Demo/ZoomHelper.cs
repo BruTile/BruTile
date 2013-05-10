@@ -1,37 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BruTile.Demo
 {
     public static class ZoomHelper
     {
-        public static double ZoomIn(IList<Resolution> resolutions, double resolution)
+        public static double ZoomIn(IDictionary<int, Resolution> resolutions, double resolution)
         {
             if (resolutions.Count == 0) return resolution / 2.0;
 
             //smaller than smallest
-            if (resolutions[resolutions.Count - 1].UnitsPerPixel > resolution) return resolutions[resolutions.Count - 1].UnitsPerPixel;
+            if (resolutions.Last().Value.UnitsPerPixel > resolution) return resolutions[resolutions.Count - 1].UnitsPerPixel;
 
-            for (int i = 0; i < resolutions.Count; i++)
+            foreach (var key in resolutions.Keys)
             {
-                if (resolutions[i].UnitsPerPixel < resolution)
-                    return resolutions[i].UnitsPerPixel;
+                if (resolutions[key].UnitsPerPixel < resolution)
+                    return resolutions[key].UnitsPerPixel;
             }
-            return resolutions[resolutions.Count - 1].UnitsPerPixel;
+            return resolutions.Last().Value.UnitsPerPixel;
         }
 
-        public static double ZoomOut(IList<Resolution> resolutions, double resolution)
+        public static double ZoomOut(IDictionary<int, Resolution> resolutions, double resolution)
         {
             if (resolutions.Count == 0) return resolution * 2.0;
 
             //bigger than biggest
-            if (resolutions[0].UnitsPerPixel < resolution) return resolutions[0].UnitsPerPixel;
+            if (resolutions.First().Value.UnitsPerPixel < resolution) return resolutions.First().Value.UnitsPerPixel;
 
-            for (int i = resolutions.Count - 1; i >= 0; i--)
+            foreach (var key in resolutions.Keys.Reverse())
             {
-                if (resolutions[i].UnitsPerPixel > resolution)
-                    return resolutions[i].UnitsPerPixel;
+                if (resolutions[key].UnitsPerPixel > resolution)
+                    return resolutions[key].UnitsPerPixel;
             }
-            return resolutions[0].UnitsPerPixel;
+            return resolutions.First().Value.UnitsPerPixel;
         }
     }
 }

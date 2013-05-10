@@ -89,10 +89,12 @@ namespace BruTile.Web.TmsService
                 double.Parse(tileMap.BoundingBox.maxx, CultureInfo.InvariantCulture),
                 double.Parse(tileMap.BoundingBox.maxy, CultureInfo.InvariantCulture));
 
-            foreach (TileMapTileSetsTileSet tileSet in tileMap.TileSets.TileSet)
+            var count = 0;
+            foreach (var tileSet in tileMap.TileSets.TileSet)
             {
                 double resolution = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
-                schema.Resolutions.Add(new Resolution { Id = tileSet.order, UnitsPerPixel = resolution });
+                schema.Resolutions[count] = new Resolution { Id = tileSet.order, UnitsPerPixel = resolution };
+                count++;
             }
             return schema;
         }
