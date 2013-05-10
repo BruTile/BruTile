@@ -92,6 +92,7 @@
     <Compile Include="ITileSource.cs" />
     <Compile Include="Predefined\BingSchema.cs" />
     <Compile Include="Predefined\GlobalMercator.cs" />
+    <Compile Include="Predefined\GlobalSphericalMercator.cs" />
     <Compile Include="Predefined\SphericalMercatorInvertedWorldSchema.cs" />
     <Compile Include="Predefined\SphericalMercatorWorldSchema.cs" />
     <Compile Include="Predefined\WkstNederlandSchema.cs" />

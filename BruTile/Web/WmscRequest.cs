@@ -10,33 +10,21 @@ namespace BruTile.Web
 {
     public class WmscRequest : IRequest
     {
-        //readonly ITileSchema _schema;
         readonly Uri _baseUrl;
         readonly IDictionary<string, string> _customParameters;
         readonly IList<string> _layers;
+        private readonly ITileSchema _schema;
         readonly IList<string> _styles;
-        
-        private readonly string _format;
-        private readonly int _width, _height;
-        private readonly string _srs;
+        private readonly string _version;
 
-        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters)
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters, string version = null)
         {
             _baseUrl = baseUrl;
-            _format = schema.Format;
-            _width = schema.Width;
-            _height = schema.Height;
-            _srs = schema.Srs;
-            //_schema = schema;
             _customParameters = customParameters;
             _layers = layers;
+            _schema = schema;
             _styles = styles;
-        }
-
-        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters, string version)
-            : this(baseUrl, schema, layers, styles, customParameters)
-        {
-            Version = version;
+            _version = version;
         }
 
         /// <summary>
@@ -47,38 +35,21 @@ namespace BruTile.Web
         public Uri GetUri(TileInfo info)
         {
             var url = new StringBuilder(_baseUrl.AbsoluteUri);
-
-            //TODO: look at .net's UriBuilder for improvement
-            //http://msdn.microsoft.com/en-us/library/system.uribuilder.aspx
-            //note that the first & assumes a preceiding argument, this is not
-            //always the case.
-
             url.Append("&SERVICE=WMS");
-            if (!string.IsNullOrEmpty(Version))
-                url.AppendFormat("&VERSION={0}", Version);
+            if (!string.IsNullOrEmpty(_version)) url.AppendFormat("&VERSION={0}", _version);
             url.Append("&REQUEST=GetMap");
-            url.AppendFormat("&BBOX={0}", info.Extent);
-            url.AppendFormat("&FORMAT={0}", _format/*_schema.Format*/);
-            url.AppendFormat("&WIDTH={0}", _width/*_schema.Width*/);
-            url.AppendFormat("&HEIGHT={0}", _height/*_schema.Height*/);
-            var crsFormat = !string.IsNullOrEmpty(Version) && String.Compare(Version, "1.3.0") >= 0 ? "&CRS={0}" : "&SRS={0}";
-            url.AppendFormat(crsFormat, _srs/*_schema.Srs*/);
+            url.AppendFormat("&BBOX={0}", TileTransform.TileToWorld(new TileRange(info.Index.Row, info.Index.Col), info.Index.Level, _schema));
+            url.AppendFormat("&FORMAT={0}", _schema.Format);
+            url.AppendFormat("&WIDTH={0}", _schema.Width);
+            url.AppendFormat("&HEIGHT={0}", _schema.Height);
+            var crsFormat = !string.IsNullOrEmpty(_version) && string.CompareOrdinal(_version, "1.3.0") >= 0 ? "&CRS={0}" : "&SRS={0}";
+            url.AppendFormat(crsFormat, _schema.Srs);
             url.AppendFormat("&LAYERS={0}", ToCommaSeparatedValues(_layers));
             if (_styles != null && _styles.Count > 0) url.AppendFormat("&STYLES={0}", ToCommaSeparatedValues(_styles));
-
             AppendCustomParameters(url);
-
             return new Uri(url.ToString());
         }
 
-        /// <summary>
-        /// Sets or gets the WMS Version to use in GetMap requests
-        /// </summary>
-        public string Version
-        {
-            get;
-            set;
-        }
         private static string ToCommaSeparatedValues(IEnumerable<string> items)
         {
             var result = new StringBuilder();

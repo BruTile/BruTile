@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace BruTile
@@ -33,7 +34,7 @@ namespace BruTile
             }
         }
 
-        public static int GetNearestLevel(IList<Resolution> resolutions, double resolution)
+        public static int GetNearestLevel(IDictionary<int, Resolution> resolutions, double resolution)
         {
             if (resolutions.Count == 0)
             {
@@ -41,19 +42,19 @@ namespace BruTile
             }
 
             //smaller than smallest
-            if (resolutions[(resolutions.Count - 1)].UnitsPerPixel > resolution) return resolutions.Count - 1;
+            if (resolutions.Last().Value.UnitsPerPixel > resolution) return resolutions.Last().Key;
 
             //bigger than biggest
-            if (resolutions[0].UnitsPerPixel < resolution) return 0;
+            if (resolutions.First().Value.UnitsPerPixel < resolution) return resolutions.First().Key;
 
             int result = 0;
             double resultDistance = double.MaxValue;
-            for (int i = 0; i < resolutions.Count; i++)
+            foreach (var key in resolutions.Keys)
             {
-                double distance = Math.Abs(resolutions[i].UnitsPerPixel - resolution);
+                double distance = Math.Abs(resolutions[key].UnitsPerPixel - resolution);
                 if (distance < resultDistance)
                 {
-                    result = i;
+                    result = key;
                     resultDistance = distance;
                 }
             }

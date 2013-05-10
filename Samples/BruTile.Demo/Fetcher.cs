@@ -34,10 +34,7 @@ namespace BruTile.Demo
                     var taskCompletionSource = new TaskCompletionSource<byte[]>();
                     
                     // Start a background task that will complete tcs1.Task
-                    Task.Factory.StartNew(() =>
-                        {
-                            taskCompletionSource.SetResult(tileSource.Provider.GetTile(info));
-                        });
+                    Task.Factory.StartNew(() => taskCompletionSource.SetResult(tileSource.Provider.GetTile(info)));
                     tileCache.Add(info.Index, TileToImage(taskCompletionSource.Task.Result));
                     OnDataChanged();
                     //Async.Call(
