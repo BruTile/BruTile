@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -7,7 +6,7 @@ namespace BruTile.Samples.Common
 {
     public class HashSet<T> : ICollection<T>
     {
-        private Dictionary<T, short> _dictionary;
+        private readonly Dictionary<T, short> _dictionary;
 
         public HashSet()
         {

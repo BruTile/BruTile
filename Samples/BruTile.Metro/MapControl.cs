@@ -12,19 +12,19 @@ namespace BruTile.Metro
 {
     public class MapControl : Canvas
     {
-        ITileCache<Tile<Image>> tileCache = new MemoryCache<Tile<Image>>(200, 300);
-        OsmTileSource osmTileSource = new OsmTileSource();
-        BruTile.Samples.Common.Fetcher<Image> fetcher;
-        BruTile.Samples.Common.Viewport viewport;
-        Windows.Foundation.Point previousPosition;        
+        readonly ITileCache<Tile<Image>> _tileCache = new MemoryCache<Tile<Image>>(200, 300);
+        readonly OsmTileSource _osmTileSource = new OsmTileSource();
+        readonly Fetcher<Image> _fetcher;
+        Viewport _viewport;
+        Point _previousPosition;        
 
         public MapControl()
         {
-            fetcher = new BruTile.Samples.Common.Fetcher<Image>(osmTileSource, tileCache);
-            fetcher.DataChanged += fetcher_DataChanged;
+            _fetcher = new Fetcher<Image>(_osmTileSource, _tileCache);
+            _fetcher.DataChanged += FetcherDataChanged;
 
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
-            SizeChanged += MapControl_SizeChanged;
+            CompositionTarget.Rendering += CompositionTargetRendering;
+            SizeChanged += MapControlSizeChanged;
 
             ManipulationMode = ManipulationModes.Scale | ManipulationModes.TranslateX | ManipulationModes.TranslateY;
             ManipulationDelta += OnManipulationDelta;
@@ -39,22 +39,22 @@ namespace BruTile.Metro
 
         private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (previousPosition == default(Point) || double.IsNaN(previousPosition.X))
+            if (_previousPosition == default(Point) || double.IsNaN(_previousPosition.X))
             {
-                previousPosition = e.Position;
+                _previousPosition = e.Position;
                 return;
             }
 
-            if (Distance(e.Position.X, e.Position.Y, previousPosition.X, previousPosition.Y) > 50)
+            if (Distance(e.Position.X, e.Position.Y, _previousPosition.X, _previousPosition.Y) > 50)
             {
-                previousPosition = default(Point);
+                _previousPosition = default(Point);
                 return;
             }
 
-            viewport.Transform(e.Position.X, e.Position.Y, previousPosition.X, previousPosition.Y, e.Delta.Scale);
+            _viewport.Transform(e.Position.X, e.Position.Y, _previousPosition.X, _previousPosition.Y, e.Delta.Scale);
             
-            previousPosition = e.Position;
-            fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
+            _previousPosition = e.Position;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
         }
 
         public static double Distance(double x1, double y1, double x2, double y2)
@@ -64,21 +64,21 @@ namespace BruTile.Metro
 
         private void OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            previousPosition = default(Point);
+            _previousPosition = default(Point);
         }
 
-        async void fetcher_DataChanged(object sender, BruTile.Samples.Common.DataChangedEventArgs<Image> e)
+        async void FetcherDataChanged(object sender, DataChangedEventArgs<Image> e)
         {
             if (!Dispatcher.HasThreadAccess)
                 Dispatcher.RunAsync(
                    Windows.UI.Core.CoreDispatcherPriority.High,
-                   () => fetcher_DataChanged(sender, e));
+                   () => FetcherDataChanged(sender, e));
             else
             {
                 if (e.Error == null && e.Tile != null)
                 {
                     e.Tile.Image = await CreateImage(e.Tile.Data);
-                    tileCache.Add(e.Tile.Info.Index, e.Tile);
+                    _tileCache.Add(e.Tile.Info.Index, e.Tile);
                     InvalidateArrange();
                 }
             }
@@ -86,37 +86,37 @@ namespace BruTile.Metro
 
         private static async System.Threading.Tasks.Task<Image> CreateImage(byte[] data)
         {
-            return new Image()
-            {
-                Source = await BruTile.Metro.Utilities.TileToImage(data),
+            return new Image
+                {
+                Source = await Utilities.TileToImage(data),
                 Stretch = Stretch.Fill,
                 IsHitTestVisible = false
             };
         }
 
-        void MapControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (viewport == null)
+            if (_viewport == null)
             {
                 if (CanInitializeViewport(ActualWidth, ActualHeight))
                 {
-                    viewport = InitializeViewport(ActualWidth, ActualHeight, FullMapExtent);
-                    fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
+                    _viewport = InitializeViewport(ActualWidth, ActualHeight, FullMapExtent);
+                    _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
                 }
             }
             else
             {
-                viewport.Width = e.NewSize.Width;
-                viewport.Height = e.NewSize.Height;
-                fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
+                _viewport.Width = e.NewSize.Width;
+                _viewport.Height = e.NewSize.Height;
+                _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
             }
             InvalidateArrange();
         }
 
-        void CompositionTarget_Rendering(object sender, object e)
+        void CompositionTargetRendering(object sender, object e)
         {
-            var tilesToRender = TileLayer<Image>.SelectTilesToRender(tileCache, osmTileSource.Schema, viewport.Extent, viewport.Resolution);
-            Renderer.Render(viewport, this, tilesToRender);
+            var tilesToRender = TileLayer<Image>.SelectTilesToRender(_tileCache, _osmTileSource.Schema, _viewport.Extent, _viewport.Resolution);
+            Renderer.Render(_viewport, this, tilesToRender);
         }
 
         private static bool CanInitializeViewport(double actualWidth, double actualHeight)
@@ -125,31 +125,32 @@ namespace BruTile.Metro
                 && !double.IsNaN(actualHeight) && actualHeight > 0);
         }
 
-        private static BruTile.Samples.Common.Viewport InitializeViewport(double actualWidth, double actualHeight, Extent extent)
+        private static Viewport InitializeViewport(double actualWidth, double actualHeight, Extent extent)
         {
-            var viewport = new BruTile.Samples.Common.Viewport();
-            viewport.Width = actualWidth;
-            viewport.Height = actualHeight;
-            viewport.Resolution = extent.Width / actualWidth;
-            viewport.Center = new BruTile.Samples.Common.Geometries.Point(extent.CenterX, extent.CenterY);
-            return viewport;
+            return new Viewport
+                {
+                    Width = actualWidth,
+                    Height = actualHeight,
+                    Resolution = extent.Width/actualWidth,
+                    Center = new Samples.Common.Geometries.Point(extent.CenterX, extent.CenterY)
+                };
         }
 
         public Extent FullMapExtent
         {
-            get { return osmTileSource.Extent; }
+            get { return _osmTileSource.Extent; }
         }
 
         internal void ZoomInOneStep()
         {
-            viewport.Resolution = viewport.Resolution / 2;
-            fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
+            _viewport.Resolution = _viewport.Resolution / 2;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
         }
 
         internal void ZoomOutOneStep()
         {
-            viewport.Resolution = viewport.Resolution * 2;
-            fetcher.ViewChanged(viewport.Extent, viewport.Resolution);
+            _viewport.Resolution = _viewport.Resolution * 2;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace BruTile.Metro
         private static async Task<InMemoryRandomAccessStream> ByteArrayToRandomAccessStream(byte[] tile)
         {
             var stream = new InMemoryRandomAccessStream();
-            DataWriter dataWriter = new DataWriter(stream);
+            var dataWriter = new DataWriter(stream);
             dataWriter.WriteBytes(tile);
             await dataWriter.StoreAsync();
             stream.Seek(0);

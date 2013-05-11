@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using BruTile.Cache;
+using BruTile.Samples.Common;
 
 namespace BruTile.Demo
 {
@@ -14,7 +15,7 @@ namespace BruTile.Demo
             _canvas = canvas;
         }
 
-        public void Render(Viewport viewport, ITileSource tileSource, ITileCache<Image> tileCache)
+        public void Render(Viewport viewport, ITileSource tileSource, ITileCache<Tile<Image>> tileCache)
         {
             _canvas.Children.Clear();
 
@@ -22,19 +23,19 @@ namespace BruTile.Demo
             var tileInfos = tileSource.Schema.GetTilesInView(viewport.Extent, level);
             foreach (var tileInfo in tileInfos)
             {
-                var image = tileCache.Find(tileInfo.Index);
-                if (image != null)
+                var tile = tileCache.Find(tileInfo.Index);
+                if (tile != null)
                 {
-                    _canvas.Children.Add(image);
-                    PositionImage(image, tileInfo.Extent, viewport);
+                    _canvas.Children.Add(tile.Image);
+                    PositionImage(tile.Image, tileInfo.Extent, viewport);
                 }
             }
         }
 
         public static void PositionImage(Image image, Extent extent, Viewport viewport)
         {
-            var min = viewport.WorldToView(extent.MinX, extent.MinY);
-            var max = viewport.WorldToView(extent.MaxX, extent.MaxY);
+            var min = viewport.WorldToScreen(extent.MinX, extent.MinY);
+            var max = viewport.WorldToScreen(extent.MaxX, extent.MaxY);
             
             Canvas.SetLeft(image, min.X);
             Canvas.SetTop(image, max.Y);

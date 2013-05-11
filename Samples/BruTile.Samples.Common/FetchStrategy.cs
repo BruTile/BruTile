@@ -12,7 +12,6 @@ namespace BruTile.Samples.Common
 
     class FetchStrategy : IFetchStrategy
     {
-        HashSet<int> preFetchLayers;
         public static HashSet<int> GetPreFetchLevels(int min, int max)
         {
             var preFetchLayers = new HashSet<int>();
@@ -29,23 +28,20 @@ namespace BruTile.Samples.Common
 
         public IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level)
         {
-            // prefetching is not working property at the moment.
-            //!!!if (preFetchLayers == null) preFetchLayers = GetPreFetchLevels(0, schema.Resolutions.Count - 1);
-
             IList<TileInfo> infos = new List<TileInfo>();
             // Iterating through all levels from current to zero. If lower levels are
             // not availeble the renderer can fall back on higher level tiles. 
-            while (level >= 0)
+            var levels = schema.Resolutions.Keys.Where(k => k <= level).OrderByDescending(x => x);
+
+            foreach (var lvl in levels)
             {
-                //!!!if (!preFetchLayers.Contains(level)) continue;
-                var infosOfLevel = schema.GetTilesInView(extent, level);
+                var infosOfLevel = schema.GetTilesInView(extent, lvl);
                 infosOfLevel = SortByPriority(infosOfLevel, extent.CenterX, extent.CenterY);
 
                 foreach (TileInfo info in infosOfLevel)
                 {
                     if ((info.Index.Row >= 0) && (info.Index.Col >= 0)) infos.Add(info);
                 }
-                level--;
             }
 
             return infos;
