@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using BruTile.Web;
+using System;
 using System.Windows.Forms;
-using BruTile;
-using BruTile.Web;
 
 namespace WinFormsSample
 {
@@ -29,12 +23,12 @@ namespace WinFormsSample
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1TextChanged(object sender, EventArgs e)
         {
             osmImage1.ApiKey = textBox1.Text;
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem == null)
                 return;

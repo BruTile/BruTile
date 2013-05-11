@@ -56,10 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Fetcher.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="Viewport.cs" />
-    <Compile Include="ZoomHelper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +106,10 @@
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BruTile.Samples.Common\BruTile.Samples.Common.csproj">
+      <Project>{24a0d64a-f894-4eb4-8cb7-8f6081bfe324}</Project>
+      <Name>BruTile.Samples.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
