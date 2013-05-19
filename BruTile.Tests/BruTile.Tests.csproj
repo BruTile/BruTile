@@ -64,6 +64,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileIndexTest.cs" />
     <Compile Include="TileTransformTest.cs" />
+    <Compile Include="UtilityTest.cs" />
+    <Compile Include="Web\BasisRequestTest.cs" />
+    <Compile Include="Web\BingRequestTest.cs" />
     <Compile Include="Web\TileSourceWmsCTest.cs">
       <SubType>Code</SubType>
     </Compile>

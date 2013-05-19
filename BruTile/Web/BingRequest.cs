@@ -1,7 +1,8 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BruTile.Web
@@ -15,20 +16,46 @@ namespace BruTile.Web
 
     public class BingRequest : IRequest
     {
-        readonly string _baseUrl;
-        readonly string _token;
-        readonly char _mapType;
-
-        private const string VersionBingMaps = "517";
+        private const string DefaultApiVersion = "517";
+        public const string ServerNodeTag = "{S}";
+        public const string QuadKeyTag = "{QuadKey}";
+        public const string UserKeyTag = "{UserKey}";
+        public const string ApiVersionTag = "{ApiVersion}";
+        private readonly string _urlFormatter;
+        private readonly string _userKey;
+        private readonly Random _random = new Random();
+        private int _nodeCounter;
+        private readonly IList<string> _serverNodes = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7" };
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
-        public BingRequest(string baseUrl, string token, BingMapType mapType)
+        public BingRequest(string baseUrl, string token, BingMapType mapType, string apiVersion = DefaultApiVersion)
         {
-            _baseUrl = baseUrl;
-            _token = token;
-            _mapType = ToMapTypeChar(mapType);
+            _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) +  QuadKeyTag + ".jpeg?g=" + 
+                ApiVersionTag + "&token=" + UserKeyTag;
+            _userKey = token;
+            ApiVersion = apiVersion;
         }
+
+        public BingRequest(string urlFormatter, string userKey, string apiVersion = DefaultApiVersion, IEnumerable<string> serverNodes = null)
+        {
+            _urlFormatter = urlFormatter;
+            _userKey = userKey;
+            ApiVersion = apiVersion;
+            if (serverNodes != null) _serverNodes = serverNodes.ToList();
+        }
+
+        public static string UrlBingStaging
+        {
+            get { return "http://t{S}.staging.tiles.virtualearth.net/tiles"; }
+        }
+
+        public static string UrlBing
+        {
+            get { return "http://t{S}.tiles.virtualearth.net/tiles"; }
+        }
+
+        public string ApiVersion { get; set; }
 
         /// <summary>
         /// Generates a URI at which to get the data for a tile.
@@ -37,20 +64,13 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            //todo: use different nodes
-            string url = string.Format(CultureInfo.InvariantCulture, "{0}/{1}" + "{2}.jpeg?g={4}&token={3}",
-              _baseUrl, _mapType, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level), _token, VersionBingMaps);
-            return new Uri(url);
-        }
-
-        public static string UrlBingStaging
-        {
-            get { return "http://t0.staging.tiles.virtualearth.net/tiles"; }
-        }
-
-        public static string UrlBing
-        {
-            get { return "http://t0.tiles.virtualearth.net/tiles"; }
+            var stringBuilder = new StringBuilder(_urlFormatter);
+            var quadKey = TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level);
+            stringBuilder.Replace(QuadKeyTag, quadKey);
+            stringBuilder.Replace(ApiVersionTag, ApiVersion);
+            stringBuilder.Replace(UserKeyTag, _userKey);
+            InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
+            return new Uri(stringBuilder.ToString());
         }
 
         private static char ToMapTypeChar(BingMapType mapType)
@@ -100,6 +120,15 @@ namespace BruTile.Web
             }
 
             return quadKey.ToString();
+        }
+
+        private static void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes, ref int nodeCounter)
+        {
+            if (serverNodes != null && serverNodes.Count > 0)
+            {
+                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter++]);
+                if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
+            }
         }
     }
 }

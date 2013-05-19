@@ -6,26 +6,38 @@ namespace BruTile.Predefined
     public class GlobalSphericalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.516;
-        private const string DefaultFormat = "png";
-        private const int MaxZoomLevel = 20;
+        private const string DefaultFormat = "png"; 
+        private const bool DefaultInvertedYAxis = true;
+        private const int DefaultMinZoomLevel = 0; 
+        private const int DefaultMaxZoomLevel = 19;
 
-        public GlobalSphericalMercator(string format = DefaultFormat, bool invertedYAxis = false, int minZoomLevel = 0, int maxZoomLevel = MaxZoomLevel, string name = null) :
+        public GlobalSphericalMercator(string format = DefaultFormat, bool invertedYAxis = DefaultInvertedYAxis, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), format, invertedYAxis, name)
         {
         }
 
-        public GlobalSphericalMercator(bool invertedYAxis = false, int minZoomLevel = 0, int maxZoomLevel = MaxZoomLevel, string name = null) :
+        public GlobalSphericalMercator(bool invertedYAxis = DefaultInvertedYAxis, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, invertedYAxis, name)
         {
         }
 
-        public GlobalSphericalMercator(string format = DefaultFormat, bool invertedYAxis = false, IEnumerable<int> zoomLevels = null, string name = null) :
+        public GlobalSphericalMercator(int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
+            this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, DefaultInvertedYAxis, name)
+        {
+        }
+
+        public GlobalSphericalMercator():
+            this(ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel))
+        {
+        }
+
+        public GlobalSphericalMercator(string format = DefaultFormat, bool invertedYAxis = DefaultInvertedYAxis, IEnumerable<int> zoomLevels = null, string name = null) :
             this(ToResolutions(zoomLevels), format, invertedYAxis, name)
         {
         }
 
         internal GlobalSphericalMercator(IEnumerable<KeyValuePair<int, Resolution>> resolutions, string format = DefaultFormat,
-                                         bool invertedYAxis = false, string name = null)
+                                         bool invertedYAxis = DefaultInvertedYAxis, string name = null)
         {
             Name = name ?? "GlobalSphericalMercator";
             Format = format;
@@ -50,7 +62,7 @@ namespace BruTile.Predefined
         private static IEnumerable<KeyValuePair<int, Resolution>> ToResolutions(int min, int max)
         {
             var list = new List<int>();
-            for (var i = min; i < max; i++) list.Add(i);
+            for (var i = min; i <= max; i++) list.Add(i);
             return ToResolutions(list);
         }
 

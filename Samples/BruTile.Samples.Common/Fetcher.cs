@@ -15,8 +15,8 @@ namespace BruTile.Samples.Common
         private Extent _extent;
         private double _resolution;
         private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
-        private const int MaxThreads = 2;
-        private readonly AutoResetEvent _waitHandle = new AutoResetEvent(true);
+        private const int MaxThreads = 4;
+        private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
         private readonly IFetchStrategy _strategy = new FetchStrategy();
         private volatile bool _isAborted;
         private volatile bool _isViewChanged;

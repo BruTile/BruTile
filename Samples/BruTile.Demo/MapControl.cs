@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BruTile.Cache;
@@ -14,11 +16,12 @@ namespace BruTile.Demo
     class MapControl : Grid
     {
         private readonly Canvas _canvas;
-        private readonly Fetcher<Image> _fetcher;
+        private Fetcher<Image> _fetcher;
         private readonly Renderer _renderer;
-        private readonly ITileCache<Tile<Image>> _tileCache = new MemoryCache<Tile<Image>>(200, 300);
-        private readonly ITileSource _tileSource;
+        private readonly MemoryCache<Tile<Image>> _tileCache = new MemoryCache<Tile<Image>>(200, 300);
+        private ITileSource _tileSource;
         private bool _invalid = true;
+        private Point _previousMousePosition;
         private Viewport _viewport;
 
         public MapControl()
@@ -33,12 +36,64 @@ namespace BruTile.Demo
             Children.Add(_canvas);
             _renderer = new Renderer(_canvas);
 
-            _tileSource = new OsmTileSource();
-
+            _tileSource = TileSource.Create(KnownOsmTileServers.Mapnik); 
             CompositionTarget.Rendering += CompositionTargetRendering;
+            SizeChanged += MapControlSizeChanged;
             MouseWheel += MapControlMouseWheel;
+            MouseMove += MapControlMouseMove;
+            MouseUp += OnMouseUp;
+            MouseLeave += OnMouseLeave;
+
+            ClipToBounds = true;
             _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
             _fetcher.DataChanged += FetcherOnDataChanged;
+            _invalid = true;
+        }
+
+        public void SetTileSource(ITileSource source)
+        {
+            _tileSource = source;
+            _tileCache.Clear();
+            _fetcher.DataChanged -= FetcherOnDataChanged;
+            _fetcher.AbortFetch();
+            _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
+            _fetcher.DataChanged += FetcherOnDataChanged;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _invalid = true;
+        }
+
+        private void OnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
+        {
+            _previousMousePosition = new Point();
+        }
+
+        private void OnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            _previousMousePosition = new Point();
+        }
+
+        void MapControlMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed) return; 
+            if (_previousMousePosition == new Point())
+            {
+                _previousMousePosition = e.GetPosition(this);
+                return; // It turns out that sometimes MouseMove+Pressed is called before MouseDown
+            }
+
+            var currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
+            _viewport.Transform(currentMousePosition.X, currentMousePosition.Y, _previousMousePosition.X, _previousMousePosition.Y);
+            _previousMousePosition = currentMousePosition;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _invalid = true;
+        }
+
+        void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_viewport == null) return;
+            _viewport.Width = ActualWidth;
+            _viewport.Height = ActualHeight;
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
             _invalid = true;
         }
 
@@ -73,7 +128,7 @@ namespace BruTile.Demo
             return image;
         }
 
-        void MapControlMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        void MapControlMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
             {
@@ -92,35 +147,33 @@ namespace BruTile.Demo
         void CompositionTargetRendering(object sender, EventArgs e)
         {
             if (!_invalid) return;
+            if (_renderer == null) return;
 
             if (_viewport == null)
             {
-                _viewport = TryInitializeViewport(ActualWidth, ActualHeight, _tileSource.Schema);
-                if (_viewport != null) _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution); // Fetch on first initialized 
+                if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, _tileSource.Schema)) return;
+                _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution); // start fetching when viewport is first initialized
             }
-            if (_viewport == null) return; // failed to initialize so return
-
-            if (_renderer != null)
-            {
-                _renderer.Render(_viewport, _tileSource, _tileCache);
-                _invalid = false;
-            }
+            
+            _renderer.Render(_viewport, _tileSource, _tileCache);
+            _invalid = false;
         }
 
-        private static Viewport TryInitializeViewport(double actualWidth, double actualHeight, ITileSchema schema)
+        private static bool TryInitializeViewport(ref Viewport viewport, double actualWidth, double actualHeight, ITileSchema schema)
         {
-            if (double.IsNaN(actualWidth)) return null;
-            if (actualWidth <= 0) return null;
+            if (double.IsNaN(actualWidth)) return false;
+            if (actualWidth <= 0) return false;
 
             var nearestLevel = Utilities.GetNearestLevel(schema.Resolutions, schema.Extent.Width / actualWidth);
 
-            return new Viewport
+            viewport = new Viewport
                 {
                     Width = actualWidth,
                     Height = actualHeight,
                     Resolution = schema.Resolutions[nearestLevel].UnitsPerPixel,
                     Center = new Samples.Common.Geometries.Point(schema.Extent.CenterX, schema.Extent.CenterY)
                 };
+            return true;
         }
     }
 }

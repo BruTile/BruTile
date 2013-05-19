@@ -46,10 +46,7 @@ namespace WinFormsSample
             {
                 if (_osmRenderer == value)
                     return;
-
-                if (value == KnownOsmTileServers.Custom)
-                    return;
-
+                
                 _osmRenderer = value;
                 _source = new OsmTileSource(new OsmRequest(OsmTileServerConfig.Create(value, ApiKey)));
                 RenderToBuffer();

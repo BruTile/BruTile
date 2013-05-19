@@ -1,7 +1,10 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace BruTile.Web
 {
@@ -10,11 +13,26 @@ namespace BruTile.Web
     /// </summary>
     public class BasicRequest : IRequest
     {
-        readonly string _urlFormatter;
+        private readonly string _urlFormatter;
+        private const string ServerNodeTag = "{S}";
+        private const string XTag = "{X}";
+        private const string YTag = "{Y}";
+        private const string ZTag = "{Z}";
+        private const string ApiKeyTag = "{K}";
+        private int _nodeCounter;
+        private readonly IList<string> _serverNodes;
+        private readonly string _apiKey;
 
-        public BasicRequest(string urlFormatter)
+        public BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey= null)
         {
             _urlFormatter = urlFormatter;
+            _serverNodes = serverNodes != null ? serverNodes.ToList() : null;
+
+            // for backward compatibility
+            _urlFormatter = _urlFormatter.Replace("{0}", ZTag);
+            _urlFormatter = _urlFormatter.Replace("{1}", XTag);
+            _urlFormatter = _urlFormatter.Replace("{2}", YTag);
+            _apiKey = apiKey;
         }
 
         /// <summary>
@@ -24,12 +42,22 @@ namespace BruTile.Web
         /// <returns>The URI at which to get the data for the specified tile.</returns>
         public Uri GetUri(TileInfo info)
         {
-            string result = String.Format(
-              CultureInfo.InvariantCulture, _urlFormatter,
-              info.Index.Level, info.Index.Col, info.Index.Row);
-
-            return new Uri(result);
+            var stringBuilder = new StringBuilder(_urlFormatter);
+            stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ApiKeyTag, _apiKey);
+            InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
+            return new Uri(stringBuilder.ToString());
         }
 
+        private static void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes, ref int nodeCounter)
+        {
+            if (serverNodes != null && serverNodes.Count > 0)
+            {
+                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter++]);
+                if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
+            }
+        }
     }
 }
