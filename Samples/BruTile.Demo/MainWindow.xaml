@@ -1,8 +1,13 @@
 ﻿<Window x:Class="BruTile.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Demo="clr-namespace:BruTile.Demo"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="480" Width="600">
     <Grid>
-        <Demo:MapControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Pink"></Demo:MapControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="Layers" Grid.Column="0" Background="White"></StackPanel>
+        <Demo:MapControl x:Name="MapControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Pink"></Demo:MapControl>
     </Grid>
 </Window>

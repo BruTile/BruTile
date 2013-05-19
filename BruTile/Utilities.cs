@@ -65,7 +65,7 @@ namespace BruTile
         {
             get
             {
-                string name = Assembly.GetExecutingAssembly().FullName;
+                string name = typeof(Utilities).Assembly.FullName;
                 var asmName = new AssemblyName(name);
                 return asmName.Version.Major + "." + asmName.Version.Minor;
             }

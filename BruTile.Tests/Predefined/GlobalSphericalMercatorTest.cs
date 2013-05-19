@@ -18,7 +18,7 @@ namespace BruTile.Tests.Predefined
             var schema = new GlobalSphericalMercator(format, true, 1, 19, name);
             
             // assert
-            Assert.True(schema.Resolutions.Count == 18);
+            Assert.True(schema.Resolutions.Count == 19);
             Assert.True(schema.Resolutions.All(r => r.Value.Id != "0"));
             Assert.True(schema.Resolutions.Any(r => r.Value.Id == "1"));
             Assert.True(schema.Resolutions[3].Id == "3");

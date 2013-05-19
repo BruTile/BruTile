@@ -11,16 +11,10 @@ namespace BruTile.Web
     /// </summary>
     public enum KnownOsmTileServers
     {
-        Custom,
         /// <summary>
         /// Mapnik
         /// </summary>
         Mapnik,
-        /// <summary>
-        /// OSMA
-        /// </summary>
-        [Obsolete("Use Mapnic instead")]
-        Osma = Mapnik,
         /// <summary>
         /// Open Cycle Map
         /// </summary>
@@ -54,6 +48,13 @@ namespace BruTile.Web
         /// Map Quest (aerial)
         /// </summary>
         MapQuestAerial,
+
+        BingAerial,
+        BingHybrid,
+        BingRoads,
+        BingAerialStaging,
+        BingHybridStaging,
+        BingRoadsStaging,
     }
 
     public class OsmTileServerConfig
@@ -113,9 +114,7 @@ namespace BruTile.Web
                     return new OsmTileServerConfig("http://otile{0}.mqcdn.com/tiles/1.0.0/osm/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 18);
                 case KnownOsmTileServers.MapQuestAerial:
                     return new OsmTileServerConfig("http://oatile{0}.mqcdn.com/naip/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 11);
-                case KnownOsmTileServers.Custom:
-                    throw new InvalidOperationException("Cannot create a custom 'OsmTileServerConfig' using Create(...) statement.");
-            }
+             }
         }
     }
 

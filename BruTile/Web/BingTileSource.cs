@@ -10,13 +10,14 @@ namespace BruTile.Web
     public class BingTileSource : TileSource
     {
         public BingTileSource(String url, string token, BingMapType mapType)
-            :this(new BingRequest(url, token, mapType))
+            : this(new BingRequest(url, token, mapType))
         {
         }
 
-        public BingTileSource(BingRequest bingRequest, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, HttpWebRequest> webRequestFactory = null)
-            : base(new WebTileProvider(bingRequest, persistentCache, webRequestFactory), new BingSchema())
+        public BingTileSource(
+                        BingRequest bingRequest, 
+                        IPersistentCache<byte[]> persistentCache = null)
+            : base(new WebTileProvider(bingRequest, persistentCache), new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"))
         {
         }
     }
