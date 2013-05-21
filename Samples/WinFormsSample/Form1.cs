@@ -15,11 +15,9 @@ namespace WinFormsSample
         {
             base.OnLoad(e);
 
-            foreach (var knownOsmTileServer in Enum.GetNames(typeof(KnownOsmTileServers)))
+            foreach (var knownTileServer in Enum.GetNames(typeof(KnownTileServers)))
             {
-                if (knownOsmTileServer == "Custom")
-                    continue;
-                listBox1.Items.Add(knownOsmTileServer);
+                listBox1.Items.Add(knownTileServer);
             }
         }
 
@@ -34,7 +32,7 @@ namespace WinFormsSample
                 return;
 
             osmImage1.OsmServer =
-                (KnownOsmTileServers) Enum.Parse(typeof (KnownOsmTileServers), (string) listBox1.SelectedItem);
+                (KnownTileServers) Enum.Parse(typeof (KnownTileServers), (string) listBox1.SelectedItem);
         }
 
     }

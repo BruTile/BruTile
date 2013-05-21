@@ -36,7 +36,7 @@ namespace BruTile.Demo
             Children.Add(_canvas);
             _renderer = new Renderer(_canvas);
 
-            _tileSource = TileSource.Create(KnownOsmTileServers.Mapnik); 
+            _tileSource = TileSource.Create(KnownTileServers.Mapnik); 
             CompositionTarget.Rendering += CompositionTargetRendering;
             SizeChanged += MapControlSizeChanged;
             MouseWheel += MapControlMouseWheel;

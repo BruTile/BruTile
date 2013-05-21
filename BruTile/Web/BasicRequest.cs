@@ -14,11 +14,11 @@ namespace BruTile.Web
     public class BasicRequest : IRequest
     {
         private readonly string _urlFormatter;
-        private const string ServerNodeTag = "{S}";
-        private const string XTag = "{X}";
-        private const string YTag = "{Y}";
-        private const string ZTag = "{Z}";
-        private const string ApiKeyTag = "{K}";
+        private const string ServerNodeTag = "{s}";
+        private const string XTag = "{x}";
+        private const string YTag = "{y}";
+        private const string ZTag = "{z}";
+        private const string ApiKeyTag = "{k}";
         private int _nodeCounter;
         private readonly IList<string> _serverNodes;
         private readonly string _apiKey;

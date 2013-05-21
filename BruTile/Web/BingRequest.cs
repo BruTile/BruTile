@@ -17,13 +17,12 @@ namespace BruTile.Web
     public class BingRequest : IRequest
     {
         private const string DefaultApiVersion = "517";
-        public const string ServerNodeTag = "{S}";
-        public const string QuadKeyTag = "{QuadKey}";
-        public const string UserKeyTag = "{UserKey}";
-        public const string ApiVersionTag = "{ApiVersion}";
+        public const string ServerNodeTag = "{s}";
+        public const string QuadKeyTag = "{quadkey}";
+        public const string UserKeyTag = "{userkey}";
+        public const string ApiVersionTag = "{apiversion}";
         private readonly string _urlFormatter;
         private readonly string _userKey;
-        private readonly Random _random = new Random();
         private int _nodeCounter;
         private readonly IList<string> _serverNodes = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7" };
 
@@ -47,12 +46,12 @@ namespace BruTile.Web
 
         public static string UrlBingStaging
         {
-            get { return "http://t{S}.staging.tiles.virtualearth.net/tiles"; }
+            get { return "http://t{s}.staging.tiles.virtualearth.net/tiles"; }
         }
 
         public static string UrlBing
         {
-            get { return "http://t{S}.tiles.virtualearth.net/tiles"; }
+            get { return "http://t{s}.tiles.virtualearth.net/tiles"; }
         }
 
         public string ApiVersion { get; set; }
@@ -65,8 +64,7 @@ namespace BruTile.Web
         public Uri GetUri(TileInfo info)
         {
             var stringBuilder = new StringBuilder(_urlFormatter);
-            var quadKey = TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level);
-            stringBuilder.Replace(QuadKeyTag, quadKey);
+            stringBuilder.Replace(QuadKeyTag, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level));
             stringBuilder.Replace(ApiVersionTag, ApiVersion);
             stringBuilder.Replace(UserKeyTag, _userKey);
             InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
