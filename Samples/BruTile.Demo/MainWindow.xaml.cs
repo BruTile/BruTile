@@ -12,10 +12,10 @@ namespace BruTile.Demo
         {
             InitializeComponent();
 
-            foreach (var layer in  Enum.GetValues(typeof(KnownOsmTileServers)).Cast<KnownOsmTileServers>())
+            foreach (var layer in  Enum.GetValues(typeof(KnownTileServers)).Cast<KnownTileServers>())
             {
                 var radioButton = new RadioButton {Content = layer.ToString(), Tag = layer};
-                radioButton.Click += (sender, args) => MapControl.SetTileSource(TileSource.Create((KnownOsmTileServers)((RadioButton)sender).Tag));
+                radioButton.Click += (sender, args) => MapControl.SetTileSource(TileSource.Create((KnownTileServers)((RadioButton)sender).Tag));
                 Layers.Children.Add(radioButton);
             }
         }

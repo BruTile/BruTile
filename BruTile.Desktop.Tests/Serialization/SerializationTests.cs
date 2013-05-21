@@ -130,7 +130,7 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestOsmTileSource()
         {
-            var tsc = OsmTileServerConfig.Create(KnownOsmTileServers.OpenCycleMap, null);
+            var tsc = OsmTileServerConfig.Create(KnownTileServers.OpenCycleMap, null);
             var ts1 = new OsmTileSource(new OsmRequest(tsc), new FakePersistentCache<byte[]>());
             var ts2 = SandD(ts1);
 
@@ -143,7 +143,7 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestOsmTileServerConfig()
         {
-            var tsc1 = OsmTileServerConfig.Create(KnownOsmTileServers.Mapnik, string.Empty);
+            var tsc1 = OsmTileServerConfig.Create(KnownTileServers.Mapnik, string.Empty);
             var tsc2 = SandD(tsc1);
             Assert.NotNull(tsc1);
 

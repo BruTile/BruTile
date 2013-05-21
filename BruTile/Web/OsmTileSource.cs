@@ -14,12 +14,12 @@ namespace BruTile.Web
             IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, HttpWebRequest> webRequestFactory = null)
             : base(new WebTileProvider(
-                        osmRequest ?? new OsmRequest(KnownOsmTileServers.Mapnik), 
+                        osmRequest ?? new OsmRequest(KnownTileServers.Mapnik), 
                         persistentCache,
                         webRequestFactory), 
                 new SphericalMercatorInvertedWorldSchema())
         {
-            if (osmRequest == null) osmRequest = new OsmRequest(KnownOsmTileServers.Mapnik);
+            if (osmRequest == null) osmRequest = new OsmRequest(KnownTileServers.Mapnik);
             var resolutionsToDelete = new List<int>();
             var resolutions = Schema.Resolutions;
             for (var i = 0; i < resolutions.Count; i++)
