@@ -130,7 +130,7 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestOsmTileSource()
         {
-            var tsc = OsmTileServerConfig.Create(KnownTileServers.OpenCycleMap, null);
+            var tsc = OsmTileServerConfig.Create(KnownTileServers.Mapnik, null);
             var ts1 = new OsmTileSource(new OsmRequest(tsc), new FakePersistentCache<byte[]>());
             var ts2 = SandD(ts1);
 
@@ -219,7 +219,7 @@ namespace BruTile.Tests.Serialization
                     return false;
                 }
 
-                for (var i = 0; i < 50; i++)
+                for (var i = 0; i < 8; i++)
                 {
                     TileInfo ti = null;
                     try

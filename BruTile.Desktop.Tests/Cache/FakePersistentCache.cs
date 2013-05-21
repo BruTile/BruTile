@@ -1,6 +1,5 @@
 ﻿namespace BruTile.Cache
 {
-    
     public class FakePersistentCache<T> : IPersistentCache<T>
     {
         readonly MemoryCache<T> _memoryCache = new MemoryCache<T>(100, 200);
