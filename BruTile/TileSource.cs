@@ -23,12 +23,8 @@ namespace BruTile
             {
                 case KnownTileServers.Mapnik:
                     return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest("http://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/aan@EPSG%3A28992@png8/{z}/{x}/{y}.png")),
-                        new WkstNederlandSchema());
-                    //return new TileSource(
-                    //    new WebTileProvider(new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] { "a", "b", "c" })), 
-                    //    new GlobalSphericalMercator(0, 18));
+                        new WebTileProvider(new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] { "a", "b", "c" })), 
+                        new GlobalSphericalMercator(0, 18));
                 case KnownTileServers.OpenCycleMap:
                     return new TileSource(
                         new WebTileProvider(new BasicRequest("http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", new[] {"a", "b", "c"})),
