@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Web
 {
     [TestFixture]
-    class WmscRequestTest
+    class WmscRequestTests
     {
         [Test]
         public void WmscRequest_NoVersion()

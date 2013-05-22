@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Web
 {
     [TestFixture]
-    internal class TileSourceWmsCTest
+    internal class TileSourceWmsCTests
     {
         [Test]
         public void ParseCapabilitiesWmsC()

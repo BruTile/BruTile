@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Predefined
 {
     [TestFixture]
-    public class GlobalSphericalMercatorTest
+    public class GlobalSphericalMercatorTests
     {
         [Test]
         public void InitializeAsBingSchema()
