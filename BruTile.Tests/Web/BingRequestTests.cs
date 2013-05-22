@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Web
 {
     [TestFixture]
-    public class BingRequestTest
+    public class BingRequestTests
     {
         [Test]
         public void GetUriTest()

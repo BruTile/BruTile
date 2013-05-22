@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace BruTile.Tests
 {
     [TestFixture]
-    public class TileTransformTest
+    public class TileTransformTests
     {
         [Test]
         public void TileToWorldShouldReturnCorrectExtent()

@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Web
 {
     [TestFixture]
-    internal class WmsCapabilitiesTest
+    internal class WmsCapabilitiesTests
     {
         [Test]
         public void WmsCapabilities_WhenParsed_ShouldSetCorrectGetMapUrl()

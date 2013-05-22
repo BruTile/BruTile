@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Cache
 {
     [TestFixture]
-    public class MemoryCacheTest
+    public class MemoryCacheTests
     {
         [Test]
         public void WhenContentIsAddedItShouldBeRetrieved()

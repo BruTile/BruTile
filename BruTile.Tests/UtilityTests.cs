@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace BruTile.Tests
 {
     [TestFixture]
-    public class UtilityTest
+    public class UtilityTests
     {
         [Test]
         public void TestVersion()
