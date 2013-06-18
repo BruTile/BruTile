@@ -143,6 +143,9 @@ namespace WinFormsSample
             if (_mapTransform == null)
                 return;
 
+            if (_source == null)
+                return;
+
             var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.Resolution);
 
             using (var g = Graphics.FromImage(_buffer))
