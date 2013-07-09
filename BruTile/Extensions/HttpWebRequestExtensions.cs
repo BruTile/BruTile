@@ -39,6 +39,13 @@ namespace BruTile.Extensions
                     //get the response
                     response = (HttpWebResponse)request.EndGetResponse(ar);
                 }
+                catch (WebException we)
+                {
+                    if (we.Status != WebExceptionStatus.RequestCanceled)
+                    {
+                        exception = we;
+                    }
+                }
                 catch (Exception e)
                 {
                     exception = e;
@@ -57,6 +64,18 @@ namespace BruTile.Extensions
             bool hasSignal = waitHandle.WaitOne(timeout ?? System.Threading.Timeout.Infinite);
             if (!hasSignal)
             {
+                try
+                {
+                    if (response != null)
+                        return response;
+                    if (request != null)
+                        request.Abort();
+                }
+                catch
+                {
+                    throw new TimeoutException("No response received in time.");
+                }
+
                 throw new TimeoutException("No response received in time.");
             }
 
