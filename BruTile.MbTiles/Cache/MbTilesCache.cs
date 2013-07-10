@@ -7,12 +7,12 @@ using System.Data.Common;
 using System.IO;
 using System.Runtime.Serialization;
 using BruTile.PreDefined;
-using Community.CsharpSqlite.SQLiteClient;
+using System.Data.SQLite;
 
 namespace BruTile.Cache
 {
     [Serializable]
-    internal class MbTilesCache : DbCache<SqliteConnection>, ISerializable
+    internal class MbTilesCache : DbCache<SQLiteConnection>, ISerializable
     {
         //private static DbCommand AddTileCommand(DbConnection connection,
         //    DecorateDbObjects qualifier, String schema, String table, char parameterPrefix = ':')
@@ -107,7 +107,7 @@ namespace BruTile.Cache
 
         private readonly ITileSchema _schema;
 
-        public MbTilesCache(SqliteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
+        public MbTilesCache(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
             : base(connection, (parent, child) => string.Format("\"{0}\"", child), string.Empty, "tiles",
             null, null, FindTileCommand)
         {
@@ -170,10 +170,10 @@ namespace BruTile.Cache
             
         }
 
-        private static SqliteConnection ConnectionFromInfo(SerializationInfo info)
+        private static SQLiteConnection ConnectionFromInfo(SerializationInfo info)
         {
             var connectionString = info.GetString("connectionString");
-            return new SqliteConnection(connectionString);
+            return new SQLiteConnection(connectionString);
         }
 
         private static ITileSchema SchemaFromInfo(SerializationInfo info)
@@ -188,7 +188,7 @@ namespace BruTile.Cache
             return (MbTilesType)info.GetInt32("mbTilesType");
         }
 
-        private static bool HasMapTable(SqliteConnection connection)
+        private static bool HasMapTable(SQLiteConnection connection)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
@@ -202,7 +202,7 @@ namespace BruTile.Cache
             }
         }
 
-        private static Extent ReadExtent(SqliteConnection connection)
+        private static Extent ReadExtent(SQLiteConnection connection)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
@@ -210,7 +210,7 @@ namespace BruTile.Cache
             using (var cmd = connection.CreateCommand())
             {
                 cmd.CommandText = "SELECT \"value\" FROM metadata WHERE \"name\"=:PName;";
-                cmd.Parameters.Add(new SqliteParameter("PName", DbType.String) { Value = "bounds" });
+                cmd.Parameters.Add(new SQLiteParameter("PName", DbType.String) { Value = "bounds" });
                 var reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 if (reader.HasRows)
                 {
@@ -245,7 +245,7 @@ namespace BruTile.Cache
             return extent;
         }
 
-        private static int[] ReadZoomLevels(SqliteConnection connection, out Dictionary<int, int[]> tileRange)
+        private static int[] ReadZoomLevels(SQLiteConnection connection, out Dictionary<int, int[]> tileRange)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
@@ -302,7 +302,7 @@ namespace BruTile.Cache
             return zoomLevels.ToArray();
         }
 
-        private static MbTilesFormat ReadFormat(SqliteConnection connection)
+        private static MbTilesFormat ReadFormat(SQLiteConnection connection)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
@@ -310,7 +310,7 @@ namespace BruTile.Cache
             using (var cmd = connection.CreateCommand())
             {
                 cmd.CommandText = "SELECT \"value\" FROM metadata WHERE \"name\"=:PName;";
-                cmd.Parameters.Add(new SqliteParameter("PName", DbType.String) { Value = "format" });
+                cmd.Parameters.Add(new SQLiteParameter("PName", DbType.String) { Value = "format" });
                 var reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 if (reader.HasRows)
                 {
@@ -330,7 +330,7 @@ namespace BruTile.Cache
             return MbTilesFormat.Png;
         }
 
-        private static MbTilesType ReadType(SqliteConnection connection)
+        private static MbTilesType ReadType(SQLiteConnection connection)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
@@ -338,7 +338,7 @@ namespace BruTile.Cache
             using (var cmd = connection.CreateCommand())
             {
                 cmd.CommandText = "SELECT \"value\" FROM metadata WHERE \"name\"=:PName;";
-                cmd.Parameters.Add(new SqliteParameter("PName", DbType.String) { Value = "type" });
+                cmd.Parameters.Add(new SQLiteParameter("PName", DbType.String) { Value = "type" });
                 var reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 if (reader.HasRows)
                 {
@@ -385,11 +385,11 @@ namespace BruTile.Cache
 
         internal static void Create(string connectionString, IDictionary<string, string> metadata)
         {
-            var csb = new SqliteConnectionStringBuilder(connectionString);
+            var csb = new SQLiteConnectionStringBuilder(connectionString);
             if (File.Exists(csb.DataSource))
                 File.Delete(csb.DataSource);
 
-            using (var cn = new SqliteConnection(connectionString))
+            using (var cn = new SQLiteConnection(connectionString))
             {
                 cn.Open();
                 using (var cmd = cn.CreateCommand())
@@ -401,8 +401,8 @@ namespace BruTile.Cache
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = "INSERT INTO metadata VALUES (?, ?);";
-                    var pName = new SqliteParameter("PName", DbType.String); cmd.Parameters.Add(pName);
-                    var pValue = new SqliteParameter("PValue", DbType.String); cmd.Parameters.Add(pValue);
+                    var pName = new SQLiteParameter("PName", DbType.String); cmd.Parameters.Add(pName);
+                    var pValue = new SQLiteParameter("PValue", DbType.String); cmd.Parameters.Add(pValue);
 
                     if (metadata == null || metadata.Count == 0)
                     {

@@ -3,9 +3,9 @@
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
 using System;
+using System.Data.SQLite;
 using System.Runtime.Serialization;
 using BruTile.FileSystem;
-using Community.CsharpSqlite.SQLiteClient;
 
 namespace BruTile
 {
@@ -13,11 +13,11 @@ namespace BruTile
     public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
         public MbTilesTileSource(string file, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
-            : this(new SqliteConnection(string.Format("Data Source={0}", new Uri(file))), schema, type)
+            : this(new SQLiteConnection(string.Format("Data Source={0}", new Uri(file))), schema, type)
         {
         }
 
-        internal MbTilesTileSource(SqliteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
+        internal MbTilesTileSource(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
             _tileSource = new MbTilesProvider(connection, schema, type);
         }
