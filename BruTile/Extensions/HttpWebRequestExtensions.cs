@@ -23,11 +23,16 @@ namespace BruTile.Extensions
         public static HttpWebResponse GetSyncResponse(this HttpWebRequest request,
                                                   int? timeout)
         {
-            if (request == null) throw new ArgumentNullException("request");
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
 
-            //TODO: check if this method is usable when called from the UI thread in Silverlight
-            //if not, see how we could throw an exception when this is the case (otherwise it just hangs)
-
+            /*
+             * TODO:
+             * Check if this method is usable when called from the UI thread in Silverlight
+             * if not, see how we could throw an exception when this is the case (otherwise it just hangs)
+             */
             var waitHandle = new AutoResetEvent(false);
             HttpWebResponse response = null;
             Exception exception = null;
@@ -37,7 +42,14 @@ namespace BruTile.Extensions
                 try
                 {
                     //get the response
-                    response = (HttpWebResponse)request.EndGetResponse(ar);
+                    response = (HttpWebResponse) request.EndGetResponse(ar);
+                }
+                catch (WebException we)
+                {
+                    if (we.Status != WebExceptionStatus.RequestCanceled)
+                    {
+                        exception = we;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -54,9 +66,21 @@ namespace BruTile.Extensions
             var asyncResult = request.BeginGetResponse(callback, null);
             if (asyncResult.CompletedSynchronously) return response;
 
-            bool hasSignal = waitHandle.WaitOne(timeout ?? System.Threading.Timeout.Infinite);
+            var hasSignal = waitHandle.WaitOne(timeout ?? Timeout.Infinite);
             if (!hasSignal)
             {
+                try
+                {
+                    if (response != null)
+                    {
+                        return response;
+                    }
+                    request.Abort();
+                }
+                catch
+                {
+                    throw new TimeoutException("No response received in time.");
+                }
                 throw new TimeoutException("No response received in time.");
             }
 
