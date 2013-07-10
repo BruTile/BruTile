@@ -22,6 +22,9 @@
       <frameworkAssembly assemblyName="System.Xml" targetFramework="" />
       <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
     </frameworkAssemblies>
+  <dependencies>
+    <dependency id="System.Data.SQLite" version="1.0.86.0"/>
+  </dependencies>
   </metadata>
   <files>
     <file src="Release\v3.5\BruTile.dll" target="lib\net35\BruTile.dll" />
