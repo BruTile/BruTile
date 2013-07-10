@@ -32,7 +32,7 @@ namespace BruTile.Web
                         var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
                         httpWebRequest.UserAgent = UserAgent;
                         httpWebRequest.Referer = Referer;
-                        return httpWebRequest;
+                        return RequestHelper.FetchImage(httpWebRequest);
                     });
         }
 

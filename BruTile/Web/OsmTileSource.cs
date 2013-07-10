@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using BruTile.Cache;
 using BruTile.Predefined;
 
@@ -12,11 +11,11 @@ namespace BruTile.Web
     {
         public OsmTileSource(OsmRequest osmRequest = null,
             IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, HttpWebRequest> webRequestFactory = null)
+            Func<Uri, byte[]> fetchTile = null)
             : base(new WebTileProvider(
                         osmRequest ?? new OsmRequest(KnownTileServers.Mapnik), 
                         persistentCache,
-                        webRequestFactory), 
+                        fetchTile), 
                 new SphericalMercatorInvertedWorldSchema())
         {
             if (osmRequest == null) osmRequest = new OsmRequest(KnownTileServers.Mapnik);

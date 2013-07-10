@@ -13,7 +13,7 @@ namespace BruTile.Tests.Web
         {
             // arrange
             var request = new BingRequest(
-                "http://t{S}.tiles.virtualearth.net/tiles/r{QuadKey}.jpeg?g={ApiVersion}&token={UserKey}", 
+                "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", 
                 "pindakaas", "555", new [] { "000", "111"});
             var tileInfo = new TileInfo { Index = new TileIndex(3, 4, 5) };
 
