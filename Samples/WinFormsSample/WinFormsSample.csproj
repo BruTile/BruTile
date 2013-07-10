@@ -122,6 +122,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="MapTransform.cs" />
+    <Compile Include="$(SolutionDir)SharedAssemblyVersion.cs">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj">

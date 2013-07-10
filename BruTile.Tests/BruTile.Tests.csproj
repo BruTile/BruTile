@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\SharedAssemblyVersion.cs">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="TileIndexTest.cs" />
     <Compile Include="TileTransformTest.cs" />
     <Compile Include="Web\TileSourceWmsCTest.cs">

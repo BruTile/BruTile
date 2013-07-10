@@ -46,6 +46,9 @@
     <Compile Include="Cache\NullCacheSurrogate.cs" />
     <Compile Include="ExtentSurrogate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\SharedAssemblyVersion.cs">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="ResolutionSurrogate.cs" />
     <Compile Include="TileSchemaSurrogate.cs" />
     <Compile Include="Utility.cs" />
