@@ -66,6 +66,9 @@
     <Compile Include="MbTilesTileSource.cs" />
     <Compile Include="MbTilesType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\SharedAssemblyVersion.cs">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile.Desktop\BruTile.Desktop.csproj">

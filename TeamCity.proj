@@ -2,14 +2,28 @@
   <PropertyGroup>
     <SolutionFile>BruTile.sln</SolutionFile> 
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
-    <NuGetVersion>0.7.3</NuGetVersion>
+    <AsmVersion>0.7.4</AsmVersion>
+    <AsmFileVersion>$(AsmVersion)</AsmFileVersion>
+	<NuGetVersion>$(AsmVersion)</NuGetVersion>
   </PropertyGroup>
 
-  <Target Name="BuildDebug">
+<Target Name="SetVersion">
+  <ItemGroup>
+    <AssemblyAttributes Include="AssemblyVersion">
+      <_Parameter1>$(AsmVersion)</_Parameter1>
+    </AssemblyAttributes>
+    <AssemblyAttributes Include="AssemblyFileVersion">
+      <_Parameter1>$(AsmFileVersion)</_Parameter1>
+    </AssemblyAttributes>
+  </ItemGroup>
+  <WriteCodeFragment Language="C#" OutputFile="SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
+</Target>
+  
+  <Target Name="BuildDebug" DependsOnTargets="SetVersion">
     <MSBuild Projects="$(SolutionFile)" Targets="BruTile" Properties="Configuration=Debug Portable" />
   </Target>
 
-  <Target Name="BuildRelease">
+  <Target Name="BuildRelease" DependsOnTargets="SetVersion">
     <MSBuild Projects="$(SolutionFile)" 
              Targets="BruTile;BruTile_Desktop;BruTile_Serialization;CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile_MbTiles" 
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\Release\Portable\" />
@@ -63,5 +77,6 @@
   <Target Name="BruTile_Tests">
     <MSBuild Projects="$(SolutionFile)" Targets="BruTile_Tests" Properties="Configuration=Release" />
   </Target>
+ <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/>
 
 </Project>
