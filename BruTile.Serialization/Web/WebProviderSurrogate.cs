@@ -17,10 +17,10 @@ namespace BruTile.Web
             info.AddValue("_requestType", request.GetType());
             info.AddValue("_request", request);
 
-            Func<Uri, HttpWebRequest> defaultWebRequestFactory = (uri => (HttpWebRequest) WebRequest.Create(uri));
-            var webRequestFactory = Utility.GetFieldValue(wp, "_webRequestFactory", BindingFlags.NonPublic | BindingFlags.Instance, defaultWebRequestFactory);
-            info.AddValue("_webRequestFactoryType", webRequestFactory.GetType());
-            info.AddValue("_webRequestFactory", webRequestFactory);
+            Func<Uri, byte[]> defaultfetchTile = null;
+            var fetchTile = Utility.GetFieldValue(wp, "_fetchTile", BindingFlags.NonPublic | BindingFlags.Instance, defaultfetchTile);
+            info.AddValue("_fetchTileType", fetchTile.GetType());
+            info.AddValue("_fetchTile", fetchTile);
 
             IPersistentCache<byte[]> defaultCache = new NullCache();
             var cache = Utility.GetFieldValue(wp, "_persistentCache", BindingFlags.Public | BindingFlags.Instance, defaultCache);
@@ -38,8 +38,8 @@ namespace BruTile.Web
             var type = (Type)info.GetValue("_requestType", typeof(Type));
             Utility.SetFieldValue(ref obj, "_request", BindingFlags.NonPublic | BindingFlags.Instance, (IRequest)info.GetValue("_request", type));
 
-            type = (Type)info.GetValue("_webRequestFactoryType", typeof(Type));
-            Utility.SetFieldValue(ref obj, "_webRequestFactory", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_webRequestFactory", type));
+            type = (Type)info.GetValue("_fetchTileType", typeof(Type));
+            Utility.SetFieldValue(ref obj, "_fetchTile", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_fetchTile", type));
 
             type = (Type)info.GetValue("_persistentCacheType", typeof(Type));
             Utility.SetFieldValue(ref obj, "_persistentCache", BindingFlags.NonPublic | BindingFlags.Instance, info.GetValue("_persistentCache", type));

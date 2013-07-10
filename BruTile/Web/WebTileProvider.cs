@@ -2,7 +2,6 @@
 
 using BruTile.Cache;
 using System;
-using System.Net;
 
 namespace BruTile.Web
 {
@@ -10,14 +9,14 @@ namespace BruTile.Web
     {
         private readonly IPersistentCache<byte[]> _persistentCache;
         private readonly IRequest _request;
-        private readonly Func<Uri, HttpWebRequest> _webRequestFactory;
+        private readonly Func<Uri, byte[]> _fetchTile;
 
         public WebTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, HttpWebRequest> webRequestFactory = null)
+            Func<Uri, byte[]> fetchTile = null)
         {
             _request = request ?? new NullRequest();
             _persistentCache = persistentCache ?? new NullCache();
-            _webRequestFactory = webRequestFactory ?? (uri => (HttpWebRequest) WebRequest.Create(uri));
+            _fetchTile = fetchTile ?? (RequestHelper.FetchImage);
         }
 
         public byte[] GetTile(TileInfo tileInfo)
@@ -25,7 +24,7 @@ namespace BruTile.Web
             var bytes = _persistentCache.Find(tileInfo.Index);
             if (bytes == null)
             {
-                bytes = RequestHelper.FetchImage(_webRequestFactory(_request.GetUri(tileInfo)));
+                bytes = _fetchTile(_request.GetUri(tileInfo));
                 if (bytes != null) _persistentCache.Add(tileInfo.Index, bytes);
             }
             return bytes;

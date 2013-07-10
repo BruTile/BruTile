@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Net;
 using BruTile.Cache;
 using BruTile.Web.TmsService;
 
@@ -16,9 +15,9 @@ namespace BruTile.Web
         }
 
         public TmsTileSource(Uri serviceUri, ITileSchema tileSchema, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, HttpWebRequest> webRequestFactory = null) :
+            Func<Uri, byte[]> fetchTile = null) :
             base(new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format), persistentCache,
-                webRequestFactory), tileSchema)
+                fetchTile), tileSchema)
         {
         }
 

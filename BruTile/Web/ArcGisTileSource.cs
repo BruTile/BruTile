@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Net;
 using BruTile.Cache;
 
 namespace BruTile.Web
@@ -17,9 +16,9 @@ namespace BruTile.Web
                 string baseUrl, 
                 ITileSchema schema, 
                 IPersistentCache<byte[]> persistentCache = null,
-                Func<Uri, HttpWebRequest> webRequestFactory = null)
+                Func<Uri, byte[]> fetchTile = null)
             : base(
-                new WebTileProvider(CreateArcGISRequest(baseUrl), persistentCache, webRequestFactory), 
+                new WebTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), 
                 schema)
         {
             BaseUrl = baseUrl;
