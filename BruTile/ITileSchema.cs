@@ -12,7 +12,7 @@ namespace BruTile
         Extent Extent { get; }
         double OriginX { get; }
         double OriginY { get; }
-        IList<Resolution> Resolutions { get; }
+        IDictionary<int, Resolution> Resolutions { get; }
         int Width { get; }
         int Height { get; }
         string Format { get; }

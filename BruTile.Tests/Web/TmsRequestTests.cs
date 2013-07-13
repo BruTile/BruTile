@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Web
 {
     [TestFixture]
-    public class TmsRequestTest
+    public class TmsRequestTests
     {
         [Test]
         public void WhenInitializedShouldReturnCorrectUri()

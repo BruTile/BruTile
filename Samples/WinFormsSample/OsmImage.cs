@@ -14,7 +14,7 @@ namespace WinFormsSample
     {
         public OsmImage()
         {
-            OsmServer = KnownOsmTileServers.Mapnik;
+            OsmServer = KnownTileServers.Mapnik;
         }
         
         private Bitmap _buffer;
@@ -33,23 +33,20 @@ namespace WinFormsSample
             set { _apiKey = value; }
         }
 
-        private KnownOsmTileServers _osmRenderer;
+        private KnownTileServers _osmRenderer;
 
         /// <summary>
         /// Gets or sets the default OpenStreetmap renderer
         /// </summary>
-        [DefaultValue(KnownOsmTileServers.Mapnik)]
-        public KnownOsmTileServers OsmServer
+        [DefaultValue(KnownTileServers.Mapnik)]
+        public KnownTileServers OsmServer
         {
             get { return _osmRenderer; }
             set
             {
                 if (_osmRenderer == value)
                     return;
-
-                if (value == KnownOsmTileServers.Custom)
-                    return;
-
+                
                 _osmRenderer = value;
                 _source = new OsmTileSource(new OsmRequest(OsmTileServerConfig.Create(value, ApiKey)));
                 RenderToBuffer();
@@ -144,6 +141,9 @@ namespace WinFormsSample
         private void RenderToBuffer()
         {
             if (_mapTransform == null)
+                return;
+
+            if (_source == null)
                 return;
 
             var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.Resolution);

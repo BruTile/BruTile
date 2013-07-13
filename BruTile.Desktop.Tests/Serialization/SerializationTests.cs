@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using BruTile.Cache;
+using BruTile.Predefined;
 using BruTile.Web;
 using NUnit.Framework;
 
@@ -37,7 +38,7 @@ namespace BruTile.Tests.Serialization
         public void TestBingSchema()
         {
             string message;
-            var s1 = new PreDefined.BingSchema();
+            var s1 = new BingSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -47,7 +48,7 @@ namespace BruTile.Tests.Serialization
         public void TestSphericalMercatorWorldSchema()
         {
             string message;
-            var s1 = new PreDefined.SphericalMercatorWorldSchema();
+            var s1 = new SphericalMercatorWorldSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -57,7 +58,7 @@ namespace BruTile.Tests.Serialization
         public void TestSphericalMercatorInvertedWorldSchema()
         {
             string message;
-            var s1 = new PreDefined.SphericalMercatorInvertedWorldSchema();
+            var s1 = new SphericalMercatorInvertedWorldSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -67,7 +68,7 @@ namespace BruTile.Tests.Serialization
         public void TestGlobalMercatorSchema()
         {
             string message;
-            var s1 = new PreDefined.GlobalMercator("png", 2, 11);
+            var s1 = new GlobalMercator("png", 2, 11);
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -77,7 +78,7 @@ namespace BruTile.Tests.Serialization
         public void TestWkstNederlandSchema()
         {
             string message;
-            var s1 = new PreDefined.WkstNederlandSchema();
+            var s1 = new WkstNederlandSchema();
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -129,8 +130,8 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestOsmTileSource()
         {
-            var tsc = OsmTileServerConfig.Create(KnownOsmTileServers.OpenCycleMap, null);
-            var ts1 = new OsmTileSource(new OsmRequest(tsc), new MemoryCache<byte[]>(20,40));
+            var tsc = OsmTileServerConfig.Create(KnownTileServers.Mapnik, null);
+            var ts1 = new OsmTileSource(new OsmRequest(tsc), new FakePersistentCache<byte[]>());
             var ts2 = SandD(ts1);
 
             Assert.NotNull(ts2);
@@ -142,7 +143,7 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestOsmTileServerConfig()
         {
-            var tsc1 = OsmTileServerConfig.Create(KnownOsmTileServers.Mapnik, string.Empty);
+            var tsc1 = OsmTileServerConfig.Create(KnownTileServers.Mapnik, string.Empty);
             var tsc2 = SandD(tsc1);
             Assert.NotNull(tsc1);
 
@@ -153,18 +154,19 @@ namespace BruTile.Tests.Serialization
             Assert.AreEqual(tsc1.MaxResolution, tsc2.MaxResolution, "Max resolution levels don't match");
         }
 
-        [Test]
-        public void TestMbTiles()
-        {
-            var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
-            var p2 = SandD(p1);
-            Assert.IsNotNull(p2);
-            Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
-            Assert.AreEqual(p1.Type, p2.Type, "MbTiles Type not equal");
-            string msg;
-            Assert.IsTrue(EqualTileSources(p1, p2, out msg), msg);
-            //Assert.IsTrue(EqualTileSchemas(p1.Schema, p2.Schema, out msg), msg);
-        }
+        //[Test]
+        //[Ignore("Test a path to a folder on a specific machine")]
+        //public void TestMbTiles()
+        //{
+        //    var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
+        //    var p2 = SandD(p1);
+        //    Assert.IsNotNull(p2);
+        //    Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
+        //    Assert.AreEqual(p1.Type, p2.Type, "MbTiles Type not equal");
+        //    string msg;
+        //    Assert.IsTrue(EqualTileSources(p1, p2, out msg), msg);
+        //    //Assert.IsTrue(EqualTileSchemas(p1.Schema, p2.Schema, out msg), msg);
+        //}
 
         #endregion
 
@@ -217,7 +219,7 @@ namespace BruTile.Tests.Serialization
                     return false;
                 }
 
-                for (var i = 0; i < 50; i++)
+                for (var i = 0; i < 8; i++)
                 {
                     TileInfo ti = null;
                     try
@@ -359,13 +361,13 @@ namespace BruTile.Tests.Serialization
                 return false;
             }
 
-            for (var i = 0; i < ts1.Resolutions.Count; i++ )
+            foreach (var key in ts1.Resolutions.Keys)
             {
-                var r1 = ts1.Resolutions[i];
-                var r2 = ts2.Resolutions[i];
+                var r1 = ts1.Resolutions[key];
+                var r2 = ts2.Resolutions[key];
                 if (r1.Id != r2.Id || r1.UnitsPerPixel != r2.UnitsPerPixel)
                 {
-                    message = string.Format("Resolution doesn't match at index {0}", i);
+                    message = string.Format("Resolution doesn't match at index {0}", key);
                     return false;
                 }
             }
@@ -373,9 +375,6 @@ namespace BruTile.Tests.Serialization
             message = "Schemas are equal!";
             return true;
         }
-
-
-
 
         private static T SandD<T>(T obj, IFormatter formatter = null)
         {

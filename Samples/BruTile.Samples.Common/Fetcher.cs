@@ -1,6 +1,6 @@
 ﻿﻿// Copyright 2008 - Paul den Dulk (Geodan)
 
-using BruTile;
+using System.Linq;
 using BruTile.Cache;
 using System;
 using System.Collections.Generic;
@@ -10,37 +10,37 @@ namespace BruTile.Samples.Common
 {
     public class Fetcher<T>
     {
-        private readonly ITileCache<Tile<T>> memoryCache;
-        private readonly ITileSource tileSource;
-        private Extent extent;
-        private double resolution;
-        private readonly IList<TileIndex> tilesInProgress = new List<TileIndex>();
-        private const int MaxThreads = 2;
-        private readonly AutoResetEvent waitHandle = new AutoResetEvent(true);
-        private readonly IFetchStrategy strategy = new FetchStrategy();
-        private volatile bool isAborted = false;
-        private volatile bool isViewChanged;
-        private Retries retries = new Retries();
+        private readonly ITileCache<Tile<T>> _memoryCache;
+        private readonly ITileSource _tileSource;
+        private Extent _extent;
+        private double _resolution;
+        private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
+        private const int MaxThreads = 4;
+        private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
+        private readonly IFetchStrategy _strategy = new FetchStrategy();
+        private volatile bool _isAborted;
+        private volatile bool _isViewChanged;
+        private readonly Retries _retries = new Retries();
 
         public event DataChangedEventHandler<T> DataChanged;
 
         public Fetcher(ITileSource tileSource, ITileCache<Tile<T>> memoryCache)
         {
             if (tileSource == null) throw new ArgumentException("TileProvider can not be null");
-            this.tileSource = tileSource;
+            _tileSource = tileSource;
 
             if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
-            this.memoryCache = memoryCache;
+            _memoryCache = memoryCache;
 
             StartFetchLoop();
         }
 
         public void ViewChanged(Extent newExtent, double newResolution)
         {
-            extent = newExtent;
-            resolution = newResolution;
-            isViewChanged = true;
-            waitHandle.Set();
+            _extent = newExtent;
+            _resolution = newResolution;
+            _isViewChanged = true;
+            _waitHandle.Set();
         }
 
         private void StartFetchLoop()
@@ -50,59 +50,55 @@ namespace BruTile.Samples.Common
 
         public void AbortFetch()
         {
-            isAborted = true;
-            waitHandle.Set(); // active fetch loop so it can run out of the loop
+            _isAborted = true;
+            _waitHandle.Set(); // active fetch loop so it can run out of the loop
         }
 
         private void FetchLoop(object state)
         {
             IEnumerable<TileInfo> tilesWanted = null;
 
-            while (!isAborted)
+            while (!_isAborted)
             {
-                waitHandle.WaitOne();
+                _waitHandle.WaitOne();
 
-                if (tileSource.Schema == null)
+                if (_tileSource.Schema == null)
                 {
-                    waitHandle.Reset();    // set in wait mode 
+                    _waitHandle.Reset();    // set in wait mode 
                     continue;              // and go to begin of loop to wait
                 }
 
-                if (isViewChanged || tilesWanted == null)
+                if (_isViewChanged || tilesWanted == null)
                 {
-                    int level = BruTile.Utilities.GetNearestLevel(tileSource.Schema.Resolutions, resolution);
-                    tilesWanted = strategy.GetTilesWanted(tileSource.Schema, extent, level);
-                    retries.Clear();
-                    isViewChanged = false;
+                    int level = Utilities.GetNearestLevel(_tileSource.Schema.Resolutions, _resolution);
+                    tilesWanted = _strategy.GetTilesWanted(_tileSource.Schema, _extent, level);
+                    _retries.Clear();
+                    _isViewChanged = false;
                 }
 
-                var tilesMissing = GetTilesMissing(tilesWanted, memoryCache, retries);
+                var tilesMissing = GetTilesMissing(tilesWanted, _memoryCache, _retries);
 
                 FetchTiles(tilesMissing);
 
-                if (tilesMissing.Count == 0) { waitHandle.Reset(); }
+                if (tilesMissing.Count == 0) { _waitHandle.Reset(); }
 
-                if (tilesInProgress.Count >= MaxThreads) { waitHandle.Reset(); }
+                if (_tilesInProgress.Count >= MaxThreads) { _waitHandle.Reset(); }
             }
         }
 
         private static IList<TileInfo> GetTilesMissing(IEnumerable<TileInfo> tilesWanted,
             ITileCache<Tile<T>> memoryCache, Retries retries)
         {
-            var tilesNeeded = new List<TileInfo>();
-            foreach (TileInfo info in tilesWanted)
-            {
-                if (memoryCache.Find(info.Index) == null && !retries.ReachedMax(info.Index))
-                    tilesNeeded.Add(info);
-            }
-            return tilesNeeded;
+            return tilesWanted.Where(
+                info => memoryCache.Find(info.Index) == null && 
+                !retries.ReachedMax(info.Index)).ToList();
         }
 
         private void FetchTiles(IEnumerable<TileInfo> tilesMissing)
         {
             foreach (TileInfo info in tilesMissing)
             {
-                if (tilesInProgress.Count >= MaxThreads) return;
+                if (_tilesInProgress.Count >= MaxThreads) return;
                 FetchTile(info);
             }
         }
@@ -110,12 +106,12 @@ namespace BruTile.Samples.Common
         private void FetchTile(TileInfo info)
         {
             // first some checks
-            if (tilesInProgress.Contains(info.Index)) return;
-            if (retries.ReachedMax(info.Index)) return;
+            if (_tilesInProgress.Contains(info.Index)) return;
+            if (_retries.ReachedMax(info.Index)) return;
 
             // prepare for request
-            lock (tilesInProgress) { tilesInProgress.Add(info.Index); }
-            retries.PlusOne(info.Index);
+            lock (_tilesInProgress) { _tilesInProgress.Add(info.Index); }
+            _retries.PlusOne(info.Index);
 
             // now we can go for the request.
             FetchAsync(info);
@@ -124,16 +120,16 @@ namespace BruTile.Samples.Common
         private void FetchAsync(TileInfo tileInfo)
         {
             ThreadPool.QueueUserWorkItem(
-                (source) =>
+                source =>
                 {
                     Exception error = null;
                     Tile<T> tile = null;
 
                     try
                     {
-                        if (tileSource != null)
+                        if (_tileSource != null)
                         {
-                            byte[] data = tileSource.Provider.GetTile(tileInfo);
+                            byte[] data = _tileSource.Provider.GetTile(tileInfo);
                             tile = new Tile<T> { Data = data, Info = tileInfo };
                         }
                     }
@@ -142,15 +138,15 @@ namespace BruTile.Samples.Common
                         error = ex;
                     }
 
-                    lock (tilesInProgress)
+                    lock (_tilesInProgress)
                     {
-                        if (tilesInProgress.Contains(tileInfo.Index))
-                            tilesInProgress.Remove(tileInfo.Index);
+                        if (_tilesInProgress.Contains(tileInfo.Index))
+                            _tilesInProgress.Remove(tileInfo.Index);
                     }
 
-                    waitHandle.Set();
+                    _waitHandle.Set();
 
-                    if (DataChanged != null && !isAborted)
+                    if (DataChanged != null && !_isAborted)
                         DataChanged(this, new DataChangedEventArgs<T>(error, false, tile));
 
                 });
@@ -162,24 +158,24 @@ namespace BruTile.Samples.Common
         /// </summary>
         class Retries
         {
-            private readonly IDictionary<TileIndex, int> retries = new Dictionary<TileIndex, int>();
-            private int maxRetries = 0;
+            private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
+            private const int MaxRetries = 0;
 
             public bool ReachedMax(TileIndex index)
             {
-                int retryCount = (!retries.Keys.Contains(index)) ? 0 : retries[index];
-                return retryCount > maxRetries;
+                int retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
+                return retryCount > MaxRetries;
             }
 
             public void PlusOne(TileIndex index)
             {
-                if (!retries.Keys.Contains(index)) retries.Add(index, 0);
-                else retries[index]++;
+                if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
+                else _retries[index]++;
             }
 
             public void Clear()
             {
-                retries.Clear();
+                _retries.Clear();
             }
         }
     }

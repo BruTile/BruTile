@@ -3,8 +3,9 @@
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2010.
 
 using System;
-using BruTile.PreDefined;
+using System.Net;
 using BruTile.Cache;
+using BruTile.Predefined;
 
 namespace BruTile.Web
 {
@@ -12,26 +13,28 @@ namespace BruTile.Web
     public class GoogleTileSource : ITileSource
     {
         private readonly SphericalMercatorInvertedWorldSchema _tileSchema;
-        private readonly GoogleTileProvider _tileProvider;
+        private readonly WebTileProvider _tileProvider;
         public const string UserAgent = @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
         public const string Referer = "http://maps.google.com/";
 
         public GoogleTileSource(GoogleMapType mapType)
-            : this(new GoogleRequest(mapType), new NullCache())
+            : this(new GoogleRequest(mapType))
         {
-        }
-        public GoogleTileSource(GoogleRequest request)
-            : this(request, new NullCache())
-        {
-        }
-        
-        public GoogleTileSource(GoogleRequest request, ITileCache<byte[]> fileCache)
-        {
-            _tileSchema = new SphericalMercatorInvertedWorldSchema();
-            _tileProvider = new GoogleTileProvider(request, fileCache);
         }
 
-        #region Implementation of ITileSource
+        public GoogleTileSource(GoogleRequest request, IPersistentCache<byte[]> persistentCache = null)
+        {
+            _tileSchema = new SphericalMercatorInvertedWorldSchema();
+            _tileProvider = new WebTileProvider(request, persistentCache, 
+                // The Google requests needs to fake the UserAgent en Referer.
+                uri =>
+                    {
+                        var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
+                        httpWebRequest.UserAgent = UserAgent;
+                        httpWebRequest.Referer = Referer;
+                        return RequestHelper.FetchImage(httpWebRequest);
+                    });
+        }
 
         public ITileProvider Provider
         {
@@ -42,7 +45,5 @@ namespace BruTile.Web
         {
             get { return _tileSchema; }
         }
-
-        #endregion
     }
 }

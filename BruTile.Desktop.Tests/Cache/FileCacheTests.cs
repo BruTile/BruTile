@@ -4,9 +4,9 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
-    public class FileCacheTest : CacheTest<FileCache>
+    public class FileCacheTests : CacheTests<FileCache>
     {
-        public FileCacheTest()
+        public FileCacheTests()
             : base(ClearedFileCacheTest())
         {
         }
@@ -18,8 +18,8 @@ namespace BruTile.Tests.Cache
             return new FileCache("FileCacheTest", "buf");
         }
 
-        [Test, Category("CacheTest"), Ignore("Long running, only test once in a while")]
-        public void Test()
+        [Test, Ignore]
+        public void DoTest()
         {
             TestInsertFindRemove();
         }

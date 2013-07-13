@@ -2,7 +2,7 @@
 
 using System.Globalization;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     public class SphericalMercatorWorldSchema : TileSchema
     {
@@ -18,7 +18,7 @@ namespace BruTile.PreDefined
             var count = 0;
             foreach (var resolution in resolutions)
             {
-                Resolutions.Add(new Resolution {Id = count.ToString(CultureInfo.InvariantCulture), UnitsPerPixel = resolution});
+                Resolutions[count] = new Resolution {Id = count.ToString(CultureInfo.InvariantCulture), UnitsPerPixel = resolution};
                 count++;
             }
             Height = 256;

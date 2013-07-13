@@ -16,40 +16,39 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System.Collections.Generic;
-using BruTile;
 
-namespace BruTile.Metro
+namespace BruTile.Samples.Common
 {
     public static class ZoomHelper
     {
-        public static double ZoomIn(IList<Resolution> resolutions, double resolution)
+        public static double ZoomIn(IList<double> resolutions, double resolution)
         {
             if (resolutions.Count == 0) return resolution / 2.0;
 
             //smaller than smallest
-            if (resolutions[resolutions.Count - 1].UnitsPerPixel > resolution) return resolutions[resolutions.Count - 1].UnitsPerPixel;
+            if (resolutions[resolutions.Count - 1] > resolution) return resolutions[resolutions.Count - 1];
 
             for (int i = 0; i < resolutions.Count; i++)
             {
-                if (resolutions[i].UnitsPerPixel < resolution)
-                    return resolutions[i].UnitsPerPixel;
+                if (resolutions[i] < resolution)
+                    return resolutions[i];
             }
-            return resolutions[resolutions.Count - 1].UnitsPerPixel;
+            return resolutions[resolutions.Count - 1];
         }
 
-        public static double ZoomOut(IList<Resolution> resolutions, double resolution)
+        public static double ZoomOut(IList<double> resolutions, double resolution)
         {
             if (resolutions.Count == 0) return resolution * 2.0;
 
             //bigger than biggest
-            if (resolutions[0].UnitsPerPixel < resolution) return resolutions[0].UnitsPerPixel;
+            if (resolutions[0] < resolution) return resolutions[0];
 
             for (int i = resolutions.Count - 1; i >= 0; i--)
             {
-                if (resolutions[i].UnitsPerPixel > resolution)
-                    return resolutions[i].UnitsPerPixel;
+                if (resolutions[i] > resolution)
+                    return resolutions[i];
             }
-            return resolutions[0].UnitsPerPixel;
+            return resolutions[0];
         }
     }
 }

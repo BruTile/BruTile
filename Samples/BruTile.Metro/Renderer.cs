@@ -11,7 +11,7 @@ namespace BruTile.Metro
 {
     public static class Renderer
     {
-        public static void Render(BruTile.Samples.Common.Viewport viewport, Canvas canvas, IEnumerable<Tile<Image>> tiles)
+        public static void Render(Viewport viewport, Canvas canvas, IEnumerable<Tile<Image>> tiles)
         {
             if (viewport == null) return;
 

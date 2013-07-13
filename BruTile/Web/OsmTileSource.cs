@@ -3,24 +3,22 @@
 using System;
 using System.Collections.Generic;
 using BruTile.Cache;
-using BruTile.PreDefined;
+using BruTile.Predefined;
 
 namespace BruTile.Web
 {
     public class OsmTileSource : TileSource
     {
-        public OsmTileSource()
-            :this(new OsmRequest(KnownOsmTileServers.Mapnik))
-        {}
-
-        public OsmTileSource(OsmRequest osmRequest)
-            :this(osmRequest, new MemoryCache<byte[]>(50, 100))
+        public OsmTileSource(OsmRequest osmRequest = null,
+            IPersistentCache<byte[]> persistentCache = null,
+            Func<Uri, byte[]> fetchTile = null)
+            : base(new WebTileProvider(
+                        osmRequest ?? new OsmRequest(KnownTileServers.Mapnik), 
+                        persistentCache,
+                        fetchTile), 
+                new SphericalMercatorInvertedWorldSchema())
         {
-        }
-
-        public OsmTileSource(OsmRequest osmRequest, ITileCache<byte[]> cache)
-            : base(new WebTileProvider(osmRequest, cache), new SphericalMercatorInvertedWorldSchema())
-        {
+            if (osmRequest == null) osmRequest = new OsmRequest(KnownTileServers.Mapnik);
             var resolutionsToDelete = new List<int>();
             var resolutions = Schema.Resolutions;
             for (var i = 0; i < resolutions.Count; i++)
@@ -36,7 +34,7 @@ namespace BruTile.Web
             int numDeleted = 0;
             foreach (var i in resolutionsToDelete)
             {
-                resolutions.RemoveAt(i - numDeleted++);
+                resolutions.Remove(i - numDeleted++);
             }
         }
 

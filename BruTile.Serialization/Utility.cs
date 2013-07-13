@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using BruTile.Cache;
-using BruTile.PreDefined;
+using BruTile.Predefined;
 using BruTile.Web;
 
 namespace BruTile
@@ -126,7 +126,7 @@ namespace BruTile
                             new StreamingContext(StreamingContextStates.All),
                             new MemoryCacheSurrogate<System.Drawing.Bitmap>());
 
-            // PreDefined
+            // Predefined
             var tss1 = new TileSchemaSurrogate();
             ss.AddSurrogate(typeof (GlobalMercator), new StreamingContext(StreamingContextStates.All), tss1);
             ss.AddSurrogate(typeof (SphericalMercatorWorldSchema), new StreamingContext(StreamingContextStates.All), tss1);

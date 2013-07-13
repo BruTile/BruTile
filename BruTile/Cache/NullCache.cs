@@ -4,7 +4,7 @@ using System;
 
 namespace BruTile.Cache
 {
-    public class NullCache : ITileCache<byte[]>
+    public class NullCache : IPersistentCache<byte[]>
     {
         public void Add(TileIndex index, byte[] image)
         {

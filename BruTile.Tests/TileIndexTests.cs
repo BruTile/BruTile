@@ -3,7 +3,7 @@
 namespace BruTile.Tests
 {
     [TestFixture]
-    public class TileKeyTest
+    public class TileIndexTests
     {
         [Test]
         public void CompareToTest()

@@ -5,8 +5,7 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
-    /*
-    public class SQLiteDbCacheTest : CacheTest<DbCache<SQLiteConnection>>
+    public class SQLiteDbCacheTests : CacheTests<DbCache<SQLiteConnection>>
     {
         private static SQLiteConnection MakeConnection(String datasource)
         {
@@ -20,7 +19,7 @@ namespace BruTile.Tests.Cache
             return cn;
         }
 
-        public SQLiteDbCacheTest()
+        public SQLiteDbCacheTests()
             : base(CleanConnection())
         {
         }
@@ -33,13 +32,14 @@ namespace BruTile.Tests.Cache
             return new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
-        [Test]
-        [Ignore("Need to come up with some logic to replace @ parameter prefix before this works!")]
-        public void Test()
+        [Test, Ignore]
+        public void DoTest()
         {
             TestInsertFindRemove();
+#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
+#endif
         }
 
         protected override void InsertTiles()
@@ -78,5 +78,4 @@ namespace BruTile.Tests.Cache
             Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
         }
     }
-     */
 }
