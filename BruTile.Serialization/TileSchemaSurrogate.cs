@@ -22,8 +22,11 @@ namespace BruTile
             info.AddValue("format", ts.Format);
             info.AddValue("resolutionsType", ts.Resolutions.GetType());
             info.AddValue("resolutionsCount", ts.Resolutions.Count);
-            for (var i = 0; i < ts.Resolutions.Count; i++ )
-                info.AddValue(string.Format("resolution{0}", i), ts.Resolutions[i]);
+
+            foreach (var key in ts.Resolutions.Keys)
+            {
+                info.AddValue(string.Format("resolution{0}", key), ts.Resolutions[key]); // we should store 
+            }
             info.AddValue("axis", ts.Axis);
         }
 
@@ -40,10 +43,26 @@ namespace BruTile
             ts.Format = info.GetString("format");
             
             var type = (Type) info.GetValue("resolutionsType", typeof (Type));
-            var list = (IList<Resolution>) Activator.CreateInstance(type);
+            var list = (IDictionary<int, Resolution>) Activator.CreateInstance(type);
             var count = info.GetInt32("resolutionsCount");
-            for (var i = 0; i < count; i++)
-                list.Add((Resolution)info.GetValue(string.Format("resolution{0}", i), typeof(Resolution)));    
+            var keyValue = 0;
+            var counter = 0;
+            while (counter < count)
+            {
+                Resolution value = default(Resolution);
+                try
+                {
+                    value = (Resolution)info.GetValue(string.Format("resolution{0}", keyValue), typeof(Resolution));
+                }
+                catch {}
+
+                if (!value.Equals(default(Resolution)))
+                {
+                    list[keyValue] = value;
+                    counter++;
+                }
+                keyValue++;
+            }
             Utility.SetFieldValue(ref obj, "_resolutions", BindingFlags.NonPublic | BindingFlags.Instance, list);
             
             ts.Axis = (AxisDirection)info.GetInt32("axis");
@@ -53,7 +72,7 @@ namespace BruTile
         #endregion
     }
 
-    namespace PreDefined
+    namespace Predefined
     {
         internal class BingSchemaSurrogate : TileSchemaSurrogate
         {

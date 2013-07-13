@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Serialization
 {
-    public class ReflectionTest
+    public class ReflectionTests
     {
         public class MyTypeClass
         {

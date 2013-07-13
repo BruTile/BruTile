@@ -72,15 +72,15 @@ namespace BruTile.Extensions
                 try
                 {
                     if (response != null)
-                    {
                         return response;
-                    }
-                    request.Abort();
+                    if (request != null)
+                        request.Abort();
                 }
                 catch
                 {
                     throw new TimeoutException("No response received in time.");
                 }
+
                 throw new TimeoutException("No response received in time.");
             }
 

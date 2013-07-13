@@ -72,7 +72,7 @@ namespace BruTile.Cache
     /// </summary>
     /// <typeparam name="TConnection">A Connection class derived from <see cref="DbConnection"/></typeparam>
     [Serializable]
-    public class DbCache<TConnection> : ITileCache<byte[]>, ISerializable
+    public class DbCache<TConnection> : IPersistentCache<byte[]>, ISerializable
         where TConnection : DbConnection, new()
     {
         private static DbCommand BasicAddTileCommand(DbConnection connection,

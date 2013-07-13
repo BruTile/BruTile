@@ -7,7 +7,7 @@ using BruTile.FileSystem;
 namespace BruTile.Tests.FileSystem
 {
     [TestFixture]
-    public class FileTileProviderTest
+    public class FileTileProviderTests
     {
         [Test]
         public void GetTile_WhenTilePresent_ShouldReturnTile()

@@ -41,7 +41,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(153, 524);
             this.listBox1.TabIndex = 3;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.ListBox1SelectedIndexChanged);
             // 
             // label1
             // 
@@ -58,14 +58,14 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(153, 20);
             this.textBox1.TabIndex = 5;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1TextChanged);
             // 
             // osmImage1
             // 
             this.osmImage1.ApiKey = null;
             this.osmImage1.Location = new System.Drawing.Point(171, 12);
             this.osmImage1.Name = "osmImage1";
-            this.osmImage1.OsmServer = BruTile.Web.KnownOsmTileServers.Mapnik;
+            this.osmImage1.OsmServer = BruTile.Web.KnownTileServers.Mapnik;
             this.osmImage1.ShowExtent = false;
             this.osmImage1.ShowGrid = false;
             this.osmImage1.Size = new System.Drawing.Size(601, 561);

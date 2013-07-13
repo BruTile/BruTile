@@ -7,9 +7,7 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
-    [Ignore]
-    [TestFixture]
-    public class SqlCeDbCacheTest : CacheTest<DbCache<SqlCeConnection>>
+    public class SqlCeDbCacheTests : CacheTests<DbCache<SqlCeConnection>>
     {
         private static SqlCeConnection MakeConnection(String datasource)
         {
@@ -28,7 +26,7 @@ namespace BruTile.Tests.Cache
             return cn;
         }
 
-        public SqlCeDbCacheTest()
+        public SqlCeDbCacheTests()
             : base(CleanConnection())
         {
         }
@@ -129,14 +127,14 @@ namespace BruTile.Tests.Cache
             return cmd;
         }
 
-#if DEBUG
-        [Test, Category("CacheTest"), Ignore("Long running, only test once in a while")]
+        [Test, Ignore]
         public void DoTest()
         {
             TestInsertFindRemove();
+#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
-        }
 #endif
+        }
     }
 }

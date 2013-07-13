@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BruTile.Samples.Common.Geometries
 {
     // Point is in its own namespace to avoid collisions with other Point types
     public struct Point
     {
-        public Point(double X, double Y)
+        public Point(double x, double y)
         {
-            this.X = X;
-            this.Y = Y;
+            X = x;
+            Y = y;
         }
 
         public double X;

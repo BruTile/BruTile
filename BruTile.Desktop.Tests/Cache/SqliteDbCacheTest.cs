@@ -1,15 +1,13 @@
-﻿using System;
+﻿/*using System;
 using BruTile.Cache;
-using Community.CsharpSqlite.SQLiteClient;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
-    /*
-    public class SqliteDbCacheTest : CacheTest<DbCache<SqliteConnection>>
+    public class SqliteDbCacheTests : CacheTests<DbCache<SqliteConnection>>
     {
         private static SqliteConnection MakeConnection(String datasource)
-        {
+        {   
             //DbCache<SqliteConnection>.ParameterPrefix = '$';
             var cn = new SqliteConnection(string.Format("Data Source=file://{0}", datasource));
             cn.Open();
@@ -27,7 +25,7 @@ namespace BruTile.Tests.Cache
         //    DbCache<SqliteConnection>.ParameterPrefix = '$';
         //}
 
-        public SqliteDbCacheTest()
+        public SqliteDbCacheTests()
             : base(CleanConnection())
         {
         }
@@ -40,13 +38,14 @@ namespace BruTile.Tests.Cache
             return new DbCache<SqliteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
-        [Test]
-        [Ignore]
-        public void Test()
+        [Test, Ignore]
+        public void DoTest()
         {
             TestInsertFindRemove();
+#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
+#endif
         }
 
         protected override void InsertTiles()
@@ -85,5 +84,4 @@ namespace BruTile.Tests.Cache
             Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
         }
     }
-     */
-}
+}*/

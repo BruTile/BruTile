@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using BruTile.Web;
+using System;
 using System.Windows.Forms;
-using BruTile;
-using BruTile.Web;
 
 namespace WinFormsSample
 {
@@ -21,26 +15,24 @@ namespace WinFormsSample
         {
             base.OnLoad(e);
 
-            foreach (var knownOsmTileServer in Enum.GetNames(typeof(KnownOsmTileServers)))
+            foreach (var knownTileServer in Enum.GetNames(typeof(KnownTileServers)))
             {
-                if (knownOsmTileServer == "Custom")
-                    continue;
-                listBox1.Items.Add(knownOsmTileServer);
+                listBox1.Items.Add(knownTileServer);
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1TextChanged(object sender, EventArgs e)
         {
             osmImage1.ApiKey = textBox1.Text;
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem == null)
                 return;
 
             osmImage1.OsmServer =
-                (KnownOsmTileServers) Enum.Parse(typeof (KnownOsmTileServers), (string) listBox1.SelectedItem);
+                (KnownTileServers) Enum.Parse(typeof (KnownTileServers), (string) listBox1.SelectedItem);
         }
 
     }

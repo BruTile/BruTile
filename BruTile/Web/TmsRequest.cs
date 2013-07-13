@@ -22,15 +22,15 @@ namespace BruTile.Web
             : this(imageFormat, serverNodes, customParameters)
         {
             _baseUrl = baseUrl;
-               
+
             if (_baseUrl.Contains(ServerNodeTag))
             {
                 if (serverNodes == null || serverNodes.Count == 0)
                     throw new Exception("The '" + ServerNodeTag + "' tag was set but no server nodes were specified");
             }
-            if (serverNodes != null && serverNodes.Count > 0)
+            else
             {
-               if (!_baseUrl.Contains(ServerNodeTag))
+                if (serverNodes != null && serverNodes.Count > 0)
                     throw new Exception("Server nodes were specified but no '" + ServerNodeTag + "' tag was set");
             }
         }
@@ -41,14 +41,14 @@ namespace BruTile.Web
             _baseUrl = baseUrl.ToString();
         }
 
-        public TmsRequest(IDictionary<string, Uri> baseUrls, string imageFormat, 
+        public TmsRequest(IDictionary<string, Uri> baseUrls, string imageFormat,
             Dictionary<string, string> customParameters = null)
             : this(imageFormat, null, customParameters)
         {
             _baseUrls = baseUrls;
         }
 
-        private TmsRequest(string imageFormat, IList<string> serverNodes = null, 
+        private TmsRequest(string imageFormat, IList<string> serverNodes = null,
             Dictionary<string, string> customParameters = null)
         {
             _imageFormat = imageFormat;
@@ -114,7 +114,7 @@ namespace BruTile.Web
         private static void AppendCustomParameters(StringBuilder url, Dictionary<string, string> customParameters)
         {
             if (customParameters == null) return;
-            
+
             bool first = true;
             foreach (string name in customParameters.Keys)
             {

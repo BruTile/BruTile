@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BruTile.PreDefined
+namespace BruTile.Predefined
 {
     public class BingSchema : SphericalMercatorInvertedWorldSchema
     {
@@ -10,7 +10,7 @@ namespace BruTile.PreDefined
         {
             Format = "jpg";
             Name = "BingMaps";
-            Resolutions.RemoveAt(0); //Bing does not have the single tile top level.
+            Resolutions.Remove(0); //Bing does not have the single tile top level.
         }
     }
 }

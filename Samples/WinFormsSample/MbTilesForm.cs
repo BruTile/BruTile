@@ -7,7 +7,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using BruTile;
-using BruTile.PreDefined;
+using BruTile.Predefined;
 using BruTile.Web;
 
 namespace WinFormsSample
