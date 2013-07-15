@@ -7,13 +7,14 @@ using System.Data.SQLite;
 using System.Runtime.Serialization;
 using BruTile.FileSystem;
 
+
 namespace BruTile
 {
     [Serializable]
     public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
         public MbTilesTileSource(string file, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
-            : this(new SQLiteConnection(string.Format("Data Source={0}", new Uri(file))), schema, type)
+            : this(new SQLiteConnection(string.Format("Data Source={0}", file)), schema, type)
         {
         }
 
