@@ -19,11 +19,11 @@
   <WriteCodeFragment Language="C#" OutputFile="SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
 </Target>
   
-  <Target Name="BuildDebug" DependsOnTargets="SetVersion">
+  <Target Name="BuildDebug">
     <MSBuild Projects="$(SolutionFile)" Targets="BruTile" Properties="Configuration=Debug Portable" />
   </Target>
 
-  <Target Name="BuildRelease" DependsOnTargets="SetVersion">
+  <Target Name="BuildRelease">
     <MSBuild Projects="$(SolutionFile)" 
              Targets="BruTile;BruTile_Desktop;BruTile_Serialization;CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile_MbTiles" 
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\Release\Portable\" />
@@ -68,7 +68,7 @@
 -->
   </Target>
 
-  <Target Name ="NuGetPack" DependsOnTargets="BuildReleaseNet">
+  <Target Name ="NuGetPack" DependsOnTargets="SetVersion,BuildReleaseNet">
     <Exec Command="$(SolutionDir)\.nuget\nuget.exe pack BruTile.nuspec -version $(NuGetVersion) -outputdirectory $(SolutionDir)\Release"> </Exec>
     <!--
     <Exec Command="$(SolutionDir)\.nuget\nuget.exe pack BruTile.MbTiles.nuspec -version $(NuGetVersion) -outputdirectory $(SolutionDir)\Release"> </Exec>

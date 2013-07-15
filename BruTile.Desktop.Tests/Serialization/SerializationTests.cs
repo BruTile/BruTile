@@ -156,7 +156,7 @@ namespace BruTile.Tests.Serialization
         [Test]
         public void TestMbTiles()
         {
-            var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
+            var p1 = new MbTilesTileSource(Path.Combine("Serialization", "BruTileTest.mbtiles"));
             var p2 = SandD(p1);
             Assert.IsNotNull(p2);
             Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
