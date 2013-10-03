@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BruTile.Cache;
 using BruTile.Samples.Common;
-using BruTile.Web;
 
 namespace BruTile.Demo
 {
@@ -36,7 +34,7 @@ namespace BruTile.Demo
             Children.Add(_canvas);
             _renderer = new Renderer(_canvas);
 
-            _tileSource = TileSource.Create(KnownTileServers.Mapnik); 
+            _tileSource = TileSource.Create(); 
             CompositionTarget.Rendering += CompositionTargetRendering;
             SizeChanged += MapControlSizeChanged;
             MouseWheel += MapControlMouseWheel;

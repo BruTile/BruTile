@@ -43,7 +43,7 @@ namespace BruTile
                         new GlobalSphericalMercator()); 
                 case KnownTileServers.CloudMadeNoNames:
                     return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.cloudmade.com/{k}/1/256/{z}/{x}/{y}.png", new[] { "a", "b", "c" }, apiKey)),
+                        new WebTileProvider(new BasicRequest("http://{s}.tile.cloudmade.com/{k}/3/256/{z}/{x}/{y}.png", new[] { "a", "b", "c" }, apiKey)),
                         new GlobalSphericalMercator()); 
                 case KnownTileServers.MapQuest:
                     return new TileSource(

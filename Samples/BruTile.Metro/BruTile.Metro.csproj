@@ -122,9 +122,6 @@
     <Compile Include="MapControl.cs" />
     <Compile Include="MemoryRandomAccessStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="$(SolutionDir)SharedAssemblyVersion.cs">
-	  <Link>Properties\SharedAssemblyVersion.cs</Link
-	</Compile
     <Compile Include="Renderer.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
