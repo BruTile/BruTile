@@ -32,10 +32,12 @@ namespace BruTile
     public class TileSchema : ITileSchema
     {
         private readonly IDictionary<int, Resolution> _resolutions;
+        private readonly IDictionary<int, TileMatrix> _tileMatrices; 
 
         public TileSchema()
         {
             _resolutions = new Dictionary<int, Resolution>();
+            _tileMatrices = new Dictionary<int, TileMatrix>();
             Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
@@ -53,6 +55,11 @@ namespace BruTile
         public IDictionary<int, Resolution> Resolutions
         {
             get { return _resolutions; }
+        }
+
+        public IDictionary<int, TileMatrix> Matrices // this shoudl replace all resolutions.
+        {
+            get { return _tileMatrices;  }
         }
 
         public AxisDirection Axis { get; set; }
