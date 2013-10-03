@@ -55,7 +55,8 @@ namespace BruTile.Web
         {
             if (serverNodes != null && serverNodes.Count > 0)
             {
-                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter++]);
+                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter]);
+                nodeCounter++;
                 if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
             }
         }
