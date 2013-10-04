@@ -51,6 +51,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Community.CsharpSqlite">
+      <HintPath>..\lib\Community.CsharpSqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Community.CsharpSqlite.SQLiteClient">
+      <HintPath>..\lib\Community.CsharpSqlite.SQLiteClient.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -64,7 +70,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Data.SQLite.x86.1.0.86.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -99,14 +108,6 @@
     <ProjectReference Include="..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite.SQLiteClient\Community.CsharpSqlite.SQLiteClient.csproj">
-      <Project>{7BC68E61-C64C-488C-975F-1E2248383B80}</Project>
-      <Name>Community.CsharpSqlite.SQLiteClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSharpSQLite\Community.CsharpSqlite\Community.CsharpSqlite.csproj">
-      <Project>{F1653F20-D47D-4F29-8C55-3C835542AF5F}</Project>
-      <Name>Community.CsharpSqlite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
