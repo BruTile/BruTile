@@ -1,12 +1,11 @@
 ﻿// Copyright 2012 - Paul den Dulk (Geodan)
 
 using BruTile.Cache;
-using BruTile.Samples.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BruTile.Metro
+namespace BruTile.Samples.Common
 {
     public static class TileLayer <T>
     {
@@ -18,12 +17,12 @@ namespace BruTile.Metro
 
             if (schema == null) return selection.Values;
 
-            SelectRecursive(selection, cache, schema, extent, BruTile.Utilities.GetNearestLevel(schema.Resolutions, resolution));
+            SelectRecursive(selection, cache, schema, extent, Utilities.GetNearestLevel(schema.Resolutions, resolution));
 
-            return SortOnLevel(selection, schema).Values;
+            return SortOnLevel(selection).Values;
         }
 
-        private static Dictionary<TileIndex, Tile<T>> SortOnLevel(Dictionary<TileIndex, Tile<T>> selection,  ITileSchema schema)
+        private static Dictionary<TileIndex, Tile<T>> SortOnLevel(Dictionary<TileIndex, Tile<T>> selection)
         {
             return (from entry in selection orderby entry.Key.Level ascending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
         }

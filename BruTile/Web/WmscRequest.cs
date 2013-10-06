@@ -38,7 +38,7 @@ namespace BruTile.Web
             url.Append("&SERVICE=WMS");
             if (!string.IsNullOrEmpty(_version)) url.AppendFormat("&VERSION={0}", _version);
             url.Append("&REQUEST=GetMap");
-            url.AppendFormat("&BBOX={0}", TileTransform.TileToWorld(new TileRange(info.Index.Row, info.Index.Col), info.Index.Level, _schema));
+            url.AppendFormat("&BBOX={0}", TileTransform.TileToWorld(new TileRange(info.Index.Col, info.Index.Row), info.Index.Level, _schema));
             url.AppendFormat("&FORMAT={0}", _schema.Format);
             url.AppendFormat("&WIDTH={0}", _schema.Width);
             url.AppendFormat("&HEIGHT={0}", _schema.Height);

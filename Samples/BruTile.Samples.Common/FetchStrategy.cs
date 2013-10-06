@@ -1,5 +1,4 @@
-﻿using BruTile;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,7 +48,7 @@ namespace BruTile.Samples.Common
 
         private static IEnumerable<TileInfo> SortByPriority(IEnumerable<TileInfo> tiles, double centerX, double centerY)
         {
-            return tiles.OrderBy((t) => Distance(centerX, centerY, t.Extent.CenterX, t.Extent.CenterY));
+            return tiles.OrderBy(t => Distance(centerX, centerY, t.Extent.CenterX, t.Extent.CenterY));
         }
 
         public static double Distance(double x1, double y1, double x2, double y2)
