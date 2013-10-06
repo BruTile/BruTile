@@ -1,5 +1,4 @@
-﻿
-namespace BruTile.Samples.Common
+﻿namespace BruTile.Samples.Common
 {
     public class Tile<T>
     {
