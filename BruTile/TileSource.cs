@@ -14,5 +14,7 @@ namespace BruTile
             Provider = tileProvider;
             Schema = tileSchema;
         }
+
+        public virtual Extent Extent { get { return Schema.Extent; }}
     }
 }

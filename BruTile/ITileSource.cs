@@ -6,5 +6,7 @@ namespace BruTile
     {
         ITileProvider Provider { get; }
         ITileSchema Schema { get; }
+        Extent Extent { get; }
+
     }
 }

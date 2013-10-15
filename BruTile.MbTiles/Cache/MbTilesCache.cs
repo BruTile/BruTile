@@ -102,7 +102,6 @@ namespace BruTile.Cache
             return cmd;
         }
 
-        private readonly int[] _declaredZoomLevels;
         private readonly Dictionary<int, int[]> _tileRange;
 
         private readonly ITileSchema _schema;
@@ -135,7 +134,6 @@ namespace BruTile.Cache
 
                 // Extent
                 _extent = ReadExtent(connection);
-
                 
                 if (HasMapTable(connection))
                 {
@@ -144,10 +142,10 @@ namespace BruTile.Cache
                     // is not part of the MBTiles spec
                     
                     // Declared zoom levels
-                    _declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
+                    var declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
 
                     // Create schema
-                    _schema = new GlobalMercator(Format.ToString(), _declaredZoomLevels);
+                    _schema = new GlobalMercator(Format.ToString(), declaredZoomLevels);
                 }
                 else
                 {
@@ -241,10 +239,29 @@ namespace BruTile.Cache
 
         private static Extent ToMercator(Extent extent)
         {
-            // todo: convert to mercator
-            return extent;
+            var minX = extent.MinX;
+            var minY = extent.MinY;
+            var maxX = extent.MaxX;
+            var maxY = extent.MaxY;
+            ToMercator(ref minX, ref minY);
+            ToMercator(ref maxX, ref maxY);
+
+            return new Extent(minX, minY, maxX, maxY);
         }
 
+        private static void ToMercator(ref double mercatorXLon, ref double mercatorYLat)
+        {
+            if ((Math.Abs(mercatorXLon) > 180 || Math.Abs(mercatorYLat) > 90))
+                return;
+
+            var num = mercatorXLon * 0.017453292519943295;
+            var x = 6378137.0 * num;
+            var a = mercatorYLat * 0.017453292519943295;
+
+            mercatorXLon = x;
+            mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
+        }
+        
         private static int[] ReadZoomLevels(SQLiteConnection connection, out Dictionary<int, int[]> tileRange)
         {
             if (connection.State != ConnectionState.Open)
