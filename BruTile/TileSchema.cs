@@ -129,13 +129,17 @@ namespace BruTile
         {
             TileRange range = TileTransform.WorldToTile(extent, level, this);
             
+            int levelId;
+            if (!int.TryParse(Resolutions[level].Id, NumberStyles.Integer, NumberFormatInfo.InvariantInfo, out levelId))
+                throw new InvalidOperationException();
+
             for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
                 for (int y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
                 {
                     var info = new TileInfo();
                     info.Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this);
-                    info.Index = new TileIndex(x, y, level);
+                    info.Index = new TileIndex(x, y, levelId);
 
                     if (WithinSchemaExtent(Extent, info.Extent))
                     {
