@@ -27,10 +27,12 @@ namespace BruTile.Web
 
         public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
         {
-            var wmsCapabilities = new WmsCapabilities(uri.ToString());
+            var wmsCapabilities = new WmsCapabilities(uri);
 
+            XNode extendedCapabilities;
+            wmsCapabilities.Capability.ExtendedCapabilities.TryGetValue(XName.Get("VendorSpecificCapabilities"), out extendedCapabilities);
             return ParseVendorSpecificCapabilitiesNode(
-                (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
+                (XElement)extendedCapabilities,
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
