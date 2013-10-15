@@ -4,7 +4,6 @@
 
 using System;
 using System.Data.SQLite;
-using System.Runtime.Serialization;
 using BruTile.FileSystem;
 
 
@@ -20,29 +19,31 @@ namespace BruTile
 
         internal MbTilesTileSource(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
-            _tileSource = new MbTilesProvider(connection, schema, type);
+            _tileProvider = new MbTilesProvider(connection, schema, type);
         }
 
-        private readonly MbTilesProvider _tileSource;
+        private readonly MbTilesProvider _tileProvider;
 
         #region Implementation of ITileSource
 
         public ITileProvider Provider
         {
-            get { return _tileSource; }
+            get { return _tileProvider; }
         }
 
         public ITileSchema Schema
         {
-            get { return _tileSource.Schema; }
+            get { return _tileProvider.Schema; }
         }
+
+        public Extent Extent { get { return _tileProvider.Cache.Extent; } }
 
         public MbTilesFormat Format
         {
-            get { return _tileSource.Cache.Format; }
+            get { return _tileProvider.Cache.Format; }
         }
 
-        public MbTilesType Type { get { return _tileSource.Cache.Type; } }
+        public MbTilesType Type { get { return _tileProvider.Cache.Type; } }
 
         #endregion Implementation of ITileSource
     }

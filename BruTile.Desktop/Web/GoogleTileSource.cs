@@ -43,6 +43,8 @@ namespace BruTile.Web
             get { return _tileSchema; }
         }
 
+        public Extent Extent { get { return Schema.Extent; }}
+
         #endregion
     }
 }

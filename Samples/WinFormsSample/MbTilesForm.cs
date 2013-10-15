@@ -154,9 +154,9 @@ namespace WinFormsSample
                 if (ofn.ShowDialog() == DialogResult.OK)
                 {
                     _source = new MbTilesTileSource(ofn.FileName);
-                    var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
+                    var scale = (float)(1.25 * Math.Max(_source.Extent.Width / picMap.Width, _source.Extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
-                        new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
+                        new PointF((float)_source.Extent.CenterX, (float)_source.Extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
                     RenderToBuffer();
