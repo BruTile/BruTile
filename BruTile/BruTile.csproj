@@ -165,9 +165,86 @@
     <Compile Include="Web\Wms\WmsPropertyException.cs" />
     <Compile Include="Web\Wms\WmsVersion.cs" />
     <Compile Include="Web\Wms\XmlObject.cs" />
+    <Compile Include="Web\Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
+      <SubType>code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BruTile.snk" />
+    <None Include="Web\Wmts\xsd\ows19115subset.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsAll.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsCommon.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsContents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsDataIdentification.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsDomainType.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsExceptionReport.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsGetCapabilities.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsGetResourceByID.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsInputOutputData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsManifest.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsOperationsMetadata.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsServiceIdentification.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\owsServiceProvider.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsAbstract.wsdl" />
+    <None Include="Web\Wmts\xsd\wmtsGetCapabilities_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsGetCapabilities_response.xsd">
+      <SubType>Designer</SubType>
+      <Generator>Xsd2CodeCustomTool</Generator>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsGetFeatureInfo_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsGetFeatureInfo_response.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsGetTile_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsKVP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\wmtsPayload_response.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web\Wmts\xsd\xlink.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\Wmts\how_wmts_classes_were_generated.txt" />
   </ItemGroup>
   <Import Condition="'$(Portability)' == 'Desktop'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Portability)' == 'PCL'" Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

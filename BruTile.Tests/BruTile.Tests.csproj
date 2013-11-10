@@ -95,6 +95,7 @@
     <Compile Include="Web\TmsService\TileMapServiceTests.cs" />
     <Compile Include="Web\WmsCapabilitiesTests.cs" />
     <Compile Include="Web\WmscRequestTests.cs" />
+    <Compile Include="Web\Wmts\WmtsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
@@ -120,6 +121,9 @@
     </Content>
     <Content Include="Resources\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Wmts\wmts-capabilties-copied-from-openlayers-sample.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
