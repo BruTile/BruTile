@@ -1,0 +1,12 @@
+﻿steps I have taken to generate the wmts classes that map the service response.
+
+1) downloaded the wmts xsd's from: http://schemas.opengis.net/wmts/wmts-1_0_1.zip
+2) these depend on ogc ows 1.1. So I downloaded the ows xsd's from: http://schemas.opengis.net/ows/ows-1_1_0.zip
+3) these depend on w3c xlink, so I downloaded this from: http://www.w3.org/1999/xlink.xsd‎
+4) I extracted all these and put them in the same directory
+5) ran xsd.exe from the VS commond prompt. > xsd.exe xlink.xsd owscommon.xsd wmtsGetCapabilities_response.xsd  /classes
+6) added this to BruTile/Web/Wmts/Generated/ and got some errors
+7) replaced XmlNode with XNode to fix a compile error
+8) on 'public BoundingBoxType[] Items' I removed the WGS84BoundingBox attribute to fix an error in the code that xsd.exe generated.
+9) on 'public Theme[][] Themes' I added '[]' after Theme in the attribute to fix an error in the code that xsd.exe generated.
+
