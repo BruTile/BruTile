@@ -168,6 +168,8 @@
     <Compile Include="Web\Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
       <SubType>code</SubType>
     </Compile>
+    <Compile Include="Web\Wmts\WmtsParser.cs" />
+    <Compile Include="Web\Wmts\WmtsRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BruTile.snk" />

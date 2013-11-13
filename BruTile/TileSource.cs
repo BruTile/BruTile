@@ -10,6 +10,7 @@ namespace BruTile
     {
         public ITileProvider Provider { get; private set; }
         public ITileSchema Schema { get; private set; }
+        public string Title { get; set; }
 
         public TileSource(ITileProvider tileProvider, ITileSchema tileSchema)
         {

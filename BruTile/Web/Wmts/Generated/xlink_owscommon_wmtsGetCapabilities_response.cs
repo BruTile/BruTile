@@ -207,17 +207,9 @@ public enum showType {
 
 [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/1999/xlink")]
 public enum actuateType {
-    
-    /// <remarks/>
     onLoad,
-    
-    /// <remarks/>
     onRequest,
-    
-    /// <remarks/>
     other,
-    
-    /// <remarks/>
     none,
 }
 
@@ -228,45 +220,17 @@ public enum actuateType {
 
 [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.opengis.net/wmts/1.0")]
 public partial class URLTemplateType {
-    
-    private string formatField;
-    
-    private URLTemplateTypeResourceType resourceTypeField;
-    
-    private string templateField;
-    
     /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string format {
-        get {
-            return this.formatField;
-        }
-        set {
-            this.formatField = value;
-        }
-    }
-    
+    [XmlAttribute()]
+    public string format { get; set; }
+
     /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public URLTemplateTypeResourceType resourceType {
-        get {
-            return this.resourceTypeField;
-        }
-        set {
-            this.resourceTypeField = value;
-        }
-    }
-    
+    [XmlAttribute()]
+    public URLTemplateTypeResourceType resourceType { get; set; }
+
     /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string template {
-        get {
-            return this.templateField;
-        }
-        set {
-            this.templateField = value;
-        }
-    }
+    [XmlAttribute()]
+    public string template { get; set; }
 }
 
 /// <remarks/>
@@ -1871,7 +1835,10 @@ public partial class TileMatrixLimits {
 public partial class ContentsType : ContentsBaseType {
     
     private TileMatrixSet[] tileMatrixSetField;
-    
+
+    [System.Xml.Serialization.XmlElementAttribute("Layer")]
+    public LayerType[] Layers { get; set; }
+
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TileMatrixSet")]
     public TileMatrixSet[] TileMatrixSet {
@@ -1975,13 +1942,13 @@ public partial class TileMatrix : DescriptionType {
     
     private string topLeftCornerField;
     
-    private string tileWidthField;
+    private int tileWidthField;
     
-    private string tileHeightField;
+    private int tileHeightField;
     
-    private string matrixWidthField;
+    private int matrixWidthField;
     
-    private string matrixHeightField;
+    private int matrixHeightField;
     
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Namespace="http://www.opengis.net/ows/1.1")]
@@ -2015,8 +1982,8 @@ public partial class TileMatrix : DescriptionType {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(DataType="positiveInteger")]
-    public string TileWidth {
+    [System.Xml.Serialization.XmlElementAttribute(DataType="int")]
+    public int TileWidth {
         get {
             return this.tileWidthField;
         }
@@ -2026,8 +1993,8 @@ public partial class TileMatrix : DescriptionType {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(DataType="positiveInteger")]
-    public string TileHeight {
+    [System.Xml.Serialization.XmlElementAttribute(DataType="int")]
+    public int TileHeight {
         get {
             return this.tileHeightField;
         }
@@ -2037,8 +2004,8 @@ public partial class TileMatrix : DescriptionType {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(DataType="positiveInteger")]
-    public string MatrixWidth {
+    [System.Xml.Serialization.XmlElementAttribute(DataType="int")]
+    public int MatrixWidth {
         get {
             return this.matrixWidthField;
         }
@@ -2048,8 +2015,8 @@ public partial class TileMatrix : DescriptionType {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(DataType="positiveInteger")]
-    public string MatrixHeight {
+    [System.Xml.Serialization.XmlElementAttribute(DataType="int")]
+    public int MatrixHeight {
         get {
             return this.matrixHeightField;
         }
