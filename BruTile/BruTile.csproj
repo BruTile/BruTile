@@ -224,7 +224,7 @@
     </None>
     <None Include="Web\Wmts\xsd\wmtsGetCapabilities_response.xsd">
       <SubType>Designer</SubType>
-      <Generator>Xsd2CodeCustomTool</Generator>
+      <LastGenOutput>wmtsGetCapabilities_response.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web\Wmts\xsd\wmtsGetFeatureInfo_request.xsd">
       <SubType>Designer</SubType>
