@@ -13,7 +13,7 @@ namespace BruTile.Tests
             // act
             var version = Utilities.Version;
             // assert
-            Assert.True(version == "0.7");
+            Assert.True(version == "0.8");
         }
     }
 }
