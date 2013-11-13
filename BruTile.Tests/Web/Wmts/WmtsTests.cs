@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using BruTile.Web;
+using BruTile.Web.Wmts;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web.Wmts
@@ -18,16 +15,10 @@ namespace BruTile.Tests.Web.Wmts
             using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilties-copied-from-openlayers-sample.xml")))
             {
                 // act
-                var ser = new XmlSerializer(typeof(Capabilities));
+                var tileSource = WmtsParser.Parse(stream);
 
-                Capabilities capabilties;
-
-                using (var reader = new StreamReader(stream))
-                {
-                     capabilties = (Capabilities)ser.Deserialize(reader);
-                }
                 // assert
-                Assert.NotNull(capabilties);
+                Assert.NotNull(tileSource);
             }
         }
     }
