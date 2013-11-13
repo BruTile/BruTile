@@ -85,6 +85,9 @@
     <Compile Include="..\SharedAssemblyVersion.cs">
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="TileIndexTests.cs" />
+    <Compile Include="TileTransformTests.cs" />
+    <Compile Include="UtilityTests.cs" />
     <Compile Include="Web\BasisRequestTests.cs" />
     <Compile Include="Web\BingRequestTests.cs" />
     <Compile Include="Web\TileSourceWmsCTests.cs">
