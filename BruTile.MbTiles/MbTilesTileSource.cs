@@ -36,6 +36,8 @@ namespace BruTile
             get { return _tileSource.Schema; }
         }
 
+        public string Title { get; private set; }
+
         public MbTilesFormat Format
         {
             get { return _tileSource.Cache.Format; }
