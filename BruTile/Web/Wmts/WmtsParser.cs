@@ -29,17 +29,41 @@ namespace BruTile.Web.Wmts
         private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<TileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
+
             foreach (var layer in capabilties.Contents.Layers)
             {
-                var tileSchema = tileSchemas.First(s => Equals(s.Name, layer.TileMatrixSetLink[0].TileMatrixSet));
-                var tileSource = new TileSource(new WebTileProvider(new WmtsRequest()), tileSchema)
+                foreach (var tileMatrixLink in layer.TileMatrixSetLink)
+                {
+                    foreach (var style in layer.Style)
                     {
-                        Title = layer.Title[0].Value
-                    };
+                        var wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL), tileMatrixLink.TileMatrixSet, style.Identifier.Value);
 
-                tileSources.Add(tileSource);
+                        var tileSchema = tileSchemas.First(s => Equals(s.Name, layer.TileMatrixSetLink[0].TileMatrixSet));
+                        var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
+                            {
+                                Title = layer.Title[0].Value
+                            };
+
+                        tileSources.Add(tileSource);
+                    }
+                }
             }
             return tileSources;
+        }
+
+        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<URLTemplateType> inputResourceUrls)
+        {
+            var resourceUrls = new List<ResourceUrl>();
+            foreach (var resourceUrl in inputResourceUrls)
+            {
+                resourceUrls.Add(new ResourceUrl
+                    {
+                        Format = resourceUrl.format,
+                        ResourceType = resourceUrl.resourceType,
+                        Template = resourceUrl.template
+                    });
+            }
+            return resourceUrls;
         }
 
         private static List<TileSchema> GetTileMatrices(IEnumerable<TileMatrixSet> tileMatrixSets)
