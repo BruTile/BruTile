@@ -202,7 +202,7 @@ namespace BruTile.Web
 
         // Google version strings
         private static string _versionGoogleMap = "m@130";
-        private static string _versionGoogleSatellite = "66";
+        private static string _versionGoogleSatellite = "141";
         private static string _versionGoogleLabels = "h@130";
         private static string _versionGoogleTerrain = "t@125,r@130";
         private const string SecGoogleWord = "Galileo";
