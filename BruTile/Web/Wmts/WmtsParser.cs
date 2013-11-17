@@ -72,29 +72,50 @@ namespace BruTile.Web.Wmts
             foreach (var tileMatrixSet in tileMatrixSets)
             {
                 var tileSchema = new TileSchema();
-                var counter = 0;
                 foreach (var tileMatrix in tileMatrixSet.TileMatrix)
                 {
-                    var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
-
-                    tileSchema.Matrices.Add(new KeyValuePair<int, TileMatrix>(counter,
-                        new TileMatrix
-                        {
-                            Id = tileMatrix.Identifier.Value,
-                            ScaleDenominator = tileMatrix.ScaleDenominator,
-                            Left = Convert.ToDouble(coords[0]),
-                            Top = Convert.ToDouble(coords[1]),
-                            MatrixWidth =  tileMatrix.TileWidth,
-                            MatrixHeight = tileMatrix.TileHeight,
-                            TileWidth = tileMatrix.TileWidth,
-                            TileHeight = tileMatrix.TileHeight
-                        }));
-                    counter++;
+                    tileSchema.Resolutions.Add(ToResolution(tileMatrix));
                 }
+                var firstTileMatrix = tileSchema.Resolutions.First().Value;
+
+                tileSchema.Width = firstTileMatrix.TileWidth;
+                tileSchema.Height = firstTileMatrix.TileHeight;
+                tileSchema.OriginX = firstTileMatrix.Left;
+                tileSchema.OriginY = firstTileMatrix.Top;
+                tileSchema.Extent = ToExtent(firstTileMatrix);
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
+                tileSchema.Axis = AxisDirection.InvertedY;
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
+        }
+
+        private static Extent ToExtent(Resolution tileMatrix)
+        {
+            return new Extent(
+                tileMatrix.Left,
+                tileMatrix.Top - tileMatrix.ScaleDenominator * 0.00028 * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
+                tileMatrix.Left + tileMatrix.ScaleDenominator * 0.00028 * tileMatrix.TileWidth * tileMatrix.MatrixWidth,
+                tileMatrix.Top);
+        }
+
+        private static KeyValuePair<string, Resolution> ToResolution(global::TileMatrix tileMatrix)
+        {
+            var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
+
+            return new KeyValuePair<string, Resolution>(tileMatrix.Identifier.Value,
+                new Resolution
+                {
+                    Id = tileMatrix.Identifier.Value,
+                    UnitsPerPixel = tileMatrix.ScaleDenominator * 0.00028,
+                    ScaleDenominator = tileMatrix.ScaleDenominator,
+                    Left = Convert.ToDouble(coords[0]),
+                    Top = Convert.ToDouble(coords[1]),
+                    MatrixWidth = tileMatrix.MatrixWidth,
+                    MatrixHeight = tileMatrix.MatrixHeight,
+                    TileWidth = tileMatrix.TileWidth,
+                    TileHeight = tileMatrix.TileHeight
+                });
         }
     }
 }

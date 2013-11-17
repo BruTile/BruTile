@@ -15,7 +15,7 @@ namespace BruTile.Tests.Web
             var request = new BingRequest(
                 "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", 
                 "pindakaas", "555", new [] { "000", "111"});
-            var tileInfo = new TileInfo { Index = new TileIndex(3, 4, 5) };
+            var tileInfo = new TileInfo { Index = new TileIndex(3, 4, "5") };
 
             // act
             request.GetUri(tileInfo); // to test the internal server node counter

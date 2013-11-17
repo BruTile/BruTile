@@ -129,7 +129,8 @@ namespace BruTile.Web
                     double resolution;
                     if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
-                    schema.Resolutions[count] = new Resolution { Id = count.ToString(), UnitsPerPixel = resolution };
+                    var levelId = count.ToString(CultureInfo.InvariantCulture);
+                    schema.Resolutions[levelId] = new Resolution { Id = levelId, UnitsPerPixel = resolution };
                     count++;
                 }
             }

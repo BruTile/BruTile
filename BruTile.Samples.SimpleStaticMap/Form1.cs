@@ -68,7 +68,8 @@ namespace BruTile.Samples.SimpleStaticMap
             var i = 0;
             foreach (var resolution in _resolutions)
             {
-                schema.Resolutions[i] = new Resolution { UnitsPerPixel = resolution, Id = i++.ToString(CultureInfo.InvariantCulture) };
+                var levelId = i++.ToString(CultureInfo.InvariantCulture);
+                schema.Resolutions[levelId] = new Resolution { UnitsPerPixel = resolution, Id = levelId};
             }
             return schema;
         }

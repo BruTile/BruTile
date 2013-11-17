@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using BruTile.Predefined;
@@ -103,7 +104,7 @@ namespace BruTile.Cache
         }
 
         private readonly int[] _declaredZoomLevels;
-        private readonly Dictionary<int, int[]> _tileRange;
+        private readonly Dictionary<string, int[]> _tileRange;
 
         private readonly ITileSchema _schema;
 
@@ -245,13 +246,13 @@ namespace BruTile.Cache
             return extent;
         }
 
-        private static int[] ReadZoomLevels(SQLiteConnection connection, out Dictionary<int, int[]> tileRange)
+        private static int[] ReadZoomLevels(SQLiteConnection connection, out Dictionary<string, int[]> tileRange)
         {
             if (connection.State != ConnectionState.Open)
                 connection.Open();
 
             var zoomLevels = new List<int>();
-            tileRange = new Dictionary<int, int[]>();
+            tileRange = new Dictionary<string, int[]>();
 
             using (var cmd = connection.CreateCommand())
             {
@@ -291,7 +292,7 @@ namespace BruTile.Cache
                     {
                         var zoomLevel = reader.GetInt32(0);
                         zoomLevels.Add(zoomLevel);
-                        tileRange.Add(zoomLevel, new[] { reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4) });
+                        tileRange.Add(zoomLevel.ToString(CultureInfo.InvariantCulture), new[] { reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4) });
                     }
                 }
                 if (zoomLevels.Count == 0)

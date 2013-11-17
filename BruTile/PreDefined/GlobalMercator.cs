@@ -73,7 +73,7 @@ namespace BruTile.Predefined
             var count = 0;
             foreach (var resolution in resolutions)
             {
-                Resolutions[count] = resolution;
+                Resolutions[count.ToString()] = resolution;
                 count++;
             }
 

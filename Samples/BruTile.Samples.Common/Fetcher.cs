@@ -70,8 +70,8 @@ namespace BruTile.Samples.Common
 
                 if (_isViewChanged || tilesWanted == null)
                 {
-                    int level = Utilities.GetNearestLevel(_tileSource.Schema.Resolutions, _resolution);
-                    tilesWanted = _strategy.GetTilesWanted(_tileSource.Schema, _extent, level);
+                    var levelId = Utilities.GetNearestLevel(_tileSource.Schema.Resolutions, _resolution);
+                    tilesWanted = _strategy.GetTilesWanted(_tileSource.Schema, _extent, levelId);
                     _retries.Clear();
                     _isViewChanged = false;
                 }

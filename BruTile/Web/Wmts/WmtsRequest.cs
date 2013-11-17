@@ -36,7 +36,7 @@ namespace BruTile.Web.Wmts
             var stringBuilder = new StringBuilder(urlFormatter.Template);
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
-            stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ZTag, info.Index.Level);
             stringBuilder.Replace(TileMatrixSetTag, _tileMatrixLink);
             stringBuilder.Replace(StyleTag, _style);
             return new Uri(stringBuilder.ToString());

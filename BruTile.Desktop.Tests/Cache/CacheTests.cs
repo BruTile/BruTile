@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 using BruTile.Cache;
 using NUnit.Framework;
@@ -44,7 +45,7 @@ namespace BruTile.Tests.Cache
                         bm[0] = i;
                         bm[1] = j;
                         bm[2] = level;
-                        Cache.Add(new TileIndex(i, j, level), bm);
+                        Cache.Add(new TileIndex(i, j, level.ToString(CultureInfo.InvariantCulture)), bm);
                         count++;
                     }
             }
@@ -55,7 +56,7 @@ namespace BruTile.Tests.Cache
         {
             var sw = new Stopwatch();
 
-            var tk = new TileIndex(1, 2, 2);
+            var tk = new TileIndex(1, 2, "2");
             byte[] bm = Cache.Find(tk);
             sw.Start();
             bm = Cache.Find(tk);
@@ -69,7 +70,7 @@ namespace BruTile.Tests.Cache
             Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.Level, tk.Row, tk.Col, sw.ElapsedMilliseconds));
 
             sw.Reset();
-            tk = new TileIndex(5, 5, MaxLevel - 1);
+            tk = new TileIndex(5, 5, (MaxLevel - 1).ToString(CultureInfo.InvariantCulture));
             sw.Start();
             bm = Cache.Find(tk);
             sw.Stop();
@@ -108,7 +109,7 @@ namespace BruTile.Tests.Cache
             {
                 int level = _random.Next(MaxLevel);
                 var maxValue = (int)Math.Pow(2, level);
-                yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level);
+                yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -146,7 +147,7 @@ namespace BruTile.Tests.Cache
 
         public void RemoveTile()
         {
-            var tk = new TileIndex(1, 2, 0);
+            var tk = new TileIndex(1, 2, "0");
             Cache.Remove(tk);
 
             byte[] bm = Cache.Find(tk);

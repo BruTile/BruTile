@@ -6,35 +6,35 @@ namespace BruTile
 {
     public static class TileTransform
     {
-        public static TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
+        public static TileRange WorldToTile(Extent extent, string levelId, ITileSchema schema)
         {
             switch (schema.Axis)
             {
                 case AxisDirection.Normal:
-                    return WorldToTileNormal(extent, level, schema);
+                    return WorldToTileNormal(extent, levelId, schema);
                 case AxisDirection.InvertedY:
-                    return WorldToTileInvertedY(extent, level, schema);
+                    return WorldToTileInvertedY(extent, levelId, schema);
                 default:
                     throw new Exception("Axis type was not found");
             }
         }
 
-        public static Extent TileToWorld(TileRange range, int level, ITileSchema schema)
+        public static Extent TileToWorld(TileRange range, string levelId, ITileSchema schema)
         {
             switch (schema.Axis)
             {
                 case AxisDirection.Normal:
-                    return TileToWorldNormal(range, level, schema);
+                    return TileToWorldNormal(range, levelId, schema);
                 case AxisDirection.InvertedY:
-                    return TileToWorldInvertedY(range, level, schema);
+                    return TileToWorldInvertedY(range, levelId, schema);
                 default:
                     throw new Exception("Axis type was not found");
             }
         }
 
-        public static TileRange WorldToTileNormal(Extent extent, int level, ITileSchema schema)
+        public static TileRange WorldToTileNormal(Extent extent, string levelId, ITileSchema schema)
         {
-            var resolution = schema.Resolutions[level];
+            var resolution = schema.Resolutions[levelId];
             var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
             var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
             var firstRow = (int)Math.Floor((extent.MinY - schema.OriginY) / tileWorldUnits);
@@ -43,9 +43,9 @@ namespace BruTile
             return new TileRange(firstCol, firstRow, lastCol - firstCol, lastRow - firstRow);
         }
 
-        private static Extent TileToWorldNormal(TileRange range, int level, ITileSchema schema)
+        private static Extent TileToWorldNormal(TileRange range, string levelId, ITileSchema schema)
         {
-            var resolution = schema.Resolutions[level];
+            var resolution = schema.Resolutions[levelId];
             var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
             var minX = range.FirstCol * tileWorldUnits + schema.OriginX;
             var minY = range.FirstRow * tileWorldUnits + schema.OriginY;
@@ -54,9 +54,9 @@ namespace BruTile
             return new Extent(minX, minY, maxX, maxY);
         }
 
-        private static TileRange WorldToTileInvertedY(Extent extent, int level, ITileSchema schema)
+        private static TileRange WorldToTileInvertedY(Extent extent, string levelId, ITileSchema schema)
         {
-            var resolution = schema.Resolutions[level];
+            var resolution = schema.Resolutions[levelId];
             var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
             var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
             var firstRow = (int)Math.Floor((-extent.MaxY + schema.OriginY) / tileWorldUnits);
@@ -65,9 +65,9 @@ namespace BruTile
             return new TileRange(firstCol, firstRow, lastCol - firstCol, lastRow - firstRow);
         }
 
-        private static Extent TileToWorldInvertedY(TileRange range, int level, ITileSchema schema)
+        private static Extent TileToWorldInvertedY(TileRange range, string levelId, ITileSchema schema)
         {
-            var resolution = schema.Resolutions[level];
+            var resolution = schema.Resolutions[levelId];
             var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
             var minX = range.FirstCol * tileWorldUnits + schema.OriginX;
             var minY = -(range.FirstRow + range.RowCount) * tileWorldUnits + schema.OriginY;

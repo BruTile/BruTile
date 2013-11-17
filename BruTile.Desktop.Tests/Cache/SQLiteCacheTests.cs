@@ -1,5 +1,6 @@
 using System;
 using System.Data.SQLite;
+using System.Globalization;
 using BruTile.Cache;
 using NUnit.Framework;
 
@@ -59,7 +60,7 @@ namespace BruTile.Tests.Cache
                         bm[0] = i;
                         bm[1] = j;
                         bm[2] = level;
-                        Cache.Add(new TileIndex(i, j, level), bm);
+                        Cache.Add(new TileIndex(i, j, level.ToString(CultureInfo.InvariantCulture)), bm);
                         count++;
                     }
             }
