@@ -17,18 +17,9 @@ namespace BruTile.Samples.Common
 
             if (schema == null) return selection.Values;
 
-            var levelEnumerator = schema.Resolutions.GetEnumerator();
-
             var levelId = Utilities.GetNearestLevel(schema.Resolutions, resolution);
 
-            while (!levelEnumerator.Current.Key.Equals(levelId))
-            {
-                levelEnumerator.MoveNext();
-            }
-
-            SelectRecursive(selection, cache, schema, extent, levelEnumerator);
-
-            levelEnumerator.Dispose();
+            SelectRecursive(selection, cache, schema, extent, levelId);
 
             return SortOnLevel(selection).Values;
         }
@@ -38,19 +29,22 @@ namespace BruTile.Samples.Common
             return (from entry in selection orderby entry.Key.Level ascending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
-        public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache,
-            ITileSchema schema, Extent extent, IEnumerator<KeyValuePair<string, Resolution>> level)
+        public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache, 
+            ITileSchema schema, Extent extent, string levelId)
         {
-            if (!level.MoveNext()) return;
+            var resolution = schema.Resolutions[levelId].UnitsPerPixel;
+            var tiles = schema.GetTilesInView(extent, resolution);
 
-            var tiles = schema.GetTilesInView(extent, level.Current.Key);
-
-            foreach (TileInfo tileInfo in tiles)
+            foreach (var tileInfo in tiles)
             {
                 var tile = cache.Find(tileInfo.Index);
+
+                var nextLevelId = schema.Resolutions.Where(r => r.Value.UnitsPerPixel > resolution)
+                   .OrderBy(r => r.Value.UnitsPerPixel).FirstOrDefault().Key;
+            
                 if (tile == null)
                 {
-                    SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level);
+                    if (nextLevelId != null) SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
                 }
                 else
                 {
@@ -59,7 +53,7 @@ namespace BruTile.Samples.Common
                     // semi transparent one.
                     if (IsSemiTransparent(tile))
                     {
-                        SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level);
+                        if (nextLevelId != null) SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
                     }
                 }
             }

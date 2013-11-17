@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Generated = BruTile.Web.Wmts.Generated;
 
 namespace BruTile.Web.Wmts
 {
@@ -10,13 +11,13 @@ namespace BruTile.Web.Wmts
     {
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
-            var ser = new XmlSerializer(typeof(Capabilities));
+            var ser = new XmlSerializer(typeof(Generated.Capabilities));
 
-            Capabilities capabilties;
+            Generated.Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
             {
-                capabilties = (Capabilities)ser.Deserialize(reader);
+                capabilties = (Generated.Capabilities)ser.Deserialize(reader);
             }
             
             var tileSchemas = GetTileMatrices(capabilties.Contents.TileMatrixSet);
@@ -26,7 +27,7 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<TileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
 
@@ -51,7 +52,7 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<URLTemplateType> inputResourceUrls)
+        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<Generated.URLTemplateType> inputResourceUrls)
         {
             var resourceUrls = new List<ResourceUrl>();
             foreach (var resourceUrl in inputResourceUrls)
@@ -66,7 +67,7 @@ namespace BruTile.Web.Wmts
             return resourceUrls;
         }
 
-        private static List<TileSchema> GetTileMatrices(IEnumerable<TileMatrixSet> tileMatrixSets)
+        private static List<TileSchema> GetTileMatrices(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)
         {
             var tileSchemas = new List<TileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
@@ -99,7 +100,7 @@ namespace BruTile.Web.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(global::TileMatrix tileMatrix)
+        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix)
         {
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
 

@@ -1,4 +1,6 @@
-﻿namespace BruTile.Web.Wmts
+﻿using BruTile.Web.Wmts.Generated;
+
+namespace BruTile.Web.Wmts
 {
     public class ResourceUrl
     {

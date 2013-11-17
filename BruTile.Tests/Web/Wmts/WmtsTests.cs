@@ -1,4 +1,5 @@
 ﻿using BruTile.Web.Wmts;
+using BruTile.Web.Wmts.Generated;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
