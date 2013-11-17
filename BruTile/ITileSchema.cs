@@ -12,13 +12,13 @@ namespace BruTile
         Extent Extent { get; }
         double OriginX { get; }
         double OriginY { get; }
-        IDictionary<int, Resolution> Resolutions { get; }
+        IDictionary<string, Resolution> Resolutions { get; }
         int Width { get; }
         int Height { get; }
         string Format { get; }
         AxisDirection Axis { get; }
-        IEnumerable<TileInfo> GetTilesInView(Extent extent, int level);
+        IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId);
         IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution);
-        Extent GetExtentOfTilesInView(Extent extent, int level);
+        Extent GetExtentOfTilesInView(Extent extent, string levelId);
     }
 }

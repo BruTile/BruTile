@@ -71,9 +71,8 @@ namespace BruTile.Web
             return new Uri(url.ToString());
         }
 
-        private string GetUrlForLevel(int level)
+        private string GetUrlForLevel(string levelId)
         {
-            var levelId = level.ToString();
             var url = new StringBuilder();
             // if a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)

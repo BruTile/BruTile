@@ -34,7 +34,7 @@ namespace BruTile
             }
         }
 
-        public static int GetNearestLevel(IDictionary<int, Resolution> resolutions, double resolution)
+        public static string GetNearestLevel(IDictionary<string, Resolution> resolutions, double resolution)
         {
             if (resolutions.Count == 0)
             {
@@ -47,7 +47,7 @@ namespace BruTile
             //bigger than biggest
             if (resolutions.First().Value.UnitsPerPixel < resolution) return resolutions.First().Key;
 
-            int result = 0;
+            string result = null;
             double resultDistance = double.MaxValue;
             foreach (var key in resolutions.Keys)
             {
@@ -58,6 +58,7 @@ namespace BruTile
                     resultDistance = distance;
                 }
             }
+            if (result == null) throw new Exception("Unexpected error when calculating nearest level");
             return result;
         }
 

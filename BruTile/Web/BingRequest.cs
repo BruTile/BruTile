@@ -94,14 +94,16 @@ namespace BruTile.Web
         /// to 23 (highest detail).</param>
         /// <returns>A string containing the QuadKey.</returns>
         /// Stole this methode from this nice blog: http://www.silverlightshow.net/items/Virtual-earth-deep-zooming.aspx. PDD.
-        private static string TileXyToQuadKey(int tileX, int tileY, int levelOfDetail)
+        private static string TileXyToQuadKey(int tileX, int tileY, string levelId)
         {
             var quadKey = new StringBuilder();
 
-            for (int i = levelOfDetail; i > 0; i--)
+            var levelOfDetail = int.Parse(levelId);
+
+            for (var i = levelOfDetail; i > 0; i--)
             {
-                char digit = '0';
-                int mask = 1 << (i - 1);
+                var digit = '0';
+                var mask = 1 << (i - 1);
 
                 if ((tileX & mask) != 0)
                 {

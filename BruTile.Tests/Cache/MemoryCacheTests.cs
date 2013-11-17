@@ -12,7 +12,7 @@ namespace BruTile.Tests.Cache
         {
             // arrange
             var memoryCache = new MemoryCache<byte[]>();
-            var tileIndex = new TileIndex(1, 2, 3);
+            var tileIndex = new TileIndex(1, 2, "3");
             var tileBytes = new byte[] { 7, 7, 7 };
 
             // act
@@ -29,9 +29,9 @@ namespace BruTile.Tests.Cache
             Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // keep all where Row = 2
             var memoryCache = new MemoryCache<byte[]>(1, 2, keepTileInMemory);
             var tileBytes = new byte[] { 0, 0, 0, 0 };
-            var tileOne = new TileIndex(0, 2, 0);
-            var tileTwo = new TileIndex(2, 2, 2);
-            var tileThree = new TileIndex(0, 8, 0);
+            var tileOne = new TileIndex(0, 2, "0");
+            var tileTwo = new TileIndex(2, 2, "2");
+            var tileThree = new TileIndex(0, 8, "0");
             
             // act
             memoryCache.Add(tileOne, tileBytes);

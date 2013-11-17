@@ -31,13 +31,11 @@ namespace BruTile
 
     public class TileSchema : ITileSchema
     {
-        private readonly IDictionary<int, Resolution> _resolutions;
-        private readonly IDictionary<int, TileMatrix> _tileMatrices; 
+        private readonly IDictionary<string, Resolution> _resolutions;
 
         public TileSchema()
         {
-            _resolutions = new Dictionary<int, Resolution>();
-            _tileMatrices = new Dictionary<int, TileMatrix>();
+            _resolutions = new Dictionary<string, Resolution>();
             Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
@@ -52,14 +50,9 @@ namespace BruTile
         public int Height { get; set; }
         public string Format { get; set; }
 
-        public IDictionary<int, Resolution> Resolutions
+        public IDictionary<string, Resolution> Resolutions
         {
             get { return _resolutions; }
-        }
-
-        public IDictionary<int, TileMatrix> Matrices // this shoudl replace all resolutions.
-        {
-            get { return _tileMatrices;  }
         }
 
         public AxisDirection Axis { get; set; }
@@ -69,13 +62,13 @@ namespace BruTile
         /// </summary>
         public IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution)
         {
-            int level = Utilities.GetNearestLevel(Resolutions, resolution);
+            var level = Utilities.GetNearestLevel(Resolutions, resolution);
             return GetTilesInView(extent, level);
         }
 
-        public IEnumerable<TileInfo> GetTilesInView(Extent extent, int level)
+        public IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId)
         {
-            TileRange range = TileTransform.WorldToTile(extent, level, this);
+            TileRange range = TileTransform.WorldToTile(extent, levelId, this);
 
             for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
@@ -83,8 +76,8 @@ namespace BruTile
                 {
                     var info = new TileInfo
                         {
-                            Extent = TileTransform.TileToWorld(new TileRange(x, y), level, this),
-                            Index = new TileIndex(x, y, level)
+                            Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, this),
+                            Index = new TileIndex(x, y, levelId)
                         };
 
                     if (WithinSchemaExtent(Extent, info.Extent))
@@ -95,10 +88,10 @@ namespace BruTile
             }
         }
 
-        public Extent GetExtentOfTilesInView(Extent extent, int level)
+        public Extent GetExtentOfTilesInView(Extent extent, string levelId)
         {
-            TileRange range = TileTransform.WorldToTile(extent, level, this);
-            return TileTransform.TileToWorld(range, level, this);
+            TileRange range = TileTransform.WorldToTile(extent, levelId, this);
+            return TileTransform.TileToWorld(range, levelId, this);
         }
 
         /// <summary>

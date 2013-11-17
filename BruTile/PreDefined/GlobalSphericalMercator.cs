@@ -36,7 +36,7 @@ namespace BruTile.Predefined
         {
         }
 
-        internal GlobalSphericalMercator(IEnumerable<KeyValuePair<int, Resolution>> resolutions, string format = DefaultFormat,
+        internal GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
                                          bool invertedYAxis = DefaultInvertedYAxis, string name = null)
         {
             Name = name ?? "GlobalSphericalMercator";
@@ -59,19 +59,19 @@ namespace BruTile.Predefined
             if (invertedYAxis) OriginY = -OriginY;
         }
 
-        private static IEnumerable<KeyValuePair<int, Resolution>> ToResolutions(int min, int max)
+        private static IEnumerable<KeyValuePair<string, Resolution>> ToResolutions(int min, int max)
         {
             var list = new List<int>();
             for (var i = min; i <= max; i++) list.Add(i);
             return ToResolutions(list);
         }
 
-        private static IEnumerable<KeyValuePair<int, Resolution>> ToResolutions(IEnumerable<int> levels)
+        private static IEnumerable<KeyValuePair<string, Resolution>> ToResolutions(IEnumerable<int> levels)
         {
-            var dictionary = new Dictionary<int, Resolution>();
+            var dictionary = new Dictionary<string, Resolution>();
             foreach (var level in levels)
             {
-                dictionary[level] = new Resolution
+                dictionary[level.ToString()] = new Resolution
                     {
                         Id = level.ToString(), 
                         UnitsPerPixel = 2 * ScaleFactor / (1 << level)

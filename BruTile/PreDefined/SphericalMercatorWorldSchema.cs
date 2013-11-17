@@ -18,7 +18,8 @@ namespace BruTile.Predefined
             var count = 0;
             foreach (var resolution in resolutions)
             {
-                Resolutions[count] = new Resolution {Id = count.ToString(CultureInfo.InvariantCulture), UnitsPerPixel = resolution};
+                var levelId = count.ToString(CultureInfo.InvariantCulture);
+                Resolutions[levelId] = new Resolution { Id = levelId, UnitsPerPixel = resolution };
                 count++;
             }
             Height = 256;

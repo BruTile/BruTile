@@ -45,7 +45,7 @@ namespace BruTile.Web
             var stringBuilder = new StringBuilder(_urlFormatter);
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
-            stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ZTag, info.Index.Level);
             stringBuilder.Replace(ApiKeyTag, _apiKey);
             InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
             return new Uri(stringBuilder.ToString());

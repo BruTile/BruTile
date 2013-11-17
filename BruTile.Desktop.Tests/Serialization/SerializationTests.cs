@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -302,7 +303,7 @@ namespace BruTile.Tests.Serialization
         {
             var level = Rnd.Next(3, 12);
             var max = 2 ^ level;
-            return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level) };
+            return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level.ToString(CultureInfo.InvariantCulture)) };
         }
 
         private static bool EqualTileSchemas(ITileSchema ts1, ITileSchema ts2, out string message)

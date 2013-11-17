@@ -9,8 +9,8 @@ namespace BruTile
     {
         private readonly int _col;
         private readonly int _row;
-        private readonly int _level;
-
+        private readonly string _level;
+        
         public int Col
         {
             get { return _col; }
@@ -21,12 +21,12 @@ namespace BruTile
             get { return _row; }
         }
 
-        public int Level
+        public string Level
         {
             get { return _level; }
         }
 
-        public TileIndex(int col, int row, int level)
+        public TileIndex(int col, int row, string level)
         {
             _col = col;
             _row = row;
@@ -48,9 +48,7 @@ namespace BruTile
             if (_col > index._col) return 1;
             if (_row < index._row) return -1;
             if (_row > index._row) return 1;
-            if (_level < index._level) return -1;
-            if (_level > index._level) return 1;
-            return 0;
+            return String.Compare(_level, index._level, StringComparison.Ordinal);
         }
 
         public override bool Equals(object obj)
@@ -68,7 +66,7 @@ namespace BruTile
 
         public override int GetHashCode()
         {
-            return _col ^ _row ^ _level;
+            return _col ^ _row ^ _level.GetHashCode();
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)

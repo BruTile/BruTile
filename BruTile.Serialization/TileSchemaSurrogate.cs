@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -43,7 +44,7 @@ namespace BruTile
             ts.Format = info.GetString("format");
             
             var type = (Type) info.GetValue("resolutionsType", typeof (Type));
-            var list = (IDictionary<int, Resolution>) Activator.CreateInstance(type);
+            var list = (IDictionary<string, Resolution>) Activator.CreateInstance(type);
             var count = info.GetInt32("resolutionsCount");
             var keyValue = 0;
             var counter = 0;
@@ -58,7 +59,7 @@ namespace BruTile
 
                 if (!value.Equals(default(Resolution)))
                 {
-                    list[keyValue] = value;
+                    list[keyValue.ToString(CultureInfo.InvariantCulture)] = value;
                     counter++;
                 }
                 keyValue++;

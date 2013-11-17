@@ -17,7 +17,18 @@ namespace BruTile.Samples.Common
 
             if (schema == null) return selection.Values;
 
-            SelectRecursive(selection, cache, schema, extent, Utilities.GetNearestLevel(schema.Resolutions, resolution));
+            var levelEnumerator = schema.Resolutions.GetEnumerator();
+
+            var levelId = Utilities.GetNearestLevel(schema.Resolutions, resolution);
+
+            while (!levelEnumerator.Current.Key.Equals(levelId))
+            {
+                levelEnumerator.MoveNext();
+            }
+
+            SelectRecursive(selection, cache, schema, extent, levelEnumerator);
+
+            levelEnumerator.Dispose();
 
             return SortOnLevel(selection).Values;
         }
@@ -27,18 +38,19 @@ namespace BruTile.Samples.Common
             return (from entry in selection orderby entry.Key.Level ascending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
-        public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache, ITileSchema schema, Extent extent, int level)
+        public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache,
+            ITileSchema schema, Extent extent, IEnumerator<KeyValuePair<string, Resolution>> level)
         {
-            if (level < 0) return;
+            if (!level.MoveNext()) return;
 
-            var tiles = schema.GetTilesInView(extent, level);
+            var tiles = schema.GetTilesInView(extent, level.Current.Key);
 
             foreach (TileInfo tileInfo in tiles)
             {
                 var tile = cache.Find(tileInfo.Index);
                 if (tile == null)
                 {
-                    SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level - 1);
+                    SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level);
                 }
                 else
                 {
@@ -47,7 +59,7 @@ namespace BruTile.Samples.Common
                     // semi transparent one.
                     if (IsSemiTransparent(tile))
                     {
-                        SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level - 1);
+                        SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), level);
                     }
                 }
             }

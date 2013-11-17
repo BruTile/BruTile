@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using BruTile.Cache;
 using BruTile.Predefined;
 
@@ -23,7 +24,7 @@ namespace BruTile.Web
             var resolutions = Schema.Resolutions;
             for (var i = 0; i < resolutions.Count; i++)
             {
-                var id = int.Parse(resolutions[i].Id);
+                var id = int.Parse(resolutions[i.ToString(CultureInfo.InvariantCulture)].Id);
                 if (id < osmRequest.OsmConfig.MinResolution || id > osmRequest.OsmConfig.MaxResolution)
                 {
                     //System.Diagnostics.Debug.WriteLine(string.Format("must remove resolution at index {0}", i));
@@ -34,7 +35,7 @@ namespace BruTile.Web
             int numDeleted = 0;
             foreach (var i in resolutionsToDelete)
             {
-                resolutions.Remove(i - numDeleted++);
+                resolutions.Remove((i - numDeleted++).ToString(CultureInfo.InvariantCulture));
             }
         }
 
