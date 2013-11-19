@@ -29,15 +29,15 @@ namespace BruTile.Tests.Web.Wmts
             // arrange
             var resourceUrls = new List<ResourceUrl>
             {
-                new ResourceUrl { Format = "image/jpeg", Template="http://maps1.wien.gv.at/wmts/lb/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
+                new ResourceUrl { Format = "image/jpeg", Template="http://maps1.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
                     ResourceType = URLTemplateTypeResourceType.tile },
-                new ResourceUrl { Format = "image/jpeg", Template="http://maps2.wien.gv.at/wmts/lb/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
+                new ResourceUrl { Format = "image/jpeg", Template="http://maps2.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
                     ResourceType = URLTemplateTypeResourceType.tile },
-			    new ResourceUrl { Format = "image/jpeg", Template="http://maps3.wien.gv.at/wmts/lb/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
+			    new ResourceUrl { Format = "image/jpeg", Template="http://maps3.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
                     ResourceType = URLTemplateTypeResourceType.tile }
             };
 
-            var wmtsRequest = new WmtsRequest(resourceUrls, "google3857", "farbe");
+            var wmtsRequest = new WmtsRequest(resourceUrls);
 
             // act
             var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, "14") });
