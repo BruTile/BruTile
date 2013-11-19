@@ -48,8 +48,8 @@ namespace BruTile.Web.Wmts
                         }
                         else
                         {
-                            wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL, 
-                                tileMatrixLink.TileMatrixSet, style.Identifier.Value));
+                            wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL,
+                                style.Identifier.Value, tileMatrixLink.TileMatrixSet));
                         }
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, layer.TileMatrixSetLink[0].TileMatrixSet));
                         var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
@@ -121,16 +121,6 @@ namespace BruTile.Web.Wmts
                     });
             }
             return resourceUrls;
-        }
-
-        private static object InsertStyle(string template, string style)
-        {
-            return template.Replace(WmtsRequest.StyleTag, style);
-        }
-
-        private static object InsertTileMatrixSet(string template)
-        {
-            throw new NotImplementedException();
         }
 
         private static List<TileSchema> GetTileMatrices(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)
