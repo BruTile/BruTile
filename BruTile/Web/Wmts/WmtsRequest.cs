@@ -24,7 +24,8 @@ namespace BruTile.Web.Wmts
         public Uri GetUri(TileInfo info)
         {
             if (_resourceUrlCounter >= _resourceUrls.Count()) _resourceUrlCounter = 0;
-            var urlFormatter = _resourceUrls[_resourceUrlCounter++];
+            var urlFormatter = _resourceUrls[_resourceUrlCounter];
+            _resourceUrlCounter++;
             var stringBuilder = new StringBuilder(urlFormatter.Template);
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));

@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Release\Portable\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,15 +58,15 @@
     <When Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">
       <ItemGroup>
         <Reference Include="System.Data.SQLite">
-        <HintPath>..\packages\System.Data.SQLite.MSIL.1.0.86.0\lib\net20\System.Data.SQLite.dll</HintPath>
-      </Reference>
+          <HintPath>..\packages\System.Data.SQLite.MSIL.1.0.86.0\lib\net20\System.Data.SQLite.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
-      <Reference Include="System.Data.SQLite">
-        <HintPath>..\packages\System.Data.SQLite.MSIL.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
-      </Reference>
+        <Reference Include="System.Data.SQLite">
+          <HintPath>..\packages\System.Data.SQLite.MSIL.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
