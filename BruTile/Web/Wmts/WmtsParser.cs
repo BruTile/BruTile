@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 using Generated = BruTile.Web.Wmts.Generated;
 
@@ -37,8 +38,19 @@ namespace BruTile.Web.Wmts
                 {
                     foreach (var style in layer.Style)
                     {
-                        var wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL), tileMatrixLink.TileMatrixSet, style.Identifier.Value);
-
+                        IRequest wmtsRequest;
+                        // this if is not correct but works for my current samples:
+                        if (layer.ResourceURL == null)
+                        {
+                            wmtsRequest = new WmtsRequest(GetGetTileUrls(capabilties.OperationsMetadata.Operation, 
+                                layer.Format.First(), capabilties.ServiceIdentification.ServiceTypeVersion.First(), 
+                                layer.Title.First().Value, style.Identifier.Value, tileMatrixLink.TileMatrixSet));
+                        }
+                        else
+                        {
+                            wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL, 
+                                tileMatrixLink.TileMatrixSet, style.Identifier.Value));
+                        }
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, layer.TileMatrixSetLink[0].TileMatrixSet));
                         var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
                             {
@@ -52,19 +64,73 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<Generated.URLTemplateType> inputResourceUrls)
+        private static IEnumerable<ResourceUrl> GetGetTileUrls(IEnumerable<Generated.Operation> operations, 
+            string format, string version, string layer, string style, string tileMatrixSet)
+        {
+            var list = new List<string>();
+            foreach (var operation in operations)
+            {
+                if (!operation.name.ToLower().Equals("gettile")) continue;
+                foreach (var dcp in operation.DCP)
+                {
+                    foreach (var item in dcp.Item.Items)
+                    {
+                        list.Add(item.href);
+                    }
+                }
+            }
+
+            return list.Select(s => new ResourceUrl
+                {
+                    Template = CreateFormatter(s, format, version, layer, style, tileMatrixSet),
+                    ResourceType =  Generated.URLTemplateTypeResourceType.tile,
+                    Format = format
+                });
+        }
+
+        private static string CreateFormatter(string baseUrl, string format, string version, string layer, string style, string tileMatrixSet)
+        {
+            var requestBuilder = new StringBuilder(baseUrl);
+            if (!baseUrl.Contains("?")) requestBuilder.Append("?");
+            requestBuilder.Append("SERVICE=").Append("WMTS");
+            requestBuilder.Append("&REQUEST=").Append("GetTile");
+            requestBuilder.Append("&VERSION=").Append(version); 
+            requestBuilder.Append("&LAYER=").Append(layer); 
+            requestBuilder.Append("&STYLE=").Append(style);
+            requestBuilder.Append("&TILEMATRIXSET=").Append(tileMatrixSet);
+            requestBuilder.Append("&TILEMATRIX=").Append(WmtsRequest.ZTag);
+            requestBuilder.Append("&TILEROW=").Append(WmtsRequest.YTag);
+            requestBuilder.Append("&TILECOL=").Append(WmtsRequest.XTag);
+            requestBuilder.Append("&FORMAT=").Append(format);
+            return requestBuilder.ToString();
+        }
+
+        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<Generated.URLTemplateType> inputResourceUrls,
+            string style, string tileMatrixSet)
         {
             var resourceUrls = new List<ResourceUrl>();
             foreach (var resourceUrl in inputResourceUrls)
             {
+                var template = resourceUrl.template.Replace(WmtsRequest.TileMatrixSetTag, tileMatrixSet);
+                template = template.Replace(WmtsRequest.StyleTag, style);
                 resourceUrls.Add(new ResourceUrl
                     {
                         Format = resourceUrl.format,
                         ResourceType = resourceUrl.resourceType,
-                        Template = resourceUrl.template
+                        Template = template
                     });
             }
             return resourceUrls;
+        }
+
+        private static object InsertStyle(string template, string style)
+        {
+            return template.Replace(WmtsRequest.StyleTag, style);
+        }
+
+        private static object InsertTileMatrixSet(string template)
+        {
+            throw new NotImplementedException();
         }
 
         private static List<TileSchema> GetTileMatrices(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)

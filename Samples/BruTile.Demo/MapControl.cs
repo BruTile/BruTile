@@ -51,6 +51,9 @@ namespace BruTile.Demo
         public void SetTileSource(ITileSource source)
         {
             _tileSource = source;
+            _viewport.Resolution = source.Schema.Resolutions.First().Value.UnitsPerPixel;
+            _viewport.CenterX = source.Schema.Extent.CenterX;
+            _viewport.CenterY = source.Schema.Extent.CenterY;
             _tileCache.Clear();
             _fetcher.DataChanged -= FetcherOnDataChanged;
             _fetcher.AbortFetch();

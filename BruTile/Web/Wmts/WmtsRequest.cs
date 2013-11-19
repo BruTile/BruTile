@@ -1,44 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BruTile.Web.Wmts
 {
     public class WmtsRequest : IRequest
     {
-        private const string XTag = "{TileCol}";
-        private const string YTag = "{TileRow}";
-        private const string ZTag = "{TileMatrix}";
-        private const string TileMatrixSetTag = "{TileMatrixSet}";
-        private const string StyleTag = "{Style}";
-        private readonly IEnumerator<ResourceUrl> _resourceUrlEnumerator;
-        private readonly IEnumerable<ResourceUrl> _resourceUrls;
-        private readonly string _tileMatrixLink;
-        private readonly string _style;
+        public const string XTag = "{TileCol}";
+        public const string YTag = "{TileRow}";
+        public const string ZTag = "{TileMatrix}";
+        public const string TileMatrixSetTag = "{TileMatrixSet}";
+        public const string StyleTag = "{Style}";
+        private readonly IList<ResourceUrl> _resourceUrls;
+        private int _resourceUrlCounter;
         
-        public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, string tileMatrixLink, string style)
+        public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls)
         {
-            _resourceUrls = resourceUrls;
-            _tileMatrixLink = tileMatrixLink;
-            _style = style;
-            _resourceUrlEnumerator = _resourceUrls.GetEnumerator();
+            _resourceUrls = resourceUrls.ToList();
         }
 
         public Uri GetUri(TileInfo info)
         {
-            if (!_resourceUrlEnumerator.MoveNext())
-            {
-                _resourceUrlEnumerator.Reset();
-                _resourceUrlEnumerator.MoveNext();
-            }
-            var urlFormatter = _resourceUrlEnumerator.Current;
+            if (_resourceUrlCounter >= _resourceUrls.Count()) _resourceUrlCounter = 0;
+            var urlFormatter = _resourceUrls[_resourceUrlCounter++];
             var stringBuilder = new StringBuilder(urlFormatter.Template);
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(ZTag, info.Index.Level);
-            stringBuilder.Replace(TileMatrixSetTag, _tileMatrixLink);
-            stringBuilder.Replace(StyleTag, _style);
             return new Uri(stringBuilder.ToString());
         }
     }
