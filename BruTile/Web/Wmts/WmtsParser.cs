@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -166,8 +167,8 @@ namespace BruTile.Web.Wmts
                     Id = tileMatrix.Identifier.Value,
                     UnitsPerPixel = tileMatrix.ScaleDenominator * 0.00028,
                     ScaleDenominator = tileMatrix.ScaleDenominator,
-                    Left = Convert.ToDouble(coords[0]),
-                    Top = Convert.ToDouble(coords[1]),
+                    Left = Convert.ToDouble(coords[0], CultureInfo.InvariantCulture),
+                    Top = Convert.ToDouble(coords[1], CultureInfo.InvariantCulture),
                     MatrixWidth = tileMatrix.MatrixWidth,
                     MatrixHeight = tileMatrix.MatrixHeight,
                     TileWidth = tileMatrix.TileWidth,
