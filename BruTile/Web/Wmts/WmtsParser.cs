@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using Generated = BruTile.Web.Wmts.Generated;
 
 namespace BruTile.Web.Wmts
 {
@@ -14,7 +13,6 @@ namespace BruTile.Web.Wmts
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
             var ser = new XmlSerializer(typeof(Generated.Capabilities));
-
             Generated.Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
@@ -23,7 +21,6 @@ namespace BruTile.Web.Wmts
             }
             
             var tileSchemas = GetTileMatrices(capabilties.Contents.TileMatrixSet);
-
             var tileSources = GetLayers(capabilties, tileSchemas);
 
             return tileSources;
@@ -52,7 +49,7 @@ namespace BruTile.Web.Wmts
                             wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL,
                                 style.Identifier.Value, tileMatrixLink.TileMatrixSet));
                         }
-                        var tileSchema = tileSchemas.First(s => Equals(s.Name, layer.TileMatrixSetLink[0].TileMatrixSet));
+                        var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixLink.TileMatrixSet));
                         var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
                             {
                                 Title = layer.Title[0].Value
