@@ -2,7 +2,7 @@
   <PropertyGroup>
     <SolutionFile>BruTile.sln</SolutionFile> 
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
-    <AsmVersion>0.7.4.1</AsmVersion>
+    <AsmVersion>0.7.4.3</AsmVersion>
     <AsmFileVersion>$(AsmVersion)</AsmFileVersion>
 	<NuGetVersion>$(AsmVersion)</NuGetVersion>
   </PropertyGroup>
@@ -68,7 +68,7 @@
 -->
   </Target>
 
-  <Target Name ="NuGetPack" DependsOnTargets="SetVersion,BuildReleaseNet">
+  <Target Name ="NuGetPack" DependsOnTargets="BuildReleaseNet">
     <Exec Command="$(SolutionDir)\.nuget\nuget.exe pack BruTile.nuspec -version $(NuGetVersion) -outputdirectory $(SolutionDir)\Release"> </Exec>
     <!--
     <Exec Command="$(SolutionDir)\.nuget\nuget.exe pack BruTile.MbTiles.nuspec -version $(NuGetVersion) -outputdirectory $(SolutionDir)\Release"> </Exec>
