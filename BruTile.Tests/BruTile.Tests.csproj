@@ -125,6 +125,9 @@
     <Content Include="Resources\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Wmts\wmts-capabilities-pdok.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Wmts\wmts-capabilties-copied-from-openlayers-sample.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
