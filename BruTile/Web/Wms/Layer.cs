@@ -12,6 +12,7 @@ namespace BruTile.Web.Wms
         private KeywordList _keywordListField;
 
         private List<string> _crsField = new List<string>();
+        private List<string> _srsField = new List<string>();
 
         private List<Layer> _childLayers;
 
@@ -113,9 +114,9 @@ namespace BruTile.Web.Wms
             foreach (var el in node.Elements(XName.Get("CRS", ns)))
                 _crsField.Add(el.Value);
 
-            if (_crsField.Count == 0)
-            { }
-
+            foreach (var el in node.Elements(XName.Get("SRS", ns)))
+                _srsField.Add(el.Value);
+            
             element = node.Element(XName.Get("EX_GeographicBoundingBox", ns));
             if (element != null) ExGeographicBoundingBox = new ExGeographicBoundingBox(element, ns);
 
@@ -198,6 +199,22 @@ namespace BruTile.Web.Wms
             }
         }
 
+        public List<string> SRS
+        {
+            get
+            {
+                if ((_srsField == null))
+                {
+                    _srsField = new List<string>();
+                }
+                return _srsField;
+            }
+            set
+            {
+                _srsField = value;
+            }
+        }
+
         public ExGeographicBoundingBox ExGeographicBoundingBox { get; set; }
 
         public List<BoundingBox> BoundingBox { get; private set; }
@@ -263,6 +280,7 @@ namespace BruTile.Web.Wms
                 writer.WriteElementString("Abstract", Namespace, Abstract);
             WriteXmlItem("KeywordList", Namespace, writer, _keywordListField);
             WriteXmlList("CRS", Namespace, writer, _crsField);
+            WriteXmlList("SRS", Namespace, writer, _srsField);
             WriteXmlItem("EX_GeographicBoundingBox", Namespace, writer, ExGeographicBoundingBox);
             WriteXmlList("BoundingBox", Namespace, writer, BoundingBox);
             WriteXmlList("Dimension", Namespace, writer, Dimension);
