@@ -100,6 +100,7 @@
     </Content>
     <Content Include="Resources\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
