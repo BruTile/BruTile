@@ -42,7 +42,7 @@ namespace BruTile.Web.Wmts
                         {
                             wmtsRequest = new WmtsRequest(GetGetTileUrls(capabilties.OperationsMetadata.Operation, 
                                 layer.Format.First(), capabilties.ServiceIdentification.ServiceTypeVersion.First(), 
-                                layer.Title.First().Value, style.Identifier.Value, tileMatrixLink.TileMatrixSet));
+                                layer.Identifier.Value, style.Identifier.Value, tileMatrixLink.TileMatrixSet));
                         }
                         else
                         {
@@ -52,7 +52,7 @@ namespace BruTile.Web.Wmts
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixLink.TileMatrixSet));
                         var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
                             {
-                                Title = layer.Title[0].Value
+                                Title = layer.Identifier.Value
                             };
 
                         tileSources.Add(tileSource);
