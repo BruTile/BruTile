@@ -53,21 +53,29 @@ namespace BruTile.Web.Wms
 
             var node = doc.Element(XName.Get("WMT_MS_Capabilities"));
             if (node == null) node = doc.Element(XName.Get("WMS_Capabilities"));
+            if (node == null)
+            {
+                // try load root node with xmlns="http://www.opengis.net/wms"
+                node = doc.Element(XName.Get("WMS_Capabilities", "http://www.opengis.net/wms"));
+                if (node == null)
+                {
+                    throw WmsParsingException.ElementNotFound("WMS_Capabilities or WMT_MS_Capabilities");
+                }
+            }
 
             var att = node.Attribute(XName.Get("version"));
             if (att == null)
                 throw WmsParsingException.AttributeNotFound("version");
             Version = new WmsVersion(att.Value);
 
+            var @namespace = Version.Version == WmsVersionEnum.Version_1_3_0
+                          ? "http://www.opengis.net/wms"
+                          : string.Empty;
+            XmlObject.Namespace = @namespace;
+
             att = node.Attribute("updateSequence");
             if (att != null)
                 UpdateSequence = int.Parse(att.Value, NumberFormatInfo.InvariantInfo);
-
-            var @namespace = Version.Version == WmsVersionEnum.Version_1_3_0
-                            ? "http://www.opengis.net/wms"
-                            : string.Empty;
-
-            XmlObject.Namespace = @namespace;
 
             var element = node.Element(XName.Get("Service", @namespace));
             if (element == null)
