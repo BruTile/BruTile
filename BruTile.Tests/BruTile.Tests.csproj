@@ -113,6 +113,9 @@
     <Content Include="Resources\AcmeCorpMapServersCapabilities_1_3_0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\WmsCapabilities_1_3_0_withXmlns.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\WmsCCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

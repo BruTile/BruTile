@@ -87,5 +87,21 @@ namespace BruTile.Tests.Web
                 Assert.AreEqual(12, tileSources.Count());
             }
         }
+
+        [Test]
+        public void WmsCapabilities_WithXmlnsAttribute()
+        {
+            using (var stream = File.OpenRead(Path.Combine("Resources", @"WmsCapabilities_1_3_0_withXmlns.xml")))
+            {
+                // act
+                var capabilities = new WmsCapabilities(stream);
+
+                // assert
+                Assert.NotNull(capabilities);
+                Assert.NotNull(capabilities.Version);
+                Assert.AreEqual("1 Million Scale WMS Layers from the National Atlas of the United States", capabilities.Capability.Layer.Title);
+                Assert.AreEqual(19, capabilities.Capability.Layer.ChildLayers.Count);
+            }   
+        }
     }
 }
