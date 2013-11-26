@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Xml.Linq;
 using BruTile.Web.Wms;
@@ -38,76 +37,75 @@ namespace BruTile.Web
         {
             var wmsCapabilities = new WmsCapabilities(document);
 
-            return ParseVendorSpecificCapabilitiesNode(
-                (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")],
+            if (!wmsCapabilities.Capability.ExtendedCapabilities.ContainsKey(XName.Get("VendorSpecificCapabilities")))
+                throw new System.Exception("VendorSpecificCapabilities node is missing from WMS capabilities (This is probably an ordinary WMS)");
+
+            var vendorSpecificNode = (XElement)wmsCapabilities.Capability.ExtendedCapabilities[XName.Get("VendorSpecificCapabilities")];
+
+            return ParseVendorSpecificCapabilitiesNode(vendorSpecificNode,
                 wmsCapabilities.Capability.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
         }
 
         /// <remarks> WMS-C uses the VendorSpecificCapabilities to specify the tile schema.</remarks>
         private static IEnumerable<ITileSource> ParseVendorSpecificCapabilitiesNode(
-            XElement xnlVendorSpecificCapabilities, OnlineResource onlineResource)
+            XElement xVendorSpecificCapabilities, OnlineResource onlineResource)
         {
-            var tileSets = new List<ITileSource>();
-
-            var xnlTileSets = xnlVendorSpecificCapabilities.Elements(XName.Get("TileSet"));
-
-            if (xnlTileSets != null)
-            {
-                foreach (var xnlTileSet in xnlTileSets)
-                {
-                    ITileSource tileSource = ParseTileSetNode(xnlTileSet, onlineResource);
-                    tileSets.Add(tileSource);
-                }
-            }
-            return tileSets;
+            var xTileSets = xVendorSpecificCapabilities.Elements(XName.Get("TileSet"));
+            return xTileSets.Select(tileSet => ParseTileSetNode(tileSet, onlineResource)).ToList();
         }
 
-        private static ITileSource ParseTileSetNode(XElement xnlTileSet, OnlineResource onlineResource)
+        private static ITileSource ParseTileSetNode(XElement xTileSet, OnlineResource onlineResource)
         {
-            var schema = new TileSchema();
+            var styles = xTileSet.Elements("Styles").Select(xStyle => xStyle.Value).ToList();
+            var layers = xTileSet.Elements("Layers").Select(xLayer => xLayer.Value).ToList();
+            var schema = ToTileSchema(xTileSet, CreateDefaultName(layers));
+            var wmscRequest = new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles);
+            return new WmscTileSource(schema, new WebTileProvider(wmscRequest));
+        }
 
-            var xnStyles = xnlTileSet.Elements("Styles");
-            var styles = xnStyles.Select(xnStyle => xnStyle.Value).ToList();
+        private static TileSchema ToTileSchema(XElement xTileSet, string name)
+        {
+            var schema = new TileSchema { Name = name };
 
-            var xnLayers = xnlTileSet.Elements("Layers");
-            var layers = xnLayers.Select(xnLayer => xnLayer.Value).ToList();
+            var xSrs = xTileSet.Element("SRS");
+            if (xSrs != null)
+                schema.Srs = xSrs.Value;
 
-            schema.Name = CreateDefaultName(layers);
-
-            var xnSrs = xnlTileSet.Element("SRS");
-            if (xnSrs != null)
-                schema.Srs = xnSrs.Value;
-
-            var xnWidth = xnlTileSet.Element("Width");
-            if (xnWidth != null)
+            var xWidth = xTileSet.Element("Width");
+            if (xWidth != null)
             {
                 int width;
-                if (!Int32.TryParse(xnWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
+                if (!Int32.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
                     throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
                 schema.Width = width;
             }
 
-            var xnHeight = xnlTileSet.Element("Height");
-            if (xnHeight != null)
+            var xHeight = xTileSet.Element("Height");
+            if (xHeight != null)
             {
                 int height;
-                if (!Int32.TryParse(xnHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
                     throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
                 schema.Height = height;
             }
 
-            var xnFormat = xnlTileSet.Element("Format");
-            if (xnFormat != null)
-                schema.Format = xnFormat.Value;
+            var xFormat = xTileSet.Element("Format");
+            if (xFormat != null)
+                schema.Format = xFormat.Value;
 
-            var xnBoundingBox = xnlTileSet.Element("BoundingBox");
-            if (xnBoundingBox != null)
+            var xBoundingBox = xTileSet.Element("BoundingBox");
+            if (xBoundingBox != null)
             {
                 double minx, miny, maxx, maxy;
-                if (!double.TryParse(xnBoundingBox.Attribute("minx").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out minx) &
-                    !double.TryParse(xnBoundingBox.Attribute("miny").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out miny) &
-                    !double.TryParse(xnBoundingBox.Attribute("maxx").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxx) &
-                    !double.TryParse(xnBoundingBox.Attribute("maxy").Value, NumberStyles.Any, CultureInfo.InvariantCulture, out maxy))
+                if (
+                    !double.TryParse(xBoundingBox.Attribute("minx").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                     out minx) &
+                    !double.TryParse(xBoundingBox.Attribute("miny").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                     out miny) &
+                    !double.TryParse(xBoundingBox.Attribute("maxx").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                     out maxx) &
+                    !double.TryParse(xBoundingBox.Attribute("maxy").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                     out maxy))
                 {
                     throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
                 }
@@ -119,23 +117,22 @@ namespace BruTile.Web
                 schema.OriginY = miny;
             }
 
-            var xnResolutions = xnlTileSet.Element("Resolutions");
-            if (xnResolutions != null)
+            var xResolutions = xTileSet.Element("Resolutions");
+            if (xResolutions != null)
             {
                 var count = 0;
-                string[] resolutions = xnResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] resolutions = xResolutions.Value.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var resolutionStr in resolutions)
                 {
                     double resolution;
                     if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
                     var levelId = count.ToString(CultureInfo.InvariantCulture);
-                    schema.Resolutions[levelId] = new Resolution { Id = levelId, UnitsPerPixel = resolution };
+                    schema.Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = resolution};
                     count++;
                 }
             }
-
-            return new WmscTileSource(schema, new WebTileProvider(new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles, new Dictionary<string, string>())));
+            return schema;
         }
 
         private static string CreateDefaultName(IEnumerable<string> layers)
