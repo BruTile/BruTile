@@ -17,7 +17,7 @@ namespace BruTile.Web
         readonly IList<string> _styles;
         private readonly string _version;
 
-        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters, string version = null)
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters = null, string version = null)
         {
             _baseUrl = baseUrl;
             _customParameters = customParameters;

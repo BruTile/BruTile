@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using BruTile.Web;
 using BruTile.Web.Wms;
 using NUnit.Framework;
 
@@ -63,12 +65,26 @@ namespace BruTile.Tests.Web
             using (var stream = File.OpenRead(Path.Combine("Resources", @"FrioCountyTXMapsWmsCapabilities_1_1_1.xml")))
             {
                 // act
-                var capabilities = new WmsCapabilities(stream);
+                var capabilities = new WmsCapabilities(stream); 
 
                 // assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("Frio County TX Maps", capabilities.Capability.Layer.Title);
                 Assert.AreEqual(13, capabilities.Capability.Layer.ChildLayers.Count);
+            }
+        }
+
+        [Test]
+        public void WmsCapabilities_For_LizardTech()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "wms-lizardtech.xml")))
+            {
+                // act
+                var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
+
+                // assert
+                Assert.AreEqual(12, tileSources.Count());
             }
         }
     }
