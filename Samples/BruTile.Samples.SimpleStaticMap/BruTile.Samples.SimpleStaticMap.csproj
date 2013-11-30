@@ -80,7 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTile\BruTile.csproj">
+    <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
       <Name>BruTile</Name>
     </ProjectReference>

@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Tests", "BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{BE518630-1B4E-41F1-8364-EC225C18F80B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.SimpleStaticMap", "BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.SimpleStaticMap", "Samples\BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
