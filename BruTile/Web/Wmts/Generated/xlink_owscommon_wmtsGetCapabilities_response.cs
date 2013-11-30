@@ -1113,9 +1113,6 @@ namespace BruTile.Web.Wmts.Generated
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
     public partial class UnNamedDomainType
     {
-
-        private object[] allowedValuesField;
-
         private AnyValue anyValueField;
 
         private NoValues noValuesField;
@@ -1135,13 +1132,8 @@ namespace BruTile.Web.Wmts.Generated
         private MetadataType[] metadataField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Range", typeof (RangeType), IsNullable = false)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("Value", typeof (ValueType), IsNullable = false)]
-        public object[] AllowedValues
-        {
-            get { return this.allowedValuesField; }
-            set { this.allowedValuesField = value; }
-        }
+        [XmlArrayItem("Range", typeof (RangeType), IsNullable = false), XmlArrayItem("Value", typeof (ValueType), IsNullable = false)]
+        public object[] AllowedValues { get; set; }
 
         /// <remarks/>
         public AnyValue AnyValue
@@ -2210,16 +2202,9 @@ namespace BruTile.Web.Wmts.Generated
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.opengis.net/ows/1.1", IsNullable = false)]
     public partial class DCP
     {
-
-        private HTTP itemField;
-
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("HTTP")]
-        public HTTP Item
-        {
-            get { return this.itemField; }
-            set { this.itemField = value; }
-        }
+        [XmlElement("HTTP")]
+        public HTTP Http { get; set; }
     }
 
     /// <remarks/>

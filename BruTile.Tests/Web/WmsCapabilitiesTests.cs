@@ -81,10 +81,10 @@ namespace BruTile.Tests.Web
             using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "wms-lizardtech.xml")))
             {
                 // act
-                var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
-
+                var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
+                
                 // assert
-                Assert.AreEqual(12, tileSources.Count());
+                Assert.AreEqual(12, wmsCapabilities.Capability.Layer.ChildLayers.Count);
             }
         }
 
