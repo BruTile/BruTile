@@ -131,6 +131,9 @@
     <Content Include="Resources\Wms\wms-lizardtech.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

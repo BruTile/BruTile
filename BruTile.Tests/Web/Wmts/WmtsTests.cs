@@ -3,6 +3,7 @@ using BruTile.Web.Wmts.Generated;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace BruTile.Tests.Web.Wmts
 {
@@ -16,10 +17,25 @@ namespace BruTile.Tests.Web.Wmts
             using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilties-copied-from-openlayers-sample.xml")))
             {
                 // act
-                var tileSource = WmtsParser.Parse(stream);
+                var tileSources = WmtsParser.Parse(stream);
 
                 // assert
-                Assert.NotNull(tileSource);
+                Assert.NotNull(tileSources);
+            }
+        }
+
+        [Test]
+        public void TestParsingWmtsCapabilitiesKvpAndRestful()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilities-arcgis-server-doggersbank.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                var tileSource = tileSources.First(s => s.Title.ToLower() == "public_doggersbank");
+                Assert.NotNull(tileSource.Provider);
             }
         }
 

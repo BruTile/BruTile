@@ -20,7 +20,7 @@ namespace BruTile.Web.Wmts
                 capabilties = (Generated.Capabilities)ser.Deserialize(reader);
             }
             
-            var tileSchemas = GetTileMatrices(capabilties.Contents.TileMatrixSet);
+            var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
             var tileSources = GetLayers(capabilties, tileSchemas);
 
             return tileSources;
@@ -37,17 +37,23 @@ namespace BruTile.Web.Wmts
                     foreach (var style in layer.Style)
                     {
                         IRequest wmtsRequest;
-                        // this if is not correct but works for my current samples:
-                        if (layer.ResourceURL == null)
+                        
+                        if (true)//layer.ResourceURL == null)
                         {
-                            wmtsRequest = new WmtsRequest(GetGetTileUrls(capabilties.OperationsMetadata.Operation, 
-                                layer.Format.First(), capabilties.ServiceIdentification.ServiceTypeVersion.First(), 
-                                layer.Identifier.Value, style.Identifier.Value, tileMatrixLink.TileMatrixSet));
+                            wmtsRequest = new WmtsRequest(CreateResourceUrlsFromOperations(
+                                capabilties.OperationsMetadata.Operation, 
+                                layer.Format.First(), 
+                                capabilties.ServiceIdentification.ServiceTypeVersion.First(), 
+                                layer.Identifier.Value, 
+                                style.Identifier.Value, 
+                                tileMatrixLink.TileMatrixSet));
                         }
                         else
                         {
-                            wmtsRequest = new WmtsRequest(GetResourceUrls(layer.ResourceURL,
-                                style.Identifier.Value, tileMatrixLink.TileMatrixSet));
+                            wmtsRequest = new WmtsRequest(CreateResourceUrlsFromResourceUrlNode(
+                                layer.ResourceURL,
+                                style.Identifier.Value, 
+                                tileMatrixLink.TileMatrixSet));
                         }
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixLink.TileMatrixSet));
                         var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
@@ -62,48 +68,63 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ResourceUrl> GetGetTileUrls(IEnumerable<Generated.Operation> operations, 
+        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Generated.Operation> operations, 
             string format, string version, string layer, string style, string tileMatrixSet)
         {
-            var list = new List<string>();
+            var list = new List<Tuple<string, string>>();
             foreach (var operation in operations)
             {
                 if (!operation.name.ToLower().Equals("gettile")) continue;
                 foreach (var dcp in operation.DCP)
                 {
-                    foreach (var item in dcp.Item.Items)
+                    foreach (var item in dcp.Http.Items)
                     {
-                        list.Add(item.href);
+                        foreach (var constraint in item.Constraint)
+                        {
+                            foreach (var allowedValue in constraint.AllowedValues)
+                            {
+                                list.Add(new Tuple<string, string>(allowedValue.ToString(), item.href));
+                            }
+                        }
                     }
                 }
             }
 
             return list.Select(s => new ResourceUrl
                 {
-                    Template = CreateFormatter(s, format, version, layer, style, tileMatrixSet),
+                    Template = s.Item1.ToLower() =="kvp" ? 
+                        CreateKvpFormatter(s.Item2, format, version, layer, style, tileMatrixSet):
+                        CreateRestfulFormatter(s.Item2, format, style, tileMatrixSet),
                     ResourceType =  Generated.URLTemplateTypeResourceType.tile,
                     Format = format
                 });
         }
 
-        private static string CreateFormatter(string baseUrl, string format, string version, string layer, string style, string tileMatrixSet)
+        private static string CreateRestfulFormatter(string baseUrl, string format, string style, string tileMatrixSet)
+        {
+            if (!baseUrl.EndsWith("/")) baseUrl += "/";
+            return new StringBuilder(baseUrl).Append(style).Append("/").Append(tileMatrixSet)
+                .Append("/{TileMatrix}/{TileRow}/{TileCol}").Append(".").Append(format).ToString();
+        }
+
+        private static string CreateKvpFormatter(string baseUrl, string format, string version, string layer, string style, string tileMatrixSet)
         {
             var requestBuilder = new StringBuilder(baseUrl);
             if (!baseUrl.Contains("?")) requestBuilder.Append("?");
-            requestBuilder.Append("SERVICE=").Append("WMTS");
-            requestBuilder.Append("&REQUEST=").Append("GetTile");
-            requestBuilder.Append("&VERSION=").Append(version); 
-            requestBuilder.Append("&LAYER=").Append(layer); 
-            requestBuilder.Append("&STYLE=").Append(style);
-            requestBuilder.Append("&TILEMATRIXSET=").Append(tileMatrixSet);
-            requestBuilder.Append("&TILEMATRIX=").Append(WmtsRequest.ZTag);
-            requestBuilder.Append("&TILEROW=").Append(WmtsRequest.YTag);
-            requestBuilder.Append("&TILECOL=").Append(WmtsRequest.XTag);
-            requestBuilder.Append("&FORMAT=").Append(format);
+            requestBuilder.Append("SERVICE=").Append("WMTS")
+                          .Append("&REQUEST=").Append("GetTile")
+                          .Append("&VERSION=").Append(version)
+                          .Append("&LAYER=").Append(layer)
+                          .Append("&STYLE=").Append(style)
+                          .Append("&TILEMATRIXSET=").Append(tileMatrixSet)
+                          .Append("&TILEMATRIX=").Append(WmtsRequest.ZTag)
+                          .Append("&TILEROW=").Append(WmtsRequest.YTag)
+                          .Append("&TILECOL=").Append(WmtsRequest.XTag)
+                          .Append("&FORMAT=").Append(format);
             return requestBuilder.ToString();
         }
 
-        private static IEnumerable<ResourceUrl> GetResourceUrls(IEnumerable<Generated.URLTemplateType> inputResourceUrls,
+        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(IEnumerable<Generated.URLTemplateType> inputResourceUrls,
             string style, string tileMatrixSet)
         {
             var resourceUrls = new List<ResourceUrl>();
@@ -121,7 +142,7 @@ namespace BruTile.Web.Wmts
             return resourceUrls;
         }
 
-        private static List<TileSchema> GetTileMatrices(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)
+        private static List<TileSchema> GetTileMatrixSets(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)
         {
             var tileSchemas = new List<TileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
@@ -140,6 +161,7 @@ namespace BruTile.Web.Wmts
                 tileSchema.Extent = ToExtent(firstTileMatrix);
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.Axis = AxisDirection.InvertedY;
+                tileSchema.Srs = tileMatrixSet.SupportedCRS;
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
