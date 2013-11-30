@@ -52,23 +52,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Community.CsharpSqlite">
-      <HintPath>..\lib\Community.CsharpSqlite.dll</HintPath>
+      <HintPath>..\..\lib\Community.CsharpSqlite.dll</HintPath>
     </Reference>
     <Reference Include="Community.CsharpSqlite.SQLiteClient">
-      <HintPath>..\lib\Community.CsharpSqlite.SQLiteClient.dll</HintPath>
+      <HintPath>..\..\lib\Community.CsharpSqlite.SQLiteClient.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <HintPath>..\packages\System.Data.SQLite.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\packages\System.Data.SQLite.x86.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.86.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\..\packages\System.Data.SQLite.x86.1.0.86.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,22 +90,22 @@
     <Compile Include="Cache\SqliteDbCacheTest.cs" />
     <Compile Include="FileSystem\FileTileProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\SharedAssemblyVersion.cs">
+    <Compile Include="..\..\SharedAssemblyVersion.cs">
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
     <Compile Include="Serialization\ReflectionTests.cs" />
     <Compile Include="Serialization\SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BruTile.Desktop\BruTile.Desktop.csproj">
+    <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj">
       <Project>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</Project>
       <Name>BruTile.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTile.Serialization\BruTile.Serialization.csproj">
+    <ProjectReference Include="..\..\BruTile.Serialization\BruTile.Serialization.csproj">
       <Project>{8d357be0-ab5a-4b62-891c-fc76cb35db99}</Project>
       <Name>BruTile.Serialization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BruTile\BruTile.csproj">
+    <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
