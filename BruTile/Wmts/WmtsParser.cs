@@ -5,19 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using BruTile.Web;
+using BruTile.Web.Wmts;
+using BruTile.Web.Wmts.Generated;
 
-namespace BruTile.Web.Wmts
+namespace BruTile.Wmts
 {
     public class WmtsParser
     {
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
-            var ser = new XmlSerializer(typeof(Generated.Capabilities));
-            Generated.Capabilities capabilties;
+            var ser = new XmlSerializer(typeof(Web.Wmts.Generated.Capabilities));
+            Web.Wmts.Generated.Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
             {
-                capabilties = (Generated.Capabilities)ser.Deserialize(reader);
+                capabilties = (Web.Wmts.Generated.Capabilities)ser.Deserialize(reader);
             }
             
             var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
@@ -26,7 +29,7 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ITileSource> GetLayers(Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Web.Wmts.Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
 
@@ -68,7 +71,7 @@ namespace BruTile.Web.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Generated.Operation> operations, 
+        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Operation> operations, 
             string format, string version, string layer, string style, string tileMatrixSet)
         {
             var list = new List<Tuple<string, string>>();
@@ -95,7 +98,7 @@ namespace BruTile.Web.Wmts
                     Template = s.Item1.ToLower() =="kvp" ? 
                         CreateKvpFormatter(s.Item2, format, version, layer, style, tileMatrixSet):
                         CreateRestfulFormatter(s.Item2, format, style, tileMatrixSet),
-                    ResourceType =  Generated.URLTemplateTypeResourceType.tile,
+                    ResourceType =  Web.Wmts.Generated.URLTemplateTypeResourceType.tile,
                     Format = format
                 });
         }
@@ -124,7 +127,7 @@ namespace BruTile.Web.Wmts
             return requestBuilder.ToString();
         }
 
-        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(IEnumerable<Generated.URLTemplateType> inputResourceUrls,
+        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(IEnumerable<URLTemplateType> inputResourceUrls,
             string style, string tileMatrixSet)
         {
             var resourceUrls = new List<ResourceUrl>();
@@ -142,7 +145,7 @@ namespace BruTile.Web.Wmts
             return resourceUrls;
         }
 
-        private static List<TileSchema> GetTileMatrixSets(IEnumerable<Generated.TileMatrixSet> tileMatrixSets)
+        private static List<TileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
         {
             var tileSchemas = new List<TileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
@@ -176,7 +179,7 @@ namespace BruTile.Web.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix)
+        private static KeyValuePair<string, Resolution> ToResolution(Web.Wmts.Generated.TileMatrix tileMatrix)
         {
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
 

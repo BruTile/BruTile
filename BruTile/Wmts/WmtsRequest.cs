@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using BruTile.Web;
 
-namespace BruTile.Web.Wmts
+namespace BruTile.Wmts
 {
     public class WmtsRequest : IRequest
     {
