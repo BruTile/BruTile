@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BruTile.Predefined;
 using NUnit.Framework;
 
 namespace BruTile.Tests
@@ -8,12 +9,15 @@ namespace BruTile.Tests
     public class UtilityTests
     {
         [Test]
-        public void TestVersion()
+        public void TestGetNearestLevel()
         {
+            // arrange
+            var schema = new GlobalSphericalMercator();
+
             // act
-            var version = Utilities.Version;
+            var levelId = Utilities.GetNearestLevel(schema.Resolutions, 300.0);
             // assert
-            Assert.True(version == "0.8");
+            Assert.True(levelId == "9");
         }
     }
 }
