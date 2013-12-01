@@ -1,6 +1,6 @@
 ﻿using BruTile.Web.Wmts.Generated;
 
-namespace BruTile.Web.Wmts
+namespace BruTile.Wmts
 {
     public class ResourceUrl
     {
