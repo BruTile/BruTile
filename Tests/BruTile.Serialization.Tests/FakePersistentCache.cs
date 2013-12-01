@@ -1,4 +1,6 @@
-﻿namespace BruTile.Cache
+﻿using BruTile.Cache;
+
+namespace BruTile.Serialization.Tests
 {
     public class FakePersistentCache<T> : IPersistentCache<T>
     {
