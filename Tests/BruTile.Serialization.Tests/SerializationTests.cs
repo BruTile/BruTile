@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using BruTile.Cache;
 using BruTile.Predefined;
+using BruTile.Serialization.Tests;
 using BruTile.Web;
 using NUnit.Framework;
 

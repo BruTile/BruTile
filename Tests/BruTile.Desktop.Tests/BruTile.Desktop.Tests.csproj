@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\CacheTests.cs" />
-    <Compile Include="Cache\FakePersistentCache.cs" />
     <Compile Include="Cache\FileCacheTests.cs" />
     <Compile Include="Cache\SqlCeDbCacheTests.cs" />
     <Compile Include="Cache\SQLiteCacheTests.cs" />
@@ -93,8 +92,6 @@
     <Compile Include="..\..\SharedAssemblyVersion.cs">
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="Serialization\ReflectionTests.cs" />
-    <Compile Include="Serialization\SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj">
