@@ -14,12 +14,12 @@ namespace BruTile.Wmts
     {
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
-            var ser = new XmlSerializer(typeof(Generated.Capabilities));
-            Generated.Capabilities capabilties;
+            var ser = new XmlSerializer(typeof(Capabilities));
+            Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
             {
-                capabilties = (Generated.Capabilities)ser.Deserialize(reader);
+                capabilties = (Capabilities)ser.Deserialize(reader);
             }
             
             var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
@@ -28,7 +28,7 @@ namespace BruTile.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ITileSource> GetLayers(Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<TileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
 
@@ -40,7 +40,7 @@ namespace BruTile.Wmts
                     {
                         IRequest wmtsRequest;
                         
-                        if (true)//layer.ResourceURL == null)
+                        if (layer.ResourceURL == null)
                         {
                             wmtsRequest = new WmtsRequest(CreateResourceUrlsFromOperations(
                                 capabilties.OperationsMetadata.Operation, 
@@ -73,7 +73,7 @@ namespace BruTile.Wmts
         private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Operation> operations, 
             string format, string version, string layer, string style, string tileMatrixSet)
         {
-            var list = new List<Tuple<string, string>>();
+            var list = new List<KeyValuePair<string, string>>();
             foreach (var operation in operations)
             {
                 if (!operation.name.ToLower().Equals("gettile")) continue;
@@ -85,7 +85,7 @@ namespace BruTile.Wmts
                         {
                             foreach (var allowedValue in constraint.AllowedValues)
                             {
-                                list.Add(new Tuple<string, string>(allowedValue.ToString(), item.href));
+                                list.Add(new KeyValuePair<string, string>(allowedValue.ToString(), item.href));
                             }
                         }
                     }
@@ -94,10 +94,10 @@ namespace BruTile.Wmts
 
             return list.Select(s => new ResourceUrl
                 {
-                    Template = s.Item1.ToLower() =="kvp" ? 
-                        CreateKvpFormatter(s.Item2, format, version, layer, style, tileMatrixSet):
-                        CreateRestfulFormatter(s.Item2, format, style, tileMatrixSet),
-                    ResourceType =  Generated.URLTemplateTypeResourceType.tile,
+                    Template = s.Key.ToLower() =="kvp" ? 
+                        CreateKvpFormatter(s.Value, format, version, layer, style, tileMatrixSet):
+                        CreateRestfulFormatter(s.Value, format, style, tileMatrixSet),
+                    ResourceType =  URLTemplateTypeResourceType.tile,
                     Format = format
                 });
         }
