@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BruTile.Tms;
 using BruTile.Web;
 using NUnit.Framework;
 

@@ -9,8 +9,9 @@ using System.IO;
 using System.Net;
 using System.Xml.Serialization;
 using BruTile.Cache;
+using BruTile.Web;
 
-namespace BruTile.Web.Tms
+namespace BruTile.Tms
 {
     public static class TileMapParser
     {

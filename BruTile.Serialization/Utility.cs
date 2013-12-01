@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using BruTile.Cache;
 using BruTile.Predefined;
+using BruTile.Tms;
 using BruTile.Web;
 using BruTile.Wmsc;
 
