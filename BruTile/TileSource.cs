@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using BruTile.Predefined;
 using BruTile.Web;
-using BruTile.Web.Wmts;
 
 namespace BruTile
 {
