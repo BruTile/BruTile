@@ -6,8 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using BruTile.Web;
-using BruTile.Web.Wmts;
-using BruTile.Web.Wmts.Generated;
+using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
@@ -15,12 +14,12 @@ namespace BruTile.Wmts
     {
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
-            var ser = new XmlSerializer(typeof(Web.Wmts.Generated.Capabilities));
-            Web.Wmts.Generated.Capabilities capabilties;
+            var ser = new XmlSerializer(typeof(Generated.Capabilities));
+            Generated.Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
             {
-                capabilties = (Web.Wmts.Generated.Capabilities)ser.Deserialize(reader);
+                capabilties = (Generated.Capabilities)ser.Deserialize(reader);
             }
             
             var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
@@ -29,7 +28,7 @@ namespace BruTile.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ITileSource> GetLayers(Web.Wmts.Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Generated.Capabilities capabilties, List<TileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
 
@@ -98,7 +97,7 @@ namespace BruTile.Wmts
                     Template = s.Item1.ToLower() =="kvp" ? 
                         CreateKvpFormatter(s.Item2, format, version, layer, style, tileMatrixSet):
                         CreateRestfulFormatter(s.Item2, format, style, tileMatrixSet),
-                    ResourceType =  Web.Wmts.Generated.URLTemplateTypeResourceType.tile,
+                    ResourceType =  Generated.URLTemplateTypeResourceType.tile,
                     Format = format
                 });
         }
@@ -179,7 +178,7 @@ namespace BruTile.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(Web.Wmts.Generated.TileMatrix tileMatrix)
+        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix)
         {
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
 
