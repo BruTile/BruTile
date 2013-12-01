@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Tms
+namespace BruTile.Tms
 {
     public class Root
     {

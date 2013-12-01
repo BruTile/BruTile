@@ -3,9 +3,9 @@
 using System;
 using System.IO;
 using BruTile.Cache;
-using BruTile.Web.Tms;
+using BruTile.Web;
 
-namespace BruTile.Web
+namespace BruTile.Tms
 {
     public class TmsTileSource : TileSource
     {

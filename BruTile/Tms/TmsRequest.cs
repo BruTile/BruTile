@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using BruTile.Web;
 
-namespace BruTile.Web
+namespace BruTile.Tms
 {
     public class TmsRequest : IRequest
     {
