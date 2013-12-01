@@ -124,8 +124,8 @@
     <Compile Include="Web\TmsTileSource.cs" />
     <Compile Include="Web\WebResponseFormatException.cs" />
     <Compile Include="Web\WebTileProvider.cs" />
-    <Compile Include="Web\WmscRequest.cs" />
-    <Compile Include="Web\WmscTileSource.cs" />
+    <Compile Include="Wmsc\WmscRequest.cs" />
+    <Compile Include="Wmsc\WmscTileSource.cs" />
     <Compile Include="Web\Wms\Attribution.cs" />
     <Compile Include="Web\Wms\AuthorityURL.cs" />
     <Compile Include="Web\Wms\BoundingBox.cs" />
@@ -249,6 +249,7 @@
   <ItemGroup>
     <Content Include="Web\Wmts\how_wmts_classes_were_generated.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Condition="'$(Portability)' == 'Desktop'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Portability)' == 'PCL'" Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

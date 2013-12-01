@@ -6,9 +6,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using BruTile.Web;
 using BruTile.Web.Wms;
 
-namespace BruTile.Web
+namespace BruTile.Wmsc
 {
     /// <summary>
     /// This class has not been tested.
