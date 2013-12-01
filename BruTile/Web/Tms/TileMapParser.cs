@@ -10,7 +10,7 @@ using System.Net;
 using System.Xml.Serialization;
 using BruTile.Cache;
 
-namespace BruTile.Web.TmsService
+namespace BruTile.Web.Tms
 {
     public static class TileMapParser
     {
