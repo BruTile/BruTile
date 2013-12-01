@@ -126,128 +126,128 @@
     <Compile Include="Web\WebTileProvider.cs" />
     <Compile Include="Wmsc\WmscRequest.cs" />
     <Compile Include="Wmsc\WmscTileSource.cs" />
-    <Compile Include="Web\Wms\Attribution.cs" />
-    <Compile Include="Web\Wms\AuthorityURL.cs" />
-    <Compile Include="Web\Wms\BoundingBox.cs" />
-    <Compile Include="Web\Wms\Capability.cs" />
-    <Compile Include="Web\Wms\ContactAddress.cs" />
-    <Compile Include="Web\Wms\ContactInformation.cs" />
-    <Compile Include="Web\Wms\ContactPersonPrimary.cs" />
-    <Compile Include="Web\Wms\DataURL.cs" />
-    <Compile Include="Web\Wms\DCPType.cs" />
-    <Compile Include="Web\Wms\DCPTypeElement.cs" />
-    <Compile Include="Web\Wms\Dimension.cs" />
-    <Compile Include="Web\Wms\Exception.cs" />
-    <Compile Include="Web\Wms\ExGeographicBoundingBox.cs" />
-    <Compile Include="Web\Wms\FeatureListURL.cs" />
-    <Compile Include="Web\Wms\Get.cs" />
-    <Compile Include="Web\Wms\HTTP.cs" />
-    <Compile Include="Web\Wms\Identifier.cs" />
-    <Compile Include="Web\Wms\Keyword.cs" />
-    <Compile Include="Web\Wms\KeywordList.cs" />
-    <Compile Include="Web\Wms\Layer.cs" />
-    <Compile Include="Web\Wms\LegendURL.cs" />
-    <Compile Include="Web\Wms\LogoURL.cs" />
-    <Compile Include="Web\Wms\MetadataURL.cs" />
-    <Compile Include="Web\Wms\OnlineResource.cs" />
-    <Compile Include="Web\Wms\OperationType.cs" />
-    <Compile Include="Web\Wms\Post.cs" />
-    <Compile Include="Web\Wms\Request.cs" />
-    <Compile Include="Web\Wms\Service.cs" />
-    <Compile Include="Web\Wms\ServiceException.cs" />
-    <Compile Include="Web\Wms\ServiceExceptionReport.cs" />
-    <Compile Include="Web\Wms\ServiceName.cs" />
-    <Compile Include="Web\Wms\Style.cs" />
-    <Compile Include="Web\Wms\StyleSheetURL.cs" />
-    <Compile Include="Web\Wms\StyleURL.cs" />
-    <Compile Include="Web\Wms\WmsCapabilities.cs" />
-    <Compile Include="Web\Wms\WmsParsingException.cs" />
-    <Compile Include="Web\Wms\WmsPropertyException.cs" />
-    <Compile Include="Web\Wms\WmsVersion.cs" />
-    <Compile Include="Web\Wms\XmlObject.cs" />
-    <Compile Include="Web\Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
+    <Compile Include="Wms\Attribution.cs" />
+    <Compile Include="Wms\AuthorityURL.cs" />
+    <Compile Include="Wms\BoundingBox.cs" />
+    <Compile Include="Wms\Capability.cs" />
+    <Compile Include="Wms\ContactAddress.cs" />
+    <Compile Include="Wms\ContactInformation.cs" />
+    <Compile Include="Wms\ContactPersonPrimary.cs" />
+    <Compile Include="Wms\DataURL.cs" />
+    <Compile Include="Wms\DCPType.cs" />
+    <Compile Include="Wms\DCPTypeElement.cs" />
+    <Compile Include="Wms\Dimension.cs" />
+    <Compile Include="Wms\Exception.cs" />
+    <Compile Include="Wms\ExGeographicBoundingBox.cs" />
+    <Compile Include="Wms\FeatureListURL.cs" />
+    <Compile Include="Wms\Get.cs" />
+    <Compile Include="Wms\HTTP.cs" />
+    <Compile Include="Wms\Identifier.cs" />
+    <Compile Include="Wms\Keyword.cs" />
+    <Compile Include="Wms\KeywordList.cs" />
+    <Compile Include="Wms\Layer.cs" />
+    <Compile Include="Wms\LegendURL.cs" />
+    <Compile Include="Wms\LogoURL.cs" />
+    <Compile Include="Wms\MetadataURL.cs" />
+    <Compile Include="Wms\OnlineResource.cs" />
+    <Compile Include="Wms\OperationType.cs" />
+    <Compile Include="Wms\Post.cs" />
+    <Compile Include="Wms\Request.cs" />
+    <Compile Include="Wms\Service.cs" />
+    <Compile Include="Wms\ServiceException.cs" />
+    <Compile Include="Wms\ServiceExceptionReport.cs" />
+    <Compile Include="Wms\ServiceName.cs" />
+    <Compile Include="Wms\Style.cs" />
+    <Compile Include="Wms\StyleSheetURL.cs" />
+    <Compile Include="Wms\StyleURL.cs" />
+    <Compile Include="Wms\WmsCapabilities.cs" />
+    <Compile Include="Wms\WmsParsingException.cs" />
+    <Compile Include="Wms\WmsPropertyException.cs" />
+    <Compile Include="Wms\WmsVersion.cs" />
+    <Compile Include="Wms\XmlObject.cs" />
+    <Compile Include="Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
       <SubType>code</SubType>
     </Compile>
-    <Compile Include="Web\Wmts\ResourceUrl.cs" />
-    <Compile Include="Web\Wmts\WmtsParser.cs" />
-    <Compile Include="Web\Wmts\WmtsRequest.cs" />
+    <Compile Include="Wmts\ResourceUrl.cs" />
+    <Compile Include="Wmts\WmtsParser.cs" />
+    <Compile Include="Wmts\WmtsRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BruTile.snk" />
-    <None Include="Web\Wmts\xsd\ows19115subset.xsd">
+    <None Include="Wmts\xsd\ows19115subset.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsAll.xsd">
+    <None Include="Wmts\xsd\owsAll.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsCommon.xsd">
+    <None Include="Wmts\xsd\owsCommon.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsContents.xsd">
+    <None Include="Wmts\xsd\owsContents.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsDataIdentification.xsd">
+    <None Include="Wmts\xsd\owsDataIdentification.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsDomainType.xsd">
+    <None Include="Wmts\xsd\owsDomainType.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsExceptionReport.xsd">
+    <None Include="Wmts\xsd\owsExceptionReport.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsGetCapabilities.xsd">
+    <None Include="Wmts\xsd\owsGetCapabilities.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsGetResourceByID.xsd">
+    <None Include="Wmts\xsd\owsGetResourceByID.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsInputOutputData.xsd">
+    <None Include="Wmts\xsd\owsInputOutputData.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsManifest.xsd">
+    <None Include="Wmts\xsd\owsManifest.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsOperationsMetadata.xsd">
+    <None Include="Wmts\xsd\owsOperationsMetadata.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsServiceIdentification.xsd">
+    <None Include="Wmts\xsd\owsServiceIdentification.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\owsServiceProvider.xsd">
+    <None Include="Wmts\xsd\owsServiceProvider.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmts.xsd">
+    <None Include="Wmts\xsd\wmts.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsAbstract.wsdl" />
-    <None Include="Web\Wmts\xsd\wmtsGetCapabilities_request.xsd">
+    <None Include="Wmts\xsd\wmtsAbstract.wsdl" />
+    <None Include="Wmts\xsd\wmtsGetCapabilities_request.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsGetCapabilities_response.xsd">
+    <None Include="Wmts\xsd\wmtsGetCapabilities_response.xsd">
       <SubType>Designer</SubType>
       <LastGenOutput>wmtsGetCapabilities_response.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsGetFeatureInfo_request.xsd">
+    <None Include="Wmts\xsd\wmtsGetFeatureInfo_request.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsGetFeatureInfo_response.xsd">
+    <None Include="Wmts\xsd\wmtsGetFeatureInfo_response.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsGetTile_request.xsd">
+    <None Include="Wmts\xsd\wmtsGetTile_request.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsKVP.xsd">
+    <None Include="Wmts\xsd\wmtsKVP.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\wmtsPayload_response.xsd">
+    <None Include="Wmts\xsd\wmtsPayload_response.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\Wmts\xsd\xlink.xsd">
+    <None Include="Wmts\xsd\xlink.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web\Wmts\how_wmts_classes_were_generated.txt" />
+    <Content Include="Wmts\how_wmts_classes_were_generated.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Condition="'$(Portability)' == 'Desktop'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
