@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using BruTile.Web;
+using BruTile.Wmsc;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web

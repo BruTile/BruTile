@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using BruTile.Web;
 
-namespace BruTile.Web
+namespace BruTile.Wmsc
 {
     public class WmscRequest : IRequest
     {

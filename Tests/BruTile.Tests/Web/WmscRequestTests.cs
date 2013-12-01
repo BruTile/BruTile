@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BruTile.Predefined;
 using BruTile.Web;
+using BruTile.Wmsc;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using BruTile.Cache;
 using BruTile.Predefined;
 using BruTile.Web;
+using BruTile.Wmsc;
 
 namespace BruTile
 {
