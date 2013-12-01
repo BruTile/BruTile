@@ -1,4 +1,4 @@
-﻿using BruTile.Web.Wmts.Generated;
+﻿using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
