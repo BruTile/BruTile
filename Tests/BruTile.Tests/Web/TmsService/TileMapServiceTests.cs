@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using BruTile.Web.TmsService;
+using BruTile.Web.Tms;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web.TmsService

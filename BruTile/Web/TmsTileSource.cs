@@ -3,7 +3,7 @@
 using System;
 using System.IO;
 using BruTile.Cache;
-using BruTile.Web.TmsService;
+using BruTile.Web.Tms;
 
 namespace BruTile.Web
 {
