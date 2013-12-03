@@ -170,7 +170,7 @@ namespace WinFormsSample
                         var tileStream = new MemoryStream(res);
                         var tile = (Bitmap) Image.FromStream(tileStream);
 
-                        DrawTile(_source.Schema, g, tile, extent);
+                        DrawTile(_source.Schema, g, tile, extent, tileInfo.Index.Level);
                     }
                     if (_showGrid)
                     {
@@ -195,7 +195,7 @@ namespace WinFormsSample
             Invalidate();
         }
 
-        private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent)
+        private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent, string levelId)
         {
             // For drawing on WinForms there are two things to take into account 
             // to prevent seams between tiles.
@@ -205,7 +205,7 @@ namespace WinFormsSample
             imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
             // 2) The rectangle should be rounded to actual pixels. 
             Rectangle roundedExtent = RoundToPixel(extent);
-            graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.Width, schema.Height, GraphicsUnit.Pixel, imageAttributes);
+            graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.GetTileWidth(levelId), schema.GetTileHeight(levelId), GraphicsUnit.Pixel, imageAttributes);
         }
 
         private static Rectangle RoundToPixel(RectangleF dest)

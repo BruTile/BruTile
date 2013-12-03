@@ -28,7 +28,7 @@ namespace BruTile.Wmts
             return tileSources;
         }
 
-        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<TileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
 
@@ -85,7 +85,7 @@ namespace BruTile.Wmts
                         {
                             foreach (var allowedValue in constraint.AllowedValues)
                             {
-                                list.Add(new KeyValuePair<string, string>(allowedValue.ToString(), item.href));
+                                list.Add(new KeyValuePair<string, string>(((Generated.ValueType)allowedValue).Value, item.href));
                             }
                         }
                     }
@@ -144,22 +144,22 @@ namespace BruTile.Wmts
             return resourceUrls;
         }
 
-        private static List<TileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
+        private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
         {
-            var tileSchemas = new List<TileSchema>();
+            var tileSchemas = new List<ITileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
             {
-                var tileSchema = new TileSchema();
+                var tileSchema = new WmtsTileSchema();
                 foreach (var tileMatrix in tileMatrixSet.TileMatrix)
                 {
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix));
                 }
                 var firstTileMatrix = tileSchema.Resolutions.First().Value;
 
-                tileSchema.Width = firstTileMatrix.TileWidth;
-                tileSchema.Height = firstTileMatrix.TileHeight;
-                tileSchema.OriginX = firstTileMatrix.Left;
-                tileSchema.OriginY = firstTileMatrix.Top;
+                //tileSchema.Width = firstTileMatrix.TileWidth;
+                //tileSchema.Height = firstTileMatrix.TileHeight;
+                //tileSchema.OriginX = firstTileMatrix.Left;
+                //tileSchema.OriginY = firstTileMatrix.Top;
                 tileSchema.Extent = ToExtent(firstTileMatrix);
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.Axis = AxisDirection.InvertedY;

@@ -8,11 +8,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using BruTile.Cache;
 using BruTile.Predefined;
-using BruTile.Serialization.Tests;
 using BruTile.Web;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Serialization
+namespace BruTile.Serialization.Tests
 {
     public class SerializationTests
     {
@@ -174,7 +173,7 @@ namespace BruTile.Tests.Serialization
 
         #region private helper methods
 
-        private static bool EqualTileSources(ITileSource ts1, ITileSource ts2, out string message)
+        private static bool EqualTileSources(TileSource ts1, TileSource ts2, out string message)
         {
             if (!ReferenceEquals(ts1, ts2))
             {
@@ -189,7 +188,7 @@ namespace BruTile.Tests.Serialization
                     return false;
                 }
 
-                if (!EqualTileSchemas(ts1.Schema, ts2.Schema, out message))
+                if (!EqualTileSchemas((TileSchema)ts1.Schema, (TileSchema)ts2.Schema, out message))
                     return false;
 
                 if (!EqualTileProviders(ts1.Provider, ts2.Provider, out message))
@@ -307,7 +306,7 @@ namespace BruTile.Tests.Serialization
             return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level.ToString(CultureInfo.InvariantCulture)) };
         }
 
-        private static bool EqualTileSchemas(ITileSchema ts1, ITileSchema ts2, out string message)
+        private static bool EqualTileSchemas(TileSchema ts1, TileSchema ts2, out string message)
         {
             if (ts1.Name != ts2.Name)
             {
@@ -367,6 +366,9 @@ namespace BruTile.Tests.Serialization
             {
                 var r1 = ts1.Resolutions[key];
                 var r2 = ts2.Resolutions[key];
+
+                //!!! compare other resultion parameters.
+                
                 if (r1.Id != r2.Id || r1.UnitsPerPixel != r2.UnitsPerPixel)
                 {
                     message = string.Format("Resolution doesn't match at index {0}", key);

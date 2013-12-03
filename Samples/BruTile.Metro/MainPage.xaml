@@ -10,7 +10,7 @@
 
   <Grid>
     <local:MapControl Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="canvas"/>
-    <Button Content="Zoomin" HorizontalAlignment="Left" Click="Button_Click_Zoomin" Margin="0,365" Width="96"  />
-    <Button Content="Zoomout" HorizontalAlignment="Left" Click="Button_Click_Zoomout" Margin="0,403,0,327" />
+    <Button Content="Zoomin" HorizontalAlignment="Left" Click="ButtonClickZoomin" Margin="0,365" Width="96"  />
+    <Button Content="Zoomout" HorizontalAlignment="Left" Click="ButtonClickZoomout" Margin="0,403,0,327" />
   </Grid>
 </Page>

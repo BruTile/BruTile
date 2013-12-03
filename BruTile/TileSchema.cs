@@ -43,19 +43,49 @@ namespace BruTile
 
         public string Name { get; set; }
         public string Srs { get; set; }
+        public string Format { get; set; }
         public Extent Extent { get; set; }
+        public AxisDirection Axis { get; set; }
+        public IDictionary<string, Resolution> Resolutions
+        {
+            get { return _resolutions; }
+
+        }
+
         public double OriginX { get; set; }
         public double OriginY { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public string Format { get; set; }
 
-        public IDictionary<string, Resolution> Resolutions
+        public double GetOriginX(string levelId)
         {
-            get { return _resolutions; }
+            return OriginX;
         }
 
-        public AxisDirection Axis { get; set; }
+        public double GetOriginY(string levelId)
+        {
+            return OriginY;
+        }
+
+        public int GetTileWidth(string levelId)
+        {
+            return Width;
+        }
+
+        public int GetTileHeight(string levelId)
+        {
+            return Height;
+        }
+
+        public int GetMatrixWidth(string levelId)
+        {
+            return (int)((Extent.Width / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+        }
+
+        public int GetMatrixHeight(string levelId)
+        {
+            return (int)((Extent.Height / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+        }
 
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
@@ -68,30 +98,40 @@ namespace BruTile
 
         public IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId)
         {
-            TileRange range = TileTransform.WorldToTile(extent, levelId, this);
+            return GetTilesInView(this, extent, levelId);
+        }
 
-            for (int x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
+        internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)
+        {
+            var range = TileTransform.WorldToTile(extent, levelId, schema);
+
+            for (var x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
             {
-                for (int y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
+                for (var y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
                 {
-                    var info = new TileInfo
-                        {
-                            Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, this),
-                            Index = new TileIndex(x, y, levelId)
-                        };
-
-                    if (WithinSchemaExtent(Extent, info.Extent))
+                    if (x < 0 || x >= schema.GetMatrixWidth(levelId)) continue;
+                    if (y < 0 || y >= schema.GetMatrixHeight(levelId)) continue;
+                    
+                     var info = new TileInfo
                     {
-                        yield return info;
-                    }
+                        Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
+                        Index = new TileIndex(x, y, levelId)
+                    };
+
+                    yield return info;
                 }
             }
         }
 
         public Extent GetExtentOfTilesInView(Extent extent, string levelId)
         {
-            TileRange range = TileTransform.WorldToTile(extent, levelId, this);
-            return TileTransform.TileToWorld(range, levelId, this);
+            return GetExtentOfTilesInView(this, extent, levelId);
+        }
+
+        public static Extent GetExtentOfTilesInView(ITileSchema schema, Extent extent, string levelId)
+        {
+            var range = TileTransform.WorldToTile(extent, levelId, schema);
+            return TileTransform.TileToWorld(range, levelId, schema);
         }
 
         /// <summary>
@@ -146,7 +186,7 @@ namespace BruTile
             // as TileSchema Srs because we do not project one to the other. 
         }
 
-        private static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
+        public static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
         {
             // Always return false when the tile is outsize of the schema
             if (!tileExtent.Intersects(schemaExtent)) return false;

@@ -298,7 +298,6 @@ namespace BruTile.Wmts.Generated
 
         /// <remarks/>
         [XmlElement("BoundingBox", typeof (BoundingBoxType))]
-        //!!![System.Xml.Serialization.XmlElementAttribute("WGS84BoundingBox", typeof(WGS84BoundingBoxType))]
         public BoundingBoxType[] Items
         {
             get { return this.itemsField; }

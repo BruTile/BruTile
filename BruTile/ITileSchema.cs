@@ -10,11 +10,13 @@ namespace BruTile
         string Name { get; }
         string Srs { get; }
         Extent Extent { get; }
-        double OriginX { get; }
-        double OriginY { get; }
+        int GetTileWidth(string levelId);
+        int GetTileHeight(string levelId);
+        double GetOriginX(string levelId);
+        double GetOriginY(string levelId);
+        int GetMatrixWidth(string levelId);
+        int GetMatrixHeight(string levelId);
         IDictionary<string, Resolution> Resolutions { get; }
-        int Width { get; }
-        int Height { get; }
         string Format { get; }
         AxisDirection Axis { get; }
         IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId);
