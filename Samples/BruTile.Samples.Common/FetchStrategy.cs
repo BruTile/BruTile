@@ -34,13 +34,13 @@ namespace BruTile.Samples.Common
             var levels = schema.Resolutions.Where(k => resolution <= k.Value.UnitsPerPixel).OrderByDescending(x => x.Value.UnitsPerPixel);
             
             //var levelCount = levels.Count();
-            foreach (var lvl in levels)
+            foreach (var level in levels)
             {
-                var infosOfLevel = schema.GetTilesInView(extent, lvl.Key);
-                infosOfLevel = SortByPriority(infosOfLevel, extent.CenterX, extent.CenterY);
+                var tileInfos = schema.GetTilesInView(extent, level.Key);
+                tileInfos = SortByPriority(tileInfos, extent.CenterX, extent.CenterY);
 
                 //var count = infosOfLevel.Count();
-                foreach (TileInfo info in infosOfLevel)
+                foreach (var info in tileInfos)
                 {
                     if ((info.Index.Row >= 0) && (info.Index.Col >= 0)) infos.Add(info);
                 }

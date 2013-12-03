@@ -35,44 +35,44 @@ namespace BruTile
         public static TileRange WorldToTileNormal(Extent extent, string levelId, ITileSchema schema)
         {
             var resolution = schema.Resolutions[levelId];
-            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
-            var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
-            var firstRow = (int)Math.Floor((extent.MinY - schema.OriginY) / tileWorldUnits);
-            var lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
-            var lastRow = (int)Math.Ceiling((extent.MaxY - schema.OriginY) / tileWorldUnits);
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(levelId);
+            var firstCol = (int)Math.Floor((extent.MinX - schema.GetOriginX(levelId)) / tileWorldUnits);
+            var firstRow = (int)Math.Floor((extent.MinY - schema.GetOriginY(levelId)) / tileWorldUnits);
+            var lastCol = (int)Math.Ceiling((extent.MaxX - schema.GetOriginX(levelId)) / tileWorldUnits);
+            var lastRow = (int)Math.Ceiling((extent.MaxY - schema.GetOriginY(levelId)) / tileWorldUnits);
             return new TileRange(firstCol, firstRow, lastCol - firstCol, lastRow - firstRow);
         }
 
         private static Extent TileToWorldNormal(TileRange range, string levelId, ITileSchema schema)
         {
             var resolution = schema.Resolutions[levelId];
-            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
-            var minX = range.FirstCol * tileWorldUnits + schema.OriginX;
-            var minY = range.FirstRow * tileWorldUnits + schema.OriginY;
-            var maxX = (range.FirstCol + range.ColCount) * tileWorldUnits + schema.OriginX;
-            var maxY = (range.FirstRow + range.RowCount) * tileWorldUnits + schema.OriginY;
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(levelId);
+            var minX = range.FirstCol * tileWorldUnits + schema.GetOriginX(levelId);
+            var minY = range.FirstRow * tileWorldUnits + schema.GetOriginY(levelId);
+            var maxX = (range.FirstCol + range.ColCount) * tileWorldUnits + schema.GetOriginX(levelId);
+            var maxY = (range.FirstRow + range.RowCount) * tileWorldUnits + schema.GetOriginY(levelId);
             return new Extent(minX, minY, maxX, maxY);
         }
 
         private static TileRange WorldToTileInvertedY(Extent extent, string levelId, ITileSchema schema)
         {
             var resolution = schema.Resolutions[levelId];
-            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
-            var firstCol = (int)Math.Floor((extent.MinX - schema.OriginX) / tileWorldUnits);
-            var firstRow = (int)Math.Floor((-extent.MaxY + schema.OriginY) / tileWorldUnits);
-            var lastCol = (int)Math.Ceiling((extent.MaxX - schema.OriginX) / tileWorldUnits);
-            var lastRow = (int)Math.Ceiling((-extent.MinY + schema.OriginY) / tileWorldUnits);
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(levelId);
+            var firstCol = (int)Math.Floor((extent.MinX - schema.GetOriginX(levelId)) / tileWorldUnits);
+            var firstRow = (int)Math.Floor((-extent.MaxY + schema.GetOriginY(levelId)) / tileWorldUnits);
+            var lastCol = (int)Math.Ceiling((extent.MaxX - schema.GetOriginX(levelId)) / tileWorldUnits);
+            var lastRow = (int)Math.Ceiling((-extent.MinY + schema.GetOriginY(levelId)) / tileWorldUnits);
             return new TileRange(firstCol, firstRow, lastCol - firstCol, lastRow - firstRow);
         }
 
         private static Extent TileToWorldInvertedY(TileRange range, string levelId, ITileSchema schema)
         {
             var resolution = schema.Resolutions[levelId];
-            var tileWorldUnits = resolution.UnitsPerPixel * schema.Width;
-            var minX = range.FirstCol * tileWorldUnits + schema.OriginX;
-            var minY = -(range.FirstRow + range.RowCount) * tileWorldUnits + schema.OriginY;
-            var maxX = (range.FirstCol + range.ColCount) * tileWorldUnits + schema.OriginX;
-            var maxY = -(range.FirstRow) * tileWorldUnits + schema.OriginY;
+            var tileWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(levelId);
+            var minX = range.FirstCol * tileWorldUnits + schema.GetOriginX(levelId);
+            var minY = -(range.FirstRow + range.RowCount) * tileWorldUnits + schema.GetOriginY(levelId);
+            var maxX = (range.FirstCol + range.ColCount) * tileWorldUnits + schema.GetOriginX(levelId);
+            var maxY = -(range.FirstRow) * tileWorldUnits + schema.GetOriginY(levelId);
             return new Extent(minX, minY, maxX, maxY);
         }
     }

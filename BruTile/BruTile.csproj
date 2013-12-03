@@ -171,6 +171,7 @@
     <Compile Include="Wmts\ResourceUrl.cs" />
     <Compile Include="Wmts\WmtsParser.cs" />
     <Compile Include="Wmts\WmtsRequest.cs" />
+    <Compile Include="Wmts\WmtsTileSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BruTile.snk" />
