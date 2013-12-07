@@ -154,13 +154,13 @@ namespace BruTile.Wmts
                 {
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix));
                 }
-                var firstTileMatrix = tileSchema.Resolutions.First().Value;
 
-                //tileSchema.Width = firstTileMatrix.TileWidth;
-                //tileSchema.Height = firstTileMatrix.TileHeight;
-                //tileSchema.OriginX = firstTileMatrix.Left;
-                //tileSchema.OriginY = firstTileMatrix.Top;
-                tileSchema.Extent = ToExtent(firstTileMatrix);
+                // Extent should be determined by the WGS84BoundingBox of the layer but
+                // this would involve projection.
+                // also the Extent should move to the tileSource because it could differ 
+                // between layers.
+                tileSchema.Extent = ToExtent(tileSchema.Resolutions.First().Value);
+
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.Axis = AxisDirection.InvertedY;
                 tileSchema.Srs = tileMatrixSet.SupportedCRS;

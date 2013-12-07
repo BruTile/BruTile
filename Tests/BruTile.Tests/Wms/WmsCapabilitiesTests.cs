@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using BruTile.Web;
 using BruTile.Web.Wms;
 using NUnit.Framework;
 
@@ -12,10 +11,10 @@ namespace BruTile.Tests.Web
     internal class WmsCapabilitiesTests
     {
         [Test]
-        public void WmsCapabilities_WhenParsed_ShouldSetCorrectGetMapUrl()
+        public void WmsCapabilitiesWhenParsedShouldSetCorrectGetMapUrl()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"BgrGroundwaterWhyMapCapabilities_1_1_1.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "BgrGroundwaterWhyMapCapabilities_1_1_1.xml")))
             {
                 const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
 
@@ -28,10 +27,10 @@ namespace BruTile.Tests.Web
         }
 
         [Test]
-        public void WmsCapabilities_WhenInitializedWithWmsC_ShouldInitializeAllTileLayers()
+        public void WmsCapabilitiesWhenInitializedWithWmsCShouldInitializeAllTileLayers()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"WmsCCapabilities_1_1_1.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml")))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);
@@ -43,10 +42,10 @@ namespace BruTile.Tests.Web
         }
         
         [Test]
-        public void WmsCapabilities_WhenCreatedWithCapabilitiesWithMultipleRootLayers_ShouldInitializeCorrectly()
+        public void WmsCapabilitiesWhenCreatedWithCapabilitiesWithMultipleRootLayersShouldInitializeCorrectly()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"MultiTopLayersCapabilities_1_3_0.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "MultiTopLayersCapabilities_1_3_0.xml")))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);
@@ -59,10 +58,10 @@ namespace BruTile.Tests.Web
         }
 
         [Test]
-        public void WmsCapabilities_WhenCreatedWithValidCapabilitiesV111Document_ShouldInitializeCorrectly()
+        public void WmsCapabilitiesWhenCreatedWithValidCapabilitiesV111DocumentShouldInitializeCorrectly()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"FrioCountyTXMapsWmsCapabilities_1_1_1.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "FrioCountyTXMapsWmsCapabilities_1_1_1.xml")))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream); 
@@ -75,7 +74,7 @@ namespace BruTile.Tests.Web
         }
 
         [Test]
-        public void WmsCapabilities_For_LizardTech()
+        public void WmsCapabilitiesForLizardTech()
         {
             // arrange
             using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "wms-lizardtech.xml")))
@@ -89,9 +88,9 @@ namespace BruTile.Tests.Web
         }
 
         [Test]
-        public void WmsCapabilities_WithXmlnsAttribute()
+        public void WmsCapabilitiesWithXmlnsAttribute()
         {
-            using (var stream = File.OpenRead(Path.Combine("Resources", @"WmsCapabilities_1_3_0_withXmlns.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "WmsCapabilities_1_3_0_withXmlns.xml")))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);

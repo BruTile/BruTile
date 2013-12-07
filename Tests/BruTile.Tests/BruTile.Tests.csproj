@@ -82,15 +82,15 @@
     <Compile Include="UtilityTests.cs" />
     <Compile Include="Web\BasisRequestTests.cs" />
     <Compile Include="Web\BingRequestTests.cs" />
-    <Compile Include="Web\TileSourceWmsCTests.cs">
+    <Compile Include="Wmsc\TileSourceWmsCTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\TmsRequestTests.cs" />
-    <Compile Include="Web\TmsService\RootTests.cs" />
-    <Compile Include="Web\TmsService\TileMapServiceTests.cs" />
-    <Compile Include="Web\WmsCapabilitiesTests.cs" />
-    <Compile Include="Web\WmscRequestTests.cs" />
-    <Compile Include="Web\Wmts\WmtsTests.cs" />
+    <Compile Include="Tms\TmsRequestTests.cs" />
+    <Compile Include="Tms\RootTests.cs" />
+    <Compile Include="Tms\TileMapServiceTests.cs" />
+    <Compile Include="Wms\WmsCapabilitiesTests.cs" />
+    <Compile Include="Wmsc\WmscRequestTests.cs" />
+    <Compile Include="Wmts\WmtsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
@@ -99,29 +99,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\MultiTopLayersCapabilities_1_3_0.xml">
+    <Content Include="Resources\Wms\MultiTopLayersCapabilities_1_3_0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\AcmeCorpMapServersCapabilities_1_3_0.xml">
+    <Content Include="Resources\Wms\AcmeCorpMapServersCapabilities_1_3_0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\WmsCapabilities_1_3_0_withXmlns.xml">
+    <Content Include="Resources\Wms\WmsCapabilities_1_3_0_withXmlns.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\WmsCCapabilities_1_1_1.xml">
+    <Content Include="Resources\Wmsc\WmsCCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\exceptions_1_3_0.xml">
+    <Content Include="Resources\Wms\exceptions_1_3_0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\FrioCountyTXMapsWmsCapabilities_1_1_1.xml">
+    <Content Include="Resources\Wms\FrioCountyTXMapsWmsCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
+    <Content Include="Resources\Wms\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Wms\wms-lizardtech.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -129,16 +132,14 @@
     <Content Include="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Wmts\wmts-capabilties-copied-from-openlayers-sample.xml">
+    <Content Include="Resources\Wmts\wmts-capabilties-restful-wien.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Wmsc\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
