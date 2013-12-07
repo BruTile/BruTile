@@ -32,7 +32,7 @@ namespace BruTile.Web
             var url = new StringBuilder();
 
             url.AppendFormat(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}.{4}",
-                _baseUrl, LevelToHex(info.Index.Level.ToString()), RowToHex(info.Index.Row), ColumnToHex(info.Index.Col), _format);
+                _baseUrl, LevelToHex(info.Index.Level), RowToHex(info.Index.Row), ColumnToHex(info.Index.Col), _format);
             AppendCustomParameters(url);
             return new Uri(url.ToString());
         }
