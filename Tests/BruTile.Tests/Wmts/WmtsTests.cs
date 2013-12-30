@@ -1,20 +1,48 @@
-﻿using BruTile.Wmts.Generated;
-using BruTile.Wmts;
+﻿using BruTile.Wmts;
+using BruTile.Wmts.Generated;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BruTile.Tests.Web.Wmts
+namespace BruTile.Tests.Wmts
 {
     [TestFixture]
     public class WmtsTests
     {
         [Test]
+        public void TestParsingWmtsCapabilitiesResourceUrls()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilties-restful-wien-resourceUrls.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                Assert.NotNull(tileSources);
+            }
+        }
+
+        [Test]
         public void TestParsingWmtsCapabilities()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilties-copied-from-openlayers-sample.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilties-restful-wien.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                Assert.NotNull(tileSources);
+            }
+        }
+
+        [Test]
+        public void TestParsingWmtsCapabilitiesKvp()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilities-pdok.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
