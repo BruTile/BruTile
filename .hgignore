@@ -1,0 +1,13 @@
+syntax: glob
+obj
+[Rr]elease
+packages
+syntax: regexp
+[_\.]ReSharper\.+
+\.user
+\.suo
+\.ReSharper
+\.dotCover
+\.patch
+[B|b]in
+\.mbtiles

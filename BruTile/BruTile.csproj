@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!-- Set the custom Portability property based on configuration -->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug Portable</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BruTile</RootNamespace>
+    <AssemblyName>BruTile</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <Net40>NET40</Net40>
+    <!--<ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>-->
+  </PropertyGroup>
+  <PropertyGroup>
+    <Portability Condition="'$(Configuration)' == 'Debug Portable'">PCL</Portability>
+    <Portability Condition="'$(Configuration)' == 'Release Portable'">PCL</Portability>
+    <!-- Default to desktop if not explicitly set above -->
+    <Portability Condition="'$(Portability)' == ''">PCL</Portability>
+  </PropertyGroup>
+  <!-- Desktop-specific properties -->
+  <PropertyGroup Condition="'$(Portability)' == 'Desktop'">
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <ProjectGuid>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</ProjectGuid>
+  </PropertyGroup>
+  <!-- PCL-specific properties -->
+  <PropertyGroup Condition="'$(Portability)' == 'PCL'">
+    <ProjectGuid>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</ProjectGuid>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile147</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(SolutionDir)Release\$(TargetFrameworkVersion)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Portable|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug Portable\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Portable|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(SolutionDir)Release\Portable\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>BruTile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\IPersistentCache.cs" />
+    <Compile Include="..\SharedAssemblyVersion.cs">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="Cache\ITileCache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\NullCache.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="Extent.cs" />
+    <Compile Include="ITileProvider.cs" />
+    <Compile Include="ITileSchema.cs" />
+    <Compile Include="ITileSource.cs" />
+    <Compile Include="Predefined\BingSchema.cs" />
+    <Compile Include="Predefined\GlobalMercator.cs" />
+    <Compile Include="Predefined\GlobalSphericalMercator.cs" />
+    <Compile Include="Predefined\SphericalMercatorInvertedWorldSchema.cs" />
+    <Compile Include="Predefined\SphericalMercatorWorldSchema.cs" />
+    <Compile Include="Predefined\WkstNederlandSchema.cs" />
+    <Compile Include="Resolution.cs" />
+    <Compile Include="TileIndex.cs" />
+    <Compile Include="TileInfo.cs" />
+    <Compile Include="TileMatrix.cs" />
+    <Compile Include="TileRange.cs" />
+    <Compile Include="TileSchema.cs" />
+    <Compile Include="TileSource.cs" />
+    <Compile Include="TileTransform.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ValidationException.cs" />
+    <Compile Include="Web\ArcGisTileRequest.cs" />
+    <Compile Include="Web\ArcGisTileSource.cs" />
+    <Compile Include="Web\BasicRequest.cs" />
+    <Compile Include="Web\BingRequest.cs" />
+    <Compile Include="Web\BingTileSource.cs" />
+    <Compile Include="Web\IRequest.cs" />
+    <Compile Include="Web\OsmRequest.cs" />
+    <Compile Include="Web\OsmTileSource.cs" />
+    <Compile Include="Web\RequestHelper.cs" />
+    <Compile Include="Tms\TmsRequest.cs" />
+    <Compile Include="Tms\Root.cs" />
+    <Compile Include="Tms\TileMap.cs" />
+    <Compile Include="Tms\TileMapParser.cs" />
+    <Compile Include="Tms\TileMapService.cs" />
+    <Compile Include="Tms\TmsTileSource.cs" />
+    <Compile Include="Web\WebResponseFormatException.cs" />
+    <Compile Include="Web\WebTileProvider.cs" />
+    <Compile Include="Wmsc\WmscRequest.cs" />
+    <Compile Include="Wmsc\WmscTileSource.cs" />
+    <Compile Include="Wms\Attribution.cs" />
+    <Compile Include="Wms\AuthorityURL.cs" />
+    <Compile Include="Wms\BoundingBox.cs" />
+    <Compile Include="Wms\Capability.cs" />
+    <Compile Include="Wms\ContactAddress.cs" />
+    <Compile Include="Wms\ContactInformation.cs" />
+    <Compile Include="Wms\ContactPersonPrimary.cs" />
+    <Compile Include="Wms\DataURL.cs" />
+    <Compile Include="Wms\DCPType.cs" />
+    <Compile Include="Wms\DCPTypeElement.cs" />
+    <Compile Include="Wms\Dimension.cs" />
+    <Compile Include="Wms\Exception.cs" />
+    <Compile Include="Wms\ExGeographicBoundingBox.cs" />
+    <Compile Include="Wms\FeatureListURL.cs" />
+    <Compile Include="Wms\Get.cs" />
+    <Compile Include="Wms\HTTP.cs" />
+    <Compile Include="Wms\Identifier.cs" />
+    <Compile Include="Wms\Keyword.cs" />
+    <Compile Include="Wms\KeywordList.cs" />
+    <Compile Include="Wms\Layer.cs" />
+    <Compile Include="Wms\LegendURL.cs" />
+    <Compile Include="Wms\LogoURL.cs" />
+    <Compile Include="Wms\MetadataURL.cs" />
+    <Compile Include="Wms\OnlineResource.cs" />
+    <Compile Include="Wms\OperationType.cs" />
+    <Compile Include="Wms\Post.cs" />
+    <Compile Include="Wms\Request.cs" />
+    <Compile Include="Wms\Service.cs" />
+    <Compile Include="Wms\ServiceException.cs" />
+    <Compile Include="Wms\ServiceExceptionReport.cs" />
+    <Compile Include="Wms\ServiceName.cs" />
+    <Compile Include="Wms\Style.cs" />
+    <Compile Include="Wms\StyleSheetURL.cs" />
+    <Compile Include="Wms\StyleURL.cs" />
+    <Compile Include="Wms\WmsCapabilities.cs" />
+    <Compile Include="Wms\WmsParsingException.cs" />
+    <Compile Include="Wms\WmsPropertyException.cs" />
+    <Compile Include="Wms\WmsVersion.cs" />
+    <Compile Include="Wms\XmlObject.cs" />
+    <Compile Include="Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="Wmts\ResourceUrl.cs" />
+    <Compile Include="Wmts\WmtsParser.cs" />
+    <Compile Include="Wmts\WmtsRequest.cs" />
+    <Compile Include="Wmts\WmtsTileSchema.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BruTile.snk" />
+    <None Include="Wmts\xsd\ows19115subset.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsAll.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsCommon.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsContents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsDataIdentification.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsDomainType.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsExceptionReport.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsGetCapabilities.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsGetResourceByID.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsInputOutputData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsManifest.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsOperationsMetadata.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsServiceIdentification.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\owsServiceProvider.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsAbstract.wsdl" />
+    <None Include="Wmts\xsd\wmtsGetCapabilities_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsGetCapabilities_response.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>wmtsGetCapabilities_response.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Wmts\xsd\wmtsGetFeatureInfo_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsGetFeatureInfo_response.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsGetTile_request.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsKVP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\wmtsPayload_response.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Wmts\xsd\xlink.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Wmts\how_wmts_classes_were_generated.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Condition="'$(Portability)' == 'Desktop'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition="'$(Portability)' == 'PCL'" Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  <Target Name="BeforeBuild">
+    <Message Text="Building for $(TargetFrameworkVersion), $(TargetFrameworkProfile)" />
+  </Target>
+  <!--
+  <Target Name="AfterBuild">
+  
+  </Target>
+  -->
+</Project>
