@@ -12,6 +12,12 @@ namespace BruTile.Wmts
 {
     public class WmtsParser
     {
+        /// <summary>
+        /// According to OGC SLD 1.0 specification:
+        /// The "standardized rendering pixel size" is defined to be 0.28mm × 0.28mm (millimeters).
+        /// </summary>
+        private const double ScaleHint = 0.00028;
+
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
             var ser = new XmlSerializer(typeof(Capabilities));
@@ -173,8 +179,8 @@ namespace BruTile.Wmts
         {
             return new Extent(
                 tileMatrix.Left,
-                tileMatrix.Top - tileMatrix.ScaleDenominator * 0.00028 * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
-                tileMatrix.Left + tileMatrix.ScaleDenominator * 0.00028 * tileMatrix.TileWidth * tileMatrix.MatrixWidth,
+                tileMatrix.Top - tileMatrix.ScaleDenominator * ScaleHint * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
+                tileMatrix.Left + tileMatrix.ScaleDenominator * ScaleHint * tileMatrix.TileWidth * tileMatrix.MatrixWidth,
                 tileMatrix.Top);
         }
 
@@ -186,7 +192,7 @@ namespace BruTile.Wmts
                 new Resolution
                 {
                     Id = tileMatrix.Identifier.Value,
-                    UnitsPerPixel = tileMatrix.ScaleDenominator * 0.00028,
+                    UnitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint,
                     ScaleDenominator = tileMatrix.ScaleDenominator,
                     Left = Convert.ToDouble(coords[0], CultureInfo.InvariantCulture),
                     Top = Convert.ToDouble(coords[1], CultureInfo.InvariantCulture),
