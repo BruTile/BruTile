@@ -212,6 +212,19 @@
     <Format>image/png8</Format>
     <TileMatrixSetLink>      <TileMatrixSet>EPSG:28992</TileMatrixSet>
     </TileMatrixSetLink>  </Layer>
+    <Layer>
+    <ows:Title>non-existing-GlobalCRS84Scale-layer</ows:Title>
+    <ows:WGS84BoundingBox>
+<ows:LowerCorner>-1.65729160235431 48.0405018704265</ows:LowerCorner>
+<ows:UpperCorner>11.2902578747914 55.9136415748388</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+    <ows:Identifier>non-existing-GlobalCRS84Scale-layer</ows:Identifier>
+    <Style isDefault="true">
+      <ows:Identifier>_null</ows:Identifier>
+    </Style>
+    <Format>image/png8</Format>
+    <TileMatrixSetLink>      <TileMatrixSet>GlobalCRS84Scale</TileMatrixSet>
+    </TileMatrixSetLink>  </Layer>
   <TileMatrixSet>
     <ows:Identifier>GlobalCRS84Scale</ows:Identifier>
     <ows:SupportedCRS>urn:ogc:def:crs:EPSG::4326</ows:SupportedCRS>

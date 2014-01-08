@@ -1,4 +1,5 @@
-﻿using BruTile.Wmts;
+﻿using System;
+using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -49,6 +50,21 @@ namespace BruTile.Tests.Wmts
 
                 // assert
                 Assert.NotNull(tileSources);
+            }
+        }
+
+        [Test]
+        public void TestParsingWmtsGlobalCRS84Scale()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts-capabilities-pdok.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                var tileSource = tileSources.First(s => s.Title == "non-existing-GlobalCRS84Scale-layer");
+                Assert.True(Math.Abs(tileSource.Schema.Extent.Area - new Extent(-180, -90, 180, 90).Area) < 1.0);
             }
         }
 
