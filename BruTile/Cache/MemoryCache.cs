@@ -8,22 +8,15 @@ using System.Linq;
 namespace BruTile.Cache
 {
 
-    public class MemoryCache<T> : ITileCache<T>, INotifyPropertyChanged, IDisposable
+    public class MemoryCache<T>: ITileCache<T>, INotifyPropertyChanged, IDisposable
     {
-        //for future implemenations or replacements of this class look 
-        //into .net 4.0 System.Collections.Concurrent namespace.
-
-        private readonly Dictionary<TileIndex, T> _bitmaps
-          = new Dictionary<TileIndex, T>();
-
-        private readonly Dictionary<TileIndex, DateTime> _touched
-          = new Dictionary<TileIndex, DateTime>();
-
+        private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
+        private readonly Dictionary<TileIndex, DateTime> _touched = new Dictionary<TileIndex, DateTime>();
         private readonly object _syncRoot = new object();
         private readonly int _maxTiles;
         private readonly int _minTiles;
         private bool _haveDisposed;
-        private readonly Func<TileIndex, bool> _keepTileInMemory = null; 
+        private readonly Func<TileIndex, bool> _keepTileInMemory; 
         
         public int TileCount
         {
@@ -68,8 +61,10 @@ namespace BruTile.Cache
             lock (_syncRoot)
             {
                 if (!_bitmaps.ContainsKey(index)) return; //ignore if not exists
+                var bitmap = _bitmaps[index];
                 _touched.Remove(index);
                 _bitmaps.Remove(index);
+                if (bitmap is IDisposable) (bitmap as IDisposable).Dispose();
                 OnNotifyPropertyChange("TileCount");
             }
         }
@@ -111,10 +106,8 @@ namespace BruTile.Cache
 
         private static void TouchPermaCache(Dictionary<TileIndex, DateTime> touched, Func<TileIndex, bool> keepTileInMemory)
         {
-            //This is a temporary solution to preserve level zero tiles in memory.
             var keys = touched.Keys.Where(keepTileInMemory).ToList();
-            
-            foreach (TileIndex index in keys) touched[index] = DateTime.Now;
+            foreach (var index in keys) touched[index] = DateTime.Now;
         }
 
         private static DateTime GetCutOff(Dictionary<TileIndex, DateTime> touched,
