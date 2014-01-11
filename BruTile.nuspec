@@ -14,29 +14,10 @@
     </description>
     <tags>tiling gis osm geo</tags>
     <language>en-US</language>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net35,net40" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="sl5" />
-      <frameworkAssembly assemblyName="System.Xml" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
-    </frameworkAssemblies>
-  <dependencies>
-    <dependency id="System.Data.SQLite" version="1.0.86.0"/>
-  </dependencies>
   </metadata>
   <files>
     <file src="Release\v3.5\BruTile.dll" target="lib\net35\BruTile.dll" />
-    <file src="Release\v3.5\BruTile.Desktop.dll" target="lib\net35\BruTile.Desktop.dll" />
-    <file src="Release\v3.5\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
-    <file src="Release\v3.5\BruTile.Serialization.dll" target="lib\net35\BruTile.Serialization.dll" />
-    <file src="Release\v3.5\System.Data.SQLite.dll" target="lib\net35\System.Data.SQLite.dll" />
     <file src="Release\v4.0\BruTile.dll" target="lib\net40\BruTile.dll" />
-    <file src="Release\v4.0\BruTile.Desktop.dll" target="lib\net40\BruTile.Desktop.dll" />
-    <file src="Release\v4.0\BruTile.MbTiles.dll" target="lib\net40\BruTile.MbTiles.dll" />
-    <file src="Release\v4.0\BruTile.Serialization.dll" target="lib\net40\BruTile.Serialization.dll" />
-    <file src="Release\v4.0\System.Data.SQLite.dll" target="lib\net40\System.Data.SQLite.dll" />
     <file src="Release\Portable\BruTile.dll" target="lib\portable-net403+sl5+wp8+win8+MonoAndroid+MonoTouch\BruTile.dll" />
   </files>
 </package>
