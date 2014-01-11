@@ -1,37 +1,30 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>BruTile.MbTiles</id>
+    <id>BruTile.Desktop</id>
     <version>$version$</version>
-    <title>BruTile.MbTiles</title>
+    <title>BruTile.Desktop</title>
     <authors>Felix Obermaier, Paul den Dulk</authors>
     <owners>Paul den Dulk</owners>
     <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
     <projectUrl>http://brutile.codeplex.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      Tile provider for MbTiles files (http://mapbox.com/mbtiles-spec)
+      BruTile extensions for .net framework 3.5 and 4.0. Including MBTiles support (http://mapbox.com/mbtiles-spec)
     </description>
-    <tags>tiling mbtiles</tags>
+    <tags>brutile tiling mbtiles maps geo</tags>
     <language>en-US</language>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net35,net40,net403" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
-    </frameworkAssemblies>
     <dependencies>
       <dependency id="BruTile" version="$version$" />
-    </dependencies>
+      <dependency id="System.Data.SQLite" version="1.0.86.0"/>
+  </dependencies>
   </metadata>
   <files>
-    <file src="Release\v3.5\BruTile.MbTiles.dll" target="lib\net35-client\BruTile.MbTiles.dll" />
-    <file src="Release\v3.5\Community.CsharpSqlite.dll" target="lib\net35-client\Community.CsharpSqlite.dll" />
-    <file src="Release\v3.5\Community.CsharpSqlite.SQLiteClient.dll" target="lib\net35-client\Community.CsharpSqlite.SQLiteClient.dll" />
-    <file src="Release\v4.0\BruTile.MbTiles.dll" target="lib\net40-client\BruTile.MbTiles.dll" />
-    <file src="Release\v4.0\Community.CsharpSqlite.dll" target="lib\net40-client\Community.CsharpSqlite.dll" />
-    <file src="Release\v4.0\Community.CsharpSqlite.SQLiteClient.dll" target="lib\net40-client\Community.CsharpSqlite.SQLiteClient.dll" />
-    <file src="Release\Portable\BruTile.MbTiles.dll" target="lib\net403-client\BruTile.MbTiles.dll" />
-    <file src="Release\Portable\Community.CsharpSqlite.dll" target="lib\net403-client\Community.CsharpSqlite.dll" />
-    <file src="Release\Portable\Community.CsharpSqlite.SQLiteClient.dll" target="lib\net403-client\Community.CsharpSqlite.SQLiteClient.dll" />
+    <file src="Release\v3.5\BruTile.Desktop.dll" target="lib\net35\BruTile.Desktop.dll" />
+    <file src="Release\v3.5\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+    <file src="Release\v3.5\BruTile.Serialization.dll" target="lib\net35\BruTile.Serialization.dll" />
+    <file src="Release\v4.0\BruTile.Desktop.dll" target="lib\net40\BruTile.Desktop.dll" />
+    <file src="Release\v4.0\BruTile.MbTiles.dll" target="lib\net40\BruTile.MbTiles.dll" />
+    <file src="Release\v4.0\BruTile.Serialization.dll" target="lib\net40\BruTile.Serialization.dll" />
   </files>
 </package>
