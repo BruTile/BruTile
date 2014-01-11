@@ -16,8 +16,8 @@
     <language>en-US</language>
   </metadata>
   <files>
-    <file src="Release\v3.5\BruTile.dll" target="lib\net35\BruTile.dll" />
-    <file src="Release\v4.0\BruTile.dll" target="lib\net40\BruTile.dll" />
-    <file src="Release\Portable\BruTile.dll" target="lib\portable-net403+sl5+wp8+win8+MonoAndroid+MonoTouch\BruTile.dll" />
+    <file src="..\Release\v3.5\BruTile.dll" target="lib\net35\BruTile.dll" />
+    <file src="..\Release\v4.0\BruTile.dll" target="lib\net40\BruTile.dll" />
+    <file src="..\Release\Portable\BruTile.dll" target="lib\portable-net403+sl5+wp8+win8+MonoAndroid+MonoTouch\BruTile.dll" />
   </files>
 </package>
