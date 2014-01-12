@@ -16,7 +16,7 @@
         <_Parameter1>$(AsmFileVersion)</_Parameter1>
       </AssemblyAttributes>
     </ItemGroup>
-    <WriteCodeFragment Language="C#" OutputFile="SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
+    <WriteCodeFragment Language="C#" OutputFile="..\SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
   </Target>
   
   <Target Name="CleanRelease">
