@@ -23,7 +23,7 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
     </frameworkAssemblies>
   <dependencies>
-    <dependency id="System.Data.SQLite" version="1.0.86.0"/>
+    <dependency id="System.Data.SQLite" version="[1.0.86.0]"/>
   </dependencies>
   </metadata>
   <files>
