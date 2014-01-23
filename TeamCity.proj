@@ -2,7 +2,7 @@
   <PropertyGroup>
     <SolutionFile>BruTile.sln</SolutionFile> 
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
-    <AsmVersion>0.7.4.3</AsmVersion>
+    <AsmVersion>0.7.4.4</AsmVersion>
     <AsmFileVersion>$(AsmVersion)</AsmFileVersion>
 	<NuGetVersion>$(AsmVersion)</NuGetVersion>
   </PropertyGroup>
@@ -25,7 +25,7 @@
 
   <Target Name="BuildRelease">
     <MSBuild Projects="$(SolutionFile)" 
-             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile_MbTiles" 
+             Targets="BruTile" 
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\Release\Portable\" />
   </Target>
 
@@ -36,27 +36,15 @@
 
   <Target Name="BuildReleaseNet" DependsOnTargets="BuildRelease">
     <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE SQLITE_DEBUG TRUE WIN32 _MSC_VER NO_TCL SQLITE_ASCII SQLITE_DISABLE_LFS SQLITE_HAS_CODEC SQLITE_MEM_POOL SQLITE_MUTEX_W32 SQLITE_THREADSAFE SQLITE_OMIT_AUTHORIZATION SQLITE_OMIT_DEPRECATED SQLITE_OMIT_GET_TABLE SQLITE_OMIT_INCRBLOB SQLITE_OMIT_LOOKASIDE SQLITE_OMIT_SHARED_CACHE SQLITE_OMIT_UTF16 SQLITE_OMIT_WAL SQLITE_OS_WIN SQLITE_SYSTEM_MALLOC VDBE_PROFILE_OFF;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\Release\v3.5\"
+             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles"
+             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\Release\v3.5\"
              RunEachTargetSeparately="true"
              />
-    <Exec Command="del /q Release\v3.5\T.*"/>
-    <Exec Command="ren Release\v3.5\BruTile.Desktop.dll T.BruTile.Desktop.dll"/>
-    <Exec Command="ren Release\v3.5\BruTile.MbTiles.dll T.BruTile.MbTiles.dll"/>
-    <!--- If we need signed assemblies, add "/keyfile:$(MSBuildProjectDirectory)\BruTile\BruTile.snk" to the ilmerge command  -->
-    <Exec Command="$(SolutionDir)\.ilmerge\ILMerge.exe /target:library /copyattrs /keepFirst /out:Release\v3.5\BruTile.Desktop.dll Release\v3.5\T.BruTile.Desktop.dll Release\v3.5\BruTile.Serialization.dll"></Exec>
-    <Exec Command="$(SolutionDir)\.ilmerge\ILMerge.exe /target:library /copyattrs /keepFirst /out:Release\v3.5\BruTile.MbTiles.dll Release\v3.5\T.BruTile.MbTiles.dll"></Exec>
     <MSBuild Projects="$(SolutionFile)" 
-             Targets="CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles" 
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE SQLITE_DEBUG TRUE WIN32 _MSC_VER NO_TCL SQLITE_ASCII SQLITE_DISABLE_LFS SQLITE_HAS_CODEC SQLITE_MEM_POOL SQLITE_MUTEX_W32 SQLITE_THREADSAFE SQLITE_OMIT_AUTHORIZATION SQLITE_OMIT_DEPRECATED SQLITE_OMIT_GET_TABLE SQLITE_OMIT_INCRBLOB SQLITE_OMIT_LOOKASIDE SQLITE_OMIT_SHARED_CACHE SQLITE_OMIT_UTF16 SQLITE_OMIT_WAL SQLITE_OS_WIN SQLITE_SYSTEM_MALLOC VDBE_PROFILE_OFF;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\Release\v4.0\" 
+             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles" 
+             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\Release\v4.0\" 
              RunEachTargetSeparately="true" 
              />
-    <Exec Command="del /q Release\v4.0\T.*"/>
-    <Exec Command="ren Release\v4.0\BruTile.Desktop.dll T.BruTile.Desktop.dll"/>
-    <Exec Command="ren Release\v4.0\BruTile.MbTiles.dll T.BruTile.MbTiles.dll"/>
-    <!--- If we need signed assemblies, add "/keyfile:$(MSBuildProjectDirectory)\BruTile\BruTile.snk" to the ilmerge command  -->
-    <Exec Command="$(SolutionDir)\.ilmerge\ILMerge.exe /target:library /v4 /copyattrs /keepFirst /out:Release\v4.0\BruTile.Desktop.dll Release\v4.0\T.BruTile.Desktop.dll Release\v4.0\BruTile.Serialization.dll"></Exec>
-	  <Exec Command="$(SolutionDir)\.ilmerge\ILMerge.exe /target:library /v4 /copyattrs /keepFirst /out:Release\v4.0\BruTile.MbTiles.dll Release\v4.0\T.BruTile.MbTiles.dll"></Exec>
     <!--
     <MSBuild Projects="$(SolutionFile)" 
              Targets="BruTile;BruTile_Desktop;BruTile_Serialization;CSharpSQLite\Community_CsharpSqlite;CSharpSQLite\Community_CsharpSqlite_SQLiteClient;BruTile_MbTiles" 
