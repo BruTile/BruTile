@@ -19,11 +19,11 @@
   <WriteCodeFragment Language="C#" OutputFile="SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
 </Target>
   
-  <Target Name="BuildDebug">
+  <Target Name="BuildDebug" DependsOnTargets="SetVersion">
     <MSBuild Projects="$(SolutionFile)" Targets="BruTile" Properties="Configuration=Debug Portable" />
   </Target>
 
-  <Target Name="BuildRelease">
+  <Target Name="BuildRelease" DependsOnTargets="SetVersion">
     <MSBuild Projects="$(SolutionFile)" 
              Targets="BruTile" 
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\Release\Portable\" />
