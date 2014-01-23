@@ -131,6 +131,7 @@
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilties-restful-wien.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
