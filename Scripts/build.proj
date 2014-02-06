@@ -3,28 +3,14 @@
   <PropertyGroup>
     <SolutionFile>.\..\BruTile.sln</SolutionFile>
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
-    <AsmFileVersion>$(AsmVersion)</AsmFileVersion>
-    <NuGetVersion>$(AsmVersion)</NuGetVersion>
   </PropertyGroup>
-
-  <Target Name="SetVersion">
-    <ItemGroup>
-      <AssemblyAttributes Include="AssemblyVersion">
-        <_Parameter1>$(AsmVersion)</_Parameter1>
-      </AssemblyAttributes>
-      <AssemblyAttributes Include="AssemblyFileVersion">
-        <_Parameter1>$(AsmFileVersion)</_Parameter1>
-      </AssemblyAttributes>
-    </ItemGroup>
-    <WriteCodeFragment Language="C#" OutputFile="..\SharedAssemblyVersion.cs" AssemblyAttributes="@(AssemblyAttributes)" />
-  </Target>
   
   <Target Name="CleanRelease">
     <Exec Command="rmdir /s /q $(MSBuildProjectDirectory)\..\obj"></Exec>
     <Exec Command="rmdir /s /q $(MSBuildProjectDirectory)\..\Release"></Exec>
   </Target>
   
-  <Target Name="BuildRelease" DependsOnTargets="SetVersion;CleanRelease">
+  <Target Name="BuildRelease" DependsOnTargets="CleanRelease">
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile"
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\..\Release\Portable\" />
