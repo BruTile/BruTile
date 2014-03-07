@@ -79,12 +79,12 @@ namespace BruTile
 
         public int GetMatrixWidth(string levelId)
         {
-            return (int)((Extent.Width / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+            return (int)Math.Ceiling((Extent.Width / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
         }
 
         public int GetMatrixHeight(string levelId)
         {
-            return (int)((Extent.Height / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+            return (int)Math.Ceiling((Extent.Height / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace BruTile
             {
                 for (var y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
                 {
-                    if (x < 0 || x >= schema.GetMatrixWidth(levelId)) continue;
-                    if (y < 0 || y >= schema.GetMatrixHeight(levelId)) continue;
-                    
-                     var info = new TileInfo
-                    {
-                        Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
-                        Index = new TileIndex(x, y, levelId)
-                    };
+                    if (x - schema.GetMatrixOffsetX(levelId) < 0 || x > schema.GetMatrixWidth(levelId) + schema.GetMatrixOffsetX(levelId)) continue;
+                    if (y - schema.GetMatrixOffsetY(levelId) < 0 || y > schema.GetMatrixHeight(levelId) + schema.GetMatrixOffsetY(levelId)) continue;
+
+                    var info = new TileInfo
+                   {
+                       Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
+                       Index = new TileIndex(x, y, levelId)
+                   };
 
                     yield return info;
                 }
@@ -195,7 +195,25 @@ namespace BruTile
             // Reject tiles that have less than 0.1% percent overlap.
             // In practice they turn out to be mostly false positives due to rounding errors.
             // They are not present on the server and the failed requests slow the application down.
-            return ((tileExtent.Intersect(schemaExtent).Area/tileExtent.Area) > 0.001);
+            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
+        }
+
+        public int GetMatrixOffsetX(string levelId)
+        {
+            return (int)(((Extent.MinX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+        }
+
+        public int GetMatrixOffsetY(string levelId)
+        {
+            switch (Axis)
+            {
+                case AxisDirection.Normal:
+                    return (int)((Extent.MinY - OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId);
+                case AxisDirection.InvertedY:
+                    return (int)((-Extent.MaxY + OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId);
+                default:
+                    throw new Exception("Axis type was not found");
+            }
         }
     }
 }

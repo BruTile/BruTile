@@ -40,5 +40,35 @@ namespace BruTile.Tests
             // assert
             Assert.AreEqual(range, expectedRange);
         }
+
+        [Test]
+        public void TileSchemaWithExtentThatDoesOriginateInOriginShouldReturnCorrectNumberOfTiles()
+        {
+            // arrange
+            var schema = new WkstNederlandSchema {Extent = new Extent(187036, 331205, 187202, 331291)};
+            var mapExtent = new Extent(187009,331184,187189,331290);
+
+            // act
+            var tileInfos = schema.GetTilesInView(mapExtent, "14");
+
+            // assert
+            Assert.AreEqual(tileInfos.Count(), 12);
+        }
+        
+        [Test]
+        public void TileSchemaWithExtentThatDoesNotStartInOriginShouldReturnNoTiles()
+        {
+            // arrange
+            var schema = new WkstNederlandSchema {Extent = new Extent(187036, 331205, 187202, 331291)};
+            var mapExtent = new Extent(187256.999043765,331197.712996388,187437.576002535,331303.350517269);
+
+            // act
+            var tileInfos = schema.GetTilesInView(mapExtent, "14");
+
+            // assert
+            Assert.AreEqual(tileInfos.Count(), 0);
+
+        }
+        
     }
 }

@@ -66,5 +66,14 @@ namespace BruTile.Wmts
             return TileSchema.GetExtentOfTilesInView(this, extent, levelId);
         }
 
+        public int GetMatrixOffsetX(string levelId)
+        {
+            return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
+        }
+
+        public int GetMatrixOffsetY(string levelId)
+        {
+            return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
+        }
     }
 }
