@@ -79,12 +79,44 @@ namespace BruTile
 
         public int GetMatrixWidth(string levelId)
         {
-            return (int)Math.Ceiling((Extent.Width / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+            var first = GetMatrixOffsetX(levelId);
+            var last = (int)Math.Ceiling((Extent.MaxX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId);
+            return last - first;
         }
 
         public int GetMatrixHeight(string levelId)
         {
-            return (int)Math.Ceiling((Extent.Height / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+            switch (Axis)
+            {
+                case AxisDirection.Normal:
+                    var first = GetMatrixOffsetY(levelId);
+                    var last = (int) Math.Ceiling((Extent.MaxY - OriginY)/Resolutions[levelId].UnitsPerPixel)/GetTileHeight(levelId);
+                    return last - first;
+                case AxisDirection.InvertedY:
+                    var first1 = GetMatrixOffsetY(levelId);
+                    var last1 = (int)Math.Ceiling(((-Extent.MinY + OriginY)/Resolutions[levelId].UnitsPerPixel)/GetTileHeight(levelId));
+                    return last1 - first1;
+                default:
+                    throw new Exception("Axis type was not found");
+            }
+        }
+
+        public int GetMatrixOffsetX(string levelId)
+        {
+            return (int)(((Extent.MinX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+        }
+
+        public int GetMatrixOffsetY(string levelId)
+        {
+            switch (Axis)
+            {
+                case AxisDirection.Normal:
+                    return (int)Math.Floor(((Extent.MinY - OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+                case AxisDirection.InvertedY:
+                    return (int)Math.Floor(((-Extent.MaxY + OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+                default:
+                    throw new Exception("Axis type was not found");
+            }
         }
 
         /// <summary>
@@ -113,10 +145,10 @@ namespace BruTile
                     if (y - schema.GetMatrixOffsetY(levelId) < 0 || y > schema.GetMatrixHeight(levelId) + schema.GetMatrixOffsetY(levelId)) continue;
 
                     var info = new TileInfo
-                   {
-                       Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
-                       Index = new TileIndex(x, y, levelId)
-                   };
+                    {
+                        Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
+                        Index = new TileIndex(x, y, levelId)
+                    };
 
                     yield return info;
                 }
@@ -196,24 +228,6 @@ namespace BruTile
             // In practice they turn out to be mostly false positives due to rounding errors.
             // They are not present on the server and the failed requests slow the application down.
             return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
-        }
-
-        public int GetMatrixOffsetX(string levelId)
-        {
-            return (int)(((Extent.MinX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
-        }
-
-        public int GetMatrixOffsetY(string levelId)
-        {
-            switch (Axis)
-            {
-                case AxisDirection.Normal:
-                    return (int)((Extent.MinY - OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId);
-                case AxisDirection.InvertedY:
-                    return (int)((-Extent.MaxY + OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId);
-                default:
-                    throw new Exception("Axis type was not found");
-            }
         }
     }
 }

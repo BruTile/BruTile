@@ -54,7 +54,21 @@ namespace BruTile.Tests
             // assert
             Assert.AreEqual(tileInfos.Count(), 12);
         }
-        
+
+        [Test]
+        public void TileSchemaWithExtentThatDoesOriginateInOriginAndWithInverteYShouldReturnCorrectNumberOfTiles()
+        {
+            // arrange
+            var schema = new WkstNederlandSchema { Extent = new Extent(187036, 331205, 187202, 331291), OriginY = -22598.080, Axis = AxisDirection.InvertedY };
+            var mapExtent = new Extent(187009, 331184, 187189, 331290);
+
+            // act
+            var tileInfos = schema.GetTilesInView(mapExtent, "14");
+
+            // assert
+            Assert.AreEqual(tileInfos.Count(), 12);
+        }
+
         [Test]
         public void TileSchemaWithExtentThatDoesNotStartInOriginShouldReturnNoTiles()
         {
@@ -67,7 +81,6 @@ namespace BruTile.Tests
 
             // assert
             Assert.AreEqual(tileInfos.Count(), 0);
-
         }
         
     }
