@@ -41,20 +41,22 @@ namespace BruTile
                 throw new ArgumentException("No tile resolutions");
             }
 
+            var localResolutions = resolutions.OrderByDescending(r => r.Value.UnitsPerPixel);
+
             //smaller than smallest
-            if (resolutions.Last().Value.UnitsPerPixel > resolution) return resolutions.Last().Key;
+            if (localResolutions.Last().Value.UnitsPerPixel > resolution) return localResolutions.Last().Key;
 
             //bigger than biggest
-            if (resolutions.First().Value.UnitsPerPixel < resolution) return resolutions.First().Key;
+            if (localResolutions.First().Value.UnitsPerPixel < resolution) return localResolutions.First().Key;
 
             string result = null;
             double resultDistance = double.MaxValue;
-            foreach (var key in resolutions.Keys)
+            foreach (var current in localResolutions)
             {
-                double distance = Math.Abs(resolutions[key].UnitsPerPixel - resolution);
+                double distance = Math.Abs(current.Value.UnitsPerPixel - resolution);
                 if (distance < resultDistance)
                 {
-                    result = key;
+                    result = current.Key;
                     resultDistance = distance;
                 }
             }
