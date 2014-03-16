@@ -12,15 +12,16 @@ namespace BruTile.Cache
         public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
         {
             var ms = (MemoryCache<T>) obj;
-            info.AddValue("min", Utility.GetFieldValue(ms, "_minTiles", BindingFlags.NonPublic | BindingFlags.Instance, 100));
-            info.AddValue("max", Utility.GetFieldValue(ms, "_maxTiles", BindingFlags.NonPublic | BindingFlags.Instance, 200));
+            info.AddValue("min", ms.MinTiles);
+            info.AddValue("max", ms.MaxTiles);
         }
 
         public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
         {
-            Utility.SetFieldValue(ref obj, "_minTiles", BindingFlags.NonPublic | BindingFlags.Instance, info.GetInt32("min"));
-            Utility.SetFieldValue(ref obj, "_maxTiles", BindingFlags.NonPublic | BindingFlags.Instance, info.GetInt32("max"));
-
+            var ms = (MemoryCache<T>) obj;
+            ms.MinTiles = info.GetInt32("min");
+            ms.MaxTiles = info.GetInt32("max");
+  
             Utility.SetFieldValue(ref obj, "_syncRoot", BindingFlags.NonPublic | BindingFlags.Instance, new object());
             Utility.SetFieldValue(ref obj, "_bitmaps", BindingFlags.NonPublic | BindingFlags.Instance, new Dictionary<TileIndex, byte[]>());
             Utility.SetFieldValue(ref obj, "_touched", BindingFlags.NonPublic | BindingFlags.Instance, new Dictionary<TileIndex, DateTime>());
