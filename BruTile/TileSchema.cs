@@ -31,30 +31,32 @@ namespace BruTile
 
     public class TileSchema : ITileSchema
     {
+        public double ProportionIgnored;
         private readonly IDictionary<string, Resolution> _resolutions;
 
         public TileSchema()
         {
+            ProportionIgnored = 0.0001;
             _resolutions = new Dictionary<string, Resolution>();
             Axis = AxisDirection.Normal;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
         }
 
-        public const double PortionIgnored = 0.0001;
+        public double OriginX { get; set; }
+        public double OriginY { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public string Name { get; set; }
         public string Srs { get; set; }
         public string Format { get; set; }
         public Extent Extent { get; set; }
         public AxisDirection Axis { get; set; }
+
         public IDictionary<string, Resolution> Resolutions
         {
             get { return _resolutions; }
         }
-        public double OriginX { get; set; }
-        public double OriginY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
 
         public double GetOriginX(string levelId)
         {
@@ -81,29 +83,9 @@ namespace BruTile
             return GetMatrixLastCol(levelId) - GetMatrixFirstCol(levelId) + 1;
         }
 
-        private int GetMatrixLastCol(string levelId)
-        {
-            return (int)Math.Floor(((GetLastXRelativeToOrigin(Extent, OriginX)) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId) - PortionIgnored);
-        }
-
         public int GetMatrixHeight(string levelId)
         {
             return GetMatrixLastRow(levelId) - GetMatrixFirstRow(levelId) + 1;
-        }
-
-        private int GetMatrixLastRow(string levelId)
-        {
-            return (int)Math.Floor((GetLastYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - PortionIgnored);
-        }
-
-        private static double GetLastXRelativeToOrigin(Extent extent, double originX)
-        {
-            return extent.MaxX - originX;
-        }
-
-        private static double GetLastYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
-        {
-            return axis == AxisDirection.Normal ? extent.MaxY - originY : -extent.MinY + originY;
         }
 
         public int GetMatrixFirstCol(string levelId)
@@ -111,19 +93,9 @@ namespace BruTile
             return (int)Math.Floor(((GetFirstXRelativeToOrigin(Extent, OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId)));
         }
 
-        private static double GetFirstXRelativeToOrigin(Extent extent, double originX)
-        {
-            return extent.MinX - originX;
-        }
-
         public int GetMatrixFirstRow(string levelId)
         {
             return (int)Math.Floor((GetFirstYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
-        }
-
-        private static double GetFirstYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
-        {
-            return (axis == AxisDirection.Normal) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
         /// <summary>
@@ -140,12 +112,47 @@ namespace BruTile
             return GetTilesInView(this, extent, levelId);
         }
 
+        public Extent GetExtentOfTilesInView(Extent extent, string levelId)
+        {
+            return GetExtentOfTilesInView(this, extent, levelId);
+        }
+
+        private int GetMatrixLastCol(string levelId)
+        {
+            return (int)Math.Floor(((GetLastXRelativeToOrigin(Extent, OriginX)) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId) - ProportionIgnored);
+        }
+
+        private int GetMatrixLastRow(string levelId)
+        {
+            return (int)Math.Floor((GetLastYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - ProportionIgnored);
+        }
+
+        private static double GetLastXRelativeToOrigin(Extent extent, double originX)
+        {
+            return extent.MaxX - originX;
+        }
+
+        private static double GetLastYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        {
+            return axis == AxisDirection.Normal ? extent.MaxY - originY : -extent.MinY + originY;
+        }
+
+        private static double GetFirstXRelativeToOrigin(Extent extent, double originX)
+        {
+            return extent.MinX - originX;
+        }
+
+        private static double GetFirstYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        {
+            return (axis == AxisDirection.Normal) ? extent.MinY - originY : -extent.MaxY + originY;
+        }
+
         internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)
         {
-
             // todo: move this method elsewhere.
             var range = TileTransform.WorldToTile(extent, levelId, schema);
 
+            // todo: use a method to get tilerange for full schema and intersect with requested tilerange.
             var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(levelId));
             var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(levelId) + schema.GetMatrixWidth(levelId));
             var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(levelId));
@@ -162,11 +169,6 @@ namespace BruTile
                     };
                 }
             }
-        }
-
-        public Extent GetExtentOfTilesInView(Extent extent, string levelId)
-        {
-            return GetExtentOfTilesInView(this, extent, levelId);
         }
 
         public static Extent GetExtentOfTilesInView(ITileSchema schema, Extent extent, string levelId)
@@ -222,9 +224,6 @@ namespace BruTile
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
                                                             "The Format was not set for TileSchema '{0}'", Name));
             }
-
-            // TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
-            // as TileSchema Srs because we do not project one to the other. 
         }
     }
 }
