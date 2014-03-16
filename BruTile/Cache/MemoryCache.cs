@@ -8,13 +8,11 @@ using System.Linq;
 namespace BruTile.Cache
 {
 
-    public class MemoryCache<T>: ITileCache<T>, INotifyPropertyChanged, IDisposable
+    public class MemoryCache<T>: IMemoryCache<T>, INotifyPropertyChanged, IDisposable
     {
         private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
         private readonly Dictionary<TileIndex, DateTime> _touched = new Dictionary<TileIndex, DateTime>();
         private readonly object _syncRoot = new object();
-        private readonly int _maxTiles;
-        private readonly int _minTiles;
         private bool _haveDisposed;
         private readonly Func<TileIndex, bool> _keepTileInMemory; 
         
@@ -26,14 +24,17 @@ namespace BruTile.Cache
             }
         }
 
+        public int MinTiles { get; set; }
+        public int MaxTiles { get; set; }
+
         public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool> keepTileInMemory = null)
         {
             if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
             if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
             if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
             
-            _minTiles = minTiles;
-            _maxTiles = maxTiles;
+            MinTiles = minTiles;
+            MaxTiles = maxTiles;
             _keepTileInMemory = keepTileInMemory;
         }
 
@@ -50,7 +51,7 @@ namespace BruTile.Cache
                 {
                     _touched.Add(index, DateTime.Now);
                     _bitmaps.Add(index, item);
-                    if (_bitmaps.Count > _maxTiles) CleanUp();
+                    CleanUp();
                     OnNotifyPropertyChange("TileCount");
                 }
             }
@@ -89,18 +90,17 @@ namespace BruTile.Cache
             }
         }
 
-        private void CleanUp()
+        virtual protected void CleanUp()
         {
-            lock (_syncRoot)
+            if (_bitmaps.Count <= MaxTiles) return;
+                    
+            //Purpose: Remove the older tiles so that the newest x tiles are left.
+            if (_keepTileInMemory != null) TouchPermaCache(_touched, _keepTileInMemory);
+            DateTime cutoff = GetCutOff(_touched, MinTiles);
+            IEnumerable<TileIndex> oldItems = GetOldItems(_touched, ref cutoff);
+            foreach (TileIndex index in oldItems)
             {
-                //Purpose: Remove the older tiles so that the newest x tiles are left.
-                if (_keepTileInMemory != null) TouchPermaCache(_touched, _keepTileInMemory);
-                DateTime cutoff = GetCutOff(_touched, _minTiles);
-                IEnumerable<TileIndex> oldItems = GetOldItems(_touched, ref cutoff);
-                foreach (TileIndex index in oldItems)
-                {
-                    Remove(index);
-                }
+                Remove(index);
             }
         }
 
@@ -178,10 +178,10 @@ namespace BruTile.Cache
 #if DEBUG
         public bool EqualSetup(MemoryCache<T> other)
         {
-            if (_minTiles != other._minTiles)
+            if (MinTiles != other.MinTiles)
                 return false;
 
-            if (_maxTiles != other._maxTiles)
+            if (MaxTiles != other.MaxTiles)
                 return false;
 
             System.Diagnostics.Debug.Assert(_syncRoot != null && other._syncRoot != null && _syncRoot != other._syncRoot);
