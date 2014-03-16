@@ -22,7 +22,7 @@ namespace BruTile
         IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId);
         IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution);
         Extent GetExtentOfTilesInView(Extent extent, string levelId);
-        int GetMatrixOffsetX(string levelId);
-        int GetMatrixOffsetY(string levelId);
+        int GetMatrixFirstCol(string levelId);
+        int GetMatrixFirstRow(string levelId);
     }
 }

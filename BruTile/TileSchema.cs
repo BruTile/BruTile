@@ -41,6 +41,7 @@ namespace BruTile
             OriginX = Double.NaN;
         }
 
+        public const double PortionIgnored = 0.0001;
         public string Name { get; set; }
         public string Srs { get; set; }
         public string Format { get; set; }
@@ -49,9 +50,7 @@ namespace BruTile
         public IDictionary<string, Resolution> Resolutions
         {
             get { return _resolutions; }
-
         }
-
         public double OriginX { get; set; }
         public double OriginY { get; set; }
         public int Width { get; set; }
@@ -79,44 +78,52 @@ namespace BruTile
 
         public int GetMatrixWidth(string levelId)
         {
-            var first = GetMatrixOffsetX(levelId);
-            var last = (int)Math.Ceiling((Extent.MaxX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId);
-            return last - first;
+            return GetMatrixLastCol(levelId) - GetMatrixFirstCol(levelId) + 1;
+        }
+
+        private int GetMatrixLastCol(string levelId)
+        {
+            return (int)Math.Floor(((GetLastXRelativeToOrigin(Extent, OriginX)) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId) - PortionIgnored);
         }
 
         public int GetMatrixHeight(string levelId)
         {
-            switch (Axis)
-            {
-                case AxisDirection.Normal:
-                    var first = GetMatrixOffsetY(levelId);
-                    var last = (int) Math.Ceiling((Extent.MaxY - OriginY)/Resolutions[levelId].UnitsPerPixel)/GetTileHeight(levelId);
-                    return last - first;
-                case AxisDirection.InvertedY:
-                    var first1 = GetMatrixOffsetY(levelId);
-                    var last1 = (int)Math.Ceiling(((-Extent.MinY + OriginY)/Resolutions[levelId].UnitsPerPixel)/GetTileHeight(levelId));
-                    return last1 - first1;
-                default:
-                    throw new Exception("Axis type was not found");
-            }
+            return GetMatrixLastRow(levelId) - GetMatrixFirstRow(levelId) + 1;
         }
 
-        public int GetMatrixOffsetX(string levelId)
+        private int GetMatrixLastRow(string levelId)
         {
-            return (int)(((Extent.MinX - OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId));
+            return (int)Math.Floor((GetLastYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - PortionIgnored);
         }
 
-        public int GetMatrixOffsetY(string levelId)
+        private static double GetLastXRelativeToOrigin(Extent extent, double originX)
         {
-            switch (Axis)
-            {
-                case AxisDirection.Normal:
-                    return (int)Math.Floor(((Extent.MinY - OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
-                case AxisDirection.InvertedY:
-                    return (int)Math.Floor(((-Extent.MaxY + OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
-                default:
-                    throw new Exception("Axis type was not found");
-            }
+            return extent.MaxX - originX;
+        }
+
+        private static double GetLastYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        {
+            return axis == AxisDirection.Normal ? extent.MaxY - originY : -extent.MinY + originY;
+        }
+
+        public int GetMatrixFirstCol(string levelId)
+        {
+            return (int)Math.Floor(((GetFirstXRelativeToOrigin(Extent, OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId)));
+        }
+
+        private static double GetFirstXRelativeToOrigin(Extent extent, double originX)
+        {
+            return extent.MinX - originX;
+        }
+
+        public int GetMatrixFirstRow(string levelId)
+        {
+            return (int)Math.Floor((GetFirstYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+        }
+
+        private static double GetFirstYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        {
+            return (axis == AxisDirection.Normal) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
         /// <summary>
@@ -135,22 +142,24 @@ namespace BruTile
 
         internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)
         {
+
+            // todo: move this method elsewhere.
             var range = TileTransform.WorldToTile(extent, levelId, schema);
 
-            for (var x = range.FirstCol; x < range.FirstCol + range.ColCount; x++)
-            {
-                for (var y = range.FirstRow; y < range.FirstRow + range.RowCount; y++)
-                {
-                    if (x - schema.GetMatrixOffsetX(levelId) < 0 || x > schema.GetMatrixWidth(levelId) + schema.GetMatrixOffsetX(levelId)) continue;
-                    if (y - schema.GetMatrixOffsetY(levelId) < 0 || y > schema.GetMatrixHeight(levelId) + schema.GetMatrixOffsetY(levelId)) continue;
+            var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(levelId));
+            var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(levelId) + schema.GetMatrixWidth(levelId));
+            var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(levelId));
+            var stopY = Math.Min(range.FirstCol + range.RowCount, schema.GetMatrixFirstRow(levelId) + schema.GetMatrixHeight(levelId));
 
-                    var info = new TileInfo
+            for (var x = startX; x < stopX; x++)
+            {
+                for (var y = startY; y < stopY; y++)
+                {
+                    yield return new TileInfo
                     {
                         Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
                         Index = new TileIndex(x, y, levelId)
                     };
-
-                    yield return info;
                 }
             }
         }
@@ -216,18 +225,6 @@ namespace BruTile
 
             // TODO: BoundingBox should contain a SRS, and we should check if BoundingBox.Srs is the same
             // as TileSchema Srs because we do not project one to the other. 
-        }
-
-        public static bool WithinSchemaExtent(Extent schemaExtent, Extent tileExtent)
-        {
-            // Always return false when the tile is outsize of the schema
-            if (!tileExtent.Intersects(schemaExtent)) return false;
-
-            // Do not always accept when the tile is partially inside the schema. 
-            // Reject tiles that have less than 0.1% percent overlap.
-            // In practice they turn out to be mostly false positives due to rounding errors.
-            // They are not present on the server and the failed requests slow the application down.
-            return ((tileExtent.Intersect(schemaExtent).Area / tileExtent.Area) > 0.001);
         }
     }
 }
