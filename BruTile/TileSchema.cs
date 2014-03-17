@@ -156,7 +156,7 @@ namespace BruTile
             var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(levelId));
             var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(levelId) + schema.GetMatrixWidth(levelId));
             var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(levelId));
-            var stopY = Math.Min(range.FirstCol + range.RowCount, schema.GetMatrixFirstRow(levelId) + schema.GetMatrixHeight(levelId));
+            var stopY = Math.Min(range.FirstRow + range.RowCount, schema.GetMatrixFirstRow(levelId) + schema.GetMatrixHeight(levelId));
 
             for (var x = startX; x < stopX; x++)
             {
