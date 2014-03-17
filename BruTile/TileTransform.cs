@@ -32,7 +32,7 @@ namespace BruTile
             }
         }
 
-        public static TileRange WorldToTileNormal(Extent extent, string levelId, ITileSchema schema)
+        private static TileRange WorldToTileNormal(Extent extent, string levelId, ITileSchema schema)
         {
             var resolution = schema.Resolutions[levelId];
             var tileWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(levelId);
