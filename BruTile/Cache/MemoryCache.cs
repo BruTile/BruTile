@@ -13,8 +13,8 @@ namespace BruTile.Cache
         private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
         private readonly Dictionary<TileIndex, DateTime> _touched = new Dictionary<TileIndex, DateTime>();
         private readonly object _syncRoot = new object();
-        private bool _haveDisposed;
-        private readonly Func<TileIndex, bool> _keepTileInMemory; 
+        private bool _disposed;
+        private readonly Func<TileIndex, bool> _keepTileInMemory;
         
         public int TileCount
         {
@@ -61,13 +61,18 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                if (!_bitmaps.ContainsKey(index)) return; //ignore if not exists
-                var bitmap = _bitmaps[index];
-                _touched.Remove(index);
-                _bitmaps.Remove(index);
-                if (bitmap is IDisposable) (bitmap as IDisposable).Dispose();
+                if (!_bitmaps.ContainsKey(index)) return; //ignore if caller passes an index that does not exists
+                RemovePrivate(index); 
                 OnNotifyPropertyChange("TileCount");
             }
+        }
+
+        private void RemovePrivate(TileIndex index)
+        {
+            var bitmap = _bitmaps[index];
+            _touched.Remove(index);
+            _bitmaps.Remove(index);
+            if (bitmap is IDisposable) (bitmap as IDisposable).Dispose();
         }
 
         public T Find(TileIndex index)
@@ -85,8 +90,11 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                _bitmaps.Clear();
-                _touched.Clear();
+                foreach (var index in _bitmaps.Keys)
+                {
+                    RemovePrivate(index);
+                }
+                OnNotifyPropertyChange("TileCount");
             }
         }
 
@@ -132,47 +140,33 @@ namespace BruTile.Cache
             return oldItems;
         }
 
-        #region INotifyPropertyChanged Members
-
         protected virtual void OnNotifyPropertyChange(string propertyName)
         {
-            if (PropertyChanged != null)
+            var handler = PropertyChanged;
+            if (handler != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        #endregion
-
 		~MemoryCache()
         {
-            if (!_haveDisposed)
+            if (!_disposed)
                 Dispose();
         }
 
         public void Dispose()
         {
-            if (_haveDisposed)
-                return;
+            if (_disposed) return;
 
-            if (_bitmaps != null)
+            foreach (var index in _bitmaps.Keys)
             {
-                foreach (var kvp in _bitmaps)
-                {
-                    if (kvp.Value != null)
-                    {
-                        if (kvp.Value is IDisposable)
-                        {
-                            (kvp.Value as IDisposable).Dispose();
-                        }
-                        
-                    }
-                }
-                _bitmaps.Clear();
+                RemovePrivate(index);
             }
-            _haveDisposed = true;
+
+            _disposed = true;
         }
 
 #if DEBUG
