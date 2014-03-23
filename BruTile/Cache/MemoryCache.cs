@@ -62,17 +62,12 @@ namespace BruTile.Cache
             lock (_syncRoot)
             {
                 if (!_bitmaps.ContainsKey(index)) return; //ignore if caller passes an index that does not exists
-                RemovePrivate(index); 
+                _touched.Remove(index);
+                _bitmaps.Remove(index);
+                var bitmap = (_bitmaps[index] as IDisposable);
+                if (bitmap != null) bitmap.Dispose();
                 OnNotifyPropertyChange("TileCount");
             }
-        }
-
-        private void RemovePrivate(TileIndex index)
-        {
-            var bitmap = _bitmaps[index];
-            _touched.Remove(index);
-            _bitmaps.Remove(index);
-            if (bitmap is IDisposable) (bitmap as IDisposable).Dispose();
         }
 
         public T Find(TileIndex index)
@@ -90,10 +85,9 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                foreach (var index in _bitmaps.Keys)
-                {
-                    RemovePrivate(index);
-                }
+                DisposeTilesIfDisposable();
+                _touched.Clear();
+                _bitmaps.Clear();
                 OnNotifyPropertyChange("TileCount");
             }
         }
@@ -160,13 +154,19 @@ namespace BruTile.Cache
         public void Dispose()
         {
             if (_disposed) return;
+            DisposeTilesIfDisposable();
+            _touched.Clear();
+            _bitmaps.Clear();
+            _disposed = true;
+        }
 
+        private void DisposeTilesIfDisposable()
+        {
             foreach (var index in _bitmaps.Keys)
             {
-                RemovePrivate(index);
+                var bitmap = (_bitmaps[index] as IDisposable);
+                if (bitmap != null) bitmap.Dispose();
             }
-
-            _disposed = true;
         }
 
 #if DEBUG
