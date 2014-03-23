@@ -145,12 +145,6 @@ namespace BruTile.Cache
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-		~MemoryCache()
-        {
-            if (!_disposed)
-                Dispose();
-        }
-
         public void Dispose()
         {
             if (_disposed) return;
