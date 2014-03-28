@@ -61,13 +61,18 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                if (!_bitmaps.ContainsKey(index)) return; //ignore if caller passes an index that does not exists
-                var disposable = (_bitmaps[index] as IDisposable);
-                if (disposable != null) disposable.Dispose();
-                _touched.Remove(index);
-                _bitmaps.Remove(index);
-                OnNotifyPropertyChange("TileCount");
+                LocalRemove(index);
             }
+        }
+
+        private void LocalRemove(TileIndex index)
+        {
+            if (!_bitmaps.ContainsKey(index)) return;
+            var disposable = (_bitmaps[index] as IDisposable);
+            if (disposable != null) disposable.Dispose();
+            _touched.Remove(index);
+            _bitmaps.Remove(index);
+            OnNotifyPropertyChange("TileCount");
         }
 
         public T Find(TileIndex index)
@@ -95,43 +100,22 @@ namespace BruTile.Cache
         virtual protected void CleanUp()
         {
             if (_bitmaps.Count <= MaxTiles) return;
-                    
-            //Purpose: Remove the older tiles so that the newest x tiles are left.
-            if (_keepTileInMemory != null) TouchPermaCache(_touched, _keepTileInMemory);
-            DateTime cutoff = GetCutOff(_touched, MinTiles);
-            IEnumerable<TileIndex> oldItems = GetOldItems(_touched, ref cutoff);
-            foreach (TileIndex index in oldItems)
+
+            var numTilesToAlwaysKeep = 0;
+            if (_keepTileInMemory != null)
             {
-                Remove(index);
+                var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
+                foreach (var index in tilesToKeep) _touched[index] = DateTime.Now; // touch tiles to keep
+                numTilesToAlwaysKeep = tilesToKeep.Count;
             }
-        }
+            var tilesToRemove = Math.Min(_bitmaps.Count - MinTiles, _bitmaps.Count - numTilesToAlwaysKeep);
 
-        private static void TouchPermaCache(Dictionary<TileIndex, DateTime> touched, Func<TileIndex, bool> keepTileInMemory)
-        {
-            var keys = touched.Keys.Where(keepTileInMemory).ToList();
-            foreach (var index in keys) touched[index] = DateTime.Now;
-        }
+            var oldItems = _touched.OrderBy(p => p.Value).Take(tilesToRemove); 
 
-        private static DateTime GetCutOff(Dictionary<TileIndex, DateTime> touched,
-          int lowerLimit)
-        {
-            var times = touched.Values.ToList();
-            times.Sort();
-            return times[times.Count - lowerLimit];
-        }
-
-        private static IEnumerable<TileIndex> GetOldItems(Dictionary<TileIndex, DateTime> touched,
-          ref DateTime cutoff)
-        {
-            var oldItems = new List<TileIndex>();
-            foreach (TileIndex index in touched.Keys)
+            foreach (var oldItem in oldItems)
             {
-                if (touched[index] < cutoff)
-                {
-                    oldItems.Add(index);
-                }
+                Remove(oldItem.Key);
             }
-            return oldItems;
         }
 
         protected virtual void OnNotifyPropertyChange(string propertyName)
