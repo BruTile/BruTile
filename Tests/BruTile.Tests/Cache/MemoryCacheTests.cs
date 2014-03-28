@@ -22,6 +22,51 @@ namespace BruTile.Tests.Cache
             Assert.AreEqual(tileBytes, memoryCache.Find(tileIndex));
         }
 
+        private class DisposableTile : IDisposable
+        {
+            public bool Disposed { get; private set; }
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+        }
+
+        [Test]
+        public void WhenContentIsDisposableItShouldBeDisposed()
+        {
+            // arrange
+            var memoryCache = new MemoryCache<DisposableTile>();
+            var tileIndex = new TileIndex(1, 2, "3");
+            var disposableTile = new DisposableTile();
+            memoryCache.Add(tileIndex, disposableTile);
+
+            // act
+            memoryCache.Remove(tileIndex);
+
+            // assert
+            Assert.True(disposableTile.Disposed);
+        }
+
+        [Test]
+        public void WhenMaxTilesIsExceededTileCountShouldGoToMinTiles()
+        {
+            // arrange
+            var memoryCache = new MemoryCache<DisposableTile>(2, 3);
+            memoryCache.Add(new TileIndex(1, 0, "0"), new DisposableTile());
+            memoryCache.Add(new TileIndex(2, 0, "0"), new DisposableTile());
+            memoryCache.Add(new TileIndex(3, 0, "0"), new DisposableTile());
+            var tileCountBeforeExceedingMax = memoryCache.TileCount;
+            
+            // act
+            memoryCache.Add(new TileIndex(4, 0, "0"), new DisposableTile());
+            var tileCountAfterExceedingMax = memoryCache.TileCount;
+            
+            // assert
+            Assert.True(tileCountBeforeExceedingMax == 3);
+            Assert.True(tileCountAfterExceedingMax == 2);
+        }
+
         [Test]
         public void WhenKeepInMemoryIsUsedItShouldPreserveTilesThatMeetTheCondition()
         {
