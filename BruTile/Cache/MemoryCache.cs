@@ -62,10 +62,10 @@ namespace BruTile.Cache
             lock (_syncRoot)
             {
                 if (!_bitmaps.ContainsKey(index)) return; //ignore if caller passes an index that does not exists
+                var disposable = (_bitmaps[index] as IDisposable);
+                if (disposable != null) disposable.Dispose();
                 _touched.Remove(index);
                 _bitmaps.Remove(index);
-                var bitmap = (_bitmaps[index] as IDisposable);
-                if (bitmap != null) bitmap.Dispose();
                 OnNotifyPropertyChange("TileCount");
             }
         }
