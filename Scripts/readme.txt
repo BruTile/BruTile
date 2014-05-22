@@ -1,8 +1,8 @@
-Run from the visual studio commond prompt in the Mapsui\Scripts folder.
+Run from the visual studio commond prompt in the BruTile\Scripts folder.
 
-To automatically build and create a nuget package run builtpack with the version number as argument like this:
-> builtpack 0.2.3
+To automatically build and create a nuget package run buildpack with the version number as argument like this:
+> buildpack 0.2.3
 
 To also publish to nuget run buildpackpush like this:
-> builtpackpush 0.2.3
+> buildpackpush 0.2.3
 
