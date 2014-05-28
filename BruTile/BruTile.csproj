@@ -89,6 +89,8 @@
     <Compile Include="Cache\NullCache.cs" />
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
     <Compile Include="Extent.cs" />
+    <Compile Include="Wmts\CrsAxisOrderRegistry.cs" />
+    <Compile Include="Wmts\CrsIdentifier.cs" />
     <Compile Include="ITileProvider.cs" />
     <Compile Include="ITileSchema.cs" />
     <Compile Include="ITileSource.cs" />
@@ -166,10 +168,14 @@
     <Compile Include="Wms\WmsPropertyException.cs" />
     <Compile Include="Wms\WmsVersion.cs" />
     <Compile Include="Wms\XmlObject.cs" />
+    <Compile Include="Wmts\CrsUnitOfMeasureRegistry.cs" />
     <Compile Include="Wmts\Generated\xlink_owscommon_wmtsGetCapabilities_response.cs">
       <SubType>code</SubType>
     </Compile>
     <Compile Include="Wmts\ResourceUrl.cs" />
+    <Compile Include="Wmts\ScaleSet.cs" />
+    <Compile Include="Wmts\ScaleSetItem.cs" />
+    <Compile Include="Wmts\WellKnownScaleSets.cs" />
     <Compile Include="Wmts\WmtsParser.cs" />
     <Compile Include="Wmts\WmtsRequest.cs" />
     <Compile Include="Wmts\WmtsTileSchema.cs" />

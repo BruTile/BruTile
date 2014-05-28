@@ -1,5 +1,6 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Globalization;
 
 namespace BruTile.Predefined
@@ -19,7 +20,18 @@ namespace BruTile.Predefined
             foreach (var resolution in resolutions)
             {
                 var levelId = count.ToString(CultureInfo.InvariantCulture);
-                Resolutions[levelId] = new Resolution { Id = levelId, UnitsPerPixel = resolution };
+                var ms = (int) Math.Pow(count, 2) / 2;
+                Resolutions[levelId] = new Resolution
+                {
+                    Id = levelId, 
+                    UnitsPerPixel = resolution,
+                    Left = -20037508.342789,
+                    Top = 20037508.342789,
+                    TileWidth = 256, 
+                    TileHeight = 256,
+                    MatrixWidth = ms,
+                    MatrixHeight = ms
+                };
                 count++;
             }
             Height = 256;

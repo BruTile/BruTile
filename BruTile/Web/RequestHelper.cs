@@ -17,24 +17,42 @@ namespace BruTile.Web
 
         public static int Timeout { get; set; }
 
+        public static ICredentials Credentials { get; set; }
+
         public static byte[] FetchImage(HttpWebRequest webRequest)
         {
-            WebResponse webResponse = webRequest.GetSyncResponse(Timeout);
-            if (webResponse == null) throw (new WebException("An error occurred while fetching tile", null));
-            if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+            using (var webResponse = webRequest.GetSyncResponse(Timeout))
             {
-                using (Stream responseStream = webResponse.GetResponseStream())
+                if (webResponse == null)
                 {
-                    return Utilities.ReadFully(responseStream);
+                    throw (new WebException("An error occurred while fetching tile", null));
                 }
+
+                if (webResponse.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    using (Stream responseStream = webResponse.GetResponseStream())
+                    {
+                        return Utilities.ReadFully(responseStream);
+                    }
+                }
+
+                var message = ComposeErrorMessage(webResponse, webRequest.RequestUri.AbsoluteUri);
+                throw (new WebResponseFormatException(message, null));
             }
-            string message = ComposeErrorMessage(webResponse, webRequest.RequestUri.AbsoluteUri);
-            throw (new WebResponseFormatException(message, null));
         }
 
         public static byte[] FetchImage(Uri uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+            if (Credentials != null)
+            {
+                webRequest.Credentials = Credentials;
+            }
+            else
+            {
+                webRequest.UseDefaultCredentials = true;
+            }
+
             return FetchImage(webRequest);
         }
 

@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace BruTile.Cache
 {
@@ -97,8 +98,10 @@ namespace BruTile.Cache
 
         private string GetDirectoryName(TileIndex index)
         {
+            var level = index.Level.ToString(CultureInfo.InvariantCulture);
+            level = level.Replace(':', '_');
             return Path.Combine(_directory, 
-                index.Level.ToString(CultureInfo.InvariantCulture), 
+                level, 
                 index.Col.ToString(CultureInfo.InvariantCulture));
         }
 
