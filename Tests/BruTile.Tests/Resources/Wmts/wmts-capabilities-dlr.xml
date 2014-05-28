@@ -1353,5 +1353,5 @@ version="1.0.0">
       </TileMatrix>
     </TileMatrixSet>
   </Contents>
-  <ServiceMetadataURL xlink:href="http://tiles.geoservice.dlr.de/service/wmts?REQUEST=getcapabilities&amp;VERSION=1.0.0"/>
+  <ServiceMetadataURL xlink:href="http://tiles.geoservice.dlr.de/service/wmts?REQUEST=getcapabilities&amp;VERSION=1.0.0" />
 </Capabilities>

@@ -4,15 +4,43 @@ namespace BruTile.Wmts
 {
     class WmtsTileSchema : ITileSchema
     {
+        private Extent _extent;
+        private Extent _wgs84Extent;
+
+        /// <summary>
+        /// Creates an instance of this class
+        /// </summary>
         public WmtsTileSchema()
         {
             Resolutions = new Dictionary<string, Resolution>();
             Axis = AxisDirection.InvertedY;
         }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Gets or set the identifier of the corresponding TileMatrixSet
+        /// </summary>
+        public string Identifier { get; set; }
+
+        /// <summary>
+        /// Gets or sets the supported spatial reference system
+        /// </summary>
+        public CrsIdentifier SupportedSRS { get; set; }
+
+
+        public string Name
+        {
+            get { return Identifier; }
+            set { Identifier = value; }
+        }
+
         public string Srs { get; set; }
-        public Extent Extent { get; set; }
+
+        public Extent Extent
+        {
+            get { return _extent; }
+            set { _extent = value; }
+        }
+
         public string Format { get; set; }
         public AxisDirection Axis { get; set; }
         public IDictionary<string, Resolution> Resolutions { get; set; }

@@ -91,7 +91,11 @@ namespace BruTile.Predefined
                                 {
                                     Id = i.ToString(),
                                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                                    UnitsPerPixel = 2 * ScaleFactor / (1 << i)
+                                    UnitsPerPixel = 2 * ScaleFactor / (1 << i),
+                                    Left = -ScaleFactor * 256,
+                                    Top = ScaleFactor * 256,
+                                    TileWidth = 256, TileHeight = 256,
+                                    
                                 });
             return results.ToArray();
         }

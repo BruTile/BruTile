@@ -49,6 +49,7 @@ namespace BruTile
         public int Height { get; set; }
         public string Name { get; set; }
         public string Srs { get; set; }
+        public Extent Wgs84BoundingBox { get; set; }
         public string Format { get; set; }
         public Extent Extent { get; set; }
         public AxisDirection Axis { get; set; }

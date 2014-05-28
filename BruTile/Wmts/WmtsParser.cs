@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -150,22 +151,44 @@ namespace BruTile.Wmts
             return resourceUrls;
         }
 
+
         private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
         {
+            var wkss = new WellKnownScaleSets();
+            var crsAO = new CrsAxisOrderRegistry();
+            var crsUOM = new CrsUnitOfMeasureRegistry();
+
             var tileSchemas = new List<ITileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
             {
-                var tileSchema = new WmtsTileSchema();
-                foreach (var tileMatrix in tileMatrixSet.TileMatrix)
+                // this is not according to the spec!
+                var ss = wkss[tileMatrixSet.Identifier.Value];
+                if (ss == null && !string.IsNullOrEmpty(tileMatrixSet.WellKnownScaleSet))
                 {
-                    tileSchema.Resolutions.Add(ToResolution(tileMatrix));
+                    ss = wkss[tileMatrixSet.WellKnownScaleSet.Split(':').Last()];
                 }
 
-                // Extent should be determined by the WGS84BoundingBox of the layer but
-                // this would involve projection.
-                // also the Extent should move to the tileSource because it could differ 
-                // between layers.
-                tileSchema.Extent = ToExtent(tileSchema.Resolutions.First().Value);
+                //Try to parse the Crs
+                var supportedCrs = tileMatrixSet.SupportedCRS;
+                supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
+                CrsIdentifier crs;
+                if (!CrsIdentifier.TryParse(supportedCrs, out crs))
+                {
+                    // ToDo: Log this
+                    continue;
+                }
+                var ordinateOrder = crsAO[crs];
+                var unitOfMeasure = crsUOM[crs];
+
+                var tileSchema = new WmtsTileSchema();
+
+                foreach (var tileMatrix in tileMatrixSet.TileMatrix)
+                {
+                    tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter,  ss));
+                }
+
+                var res = tileSchema.Resolutions.Last();
+                tileSchema.Extent = ToExtent(res.Value);
 
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.Axis = AxisDirection.InvertedY;
@@ -177,25 +200,28 @@ namespace BruTile.Wmts
 
         private static Extent ToExtent(Resolution tileMatrix)
         {
+            //var pixelSpan = tileMatrix.
             return new Extent(
                 tileMatrix.Left,
-                tileMatrix.Top - tileMatrix.ScaleDenominator * ScaleHint * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
-                tileMatrix.Left + tileMatrix.ScaleDenominator * ScaleHint * tileMatrix.TileWidth * tileMatrix.MatrixWidth,
+                tileMatrix.Top - tileMatrix.UnitsPerPixel * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
+                tileMatrix.Left + tileMatrix.UnitsPerPixel * tileMatrix.TileWidth * tileMatrix.MatrixWidth,
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix)
+        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
+            
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
+            var unitsPerPixel = ss != null ? ss[tileMatrix.ScaleDenominator] : null;
 
             return new KeyValuePair<string, Resolution>(tileMatrix.Identifier.Value,
                 new Resolution
                 {
                     Id = tileMatrix.Identifier.Value,
-                    UnitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint,
+                    UnitsPerPixel = unitsPerPixel ?? tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit ,
                     ScaleDenominator = tileMatrix.ScaleDenominator,
-                    Left = Convert.ToDouble(coords[0], CultureInfo.InvariantCulture),
-                    Top = Convert.ToDouble(coords[1], CultureInfo.InvariantCulture),
+                    Left = Convert.ToDouble(coords[ordinateOrder[0]], CultureInfo.InvariantCulture),
+                    Top = Convert.ToDouble(coords[ordinateOrder[1]], CultureInfo.InvariantCulture),
                     MatrixWidth = tileMatrix.MatrixWidth,
                     MatrixHeight = tileMatrix.MatrixHeight,
                     TileWidth = tileMatrix.TileWidth,
