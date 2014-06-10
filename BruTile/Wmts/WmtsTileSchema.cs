@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BruTile.Wmts
 {
     class WmtsTileSchema : ITileSchema
     {
         private Extent _extent;
-        private Extent _wgs84Extent;
 
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
-        public WmtsTileSchema()
+        internal WmtsTileSchema()
         {
             Resolutions = new Dictionary<string, Resolution>();
             Axis = AxisDirection.InvertedY;
@@ -26,6 +26,45 @@ namespace BruTile.Wmts
         /// </summary>
         public CrsIdentifier SupportedSRS { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating the style
+        /// </summary>
+        public string Style { get; private set; }
+
+        /// <summary>
+        /// Creates a copy of this schema with <see cref="Format"/> set to <paramref name="format"/>
+        /// </summary>
+        /// <param name="style">The style identifier</param>
+        /// <param name="format">The format used for this style</param>
+        /// <param name="layer">The layer name</param>
+        /// <returns>A tile schema</returns>
+        internal WmtsTileSchema CreateSpecific(string layer, string style, string format)
+        {
+            if (string.IsNullOrEmpty(layer))
+                throw new ArgumentNullException("layer");
+            if (string.IsNullOrEmpty(style))
+                throw new ArgumentNullException("style");
+            if (string.IsNullOrEmpty(format))
+                throw new ArgumentNullException("format");
+
+            if (!format.StartsWith("image/"))
+                throw new ArgumentException("Not an image mime type");
+
+            
+            var res = new WmtsTileSchema();
+            res.Axis = Axis;
+            res.Extent = new Extent(Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
+            res.Name = layer;
+            res.Style = style;
+            res.Format = format;
+            res.Identifier = Identifier;
+            res.Name = Name;
+            foreach (var resolution in Resolutions)
+                res.Resolutions.Add(resolution);
+            res.Srs = Srs;
+            res.SupportedSRS = SupportedSRS;
+            return res;
+        }
 
         public string Name
         {
@@ -42,7 +81,9 @@ namespace BruTile.Wmts
         }
 
         public string Format { get; set; }
+        
         public AxisDirection Axis { get; set; }
+        
         public IDictionary<string, Resolution> Resolutions { get; set; }
 
         public int GetTileWidth(string levelId)

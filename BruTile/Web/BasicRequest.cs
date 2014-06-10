@@ -13,16 +13,39 @@ namespace BruTile.Web
     /// </summary>
     public class BasicRequest : IRequest
     {
-        private readonly string _urlFormatter;
-        private const string ServerNodeTag = "{s}";
+        /// <summary>
+        /// Tag to be replaced by column value.
+        /// </summary>
         private const string XTag = "{x}";
+        /// <summary>
+        /// Tag to be replaced by row value.
+        /// </summary>
         private const string YTag = "{y}";
+        /// <summary>
+        /// Tag to be replaced by zoom level value.
+        /// </summary>
         private const string ZTag = "{z}";
-        private const string ApiKeyTag = "{k}";
-        private int _nodeCounter;
-        private readonly IList<string> _serverNodes;
-        private readonly string _apiKey;
 
+        /// <summary>
+        /// Tag to be replaced by server node entries, if any.
+        /// </summary>
+        private const string ServerNodeTag = "{s}";
+        /// <summary>
+        /// Tag to be replaced by api key, if defined.
+        /// </summary>
+        private const string ApiKeyTag = "{k}";
+
+        private readonly string _urlFormatter;
+        private int _nodeCounter;
+        private readonly List<string> _serverNodes;
+        //private readonly string _apiKey;
+
+        /// <summary>
+        /// Creates an instance of this class
+        /// </summary>
+        /// <param name="urlFormatter">The url formatter</param>
+        /// <param name="serverNodes">The server nodes</param>
+        /// <param name="apiKey">The API key</param>
         public BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey= null)
         {
             _urlFormatter = urlFormatter;
@@ -32,7 +55,9 @@ namespace BruTile.Web
             _urlFormatter = _urlFormatter.Replace("{0}", ZTag);
             _urlFormatter = _urlFormatter.Replace("{1}", XTag);
             _urlFormatter = _urlFormatter.Replace("{2}", YTag);
-            _apiKey = apiKey;
+
+            if (!string.IsNullOrEmpty(apiKey))
+                _urlFormatter = _urlFormatter.Replace(ApiKeyTag, apiKey) ;
         }
 
         /// <summary>
@@ -46,8 +71,10 @@ namespace BruTile.Web
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(ZTag, info.Index.Level);
-            stringBuilder.Replace(ApiKeyTag, _apiKey);
+            
+            //stringBuilder.Replace(ApiKeyTag, _apiKey);
             InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
+            
             return new Uri(stringBuilder.ToString());
         }
 
@@ -59,6 +86,21 @@ namespace BruTile.Web
                 nodeCounter++;
                 if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
             }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder("[BasicRequest:");
+            sb.AppendFormat("{0}", _urlFormatter);
+            if (_serverNodes != null)
+            {
+                sb.AppendFormat(",(\"{0}\"", _serverNodes[0]);
+                foreach (var serverNode in _serverNodes.Skip(1))
+                    sb.AppendFormat(",\"{0}\"", serverNode);
+                sb.Append(")");
+            }
+            sb.Append("]");
+            return sb.ToString();
         }
     }
 }

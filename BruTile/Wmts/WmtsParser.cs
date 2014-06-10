@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,15 +18,18 @@ namespace BruTile.Wmts
         /// </summary>
         private const double ScaleHint = 0.00028;
 
+        /// <summary>
+        /// Method to parse WMTS tile sources from a stream
+        /// </summary>
+        /// <param name="source">The source stream</param>
+        /// <returns>An enumeration of tile sources</returns>
         public static IEnumerable<ITileSource> Parse(Stream source)
         {
             var ser = new XmlSerializer(typeof(Capabilities));
             Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
-            {
                 capabilties = (Capabilities)ser.Deserialize(reader);
-            }
             
             var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
             var tileSources = GetLayers(capabilties, tileSchemas);
@@ -35,6 +37,12 @@ namespace BruTile.Wmts
             return tileSources;
         }
 
+        /// <summary>
+        /// Method to extract all image layers from a wmts capabilities document.
+        /// </summary>
+        /// <param name="capabilties">The capabilities document</param>
+        /// <param name="tileSchemas">A set of</param>
+        /// <returns></returns>
         private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas)
         {
             var tileSources = new List<ITileSource>();
@@ -45,37 +53,50 @@ namespace BruTile.Wmts
                 {
                     foreach (var style in layer.Style)
                     {
-                        IRequest wmtsRequest;
-                        
-                        if (layer.ResourceURL == null)
+                        foreach (var format in layer.Format)
                         {
-                            wmtsRequest = new WmtsRequest(CreateResourceUrlsFromOperations(
-                                capabilties.OperationsMetadata.Operation, 
-                                layer.Format.First(), 
-                                capabilties.ServiceIdentification.ServiceTypeVersion.First(), 
-                                layer.Identifier.Value, 
-                                style.Identifier.Value, 
-                                tileMatrixLink.TileMatrixSet));
-                        }
-                        else
-                        {
-                            wmtsRequest = new WmtsRequest(CreateResourceUrlsFromResourceUrlNode(
-                                layer.ResourceURL,
-                                style.Identifier.Value, 
-                                tileMatrixLink.TileMatrixSet));
-                        }
-                        var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixLink.TileMatrixSet));
-                        var tileSource = new TileSource(new WebTileProvider(wmtsRequest), tileSchema)
-                            {
-                                Title = layer.Identifier.Value
-                            };
+                            if (!format.StartsWith("image/")) continue;
 
-                        tileSources.Add(tileSource);
+                            IRequest wmtsRequest;
+
+                            if (layer.ResourceURL == null)
+                            {
+                                wmtsRequest = new WmtsRequest(CreateResourceUrlsFromOperations(
+                                    capabilties.OperationsMetadata.Operation,
+                                    format,
+                                    capabilties.ServiceIdentification.ServiceTypeVersion.First(),
+                                    layer.Identifier.Value,
+                                    style.Identifier.Value,
+                                    tileMatrixLink.TileMatrixSet));
+                            }
+                            else
+                            {
+                                wmtsRequest = new WmtsRequest(CreateResourceUrlsFromResourceUrlNode(
+                                    layer.ResourceURL,
+                                    style.Identifier.Value,
+                                    tileMatrixLink.TileMatrixSet));
+                            }
+
+                            var tileMatrixSet = tileMatrixLink.TileMatrixSet;
+                            var tileSchema = (WmtsTileSchema)tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
+
+                            var layerName = layer.Identifier.Value;
+                            var styleName = style.Identifier.Value;
+
+                            var tileSource = new TileSource(new WebTileProvider(wmtsRequest), 
+                                tileSchema.CreateSpecific(layerName, styleName, format))
+                                {
+                                    Title = layer.Identifier.Value,
+                                };
+
+                            tileSources.Add(tileSource);
+                        }
                     }
                 }
             }
             return tileSources;
         }
+
 
         private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Operation> operations, 
             string format, string version, string layer, string style, string tileMatrixSet)
@@ -155,8 +176,9 @@ namespace BruTile.Wmts
         private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
         {
             var wkss = new WellKnownScaleSets();
-            var crsAO = new CrsAxisOrderRegistry();
-            var crsUOM = new CrsUnitOfMeasureRegistry();
+            
+            var crsAxisOrder = new CrsAxisOrderRegistry();
+            var crsUnitOfMeasure = new CrsUnitOfMeasureRegistry();
 
             var tileSchemas = new List<ITileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
@@ -170,15 +192,18 @@ namespace BruTile.Wmts
 
                 //Try to parse the Crs
                 var supportedCrs = tileMatrixSet.SupportedCRS;
+                
+                //Hack to fix broken spec
                 supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
+
                 CrsIdentifier crs;
                 if (!CrsIdentifier.TryParse(supportedCrs, out crs))
                 {
                     // ToDo: Log this
                     continue;
                 }
-                var ordinateOrder = crsAO[crs];
-                var unitOfMeasure = crsUOM[crs];
+                var ordinateOrder = crsAxisOrder[crs];
+                var unitOfMeasure = crsUnitOfMeasure[crs];
 
                 var tileSchema = new WmtsTileSchema();
 
@@ -192,7 +217,9 @@ namespace BruTile.Wmts
 
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.Axis = AxisDirection.InvertedY;
-                tileSchema.Srs = tileMatrixSet.SupportedCRS;
+                tileSchema.Srs = supportedCrs;
+                tileSchema.SupportedSRS = crs;
+
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;

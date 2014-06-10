@@ -14,7 +14,8 @@ namespace BruTile.Wmts
         public const string ZTag = "{TileMatrix}";
         public const string TileMatrixSetTag = "{TileMatrixSet}";
         public const string StyleTag = "{Style}";
-        private readonly IList<ResourceUrl> _resourceUrls;
+
+        private readonly List<ResourceUrl> _resourceUrls;
         private int _resourceUrlCounter;
         
         public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls)
@@ -28,9 +29,11 @@ namespace BruTile.Wmts
             var urlFormatter = _resourceUrls[_resourceUrlCounter];
             _resourceUrlCounter++;
             var stringBuilder = new StringBuilder(urlFormatter.Template);
+            
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(ZTag, info.Index.Level);
+            
             return new Uri(stringBuilder.ToString());
         }
     }
