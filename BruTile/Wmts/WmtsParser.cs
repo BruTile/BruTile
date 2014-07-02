@@ -49,6 +49,10 @@ namespace BruTile.Wmts
 
             foreach (var layer in capabilties.Contents.Layers)
             {
+                var identifier = layer.Identifier.Value;
+                var title = layer.Title[0].Value;
+                string @abstract = layer.Abstract != null ? layer.Abstract[0].Value : string.Empty;
+
                 foreach (var tileMatrixLink in layer.TileMatrixSetLink)
                 {
                     foreach (var style in layer.Style)
@@ -80,13 +84,13 @@ namespace BruTile.Wmts
                             var tileMatrixSet = tileMatrixLink.TileMatrixSet;
                             var tileSchema = (WmtsTileSchema)tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
 
-                            var layerName = layer.Identifier.Value;
+                            //var layerName = layer.Identifier.Value;
                             var styleName = style.Identifier.Value;
 
                             var tileSource = new TileSource(new WebTileProvider(wmtsRequest), 
-                                tileSchema.CreateSpecific(layerName, styleName, format))
+                                tileSchema.CreateSpecific(identifier, @abstract, styleName, format))
                                 {
-                                    Title = layer.Identifier.Value,
+                                    Title = title
                                 };
 
                             tileSources.Add(tileSource);
