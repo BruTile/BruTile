@@ -16,7 +16,7 @@ namespace BruTile.Wmts
         public const string StyleTag = "{Style}";
 
         private readonly List<ResourceUrl> _resourceUrls;
-        private int _resourceUrlCounter;
+        private readonly Random _random = new Random(0);
         
         public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls)
         {
@@ -25,9 +25,7 @@ namespace BruTile.Wmts
 
         public Uri GetUri(TileInfo info)
         {
-            if (_resourceUrlCounter >= _resourceUrls.Count()) _resourceUrlCounter = 0;
-            var urlFormatter = _resourceUrls[_resourceUrlCounter];
-            _resourceUrlCounter++;
+            var urlFormatter = _resourceUrls[_random.Next(_resourceUrls.Count)];
             var stringBuilder = new StringBuilder(urlFormatter.Template);
             
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
