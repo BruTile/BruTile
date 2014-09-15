@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using BruTile.Web;
+
+namespace BruTile.Wmts
+{
+    public class WmtsRequest : IRequest
+    {
+        public const string XTag = "{TileCol}";
+        public const string YTag = "{TileRow}";
+        public const string ZTag = "{TileMatrix}";
+        public const string TileMatrixSetTag = "{TileMatrixSet}";
+        public const string StyleTag = "{Style}";
+
+        private readonly List<ResourceUrl> _resourceUrls;
+        private readonly Random _random = new Random(0);
+        
+        public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls)
+        {
+            _resourceUrls = resourceUrls.ToList();
+        }
+
+        public Uri GetUri(TileInfo info)
+        {
+            var urlFormatter = _resourceUrls[_random.Next(_resourceUrls.Count)];
+            var stringBuilder = new StringBuilder(urlFormatter.Template);
+            
+            stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ZTag, info.Index.Level);
+            
+            return new Uri(stringBuilder.ToString());
+        }
+    }
+}

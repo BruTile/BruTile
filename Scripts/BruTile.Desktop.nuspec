@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>BruTile.Desktop</id>
+    <version>$version$</version>
+    <title>BruTile.Desktop</title>
+    <authors>Felix Obermaier, Paul den Dulk</authors>
+    <owners>Paul den Dulk</owners>
+    <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
+    <projectUrl>http://brutile.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      BruTile extensions for .net framework 3.5 and 4.0. Including MBTiles support (http://mapbox.com/mbtiles-spec)
+    </description>
+    <tags>brutile tiling mbtiles maps geo</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="BruTile" version="$version$" />
+      <dependency id="System.Data.SQLite" version="[1.0.86.0]"/>
+  </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Release\v3.5\BruTile.Desktop.dll" target="lib\net35\BruTile.Desktop.dll" />
+    <file src="..\Release\v3.5\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
+    <file src="..\Release\v3.5\BruTile.Serialization.dll" target="lib\net35\BruTile.Serialization.dll" />
+    <file src="..\Release\v4.0\BruTile.Desktop.dll" target="lib\net40\BruTile.Desktop.dll" />
+    <file src="..\Release\v4.0\BruTile.MbTiles.dll" target="lib\net40\BruTile.MbTiles.dll" />
+    <file src="..\Release\v4.0\BruTile.Serialization.dll" target="lib\net40\BruTile.Serialization.dll" />
+  </files>
+</package>
