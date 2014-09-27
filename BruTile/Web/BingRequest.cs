@@ -31,7 +31,7 @@ namespace BruTile.Web
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
         public BingRequest(string baseUrl, string token, BingMapType mapType, string apiVersion = DefaultApiVersion)
         {
-            _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) +  QuadKeyTag + ".jpeg?g=" + 
+            _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) + QuadKeyTag + ".jpeg?g=" +
                 ApiVersionTag + "&token=" + UserKeyTag;
             _userKey = token;
             ApiVersion = apiVersion;
