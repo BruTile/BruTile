@@ -24,13 +24,14 @@ namespace BruTile.Web
         private readonly string _urlFormatter;
         private readonly string _userKey;
         private int _nodeCounter;
+        private readonly object _nodeCounterLock = new object();
         private readonly IList<string> _serverNodes = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7" };
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
         public BingRequest(string baseUrl, string token, BingMapType mapType, string apiVersion = DefaultApiVersion)
         {
-            _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) +  QuadKeyTag + ".jpeg?g=" + 
+            _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) + QuadKeyTag + ".jpeg?g=" +
                 ApiVersionTag + "&token=" + UserKeyTag;
             _userKey = token;
             ApiVersion = apiVersion;
@@ -67,7 +68,7 @@ namespace BruTile.Web
             stringBuilder.Replace(QuadKeyTag, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level));
             stringBuilder.Replace(ApiVersionTag, ApiVersion);
             stringBuilder.Replace(UserKeyTag, _userKey);
-            InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
+            InsertServerNode(stringBuilder);
             return new Uri(stringBuilder.ToString());
         }
 
@@ -122,12 +123,22 @@ namespace BruTile.Web
             return quadKey.ToString();
         }
 
-        private static void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes, ref int nodeCounter)
+        private void InsertServerNode(StringBuilder baseUrl)
         {
-            if (serverNodes != null && serverNodes.Count > 0)
+            if (_serverNodes != null && _serverNodes.Count > 0)
             {
-                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter++]);
-                if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
+                var serverNode = GetNextServerNode();
+                baseUrl.Replace(ServerNodeTag, serverNode);
+            }
+        }
+
+        private string GetNextServerNode()
+        {
+            lock (_nodeCounterLock)
+            {
+                var serverNode = _serverNodes[_nodeCounter++];
+                if (_nodeCounter >= _serverNodes.Count) _nodeCounter = 0;
+                return serverNode;
             }
         }
     }
