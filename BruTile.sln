@@ -1,14 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{C847C0EA-38EC-49B8-AF07-12B65CA9C708}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
 	ProjectSection(SolutionItems) = preProject
-		BruTile.MbTiles.nuspec = BruTile.MbTiles.nuspec
-		BruTile.nuspec = BruTile.nuspec
+		Scripts\BruTile.Desktop.nuspec = Scripts\BruTile.Desktop.nuspec
+		Scripts\BruTile.nuspec = Scripts\BruTile.nuspec
+		Scripts\build.proj = Scripts\build.proj
 		SharedAssemblyVersion.cs = SharedAssemblyVersion.cs
-		TeamCity.proj = TeamCity.proj
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop", "BruTile.Desktop\BruTile.Desktop.csproj", "{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}"
