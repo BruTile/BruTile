@@ -38,7 +38,7 @@ namespace BruTile.Web
         private readonly string _urlFormatter;
         private int _nodeCounter;
         private readonly List<string> _serverNodes;
-        //private readonly string _apiKey;
+        private readonly object _nodeCounterLock = new object();
 
         /// <summary>
         /// Creates an instance of this class
@@ -73,18 +73,27 @@ namespace BruTile.Web
             stringBuilder.Replace(ZTag, info.Index.Level);
             
             //stringBuilder.Replace(ApiKeyTag, _apiKey);
-            InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
+            InsertServerNode(stringBuilder, _serverNodes);
             
             return new Uri(stringBuilder.ToString());
         }
 
-        private static void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes, ref int nodeCounter)
+        private void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes)
         {
             if (serverNodes != null && serverNodes.Count > 0)
             {
-                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter]);
-                nodeCounter++;
-                if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
+                var serverNode = GetNextServerNode();
+                baseUrl.Replace(ServerNodeTag, serverNode);
+            }
+        }
+
+        private string GetNextServerNode()
+        {
+            lock (_nodeCounterLock)
+            {
+                var serverNode = _serverNodes[_nodeCounter++];
+                if (_nodeCounter >= _serverNodes.Count) _nodeCounter = 0;
+                return serverNode;
             }
         }
 
