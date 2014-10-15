@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
@@ -83,20 +85,37 @@ namespace BruTile.Tests.Wmts
             }
         }
 
+        private static List<ResourceUrl> CreateResourceUrls()
+        {
+            var resourceUrls = new List<ResourceUrl>
+            {
+                new ResourceUrl
+                {
+                    Format = "image/jpeg",
+                    Template = "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
+                    ResourceType = URLTemplateTypeResourceType.tile
+                },
+                new ResourceUrl
+                {
+                    Format = "image/jpeg",
+                    Template = "http://maps2.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
+                    ResourceType = URLTemplateTypeResourceType.tile
+                },
+                new ResourceUrl
+                {
+                    Format = "image/jpeg",
+                    Template = "http://maps3.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
+                    ResourceType = URLTemplateTypeResourceType.tile
+                }
+            };
+            return resourceUrls;
+        }
+
         [Test]
         public void TestWmtsRequest()
         {
             // arrange
-            var resourceUrls = new List<ResourceUrl>
-            {
-                new ResourceUrl { Format = "image/jpeg", Template="http://maps1.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
-                    ResourceType = URLTemplateTypeResourceType.tile },
-                new ResourceUrl { Format = "image/jpeg", Template="http://maps2.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
-                    ResourceType = URLTemplateTypeResourceType.tile },
-			    new ResourceUrl { Format = "image/jpeg", Template="http://maps3.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg", 
-                    ResourceType = URLTemplateTypeResourceType.tile }
-            };
-
+            var resourceUrls = CreateResourceUrls();
             var wmtsRequest = new WmtsRequest(resourceUrls);
 
             // act
@@ -106,6 +125,25 @@ namespace BruTile.Tests.Wmts
             // assert
             Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg"));
             Assert.True(url2.ToString().Contains("maps2"));
+        }
+
+        [Test]
+        public void TestWmtsRequestInParallel()
+        {
+            // arrange
+            var resourceUrls = CreateResourceUrls();
+            var request = new WmtsRequest(resourceUrls);
+            var urls = new ConcurrentBag<Uri>(); // List is not thread save
+            var tileInfo = new TileInfo {Index = new TileIndex(8938, 5680, "14")};
+
+            // act
+            var requests = new List<Func<Uri>>();
+            for (var i = 0; i < 150; i++) requests.Add(() => request.GetUri(tileInfo));
+            Parallel.ForEach(requests, r => urls.Add(r()));
+
+            // assert
+            var count = urls.Count(u => u.ToString() == "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg");
+            Assert.True(count == 50);
         }
     }
 }
