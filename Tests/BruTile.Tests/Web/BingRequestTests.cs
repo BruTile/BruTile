@@ -1,4 +1,5 @@
-﻿using BruTile.Web;
+﻿using System.Linq;
+using BruTile.Web;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -34,15 +35,15 @@ namespace BruTile.Tests.Web
                 "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}",
                 "pindakaas", "555", new[] { "000", "111" });
             var tileInfo = new TileInfo { Index = new TileIndex(3, 4, "5") };
-            Uri url = null;
+            var urls = new List<Uri>();
 
             // act
             var requests = new List<Func<Uri>>();
             for (var i = 0 ; i < 100; i++) requests.Add(() => request.GetUri(tileInfo));
-            Parallel.ForEach(requests, r => url = r());
+            Parallel.ForEach(requests, r => urls.Add(r()));
 
             // assert
-            Assert.True(url.ToString() == "http://t111.tiles.virtualearth.net/tiles/r00211.jpeg?g=555&token=pindakaas");
+            Assert.True(urls.FirstOrDefault(u => u.ToString() == "http://t111.tiles.virtualearth.net/tiles/r00211.jpeg?g=555&token=pindakaas") != null);
         }
     }
 }
