@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace BruTile.Tests.Web
             // arrange
             var request = new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] {"a", "b", "c"});
             var tileInfo = new TileInfo {Index = new TileIndex(3, 4, "5")};
-            var urls = new List<Uri>();
+            var urls = new ConcurrentBag<Uri>(); // List is not thread save
 
             // act
             var requests = new List<Func<Uri>>();
