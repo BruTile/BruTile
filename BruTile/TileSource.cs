@@ -87,8 +87,8 @@ namespace BruTile
                         new GlobalSphericalMercator(0, 11)) { Title = source.ToString() };
                 case KnownTileServers.MapQuestRoadsAndLabels:
                     return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://mtile0{s}.mqcdn.com/tiles/1.0.0/vx/hyb/{z}/{x}/{y}.png", new[] { "1", "2", "3", "4" }, apiKey)),
-                        new GlobalSphericalMercator(2)) { Title = source.ToString() };
+                        new WebTileProvider(new BasicRequest("http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", new[] { "1", "2", "3", "4" }, apiKey)),
+                        new GlobalSphericalMercator()) { Title = source.ToString() };
                 case KnownTileServers.BingRoads:
                     return new TileSource(
                         new WebTileProvider(new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey)),
@@ -128,10 +128,6 @@ namespace BruTile
                 case KnownTileServers.EsriWorldPhysical:
                     return new TileSource(
                         new WebTileProvider(new BasicRequest("http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) { Title = source.ToString() };
-                case KnownTileServers.EsriWorldHydroBasemap:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://184.72.212.114:6080/ArcGIS/rest/services/WorldHydroReferenceOverlay/MapServer/tile/{z}/{y}/{x}")),
                         new GlobalSphericalMercator()) { Title = source.ToString() };
                 case KnownTileServers.EsriWorldShadedRelief:
                     return new TileSource(
