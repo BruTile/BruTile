@@ -13,12 +13,13 @@ namespace BruTile.Demo
 
             foreach (var layer in  Enum.GetValues(typeof(KnownTileServers)).Cast<KnownTileServers>())
             {
+                if (layer.ToString().ToLower().Contains("cloudmade")) continue; // Exclude CloudMade
+                
                 var radioButton = new RadioButton {Content = layer.ToString(), Tag = layer};
                 radioButton.Click += (sender, args) =>
                     {
                         var knownTileServer = (KnownTileServers)((RadioButton)sender).Tag;
-                        if (!knownTileServer.ToString().ToLower().Contains("cloudmade")) // Exclude CloudMade
-                            MapControl.SetTileSource(TileSource.Create(knownTileServer));
+                        MapControl.SetTileSource(TileSource.Create(knownTileServer));
                     };
                 Layers.Children.Add(radioButton);
             }
