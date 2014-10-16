@@ -13,7 +13,6 @@ namespace BruTile.Demo
 {
     class MapControl : Grid
     {
-        private readonly Canvas _canvas;
         private Fetcher<Image> _fetcher;
         private readonly Renderer _renderer;
         private readonly MemoryCache<Tile<Image>> _tileCache = new MemoryCache<Tile<Image>>(200, 300);
@@ -24,15 +23,15 @@ namespace BruTile.Demo
 
         public MapControl()
         {
-            _canvas = new Canvas
+            var canvas = new Canvas
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Background = new SolidColorBrush(Colors.Transparent),
             };
 
-            Children.Add(_canvas);
-            _renderer = new Renderer(_canvas);
+            Children.Add(canvas);
+            _renderer = new Renderer(canvas);
 
             _tileSource = TileSource.Create(); 
             CompositionTarget.Rendering += CompositionTargetRendering;
