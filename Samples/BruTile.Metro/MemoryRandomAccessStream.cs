@@ -1,87 +1,91 @@
 ﻿using System;
 using System.IO;
 using Windows.Storage.Streams;
-class MemoryRandomAccessStream : IRandomAccessStream
+
+namespace BruTile.Metro
 {
-    private Stream m_InternalStream;
-
-    public MemoryRandomAccessStream(Stream stream)
+    class MemoryRandomAccessStream : IRandomAccessStream
     {
-        this.m_InternalStream = stream;
-    }
+        private readonly Stream _internalStream;
 
-    public MemoryRandomAccessStream(byte[] bytes)
-    {
-        this.m_InternalStream = new MemoryStream(bytes);
-    }
+        public MemoryRandomAccessStream(Stream stream)
+        {
+            _internalStream = stream;
+        }
 
-    public IInputStream GetInputStreamAt(ulong position)
-    {
-        this.m_InternalStream.Position = (long)position;
-        return this.m_InternalStream.AsInputStream();
-    }
+        public MemoryRandomAccessStream(byte[] bytes)
+        {
+            _internalStream = new MemoryStream(bytes);
+        }
 
-    public IOutputStream GetOutputStreamAt(ulong position)
-    {
-        this.m_InternalStream.Position = (long)position;
-        return this.m_InternalStream.AsOutputStream();
-    }
+        public IInputStream GetInputStreamAt(ulong position)
+        {
+            _internalStream.Position = (long)position;
+            return _internalStream.AsInputStream();
+        }
 
-    public ulong Size
-    {
-        get { return (ulong)this.m_InternalStream.Length; }
-        set { this.m_InternalStream.SetLength((long)value); }
-    }
+        public IOutputStream GetOutputStreamAt(ulong position)
+        {
+            _internalStream.Position = (long)position;
+            return _internalStream.AsOutputStream();
+        }
 
-    public bool CanRead
-    {
-        get { return true; }
-    }
+        public ulong Size
+        {
+            get { return (ulong)_internalStream.Length; }
+            set { _internalStream.SetLength((long)value); }
+        }
 
-    public bool CanWrite
-    {
-        get { return true; }
-    }
+        public bool CanRead
+        {
+            get { return true; }
+        }
 
-    public IRandomAccessStream CloneStream()
-    {
-        throw new NotSupportedException();
-    }
+        public bool CanWrite
+        {
+            get { return true; }
+        }
 
-    public ulong Position
-    {
-        get { return (ulong)this.m_InternalStream.Position; }
-    }
+        public IRandomAccessStream CloneStream()
+        {
+            throw new NotSupportedException();
+        }
 
-    public void Seek(ulong position)
-    {
-        this.m_InternalStream.Seek((long)position, 0);
-    }
+        public ulong Position
+        {
+            get { return (ulong)_internalStream.Position; }
+        }
 
-    public void Dispose()
-    {
-        this.m_InternalStream.Dispose();
-    }
+        public void Seek(ulong position)
+        {
+            _internalStream.Seek((long)position, 0);
+        }
 
-    public Windows.Foundation.IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
-    {
-        var inputStream = this.GetInputStreamAt(0);
-        return inputStream.ReadAsync(buffer, count, options);
-    }
+        public void Dispose()
+        {
+            _internalStream.Dispose();
+        }
 
-    public Windows.Foundation.IAsyncOperation<bool>
+        public Windows.Foundation.IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
+        {
+            var inputStream = GetInputStreamAt(0);
+            return inputStream.ReadAsync(buffer, count, options);
+        }
 
-    FlushAsync()
-    {
-        var outputStream = this.GetOutputStreamAt(0);
-        return outputStream.FlushAsync();
-    }
+        public Windows.Foundation.IAsyncOperation<bool>
 
-    public Windows.Foundation.IAsyncOperationWithProgress<uint, uint>
+            FlushAsync()
+        {
+            var outputStream = GetOutputStreamAt(0);
+            return outputStream.FlushAsync();
+        }
 
-    WriteAsync(IBuffer buffer)
-    {
-        var outputStream = this.GetOutputStreamAt(0);
-        return outputStream.WriteAsync(buffer);
+        public Windows.Foundation.IAsyncOperationWithProgress<uint, uint>
+
+            WriteAsync(IBuffer buffer)
+        {
+            var outputStream = GetOutputStreamAt(0);
+            return outputStream.WriteAsync(buffer);
+        }
     }
 }
