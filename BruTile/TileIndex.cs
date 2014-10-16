@@ -66,7 +66,7 @@ namespace BruTile
 
         public override int GetHashCode()
         {
-            return _col ^ _row ^ _level.GetHashCode();
+            return _col ^ _row ^ ((_level == null) ? 0 : _level.GetHashCode());
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)
