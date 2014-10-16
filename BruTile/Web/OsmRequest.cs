@@ -30,7 +30,6 @@ namespace BruTile.Web
         StamenWatercolor,
         EsriWorldTopo,
         EsriWorldPhysical,
-        EsriWorldHydroBasemap,
         EsriWorldShadedRelief,
         EsriWorldReferenceOverlay,
         EsriWorldTransportation,
@@ -58,7 +57,6 @@ namespace BruTile.Web
             UrlFormat = urlFormat.Trim();
             NumberOfServers = numberOfServers;
             ServerIdentifier = serverIdentifier;
-
         }
 
         protected static Int32 GetServerIdentifierIndex(TileIndex tileIndex, Int32 max)
@@ -138,13 +136,9 @@ namespace BruTile.Web
             OsmConfig = osmConfig;
         }
 
-        #region Implementation of IRequest
-
         public Uri GetUri(TileInfo info)
         {
             return OsmConfig.GetUri(info.Index);
         }
-
-        #endregion
     }
 }
