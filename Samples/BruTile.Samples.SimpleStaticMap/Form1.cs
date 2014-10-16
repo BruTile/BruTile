@@ -46,7 +46,8 @@ namespace BruTile.Samples.SimpleStaticMap
                 var url = requestBuilder.GetUri(tile);
                 byte[] bytes = RequestHelper.FetchImage(url);
                 var bitmap = new Bitmap(new MemoryStream(bytes));
-                graphics.DrawImage(bitmap, viewport.WorldToView(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY));
+                var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
+                graphics.DrawImage(bitmap, RoundToPixel(destination));
             }
             Invalidate();
         }
@@ -74,5 +75,18 @@ namespace BruTile.Samples.SimpleStaticMap
             }
             return schema;
         }
+
+        private static Rectangle RoundToPixel(RectangleF dest)
+        {
+            // To get seamless aligning you need to round the locations
+            // not the width and height
+            var result = new Rectangle(
+                (int)Math.Round(dest.Left),
+                (int)Math.Round(dest.Top),
+                (int)(Math.Round(dest.Right) - Math.Round(dest.Left)),
+                (int)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
+            return result;
+        }
+
     }
 }
