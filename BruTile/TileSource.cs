@@ -83,8 +83,8 @@ namespace BruTile
                         new GlobalSphericalMercator()) { Title = source.ToString() };
                 case KnownTileServers.MapQuestAerial:
                     return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://mtile0{s}.mqcdn.com/tiles/1.0.0/vx/sat/{z}/{x}/{y}.png", new[] { "1", "2", "3", "4" }, apiKey)),
-                        new GlobalSphericalMercator(0, 13)) { Title = source.ToString() };
+                        new WebTileProvider(new BasicRequest("http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png", new[] { "1", "2", "3", "4" }, apiKey)),
+                        new GlobalSphericalMercator(0, 11)) { Title = source.ToString() };
                 case KnownTileServers.MapQuestRoadsAndLabels:
                     return new TileSource(
                         new WebTileProvider(new BasicRequest("http://mtile0{s}.mqcdn.com/tiles/1.0.0/vx/hyb/{z}/{x}/{y}.png", new[] { "1", "2", "3", "4" }, apiKey)),
