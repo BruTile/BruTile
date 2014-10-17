@@ -6,7 +6,7 @@ BruTile is a C# open source library to access tile services like OpenStreetMap a
 * [ArcBruTile] (https://arcbrutile.codeplex.com/) a plugin for ArcGIS
 * [SharpMap] (https://sharpmap.codeplex.com/) a GIS library
 * [Mapsui] (https://github.com/pauldendulk/Mapsui) a slippy map that runs in Silverlight
-* [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [MapWindow 6] (https://mapwindow6.codeplex.com/)
+* [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [HyrdroDesktop] (https://hydrodesktop.codeplex.com/)
 * [PDOK] (https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ###Demo
