@@ -12,12 +12,14 @@ BruTile is a C# open source library to access tile services like OpenStreetMap a
 ###Demo
 Go [here] (http://brutiledemo.appspot.com/) for an online Silverlight demo of BruTile used in Mapsui
 
+###Portable Class Library (PCL)
+BruTile is a PCL with Profile336 which targets:
 
-###Compiled as a Portable Class Library (PCL) that targets:
-* .NET for Windows Store apps
 * .Net Framework 4.0.3 and higher
-* Silverlight 5 and higher (upgraded from 4 to 5 necessary for Xamarin support)
-* Windows Phone 8 and higher (upgraded from 7 to 8 necessary for Xamarin support)
+* Windows 8
+* Windows Phone Silverlight 8
+* Silverlight 5 
+* Windows Phone 8.1
 * Xamarin.iOS
 * Xamarin.Android
 
@@ -25,21 +27,22 @@ Go [here] (http://brutiledemo.appspot.com/) for an online Silverlight demo of Br
 * .Net Framework 4.0
 * .Net Framework 3.5
 
-###Supported tile services
+###Supported tile service protocols:
 * TMS
 * WMS-C
 * WMS called though WMS-C protocol
 * WMTS
 * ArcGIS Tile Server
- 
 
-There are also a number of predefined tile services, like:
+###Known tiles services:
+
 * OpenStreetMap
 * Bing
 * Google
 
 ###Roadmap
 Here are our future plans: 
+
 * Use Resolution (iso TileSchema) dependent TileSize, MatrixSize and Origin in GetTilesInView
 * Update automatic TileSchema generation to bring WMTS, WMS, TMS and WMSC in line.
 * Rename all classes to get them in line with WMTS types.
@@ -50,6 +53,7 @@ Here are our future plans:
 
 ###Warnings
 Note, this library is work in progress. It is in BETA.
+
 * At the moment there is no documentation.
 * We will introduce breaking changed frequently. We change the API whenever we feel this is an improvement.
 * We adopt new technologies relatively fast, dropping support for older frameworks.
