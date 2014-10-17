@@ -3,14 +3,14 @@ BruTile is a C# open source library to access tile services like OpenStreetMap a
 
 ###Projects that use BruTile
 
-* ArcBruTile a plugin for ArcGIS
-* SharpMap a GIS library
-* Mapsui a slippy map that runs in Silverlight
-* DotSpatial a GIS library that is used in MapWindow 6
-* PDOK extensie voor ArcGIS
+* [ArcBruTile (https://arcbrutile.codeplex.com/) a plugin for ArcGIS
+* [SharpMap] (https://sharpmap.codeplex.com/) a GIS library
+* [Mapsui] (https://github.com/pauldendulk/Mapsui) a slippy map that runs in Silverlight
+* [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [MapWindow 6] (https://mapwindow6.codeplex.com/)
+* [PDOK] (https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ###Demo
-Go here for an online Silverlight demo of BruTile used in Mapsui
+Go [here] (http://brutiledemo.appspot.com/) for an online Silverlight demo of BruTile used in Mapsui
 
 
 ###Compiled as a Portable Class Library (PCL) that targets:
@@ -39,10 +39,19 @@ There are also a number of predefined tile services, like:
 * Google
 
 ###Roadmap
-
-Here are our future plans: Roadmap
+Here are our future plans: 
+* Use Resolution (iso TileSchema) dependent TileSize, MatrixSize and Origin in GetTilesInView
+* Update automatic TileSchema generation to bring WMTS, WMS, TMS and WMSC in line.
+* Rename all classes to get them in line with WMTS types.
+* Replace specific classes with generic ones.
+* Better samples
+* Better documentation
+* Release v1
 
 ###Warnings
-
-This project is work in progress: Warnings
+Note, this library is work in progress. It is in BETA.
+* At the moment there is no documentation.
+* We will introduce breaking changed frequently. We change the API whenever we feel this is an improvement.
+* We adopt new technologies relatively fast, dropping support for older frameworks.
+* Although I do have a general plan of where to go with this library I do not have the resources to go towards that goal in a systematic way. I add functionality depending on what is needed in the projects I work on.
 
