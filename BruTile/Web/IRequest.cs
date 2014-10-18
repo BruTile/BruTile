@@ -19,16 +19,11 @@ namespace BruTile.Web
     /// </summary>
     public sealed class NullRequest : IRequest
     {
-        internal NullRequest()
-        {}
+        internal NullRequest() {}
         
-        #region Implementation of IRequest
-
         public Uri GetUri(TileInfo info)
         {
             throw new NotSupportedException("NullRequest is a placeholder in order to instantiate tile providers.");
         }
-
-        #endregion
     }
 }
