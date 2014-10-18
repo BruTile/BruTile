@@ -21,7 +21,7 @@ namespace BruTile
         /// <summary>
         /// Gets a value indicating the title of the tile source
         /// </summary>
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets a value indicating the tile provider
@@ -35,7 +35,7 @@ namespace BruTile
 
         public override string ToString()
         {
-            return string.Format("[TileSource:{0}]", Title);
+            return string.Format("[TileSource:{0}]", Name);
         }
     }
 }

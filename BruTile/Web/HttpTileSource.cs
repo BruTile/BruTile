@@ -20,11 +20,11 @@ namespace BruTile.Web
         {
             _webTileProvider = new WebTileProvider(request, persistentCache, tileFetcher);
             _tileSchema = tileSchema;
-            Title = title ?? string.Empty;
+            Name = title ?? string.Empty;
         }
 
         public ITileProvider Provider { get { return _webTileProvider; } }
         public ITileSchema Schema { get { return _tileSchema;  } }
-        public string Title { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -65,7 +65,7 @@ namespace BruTile.Tests.Wmts
                 var tileSources = WmtsParser.Parse(stream);
 
                 // assert
-                var tileSource = tileSources.First(s => s.Title == "non-existing-GlobalCRS84Scale-layer");
+                var tileSource = tileSources.First(s => s.Name == "non-existing-GlobalCRS84Scale-layer");
                 Assert.True(Math.Abs(tileSource.Schema.Extent.Area - new Extent(-180, -90, 180, 90).Area) < 1.0);
             }
         }
@@ -80,7 +80,7 @@ namespace BruTile.Tests.Wmts
                 var tileSources = WmtsParser.Parse(stream);
 
                 // assert
-                var tileSource = tileSources.First(s => s.Title.ToLower() == "public_doggersbank");
+                var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
                 Assert.NotNull(tileSource.Provider);
             }
         }

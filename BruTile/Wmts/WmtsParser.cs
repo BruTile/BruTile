@@ -90,7 +90,7 @@ namespace BruTile.Wmts
                             var tileSource = new TileSource(new WebTileProvider(wmtsRequest), 
                                 tileSchema.CreateSpecific(identifier, @abstract, styleName, format))
                                 {
-                                    Title = title
+                                    Name = title
                                 };
 
                             tileSources.Add(tileSource);

@@ -21,6 +21,6 @@ namespace BruTile
         /// <summary>
         /// Gets a value indicating the title of the tile source
         /// </summary>
-        string Title { get; }
+        string Name { get; }
     }
 }
