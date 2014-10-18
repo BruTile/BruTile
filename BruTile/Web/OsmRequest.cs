@@ -3,39 +3,10 @@
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
 using System;
+using BruTile.Predefined;
 
 namespace BruTile.Web
 {
-    /// <summary>
-    /// Known popular OSM renderers
-    /// </summary>
-    public enum KnownTileServers
-    {
-        Mapnik,
-        OpenCycleMap,
-        OpenCycleMapTransport,
-        CloudMadeWebStyle,
-        CloudMadeFineLineStyle,
-        CloudMadeNoNames,
-        MapQuest,
-        MapQuestAerial,
-        MapQuestRoadsAndLabels,
-        BingAerial,
-        BingHybrid,
-        BingRoads,
-        BingAerialStaging,
-        BingHybridStaging,
-        BingRoadsStaging,
-        StamenToner,
-        StamenWatercolor,
-        EsriWorldTopo,
-        EsriWorldPhysical,
-        EsriWorldShadedRelief,
-        EsriWorldReferenceOverlay,
-        EsriWorldTransportation,
-        EsriWorldBoundariesAndPlaces
-    }
-
     public class OsmTileServerConfig
     {
         public readonly string UrlFormat;
@@ -71,25 +42,25 @@ namespace BruTile.Web
             return new Uri(string.Format(UrlFormat, server, tileIndex.Level, tileIndex.Col, tileIndex.Row));
         }
 
-        public static OsmTileServerConfig Create(KnownTileServers knownTileServer, string apiKey)
+        public static OsmTileServerConfig Create(KnownTileServer knownTileServer, string apiKey)
         {
             switch (knownTileServer)
             {
                 default:
                     return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
-                case KnownTileServers.OpenCycleMap:
+                case KnownTileServer.OpenCycleMap:
                     return new OsmTileServerConfig("http://{0}.tile.opencyclemap.org/cycle/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 16);
-                case KnownTileServers.OpenCycleMapTransport:
+                case KnownTileServer.OpenCycleMapTransport:
                     return new OsmTileServerConfig("http://{0}.tile2.opencyclemap.org/transport/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
-                case KnownTileServers.CloudMadeWebStyle:
+                case KnownTileServer.CloudMadeWebStyle:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServers.CloudMadeFineLineStyle:
+                case KnownTileServer.CloudMadeFineLineStyle:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/2/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServers.CloudMadeNoNames:
+                case KnownTileServer.CloudMadeNoNames:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServers.MapQuest:
+                case KnownTileServer.MapQuest:
                     return new OsmTileServerConfig("http://otile{0}.mqcdn.com/tiles/1.0.0/osm/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 18);
-                case KnownTileServers.MapQuestAerial:
+                case KnownTileServer.MapQuestAerial:
                     return new OsmTileServerConfig("http://oatile{0}.mqcdn.com/naip/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 11);
              }
         }
@@ -118,15 +89,15 @@ namespace BruTile.Web
         public readonly OsmTileServerConfig OsmConfig;
 
         public OsmRequest()
-            :this(KnownTileServers.Mapnik)
+            :this(KnownTileServer.Mapnik)
         {}
 
-        public OsmRequest(KnownTileServers knownTileServers)
+        public OsmRequest(KnownTileServer knownTileServers)
             :this(OsmTileServerConfig.Create(knownTileServers, null))
         {
         }
 
-        public OsmRequest(KnownTileServers renderer, string apiKey)
+        public OsmRequest(KnownTileServer renderer, string apiKey)
             : this(OsmTileServerConfig.Create(renderer, apiKey))
         {
         }

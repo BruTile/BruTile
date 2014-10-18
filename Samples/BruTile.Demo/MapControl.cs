@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BruTile.Cache;
+using BruTile.Predefined;
 using BruTile.Samples.Common;
 
 namespace BruTile.Demo
@@ -33,7 +34,7 @@ namespace BruTile.Demo
             Children.Add(canvas);
             _renderer = new Renderer(canvas);
 
-            _tileSource = TileSource.Create(); 
+            _tileSource = KnownTileSources.Create(); 
             CompositionTarget.Rendering += CompositionTargetRendering;
             SizeChanged += MapControlSizeChanged;
             MouseWheel += MapControlMouseWheel;

@@ -13,12 +13,12 @@ namespace BruTile.Demo
         {
             InitializeComponent();
 
-            foreach (var knownTileServer in Enum.GetValues(typeof(KnownTileServers)).Cast<KnownTileServers>())
+            foreach (var knownTileServer in Enum.GetValues(typeof(KnownTileServer)).Cast<KnownTileServer>())
             {
                 if (knownTileServer.ToString().ToLower().Contains("cloudmade")) continue; // Exclude CloudMade
 
-                KnownTileServers server = knownTileServer;
-                var radioButton = ToRadioButton(knownTileServer.ToString(), () => TileSource.Create(server));
+                KnownTileServer server = knownTileServer;
+                var radioButton = ToRadioButton(knownTileServer.ToString(), () => KnownTileSources.Create(server));
                 Layers.Children.Add(radioButton);
             }
 
