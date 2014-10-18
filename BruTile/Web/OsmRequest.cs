@@ -42,25 +42,25 @@ namespace BruTile.Web
             return new Uri(string.Format(UrlFormat, server, tileIndex.Level, tileIndex.Col, tileIndex.Row));
         }
 
-        public static OsmTileServerConfig Create(KnownTileServer knownTileServer, string apiKey)
+        public static OsmTileServerConfig Create(KnownTileSource knownTileSource, string apiKey)
         {
-            switch (knownTileServer)
+            switch (knownTileSource)
             {
                 default:
                     return new OsmTileServerConfig("http://{0}.tile.openstreetmap.org/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
-                case KnownTileServer.OpenCycleMap:
+                case KnownTileSource.OpenCycleMap:
                     return new OsmTileServerConfig("http://{0}.tile.opencyclemap.org/cycle/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 16);
-                case KnownTileServer.OpenCycleMapTransport:
+                case KnownTileSource.OpenCycleMapTransport:
                     return new OsmTileServerConfig("http://{0}.tile2.opencyclemap.org/transport/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18);
-                case KnownTileServer.CloudMadeWebStyle:
+                case KnownTileSource.CloudMadeWebStyle:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServer.CloudMadeFineLineStyle:
+                case KnownTileSource.CloudMadeFineLineStyle:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/2/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServer.CloudMadeNoNames:
+                case KnownTileSource.CloudMadeNoNames:
                     return new OsmTileServerConfigWithApiKey("http://{0}.tile.cloudmade.com/{4}/1/256/{1}/{2}/{3}.png", 3, new[] { "a", "b", "c" }, 0, 18, apiKey);
-                case KnownTileServer.MapQuest:
+                case KnownTileSource.MapQuest:
                     return new OsmTileServerConfig("http://otile{0}.mqcdn.com/tiles/1.0.0/osm/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 18);
-                case KnownTileServer.MapQuestAerial:
+                case KnownTileSource.MapQuestAerial:
                     return new OsmTileServerConfig("http://oatile{0}.mqcdn.com/naip/{1}/{2}/{3}.png", 4, new[] { "1", "2", "3", "4" }, 0, 11);
              }
         }
@@ -89,15 +89,15 @@ namespace BruTile.Web
         public readonly OsmTileServerConfig OsmConfig;
 
         public OsmRequest()
-            :this(KnownTileServer.Mapnik)
+            :this(KnownTileSource.Mapnik)
         {}
 
-        public OsmRequest(KnownTileServer knownTileServers)
-            :this(OsmTileServerConfig.Create(knownTileServers, null))
+        public OsmRequest(KnownTileSource knownTileSources)
+            :this(OsmTileServerConfig.Create(knownTileSources, null))
         {
         }
 
-        public OsmRequest(KnownTileServer renderer, string apiKey)
+        public OsmRequest(KnownTileSource renderer, string apiKey)
             : this(OsmTileServerConfig.Create(renderer, apiKey))
         {
         }

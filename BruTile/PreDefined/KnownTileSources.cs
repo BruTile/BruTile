@@ -8,7 +8,7 @@ namespace BruTile.Predefined
     /// <summary>
     /// Known popular OSM renderers
     /// </summary>
-    public enum KnownTileServer
+    public enum KnownTileSource
     {
         Mapnik,
         OpenCycleMap,
@@ -43,148 +43,104 @@ namespace BruTile.Predefined
         /// <param name="source">The source</param>
         /// <param name="apiKey">An (optional) API key</param>
         /// <returns>The tile source</returns>
-        public static ITileSource Create(KnownTileServer source = KnownTileServer.Mapnik, string apiKey = null)
+        public static ITileSource Create(KnownTileSource source = KnownTileSource.Mapnik, string apiKey = null)
         {
             switch (source)
             {
-                case KnownTileServer.Mapnik:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"})),
-                        new GlobalSphericalMercator(0, 18)) {Title = source.ToString()};
-                case KnownTileServer.OpenCycleMap:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"})),
-                        new GlobalSphericalMercator(0, 17)) {Title = source.ToString()};
-                case KnownTileServer.OpenCycleMapTransport:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest("http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
-                                new[] {"a", "b", "c"})),
-                        new GlobalSphericalMercator(0, 20)) {Title = source.ToString()};
-                case KnownTileServer.CloudMadeWebStyle:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.cloudmade.com/{k}/1/256/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"}, apiKey)),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.CloudMadeFineLineStyle:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.cloudmade.com/{k}/2/256/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"}, apiKey)),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.CloudMadeNoNames:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.cloudmade.com/{k}/3/256/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"}, apiKey)),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.MapQuest:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest(
-                            "http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", new[] {"1", "2", "3", "4"})),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.MapQuestAerial:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest(
-                            "http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png", new[] {"1", "2", "3", "4"},
-                            apiKey)),
-                        new GlobalSphericalMercator(0, 11)) {Title = source.ToString()};
-                case KnownTileServer.MapQuestRoadsAndLabels:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest(
-                            "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", new[] {"1", "2", "3", "4"},
-                            apiKey)),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.BingRoads:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.BingAerial:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.BingHybrid:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.BingRoadsStaging:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.BingAerialStaging:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.BingHybridStaging:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BingRequest(
-                                "http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}",
-                                apiKey)),
-                        new GlobalSphericalMercator("jpg", true, 1, 19, "Bing")) {Title = source.ToString()};
-                case KnownTileServer.StamenToner:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c", "d"})),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.StamenWatercolor:
-                    return new TileSource(
-                        new WebTileProvider(new BasicRequest("http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c", "d"})),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldTopo:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldPhysical:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldShadedRelief:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldReferenceOverlay:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldTransportation:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
-                case KnownTileServer.EsriWorldBoundariesAndPlaces:
-                    return new TileSource(
-                        new WebTileProvider(
-                            new BasicRequest(
-                                "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}")),
-                        new GlobalSphericalMercator()) {Title = source.ToString()};
+                case KnownTileSource.Mapnik:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 18),
+                        "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c"}, source.ToString());
+                case KnownTileSource.OpenCycleMap:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 17), 
+                        "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c"}, source.ToString());
+                case KnownTileSource.OpenCycleMapTransport:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 20), 
+                        "http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c"}, source.ToString());
+                case KnownTileSource.CloudMadeWebStyle:
+                    return new HttpTileSource(new GlobalSphericalMercator(), 
+                        "http://{s}.tile.cloudmade.com/{k}/1/256/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c"}, source.ToString(), apiKey);
+                case KnownTileSource.CloudMadeFineLineStyle:
+                    return new HttpTileSource(new GlobalSphericalMercator(), 
+                        "http://{s}.tile.cloudmade.com/{k}/2/256/{z}/{x}/{y}.png",
+                            new[] {"a", "b", "c"}, source.ToString(), apiKey);
+                case KnownTileSource.CloudMadeNoNames:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://{s}.tile.cloudmade.com/{k}/3/256/{z}/{x}/{y}.png",
+                        new[] {"a", "b", "c"}, source.ToString(), apiKey);
+                case KnownTileSource.MapQuest:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", 
+                        new[] {"1", "2", "3", "4"}, source.ToString());
+                case KnownTileSource.MapQuestAerial:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 11),
+                        "http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png", 
+                        new[] {"1", "2", "3", "4"}, source.ToString(), apiKey);
+                case KnownTileSource.MapQuestRoadsAndLabels:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", 
+                        new[] {"1", "2", "3", "4"}, source.ToString(), apiKey);
+                case KnownTileSource.BingRoads:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.BingAerial:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.BingHybrid:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.BingRoadsStaging:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.BingAerialStaging:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.BingHybridStaging:
+                    return new HttpTileSource(new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"),
+                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        source.ToString());
+                case KnownTileSource.StamenToner:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c", "d"}, source.ToString());
+                case KnownTileSource.StamenWatercolor:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
+                        new[] {"a", "b", "c", "d"}, source.ToString());
+                case KnownTileSource.EsriWorldTopo:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
+                case KnownTileSource.EsriWorldPhysical:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
+                case KnownTileSource.EsriWorldShadedRelief:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
+                case KnownTileSource.EsriWorldReferenceOverlay:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
+                case KnownTileSource.EsriWorldTransportation:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
+                case KnownTileSource.EsriWorldBoundariesAndPlaces:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+                        title: source.ToString());
                 default:
-                    throw new NotSupportedException("KnownTileServer not known");
+                    throw new NotSupportedException("KnownTileSource not known");
             }
         }
     }
