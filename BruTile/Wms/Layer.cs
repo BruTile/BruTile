@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class Layer : XmlObject
     {

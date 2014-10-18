@@ -1,10 +1,9 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class OnlineResource : XmlObject
     {

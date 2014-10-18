@@ -2,7 +2,7 @@
 
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class Post : DCPTypeElement
     {

@@ -5,9 +5,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
-using BruTile.Wms;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class Service : XmlObject
     {

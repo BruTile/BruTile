@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using BruTile.Web;
-using BruTile.Web.Wms;
+using BruTile.Wms;
 
 namespace BruTile.Wmsc
 {

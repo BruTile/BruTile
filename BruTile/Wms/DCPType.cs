@@ -3,7 +3,7 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     // ReSharper disable InconsistentNaming
     public class DCPType : XmlObject

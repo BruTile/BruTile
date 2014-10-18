@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Xml;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     // ReSharper disable InconsistentNaming
     public enum WmsVersionEnum

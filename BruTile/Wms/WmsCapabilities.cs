@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Linq;
 using BruTile.Extensions;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class WmsCapabilities
     {
@@ -221,7 +221,7 @@ namespace BruTile.Web.Wms
             if (Version.Version < WmsVersionEnum.Version_1_3_0)
             {
                 return new XDocument(declaration,
-                    new XDocumentType("WMS_MT_Capabilities", string.Empty, Wms.WmsVersion.System(Version.Version, "capabilities"), string.Empty),
+                    new XDocumentType("WMS_MT_Capabilities", string.Empty, WmsVersion.System(Version.Version, "capabilities"), string.Empty),
                     ToXElement(string.Empty)
                     );
             }

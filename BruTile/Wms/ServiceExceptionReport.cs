@@ -1,12 +1,11 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
-    using System.Collections.Generic;
-
     public class ServiceExceptionReport : XmlObject
     {
         public List<ServiceException> ServiceExceptions { get; private set; }

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public static class WmsNamespaces
     {

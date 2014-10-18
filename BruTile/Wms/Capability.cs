@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class Capability : XmlObject
     {
@@ -55,8 +55,7 @@ namespace BruTile.Web.Wms
 
                 else if (_layerField != null && !baseNodeCreated)
                 {
-                    var tmpLayer = new Layer();
-                    tmpLayer.Title = "Root Layer";
+                    var tmpLayer = new Layer { Title = "Root Layer" };
                     tmpLayer.ChildLayers.Add(Layer);
                     tmpLayer.ChildLayers.Add(layer);
                     Layer = tmpLayer;

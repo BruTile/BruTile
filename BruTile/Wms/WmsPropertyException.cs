@@ -1,8 +1,6 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System;
-
-namespace BruTile.Web.Wms
+namespace BruTile.Wms
 {
     public class WmsPropertyException : System.Exception
     {
