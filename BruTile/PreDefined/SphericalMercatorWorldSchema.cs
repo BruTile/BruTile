@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace BruTile.Predefined
 {
-    [Obsolete("Use GlobalSphericalMercator(false) instead")]
+    [Obsolete("Use GlobalSphericalMercator(AxisDirection.TMS) instead")]
     public class SphericalMercatorWorldSchema : TileSchema
     {
         public SphericalMercatorWorldSchema()
