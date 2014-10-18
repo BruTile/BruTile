@@ -6,20 +6,17 @@ using System.Collections.Generic;
 
 namespace BruTile.Web
 {
-    class HttpTileSource : ITileSource
+    public class HttpTileSource : ITileSource
     {
         private readonly ITileSchema _tileSchema;
         private readonly WebTileProvider _webTileProvider;
 
-        public HttpTileSource(string urlFormatter, ITileSchema tileSchema, string title = null,
-            IEnumerable<string> serverNodes = null, string apiKey = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
-            : this(new BasicRequest(urlFormatter, serverNodes, apiKey), tileSchema, title, persistentCache, tileFetcher)
+        public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, string title = null, string apiKey = null, IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), title, persistentCache, tileFetcher)
         {
         }
 
-        public HttpTileSource(IRequest request, ITileSchema tileSchema, string title = null,  IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> tileFetcher = null)
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, string title = null, IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
         {
             _webTileProvider = new WebTileProvider(request, persistentCache, tileFetcher);
             _tileSchema = tileSchema;
