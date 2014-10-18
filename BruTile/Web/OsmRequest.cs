@@ -67,6 +67,7 @@ namespace BruTile.Web
         }
     }
 
+    [Obsolete("Replaced with KnownTileSources")]
     internal class OsmTileServerConfigWithApiKey : OsmTileServerConfig
     {
         public readonly string ApiKey;
