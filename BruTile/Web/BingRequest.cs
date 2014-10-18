@@ -11,7 +11,8 @@ namespace BruTile.Web
     {
         Roads,
         Aerial,
-        Hybrid
+        Hybrid,
+        OrdnanceSurvey
     }
 
     public class BingRequest : IRequest
@@ -21,10 +22,11 @@ namespace BruTile.Web
         public const string QuadKeyTag = "{quadkey}";
         public const string UserKeyTag = "{userkey}";
         public const string ApiVersionTag = "{apiversion}";
+        public const string OrdnanceSurveyTag = "{ostag}";
         private readonly string _urlFormatter;
         private readonly string _userKey;
         private int _nodeCounter;
-        private readonly object _nodeCounterLock = new object();
+        private BingMapType _mapType;
         private readonly IList<string> _serverNodes = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7" };
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
@@ -32,9 +34,10 @@ namespace BruTile.Web
         public BingRequest(string baseUrl, string token, BingMapType mapType, string apiVersion = DefaultApiVersion)
         {
             _urlFormatter = baseUrl + "/" + ToMapTypeChar(mapType) + QuadKeyTag + ".jpeg?g=" +
-                ApiVersionTag + "&token=" + UserKeyTag;
+                ApiVersionTag + OrdnanceSurveyTag + "&token=" + UserKeyTag;
             _userKey = token;
             ApiVersion = apiVersion;
+            _mapType = BingMapType.OrdnanceSurvey;//mapType;
         }
 
         public BingRequest(string urlFormatter, string userKey, string apiVersion = DefaultApiVersion, IEnumerable<string> serverNodes = null)
@@ -43,6 +46,7 @@ namespace BruTile.Web
             _userKey = userKey;
             ApiVersion = apiVersion;
             if (serverNodes != null) _serverNodes = serverNodes.ToList();
+            _mapType = BingMapType.OrdnanceSurvey;//mapType;
         }
 
         public static string UrlBingStaging
@@ -67,8 +71,12 @@ namespace BruTile.Web
             var stringBuilder = new StringBuilder(_urlFormatter);
             stringBuilder.Replace(QuadKeyTag, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level));
             stringBuilder.Replace(ApiVersionTag, ApiVersion);
+            if (_mapType == BingMapType.OrdnanceSurvey && Int32.Parse(info.Index.Level) >= 12)
+                stringBuilder.Replace(OrdnanceSurveyTag, "&productSet=mmOS");
+            else
+                stringBuilder.Replace(OrdnanceSurveyTag, string.Empty);
             stringBuilder.Replace(UserKeyTag, _userKey);
-            InsertServerNode(stringBuilder);
+            InsertServerNode(stringBuilder, _serverNodes, ref _nodeCounter);
             return new Uri(stringBuilder.ToString());
         }
 
@@ -77,6 +85,7 @@ namespace BruTile.Web
             switch (mapType)
             {
                 case BingMapType.Roads:
+                case BingMapType.OrdnanceSurvey:
                     return 'r';
                 case BingMapType.Aerial:
                     return 'a';
@@ -123,22 +132,12 @@ namespace BruTile.Web
             return quadKey.ToString();
         }
 
-        private void InsertServerNode(StringBuilder baseUrl)
+        private static void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes, ref int nodeCounter)
         {
-            if (_serverNodes != null && _serverNodes.Count > 0)
+            if (serverNodes != null && serverNodes.Count > 0)
             {
-                var serverNode = GetNextServerNode();
-                baseUrl.Replace(ServerNodeTag, serverNode);
-            }
-        }
-
-        private string GetNextServerNode()
-        {
-            lock (_nodeCounterLock)
-            {
-                var serverNode = _serverNodes[_nodeCounter++];
-                if (_nodeCounter >= _serverNodes.Count) _nodeCounter = 0;
-                return serverNode;
+                baseUrl.Replace(ServerNodeTag, serverNodes[nodeCounter++]);
+                if (nodeCounter >= serverNodes.Count) nodeCounter = 0;
             }
         }
     }

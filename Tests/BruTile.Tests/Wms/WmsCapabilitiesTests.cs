@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using BruTile.Web.Wms;
+using BruTile.Wms;
 using NUnit.Framework;
 
 namespace BruTile.Tests.Web
@@ -77,7 +78,7 @@ namespace BruTile.Tests.Web
         public void WmsCapabilitiesForLizardTech()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "wms-lizardtech.xml")))
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "LizardtechWmsCapabilities_1_1_1.xml")))
             {
                 // act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
@@ -86,7 +87,7 @@ namespace BruTile.Tests.Web
                 Assert.AreEqual(12, wmsCapabilities.Capability.Layer.ChildLayers.Count);
             }
         }
-
+        
         [Test]
         public void WmsCapabilitiesWithXmlnsAttribute()
         {
@@ -102,5 +103,20 @@ namespace BruTile.Tests.Web
                 Assert.AreEqual(19, capabilities.Capability.Layer.ChildLayers.Count);
             }   
         }
+
+        [Test]
+        public void WmsCapabilitiesForNrcsSoilWms()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "NrcsSoilWmsCapabilities_1_1_1.xml")))
+            {
+                // act
+                var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
+
+                // assert
+                Assert.True(wmsCapabilities.Service.Name == ServiceName.WMS);
+            }
+        }
+
     }
 }

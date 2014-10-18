@@ -1,9 +1,11 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
+using BruTile.Wms;
 
 namespace BruTile.Web.Wms
 {
@@ -32,22 +34,10 @@ namespace BruTile.Web.Wms
             if (ParseName)
             {
                 element = node.Element(XName.Get("Name", @namespace));
-                if (element == null)
-                    throw WmsParsingException.ElementNotFound("Name");
+                if (element == null) throw WmsParsingException.ElementNotFound("Name");
                 var value = element.Value;
-                if (value.StartsWith("OGC:")) value = value.Substring(4);
-                try
-                {
-                    Name = (ServiceName) Enum.Parse(typeof (ServiceName), value, true);
-                }
-                catch (System.Exception exception)
-                {
-                    throw new WmsParsingException(String.Format("Invalid service name: {0}. Must be WMS", value),
-                                                  exception);
-                }
-
-                if (Name != ServiceName.WMS)
-                    throw new WmsParsingException(String.Format("Invalid service name: {0}. Must be WMS", value));
+                if (!value.ToLower().StartsWith("ogc:wms")) Debug.WriteLine("Warning: Invalid service name: '{0}'. Must be 'OGC:WMS'", value);
+                Name = ServiceName.WMS;
             }
 
             element = node.Element(XName.Get("Title", @namespace));

@@ -19,6 +19,7 @@ namespace BruTile.Web
                         IPersistentCache<byte[]> persistentCache = null)
             : base(new WebTileProvider(bingRequest, persistentCache), new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"))
         {
+
         }
     }
 }
