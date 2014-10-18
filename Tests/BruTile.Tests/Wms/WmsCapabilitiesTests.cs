@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Xml.Linq;
-using BruTile.Web.Wms;
 using BruTile.Wms;
 using NUnit.Framework;
 
