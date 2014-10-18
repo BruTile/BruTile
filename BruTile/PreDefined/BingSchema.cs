@@ -4,6 +4,7 @@ using System;
 
 namespace BruTile.Predefined
 {
+    [Obsolete("Use GlobalSphericalMercator(1) instead")]
     public class BingSchema : SphericalMercatorInvertedWorldSchema
     {
         public BingSchema()

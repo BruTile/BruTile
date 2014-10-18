@@ -2,6 +2,7 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
+using System;
 using System.Collections.Generic;
 
 namespace BruTile.Predefined
@@ -10,6 +11,7 @@ namespace BruTile.Predefined
     /// Tile schema for Global Mercator 
     /// </summary>
     /// <seealso href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator"/>
+    [Obsolete("Use GlobalSphericalMercator instead")]
     public class GlobalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.516d;
@@ -65,7 +67,7 @@ namespace BruTile.Predefined
             Name = "GlobalMercator";
 
             Format = format;
-            Axis = AxisDirection.Normal;
+            Axis = AxisDirection.InvertedY;
             Srs = "OSGEO:41001";
             Height = 256;
             Width = 256;

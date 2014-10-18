@@ -153,7 +153,7 @@ namespace BruTile.Cache
                 else
                 {
                     // this is actually the most regular case:
-                    _schema = new SphericalMercatorWorldSchema();
+                    _schema = new GlobalSphericalMercator();
                 }
             }
             else

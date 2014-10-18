@@ -16,17 +16,19 @@ namespace BruTile.Tests
         {
             // arrange
             var range = new TileRange(1, 2);
-            var schema = new SphericalMercatorWorldSchema();
+            var schema = new GlobalSphericalMercator(false);
             var expectedExtent = new Extent(-15028131.257989, -10018754.173189, -10018754.173189, -5009377.088389);
+            const double toleratedDelta = 0.01;
 
             // act
             var extent = TileTransform.TileToWorld(range, "3", schema);
 
+
             // assert
-            Assert.AreEqual(extent.MinX, expectedExtent.MinX, 0.0001);
-            Assert.AreEqual(extent.MinY, expectedExtent.MinY, 0.0001);
-            Assert.AreEqual(extent.MaxX, expectedExtent.MaxX, 0.0001);
-            Assert.AreEqual(extent.MaxY, expectedExtent.MaxY, 0.0001);
+            Assert.AreEqual(extent.MinX, expectedExtent.MinX, toleratedDelta);
+            Assert.AreEqual(extent.MinY, expectedExtent.MinY, toleratedDelta);
+            Assert.AreEqual(extent.MaxX, expectedExtent.MaxX, toleratedDelta);
+            Assert.AreEqual(extent.MaxY, expectedExtent.MaxY, toleratedDelta);
         }
 
         [Test]
@@ -34,7 +36,7 @@ namespace BruTile.Tests
         {
             // arrange
             var expectedRange = new TileRange(1, 2);
-            var schema = new SphericalMercatorWorldSchema();
+            var schema = new GlobalSphericalMercator(false);
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
 
             // act
