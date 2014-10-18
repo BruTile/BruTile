@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Xml.Linq;
 using BruTile.Web.Wms;
 using BruTile.Wms;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Web
+namespace BruTile.Tests.Wms
 {
     [TestFixture]
     internal class WmsCapabilitiesTests
