@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using BruTile.Tms;
-using BruTile.Web;
+﻿using BruTile.Tms;
 using NUnit.Framework;
+using System.Linq;
 
-namespace BruTile.Tests.Web
+namespace BruTile.Tests.Tms
 {
     [TestFixture]
     public class TmsRequestTests

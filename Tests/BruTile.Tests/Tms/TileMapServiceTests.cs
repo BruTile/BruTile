@@ -3,7 +3,7 @@ using System.Linq;
 using BruTile.Tms;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Web.TmsService
+namespace BruTile.Tests.Tms
 {
     [TestFixture]
     class TileMapServiceTests
@@ -52,8 +52,8 @@ namespace BruTile.Tests.Web.TmsService
             var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TileMapServiceResource));
             var tileMapService = TileMapService.CreateFromResource(stream);
             Assert.True(tileMapService.TileMaps.Count() == 2);
-            Assert.True(tileMapService.TileMaps.Count((t) => t.Profile == "global-geodetic") == 1);
-            Assert.True(tileMapService.TileMaps.First((t) => t.Title == "VMAP0 World Map").Srs == "EPSG:4326");
+            Assert.True(tileMapService.TileMaps.Count(t => t.Profile == "global-geodetic") == 1);
+            Assert.True(tileMapService.TileMaps.First(t => t.Title == "VMAP0 World Map").Srs == "EPSG:4326");
         }
     }
 }
