@@ -19,7 +19,7 @@ namespace BruTile
     public enum AxisDirection
     {
         /// <summary>
-        /// The axis direction of the tiles match that of the map. This is used by TMS.
+        /// The y-axis direction of the tiles match that of the map. This is used by TMS.
         /// </summary>
         TMS,
 
