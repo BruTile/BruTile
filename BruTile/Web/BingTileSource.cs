@@ -1,12 +1,12 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System;
-using System.Net;
 using BruTile.Cache;
 using BruTile.Predefined;
+using System;
 
 namespace BruTile.Web
 {
+    [Obsolete("Use KnownTileSources instead")]
     public class BingTileSource : TileSource
     {
         public BingTileSource(String url, string token, BingMapType mapType)
@@ -19,7 +19,6 @@ namespace BruTile.Web
                         IPersistentCache<byte[]> persistentCache = null)
             : base(new WebTileProvider(bingRequest, persistentCache), new GlobalSphericalMercator("jpg", true, 1, 19, "Bing"))
         {
-
         }
     }
 }
