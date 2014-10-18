@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BruTile.Predefined;
-using BruTile.Web;
+﻿using BruTile.Predefined;
 using BruTile.Wmsc;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
-namespace BruTile.Tests.Web
+namespace BruTile.Tests.Wmsc
 {
     [TestFixture]
     class WmscRequestTests
@@ -14,7 +12,7 @@ namespace BruTile.Tests.Web
         [Test]
         public void WmscRequest_NoVersion()
         {
-            var request = new WmscRequest(new Uri("http://testserver.com"), new SphericalMercatorWorldSchema(), new List<string>(new string[] { "Layer One" }), null, null);
+            var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(AxisDirection.TMS), new List<string>(new [] { "Layer One" }), null);
             var ti = new TileInfo {Index = new TileIndex(0, 0, "0")};
             var uri = request.GetUri(ti);
             StringAssert.DoesNotContain("VERSION=", uri.ToString());
@@ -24,7 +22,7 @@ namespace BruTile.Tests.Web
         [Test]
         public void WmscRequest_Version111()
         {
-            var request = new WmscRequest(new Uri("http://testserver.com"), new SphericalMercatorWorldSchema(), new List<string>(new string[] { "Layer One" }), null, null, "1.1.1");
+            var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(AxisDirection.TMS), new List<string>(new[] { "Layer One" }), null, null, "1.1.1");
             var ti = new TileInfo { Index = new TileIndex(0, 0, "0") };
             var uri = request.GetUri(ti);
             StringAssert.Contains("VERSION=1.1.1", uri.ToString());
@@ -34,7 +32,7 @@ namespace BruTile.Tests.Web
         [Test]
         public void WmscRequest_Version130()
         {
-            var request = new WmscRequest(new Uri("http://testserver.com"), new SphericalMercatorWorldSchema(), new List<string>(new string[] { "Layer One" }), null, null, "1.3.0");
+            var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(AxisDirection.TMS), new List<string>(new[] { "Layer One" }), null, null, "1.3.0");
             var ti = new TileInfo { Index = new TileIndex(0, 0, "0") };
             var uri = request.GetUri(ti);
             StringAssert.Contains("VERSION=1.3.0", uri.ToString());
