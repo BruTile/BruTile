@@ -45,7 +45,7 @@ namespace BruTile.Predefined
             OriginY = 22598.080;
             Name = "urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale";
             Format = "png"; 
-            Axis = AxisDirection.Normal;
+            Axis = AxisDirection.TMS;
             Srs = "EPSG:28992";
         }
     }

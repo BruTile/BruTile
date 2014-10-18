@@ -10,9 +10,9 @@ namespace BruTile
         {
             switch (schema.Axis)
             {
-                case AxisDirection.Normal:
+                case AxisDirection.TMS:
                     return WorldToTileNormal(extent, levelId, schema);
-                case AxisDirection.InvertedY:
+                case AxisDirection.OSM:
                     return WorldToTileInvertedY(extent, levelId, schema);
                 default:
                     throw new Exception("Axis type was not found");
@@ -23,9 +23,9 @@ namespace BruTile
         {
             switch (schema.Axis)
             {
-                case AxisDirection.Normal:
+                case AxisDirection.TMS:
                     return TileToWorldNormal(range, levelId, schema);
-                case AxisDirection.InvertedY:
+                case AxisDirection.OSM:
                     return TileToWorldInvertedY(range, levelId, schema);
                 default:
                     throw new Exception("Axis type was not found");

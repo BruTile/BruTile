@@ -42,7 +42,7 @@ namespace BruTile.Predefined
         {
             Name = name ?? "GlobalSphericalMercator";
             Format = format;
-            Axis = invertedYAxis ? AxisDirection.InvertedY : AxisDirection.Normal;
+            Axis = invertedYAxis ? AxisDirection.OSM : AxisDirection.TMS;
             Srs = "EPSG:3857";
             Height = 256;
             Width = 256;

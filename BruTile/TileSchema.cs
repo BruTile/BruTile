@@ -21,12 +21,12 @@ namespace BruTile
         /// <summary>
         /// The axis direction of the tiles match that of the map. This is used by TMS.
         /// </summary>
-        Normal,
+        TMS,
 
         /// <summary>
         /// The y-axis direction is inverted compared to that of the map. This is used by OpenStreetMap
         /// </summary>
-        InvertedY
+        OSM
     }
 
     public class TileSchema : ITileSchema
@@ -38,7 +38,7 @@ namespace BruTile
         {
             ProportionIgnored = 0.0001;
             _resolutions = new Dictionary<string, Resolution>();
-            Axis = AxisDirection.Normal;
+            Axis = AxisDirection.TMS;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
         }
@@ -135,7 +135,7 @@ namespace BruTile
 
         private static double GetLastYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
         {
-            return axis == AxisDirection.Normal ? extent.MaxY - originY : -extent.MinY + originY;
+            return axis == AxisDirection.TMS ? extent.MaxY - originY : -extent.MinY + originY;
         }
 
         private static double GetFirstXRelativeToOrigin(Extent extent, double originX)
@@ -145,7 +145,7 @@ namespace BruTile
 
         private static double GetFirstYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
         {
-            return (axis == AxisDirection.Normal) ? extent.MinY - originY : -extent.MaxY + originY;
+            return (axis == AxisDirection.TMS) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
         internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)

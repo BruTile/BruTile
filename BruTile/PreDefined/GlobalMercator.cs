@@ -67,7 +67,7 @@ namespace BruTile.Predefined
             Name = "GlobalMercator";
 
             Format = format;
-            Axis = AxisDirection.InvertedY;
+            Axis = AxisDirection.OSM;
             Srs = "OSGEO:41001";
             Height = 256;
             Width = 256;

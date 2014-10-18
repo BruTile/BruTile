@@ -13,7 +13,7 @@ namespace BruTile.Wmts
         internal WmtsTileSchema()
         {
             Resolutions = new Dictionary<string, Resolution>();
-            Axis = AxisDirection.InvertedY;
+            Axis = AxisDirection.OSM;
         }
 
         /// <summary>

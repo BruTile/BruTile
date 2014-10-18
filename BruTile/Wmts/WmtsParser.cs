@@ -220,7 +220,7 @@ namespace BruTile.Wmts
                 tileSchema.Extent = ToExtent(res.Value);
 
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
-                tileSchema.Axis = AxisDirection.InvertedY;
+                tileSchema.Axis = AxisDirection.OSM;
                 tileSchema.Srs = supportedCrs;
                 tileSchema.SupportedSRS = crs;
 

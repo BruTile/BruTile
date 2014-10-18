@@ -95,7 +95,7 @@ namespace BruTile.Tests
         {
             // arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
-            var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, Axis = AxisDirection.InvertedY };
+            var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, Axis = AxisDirection.OSM };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act

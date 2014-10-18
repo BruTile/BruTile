@@ -42,7 +42,7 @@ namespace BruTile.Predefined
             OriginY = -20037508.342789;
             Name = "WorldSphericalMercator";
             Format = "png";
-            Axis = AxisDirection.Normal;
+            Axis = AxisDirection.TMS;
             Srs = "EPSG:3857";
         }
     }
