@@ -11,7 +11,7 @@ namespace BruTile.Web
         private readonly ITileSchema _tileSchema;
         private readonly WebTileProvider _webTileProvider;
 
-        public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, string title = null, string apiKey = null, IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
+        public  HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey = null, string title = null, IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
             : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), title, persistentCache, tileFetcher)
         {
         }
