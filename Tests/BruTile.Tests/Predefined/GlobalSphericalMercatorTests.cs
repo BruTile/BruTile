@@ -15,7 +15,7 @@ namespace BruTile.Tests.Predefined
             const string format = "jpg";
 
             // act
-            var schema = new GlobalSphericalMercator(format, true, 1, 19, name);
+            var schema = new GlobalSphericalMercator(format, AxisDirection.OSM, 1, 19, name);
             
             // assert
             Assert.True(schema.Resolutions.Count == 19);
