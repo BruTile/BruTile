@@ -1,13 +1,2 @@
-extensions: designer.cs generated.cs
-extensions: .cs .cpp .h
-//Sample license text.
-extensions: .aspx .ascx
-<%-- 
-Sample license text.
---%>
-extensions: .vb
-'Sample license text.
-extensions:  .xml .config .xsd
-<!--
+extensions: .cs
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
--->

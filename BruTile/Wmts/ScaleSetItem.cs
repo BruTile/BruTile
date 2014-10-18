@@ -1,4 +1,6 @@
-﻿namespace BruTile.Wmts
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+namespace BruTile.Wmts
 {
     /// <summary>
     /// A precomputed pair of ScaleDenominator and PixelSize
