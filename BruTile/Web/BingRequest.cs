@@ -7,6 +7,7 @@ using System.Text;
 
 namespace BruTile.Web
 {
+    [Obsolete("Use KnownTileSources instead")]
     public enum BingMapType
     {
         Roads,
@@ -14,6 +15,7 @@ namespace BruTile.Web
         Hybrid
     }
 
+    [Obsolete("Use BasicRequest with {quadkey} tag instead")]
     public class BingRequest : IRequest
     {
         private const string DefaultApiVersion = "517";
