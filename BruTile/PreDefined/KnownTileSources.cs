@@ -26,7 +26,9 @@ namespace BruTile.Predefined
         BingHybridStaging,
         BingRoadsStaging,
         StamenToner,
+        StamenTonerLite,
         StamenWatercolor,
+        StamenTerrain,
         EsriWorldTopo,
         EsriWorldPhysical,
         EsriWorldShadedRelief,
@@ -111,10 +113,18 @@ namespace BruTile.Predefined
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png", 
                         new[] {"a", "b", "c", "d"}, source.ToString());
+                case KnownTileSource.StamenTonerLite:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", 
+                        new[] {"a", "b", "c", "d"}, source.ToString());
                 case KnownTileSource.StamenWatercolor:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c", "d"}, source.ToString());
+                case KnownTileSource.StamenTerrain:
+                    return new HttpTileSource(new GlobalSphericalMercator(4) { Extent = new Extent(-14871588.04,2196494.41775,-5831227.94199995,10033429.95725) },
+                        "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
+                        new[] { "a", "b", "c", "d" }, source.ToString());
                 case KnownTileSource.EsriWorldTopo:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
