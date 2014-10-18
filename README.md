@@ -30,23 +30,26 @@ BruTile is a PCL with Profile336 which targets:
 ###Supported tile service protocols:
 * TMS
 * WMS-C
-* WMS called though WMS-C protocol
+* WMS (a regular WMS called through the WMS-C protocol)
 * WMTS
 * ArcGIS Tile Server
 
-###Known tiles services:
+###Known tiles sources:
+There are number of specific tile source which are 
 
 * OpenStreetMap
+* MapQuest Aerial
 * Bing
+* Stamen
+* Esri
 * Google
+
 
 ###Roadmap
 Here are our future plans: 
 
-* Use Resolution (iso TileSchema) dependent TileSize, MatrixSize and Origin in GetTilesInView
 * Update automatic TileSchema generation to bring WMTS, WMS, TMS and WMSC in line.
 * Rename all classes to get them in line with WMTS types.
-* Replace specific classes with generic ones.
 * Better samples
 * Better documentation
 * Release v1
