@@ -183,6 +183,7 @@
     <Compile Include="Wmts\WmtsTileSchema.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BruTile.licenseheader" />
     <None Include="BruTile.snk" />
     <None Include="Wmts\xsd\ows19115subset.xsd">
       <SubType>Designer</SubType>
