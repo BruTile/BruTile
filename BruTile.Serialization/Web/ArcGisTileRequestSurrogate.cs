@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 

@@ -26,6 +26,5 @@ namespace BruTile.FileSystem
             if (bytes == null) throw new FileNotFoundException("The tile was not found at it's expected location");
             return bytes;
         }
-
     }
 }

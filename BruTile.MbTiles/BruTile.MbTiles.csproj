@@ -97,6 +97,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\BruTile\BruTile.licenseheader">
+      <Link>BruTile.licenseheader</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -108,4 +111,3 @@
   </Target>
   -->
 </Project>
-
