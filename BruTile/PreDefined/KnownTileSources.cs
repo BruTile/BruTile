@@ -69,7 +69,7 @@ namespace BruTile.Predefined
                 case KnownTileSource.CloudMadeFineLineStyle:
                     return new HttpTileSource(new GlobalSphericalMercator(), 
                         "http://{s}.tile.cloudmade.com/{k}/2/256/{z}/{x}/{y}.png",
-                            new[] {"a", "b", "c"}, source.ToString(), apiKey);
+                        new[] {"a", "b", "c"}, source.ToString(), apiKey);
                 case KnownTileSource.CloudMadeNoNames:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.cloudmade.com/{k}/3/256/{z}/{x}/{y}.png",
@@ -81,34 +81,40 @@ namespace BruTile.Predefined
                 case KnownTileSource.MapQuestAerial:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 11),
                         "http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png", 
-                        new[] {"1", "2", "3", "4"}, source.ToString(), apiKey);
+                        new[] {"1", "2", "3", "4"}, source.ToString());
                 case KnownTileSource.MapQuestRoadsAndLabels:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", 
-                        new[] {"1", "2", "3", "4"}, source.ToString(), apiKey);
+                        new[] {"1", "2", "3", "4"}, source.ToString());
                 case KnownTileSource.BingRoads:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.BingAerial:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.BingHybrid:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.BingRoadsStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.BingAerialStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.BingHybridStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
-                        new BingRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={apiversion}&token={userkey}", apiKey),
+                        new BasicRequest("http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}", 
+                            new [] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey),
                         source.ToString());
                 case KnownTileSource.StamenToner:
                     return new HttpTileSource(new GlobalSphericalMercator(),

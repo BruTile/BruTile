@@ -18,7 +18,7 @@ namespace BruTile.Demo
                 if (knownTileSource.ToString().ToLower().Contains("cloudmade")) continue; // Exclude CloudMade
 
                 KnownTileSource source = knownTileSource;
-                var radioButton = ToRadioButton(knownTileSource.ToString(), () => KnownTileSources.Create(source));
+                var radioButton = ToRadioButton(knownTileSource.ToString(), () => KnownTileSources.Create(source, "soep"));
                 Layers.Children.Add(radioButton);
             }
 

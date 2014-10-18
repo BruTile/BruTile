@@ -25,7 +25,7 @@ namespace BruTile.Web
         private readonly string _userKey;
         private int _nodeCounter;
         private readonly object _nodeCounterLock = new object();
-        private readonly IList<string> _serverNodes = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7" };
+        private readonly string[] _serverNodes = { "0", "1", "2", "3", "4", "5", "6", "7" };
 
         /// <remarks>You need a token for the the staging and the proper bing maps server, see:
         /// http://msdn.microsoft.com/en-us/library/cc980844.aspx</remarks>
@@ -42,7 +42,7 @@ namespace BruTile.Web
             _urlFormatter = urlFormatter;
             _userKey = userKey;
             ApiVersion = apiVersion;
-            if (serverNodes != null) _serverNodes = serverNodes.ToList();
+            if (serverNodes != null) _serverNodes = serverNodes.ToArray();
         }
 
         public static string UrlBingStaging
@@ -125,7 +125,7 @@ namespace BruTile.Web
 
         private void InsertServerNode(StringBuilder baseUrl)
         {
-            if (_serverNodes != null && _serverNodes.Count > 0)
+            if (_serverNodes != null && _serverNodes.Length > 0)
             {
                 var serverNode = GetNextServerNode();
                 baseUrl.Replace(ServerNodeTag, serverNode);
@@ -137,7 +137,7 @@ namespace BruTile.Web
             lock (_nodeCounterLock)
             {
                 var serverNode = _serverNodes[_nodeCounter++];
-                if (_nodeCounter >= _serverNodes.Count) _nodeCounter = 0;
+                if (_nodeCounter >= _serverNodes.Length) _nodeCounter = 0;
                 return serverNode;
             }
         }
