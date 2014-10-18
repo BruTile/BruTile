@@ -10,6 +10,7 @@ using BruTile.Predefined;
 namespace BruTile.Web
 {
     [Serializable]
+    [Obsolete("This component was built on Google Maps API V2 which is no longer supported: https://developers.google.com/maps/documentation/javascript/v2/basics")]
     public class GoogleTileSource : ITileSource
     {
         private readonly SphericalMercatorInvertedWorldSchema _tileSchema;

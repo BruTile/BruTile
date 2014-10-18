@@ -16,6 +16,7 @@ namespace BruTile.Web
     /// This enum contains the map types offered by Google Maps
     /// </summary>
     [Flags]
+    [Obsolete("This component was built on Google Maps API V2 which is no longer supported: https://developers.google.com/maps/documentation/javascript/v2/basics")]
     public enum GoogleMapType
     {
         GoogleMap = 1,
@@ -25,6 +26,7 @@ namespace BruTile.Web
     }
 
     [Serializable]
+    [Obsolete("This component was built on Google Maps API V2 which is no longer supported: https://developers.google.com/maps/documentation/javascript/v2/basics")]
     public class GoogleRequest : IRequest
     {
         static GoogleRequest()
@@ -35,7 +37,7 @@ namespace BruTile.Web
         /// <summary>
         /// This enum contains all possible languages for the Google maps.
         /// You can find latest information about supported languages in the:
-        /// http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1
+        /// http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&amp;gid=1
         /// </summary>
         public enum LanguageType
         {
@@ -342,14 +344,11 @@ namespace BruTile.Web
             {
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = GoogleTileSource.UserAgent;
-#if !SILVERLIGHT
                 request.Timeout = 60000;
                 request.ReadWriteTimeout = 360000;
 
                 using (var response = request.GetResponse() as HttpWebResponse)
-#else
-                    using (var response = request.GetSyncResponse(60000))
-#endif
+
                 {
                     if (response != null)
                     {
@@ -437,8 +436,6 @@ namespace BruTile.Web
                 Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex);
             }
         }
-
-        //#endif
     }
 
     internal static class EnumExtensions
