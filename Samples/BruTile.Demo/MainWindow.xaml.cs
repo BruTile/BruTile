@@ -30,16 +30,20 @@ namespace BruTile.Demo
 
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
-            return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"},
-                tileFetcher:
-                    uri =>
-                    {
-                        var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
-                        httpWebRequest.UserAgent =
-                            @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
-                        httpWebRequest.Referer = "http://maps.google.com/";
-                        return RequestHelper.FetchImage(httpWebRequest);
-                    }); 
+            return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"}, 
+                tileFetcher: FetchImageAsGoogle()); 
+        }
+
+        private static Func<Uri, byte[]> FetchImageAsGoogle()
+        {
+            return uri =>
+            {
+                var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
+                httpWebRequest.UserAgent =
+                    @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
+                httpWebRequest.Referer = "http://maps.google.com/";
+                return RequestHelper.FetchImage(httpWebRequest);
+            };
         }
 
         private RadioButton ToRadioButton(string name, Func<ITileSource> func)
