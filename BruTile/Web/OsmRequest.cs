@@ -7,6 +7,7 @@ using BruTile.Predefined;
 
 namespace BruTile.Web
 {
+    [Obsolete("Replaced with KnownTileSources")]
     public class OsmTileServerConfig
     {
         public readonly string UrlFormat;
@@ -84,6 +85,7 @@ namespace BruTile.Web
         }
     }
 
+    [Obsolete("Replaced with BasicRequest")]
     public class OsmRequest : IRequest
     {
         public readonly OsmTileServerConfig OsmConfig;

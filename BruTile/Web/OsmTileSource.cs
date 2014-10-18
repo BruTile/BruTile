@@ -8,6 +8,7 @@ using BruTile.Predefined;
 
 namespace BruTile.Web
 {
+    [Obsolete("Replaced with HttpTileSource")]
     public class OsmTileSource : TileSource
     {
         public OsmTileSource(OsmRequest osmRequest = null,
