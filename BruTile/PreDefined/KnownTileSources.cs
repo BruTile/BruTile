@@ -6,7 +6,7 @@ using BruTile.Web;
 namespace BruTile.Predefined
 {
     /// <summary>
-    /// Known popular OSM renderers
+    /// Known tile sources
     /// </summary>
     public enum KnownTileSource
     {
