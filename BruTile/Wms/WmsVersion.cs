@@ -113,7 +113,7 @@ namespace BruTile.Wms
 
         internal static string System(WmsVersionEnum version, string name)
         {
-            const string urlFormat = "http://schemas.opengis.net/wms/{0}.{1}.{2}/{4}_{0}_{1}_{2}.dtd";
+            const string urlFormat = "http://schemas.opengis.net/wms/{0}.{1}.{2}/{3}_{0}_{1}_{2}.dtd";
             var versionBytes = BitConverter.GetBytes((int)version);
 
             if (!BitConverter.IsLittleEndian) Array.Reverse(versionBytes);
@@ -171,7 +171,7 @@ using (var writer = XmlWriter.Create("file.xml"))
             {
                 writer.WriteAttributeString("xmlns", "xlink", null, WmsNamespaces.Xlink);
                 writer.WriteAttributeString("xmlns", "xsi", null, WmsNamespaces.Xsi);
-                writer.WriteAttributeString("xsi", "schemaLocation", null, string.Format("{0} {1}", WmsNamespaces.Wms));
+                writer.WriteAttributeString("xsi", "schemaLocation", null, string.Format("{0}", WmsNamespaces.Wms));
                 writer.WriteStartElement("WMS_Capabilities", WmsNamespaces.Wms, WmsNamespaces.WmsSchemaUrl(Version, "capabilities"));
             }
             else

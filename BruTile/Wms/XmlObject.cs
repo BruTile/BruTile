@@ -19,7 +19,7 @@ namespace BruTile.Wms
 
         public static string WmsSchemaUrl(WmsVersionEnum version, string schemaName)
         {
-            const string urlFormat = "http://schemas.opengis.net/wms/{0}.{1}.{2}/{4}_{0}_{1}_{2}.dtd";
+            const string urlFormat = "http://schemas.opengis.net/wms/{0}.{1}.{2}/{3}_{0}_{1}_{2}.dtd";
             var versionBytes = BitConverter.GetBytes((int)version);
 
             if (!BitConverter.IsLittleEndian) Array.Reverse(versionBytes);

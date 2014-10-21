@@ -92,7 +92,7 @@ namespace BruTile.Web
         public readonly OsmTileServerConfig OsmConfig;
 
         public OsmRequest()
-            :this(KnownTileSource.Mapnik)
+            :this(KnownTileSource.OpenStreetMap)
         {}
 
         public OsmRequest(KnownTileSource knownTileSources)

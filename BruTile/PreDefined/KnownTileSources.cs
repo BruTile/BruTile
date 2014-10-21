@@ -10,7 +10,7 @@ namespace BruTile.Predefined
     /// </summary>
     public enum KnownTileSource
     {
-        Mapnik,
+        OpenStreetMap,
         OpenCycleMap,
         OpenCycleMapTransport,
         CloudMadeWebStyle,
@@ -45,11 +45,11 @@ namespace BruTile.Predefined
         /// <param name="source">The source</param>
         /// <param name="apiKey">An (optional) API key</param>
         /// <returns>The tile source</returns>
-        public static ITileSource Create(KnownTileSource source = KnownTileSource.Mapnik, string apiKey = null)
+        public static ITileSource Create(KnownTileSource source = KnownTileSource.OpenStreetMap, string apiKey = null)
         {
             switch (source)
             {
-                case KnownTileSource.Mapnik:
+                case KnownTileSource.OpenStreetMap:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 18),
                         "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
                         new[] {"a", "b", "c"}, name: source.ToString());
