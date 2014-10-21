@@ -15,7 +15,7 @@ namespace BruTile.Wmts
         internal WmtsTileSchema()
         {
             Resolutions = new Dictionary<string, Resolution>();
-            Axis = AxisDirection.OSM;
+            YAxis = YAxis.OSM;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace BruTile.Wmts
                 throw new ArgumentException("Not an image mime type");
 
             var res = new WmtsTileSchema();
-            res.Axis = Axis;
+            res.YAxis = YAxis;
             res.Extent = new Extent(Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
             res.Name = identifier;
             res.Abstract = @abstract;
@@ -91,7 +91,7 @@ namespace BruTile.Wmts
 
         public string Format { get; set; }
         
-        public AxisDirection Axis { get; set; }
+        public YAxis YAxis { get; set; }
         
         public IDictionary<string, Resolution> Resolutions { get; set; }
 

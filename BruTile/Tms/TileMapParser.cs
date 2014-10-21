@@ -83,7 +83,7 @@ namespace BruTile.Tms
             schema.Height = int.Parse(tileMap.TileFormat.height);
             schema.Name = tileMap.Title;
             schema.Format = tileMap.TileFormat.extension;
-            schema.Axis = AxisDirection.TMS;
+            schema.YAxis = YAxis.TMS;
             schema.Extent = new Extent(
                 double.Parse(tileMap.BoundingBox.minx, CultureInfo.InvariantCulture),
                 double.Parse(tileMap.BoundingBox.miny, CultureInfo.InvariantCulture),

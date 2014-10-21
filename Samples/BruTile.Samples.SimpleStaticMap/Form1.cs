@@ -59,7 +59,7 @@ namespace BruTile.Samples.SimpleStaticMap
                 Name = "OpenStreetMap",
                 OriginX = -20037508.342789,
                 OriginY = 20037508.342789,
-                Axis = AxisDirection.OSM,
+                YAxis = YAxis.OSM,
                 Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789),
                 Height = 256,
                 Width = 256,

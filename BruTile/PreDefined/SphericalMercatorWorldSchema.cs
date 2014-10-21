@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace BruTile.Predefined
 {
-    [Obsolete("Use GlobalSphericalMercator(AxisDirection.TMS) instead")]
+    [Obsolete("Use GlobalSphericalMercator(YAxis.TMS) instead")]
     public class SphericalMercatorWorldSchema : TileSchema
     {
         public SphericalMercatorWorldSchema()
@@ -42,7 +42,7 @@ namespace BruTile.Predefined
             OriginY = -20037508.342789;
             Name = "WorldSphericalMercator";
             Format = "png";
-            Axis = AxisDirection.TMS;
+            YAxis = YAxis.TMS;
             Srs = "EPSG:3857";
         }
     }

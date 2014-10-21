@@ -28,7 +28,7 @@ namespace BruTile.Tests.Web
                     Assert.NotNull(tileSource.Provider);
                     Assert.NotNull(tileSource.Schema);
                     Assert.NotNull(tileSource.Schema.Resolutions);
-                    Assert.NotNull(tileSource.Schema.Axis);
+                    Assert.NotNull(tileSource.Schema.YAxis);
                     Assert.NotNull(tileSource.Schema.Extent);
                     Assert.NotNull(tileSource.Schema.Srs);
                 }

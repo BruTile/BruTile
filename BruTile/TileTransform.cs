@@ -8,27 +8,27 @@ namespace BruTile
     {
         public static TileRange WorldToTile(Extent extent, string levelId, ITileSchema schema)
         {
-            switch (schema.Axis)
+            switch (schema.YAxis)
             {
-                case AxisDirection.TMS:
+                case YAxis.TMS:
                     return WorldToTileNormal(extent, levelId, schema);
-                case AxisDirection.OSM:
+                case YAxis.OSM:
                     return WorldToTileInvertedY(extent, levelId, schema);
                 default:
-                    throw new Exception("Axis type was not found");
+                    throw new Exception("YAxis type was not found");
             }
         }
 
         public static Extent TileToWorld(TileRange range, string levelId, ITileSchema schema)
         {
-            switch (schema.Axis)
+            switch (schema.YAxis)
             {
-                case AxisDirection.TMS:
+                case YAxis.TMS:
                     return TileToWorldNormal(range, levelId, schema);
-                case AxisDirection.OSM:
+                case YAxis.OSM:
                     return TileToWorldInvertedY(range, levelId, schema);
                 default:
-                    throw new Exception("Axis type was not found");
+                    throw new Exception("YAxis type was not found");
             }
         }
 

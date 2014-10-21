@@ -9,14 +9,14 @@ using System.Globalization;
 namespace BruTile
 {
     /// <summary>
-    /// Enumeration of possible axis directions
+    /// Enumeration of possible YAxis directions
     /// </summary>
     /// <remarks>
     /// Direction is relative to the coordinate system in which the map is presented.
     /// <para/>
     /// InvertedX and InvertedXY do not exist yet, and may never.
     /// </remarks>
-    public enum AxisDirection
+    public enum YAxis
     {
         /// <summary>
         /// The y-axis direction of the tiles match that of the map. This is used by TMS.
@@ -38,7 +38,7 @@ namespace BruTile
         {
             ProportionIgnored = 0.0001;
             _resolutions = new Dictionary<string, Resolution>();
-            Axis = AxisDirection.TMS;
+            YAxis = YAxis.TMS;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
         }
@@ -52,7 +52,7 @@ namespace BruTile
         public Extent Wgs84BoundingBox { get; set; }
         public string Format { get; set; }
         public Extent Extent { get; set; }
-        public AxisDirection Axis { get; set; }
+        public YAxis YAxis { get; set; }
 
         public IDictionary<string, Resolution> Resolutions
         {
@@ -96,7 +96,7 @@ namespace BruTile
 
         public int GetMatrixFirstRow(string levelId)
         {
-            return (int)Math.Floor((GetFirstYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+            return (int)Math.Floor((GetFirstYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace BruTile
 
         private int GetMatrixLastRow(string levelId)
         {
-            return (int)Math.Floor((GetLastYRelativeToOrigin(Axis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - ProportionIgnored);
+            return (int)Math.Floor((GetLastYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - ProportionIgnored);
         }
 
         private static double GetLastXRelativeToOrigin(Extent extent, double originX)
@@ -133,9 +133,9 @@ namespace BruTile
             return extent.MaxX - originX;
         }
 
-        private static double GetLastYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        private static double GetLastYRelativeToOrigin(YAxis yAxis, Extent extent, double originY)
         {
-            return axis == AxisDirection.TMS ? extent.MaxY - originY : -extent.MinY + originY;
+            return yAxis == YAxis.TMS ? extent.MaxY - originY : -extent.MinY + originY;
         }
 
         private static double GetFirstXRelativeToOrigin(Extent extent, double originX)
@@ -143,9 +143,9 @@ namespace BruTile
             return extent.MinX - originX;
         }
 
-        private static double GetFirstYRelativeToOrigin(AxisDirection axis, Extent extent, double originY)
+        private static double GetFirstYRelativeToOrigin(YAxis yAxis, Extent extent, double originY)
         {
-            return (axis == AxisDirection.TMS) ? extent.MinY - originY : -extent.MaxY + originY;
+            return (yAxis == YAxis.TMS) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
         internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)

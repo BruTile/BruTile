@@ -9,7 +9,7 @@ namespace BruTile.Predefined
     {
         public SphericalMercatorInvertedWorldSchema() 
         {
-            Axis = AxisDirection.OSM;
+            YAxis = YAxis.OSM;
             OriginY = -OriginY; 
             Name = "WorldSphericalMercatorInverted";
         }

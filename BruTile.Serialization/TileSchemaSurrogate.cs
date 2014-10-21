@@ -29,7 +29,7 @@ namespace BruTile
             {
                 info.AddValue(string.Format("resolution{0}", key), ts.Resolutions[key]); // we should store 
             }
-            info.AddValue("axis", ts.Axis);
+            info.AddValue("axis", ts.YAxis);
         }
 
         public virtual object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
@@ -67,7 +67,7 @@ namespace BruTile
             }
             Utility.SetFieldValue(ref obj, "_resolutions", BindingFlags.NonPublic | BindingFlags.Instance, list);
             
-            ts.Axis = (AxisDirection)info.GetInt32("axis");
+            ts.YAxis = (YAxis)info.GetInt32("axis");
             return ts;
         }
 

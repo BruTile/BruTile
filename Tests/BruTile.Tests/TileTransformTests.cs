@@ -16,7 +16,7 @@ namespace BruTile.Tests
         {
             // arrange
             var range = new TileRange(1, 2);
-            var schema = new GlobalSphericalMercator(AxisDirection.TMS);
+            var schema = new GlobalSphericalMercator(YAxis.TMS);
             var expectedExtent = new Extent(-15028131.257989, -10018754.173189, -10018754.173189, -5009377.088389);
             const double toleratedDelta = 0.01;
 
@@ -36,7 +36,7 @@ namespace BruTile.Tests
         {
             // arrange
             var expectedRange = new TileRange(1, 2);
-            var schema = new GlobalSphericalMercator(AxisDirection.TMS);
+            var schema = new GlobalSphericalMercator(YAxis.TMS);
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
 
             // act
@@ -95,7 +95,7 @@ namespace BruTile.Tests
         {
             // arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
-            var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, Axis = AxisDirection.OSM };
+            var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, YAxis = YAxis.OSM };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act
