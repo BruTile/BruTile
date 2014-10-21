@@ -1,6 +1,14 @@
 ###BruTile
 BruTile is a C# open source library to access tile services like OpenStreetMap and Bing. BruTile has few dependencies, is platform independent and has a limited scope. It is intended for reuse by other more sophisticated libraries
 
+###Get it from NuGet 
+`
+PM> Install-Package BruTile
+`
+
+https://www.nuget.org/packages/BruTile
+
+
 ###Projects that use BruTile
 
 * [ArcBruTile] (https://arcbrutile.codeplex.com/) a plugin for ArcGIS
@@ -29,20 +37,21 @@ BruTile is a PCL with Profile336 which targets:
 
 ###Supported tile service protocols:
 * TMS
+* OSM (TMS with inverted y-axis)
 * WMS-C
-* WMS (a regular WMS called through the WMS-C protocol)
+* WMS (tiled requests to a regular WMS - like WMS-C)
 * WMTS
 * ArcGIS Tile Server
 
-###Known tiles sources:
-There are number of specific tile source which are 
+###Known tile sources:
+You can easily create an `ITileSource` for specific tile servers with commands like:
 
-* OpenStreetMap
-* MapQuest Aerial
-* Bing
-* Stamen
-* Esri
-* Google
+
+    KnownTileSources.Create(KnownTileSource.OpenStreetMap)
+    KnownTileSources.Create(KnownTileSource.MapQuestAerial)
+    KnownTileSources.Create(KnownTileSource.BingHybrid)
+    KnownTileSources.Create(KnownTileSource.StamenTonerLite)
+    KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 
 
 ###Roadmap
