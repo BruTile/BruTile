@@ -44,14 +44,14 @@ BruTile is a PCL with Profile336 which targets:
 * ArcGIS Tile Server
 
 ###Known tile sources:
-You can easily create an `ITileSource` for specific tile servers with commands like:
+You can easily create an `ITileSource` for a number of specific tile servers with statements like:
 
 
-    KnownTileSources.Create(KnownTileSource.OpenStreetMap)
-    KnownTileSources.Create(KnownTileSource.MapQuestAerial)
-    KnownTileSources.Create(KnownTileSource.BingHybrid)
-    KnownTileSources.Create(KnownTileSource.StamenTonerLite)
-    KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
+    var tileSource1 = KnownTileSources.Create(KnownTileSource.OpenStreetMap)
+    var tileSource2 = KnownTileSources.Create(KnownTileSource.MapQuestAerial)
+    var tileSource3 = KnownTileSources.Create(KnownTileSource.BingHybrid)
+    var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite)
+    var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 
 
 ###Roadmap
