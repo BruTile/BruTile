@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BruTile;
 using BruTile.Predefined;
 using BruTile.Web;
+using SQLite.Net;
 
 namespace WinFormsSample
 {
@@ -16,7 +17,7 @@ namespace WinFormsSample
     {
         private Bitmap _buffer;
         private MapTransform _mapTransform;
-        private ITileSource _source;
+        private MbTilesTileSource _source;
 
         public MbTilesForm()
         {
@@ -36,7 +37,7 @@ namespace WinFormsSample
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain-grey.mbtiles");
             if (File.Exists(path))
             {
-                _source = new MbTilesTileSource(path);
+                _source = new MbTilesTileSource(new SQLiteConnectionString(path, false));
                 var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                 _mapTransform = new MapTransform(
                     new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
@@ -153,10 +154,11 @@ namespace WinFormsSample
                 ofn.CheckFileExists = true;
                 if (ofn.ShowDialog() == DialogResult.OK)
                 {
-                    _source = new MbTilesTileSource(ofn.FileName);
-                    var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
+                    _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
+                    var extent = _source.Extent;
+                    var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
-                        new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
+                        new PointF((float)extent.CenterX, (float)extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
                     RenderToBuffer();
@@ -204,7 +206,7 @@ namespace WinFormsSample
             {
                 if (success)
                 {
-                    _source = new MbTilesTileSource(path);
+                    _source = new MbTilesTileSource(new SQLiteConnectionString(path, false));
                     var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
                         new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
