@@ -11,7 +11,12 @@ namespace BruTile.Predefined
     /// Tile schema for Global Mercator 
     /// </summary>
     /// <seealso href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator"/>
-    [Obsolete("Use GlobalSphericalMercator instead")]
+    //FObermaier::
+    //This class is necessary for MbTiles. I don't know where 'GlobalSphericalMercator' comes from,
+    //but this class was created follwing the MBTiles Spec 1.0
+    //see:https://github.com/mapbox/mbtiles-spec/blob/master/1.0/spec.md
+    //see:http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator
+    //[Obsolete("Use GlobalSphericalMercator instead")]
     public class GlobalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.516d;
@@ -67,17 +72,13 @@ namespace BruTile.Predefined
             Name = "GlobalMercator";
 
             Format = format;
-            YAxis = YAxis.OSM;
+            YAxis = YAxis.TMS; //OSM
             Srs = "OSGEO:41001";
             Height = 256;
             Width = 256;
 
-            var count = 0;
             foreach (var resolution in resolutions)
-            {
-                Resolutions[count.ToString()] = resolution;
-                count++;
-            }
+                Resolutions[resolution.Id] = resolution;
 
             OriginX = -ScaleFactor*Width;
             OriginY = -ScaleFactor*Height;
