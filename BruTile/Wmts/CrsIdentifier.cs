@@ -74,11 +74,6 @@ namespace BruTile.Wmts
             return string.Format("urn:ogc:def:crs:{0}:{1}:{2}", Authority, Version, Identifier);
         }
 
-        public override int GetHashCode()
-        {
-            return 17 ^ Authority.GetHashCode();
-        }
-
         public bool Equals(CrsIdentifier other)
         {
             if (Authority != other.Authority) return false;

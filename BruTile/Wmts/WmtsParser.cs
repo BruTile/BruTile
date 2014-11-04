@@ -181,51 +181,61 @@ namespace BruTile.Wmts
 
         private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
         {
+            // Get a set of well known scale sets. For these we don't need to have
             var wkss = new WellKnownScaleSets();
             
+            // Axis order registry
             var crsAxisOrder = new CrsAxisOrderRegistry();
+            // Unit of measure registry
             var crsUnitOfMeasure = new CrsUnitOfMeasureRegistry();
 
             var tileSchemas = new List<ITileSchema>();
             foreach (var tileMatrixSet in tileMatrixSets)
             {
-                // this is not according to the spec!
+                // Check if a Well-Known scale set is used, either by Identifier or WellKnownScaleSet property
                 var ss = wkss[tileMatrixSet.Identifier.Value];
                 if (ss == null && !string.IsNullOrEmpty(tileMatrixSet.WellKnownScaleSet))
-                {
                     ss = wkss[tileMatrixSet.WellKnownScaleSet.Split(':').Last()];
-                }
 
-                //Try to parse the Crs
+                // Try to parse the Crs
                 var supportedCrs = tileMatrixSet.SupportedCRS;
                 
-                //Hack to fix broken spec
+                // Hack to fix broken crs spec
                 supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
 
                 CrsIdentifier crs;
                 if (!CrsIdentifier.TryParse(supportedCrs, out crs))
                 {
+                    // If we cannot parse the crs, we cannot compute tile schema, thus ignore.
                     // ToDo: Log this
                     continue;
                 }
+
+                // Get the ordinate order for the crs (x, y) or (y, x) aka (lat, long)
                 var ordinateOrder = crsAxisOrder[crs];
+                // Get the unit of measure for the crs
                 var unitOfMeasure = crsUnitOfMeasure[crs];
 
+                // Create a new WMTS tile schema 
                 var tileSchema = new WmtsTileSchema();
 
+                // Add the resolutions
                 foreach (var tileMatrix in tileMatrixSet.TileMatrix)
                 {
-                    tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter,  ss));
+                    tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
                 }
 
+                // Compute the extent of the tile schema
                 var res = tileSchema.Resolutions.Last();
                 tileSchema.Extent = ToExtent(res.Value);
 
+                // Fill in the remaining properties
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
                 tileSchema.YAxis = YAxis.OSM;
                 tileSchema.Srs = supportedCrs;
                 tileSchema.SupportedSRS = crs;
 
+                // record the tile schema
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
@@ -244,14 +254,23 @@ namespace BruTile.Wmts
         private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
             
+            // Get the coordinates
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
-            var unitsPerPixel = ss != null ? ss[tileMatrix.ScaleDenominator] : null;
+            
+            // Try to get units per pixel from passed scale set
+            var unitsPerPixel = tileMatrix.ScaleDenominator*ScaleHint/metersPerUnit;
+            if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
+            {
+                if (ss == null)
+                    throw new ArgumentNullException();
+                unitsPerPixel = ss[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
+            }
 
             return new KeyValuePair<string, Resolution>(tileMatrix.Identifier.Value,
                 new Resolution
                 {
                     Id = tileMatrix.Identifier.Value,
-                    UnitsPerPixel = unitsPerPixel ?? tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit ,
+                    UnitsPerPixel = unitsPerPixel,
                     ScaleDenominator = tileMatrix.ScaleDenominator,
                     Left = Convert.ToDouble(coords[ordinateOrder[0]], CultureInfo.InvariantCulture),
                     Top = Convert.ToDouble(coords[ordinateOrder[1]], CultureInfo.InvariantCulture),

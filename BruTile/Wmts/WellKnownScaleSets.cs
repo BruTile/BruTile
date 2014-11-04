@@ -4,11 +4,58 @@ using System.Collections.Generic;
 
 namespace BruTile.Wmts
 {
+    /// <summary>
+    /// A repository of well known scale sets.
+    /// </summary>
+    /// <remarks>
+    /// These scale sets are defined in the WMTS specification (OGC 07-057r7),
+    /// Chapter 6.2 and Annex E
+    /// <para>
+    /// Since a WMTS server will serve its data in a limited number of coordinate systems and
+    /// scales (because, unlike a WMS, it serves only pre-defined tiles), and since some simple
+    /// WMTS client will be unable to perform coordinate-system transformations or rescaling
+    /// of tiles, the ability for a WMTS client to overlay tiles from one server on top of tiles from
+    /// other servers will be limited unless there are some general agreements among WMTS
+    /// servers as to what constitutes a common coordinate reference system and a common set
+    /// of scales. Thus, this standard defines the concept of well-known scale sets. In order to
+    /// increase interoperability between clients and servers it is recommended that many layers
+    /// use a common set of scales in the same CRS that the target community agree to use.
+    /// </para>
+    /// <para>
+    /// A well-known scale set is a well-known combination of a coordinate reference system
+    /// and a set of scales that a tile matrix set declares support for. Each tile matrix set
+    /// references one well-known scale set. A client application can confirm that tiles from one
+    /// WMTS server are compatible with tiles from another WMTS server merely by verifying
+    /// that they declare a common well-known scale set. It may also be the case that a client
+    /// application is limited to supporting a particular coordinate system and set of scales (e.g.,
+    /// an application that overlays WMTS tiles on top of Google Maps tiles). In this situation, a
+    /// client application can accept or reject a WMTS as being compatible merely by verifying
+    /// the declared well-known scale set. Furthermore, the existence of well-known scale sets
+    /// provides incentive for WMTS servers to support a well-known scale set, increasing the
+    /// odds of compatibility with other WMTS sources. The informative Annex E provides
+    /// several well-known scale sets and others could be incorporated in the future.
+    /// </para>
+    /// <para>
+    /// A tile matrix set conforms to a particular well-known scale set when it uses the same
+    /// CRS and defines all scale denominators ranging from the largest scale denominator in the
+    /// well-known scale set to some low scale denominator (in other words, it is not necessary
+    /// to define all the lower scale denominators to conform to a well-known scale set).
+    /// </para>
+    /// <para>
+    /// NOTE: Well-known scale sets are technically not necessary for interoperability, since a client
+    /// application can always examine the actual list of coordinate systems and scales available for each layer of a
+    /// WMTS server in order to determine its level of compatibility with other WMTS servers. Well-known scale
+    /// sets are merely a convenience mechanism.
+    /// </para>
+    /// </remarks>
     internal class WellKnownScaleSets
     {
         private static readonly Dictionary<string, ScaleSet> Definitions;
         public static readonly Dictionary<CrsIdentifier, int[]> OrdinateOrder;
 
+        /// <summary>
+        /// Static constructor
+        /// </summary>
         static WellKnownScaleSets()
         {
             Definitions = new Dictionary<string, ScaleSet>
@@ -27,6 +74,11 @@ namespace BruTile.Wmts
             };
         }
 
+        /// <summary>
+        /// Get a scale set by its key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public ScaleSet this[string key]
         {
             get
