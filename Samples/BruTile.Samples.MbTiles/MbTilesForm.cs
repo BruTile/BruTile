@@ -6,12 +6,10 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
-using BruTile;
-using BruTile.Predefined;
-using BruTile.Web;
 using SQLite.Net;
+using WinFormsSample;
 
-namespace WinFormsSample
+namespace BruTile.Samples.MbTiles
 {
     public partial class MbTilesForm : Form
     {
@@ -129,7 +127,7 @@ namespace WinFormsSample
             var imageAttributes = new ImageAttributes();
             imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
             // 2) The rectangle should be rounded to actual pixels.
-            Rectangle roundedExtent = RoundToPixel(extent);
+            var roundedExtent = RoundToPixel(extent);
             graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.GetTileWidth(levelId), schema.GetTileHeight(levelId), GraphicsUnit.Pixel, imageAttributes);
         }
 
@@ -200,7 +198,6 @@ namespace WinFormsSample
             {
                 Debug.WriteLine(ex.Message);
                 success = false;
-                //throw;
             }
             finally
             {
