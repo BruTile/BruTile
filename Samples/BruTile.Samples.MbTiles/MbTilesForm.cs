@@ -7,7 +7,6 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using SQLite.Net;
-using WinFormsSample;
 
 namespace BruTile.Samples.MbTiles
 {

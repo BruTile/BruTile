@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WinFormsSample
+namespace BruTile.Samples.MbTiles
 {
     partial class MbTilesForm
     {

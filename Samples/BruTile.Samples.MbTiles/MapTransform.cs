@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using BruTile;
 
-namespace WinFormsSample
+namespace BruTile.Samples.MbTiles
 {
     public struct PointD
     {
