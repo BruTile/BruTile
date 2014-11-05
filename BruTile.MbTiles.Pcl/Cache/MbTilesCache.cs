@@ -3,11 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using BruTile.Predefined;
-using SQLite;
 using SQLite.Net;
-using SQLite.Net.Interop;
 
 namespace BruTile.Cache
 {
@@ -39,15 +36,7 @@ namespace BruTile.Cache
             var connection = _connectionPool.GetConnection(connectionString);
             using (connection.Lock())
             {
-                if (type == MbTilesType.None)
-                {
-                    // Type (if defined)
-                    _type = ReadType(connection);
-                }
-                else
-                {
-                    _type = type;
-                }
+                _type = type == MbTilesType.None ? ReadType(connection) : type;
 
                 if (schema == null)
                 {
@@ -116,10 +105,10 @@ namespace BruTile.Cache
             var extentString = connection.ExecuteScalar<string>(sql, "bounds");
             var components = extentString.Split(',');
             var extent = new Extent(
-                double.Parse(components[0], System.Globalization.NumberFormatInfo.InvariantInfo),
-                double.Parse(components[1], System.Globalization.NumberFormatInfo.InvariantInfo),
-                double.Parse(components[2], System.Globalization.NumberFormatInfo.InvariantInfo),
-                double.Parse(components[3], System.Globalization.NumberFormatInfo.InvariantInfo)
+                double.Parse(components[0], NumberFormatInfo.InvariantInfo),
+                double.Parse(components[1], NumberFormatInfo.InvariantInfo),
+                double.Parse(components[2], NumberFormatInfo.InvariantInfo),
+                double.Parse(components[3], NumberFormatInfo.InvariantInfo)
                 );
 
             return ToMercator(extent);
@@ -270,7 +259,7 @@ namespace BruTile.Cache
         {
             if (IsTileIndexValid(index))
             {
-                byte[] result = null;
+                byte[] result;
                 var cn = _connectionPool.GetConnection(_connectionString);
                 using(cn.Lock())
                 {
