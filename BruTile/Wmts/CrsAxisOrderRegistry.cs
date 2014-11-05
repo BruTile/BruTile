@@ -7,7 +7,7 @@ namespace BruTile.Wmts
     /// <summary>
     /// A class that provides axis orders for EPSG coordinate reference systems with an identifier less that 32787
     /// </summary>
-    internal class CrsAxisOrderRegistry
+    public class CrsAxisOrderRegistry
     {
         private static readonly int[] Usual = { 0, 1 };
         private static readonly int[] Unusual = { 1, 0 };
