@@ -109,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Resources\test.mbtiles" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="x64\SQLite.Interop.dll">
@@ -129,4 +128,3 @@
   </Target>
   -->
 </Project>
-

@@ -17,8 +17,6 @@ namespace BruTile
     /// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
     public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
-        private static ISQLitePlatform _platform;
-
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
