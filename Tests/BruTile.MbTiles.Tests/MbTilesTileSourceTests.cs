@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SQLite.Net;
 
@@ -10,17 +11,18 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public void FetchTiles()
         {
+            // arrange
             MbTilesTileSource.SetPlatform(new SQLite.Net.Platform.Win32.SQLitePlatformWin32());
-            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(".\\Resources\\test.mbtiles", false));
+            const string path = ".\\Resources\\test.mbtiles";
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
             var extent = tileSource.Extent;
-            var scale = 1;
-            var tileInfos = tileSource.Schema.GetTilesInView(extent, "1");
+            var tileInfos = tileSource.Schema.GetTilesInView(extent, "1").ToList();
+            
+            // act
+            var data = tileSource.Provider.GetTile(tileInfos.First());
 
-            foreach (var tileInfo in tileInfos)
-            {
-                var data = tileSource.Provider.GetTile(tileInfo);
-            }
-
+            //assert
+            Assert.True(data.Length > 0);
         }
     }
 }
