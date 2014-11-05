@@ -10,8 +10,8 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public void FetchTiles()
         {
-            //MbTilesTileSource.SetPlatform(new SQLite.Net.Platform.Win32.SQLitePlatformWin32());
-            var tileSource = new MbTilesTileSource(new SQLiteConnectionString("Resources\test.mbtiles", false));
+            MbTilesTileSource.SetPlatform(new SQLite.Net.Platform.Win32.SQLitePlatformWin32());
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(".\\Resources\\test.mbtiles", false));
             var extent = tileSource.Extent;
             var scale = 1;
             var tileInfos = tileSource.Schema.GetTilesInView(extent, "1");
