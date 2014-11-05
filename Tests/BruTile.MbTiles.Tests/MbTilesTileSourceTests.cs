@@ -21,7 +21,7 @@ namespace BruTile.MbTiles.Tests
             // act
             var data = tileSource.Provider.GetTile(tileInfos.First());
 
-            //assert
+            // assert
             Assert.True(data.Length > 0);
         }
     }
