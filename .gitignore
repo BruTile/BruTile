@@ -1,0 +1,13 @@
+*.suo
+BruTile/obj/*
+BruTile.Desktop/obj/*
+BruTile.MbTiles/obj/*
+BruTile.Serialization/obj/*
+BruTile.MbTiles.Pcl/obj/*
+Samples/BruTile.Demo/obj/*
+Samples/BruTile.Samples.Common/obj/*
+Samples/BruTile.Samples.MbTiles/obj/*
+Samples/BruTile.Samples.SimpleStaticMap/obj/*
+Tests/BruTile.Desktop.Tests/obj/*
+Tests/BruTile.Serialization.Tests/obj/*
+Tests/BruTile.Tests/obj/*
