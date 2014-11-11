@@ -115,12 +115,12 @@ namespace BruTile
 
         public static bool operator ==(Extent extent1, Extent extent2)
         {
-            return Equals(extent1, extent2);
+            return extent1.Equals(extent2);
         }
 
         public static bool operator !=(Extent extent1, Extent extent2)
         {
-            return !Equals(extent1, extent2);
+            return !extent1.Equals(extent2);
         }
     }
 }
