@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/BruTile/BruTile.png?label=ready&title=Ready)](https://waffle.io/BruTile/BruTile)
 [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 
 ###BruTile
