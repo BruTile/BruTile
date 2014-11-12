@@ -14,7 +14,6 @@ namespace BruTile
     /// <remarks>
     /// Direction is relative to the coordinate system in which the map is presented.
     /// <para/>
-    /// InvertedX and InvertedXY do not exist yet, and may never.
     /// </remarks>
     public enum YAxis
     {
