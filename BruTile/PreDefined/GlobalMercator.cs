@@ -2,7 +2,6 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
-using System;
 using System.Collections.Generic;
 
 namespace BruTile.Predefined
@@ -16,7 +15,6 @@ namespace BruTile.Predefined
     //but this class was created follwing the MBTiles Spec 1.0
     //see:https://github.com/mapbox/mbtiles-spec/blob/master/1.0/spec.md
     //see:http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator
-    //[Obsolete("Use GlobalSphericalMercator instead")]
     public class GlobalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.516d;
