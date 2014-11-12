@@ -1,7 +1,7 @@
 @ECHO OFF
 SETLOCAL
 SET VERSION=%1
-SET NUGET=.\..\.nuget\nuget.exe
+SET NUGET=.\..\tools\nuget\nuget.exe
 
 msbuild updateversionnumber.proj /p:AsmVersion=%VERSION%
 msbuild build.proj 
