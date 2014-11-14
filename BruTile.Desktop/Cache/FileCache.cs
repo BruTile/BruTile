@@ -60,10 +60,7 @@ namespace BruTile.Cache
             lock (_syncRoot)
             {
                 if (!Exists(index)) return null; // to indicate not found
-                using (var fileStream = new FileStream(GetFileName(index), FileMode.Open, FileAccess.Read))
-                {
-                    return Utilities.ReadFully(fileStream);
-                }
+                return File.ReadAllBytes(GetFileName(index));
             }
         }
 
