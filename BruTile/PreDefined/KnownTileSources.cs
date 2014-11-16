@@ -34,7 +34,8 @@ namespace BruTile.Predefined
         EsriWorldShadedRelief,
         EsriWorldReferenceOverlay,
         EsriWorldTransportation,
-        EsriWorldBoundariesAndPlaces
+        EsriWorldBoundariesAndPlaces,
+        EsriWorldDarkGrayBase
     }
 
     public static class KnownTileSources
@@ -148,6 +149,10 @@ namespace BruTile.Predefined
                 case KnownTileSource.EsriWorldBoundariesAndPlaces:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+                        name: source.ToString());
+                case KnownTileSource.EsriWorldDarkGrayBase:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 10),
+                        "http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString());
                 default:
                     throw new NotSupportedException("KnownTileSource not known");
