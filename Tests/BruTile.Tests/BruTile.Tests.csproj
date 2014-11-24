@@ -129,6 +129,7 @@
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilities-dlr.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

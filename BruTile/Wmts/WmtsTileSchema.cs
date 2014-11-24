@@ -61,7 +61,7 @@ namespace BruTile.Wmts
             res.Abstract = @abstract;
             res.Style = style;
             res.Format = format;
-            res.Identifier = Identifier;
+            res.Identifier = identifier;
             res.Name = Name;
             foreach (var resolution in Resolutions)
                 res.Resolutions.Add(resolution);

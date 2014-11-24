@@ -13,6 +13,22 @@ namespace BruTile.Tests.Wmts
     [TestFixture]
     public class WmtsTests
     {
+        [TestCase("wmts-capabilities-dlr.xml")]
+        public void TestParsingWmtsCapabilities(string xml)
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", xml)))
+            {
+                // act
+                IEnumerable<ITileSource> tileSources = null;
+                Assert.DoesNotThrow(() => tileSources = WmtsParser.Parse(stream));
+
+                // assert
+                Assert.NotNull(tileSources);
+                Assert.Greater(tileSources.Count(), 0);
+            }
+        }
+        
         [Test]
         public void TestParsingWmtsCapabilitiesResourceUrls()
         {
