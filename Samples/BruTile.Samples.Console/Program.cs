@@ -22,7 +22,7 @@ namespace BruTile.Samples.Console
             var extent = new Extent(-20037508, -20037508, 20037508, 20037508);
             var screenWidthInPixels = 400; // The width of the map on screen in pixels
             var resolution = extent.Width / screenWidthInPixels;
-            var tileInfos = tileSource.Schema.GetTilesInView(extent, resolution);
+            var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
 
 
             // 3) Fetch the tiles from the service
@@ -33,7 +33,7 @@ namespace BruTile.Samples.Console
                 tiles[tileInfo] = tileSource.Provider.GetTile(tileInfo);
             }
 
-            // Show something actually happended:
+            // Show that something actually happended:
 
             foreach (var tile in tiles)
             {

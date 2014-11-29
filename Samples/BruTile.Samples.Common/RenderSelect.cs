@@ -33,7 +33,7 @@ namespace BruTile.Samples.Common
             ITileSchema schema, Extent extent, string levelId)
         {
             var resolution = schema.Resolutions[levelId].UnitsPerPixel;
-            var tiles = schema.GetTilesInView(extent, resolution);
+            var tiles = schema.GetTileInfos(extent, resolution);
 
             foreach (var tileInfo in tiles)
             {

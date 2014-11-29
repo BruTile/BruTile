@@ -36,7 +36,7 @@ namespace BruTile.Samples.Common
             //var levelCount = levels.Count();
             foreach (var level in levels)
             {
-                var tileInfos = schema.GetTilesInView(extent, level.Key);
+                var tileInfos = schema.GetTileInfos(extent, level.Key);
                 tileInfos = SortByPriority(tileInfos, extent.CenterX, extent.CenterY);
 
                 //var count = infosOfLevel.Count();

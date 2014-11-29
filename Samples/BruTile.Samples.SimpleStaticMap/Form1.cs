@@ -37,7 +37,7 @@ namespace BruTile.Samples.SimpleStaticMap
             var viewport = new Viewport(new PointF(629816f, 6805085f), 1222.992452344f, Width, Height);
 
             var schema = CreateTileSchema();
-            var tiles = schema.GetTilesInView(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.Resolution));
+            var tiles = schema.GetTileInfos(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.Resolution));
 
             var requestBuilder = new TmsRequest(new Uri("http://a.tile.openstreetmap.org"), "png");
 
