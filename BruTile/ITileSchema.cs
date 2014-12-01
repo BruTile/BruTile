@@ -19,8 +19,8 @@ namespace BruTile
         IDictionary<string, Resolution> Resolutions { get; }
         string Format { get; }
         YAxis YAxis { get; }
-        IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId);
-        IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution);
+        IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId);
+        IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution);
         Extent GetExtentOfTilesInView(Extent extent, string levelId);
         int GetMatrixFirstCol(string levelId);
         int GetMatrixFirstRow(string levelId);

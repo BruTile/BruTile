@@ -92,7 +92,7 @@ namespace BruTile.Samples.MbTiles
             using (var g = Graphics.FromImage(_buffer))
             {
                 g.Clear(Color.White);
-                foreach (var tileInfo in _source.Schema.GetTilesInView(_mapTransform.Extent, levelIndex))
+                foreach (var tileInfo in _source.Schema.GetTileInfos(_mapTransform.Extent, levelIndex))
                 {
                     var res = _source.Provider.GetTile(tileInfo);
                     var extent = _mapTransform.WorldToMap(tileInfo.Extent.MinX, tileInfo.Extent.MinY,

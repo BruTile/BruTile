@@ -57,7 +57,7 @@ namespace BruTile.Tests
             foreach (var resolution in schema.Resolutions.OrderByDescending(r => r.Value.UnitsPerPixel))
             {
                 // act
-                var tileInfos = schema.GetTilesInView(requestExtent, resolution.Key).ToList();
+                var tileInfos = schema.GetTileInfos(requestExtent, resolution.Key).ToList();
 
                 // assert
                 Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));
@@ -83,7 +83,7 @@ namespace BruTile.Tests
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act
-            var tileInfos = schema.GetTilesInView(requestExtent, "14").ToList();
+            var tileInfos = schema.GetTileInfos(requestExtent, "14").ToList();
 
             // assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
@@ -99,7 +99,7 @@ namespace BruTile.Tests
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act
-            var tileInfos = schema.GetTilesInView(requestExtent, "14");
+            var tileInfos = schema.GetTileInfos(requestExtent, "14");
 
             // assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
@@ -124,7 +124,7 @@ namespace BruTile.Tests
             var mapExtent = new Extent(187256.999043765, 331197.712996388, 187437.576002535, 331303.350517269);
 
             // act
-            var tileInfos = schema.GetTilesInView(mapExtent, "14");
+            var tileInfos = schema.GetTileInfos(mapExtent, "14");
 
             // assert
             Assert.AreEqual(tileInfos.Count(), 0);

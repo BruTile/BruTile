@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\MemoryCacheTests.cs" />
+    <Compile Include="ExtentTests.cs" />
     <Compile Include="Predefined\GlobalSphericalMercatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyVersion.cs">
@@ -128,6 +129,7 @@
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilities-dlr.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

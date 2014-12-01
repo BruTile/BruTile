@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Pcl", "BruT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Console", "Samples\BruTile.Samples.Console\BruTile.Samples.Console.csproj", "{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Portable|Any CPU = Debug Portable|Any CPU
@@ -443,6 +445,34 @@ Global
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Release|x64.ActiveCfg = Release|Any CPU
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|Any CPU.Build.0 = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|ARM.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|x64.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug Portable|x86.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|Any CPU.Build.0 = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|ARM.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|x64.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release Portable|x86.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|x64.ActiveCfg = Release|Any CPU
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -456,5 +486,6 @@ Global
 		{708DCCE8-A25A-44E0-80FB-61FD4451FF5D} = {3B8883BB-764B-40AA-B7BD-A30F4C9D5808}
 		{F450520B-00BE-4FA0-9B40-8AAD5A74F321} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F} = {3B8883BB-764B-40AA-B7BD-A30F4C9D5808}
+		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 	EndGlobalSection
 EndGlobal

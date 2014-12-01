@@ -14,7 +14,6 @@ namespace BruTile
     /// <remarks>
     /// Direction is relative to the coordinate system in which the map is presented.
     /// <para/>
-    /// InvertedX and InvertedXY do not exist yet, and may never.
     /// </remarks>
     public enum YAxis
     {
@@ -102,15 +101,15 @@ namespace BruTile
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
-        public IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution)
         {
             var level = Utilities.GetNearestLevel(Resolutions, resolution);
-            return GetTilesInView(extent, level);
+            return GetTileInfos(extent, level);
         }
 
-        public IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId)
         {
-            return GetTilesInView(this, extent, levelId);
+            return GetTileInfos(this, extent, levelId);
         }
 
         public Extent GetExtentOfTilesInView(Extent extent, string levelId)
@@ -148,7 +147,7 @@ namespace BruTile
             return (yAxis == YAxis.TMS) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
-        internal static IEnumerable<TileInfo> GetTilesInView(ITileSchema schema, Extent extent, string levelId)
+        internal static IEnumerable<TileInfo> GetTileInfos(ITileSchema schema, Extent extent, string levelId)
         {
             // todo: move this method elsewhere.
             var range = TileTransform.WorldToTile(extent, levelId, schema);

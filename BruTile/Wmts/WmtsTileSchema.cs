@@ -61,7 +61,7 @@ namespace BruTile.Wmts
             res.Abstract = @abstract;
             res.Style = style;
             res.Format = format;
-            res.Identifier = Identifier;
+            res.Identifier = identifier;
             res.Name = Name;
             foreach (var resolution in Resolutions)
                 res.Resolutions.Add(resolution);
@@ -128,15 +128,15 @@ namespace BruTile.Wmts
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
-        public IEnumerable<TileInfo> GetTilesInView(Extent extent, double resolution)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution)
         {
             var level = Utilities.GetNearestLevel(Resolutions, resolution);
-            return GetTilesInView(extent, level);
+            return GetTileInfos(extent, level);
         }
 
-        public IEnumerable<TileInfo> GetTilesInView(Extent extent, string levelId)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId)
         {
-            return TileSchema.GetTilesInView(this, extent, levelId);
+            return TileSchema.GetTileInfos(this, extent, levelId);
         }
 
         public Extent GetExtentOfTilesInView(Extent extent, string levelId)
