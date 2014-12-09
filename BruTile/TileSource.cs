@@ -7,6 +7,7 @@ namespace BruTile
     /// </summary>
     public class TileSource : ITileSource
     {
+        private readonly ITileProvider _provider;
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -14,19 +15,22 @@ namespace BruTile
         /// <param name="tileSchema">The tile schema</param>
         public TileSource(ITileProvider tileProvider, ITileSchema tileSchema)
         {
-            Provider = tileProvider;
+            _provider = tileProvider;
             Schema = tileSchema;
         }
         
         /// <summary>
-        /// Gets a value indicating the title of the tile source
+        /// Gets a the Name of the tile source
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets a value indicating the tile provider
+        /// Gets the image content of the tile 
         /// </summary>
-        public ITileProvider Provider { get; private set; }
+        public byte[] GetTile(TileInfo tileInfo)
+        {
+            return _provider.GetTile(tileInfo);
+        }
 
         /// <summary>
         /// Gets a value indicating the tile schema

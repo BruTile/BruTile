@@ -97,7 +97,7 @@ namespace BruTile.Tests.Wmts
 
                 // assert
                 var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
-                Assert.NotNull(tileSource.Provider);
+                Assert.NotNull(tileSource.Schema.Resolutions.Count == 3);
             }
         }
 

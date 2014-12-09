@@ -190,9 +190,6 @@ namespace BruTile.Serialization.Tests
 
                 if (!EqualTileSchemas((TileSchema)ts1.Schema, (TileSchema)ts2.Schema, out message))
                     return false;
-
-                if (!EqualTileProviders(ts1.Provider, ts2.Provider, out message))
-                    return false;
             }
             
             message = "Tile sources seem to be equal";

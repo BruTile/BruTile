@@ -14,7 +14,7 @@ namespace BruTile.Web
     public class GoogleTileSource : ITileSource
     {
         private readonly SphericalMercatorInvertedWorldSchema _tileSchema;
-        private readonly WebTileProvider _tileProvider;
+        private readonly WebTileProvider _provider;
         public const string UserAgent = @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
         public const string Referer = "http://maps.google.com/";
 
@@ -26,7 +26,7 @@ namespace BruTile.Web
         public GoogleTileSource(GoogleRequest request, IPersistentCache<byte[]> persistentCache = null)
         {
             _tileSchema = new SphericalMercatorInvertedWorldSchema();
-            _tileProvider = new WebTileProvider(request, persistentCache, 
+            _provider = new WebTileProvider(request, persistentCache, 
                 // The Google requests needs to fake the UserAgent en Referer.
                 uri =>
                     {
@@ -37,9 +37,12 @@ namespace BruTile.Web
                     });
         }
 
-        public ITileProvider Provider
+        /// <summary>
+        /// Gets the actual image content of the tile as byte array
+        /// </summary>
+        public byte[] GetTile(TileInfo tileInfo)
         {
-            get { return _tileProvider; }
+            return _provider.GetTile(tileInfo);
         }
 
         public ITileSchema Schema

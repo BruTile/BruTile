@@ -129,7 +129,7 @@ namespace BruTile.Samples.Common
                     {
                         if (_tileSource != null)
                         {
-                            byte[] data = _tileSource.Provider.GetTile(tileInfo);
+                            byte[] data = _tileSource.GetTile(tileInfo);
                             tile = new Tile<T> { Data = data, Info = tileInfo };
                         }
                     }

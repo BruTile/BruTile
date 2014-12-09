@@ -25,7 +25,6 @@ namespace BruTile.Tests.Web
                 Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
                 foreach (var tileSource in tileSources)
                 {
-                    Assert.NotNull(tileSource.Provider);
                     Assert.NotNull(tileSource.Schema);
                     Assert.NotNull(tileSource.Schema.Resolutions);
                     Assert.NotNull(tileSource.Schema.YAxis);

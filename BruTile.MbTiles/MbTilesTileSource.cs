@@ -4,7 +4,6 @@
 
 using System;
 using System.Data.SQLite;
-using System.Runtime.Serialization;
 using BruTile.FileSystem;
 using BruTile.Predefined;
 
@@ -17,6 +16,39 @@ namespace BruTile
     [Serializable]
     public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
+        private readonly MbTilesProvider _provider;
+
+        #region Implementation of ITileSource
+
+        public ITileProvider Provider
+        {
+            get { return _provider; }
+        }
+
+        public MbTilesFormat Format
+        {
+            get { return _provider.Cache.Format; }
+        }
+
+        public MbTilesType Type { get { return _provider.Cache.Type; } }
+
+        public ITileSchema Schema
+        {
+            get { return _provider.Schema; }
+        }
+
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets the actual image content of the tile as byte array
+        /// </summary>
+        public byte[] GetTile(TileInfo tileInfo)
+        {
+            return _provider.GetTile(tileInfo);
+        }
+
+        #endregion Implementation of ITileSource
+
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -45,31 +77,7 @@ namespace BruTile
         /// <param name="provider">The MapBox Tiles provider</param>
         public MbTilesTileSource(MbTilesProvider provider)
         {
-            _tileSource = provider;
+            _provider = provider;
         }
-        private readonly MbTilesProvider _tileSource;
-
-        #region Implementation of ITileSource
-
-        public ITileProvider Provider
-        {
-            get { return _tileSource; }
-        }
-
-        public ITileSchema Schema
-        {
-            get { return _tileSource.Schema; }
-        }
-
-        public string Name { get; private set; }
-
-        public MbTilesFormat Format
-        {
-            get { return _tileSource.Cache.Format; }
-        }
-
-        public MbTilesType Type { get { return _tileSource.Cache.Type; } }
-
-        #endregion Implementation of ITileSource
     }
 }
