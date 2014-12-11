@@ -54,24 +54,22 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>-->
-  <Choose>
-    <When Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">
-      <ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\System.Data.SQLite.Core.MSIL.1.0.94.0\lib\net20\System.Data.SQLite.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFrameworkVersion)' != 'v3.5' ">
         <Reference Include="System.Data.SQLite">
-          <HintPath>..\packages\System.Data.SQLite.MSIL.1.0.86.0\lib\net20\System.Data.SQLite.dll</HintPath>
+          <HintPath>..\packages\System.Data.SQLite.Core.MSIL.1.0.94.0\lib\net40\System.Data.SQLite.dll</HintPath>
         </Reference>
-      </ItemGroup>
-    </When>
-    <Otherwise />
-  </Choose>
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\packages\System.Data.SQLite.Core.MSIL.1.0.94.0\lib\net40\System.Data.SQLite.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyVersion.cs">
