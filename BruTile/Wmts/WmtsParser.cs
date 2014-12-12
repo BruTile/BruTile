@@ -225,7 +225,7 @@ namespace BruTile.Wmts
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
                 }
 
-                tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema);
+                tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, ordinateOrder);
 
                 // Fill in the remaining properties
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
@@ -239,7 +239,7 @@ namespace BruTile.Wmts
             return tileSchemas;
         }
 
-        private static Extent ToExtent(TileMatrixSet tileMatrixSet, WmtsTileSchema tileSchema)
+        private static Extent ToExtent(TileMatrixSet tileMatrixSet, WmtsTileSchema tileSchema, int[] ordinateOrder)
         {
             var boundingBox = tileMatrixSet.Item;
             if (boundingBox != null)
@@ -253,11 +253,14 @@ namespace BruTile.Wmts
                     var lowerCornerDimensions = GetDimensions(lowerCorner);
                     var upperCornerDimensions = GetDimensions(upperCorner);
 
+                    var xi = ordinateOrder[0];
+                    var yi = ordinateOrder[1];
+
                     return new Extent(
-                        lowerCornerDimensions[0],
-                        lowerCornerDimensions[1],
-                        upperCornerDimensions[0],
-                        upperCornerDimensions[1]);
+                        lowerCornerDimensions[xi],
+                        lowerCornerDimensions[yi],
+                        upperCornerDimensions[xi],
+                        upperCornerDimensions[yi]);
                 }
             }
 
