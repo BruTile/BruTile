@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
-      <Project>{9fb60e2d-c682-4a01-9584-8b495b8da85a}</Project>
+      <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
     </ProjectReference>
   </ItemGroup>

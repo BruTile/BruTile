@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace BruTile.Tests.Wmts
 {
@@ -97,7 +97,7 @@ namespace BruTile.Tests.Wmts
 
                 // assert
                 var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
-                Assert.NotNull(tileSource.Provider);
+                Assert.NotNull(tileSource.Schema.Resolutions.Count == 3);
             }
         }
 

@@ -3,7 +3,6 @@
 // This file was created by Tim Ebben (Geodan) 2009
 
 using System;
-using System.Linq;
 using BruTile.Cache;
 
 namespace BruTile.Web

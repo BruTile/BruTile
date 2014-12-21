@@ -19,7 +19,7 @@ namespace BruTile.MbTiles.Tests
             var tileInfos = tileSource.Schema.GetTileInfos(extent, "1").ToList();
             
             // act
-            var data = tileSource.Provider.GetTile(tileInfos.First());
+            var data = tileSource.GetTile(tileInfos.First());
 
             // assert
             Assert.True(data.Length > 0);

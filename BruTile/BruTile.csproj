@@ -71,7 +71,17 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>BruTile.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+  </PropertyGroup>  
+  <Choose>
+    <When Condition="'$(Configuration)' == 'Release'">
+        <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+    </When>
+    </Choose>
   <ItemGroup>
     <Compile Include="Cache\IMemoryCache.cs" />
     <Compile Include="Cache\IPersistentCache.cs" />

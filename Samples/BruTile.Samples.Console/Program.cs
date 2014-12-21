@@ -30,7 +30,7 @@ namespace BruTile.Samples.Console
             var tiles = new Dictionary<TileInfo, byte[]>();
             foreach (var tileInfo in tileInfos)
             {
-                tiles[tileInfo] = tileSource.Provider.GetTile(tileInfo);
+                tiles[tileInfo] = tileSource.GetTile(tileInfo);
             }
 
             // Show that something actually happended:
@@ -40,6 +40,8 @@ namespace BruTile.Samples.Console
                 System.Console.WriteLine("Column: {0}, Row: {1}, level: {2}, bytes: {3}", 
                     tile.Key.Index.Col, tile.Key.Index.Row, tile.Key.Index.Level, tile.Value.Length);
             }
+
+			System.Console.ReadKey();
         }
     }
 }

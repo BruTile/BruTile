@@ -3,25 +3,30 @@
   <PropertyGroup>
     <SolutionFile>.\..\BruTile.sln</SolutionFile>
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
+    <ToolsHome Condition=" '$(ToolsHome)'=='' ">$(MSBuildProjectDirectory)\..\tools\</ToolsHome>
   </PropertyGroup>
    
-  <Target Name="BuildRelease" DependsOnTargets="CleanRelease">
+  <Target Name="BuildRelease" DependsOnTargets="CleanRelease;RestorePackages">
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile"
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\..\Release\Portable\" />
-	<MSBuild Projects="$(SolutionFile)"
+    <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE SQLITE_DEBUG TRUE WIN32 _MSC_VER NO_TCL SQLITE_ASCII SQLITE_DISABLE_LFS SQLITE_HAS_CODEC SQLITE_MEM_POOL SQLITE_MUTEX_W32 SQLITE_THREADSAFE SQLITE_OMIT_AUTHORIZATION SQLITE_OMIT_DEPRECATED SQLITE_OMIT_GET_TABLE SQLITE_OMIT_INCRBLOB SQLITE_OMIT_LOOKASIDE SQLITE_OMIT_SHARED_CACHE SQLITE_OMIT_UTF16 SQLITE_OMIT_WAL SQLITE_OS_WIN SQLITE_SYSTEM_MALLOC VDBE_PROFILE_OFF;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v3.5\"
+             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v3.5\"
              RunEachTargetSeparately="true"/>
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE SQLITE_DEBUG TRUE WIN32 _MSC_VER NO_TCL SQLITE_ASCII SQLITE_DISABLE_LFS SQLITE_HAS_CODEC SQLITE_MEM_POOL SQLITE_MUTEX_W32 SQLITE_THREADSAFE SQLITE_OMIT_AUTHORIZATION SQLITE_OMIT_DEPRECATED SQLITE_OMIT_GET_TABLE SQLITE_OMIT_INCRBLOB SQLITE_OMIT_LOOKASIDE SQLITE_OMIT_SHARED_CACHE SQLITE_OMIT_UTF16 SQLITE_OMIT_WAL SQLITE_OS_WIN SQLITE_SYSTEM_MALLOC VDBE_PROFILE_OFF;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
+             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
              RunEachTargetSeparately="true"/>
   </Target>
   
   <Target Name="CleanRelease">
     <Exec Command="rmdir /s /q $(MSBuildProjectDirectory)\..\obj"></Exec>
     <Exec Command="rmdir /s /q $(MSBuildProjectDirectory)\..\Release"></Exec>
+  </Target>
+  
+  <Target Name="RestorePackages">
+    <Exec Command="&quot;$(ToolsHome)NuGet\NuGet.exe&quot; restore .\..\BruTile.sln" />
   </Target>
   
 </Project>

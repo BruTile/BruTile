@@ -1,4 +1,6 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using System.CodeDom.Compiler;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -12,13 +14,15 @@ namespace BruTile.Web
         {
             var agts = (ArcGisTileSource) obj;
             
+            // This is broken because of ITileSource.GetTile change
+            
             // Provider
-            var type = agts.Provider.GetType();
-            info.AddValue("providerType", type);
-            info.AddValue("provider", agts.Provider, type);
+            //var type = agts.GetType();
+            //info.AddValue("providerType", type);
+            //info.AddValue("provider", agts.Provider, type);
 
             //Schema
-            type = agts.Schema.GetType();
+            var type = agts.Schema.GetType();
             info.AddValue("schemaType", type);
             info.AddValue("schema", agts.Schema, type);
 

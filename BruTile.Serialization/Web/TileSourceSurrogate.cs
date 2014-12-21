@@ -1,5 +1,6 @@
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 using System;
+using System.CodeDom.Compiler;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -12,8 +13,9 @@ namespace BruTile.Web
         public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
         {
             var ot = (OsmTileSource)obj;
-            info.AddValue("providerType", ot.Provider.GetType());
-            info.AddValue("provider", ot.Provider);
+            // This is broken because of ITileSource.GetTile change
+            //info.AddValue("providerType", ot.Provider.GetType());
+            //info.AddValue("provider", ot.Provider);
             info.AddValue("schemaType", ot.Schema.GetType());
             info.AddValue("schema", ot.Schema);
         }

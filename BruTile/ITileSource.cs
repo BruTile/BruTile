@@ -6,13 +6,8 @@ namespace BruTile
     /// Interface for a tile source.
     /// </summary>
     /// <remarks>A tile provider is tuple of <see cref="ITileProvider"/> and <see cref="ITileSchema"/>.</remarks>
-    public interface ITileSource
+    public interface ITileSource : ITileProvider
     {
-        /// <summary>
-        /// Gets a value indicating the tile provider
-        /// </summary>
-        ITileProvider Provider { get; }
-        
         /// <summary>
         /// Gets a value indicating the tile schema
         /// </summary>
