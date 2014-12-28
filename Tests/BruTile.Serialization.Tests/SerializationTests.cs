@@ -114,6 +114,7 @@ namespace BruTile.Serialization.Tests
         }
          */
         [Test]
+        [Ignore("There should be rewrite of reading and writing tile source configurations")]
         public void FileCache()
         {
             var c1 = new FileCache(Path.Combine(Path.GetTempPath(), "_test"), "jpg", new TimeSpan(8, 22, 19, 35));
@@ -129,6 +130,7 @@ namespace BruTile.Serialization.Tests
         #region Tile sources
 
         [Test]
+        [Ignore("There should be rewrite of reading and writing tile source configurations")]
         public void TestOsmTileSource()
         {
             var tsc = OsmTileServerConfig.Create(KnownTileSource.OpenStreetMap, null);
