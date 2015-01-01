@@ -131,7 +131,8 @@ namespace BruTile.Serialization.Tests
         [Test]
         public void TestOsmTileSource()
         {
-            var tsc = OsmTileServerConfig.Create(KnownTileSource.OpenStreetMap, null);
+            var tsc = KnownTileSources.Create(KnownTileSource.OpenStreetMap, null, new FakePersistentCache<byte[]>());
+            
             var ts1 = new OsmTileSource(new OsmRequest(tsc), new FakePersistentCache<byte[]>());
             var ts2 = SandD(ts1);
 

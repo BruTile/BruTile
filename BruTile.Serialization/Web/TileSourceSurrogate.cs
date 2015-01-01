@@ -10,14 +10,17 @@ namespace BruTile.Web
     {
         #region Implementation of ISerializationSurrogate
 
+
         public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
         {
-            var ot = (OsmTileSource)obj;
+            var ht = (HttpTileSource)obj;
+            var tp = ((ITileProvider) ht);
+
             // This is broken because of ITileSource.GetTile change
-            //info.AddValue("providerType", ot.Provider.GetType());
-            //info.AddValue("provider", ot.Provider);
-            info.AddValue("schemaType", ot.Schema.GetType());
-            info.AddValue("schema", ot.Schema);
+            info.AddValue("providerType", tp.GetType());
+            info.AddValue("provider", tp);
+            info.AddValue("schemaType", ht.Schema.GetType());
+            info.AddValue("schema", ht.Schema);
         }
 
         public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
