@@ -3,13 +3,14 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 
 namespace BruTile.Cache
 {
     [Serializable]
     public class FileCache : IPersistentCache<byte[]>
     {
-        private readonly object _syncRoot = new object();
+        private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
         private readonly string _directory;
         private readonly string _format;
         private readonly TimeSpan _cacheExpireTime = TimeSpan.Zero;
@@ -39,8 +40,9 @@ namespace BruTile.Cache
 
         public void Add(TileIndex index, byte[] image)
         {
-            lock (_syncRoot)
+            try
             {
+                _rwLock.EnterWriteLock();
                 if (Exists(index))
                 {
                     return; // ignore
@@ -53,25 +55,39 @@ namespace BruTile.Cache
 
                 WriteToFile(image, index);
             }
+            finally
+            {
+                _rwLock.ExitWriteLock();
+            }
         }
 
         public byte[] Find(TileIndex index)
         {
-            lock (_syncRoot)
+            try
             {
+                _rwLock.EnterReadLock();
                 if (!Exists(index)) return null; // to indicate not found
                 return File.ReadAllBytes(GetFileName(index));
+            }
+            finally
+            {
+                _rwLock.ExitReadLock();
             }
         }
 
         public void Remove(TileIndex index)
         {
-            lock (_syncRoot)
+            try
             {
+                _rwLock.EnterWriteLock();
                 if (Exists(index))
                 {
                     File.Delete(GetFileName(index));
                 }
+            }
+            finally
+            {
+                _rwLock.ExitWriteLock();
             }
         }
 
@@ -137,7 +153,7 @@ namespace BruTile.Cache
             if (!_cacheExpireTime.Equals(other._cacheExpireTime))
                 return false;
 
-            System.Diagnostics.Debug.Assert(_syncRoot != null && other._syncRoot != null && _syncRoot != other._syncRoot);
+            System.Diagnostics.Debug.Assert(_rwLock != null && other._rwLock != null && _rwLock != other._rwLock);
 
             return true;
         }

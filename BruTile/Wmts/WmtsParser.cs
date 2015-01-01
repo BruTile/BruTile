@@ -225,9 +225,7 @@ namespace BruTile.Wmts
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
                 }
 
-                // Compute the extent of the tile schema
-                var res = tileSchema.Resolutions.Last();
-                tileSchema.Extent = ToExtent(res.Value);
+                tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, ordinateOrder);
 
                 // Fill in the remaining properties
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
@@ -239,6 +237,46 @@ namespace BruTile.Wmts
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
+        }
+
+        private static Extent ToExtent(TileMatrixSet tileMatrixSet, WmtsTileSchema tileSchema, int[] ordinateOrder)
+        {
+            var boundingBox = tileMatrixSet.Item;
+            if (boundingBox != null)
+            {
+                // the BoundingBox element should always be in the same CRS as the SupportedCRS, we make a check anyway
+                if (string.IsNullOrEmpty(boundingBox.crs) || boundingBox.crs == tileMatrixSet.SupportedCRS)
+                {
+                    var lowerCorner = boundingBox.LowerCorner;
+                    var upperCorner = boundingBox.UpperCorner;
+
+                    var lowerCornerDimensions = GetDimensions(lowerCorner);
+                    var upperCornerDimensions = GetDimensions(upperCorner);
+
+                    var xi = ordinateOrder[0];
+                    var yi = ordinateOrder[1];
+
+                    return new Extent(
+                        lowerCornerDimensions[xi],
+                        lowerCornerDimensions[yi],
+                        upperCornerDimensions[xi],
+                        upperCornerDimensions[yi]);
+                }
+            }
+
+            // Compute the extent of the tile schema
+            var res = tileSchema.Resolutions.Last();
+            return ToExtent(res.Value);
+        }
+
+        private static double[] GetDimensions(string s)
+        {
+            var dims = s.Split(' ');
+            return new[]
+            {
+                double.Parse(dims[0], CultureInfo.InvariantCulture.NumberFormat),
+                double.Parse(dims[1], CultureInfo.InvariantCulture.NumberFormat)
+            };
         }
 
         private static Extent ToExtent(Resolution tileMatrix)
