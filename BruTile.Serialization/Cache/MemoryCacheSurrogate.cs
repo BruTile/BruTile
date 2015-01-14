@@ -24,7 +24,7 @@ namespace BruTile.Cache
             ms.MaxTiles = info.GetInt32("max");
   
             Utility.SetFieldValue(ref obj, "_syncRoot", BindingFlags.NonPublic | BindingFlags.Instance, new object());
-            Utility.SetFieldValue(ref obj, "_bitmaps", BindingFlags.NonPublic | BindingFlags.Instance, new Dictionary<TileIndex, byte[]>());
+            Utility.SetFieldValue(ref obj, "_bitmaps", BindingFlags.NonPublic | BindingFlags.Instance, new Dictionary<TileIndex, T>());
             Utility.SetFieldValue(ref obj, "_touched", BindingFlags.NonPublic | BindingFlags.Instance, new Dictionary<TileIndex, DateTime>());
             return obj;
         }

@@ -44,17 +44,20 @@
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
     <Compile Include="ResolutionSurrogate.cs" />
+    <Compile Include="Wmts\ResourceUrlSurrogate.cs" />
     <Compile Include="TileSchemaSurrogate.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Web\ArcGisTileRequestSurrogate.cs" />
     <Compile Include="Web\ArcGisTileSourceSurrogate.cs" />
     <Compile Include="Web\BasicRequestSurrogate.cs" />
     <Compile Include="Web\BingRequestSurrogate.cs" />
+    <Compile Include="Web\HttpTileSourceSurrogate.cs" />
     <Compile Include="Web\OsmRequestSurrogate.cs" />
     <Compile Include="Web\TileSourceSurrogate.cs" />
     <Compile Include="Web\TmsRequestSurrogate.cs" />
-    <Compile Include="Web\WebProviderSurrogate.cs" />
+    <Compile Include="Web\WebTileProviderSurrogate.cs" />
     <Compile Include="Web\WmscRequestSurrogate.cs" />
+    <Compile Include="Wmts\WmtsRequestSurrogate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
