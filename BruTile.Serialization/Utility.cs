@@ -8,6 +8,8 @@ using BruTile.Predefined;
 using BruTile.Tms;
 using BruTile.Web;
 using BruTile.Wmsc;
+using BruTile.Wmts;
+using BruTile.Wmts.Generated;
 
 namespace BruTile
 {
@@ -132,14 +134,18 @@ namespace BruTile
             // Predefined
             var tss1 = new TileSchemaSurrogate();
             ss.AddSurrogate(typeof (GlobalMercator), new StreamingContext(StreamingContextStates.All), tss1);
-            ss.AddSurrogate(typeof (SphericalMercatorWorldSchema), new StreamingContext(StreamingContextStates.All), tss1);
+            ss.AddSurrogate(typeof(GlobalSphericalMercator), new StreamingContext(StreamingContextStates.All), tss1);
+            ss.AddSurrogate(typeof(SphericalMercatorWorldSchema), new StreamingContext(StreamingContextStates.All), tss1);
             ss.AddSurrogate(typeof (SphericalMercatorInvertedWorldSchema), 
                             new StreamingContext(StreamingContextStates.All),tss1);
             ss.AddSurrogate(typeof (BingSchema), new StreamingContext(StreamingContextStates.All), tss1);
             ss.AddSurrogate(typeof (WkstNederlandSchema), new StreamingContext(StreamingContextStates.All), tss1);
+            ss.AddSurrogate(typeof (WmtsTileSchema), new StreamingContext(StreamingContextStates.All),
+                new WmtsTileSchemaSurrogate());
 
             //Web
             var tss2 = new TileSourceSurrogate();
+            ss.AddSurrogate(typeof(TileSource), new StreamingContext(StreamingContextStates.All), tss2);
             ss.AddSurrogate(typeof (ArcGisTileRequest), new StreamingContext(StreamingContextStates.All),
                             new ArcGisTileRequestSurrogate());
             ss.AddSurrogate(typeof (ArcGisTileSource), new StreamingContext(StreamingContextStates.All), 
@@ -153,6 +159,7 @@ namespace BruTile
             ss.AddSurrogate(typeof (OsmTileServerConfig), new StreamingContext(StreamingContextStates.All),
                             new OsmTileServerConfigSurrogate());
             ss.AddSurrogate(typeof (OsmTileSource), new StreamingContext(StreamingContextStates.All), tss2 );
+            
             ss.AddSurrogate(typeof(TmsRequest), new StreamingContext(StreamingContextStates.All),
                             new TmsRequestSurrogate());
             ss.AddSurrogate(typeof (TmsTileSource), new StreamingContext(StreamingContextStates.All), tss2);
@@ -162,6 +169,13 @@ namespace BruTile
             ss.AddSurrogate(typeof(WmscRequest), new StreamingContext(StreamingContextStates.All),
                             new WmscRequestSurrogate());
 
+            ss.AddSurrogate(typeof(HttpTileSource), new StreamingContext(StreamingContextStates.All), new HttpTileSourceSurrogate());
+
+            //Wmts
+            ss.AddSurrogate(typeof(ResourceUrl), new StreamingContext(StreamingContextStates.All), new ResourceUrlSurrogate());
+            ss.AddSurrogate(typeof(WmtsRequest), new StreamingContext(StreamingContextStates.All), new WmtsRequestSurrogate());
+            
+            
             if (formatter.SurrogateSelector != null)
                 formatter.SurrogateSelector.ChainSelector(ss);
             else

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
+using BruTile.Wmts;
 
 namespace BruTile
 {
@@ -25,10 +26,13 @@ namespace BruTile
             info.AddValue("resolutionsType", ts.Resolutions.GetType());
             info.AddValue("resolutionsCount", ts.Resolutions.Count);
 
-            foreach (var key in ts.Resolutions.Keys)
+            var counter = 0;
+            foreach (var item in ts.Resolutions)
             {
-                info.AddValue(string.Format("resolution{0}", key), ts.Resolutions[key]); // we should store 
+                info.AddValue(string.Format("rk{0}", counter), item.Key); // we should store 
+                info.AddValue(string.Format("rv{0}", counter++), item.Value); // we should store 
             }
+
             info.AddValue("axis", ts.YAxis);
         }
 
@@ -47,23 +51,11 @@ namespace BruTile
             var type = (Type) info.GetValue("resolutionsType", typeof (Type));
             var list = (IDictionary<string, Resolution>) Activator.CreateInstance(type);
             var count = info.GetInt32("resolutionsCount");
-            var keyValue = 0;
-            var counter = 0;
-            while (counter < count)
+            for (var i = 0; i < count; i++)
             {
-                Resolution value = default(Resolution);
-                try
-                {
-                    value = (Resolution)info.GetValue(string.Format("resolution{0}", keyValue), typeof(Resolution));
-                }
-                catch {}
-
-                if (!value.Equals(default(Resolution)))
-                {
-                    list[keyValue.ToString(CultureInfo.InvariantCulture)] = value;
-                    counter++;
-                }
-                keyValue++;
+                var key = info.GetString(string.Format("rk{0}", i));
+                var value = (Resolution)info.GetValue(string.Format("rv{0}", i), typeof(Resolution));
+                list.Add(key, value);
             }
             Utility.SetFieldValue(ref obj, "_resolutions", BindingFlags.NonPublic | BindingFlags.Instance, list);
             
@@ -76,11 +68,74 @@ namespace BruTile
 
     namespace Predefined
     {
+        internal class WmtsTileSchemaSurrogate : ISerializationSurrogate
+        {
+            public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
+            {
+                var ts = (WmtsTileSchema) obj;
+                info.AddValue("name", ts.Name);
+                info.AddValue("srs", ts.Srs);
+                info.AddValue("extent", ts.Extent);
+                info.AddValue("format", ts.Format);
+                info.AddValue("resolutionsType", ts.Resolutions.GetType());
+                info.AddValue("resolutionsCount", ts.Resolutions.Count);
+
+                var counter = 0;
+                foreach (var item in ts.Resolutions)
+                {
+                    info.AddValue(string.Format("rk{0}", counter), item.Key); // we should store 
+                    info.AddValue(string.Format("rv{0}", counter++), item.Value); // we should store 
+                }
+                info.AddValue("axis", ts.YAxis);
+
+                info.AddValue("identifier", ts.Identifier);
+                info.AddValue("abstract", ts.Abstract);
+                info.AddValue("style", ts.Style);
+                info.AddValue("supportedSRS", ts.SupportedSRS.ToString());
+            }
+
+            public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            {
+                var ts = (WmtsTileSchema)obj;
+                ts.Name = info.GetString("name");
+                ts.Srs = info.GetString("srs");
+                ts.Extent = (Extent)info.GetValue("extent", typeof(Extent));
+                ts.Format = info.GetString("format");
+
+                var type = (Type)info.GetValue("resolutionsType", typeof(Type));
+                var list = (IDictionary<string, Resolution>)Activator.CreateInstance(type);
+                var count = info.GetInt32("resolutionsCount");
+                for (var i = 0; i < count; i++)
+                {
+                    var key = info.GetString(string.Format("rk{0}", i));
+                    var value = (Resolution) info.GetValue(string.Format("rv{0}", i), typeof (Resolution));
+                    list.Add(key,value);
+                }
+                Utility.SetPropertyValue(ref obj, "Resolutions", BindingFlags.Public | BindingFlags.Instance, list);
+
+                ts.YAxis = (YAxis)info.GetInt32("axis");
+
+                Utility.SetPropertyValue(ref obj, "Identifier", BindingFlags.Instance | BindingFlags.Public, info.GetString("identifier"));
+                Utility.SetPropertyValue(ref obj, "Abstract", BindingFlags.Instance | BindingFlags.Public, info.GetString("abstract"));
+                Utility.SetPropertyValue(ref obj, "Style", BindingFlags.Instance | BindingFlags.Public, info.GetString("style"));
+                CrsIdentifier tmp;
+                if (CrsIdentifier.TryParse(info.GetString("supportedSRS"), out tmp))
+                    Utility.SetPropertyValue(ref obj, "SupportedSRS", BindingFlags.Instance | BindingFlags.Public, tmp);
+                
+                return ts;
+            }
+        }
+        
+        /*
         internal class BingSchemaSurrogate : TileSchemaSurrogate
         {
         }
 
         internal class GlobalMercatorSchemaSurrogate : TileSchemaSurrogate
+        {
+        }
+
+        internal class GlobalSphericalMercatorSchemaSurrogate : TileSchemaSurrogate
         {
         }
 
@@ -95,6 +150,6 @@ namespace BruTile
         internal class SphericalMercatorWorldInvertedSchemaSurrogate : TileSchemaSurrogate
         {
         }
+    */
     }
-
 }

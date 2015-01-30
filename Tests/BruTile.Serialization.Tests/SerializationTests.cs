@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using BruTile.Cache;
 using BruTile.Predefined;
 using BruTile.Web;
+using BruTile.Wmts;
 using NUnit.Framework;
 
 namespace BruTile.Serialization.Tests
@@ -35,7 +36,7 @@ namespace BruTile.Serialization.Tests
             Assert.AreEqual(r1.UnitsPerPixel, r2.UnitsPerPixel);
         }
 
-        [Test]
+        [Test,Obsolete]
         public void TestBingSchema()
         {
             string message;
@@ -45,7 +46,7 @@ namespace BruTile.Serialization.Tests
             Assert.IsTrue(equal, message);
         }
 
-        [Test]
+        [Test, Obsolete]
         public void TestSphericalMercatorWorldSchema()
         {
             string message;
@@ -55,7 +56,7 @@ namespace BruTile.Serialization.Tests
             Assert.IsTrue(equal, message);
         }
 
-        [Test]
+        [Test, Obsolete]
         public void TestSphericalMercatorInvertedWorldSchema()
         {
             string message;
@@ -70,6 +71,16 @@ namespace BruTile.Serialization.Tests
         {
             string message;
             var s1 = new GlobalMercator("png", 2, 11);
+            var s2 = SandD(s1);
+            var equal = EqualTileSchemas(s1, s2, out message);
+            Assert.IsTrue(equal, message);
+        }
+
+        [Test]
+        public void TestGlobalSphericalMercatorSchema()
+        {
+            string message;
+            var s1 = new GlobalSphericalMercator("png", YAxis.OSM, 2, 11);
             var s2 = SandD(s1);
             var equal = EqualTileSchemas(s1, s2, out message);
             Assert.IsTrue(equal, message);
@@ -100,7 +111,7 @@ namespace BruTile.Serialization.Tests
 
         }
 
-        /*
+        
         [Test]
         public void TestMemoryCacheBitmap()
         {
@@ -112,7 +123,7 @@ namespace BruTile.Serialization.Tests
             Assert.IsTrue(c1.EqualSetup(c2));
 #endif
         }
-         */
+        
         [Test]
         public void FileCache()
         {
@@ -128,11 +139,49 @@ namespace BruTile.Serialization.Tests
 
         #region Tile sources
 
+        //[Ignore("Needs internet connection")]
+        [TestCase("http://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities")]
+        public void TestWmtsTileSource(string url)
+        {
+            IEnumerable<ITileSource> sources;
+            try
+            {
+                var req = WebRequest.CreateHttp(url);
+                using (var resp = req.GetResponse())
+                    sources = WmtsParser.Parse(resp.GetResponseStream());
+
+            }
+            catch (Exception ex)
+            {
+                throw new IgnoreException("Getting the response stream failed", ex);
+            }
+            
+            if (sources == null)
+                throw new IgnoreException("Failed to get capabilities");
+
+            var equal = true;
+            var messages = new List<string>();
+            Console.WriteLine("Testing {0}", url);
+            foreach (var srcS in sources)
+            {
+                var srcD = SandD(srcS);
+                Assert.NotNull(srcD);
+                Console.WriteLine("{0}", srcS);
+
+                string message;
+                if (!EqualTileSources(srcS, srcD, out message))
+                {
+                    messages.Add(message);
+                    equal = false;
+                }
+            }
+            Assert.IsTrue(equal, string.Join("\n", messages));
+        }
+
         [Test]
         public void TestOsmTileSource()
         {
-            var tsc = OsmTileServerConfig.Create(KnownTileSource.OpenStreetMap, null);
-            var ts1 = new OsmTileSource(new OsmRequest(tsc), new FakePersistentCache<byte[]>());
+            var ts1 = KnownTileSources.Create(KnownTileSource.OpenStreetMap, null, new FakePersistentCache<byte[]>());
             var ts2 = SandD(ts1);
 
             Assert.NotNull(ts2);
@@ -155,25 +204,49 @@ namespace BruTile.Serialization.Tests
             Assert.AreEqual(tsc1.MaxResolution, tsc2.MaxResolution, "Max resolution levels don't match");
         }
 
-        //[Test]
-        //[Ignore("Test a path to a folder on a specific machine")]
-        //public void TestMbTiles()
-        //{
-        //    var p1 = new MbTilesTileSource(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles");
-        //    var p2 = SandD(p1);
-        //    Assert.IsNotNull(p2);
-        //    Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
-        //    Assert.AreEqual(p1.Type, p2.Type, "MbTiles Type not equal");
-        //    string msg;
-        //    Assert.IsTrue(EqualTileSources(p1, p2, out msg), msg);
-        //    //Assert.IsTrue(EqualTileSchemas(p1.Schema, p2.Schema, out msg), msg);
-        //}
+        [TestCase(@"C:\Users\obe.IVV-AACHEN\Downloads\geography-class.mbtiles")]
+        [Ignore("Test a path to a folder on a specific machine")]
+        public void TestMbTiles(string mbTilesFile)
+        {
+            if (!File.Exists(mbTilesFile))
+                throw new IgnoreException(string.Format("File '{0}' does not exist.", mbTilesFile));
+
+            var p1 = new MbTilesTileSource(mbTilesFile);
+            var p2 = SandD(p1);
+            Assert.IsNotNull(p2);
+            Assert.AreEqual(p1.Format, p2.Format, "MbTiles Format not equal");
+            Assert.AreEqual(p1.Type, p2.Type, "MbTiles Type not equal");
+            string msg;
+            Assert.IsTrue(EqualTileSources(p1, p2, out msg), msg);
+            //Assert.IsTrue(EqualTileSchemas(p1.Schema, p2.Schema, out msg), msg);
+        }
+
+        [Test]
+        public void TestKnownTileSources()
+        {
+            foreach (KnownTileSource kts in Enum.GetValues(typeof(KnownTileSource)))
+            {
+                try
+                {
+                    var srcS = KnownTileSources.Create(kts);
+                    var srcD = SandD(srcS);
+                    Assert.IsNotNull(srcD);
+                    string message;
+                    Assert.IsTrue(EqualTileSources(srcS, srcD, out message));
+                }
+                catch
+                {
+                }
+            }
+
+        }
+
 
         #endregion
 
         #region private helper methods
 
-        private static bool EqualTileSources(TileSource ts1, TileSource ts2, out string message)
+        private static bool EqualTileSources(ITileSource ts1, ITileSource ts2, out string message)
         {
             if (!ReferenceEquals(ts1, ts2))
             {
@@ -188,7 +261,10 @@ namespace BruTile.Serialization.Tests
                     return false;
                 }
 
-                if (!EqualTileSchemas((TileSchema)ts1.Schema, (TileSchema)ts2.Schema, out message))
+                if (!EqualTileSchemas(ts1.Schema, ts2.Schema, out message))
+                    return false;
+
+                if (!EqualTileProviders(ts1.Schema, (ITileProvider)ts1, (ITileProvider)ts2, out message))
                     return false;
             }
             
@@ -196,7 +272,7 @@ namespace BruTile.Serialization.Tests
             return true;
         }
 
-        private static bool EqualTileProviders(ITileProvider tp1, ITileProvider tp2, out string message)
+        private static bool EqualTileProviders(ITileSchema schema, ITileProvider tp1, ITileProvider tp2, out string message)
         {
             if (!ReferenceEquals(tp1, tp2))
             {
@@ -217,12 +293,16 @@ namespace BruTile.Serialization.Tests
                     return false;
                 }
 
+                var keys = schema.Resolutions.Keys.ToArray();
+                var minkey = GetIndex(keys[0]);
+                var maxKey = GetIndex(keys[keys.Length - 1]);
+                var prefix = GetPrefix(keys[0]);
                 for (var i = 0; i < 8; i++)
                 {
                     TileInfo ti = null;
                     try
                     {
-                        ti = RandomTileInfo();
+                        ti = RandomTileInfo(prefix + "{0}", minkey, maxKey);
                         var t1 = tp1.GetTile(ti);
                         var t2 = tp2.GetTile(ti);
                         if (!TilesEqual(t1, t2))
@@ -231,19 +311,42 @@ namespace BruTile.Serialization.Tests
                             return false;
                         }
                     }
+                    catch (TimeoutException ex)
+                    {
+                        Console.WriteLine("TileInfo({4}): {0}, {1}, {2}\n{3}", ti.Index.Level, ti.Index.Col, ti.Index.Row,
+                                          ex.Message, i);
+                    }
                     catch(WebException ex)
                     {
                         if (ti == null)
                             Console.WriteLine("No tile info!");
                         else
-                            Console.WriteLine("TileInfo: {0}, {1}, {2}\n{3}\n{4}", ti.Index.Level, ti.Index.Col, ti.Index.Row,
-                                              ex.Message, ex.Response.ResponseUri);
+                            Console.WriteLine("TileInfo({5}): {0}, {1}, {2}\n{3}\n{4}", ti.Index.Level, ti.Index.Col, ti.Index.Row,
+                                              ex.Message, ex.Response.ResponseUri, i);
                     }
                 }
             }
 
             message = "Tile providers appear to be equal";
             return true;
+        }
+
+        private static int GetIndex(string s)
+        {
+            var pos = s.LastIndexOf(":", StringComparison.Ordinal);
+            if (pos == 0)
+                return int.Parse(s, NumberFormatInfo.InvariantInfo);
+            return int.Parse(s.Substring(pos + 1), NumberFormatInfo.InvariantInfo);
+        }
+
+        private static string GetPrefix(string s)
+        {
+            var pos = s.LastIndexOf(":", StringComparison.Ordinal);
+            if (pos == -1)
+                return string.Empty;
+
+            return s.Substring(0, pos+1);
+
         }
 
         private static bool TilesEqual(IEnumerable<byte> t1, IList<byte> t2)
@@ -296,14 +399,18 @@ namespace BruTile.Serialization.Tests
          */
 
         private static readonly Random Rnd = new Random();
-        private static TileInfo RandomTileInfo()
+        private static TileInfo RandomTileInfo(string format = "{0}", int minLevel = 3, int maxLevel = 12)
         {
-            var level = Rnd.Next(3, 12);
-            var max = 2 ^ level;
-            return new TileInfo { Extent = new Extent(), Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), level.ToString(CultureInfo.InvariantCulture)) };
+            var level = Rnd.Next(minLevel, maxLevel);
+            var max = (int)Math.Pow(2, level) - 1;
+            return new TileInfo
+            {
+                Extent = new Extent(),
+                Index = new TileIndex(Rnd.Next(0, max), Rnd.Next(0, max), string.Format(CultureInfo.InvariantCulture, format, level))
+            };
         }
 
-        private static bool EqualTileSchemas(TileSchema ts1, TileSchema ts2, out string message)
+        private static bool EqualTileSchemas(ITileSchema ts1, ITileSchema ts2, out string message)
         {
             if (ts1.Name != ts2.Name)
             {
@@ -319,38 +426,69 @@ namespace BruTile.Serialization.Tests
 
             if (ts1.Format != ts2.Format)
             {
-                message = "Format doesn't match";
+                message = "Formats don't match";
                 return false;
             }
 
             if (ts1.Extent != ts2.Extent)
             {
-                message = "Extents doesn't match";
+                message = "Extents don't match";
                 return false;
             }
 
-            if (ts1.Height != ts2.Height)
+            var tts1 = ts1 as TileSchema;
+            var tts2 = ts2 as TileSchema;
+            if (tts1 != null && tts2 != null)
             {
-                message = "Heights doesn't match";
-                return false;
+                if (tts1.Height != tts2.Height)
+                {
+                    message = "Heights don't match";
+                    return false;
+                }
+
+                if (tts1.Width != tts2.Width)
+                {
+                    message = "Widths don't match";
+                    return false;
+                }
+
+                if (tts1.OriginX != tts2.OriginX)
+                {
+                    message = "OriginX' don't match";
+                    return false;
+                }
+
+                if (tts1.OriginY != tts2.OriginY)
+                {
+                    message = "OriginYs don't match";
+                    return false;
+                }
             }
 
-            if (ts1.Width != ts2.Width)
+            var wts1 = ts1 as WmtsTileSchema;
+            var wts2 = ts2 as WmtsTileSchema;
+            if (wts1 != null && wts2 != null)
             {
-                message = "Widths doesn't match";
-                return false;
-            }
-
-            if (ts1.OriginX != ts2.OriginX)
-            {
-                message = "OriginX' doesn't match";
-                return false;
-            }
-
-            if (ts1.OriginY != ts2.OriginY)
-            {
-                message = "OriginYs doesn't match";
-                return false;
+                if (wts1.Abstract != wts2.Abstract)
+                {
+                    message = "Abstracts don't match";
+                    return false;
+                }
+                if (wts1.Style != wts2.Style)
+                {
+                    message = "Styles don't match";
+                    return false;
+                }
+                if (wts1.Identifier != wts2.Identifier)
+                {
+                    message = "Identifiers don't match";
+                    return false;
+                }
+                if (wts1.SupportedSRS.ToString() != wts2.SupportedSRS.ToString())
+                {
+                    message = "SupportedSRS' don't match";
+                    return false;
+                }
             }
 
             if (ts1.Resolutions.Count != ts2.Resolutions.Count)

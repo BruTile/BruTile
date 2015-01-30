@@ -3,6 +3,8 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading;
 
 namespace BruTile.Cache
@@ -10,10 +12,11 @@ namespace BruTile.Cache
     [Serializable]
     public class FileCache : IPersistentCache<byte[]>
     {
+        [NonSerialized]
         private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
         private readonly string _directory;
         private readonly string _format;
-        private readonly TimeSpan _cacheExpireTime = TimeSpan.Zero;
+        private readonly TimeSpan _cacheExpireTime;
 
         /// <remarks>
         ///   The constructor creates the storage _directory if it does not exist.
@@ -158,5 +161,13 @@ namespace BruTile.Cache
             return true;
         }
 #endif
+
+        [OnDeserialized]
+        protected void OnDeserialized(StreamingContext context)
+        {
+            var fi = GetType().GetField("_rwLock", BindingFlags.Instance | BindingFlags.NonPublic);
+            System.Diagnostics.Debug.Assert(fi != null);
+            fi.SetValue(this, new ReaderWriterLockSlim());
+        }
     }
 }

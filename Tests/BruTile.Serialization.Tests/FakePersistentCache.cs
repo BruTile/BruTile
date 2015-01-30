@@ -1,7 +1,9 @@
-﻿using BruTile.Cache;
+﻿using System;
+using BruTile.Cache;
 
 namespace BruTile.Serialization.Tests
 {
+    [Serializable]
     public class FakePersistentCache<T> : IPersistentCache<T>
     {
         readonly MemoryCache<T> _memoryCache = new MemoryCache<T>(100, 200);
