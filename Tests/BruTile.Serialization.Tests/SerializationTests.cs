@@ -303,12 +303,25 @@ namespace BruTile.Serialization.Tests
                     try
                     {
                         ti = RandomTileInfo(prefix + "{0}", minkey, maxKey);
-                        var t1 = tp1.GetTile(ti);
-                        var t2 = tp2.GetTile(ti);
-                        if (!TilesEqual(t1, t2))
+                        var req1 = tp1 as IRequest;
+                        var req2 = tp2 as IRequest;
+                        if (req1 != null && req2 != null)
                         {
-                            message = "Request builders produce different results for same tile request";
-                            return false;
+                            if (req1.GetUri(ti) != req2.GetUri(ti))
+                            {
+                                message = "Request builders produce different uris for the same request";
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            var t1 = tp1.GetTile(ti);
+                            var t2 = tp2.GetTile(ti);
+                            if (!TilesEqual(t1, t2))
+                            {
+                                message = "Request builders produce different results for same tile request";
+                                return false;
+                            }
                         }
                     }
                     catch (TimeoutException ex)
