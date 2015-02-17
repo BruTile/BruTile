@@ -97,7 +97,12 @@ namespace BruTile.Tests.Wmts
 
                 // assert
                 var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
-                Assert.NotNull(tileSource.Schema.Resolutions.Count == 3);
+                var tileSchema = tileSource.Schema as WmtsTileSchema;
+                Assert.AreEqual(15, tileSource.Schema.Resolutions.Count);
+                Assert.NotNull(tileSchema);
+                Assert.AreEqual("public_doggersbank", tileSchema.Title);
+                Assert.AreEqual("public_doggersbank", tileSchema.Layer);
+                Assert.AreEqual("default028mm", tileSchema.TileMatrixSet);
             }
         }
 

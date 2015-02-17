@@ -89,8 +89,8 @@ namespace BruTile.Wmts
                             //var layerName = layer.Identifier.Value;
                             var styleName = style.Identifier.Value;
 
-                            var tileSource = new TileSource(new WebTileProvider(wmtsRequest), 
-                                tileSchema.CreateSpecific(identifier, @abstract, styleName, format))
+                            var tileSource = new TileSource(new WebTileProvider(wmtsRequest),
+                                tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format))
                                 {
                                     Name = title
                                 };
