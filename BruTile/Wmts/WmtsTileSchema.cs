@@ -95,22 +95,37 @@ namespace BruTile.Wmts
         /// </summary>
         public string Abstract { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating the name of the tile schema
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets a value indicating the spatial reference system (srs) of the tile schema
+        /// </summary>
         public string Srs { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating the extent covered by this tile schema
+        /// </summary>
         public Extent Extent
         {
             get { return _extent; }
             set { _extent = value; }
         }
 
+        /// <summary>
+        /// Gets a value indicating the file format of the tiles
+        /// </summary>
         public string Format { get; set; }
-        
+
+        /// <summary>
+        /// Gets a value indicating the orientation of the y-axis
+        /// </summary>
         public YAxis YAxis { get; set; }
         
         public IDictionary<string, Resolution> Resolutions { get; set; }

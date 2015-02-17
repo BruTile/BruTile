@@ -88,9 +88,12 @@ namespace BruTile
                 }
                 info.AddValue("axis", ts.YAxis);
 
-                info.AddValue("identifier", ts.Identifier);
+                //info.AddValue("identifier", ts.Identifier);
+                info.AddValue("layer", ts.Layer);
+                info.AddValue("title", ts.Title);
                 info.AddValue("abstract", ts.Abstract);
                 info.AddValue("style", ts.Style);
+                info.AddValue("tileMatrixSet", ts.TileMatrixSet);
                 info.AddValue("supportedSRS", ts.SupportedSRS.ToString());
             }
 
@@ -115,9 +118,13 @@ namespace BruTile
 
                 ts.YAxis = (YAxis)info.GetInt32("axis");
 
-                Utility.SetPropertyValue(ref obj, "Identifier", BindingFlags.Instance | BindingFlags.Public, info.GetString("identifier"));
+                //Utility.SetPropertyValue(ref obj, "Identifier", BindingFlags.Instance | BindingFlags.Public, info.GetString("identifier"));
+                Utility.SetPropertyValue(ref obj, "Layer", BindingFlags.Instance | BindingFlags.Public, info.GetString("layer"));
+                Utility.SetPropertyValue(ref obj, "Title", BindingFlags.Instance | BindingFlags.Public, info.GetString("title"));
                 Utility.SetPropertyValue(ref obj, "Abstract", BindingFlags.Instance | BindingFlags.Public, info.GetString("abstract"));
                 Utility.SetPropertyValue(ref obj, "Style", BindingFlags.Instance | BindingFlags.Public, info.GetString("style"));
+                Utility.SetPropertyValue(ref obj, "TileMatrixSet", BindingFlags.Instance | BindingFlags.Public, info.GetString("tileMatrixSet"));
+
                 CrsIdentifier tmp;
                 if (CrsIdentifier.TryParse(info.GetString("supportedSRS"), out tmp))
                     Utility.SetPropertyValue(ref obj, "SupportedSRS", BindingFlags.Instance | BindingFlags.Public, tmp);
