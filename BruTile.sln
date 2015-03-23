@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Console", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop.Tests", "Performance\BruTile.Desktop.Tests\BruTile.Desktop.Tests.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
