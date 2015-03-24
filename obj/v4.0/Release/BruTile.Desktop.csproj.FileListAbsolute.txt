@@ -1,0 +1,5 @@
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v4.0\BruTile.Desktop.dll
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v4.0\BruTile.Desktop.pdb
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.Desktop.csprojResolveAssemblyReference.cache
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.Desktop.dll
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.Desktop.pdb

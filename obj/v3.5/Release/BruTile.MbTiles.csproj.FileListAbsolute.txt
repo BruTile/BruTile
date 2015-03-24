@@ -1,0 +1,6 @@
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v3.5\BruTile.MbTiles.dll.config
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v3.5\BruTile.MbTiles.dll
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v3.5\BruTile.MbTiles.pdb
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v3.5\Release\BruTile.MbTiles.csprojResolveAssemblyReference.cache
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v3.5\Release\BruTile.MbTiles.dll
+C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v3.5\Release\BruTile.MbTiles.pdb
