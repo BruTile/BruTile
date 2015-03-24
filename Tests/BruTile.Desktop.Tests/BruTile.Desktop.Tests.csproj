@@ -75,10 +75,6 @@
       <Project>{C847C0EA-38EC-49B8-AF07-12B65CA9C708}</Project>
       <Name>BruTile.MbTiles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\BruTile.Serialization\BruTile.Serialization.csproj">
-      <Project>{8D357BE0-AB5A-4B62-891C-FC76CB35DB99}</Project>
-      <Name>BruTile.Serialization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
       <Name>BruTile</Name>
