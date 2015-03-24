@@ -11,11 +11,11 @@
              Targets="BruTile"
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\..\Release\Portable\" />
     <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles"
+             Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
              Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v3.5\"
              RunEachTargetSeparately="true"/>
     <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile;BruTile_Desktop;BruTile_Serialization;BruTile_MbTiles"
+             Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
              Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
              RunEachTargetSeparately="true"/>
   </Target>
