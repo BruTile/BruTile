@@ -1,5 +1,0 @@
-C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v4.0\BruTile.dll
-C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\Release\v4.0\BruTile.pdb
-C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.csprojResolveAssemblyReference.cache
-C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.dll
-C:\Users\obe.IVV-AACHEN\Documents\GitHub\BruTile\obj\v4.0\Release\BruTile.pdb
