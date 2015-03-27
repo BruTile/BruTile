@@ -1,15 +1,15 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using BruTile.Cache;
 using System;
 using System.Collections.Generic;
+using BruTile.Cache;
 
 namespace BruTile.Web
 {
     public class HttpTileSource : ITileSource, IRequest
     {
-        private readonly ITileSchema _tileSchema;
         private readonly WebTileProvider _provider;
+        private readonly ITileSchema _tileSchema;
 
         public  HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, 
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null, 
@@ -26,6 +26,17 @@ namespace BruTile.Web
             Name = name ?? string.Empty;
         }
 
+        public IPersistentCache<byte[]> PersistentCache { get { return _provider.PersistentCache; } }
+
+        public Uri GetUri(TileInfo tileInfo)
+        {
+            return _provider.GetUri(tileInfo);
+        }
+
+        public ITileSchema Schema { get { return _tileSchema;  } }
+
+        public string Name { get; set; }
+
         /// <summary>
         /// Gets the actual image content of the tile as byte array
         /// </summary>
@@ -34,12 +45,6 @@ namespace BruTile.Web
             return _provider.GetTile(tileInfo);
         }
 
-        public Uri GetUri(TileInfo tileInfo)
-        {
-            return _provider.GetUri(tileInfo);
-        }
 
-        public ITileSchema Schema { get { return _tileSchema;  } }
-        public string Name { get; set; }
     }
 }
