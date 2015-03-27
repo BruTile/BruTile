@@ -17,7 +17,7 @@ namespace BruTile.Web
         public BingTileSource(
                         BingRequest bingRequest, 
                         IPersistentCache<byte[]> persistentCache = null)
-            : base(new WebTileProvider(bingRequest, persistentCache), new GlobalSphericalMercator("jpg", YAxis.OSM, 1, 19, "Bing"))
+            : base(new HttpTileProvider(bingRequest, persistentCache), new GlobalSphericalMercator("jpg", YAxis.OSM, 1, 19, "Bing"))
         {
         }
     }

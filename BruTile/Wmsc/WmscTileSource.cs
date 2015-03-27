@@ -58,7 +58,7 @@ namespace BruTile.Wmsc
             var layers = xTileSet.Elements("Layers").Select(xLayer => xLayer.Value).ToList();
             var schema = ToTileSchema(xTileSet, CreateDefaultName(layers));
             var wmscRequest = new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles);
-            return new WmscTileSource(schema, new WebTileProvider(wmscRequest));
+            return new WmscTileSource(schema, new HttpTileProvider(wmscRequest));
         }
 
         private static TileSchema ToTileSchema(XElement xTileSet, string name)

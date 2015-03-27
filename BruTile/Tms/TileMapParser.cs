@@ -31,7 +31,7 @@ namespace BruTile.Tms
             {
                 tileUrls[ts.order] = new Uri(ts.href);
             }
-            var tileProvider = new WebTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
+            var tileProvider = new HttpTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
                 persistentCache, fetchTile);
 
             return new TileSource(tileProvider, tileSchema);

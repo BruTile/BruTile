@@ -18,7 +18,7 @@ namespace BruTile.Tms
         [Obsolete("Use HttpTileSource")]
         public TmsTileSource(Uri serviceUri, ITileSchema tileSchema, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null) :
-            base(new WebTileProvider(new TmsRequest(serviceUri, tileSchema.Format), persistentCache,
+            base(new HttpTileProvider(new TmsRequest(serviceUri, tileSchema.Format), persistentCache,
                 fetchTile), tileSchema)
         {
         }

@@ -17,7 +17,7 @@ namespace BruTile.Web
                 IPersistentCache<byte[]> persistentCache = null,
                 Func<Uri, byte[]> fetchTile = null)
             : base(
-                new WebTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), 
+                new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), 
                 schema)
         {
             BaseUrl = baseUrl;

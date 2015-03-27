@@ -8,7 +8,7 @@ namespace BruTile.Web
 {
     public class HttpTileSource : ITileSource, IRequest
     {
-        private readonly WebTileProvider _provider;
+        private readonly HttpTileProvider _provider;
         private readonly ITileSchema _tileSchema;
 
         public  HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, 
@@ -21,7 +21,7 @@ namespace BruTile.Web
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null, 
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
         {
-            _provider = new WebTileProvider(request, persistentCache, tileFetcher);
+            _provider = new HttpTileProvider(request, persistentCache, tileFetcher);
             _tileSchema = tileSchema;
             Name = name ?? string.Empty;
         }

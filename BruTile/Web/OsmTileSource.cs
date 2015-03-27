@@ -14,7 +14,7 @@ namespace BruTile.Web
         public OsmTileSource(OsmRequest osmRequest = null,
             IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null)
-            : base(new WebTileProvider(
+            : base(new HttpTileProvider(
                         osmRequest ?? new OsmRequest(KnownTileSource.OpenStreetMap), 
                         persistentCache,
                         fetchTile), 
