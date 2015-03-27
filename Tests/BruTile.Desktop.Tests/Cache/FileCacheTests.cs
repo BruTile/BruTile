@@ -19,8 +19,8 @@ namespace BruTile.Tests.Cache
             return new FileCache("FileCacheTest", "buf");
         }
 
-        [Test, Ignore]
-        public void DoTest()
+        [Test]
+        public void InsertFindRemoveTest()
         {
             TestInsertFindRemove();
         }

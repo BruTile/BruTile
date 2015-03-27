@@ -15,7 +15,7 @@ namespace BruTile.Tests.Cache
         protected const int TileSizeX = 256;
         protected const int TileSizeY = 256;
         protected const int BitsPerPixel = 8;
-        protected const int MaxLevel = 5;
+        protected const int MaxLevel = 4;
 
         protected readonly TCache Cache;
 
@@ -49,7 +49,7 @@ namespace BruTile.Tests.Cache
                         count++;
                     }
             }
-            Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
+            Console.WriteLine("{0} dummy tiles inserted.", count);
         }
 
         public void FindTile()
@@ -83,7 +83,7 @@ namespace BruTile.Tests.Cache
             Console.WriteLine(string.Format("Specific Tile ({0},{1},{2}) found in {3}ms.", tk.Level, tk.Row, tk.Col, sw.ElapsedMilliseconds));
         }
 
-        private const int NumberToSearch = 10000;
+        private const int NumberToSearch = 20;
         private const int WaitMilliseconds = 0;
 
         public void FindTiles()
@@ -98,16 +98,16 @@ namespace BruTile.Tests.Cache
             }
             waitHandle.WaitOne();
             sw.Stop();
-            Console.WriteLine(string.Format("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds));
+            Console.WriteLine("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds);
         }
 
         private static readonly Random _random = new Random(93765783);
 
         private static IEnumerable<TileIndex> GetRandomTileIndices(int numberOfTileInfos)
         {
-            for (int i = 0; i < numberOfTileInfos; i++)
+            for (var i = 0; i < numberOfTileInfos; i++)
             {
-                int level = _random.Next(MaxLevel);
+                var level = _random.Next(MaxLevel);
                 var maxValue = (int)Math.Pow(2, level);
                 yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level.ToString(CultureInfo.InvariantCulture));
             }

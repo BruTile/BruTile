@@ -33,14 +33,12 @@ namespace BruTile.Tests.Cache
             return new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
-        [Test, Ignore]
-        public void DoTest()
+        [Test]
+        public void InsertFindRemoveTest()
         {
             TestInsertFindRemove();
-#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
-#endif
         }
 
         protected override void InsertTiles()

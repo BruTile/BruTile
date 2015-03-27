@@ -55,7 +55,7 @@ namespace BruTile.Tests.Cache
             trans.Commit(CommitMode.Immediate);
             Cache.Connection.Close();
 
-            Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
+            Console.WriteLine("{0} dummy tiles inserted.", count);
         }
 
         private static DbCache<SqlCeConnection> CleanConnection()
@@ -128,14 +128,12 @@ namespace BruTile.Tests.Cache
             return cmd;
         }
 
-        [Test, Ignore]
-        public void DoTest()
+        [Test]
+        public void InsertFindRemoveTest()
         {
             TestInsertFindRemove();
-#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
-#endif
         }
     }
 }
