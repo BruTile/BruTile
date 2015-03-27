@@ -56,11 +56,11 @@ namespace BruTile.Demo
             _tileSource = source;
             _viewport.CenterX = source.Schema.Extent.CenterX;
             _viewport.CenterY = source.Schema.Extent.CenterY;
-            _viewport.Resolution = Math.Max(source.Schema.Extent.Width / ActualWidth, source.Schema.Extent.Height / ActualHeight);
+            _viewport.UnitsPerPixel = Math.Max(source.Schema.Extent.Width / ActualWidth, source.Schema.Extent.Height / ActualHeight);
             _tileCache.Clear();
             _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
             _fetcher.DataChanged += FetcherOnDataChanged;
-            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
             _invalid = true;
         }
 
@@ -86,7 +86,7 @@ namespace BruTile.Demo
             var currentMousePosition = e.GetPosition(this); //Needed for both MouseMove and MouseWheel event
             _viewport.Transform(currentMousePosition.X, currentMousePosition.Y, _previousMousePosition.X, _previousMousePosition.Y);
             _previousMousePosition = currentMousePosition;
-            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
             _invalid = true;
         }
 
@@ -95,7 +95,7 @@ namespace BruTile.Demo
             if (_viewport == null) return;
             _viewport.Width = ActualWidth;
             _viewport.Height = ActualHeight;
-            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
             _invalid = true;
         }
 
@@ -134,14 +134,14 @@ namespace BruTile.Demo
         {
             if (e.Delta > 0)
             {
-                _viewport.Resolution = ZoomHelper.ZoomIn(_tileSource.Schema.Resolutions.Select(r => r.Value.UnitsPerPixel).ToList(), _viewport.Resolution);
+                _viewport.UnitsPerPixel = ZoomHelper.ZoomIn(_tileSource.Schema.Resolutions.Select(r => r.Value.UnitsPerPixel).ToList(), _viewport.UnitsPerPixel);
             }
             else if (e.Delta < 0)
             {
-                _viewport.Resolution = ZoomHelper.ZoomOut(_tileSource.Schema.Resolutions.Select(r => r.Value.UnitsPerPixel).ToList(), _viewport.Resolution);
+                _viewport.UnitsPerPixel = ZoomHelper.ZoomOut(_tileSource.Schema.Resolutions.Select(r => r.Value.UnitsPerPixel).ToList(), _viewport.UnitsPerPixel);
             }
 
-            _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution);
+            _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
             e.Handled = true; //so that the scroll event is not sent to the html page.
             _invalid = true;
         }
@@ -154,7 +154,7 @@ namespace BruTile.Demo
             if (_viewport == null)
             {
                 if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, _tileSource.Schema)) return;
-                _fetcher.ViewChanged(_viewport.Extent, _viewport.Resolution); // start fetching when viewport is first initialized
+                _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // start fetching when viewport is first initialized
             }
             
             _renderer.Render(_viewport, _tileSource, _tileCache);
@@ -172,7 +172,7 @@ namespace BruTile.Demo
                 {
                     Width = actualWidth,
                     Height = actualHeight,
-                    Resolution = schema.Resolutions[nearestLevel].UnitsPerPixel,
+                    UnitsPerPixel = schema.Resolutions[nearestLevel].UnitsPerPixel,
                     Center = new Samples.Common.Geometries.Point(schema.Extent.CenterX, schema.Extent.CenterY)
                 };
             return true;

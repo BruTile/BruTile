@@ -34,26 +34,26 @@ namespace BruTile
             }
         }
 
-        public static string GetNearestLevel(IDictionary<string, Resolution> resolutions, double resolution)
+        public static string GetNearestLevel(IDictionary<string, Resolution> resolutions, double unitsPerPixel)
         {
             if (resolutions.Count == 0)
             {
                 throw new ArgumentException("No tile resolutions");
             }
 
-            var localResolutions = resolutions.OrderByDescending(r => r.Value.UnitsPerPixel);
+            var orderedResolutions = resolutions.OrderByDescending(r => r.Value.UnitsPerPixel);
 
             //smaller than smallest
-            if (localResolutions.Last().Value.UnitsPerPixel > resolution) return localResolutions.Last().Key;
+            if (orderedResolutions.Last().Value.UnitsPerPixel > unitsPerPixel) return orderedResolutions.Last().Key;
 
             //bigger than biggest
-            if (localResolutions.First().Value.UnitsPerPixel < resolution) return localResolutions.First().Key;
+            if (orderedResolutions.First().Value.UnitsPerPixel < unitsPerPixel) return orderedResolutions.First().Key;
 
             string result = null;
             double resultDistance = double.MaxValue;
-            foreach (var current in localResolutions)
+            foreach (var current in orderedResolutions)
             {
-                double distance = Math.Abs(current.Value.UnitsPerPixel - resolution);
+                double distance = Math.Abs(current.Value.UnitsPerPixel - unitsPerPixel);
                 if (distance < resultDistance)
                 {
                     result = current.Key;

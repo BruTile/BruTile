@@ -50,7 +50,7 @@ namespace BruTile.Predefined
 
             foreach (var resolution in resolutions)
             {
-                Resolutions[resolution.Key] = resolution.Value;
+                Resolutions[resolution.Value.Id] = resolution.Value;
             }
 
             OriginX = -ScaleFactor * Width;

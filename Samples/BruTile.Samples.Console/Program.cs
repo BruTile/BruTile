@@ -20,9 +20,9 @@ namespace BruTile.Samples.Console
 
             // the extent of the visible map changes but lets start with the whole world
             var extent = new Extent(-20037508, -20037508, 20037508, 20037508);
-            var screenWidthInPixels = 400; // The width of the map on screen in pixels
-            var resolution = extent.Width / screenWidthInPixels;
-            var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
+            const int screenWidthInPixels = 400; // The width of the map on screen in pixels
+            var unitsPerPixel = extent.Width / screenWidthInPixels;
+            var tileInfos = tileSource.Schema.GetTileInfos(extent, unitsPerPixel);
 
 
             // 3) Fetch the tiles from the service

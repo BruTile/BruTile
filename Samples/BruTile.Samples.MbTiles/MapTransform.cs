@@ -53,7 +53,7 @@ namespace BruTile.Samples.MbTiles
     {
         #region Fields
 
-        double _resolution;
+        double _unitsPerPixel;
         PointD _center;
         double _width;
         double _height;
@@ -63,25 +63,25 @@ namespace BruTile.Samples.MbTiles
 
         #region Public Methods
 
-        public MapTransform(PointD center, double resolution, double width, double height)
+        public MapTransform(PointD center, double unitsPerPixel, double width, double height)
         {
             _center = center;
-            _resolution = resolution;
+            _unitsPerPixel = unitsPerPixel;
             _width = width;
             _height = height;
             UpdateExtent();
         }
 
-        public double Resolution
+        public double UnitsPerPixel
         {
             set
             {
-                _resolution = value;
+                _unitsPerPixel = value;
                 UpdateExtent();
             }
             get
             {
-                return _resolution;
+                return _unitsPerPixel;
             }
         }
 
@@ -120,12 +120,12 @@ namespace BruTile.Samples.MbTiles
 
         public PointF WorldToMap(double x, double y)
         {
-            return new PointD((x - _extent.MinX) / _resolution, (_extent.MaxY - y) / _resolution);
+            return new PointD((x - _extent.MinX) / _unitsPerPixel, (_extent.MaxY - y) / _unitsPerPixel);
         }
 
         public PointD MapToWorld(double x, double y)
         {
-            return new PointD((_extent.MinX + (x * _resolution)), (_extent.MaxY - (y * _resolution)));
+            return new PointD((_extent.MinX + (x * _unitsPerPixel)), (_extent.MaxY - (y * _unitsPerPixel)));
         }
 
         public RectangleF WorldToMap(Extent extent)
@@ -146,8 +146,8 @@ namespace BruTile.Samples.MbTiles
 
         private void UpdateExtent()
         {
-            var spanX = _width * _resolution;
-            var spanY = _height * _resolution;
+            var spanX = _width * _unitsPerPixel;
+            var spanY = _height * _unitsPerPixel;
             _extent = new Extent(
                 _center.X - spanX * 0.5f, _center.Y - spanY * 0.5f,
                 _center.X + spanX * 0.5f, _center.Y + spanY * 0.5f);

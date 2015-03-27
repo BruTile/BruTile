@@ -4,31 +4,31 @@ namespace BruTile.Samples.SimpleStaticMap
 {
     class Viewport
     {
-        float _resolution;
+        float _unitsPerPixel;
         PointF _center;
         float _width;
         float _height;
         Extent _extent;
 
-        public Viewport(PointF center, float resolution, float width, float height)
+        public Viewport(PointF center, float unitsPerPixel, float width, float height)
         {
             _center = center;
-            _resolution = resolution;
+            _unitsPerPixel = unitsPerPixel;
             _width = width;
             _height = height;
             UpdateExtent();
         }
 
-        public float Resolution
+        public float UnitsPerPixel
         {
             set
             {
-                _resolution = value;
+                _unitsPerPixel = value;
                 UpdateExtent();
             }
             get
             {
-                return _resolution;
+                return _unitsPerPixel;
             }
         }
 
@@ -66,12 +66,12 @@ namespace BruTile.Samples.SimpleStaticMap
 
         public PointF WorldToScreen(double x, double y)
         {
-            return new PointF((float)(x - _extent.MinX) / _resolution, (float)(_extent.MaxY - y) / _resolution);
+            return new PointF((float)(x - _extent.MinX) / _unitsPerPixel, (float)(_extent.MaxY - y) / _unitsPerPixel);
         }
 
         public PointF ViewToWorld(double x, double y)
         {
-            return new PointF((float)(_extent.MinX + x) * _resolution, (float)(_extent.MaxY - y) * _resolution);
+            return new PointF((float)(_extent.MinX + x) * _unitsPerPixel, (float)(_extent.MaxY - y) * _unitsPerPixel);
         }
 
         public RectangleF WorldToScreen(double x1, double y1, double x2, double y2)
@@ -83,8 +83,8 @@ namespace BruTile.Samples.SimpleStaticMap
 
         private void UpdateExtent()
         {
-            float spanX = _width * _resolution;
-            float spanY = _height * _resolution;
+            float spanX = _width * _unitsPerPixel;
+            float spanY = _height * _unitsPerPixel;
             _extent = new Extent(_center.X - spanX * 0.5f, _center.Y - spanY * 0.5f,
               _center.X + spanX * 0.5f, _center.Y + spanY * 0.5f);
         }

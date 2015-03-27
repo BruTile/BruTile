@@ -30,8 +30,8 @@ namespace BruTile.Samples.Common
             IList<TileInfo> infos = new List<TileInfo>();
             // Iterating through all levels from current to zero. If lower levels are
             // not availeble the renderer can fall back on higher level tiles. 
-            var resolution = schema.Resolutions[levelId].UnitsPerPixel;
-            var levels = schema.Resolutions.Where(k => resolution <= k.Value.UnitsPerPixel).OrderByDescending(x => x.Value.UnitsPerPixel);
+            var unitsPerPixel = schema.Resolutions[levelId].UnitsPerPixel;
+            var levels = schema.Resolutions.Where(k => unitsPerPixel <= k.Value.UnitsPerPixel).OrderByDescending(x => x.Value.UnitsPerPixel);
             
             //var levelCount = levels.Count();
             foreach (var level in levels)

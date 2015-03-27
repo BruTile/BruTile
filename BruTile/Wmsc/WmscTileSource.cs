@@ -11,9 +11,6 @@ using BruTile.Wms;
 
 namespace BruTile.Wmsc
 {
-    /// <summary>
-    /// This class has not been tested.
-    /// </summary>
     public class WmscTileSource : TileSource
     {
         #region Fields
@@ -123,13 +120,13 @@ namespace BruTile.Wmsc
             {
                 var count = 0;
                 string[] resolutions = xResolutions.Value.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var resolutionStr in resolutions)
+                foreach (var resolution in resolutions)
                 {
-                    double resolution;
-                    if (!Double.TryParse(resolutionStr, NumberStyles.Any, CultureInfo.InvariantCulture, out resolution))
+                    double unitsPerPixel;
+                    if (!Double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
                     var levelId = count.ToString(CultureInfo.InvariantCulture);
-                    schema.Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = resolution};
+                    schema.Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = unitsPerPixel};
                     count++;
                 }
             }

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Globalization;
-using System.Linq;
 
 namespace BruTile.Predefined
 {
@@ -13,7 +11,7 @@ namespace BruTile.Predefined
 
         public WkstNederlandSchema()
         {
-            var resolutions = new[] { 
+            var unitsPerPixelArray = new[] { 
                 3440.64,
                 1720.32,
                 860.16,
@@ -32,10 +30,10 @@ namespace BruTile.Predefined
             };
 
             var count = 0;
-            foreach (var resolution in resolutions)
+            foreach (var unitsPerPixel in unitsPerPixelArray)
             {
                 var levelId = count.ToString(CultureInfo.InvariantCulture);
-                Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = resolution};
+                Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = unitsPerPixel};
                 count++;
             }
             Height = 256;

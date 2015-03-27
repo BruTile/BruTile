@@ -90,12 +90,12 @@ namespace BruTile
         IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId);
 
         /// <summary>
-        /// Function to get the <see cref="TileInfo"/>s for a given extent and resolution.
+        /// Function to get the <see cref="TileInfo"/>s for a given extent and unitsPerPixel.
         /// </summary>
         /// <param name="extent">The extent for which to get the tiles</param>
-        /// <param name="resolution">The resolution</param>
+        /// <param name="unitsPerPixel">The unitsPerPixel</param>
         /// <returns>A number of <see cref="TileInfo"/>s</returns>
-        IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution);
+        IEnumerable<TileInfo> GetTileInfos(Extent extent, double unitsPerPixel);
 
         /// <summary>
         /// Function to get the intersection of requested <paramref name="extent"/> 

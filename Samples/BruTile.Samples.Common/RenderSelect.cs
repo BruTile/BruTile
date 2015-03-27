@@ -11,13 +11,13 @@ namespace BruTile.Samples.Common
     {
         const long DurationOfAnimation = TimeSpan.TicksPerSecond;
 
-        public static IEnumerable<Tile<T>> SelectTilesToRender(ITileCache<Tile<T>> cache, ITileSchema schema, Extent extent, double resolution)
+        public static IEnumerable<Tile<T>> SelectTilesToRender(ITileCache<Tile<T>> cache, ITileSchema schema, Extent extent, double unitsPerPixel)
         {
             var selection = new Dictionary<TileIndex, Tile<T>>();
 
             if (schema == null) return selection.Values;
 
-            var levelId = Utilities.GetNearestLevel(schema.Resolutions, resolution);
+            var levelId = Utilities.GetNearestLevel(schema.Resolutions, unitsPerPixel);
 
             SelectRecursive(selection, cache, schema, extent, levelId);
 
@@ -32,14 +32,14 @@ namespace BruTile.Samples.Common
         public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache, 
             ITileSchema schema, Extent extent, string levelId)
         {
-            var resolution = schema.Resolutions[levelId].UnitsPerPixel;
-            var tiles = schema.GetTileInfos(extent, resolution);
+            var unitsPerPixel = schema.Resolutions[levelId].UnitsPerPixel;
+            var tiles = schema.GetTileInfos(extent, unitsPerPixel);
 
             foreach (var tileInfo in tiles)
             {
                 var tile = cache.Find(tileInfo.Index);
 
-                var nextLevelId = schema.Resolutions.Where(r => r.Value.UnitsPerPixel > resolution)
+                var nextLevelId = schema.Resolutions.Where(r => r.Value.UnitsPerPixel > unitsPerPixel)
                    .OrderBy(r => r.Value.UnitsPerPixel).FirstOrDefault().Key;
             
                 if (tile == null)

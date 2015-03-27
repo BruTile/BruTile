@@ -19,7 +19,7 @@ namespace BruTile.Demo
         {
             _canvas.Children.Clear();
 
-            var level = Utilities.GetNearestLevel(tileSource.Schema.Resolutions, viewport.Resolution);
+            var level = Utilities.GetNearestLevel(tileSource.Schema.Resolutions, viewport.UnitsPerPixel);
             var tileInfos = tileSource.Schema.GetTileInfos(viewport.Extent, level);
             foreach (var tileInfo in tileInfos)
             {

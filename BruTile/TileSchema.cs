@@ -101,9 +101,9 @@ namespace BruTile
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
-        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double unitsPerPixel)
         {
-            var level = Utilities.GetNearestLevel(Resolutions, resolution);
+            var level = Utilities.GetNearestLevel(Resolutions, unitsPerPixel);
             return GetTileInfos(extent, level);
         }
 

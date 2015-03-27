@@ -93,8 +93,8 @@ namespace BruTile.Tms
   
             foreach (var tileSet in tileMap.TileSets.TileSet)
             {
-                double resolution = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
-                schema.Resolutions[tileSet.order] = new Resolution { Id = tileSet.order, UnitsPerPixel = resolution };
+                double unitsPerPixel = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
+                schema.Resolutions[tileSet.order] = new Resolution { Id = tileSet.order, UnitsPerPixel = unitsPerPixel };
             }
             return schema;
         }

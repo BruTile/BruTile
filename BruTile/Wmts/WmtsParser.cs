@@ -265,8 +265,8 @@ namespace BruTile.Wmts
             }
 
             // Compute the extent of the tile schema
-            var res = tileSchema.Resolutions.Last();
-            return ToExtent(res.Value);
+            var resolution = tileSchema.Resolutions.Last();
+            return ToExtent(resolution.Value);
         }
 
         private static double[] GetDimensions(string s)
@@ -289,7 +289,8 @@ namespace BruTile.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
+        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, 
+            int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
             
             // Get the coordinates

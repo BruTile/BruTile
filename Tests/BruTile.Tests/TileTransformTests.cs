@@ -50,14 +50,14 @@ namespace BruTile.Tests
         public void GetTilesInViewWithBiggerExtentThanTileSchemaExtentReturnsCorrectNumberOfTiles()
         {
             // arrange
-            var schema = new SphericalMercatorInvertedWorldSchema();
+            var schema = new GlobalSphericalMercator();
             var requestExtent = GrowExtent(schema.Extent, schema.Extent.Width);
 
             var counter = 0;
             foreach (var resolution in schema.Resolutions.OrderByDescending(r => r.Value.UnitsPerPixel))
             {
                 // act
-                var tileInfos = schema.GetTileInfos(requestExtent, resolution.Key).ToList();
+                var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Id).ToList();
 
                 // assert
                 Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));

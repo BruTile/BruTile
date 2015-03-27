@@ -21,34 +21,34 @@ namespace BruTile.Samples.Common
 {
     public static class ZoomHelper
     {
-        public static double ZoomIn(IList<double> resolutions, double resolution)
+        public static double ZoomIn(IList<double> unitsPerPixelList, double unitsPerPixel)
         {
-            if (resolutions.Count == 0) return resolution / 2.0;
+            if (unitsPerPixelList.Count == 0) return unitsPerPixel / 2.0;
 
             //smaller than smallest
-            if (resolutions[resolutions.Count - 1] > resolution) return resolutions[resolutions.Count - 1];
+            if (unitsPerPixelList[unitsPerPixelList.Count - 1] > unitsPerPixel) return unitsPerPixelList[unitsPerPixelList.Count - 1];
 
-            for (int i = 0; i < resolutions.Count; i++)
+            for (int i = 0; i < unitsPerPixelList.Count; i++)
             {
-                if (resolutions[i] < resolution)
-                    return resolutions[i];
+                if (unitsPerPixelList[i] < unitsPerPixel)
+                    return unitsPerPixelList[i];
             }
-            return resolutions[resolutions.Count - 1];
+            return unitsPerPixelList[unitsPerPixelList.Count - 1];
         }
 
-        public static double ZoomOut(IList<double> resolutions, double resolution)
+        public static double ZoomOut(IList<double> unitsPerPixelList, double unitsPerPixel)
         {
-            if (resolutions.Count == 0) return resolution * 2.0;
+            if (unitsPerPixelList.Count == 0) return unitsPerPixel * 2.0;
 
             //bigger than biggest
-            if (resolutions[0] < resolution) return resolutions[0];
+            if (unitsPerPixelList[0] < unitsPerPixel) return unitsPerPixelList[0];
 
-            for (int i = resolutions.Count - 1; i >= 0; i--)
+            for (int i = unitsPerPixelList.Count - 1; i >= 0; i--)
             {
-                if (resolutions[i] > resolution)
-                    return resolutions[i];
+                if (unitsPerPixelList[i] > unitsPerPixel)
+                    return unitsPerPixelList[i];
             }
-            return resolutions[0];
+            return unitsPerPixelList[0];
         }
     }
 }

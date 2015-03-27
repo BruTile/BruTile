@@ -13,7 +13,7 @@ namespace BruTile.Samples.SimpleStaticMap
         readonly Bitmap _buffer;
 
         //a list of resolutions in which the tiles are stored
-        readonly double[] _resolutions =
+        readonly double[] _unitsPerPixelArray =
         { 
             156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 9783.939618750, 
             4891.969809375, 2445.984904688, 1222.992452344, 611.496226172, 305.748113086, 
@@ -37,7 +37,7 @@ namespace BruTile.Samples.SimpleStaticMap
             var viewport = new Viewport(new PointF(629816f, 6805085f), 1222.992452344f, Width, Height);
 
             var schema = CreateTileSchema();
-            var tiles = schema.GetTileInfos(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.Resolution));
+            var tiles = schema.GetTileInfos(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.UnitsPerPixel));
 
             var requestBuilder = new TmsRequest(new Uri("http://a.tile.openstreetmap.org"), "png");
 
@@ -69,10 +69,10 @@ namespace BruTile.Samples.SimpleStaticMap
             };
 
             var i = 0;
-            foreach (var resolution in _resolutions)
+            foreach (var unitsPerPixel in _unitsPerPixelArray)
             {
                 var levelId = i++.ToString(CultureInfo.InvariantCulture);
-                schema.Resolutions[levelId] = new Resolution { UnitsPerPixel = resolution, Id = levelId};
+                schema.Resolutions[levelId] = new Resolution { UnitsPerPixel = unitsPerPixel, Id = levelId};
             }
             return schema;
         }

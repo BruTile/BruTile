@@ -50,7 +50,7 @@ namespace BruTile.Samples.MbTiles
             if (_mapTransform == null)
                 return;
 
-            var res = _mapTransform.Resolution;
+            var res = _mapTransform.UnitsPerPixel;
             float factor;
             if (e.Delta < 0)
                 factor = 1.2f;
@@ -81,13 +81,13 @@ namespace BruTile.Samples.MbTiles
             if (picMap.Width == 0 || picMap.Height == 0) return;
 
             _buffer = new Bitmap(picMap.Width, picMap.Height);
-            _mapTransform = new MapTransform(_mapTransform.Center, _mapTransform.Resolution, picMap.Width, picMap.Height);
+            _mapTransform = new MapTransform(_mapTransform.Center, _mapTransform.UnitsPerPixel, picMap.Width, picMap.Height);
             RenderToBuffer();
         }
 
         private void RenderToBuffer()
         {
-            var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.Resolution);
+            var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.UnitsPerPixel);
 
             using (var g = Graphics.FromImage(_buffer))
             {

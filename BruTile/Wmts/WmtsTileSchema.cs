@@ -73,20 +73,23 @@ namespace BruTile.Wmts
             if (!format.StartsWith("image/"))
                 throw new ArgumentException("Not an image mime type");
 
-            var res = new WmtsTileSchema();
-            res.YAxis = YAxis;
-            res.Extent = new Extent(Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
-            res.Title = title;
-            res.Layer = layer;
-            res.Abstract = @abstract;
-            res.TileMatrixSet = tileMatrixSet;
-            res.Style = style;
-            res.Format = format;
-            res.Name = Name;
-            foreach (var resolution in Resolutions)
-                res.Resolutions.Add(resolution);
-            res.Srs = Srs;
-            res.SupportedSRS = SupportedSRS;
+            var res = new WmtsTileSchema
+            {
+                YAxis = YAxis,
+                Extent = new Extent(Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY),
+                Title = title,
+                Layer = layer,
+                Abstract = @abstract,
+                TileMatrixSet = tileMatrixSet,
+                Style = style,
+                Format = format,
+                Name = Name,
+                Srs = Srs,
+                SupportedSRS = SupportedSRS
+            };
+
+            foreach (var resolution in Resolutions) res.Resolutions.Add(resolution);
+
             return res;
         }
 
@@ -163,9 +166,9 @@ namespace BruTile.Wmts
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
-        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double resolution)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, double unitsPerPixel)
         {
-            var level = Utilities.GetNearestLevel(Resolutions, resolution);
+            var level = Utilities.GetNearestLevel(Resolutions, unitsPerPixel);
             return GetTileInfos(extent, level);
         }
 

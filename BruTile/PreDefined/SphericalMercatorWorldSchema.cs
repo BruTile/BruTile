@@ -10,7 +10,7 @@ namespace BruTile.Predefined
     {
         public SphericalMercatorWorldSchema()
         {
-            var resolutions = new[] { 
+            var unitsPerPixelArray = new[] { 
                 156543.033900000, 78271.516950000, 39135.758475000, 19567.879237500, 
                 9783.939618750, 4891.969809375, 2445.984904688, 1222.992452344, 
                 611.496226172, 305.748113086, 152.874056543, 76.437028271, 
@@ -18,14 +18,14 @@ namespace BruTile.Predefined
                 2.388657133, 1.194328567, 0.597164283};
 
             var count = 0;
-            foreach (var resolution in resolutions)
+            foreach (var unitsPerPixel in unitsPerPixelArray)
             {
                 var levelId = count.ToString(CultureInfo.InvariantCulture);
                 var ms = (int) Math.Pow(count, 2) / 2;
                 Resolutions[levelId] = new Resolution
                 {
                     Id = levelId, 
-                    UnitsPerPixel = resolution,
+                    UnitsPerPixel = unitsPerPixel,
                     Left = -20037508.342789,
                     Top = 20037508.342789,
                     TileWidth = 256, 

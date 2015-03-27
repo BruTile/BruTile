@@ -154,7 +154,7 @@ namespace BruTile.Samples.MbTiles
             if (e.Button == MouseButtons.Left)
             {
                 var pt = _mapTransform.MapToWorld(e.X, e.Y);
-                _mapTransform = new MapTransform(pt, _mapTransform.Resolution, picMap.Width, picMap.Height);
+                _mapTransform = new MapTransform(pt, _mapTransform.UnitsPerPixel, picMap.Width, picMap.Height);
                 RenderToBuffer();
             }
         }

@@ -1,30 +1,22 @@
 ﻿using BruTile.Samples.Common.Geometries;
-using System;
-using System.Linq;
 
 namespace BruTile.Samples.Common
 {
     public class Viewport
     {
-        #region Fields
-
-        private double _resolution;
+        private double _unitsPerPixel;
         private double _centerX;
         private double _centerY;
         private double _width;
         private double _height;
         Extent _extent;   
 
-        #endregion
-
-        #region Public Methods
-
-        public double Resolution
+        public double UnitsPerPixel 
         {
-            get { return _resolution; }
+            get { return _unitsPerPixel; }
             set
             {
-                _resolution = value;
+                _unitsPerPixel = value;
                 UpdateExtent();
             }
         }
@@ -96,12 +88,12 @@ namespace BruTile.Samples.Common
 
         public Point WorldToScreen(double worldX, double worldY)
         {
-            return new Point((worldX - _extent.MinX) / _resolution, (_extent.MaxY - worldY) / _resolution);
+            return new Point((worldX - _extent.MinX) / _unitsPerPixel, (_extent.MaxY - worldY) / _unitsPerPixel);
         }
 
         public Point ScreenToWorld(double screenX, double screenY)
         {
-            return new Point((_extent.MinX + screenX * _resolution), (_extent.MaxY - (screenY * _resolution)));
+            return new Point((_extent.MinX + screenX * _unitsPerPixel), (_extent.MaxY - (screenY * _unitsPerPixel)));
         }
 
         public void Transform(double screenX, double screenY, double previousScreenX, double previousScreenY, double deltaScale = 1)
@@ -117,24 +109,18 @@ namespace BruTile.Samples.Common
             var scaleCorrectionX = (1 - deltaScale) * (current.X - CenterX);
             var scaleCorrectionY = (1 - deltaScale) * (current.Y - CenterY);
 
-            Resolution = Resolution / deltaScale;
+            UnitsPerPixel = UnitsPerPixel / deltaScale;
             CenterX = newX - scaleCorrectionX;
             CenterY = newY - scaleCorrectionY;
         }
 
-        #endregion
-
-        #region Private Methods
-
         private void UpdateExtent()
         {
-            double spanX = _width * _resolution;
-            double spanY = _height * _resolution;
+            double spanX = _width * _unitsPerPixel;
+            double spanY = _height * _unitsPerPixel;
             _extent = new Extent(
                 CenterX - spanX * 0.5, CenterY - spanY * 0.5,
                 CenterX + spanX * 0.5, CenterY + spanY * 0.5);
         }
-
-        #endregion
     }
 }

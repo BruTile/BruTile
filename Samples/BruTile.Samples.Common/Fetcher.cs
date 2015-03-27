@@ -13,7 +13,7 @@ namespace BruTile.Samples.Common
         private readonly ITileCache<Tile<T>> _memoryCache;
         private readonly ITileSource _tileSource;
         private Extent _extent;
-        private double _resolution;
+        private double _unitsPerPixel;
         private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
         private const int MaxThreads = 4;
         private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
@@ -35,10 +35,10 @@ namespace BruTile.Samples.Common
             StartFetchLoop();
         }
 
-        public void ViewChanged(Extent newExtent, double newResolution)
+        public void ViewChanged(Extent extent, double unitsPerPixel)
         {
-            _extent = newExtent;
-            _resolution = newResolution;
+            _extent = extent;
+            _unitsPerPixel = unitsPerPixel;
             _isViewChanged = true;
             _waitHandle.Set();
         }
@@ -70,7 +70,7 @@ namespace BruTile.Samples.Common
 
                 if (_isViewChanged || tilesWanted == null)
                 {
-                    var levelId = Utilities.GetNearestLevel(_tileSource.Schema.Resolutions, _resolution);
+                    var levelId = Utilities.GetNearestLevel(_tileSource.Schema.Resolutions, _unitsPerPixel);
                     tilesWanted = _strategy.GetTilesWanted(_tileSource.Schema, _extent, levelId);
                     _retries.Clear();
                     _isViewChanged = false;
