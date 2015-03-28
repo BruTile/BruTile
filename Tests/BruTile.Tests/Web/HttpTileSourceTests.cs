@@ -2,9 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime;
 using BruTile.Predefined;
-using BruTile.Samples.AsyncRequest;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;
 

@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BruTile.Web;
 
-namespace BruTile.Samples.AsyncRequest
+namespace BruTile.Tests.Web
 {
     public static class HttpTileSourceExtensions
     {
