@@ -49,7 +49,7 @@ namespace BruTile.Predefined
         /// <param name="persistentCache">A place to permanently store tiles (file of database)</param>
         /// <param name="tileFetcher">Option to override the web request</param>
         /// <returns>The tile source</returns>
-        public static ITileSource Create(KnownTileSource source = KnownTileSource.OpenStreetMap, string apiKey = null,
+        public static HttpTileSource Create(KnownTileSource source = KnownTileSource.OpenStreetMap, string apiKey = null,
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
         {
             switch (source)
