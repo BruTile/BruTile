@@ -6,7 +6,7 @@ using System;
 
 namespace BruTile.Web
 {
-    [Obsolete("Use KnownTileSources instead")]
+    [Obsolete("Use KnownTileSources instead", true)]
     public class BingTileSource : TileSource
     {
         public BingTileSource(String url, string token, BingMapType mapType)
