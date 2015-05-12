@@ -51,7 +51,7 @@ namespace BruTile.Samples.Common
         public void AbortFetch()
         {
             _isAborted = true;
-            _waitHandle.Set(); // active fetch loop so it can run out of the loop
+            _waitHandle.Set(); // activate fetch loop so it can run out of the loop
         }
 
         private void FetchLoop(object state)
@@ -105,12 +105,14 @@ namespace BruTile.Samples.Common
 
         private void FetchTile(TileInfo info)
         {
-            // first some checks
-            if (_tilesInProgress.Contains(info.Index)) return;
             if (_retries.ReachedMax(info.Index)) return;
 
-            // prepare for request
-            lock (_tilesInProgress) { _tilesInProgress.Add(info.Index); }
+            lock (_tilesInProgress)
+            {
+                if (_tilesInProgress.Contains(info.Index)) return;
+                _tilesInProgress.Add(info.Index);
+            }
+            
             _retries.PlusOne(info.Index);
 
             // now we can go for the request.
@@ -160,21 +162,34 @@ namespace BruTile.Samples.Common
         {
             private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
             private const int MaxRetries = 0;
+            private readonly int _threadId;
+            private readonly string _crossThreadExceptionMessage = "Cross thread access not allowed on class Retires";
+
+            public Retries()
+            {
+                _threadId = Thread.CurrentThread.ManagedThreadId;
+            }
 
             public bool ReachedMax(TileIndex index)
             {
+                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+
                 int retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
                 return retryCount > MaxRetries;
             }
 
             public void PlusOne(TileIndex index)
             {
+                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+
                 if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
                 else _retries[index]++;
             }
 
             public void Clear()
             {
+                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+
                 _retries.Clear();
             }
         }
