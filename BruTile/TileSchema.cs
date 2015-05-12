@@ -44,8 +44,6 @@ namespace BruTile
 
         public double OriginX { get; set; }
         public double OriginY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
         public string Name { get; set; }
         public string Srs { get; set; }
         public Extent Wgs84BoundingBox { get; set; }
@@ -70,12 +68,12 @@ namespace BruTile
 
         public int GetTileWidth(string levelId)
         {
-            return Width;
+            return Resolutions[levelId].TileWidth;
         }
 
         public int GetTileHeight(string levelId)
         {
-            return Height;
+            return Resolutions[levelId].TileHeight;
         }
 
         public int GetMatrixWidth(string levelId)
@@ -185,44 +183,37 @@ namespace BruTile
             if (String.IsNullOrEmpty(Srs))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "The SRS was not set for TileSchema '{0}'", Name));
+                    "The SRS was not set for TileSchema '{0}'", Name));
             }
+
             if (Extent == new Extent())
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "The BoundingBox was not set for TileSchema '{0}'", Name));
+                    "The BoundingBox was not set for TileSchema '{0}'", Name));
             }
+
             if (Double.IsNaN(OriginX))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.",
-                                                            Name));
+                    "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", Name));
             }
+
             if (Double.IsNaN(OriginY))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.",
-                                                            Name));
+                    "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.",Name));
             }
+
             if (Resolutions.Count == 0)
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "No Resolutions were added for TileSchema '{0}'", Name));
+                    "No Resolutions were added for TileSchema '{0}'", Name));
             }
-            if (Width == 0)
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "The Width was not set for TileSchema '{0}'", Name));
-            }
-            if (Height == 0)
-            {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "The Height was not set for TileSchema '{0}'", Name));
-            }
+
             if (String.IsNullOrEmpty(Format))
             {
                 throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                                                            "The Format was not set for TileSchema '{0}'", Name));
+                    "The Format was not set for TileSchema '{0}'", Name));
             }
         }
     }

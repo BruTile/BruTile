@@ -8,7 +8,10 @@ namespace BruTile.Predefined
     {
         // Well known scale set: urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale
         // see: http://www.geonovum.nl/sites/default/files/Nederlandse_richtlijn_tiling_-_versie_1.0.pdf
-
+        private const int TileSize = 256;
+        private double _originX = -285401.920;
+        private double _originY = 22598.080;
+            
         public WkstNederlandSchema()
         {
             var unitsPerPixelArray = new[] { 
@@ -33,14 +36,21 @@ namespace BruTile.Predefined
             foreach (var unitsPerPixel in unitsPerPixelArray)
             {
                 var levelId = count.ToString(CultureInfo.InvariantCulture);
-                Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = unitsPerPixel};
+                Resolutions[levelId] = new Resolution 
+                (
+                    levelId, 
+                    unitsPerPixel,
+                    TileSize,
+                    TileSize,
+                    _originX,
+                    _originY
+                );
                 count++;
             }
-            Height = 256;
-            Width = 256;
+
             Extent = new Extent(-285401.920, 22598.080, 595401.92, 903401.920);
-            OriginX = -285401.920;
-            OriginY = 22598.080;
+            OriginX = _originX;
+            OriginY = _originY;
             Name = "urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale";
             Format = "png"; 
             YAxis = YAxis.TMS;

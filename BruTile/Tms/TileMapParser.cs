@@ -25,7 +25,7 @@ namespace BruTile.Tms
             var serializer = new XmlSerializer(typeof(TileMap));
             var tileMap = (TileMap)serializer.Deserialize(reader);
             var tileSchema = CreateSchema(tileMap);
-            
+
             var tileUrls = new Dictionary<string, Uri>();
             foreach (TileMapTileSetsTileSet ts in tileMap.TileSets.TileSet)
             {
@@ -46,7 +46,7 @@ namespace BruTile.Tms
         {
             var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
 
-            request.BeginGetResponse(MethodOnThread, 
+            request.BeginGetResponse(MethodOnThread,
                 new object[] { callback, request, overrideUrl });
         }
 
@@ -70,7 +70,7 @@ namespace BruTile.Tms
             {
                 error = ex;
             }
-            if (callback != null) callback(tileSource, error);            
+            if (callback != null) callback(tileSource, error);
         }
 
         private static TileSchema CreateSchema(TileMap tileMap)
@@ -79,8 +79,8 @@ namespace BruTile.Tms
             schema.OriginX = double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture);
             schema.OriginY = double.Parse(tileMap.Origin.y, CultureInfo.InvariantCulture);
             schema.Srs = tileMap.SRS;
-            schema.Width = int.Parse(tileMap.TileFormat.width);
-            schema.Height = int.Parse(tileMap.TileFormat.height);
+            var tileWidth = int.Parse(tileMap.TileFormat.width);
+            var tileHeight = int.Parse(tileMap.TileFormat.height);
             schema.Name = tileMap.Title;
             schema.Format = tileMap.TileFormat.extension;
             schema.YAxis = YAxis.TMS;
@@ -90,11 +90,17 @@ namespace BruTile.Tms
                 double.Parse(tileMap.BoundingBox.maxx, CultureInfo.InvariantCulture),
                 double.Parse(tileMap.BoundingBox.maxy, CultureInfo.InvariantCulture));
 
-  
+
             foreach (var tileSet in tileMap.TileSets.TileSet)
             {
                 double unitsPerPixel = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
-                schema.Resolutions[tileSet.order] = new Resolution { Id = tileSet.order, UnitsPerPixel = unitsPerPixel };
+                schema.Resolutions[tileSet.order] = new Resolution
+                (
+                    tileSet.order,
+                    unitsPerPixel,
+                    tileWidth,
+                    tileHeight
+                );
             }
             return schema;
         }

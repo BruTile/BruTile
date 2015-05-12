@@ -8,6 +8,8 @@ namespace BruTile.Predefined
     [Obsolete("Use GlobalSphericalMercator(YAxis.TMS) instead", true)]
     public class SphericalMercatorWorldSchema : TileSchema
     {
+        private const int TileSize = 256;
+
         public SphericalMercatorWorldSchema()
         {
             var unitsPerPixelArray = new[] { 
@@ -22,21 +24,20 @@ namespace BruTile.Predefined
             {
                 var levelId = count.ToString(CultureInfo.InvariantCulture);
                 var ms = (int) Math.Pow(count, 2) / 2;
-                Resolutions[levelId] = new Resolution
-                {
-                    Id = levelId, 
-                    UnitsPerPixel = unitsPerPixel,
-                    Left = -20037508.342789,
-                    Top = 20037508.342789,
-                    TileWidth = 256, 
-                    TileHeight = 256,
-                    MatrixWidth = ms,
-                    MatrixHeight = ms
-                };
+
+                Resolutions[levelId] = new Resolution(
+                    levelId,
+                    unitsPerPixel,
+                    TileSize,
+                    TileSize,
+                    -20037508.342789,
+                    20037508.342789,
+                    ms,
+                    ms);
+
                 count++;
             }
-            Height = 256;
-            Width = 256;
+
             Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789);
             OriginX = -20037508.342789;
             OriginY = -20037508.342789;

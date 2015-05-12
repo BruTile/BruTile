@@ -10,6 +10,7 @@ namespace BruTile.Predefined
         private const string DefaultFormat = "png"; 
         private const int DefaultMinZoomLevel = 0; 
         private const int DefaultMaxZoomLevel = 19;
+        private const int TileSize = 256;
 
         // The default for YAxis is YAxis.OSM for all constructors
         
@@ -45,16 +46,14 @@ namespace BruTile.Predefined
             Format = format;
             YAxis = yAxis;
             Srs = "EPSG:3857";
-            Height = 256;
-            Width = 256;
 
             foreach (var resolution in resolutions)
             {
                 Resolutions[resolution.Value.Id] = resolution.Value;
             }
 
-            OriginX = -ScaleFactor * Width;
-            OriginY = -ScaleFactor * Height;
+            OriginX = -ScaleFactor * TileSize;
+            OriginY = -ScaleFactor * TileSize;
 
             Extent = new Extent(OriginX, OriginY, -OriginX, -OriginY);
 
@@ -74,10 +73,12 @@ namespace BruTile.Predefined
             foreach (var level in levels)
             {
                 dictionary[level.ToString()] = new Resolution
-                    {
-                        Id = level.ToString(), 
-                        UnitsPerPixel = 2 * ScaleFactor / (1 << level)
-                    };
+                    (
+                        level.ToString(), 
+                        2 * ScaleFactor / (1 << level),
+                        TileSize,
+                        TileSize
+                    );
             }
             return dictionary;
         }

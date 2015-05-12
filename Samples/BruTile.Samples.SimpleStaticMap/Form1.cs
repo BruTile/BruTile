@@ -10,6 +10,7 @@ namespace BruTile.Samples.SimpleStaticMap
 {
     public partial class Form1 : Form
     {
+        private const int TileSize = 256;
         readonly Bitmap _buffer;
 
         //a list of resolutions in which the tiles are stored
@@ -62,8 +63,6 @@ namespace BruTile.Samples.SimpleStaticMap
                 OriginY = 20037508.342789,
                 YAxis = YAxis.OSM,
                 Extent = new Extent(-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789),
-                Height = 256,
-                Width = 256,
                 Format = "png",
                 Srs = "EPSG:900913"
             };
@@ -72,7 +71,13 @@ namespace BruTile.Samples.SimpleStaticMap
             foreach (var unitsPerPixel in _unitsPerPixelArray)
             {
                 var levelId = i++.ToString(CultureInfo.InvariantCulture);
-                schema.Resolutions[levelId] = new Resolution { UnitsPerPixel = unitsPerPixel, Id = levelId};
+                schema.Resolutions[levelId] = new Resolution
+                (
+                    levelId,
+                    unitsPerPixel, 
+                    TileSize,
+                    TileSize
+                );
             }
             return schema;
         }

@@ -18,19 +18,20 @@ namespace BruTile.Predefined
     public class GlobalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.516d;
+        private const int TileSize = 256;
 
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
         public GlobalMercator()
-        {}
+        { }
 
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
         /// <param name="format">The image format of the tiles</param>
         public GlobalMercator(string format)
-            :this(format, 20)
+            : this(format, 20)
         {
         }
 
@@ -40,7 +41,7 @@ namespace BruTile.Predefined
         /// <param name="format">The image format of the tiles</param>
         /// <param name="numResolution">The number of resolutions to create</param>
         public GlobalMercator(string format, int numResolution)
-            :this(format, ToResolutions(0, numResolution-1))
+            : this(format, ToResolutions(0, numResolution - 1))
         {
         }
 
@@ -51,7 +52,7 @@ namespace BruTile.Predefined
         /// <param name="minZoomLevel">The minimum zoom level</param>
         /// <param name="maxZoomLevel">The maximum zoom level</param>
         public GlobalMercator(string format, int minZoomLevel, int maxZoomLevel)
-            :this(format, ToResolutions(minZoomLevel, maxZoomLevel))
+            : this(format, ToResolutions(minZoomLevel, maxZoomLevel))
         {
         }
 
@@ -61,7 +62,7 @@ namespace BruTile.Predefined
         /// <param name="format">The image format of the tiles</param>
         /// <param name="declaredZoomLevels">The declared zoomlevels</param>
         public GlobalMercator(string format, IList<int> declaredZoomLevels)
-            :this(format, ToResolutions(declaredZoomLevels))
+            : this(format, ToResolutions(declaredZoomLevels))
         {
         }
 
@@ -72,32 +73,32 @@ namespace BruTile.Predefined
             Format = format;
             YAxis = YAxis.TMS; //OSM
             Srs = "OSGEO:41001";
-            Height = 256;
-            Width = 256;
 
             foreach (var resolution in resolutions)
                 Resolutions[resolution.Id] = resolution;
 
-            OriginX = -ScaleFactor*Width;
-            OriginY = -ScaleFactor*Height;
+            OriginX = -ScaleFactor * TileSize;
+            OriginY = -ScaleFactor * TileSize;
 
             Extent = new Extent(OriginX, OriginY, -OriginX, -OriginY);
         }
 
         private static IEnumerable<Resolution> ToResolutions(int min, int max)
         {
-            var results = new List<Resolution>(max-min+1);
-            for (var i = min; i <= max; i++ )
-                results.Add(new Resolution
-                                {
-                                    Id = i.ToString(),
-                                    //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                                    UnitsPerPixel = 2 * ScaleFactor / (1 << i),
-                                    Left = -ScaleFactor * 256,
-                                    Top = ScaleFactor * 256,
-                                    TileWidth = 256, TileHeight = 256,
-                                    
-                                });
+            var results = new List<Resolution>(max - min + 1);
+            for (var i = min; i <= max; i++)
+            {
+                results.Add(new Resolution (
+                    i.ToString(),
+                    //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
+                    2*ScaleFactor/(1 << i),
+                    TileSize,
+                    TileSize,
+                    -ScaleFactor*TileSize,
+                    ScaleFactor*TileSize
+                ));
+            }
+            
             return results.ToArray();
         }
 
@@ -105,31 +106,34 @@ namespace BruTile.Predefined
         {
             var results = new Resolution[levels.Count];
             for (var i = 0; i < levels.Count; i++)
-                results[i] = new Resolution
-                                 {
-                                     Id = levels[i].ToString(),
-                                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                                     UnitsPerPixel = 2 * ScaleFactor / (1 << levels[i])
-                                 };
+                results[i] = new Resolution(
+                    levels[i].ToString(),
+                    //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
+                    2*ScaleFactor/(1 << levels[i]),
+                    TileSize, TileSize);
+                                 
             return results;
         }
 
         /// <summary>
         /// Gets the Well-Known-Text representation of the spatial reference system
         /// </summary>
-        public string SrsWkt 
-        { 
-            get { return 
-                "PROJCS[\"WGS84 / Simple Mercator\", "+
-                    "GEOGCS[\"WGS 84\", "+
-                        "DATUM[\"WGS_1984\", SPHEROID[\"WGS_1984\",6378137,298.257223563]], " +
-                        "PRIMEM[\"Greenwich\",0], " +
-                        "UNIT[\"Decimal_Degree\", 0.0174532925199433]], " +
-                    "PROJECTION[\"Mercator_1SP\"], " +
-                    "PARAMETER[\"central_meridian\",0], " +
-                    "PARAMETER[\"false_easting\",0]," +
-                    "PARAMETER[\"false_northing\",0]," +
-                    "UNIT[\"Meter\",1]]"; }
+        public string SrsWkt
+        {
+            get
+            {
+                return
+                    "PROJCS[\"WGS84 / Simple Mercator\", " +
+                  "GEOGCS[\"WGS 84\", " +
+                      "DATUM[\"WGS_1984\", SPHEROID[\"WGS_1984\",6378137,298.257223563]], " +
+                      "PRIMEM[\"Greenwich\",0], " +
+                      "UNIT[\"Decimal_Degree\", 0.0174532925199433]], " +
+                  "PROJECTION[\"Mercator_1SP\"], " +
+                  "PARAMETER[\"central_meridian\",0], " +
+                  "PARAMETER[\"false_easting\",0]," +
+                  "PARAMETER[\"false_northing\",0]," +
+                  "UNIT[\"Meter\",1]]";
+            }
         }
     }
 }

@@ -13,12 +13,8 @@ namespace BruTile.Wmsc
 {
     public class WmscTileSource : TileSource
     {
-        #region Fields
-
-        #endregion Fields
-
         private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
-            :base(tileProvider, tileSchema)
+            : base(tileProvider, tileSchema)
         {
         }
 
@@ -64,28 +60,24 @@ namespace BruTile.Wmsc
         private static TileSchema ToTileSchema(XElement xTileSet, string name)
         {
             var schema = new TileSchema { Name = name };
+            int width;
+            int height;
 
             var xSrs = xTileSet.Element("SRS");
             if (xSrs != null)
                 schema.Srs = xSrs.Value;
 
             var xWidth = xTileSet.Element("Width");
-            if (xWidth != null)
-            {
-                int width;
-                if (!Int32.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
-                    throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
-                schema.Width = width;
-            }
+            if (xWidth == null) throw new System.Exception("'Width' field not found in xml");
+
+            if (!Int32.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
+                throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
 
             var xHeight = xTileSet.Element("Height");
-            if (xHeight != null)
-            {
-                int height;
-                if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
-                    throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
-                schema.Height = height;
-            }
+            if (xHeight == null) throw new System.Exception("'Height' field not found in xml");
+
+            if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
 
             var xFormat = xTileSet.Element("Format");
             if (xFormat != null)
@@ -119,14 +111,14 @@ namespace BruTile.Wmsc
             if (xResolutions != null)
             {
                 var count = 0;
-                string[] resolutions = xResolutions.Value.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                string[] resolutions = xResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var resolution in resolutions)
                 {
                     double unitsPerPixel;
                     if (!Double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
                     var levelId = count.ToString(CultureInfo.InvariantCulture);
-                    schema.Resolutions[levelId] = new Resolution {Id = levelId, UnitsPerPixel = unitsPerPixel};
+                    schema.Resolutions[levelId] = new Resolution ( levelId, unitsPerPixel, width, height);
                     count++;
                 }
             }

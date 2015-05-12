@@ -307,17 +307,18 @@ namespace BruTile.Wmts
 
             return new KeyValuePair<string, Resolution>(tileMatrix.Identifier.Value,
                 new Resolution
-                {
-                    Id = tileMatrix.Identifier.Value,
-                    UnitsPerPixel = unitsPerPixel,
-                    ScaleDenominator = tileMatrix.ScaleDenominator,
-                    Left = Convert.ToDouble(coords[ordinateOrder[0]], CultureInfo.InvariantCulture),
-                    Top = Convert.ToDouble(coords[ordinateOrder[1]], CultureInfo.InvariantCulture),
-                    MatrixWidth = tileMatrix.MatrixWidth,
-                    MatrixHeight = tileMatrix.MatrixHeight,
-                    TileWidth = tileMatrix.TileWidth,
-                    TileHeight = tileMatrix.TileHeight
-                });
-        }
+                (
+                    tileMatrix.Identifier.Value,
+                    unitsPerPixel,
+                    tileMatrix.TileWidth,
+                    tileMatrix.TileHeight,
+                    Convert.ToDouble(coords[ordinateOrder[0]], 
+                    CultureInfo.InvariantCulture), 
+                    Convert.ToDouble(coords[ordinateOrder[1]], 
+                    CultureInfo.InvariantCulture),
+                    tileMatrix.MatrixWidth,
+                    tileMatrix.MatrixHeight,
+                    tileMatrix.ScaleDenominator));
+          }
     }
 }
