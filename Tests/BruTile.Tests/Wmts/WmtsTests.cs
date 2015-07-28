@@ -14,6 +14,7 @@ namespace BruTile.Tests.Wmts
     public class WmtsTests
     {
         [TestCase("wmts-capabilities-dlr.xml")]
+        [TestCase("wmts-capabilities-maps-open.lantmateriet.se.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
