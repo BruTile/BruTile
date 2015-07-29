@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
@@ -166,6 +167,18 @@ namespace BruTile.Tests.Wmts
             // assert
             var count = urls.Count(u => u.ToString() == "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg");
             Assert.True(count == 50);
+        }
+
+        [Test]
+        public void Test_ows_BoundingBoxType()
+        {
+            const string xml = "<ows:BoundingBox xmlns:ows=\"http://www.opengis.net/ows/1.1\" crs=\"urn:ogc:def:crs:EPSG:6.3:900913\"><LowerCorner>-20037508.342789 -20037508.342789</LowerCorner><UpperCorner>20037508.342789 20037508.342789</UpperCorner></ows:BoundingBox>";
+            var ser = new XmlSerializer(typeof (BoundingBoxType));
+            var bbt = (BoundingBoxType) ser.Deserialize(new StringReader(xml));
+
+            Assert.IsNotNull(bbt, "bbt != null");
+            Assert.IsTrue(!string.IsNullOrEmpty(bbt.LowerCorner), "!string.IsNullOrEmpty(bbt.LowerCorner)");
+            Assert.IsTrue(!string.IsNullOrEmpty(bbt.UpperCorner), "!string.IsNullOrEmpty(bbt.UpperCorner)");
         }
     }
 }
