@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.VectorTileToBitmap", "Samples\BruTile.Samples.VectorTileToBitmap\BruTile.Samples.VectorTileToBitmap.csproj", "{CAB8676A-BB27-4309-850A-F74C81478017}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Portable|Any CPU = Debug Portable|Any CPU
@@ -436,6 +438,34 @@ Global
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Release|x64.ActiveCfg = Release|Any CPU
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|Any CPU.Build.0 = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|ARM.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|x64.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug Portable|x86.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|Any CPU.Build.0 = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|ARM.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|Mixed Platforms.Build.0 = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|x64.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release Portable|x86.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|ARM.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAB8676A-BB27-4309-850A-F74C81478017}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -450,5 +480,6 @@ Global
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F} = {3B8883BB-764B-40AA-B7BD-A30F4C9D5808}
 		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{7114313B-7563-4D86-B052-5E5667D7E17C} = {E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}
+		{CAB8676A-BB27-4309-850A-F74C81478017} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 	EndGlobalSection
 EndGlobal
