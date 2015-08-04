@@ -142,6 +142,9 @@
     <Content Include="Resources\Wmts\wmts-capabilties-restful-wien.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Wmts\wmts-capabilities-maps-open.lantmateriet.se.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
