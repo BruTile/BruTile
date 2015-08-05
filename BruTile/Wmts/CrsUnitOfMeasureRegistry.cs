@@ -467,7 +467,7 @@ namespace BruTile.Wmts
         {
             get
             {
-                switch (identifier.Authority)
+                switch (identifier.Authority.ToUpper())
                 {
                     case "OGC":
                         if (identifier.Equals(WellKnownScaleSets.CRS84))
