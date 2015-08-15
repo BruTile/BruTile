@@ -40,7 +40,7 @@ namespace BruTile.Web
         /// <summary>
         /// Gets the actual image content of the tile as byte array
         /// </summary>
-        public byte[] GetTile(TileInfo tileInfo)
+        public virtual byte[] GetTile(TileInfo tileInfo)
         {
             return _provider.GetTile(tileInfo);
         }
