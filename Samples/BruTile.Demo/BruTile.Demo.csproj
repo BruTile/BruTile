@@ -103,6 +103,10 @@
       <Project>{24a0d64a-f894-4eb4-8cb7-8f6081bfe324}</Project>
       <Name>BruTile.Samples.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BruTile.Samples.VectorTileToBitmap\BruTile.Samples.VectorTileToBitmap.csproj">
+      <Project>{cab8676a-bb27-4309-850a-f74c81478017}</Project>
+      <Name>BruTile.Samples.VectorTileToBitmap</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
