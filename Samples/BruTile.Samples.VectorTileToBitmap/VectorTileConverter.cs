@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -10,22 +11,34 @@ namespace BruTile.Samples.VectorTileToBitmap
 {
     public class VectorTileConverter
     {
-        public byte[] ToBitmap(LayerInfo layerInfo)
+        private const int TileWidth = 256;
+        private const int TileHeight = 256;
+
+        public static byte[] ToBitmap(IList<LayerInfo> layerInfos, TileInfo tileInfo)
         {
-            using (var bitmap = new Bitmap(256, 256))
+            var random = new Random();
+
+            using (var bitmap = new Bitmap(TileWidth, TileHeight))
             using (var canvas = Graphics.FromImage(bitmap))
-            using (var pen = new Pen(Color.Red, 2))
             {
-                foreach (var feature in layerInfo.FeatureCollection.Features)
+                foreach (var layerInfo in layerInfos)
                 {
-                    if (feature.Geometry.Type == GeoJSONObjectType.Polygon)
+                    foreach (var feature in layerInfo.FeatureCollection.Features)
                     {
-                        var polygon = (Polygon)feature.Geometry;
-                        
-                        foreach (var lineString in polygon.Coordinates)
+                        if (feature.Geometry.Type == GeoJSONObjectType.Polygon)
                         {
-                            canvas.Transform = new Matrix(); // todo set te matrix transform to match the tile extent.
-                            canvas.DrawPolygon(pen, ToGdi(lineString));
+                            var polygon = (Polygon) feature.Geometry;
+
+                            foreach (var lineString in polygon.Coordinates)
+                            {
+                                canvas.Transform = CreateTransformMatrix(tileInfo);
+                                using (var brush = new SolidBrush(
+                                    Color.FromArgb(random.Next(256), random.Next(256), random.Next(256))))
+                                {
+                                    canvas.FillPolygon(brush, ToGdi(lineString));
+
+                                }
+                            }
                         }
                     }
                 }
@@ -34,7 +47,21 @@ namespace BruTile.Samples.VectorTileToBitmap
             }
         }
 
-        public PointF[] ToGdi(LineString lineString)
+        private static Matrix CreateTransformMatrix(TileInfo tileInfo)
+        {
+            // The code below needs no comments, it is fully intuitive.
+            // I wrote in in one go and it ran correctly right away.
+            var matrix = new Matrix();
+            var flipMatrix = new Matrix(1, 0, 0, -1, 0, 0);
+            matrix.Multiply(flipMatrix);
+            matrix.Scale(
+                (float) (TileWidth/tileInfo.Extent.Width),
+                (float) (TileHeight/tileInfo.Extent.Height));
+            matrix.Translate(-(float) tileInfo.Extent.MinX, -(float) tileInfo.Extent.MaxY);
+            return matrix;
+        }
+
+        public static PointF[] ToGdi(LineString lineString)
         {
             var result = new List<PointF>();
 
@@ -42,9 +69,7 @@ namespace BruTile.Samples.VectorTileToBitmap
             {
                 var position = (GeographicPosition) coordinate;
                 result.Add(SphericalMercator.FromLonLat(position.Longitude, position.Latitude));
-
             }
-
             return result.ToArray();
         }
 

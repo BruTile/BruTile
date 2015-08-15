@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpVectorTileSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SphericalMercator.cs" />
     <Compile Include="VectorTileConverter.cs" />
@@ -60,6 +61,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Resources\14-8801-5371.vector.pbf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BruTile\BruTile.csproj">
+      <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
+      <Name>BruTile</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
