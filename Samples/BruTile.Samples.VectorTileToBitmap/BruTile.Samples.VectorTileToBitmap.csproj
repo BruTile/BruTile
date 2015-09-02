@@ -55,7 +55,7 @@
     <Compile Include="HttpVectorTileSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SphericalMercator.cs" />
-    <Compile Include="VectorTileConverter.cs" />
+    <Compile Include="GeoJsonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -9,12 +9,12 @@ using GeoJSON.Net.Geometry;
 
 namespace BruTile.Samples.VectorTileToBitmap
 {
-    public class VectorTileConverter
+    public class GeoJsonRenderer
     {
         private const int TileWidth = 256;
         private const int TileHeight = 256;
 
-        public static byte[] ToBitmap(IEnumerable<FeatureCollection> featureCollections, TileInfo tileInfo)
+        public static byte[] ToBitmap(IEnumerable<FeatureCollection> featureCollections, float minX, float minY, float width, float height)
         {
             var random = new Random();
 
@@ -31,7 +31,7 @@ namespace BruTile.Samples.VectorTileToBitmap
 
                             foreach (var lineString in polygon.Coordinates)
                             {
-                                canvas.Transform = CreateTransformMatrix(tileInfo);
+                                canvas.Transform = CreateTransformMatrix(minX, minY, width, height);
                                 using (var brush = new SolidBrush(
                                     Color.FromArgb(random.Next(256), random.Next(256), random.Next(256))))
                                 {
@@ -47,21 +47,20 @@ namespace BruTile.Samples.VectorTileToBitmap
             }
         }
 
-        private static Matrix CreateTransformMatrix(TileInfo tileInfo)
+        private static Matrix CreateTransformMatrix(float minX, float minY, float width, float height)
         {
             // The code below needs no comments, it is fully intuitive.
             // I wrote in in one go and it ran correctly right away.
             var matrix = new Matrix();
             var flipMatrix = new Matrix(1, 0, 0, -1, 0, 0);
             matrix.Multiply(flipMatrix);
-            matrix.Scale(
-                (float) (TileWidth/tileInfo.Extent.Width),
-                (float) (TileHeight/tileInfo.Extent.Height));
-            matrix.Translate(-(float) tileInfo.Extent.MinX, -(float) tileInfo.Extent.MaxY);
+            matrix.Scale(TileWidth/width, TileHeight/height);
+            var maxY = minY + height;
+            matrix.Translate(-minX, -maxY);
             return matrix;
         }
 
-        public static PointF[] ToGdi(LineString lineString)
+        private static PointF[] ToGdi(LineString lineString)
         {
             var result = new List<PointF>();
 
