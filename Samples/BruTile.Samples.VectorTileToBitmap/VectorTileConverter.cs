@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using GeoJSON.Net;
+using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using mapbox.vector.tile;
 
 namespace BruTile.Samples.VectorTileToBitmap
 {
@@ -14,16 +14,16 @@ namespace BruTile.Samples.VectorTileToBitmap
         private const int TileWidth = 256;
         private const int TileHeight = 256;
 
-        public static byte[] ToBitmap(IList<LayerInfo> layerInfos, TileInfo tileInfo)
+        public static byte[] ToBitmap(IEnumerable<FeatureCollection> featureCollections, TileInfo tileInfo)
         {
             var random = new Random();
 
             using (var bitmap = new Bitmap(TileWidth, TileHeight))
             using (var canvas = Graphics.FromImage(bitmap))
             {
-                foreach (var layerInfo in layerInfos)
+                foreach (var featureCollection in featureCollections)
                 {
-                    foreach (var feature in layerInfo.FeatureCollection.Features)
+                    foreach (var feature in featureCollection.Features)
                     {
                         if (feature.Geometry.Type == GeoJSONObjectType.Polygon)
                         {

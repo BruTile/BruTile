@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BruTile.Cache;
 using BruTile.Web;
 using mapbox.vector.tile;
@@ -18,7 +19,7 @@ namespace BruTile.Samples.VectorTileToBitmap
             var bytes = base.GetTile(tileInfo);
             var index = tileInfo.Index;
             var layerInfos = VectorTileParser.Parse(new MemoryStream(bytes), index.Col, index.Row, Int32.Parse(index.Level));
-            return VectorTileConverter.ToBitmap(layerInfos, tileInfo);
+            return VectorTileConverter.ToBitmap(layerInfos.Select(i => i.FeatureCollection), tileInfo);
         }
     }
 }
