@@ -344,7 +344,12 @@ namespace BruTile.Wmts.Generated
         IsNullable = false)]
     public partial class BoundingBoxType
     {
-
+        [XmlElement(Type = typeof(string),
+ElementName = "lowerCornerField",
+Namespace = "http://www.opengis.net/wmts/1.0")]
+        [XmlElement(Type = typeof(string),
+        ElementName = "lowerCornerField",
+        Namespace = "")]
         private string lowerCornerField;
 
         private string upperCornerField;
@@ -1591,6 +1596,7 @@ namespace BruTile.Wmts.Generated
 
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlRoot(Namespace = "http://www.opengis.net/wmts/1.0", IsNullable = false)]
+
     public partial class TileMatrixSet : DescriptionType
     {
 
@@ -3176,9 +3182,16 @@ namespace BruTile.Wmts.Generated
 
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlRoot(Namespace = "http://www.opengis.net/wmts/1.0", IsNullable = false)]
+
     public partial class Capabilities : CapabilitiesBaseType
     {
 
+        [XmlElement(Type = typeof(ContentsType),
+        ElementName = "ContentsType",
+        Namespace = "http://www.opengis.net/wmts/1.0")]
+        [XmlElement(Type = typeof(ContentsType),
+        ElementName = "ContentsType",
+        Namespace = "")]
         private ContentsType contentsField;
 
         private Theme[][] themesField;
