@@ -22,7 +22,7 @@ namespace BruTile.Samples.VectorTileToBitmap
             var layerInfos = VectorTileParser.Parse(new MemoryStream(bytes), index.Col, index.Row, Int32.Parse(index.Level));
             var tileWidth = Schema.GetTileWidth(tileInfo.Index.Level);
             var tileHeight = Schema.GetTileHeight(tileInfo.Index.Level);
-            var geoJSONRenderer = new GeoJSONRenderer(tileWidth, tileHeight, ToGeoJSONArray(tileInfo.Extent));
+            var geoJSONRenderer = new GeoJSONToOpenTKRenderer(tileWidth, tileHeight, ToGeoJSONArray(tileInfo.Extent));
             return geoJSONRenderer.Render(layerInfos.Select(i => i.FeatureCollection));
         }
 
