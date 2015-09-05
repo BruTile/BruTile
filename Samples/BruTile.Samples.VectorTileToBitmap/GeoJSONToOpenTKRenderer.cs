@@ -5,7 +5,6 @@ using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.ES20;
 using All = OpenTK.Graphics.ES11.All;
 using ClearBufferMask = OpenTK.Graphics.ES20.ClearBufferMask;
 using GL = OpenTK.Graphics.ES11.GL;
@@ -22,7 +21,7 @@ namespace BruTile.Samples.VectorTileToBitmap
         private readonly float _extentMinY;
         private readonly float _extentWidth;
         private readonly float _extentHeight;
-        private static GameWindow _gameWindow;
+        private object _syncRoot = new object();
 
         public GeoJSONToOpenTKRenderer(int pixelWidth, int pixelHeight, double[] boundingBox)
         {
@@ -32,80 +31,42 @@ namespace BruTile.Samples.VectorTileToBitmap
             _extentMinY = (float)boundingBox[1];
             _extentWidth = (float)boundingBox[2] - _extentMinX;
             _extentHeight = (float)boundingBox[3] - _extentMinY;
-
-            // There needs to be a gamewindow even though we don't write to screen. It is created but not used explicitly in our code.
-            if (_gameWindow == null) _gameWindow = new GameWindow(_pixelWidth, _pixelHeight);
-
-            if (!GL.GetString(StringName.Extensions).Contains("GL_EXT_framebuffer_object"))
-            {
-                throw new NotSupportedException(
-                     "GL_EXT_framebuffer_object extension is required. Please update your drivers.");
-            }
-            StartFrameBufferObject(_pixelWidth, _pixelHeight);
         }
 
         public byte[] Render(IEnumerable<FeatureCollection> featureCollections)
         {
-            OpenTK.Graphics.ES20.GL.ClearColor(Color4.White);
-            OpenTK.Graphics.ES20.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            lock (_syncRoot)
+            {
+                // There needs to be a gamewindow even though we don't write to screen. It is created but not used explicitly in our code.
+                using (var gameWindow = new GameWindow(_pixelWidth, _pixelHeight))
+                {
+                    if (!GL.GetString(StringName.Extensions).Contains("GL_EXT_framebuffer_object"))
+                    {
+                        throw new NotSupportedException(
+                            "GL_EXT_framebuffer_object extension is required. Please update your drivers.");
+                    }
 
-            Set2DViewport(_pixelWidth, _pixelHeight);
+                    FrameBufferObjectHelper.StartFrameBufferObject(_pixelWidth, _pixelHeight);
 
-            GL.PushMatrix();
-            GL.Scale(_pixelWidth / _extentWidth, _pixelHeight / _extentHeight, 1);
-            GL.Translate(-_extentMinX, -_extentMinY, 0);
+                    OpenTK.Graphics.ES20.GL.ClearColor(Color4.White);
+                    OpenTK.Graphics.ES20.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            PolygonRenderer(featureCollections);
-            var byteArray = GraphicsContextToBitmapConverter.ToBitmap(_pixelWidth, _pixelHeight);
+                    Set2DViewport(_pixelWidth, _pixelHeight);
 
-            GL.PopMatrix();
-            
-            return byteArray;
-        }
+                    GL.PushMatrix();
+                    GL.Scale(_pixelWidth/_extentWidth, _pixelHeight/_extentHeight, 1);
+                    GL.Translate(-_extentMinX, -_extentMinY, 0);
 
-        private static void StopFrameBufferObject()
-        {
-            OpenTK.Graphics.ES20.GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0); // disable rendering into the FBO
-            OpenTK.Graphics.ES20.GL.Enable(EnableCap.Texture2D); // enable Texture Mapping
-            OpenTK.Graphics.ES20.GL.BindTexture(TextureTarget.Texture2D, 0); // bind default texture
-        }
+                    PolygonRenderer(featureCollections);
+                    var byteArray = GraphicsContextToBitmapConverter.ToBitmap(_pixelWidth, _pixelHeight);
 
-        private static void StartFrameBufferObject(int width, int height)
-        {
-            uint colorTexture;
-            uint depthTexture;
-            uint fboHandle;
+                    GL.PopMatrix();
 
-            // Create Color Tex
-            OpenTK.Graphics.ES20.GL.GenTextures(1, out colorTexture);
-            OpenTK.Graphics.ES20.GL.BindTexture(TextureTarget.Texture2D, colorTexture);
-            OpenTK.Graphics.ES20.GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba,
-            PixelType.UnsignedByte, IntPtr.Zero);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-            // GL.Ext.GenerateMipmap( GenerateMipmapTarget.Texture2D );
+                    FrameBufferObjectHelper.StopFrameBufferObject();
 
-            // Create Depth Tex
-            OpenTK.Graphics.ES20.GL.GenTextures(1, out depthTexture);
-            OpenTK.Graphics.ES20.GL.BindTexture(TextureTarget.Texture2D, depthTexture);
-            OpenTK.Graphics.ES20.GL.TexImage2D(TextureTarget.Texture2D, 0, (PixelInternalFormat)OpenTK.Graphics.ES20.All.DepthComponent32Oes, width, height, 0,
-            PixelFormat.DepthComponent, PixelType.UnsignedByte, IntPtr.Zero);
-            // things go horribly wrong if DepthComponent's Bitcount does not match the main Framebuffer's Depth
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            OpenTK.Graphics.ES20.GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-            // GL.Ext.GenerateMipmap( GenerateMipmapTarget.Texture2D );
-
-            // Create a FBO and attach the textures
-            OpenTK.Graphics.ES20.GL.GenFramebuffers(1, out fboHandle);
-            OpenTK.Graphics.ES20.GL.BindFramebuffer(global::OpenTK.Graphics.ES20.All.Framebuffer, fboHandle);
-            OpenTK.Graphics.ES20.GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferSlot.ColorAttachment0, TextureTarget.Texture2D,
-                (int)colorTexture, 0);
-            OpenTK.Graphics.ES20.GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferSlot.DepthAttachment, TextureTarget.Texture2D,
-                (int)depthTexture, 0);
+                    return byteArray;
+                }
+            }
         }
 
         private void PolygonRenderer(IEnumerable<FeatureCollection> featureCollections)
@@ -116,7 +77,7 @@ namespace BruTile.Samples.VectorTileToBitmap
                 {
                     if (feature.Geometry.Type == GeoJSONObjectType.Polygon)
                     {
-                        var polygon = (Polygon) feature.Geometry;
+                        var polygon = (Polygon)feature.Geometry;
 
                         foreach (var lineString in polygon.Coordinates)
                         {
@@ -132,19 +93,19 @@ namespace BruTile.Samples.VectorTileToBitmap
             float lineWidth = 0;
 
             float[] points = ToOpenTK(lineString);
-        
+
             GL.LineWidth(lineWidth);
             GL.Color4(0, 0, 0, 255);
             GL.EnableClientState(All.VertexArray);
             GL.VertexPointer(2, All.Float, 0, points);
-            GL.DrawArrays(All.LineLoop, 0, points.Length/2);
+            GL.DrawArrays(All.LineLoop, 0, points.Length / 2);
             GL.DisableClientState(All.VertexArray);
         }
 
         private static float[] ToOpenTK(LineString lineString)
         {
             const int dimensions = 2; // x and y are both in one array
-            var points = new float[lineString.Coordinates.Count* dimensions];
+            var points = new float[lineString.Coordinates.Count * dimensions];
 
             var counter = 0;
             foreach (var coordinate in lineString.Coordinates)
@@ -161,7 +122,7 @@ namespace BruTile.Samples.VectorTileToBitmap
 
         private static void Set2DViewport(int width, int height)
         {
-            GL.MatrixMode((MatrixMode) MatrixMode.Projection);
+            GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
             OpenTK.Graphics.OpenGL.GL.Ortho(0, width, height, 0, 0, 1); // This has no effect: OpenTK.Graphics.ES11.GL.Ortho(0, width, height, 0, 0, 1); 

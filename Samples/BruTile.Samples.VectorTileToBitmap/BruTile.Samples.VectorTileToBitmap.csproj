@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrameBufferObjectHelper.cs" />
     <Compile Include="GeoJSONToOpenTKRenderer.cs" />
     <Compile Include="HttpVectorTileSource.cs" />
     <Compile Include="GraphicsContextToBitmapConverter.cs" />
