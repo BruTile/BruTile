@@ -151,11 +151,11 @@ namespace BruTile.Predefined
                         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldPhysical:
-                    return new HttpTileSource(new GlobalSphericalMercator(),
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 8),
                         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldShadedRelief:
-                    return new HttpTileSource(new GlobalSphericalMercator(),
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 13),
                         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldReferenceOverlay:
@@ -171,7 +171,7 @@ namespace BruTile.Predefined
                         "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldDarkGrayBase:
-                    return new HttpTileSource(new GlobalSphericalMercator(0, 10),
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 16),
                         "http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 default:
