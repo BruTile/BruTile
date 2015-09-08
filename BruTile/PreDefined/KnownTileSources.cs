@@ -159,7 +159,7 @@ namespace BruTile.Predefined
                         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldReferenceOverlay:
-                    return new HttpTileSource(new GlobalSphericalMercator(),
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 13),
                         "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache:persistentCache, tileFetcher:tileFetcher);
                 case KnownTileSource.EsriWorldTransportation:
