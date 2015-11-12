@@ -169,7 +169,7 @@ namespace BruTile.Tests.Wmts
             Assert.True(count == 50);
         }
 
-        [Test]
+        [Test, Ignore]
         public void Test_ows_BoundingBoxType()
         {
             const string xml = "<ows:BoundingBox xmlns:ows=\"http://www.opengis.net/ows/1.1\" crs=\"urn:ogc:def:crs:EPSG:6.3:900913\"><LowerCorner>-20037508.342789 -20037508.342789</LowerCorner><UpperCorner>20037508.342789 20037508.342789</UpperCorner></ows:BoundingBox>";
