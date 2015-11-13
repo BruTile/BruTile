@@ -41,10 +41,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,11 +51,16 @@
       <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Crs\CrsAxisOrderRegistryTest.cs" />
     <Compile Include="Cache\CacheTests.cs" />
     <Compile Include="Cache\FileCacheTests.cs" />
-    <Compile Include="Cache\SqlCeDbCacheTests.cs" />
     <Compile Include="Cache\SQLiteCacheTests.cs" />
     <Compile Include="Cache\SqliteDbCacheTest.cs" />
     <Compile Include="Crs\CrsUnitOfMeasureRegistryTest.cs" />
@@ -68,6 +69,9 @@
     <Compile Include="..\..\SharedAssemblyVersion.cs">
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <Compile Include="Cache\SqlCeDbCacheTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj">

@@ -1,0 +1,11 @@
+language: csharp
+solution: BruTile.sln
+install:
+  - nuget restore BruTile.sln
+  - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory testrunner
+skript:
+  - xbuild BruTile.sln /p:Configuration=ReleaseLinux
+#  - mono ./testrunner/NUnit.Runners.2.6.3/tools/nunit-console.exe ./Tests/BruTile.Tests/bin/Release/BruTile.Tests.dll
+#  - mono ./testrunner/NUnit.Runners.2.6.3/tools/nunit-console.exe ./Tests/BruTile.Desktop.Tests/bin/Release/BruTile.Desktop.Tests.dll
+#  - mono ./testrunner/NUnit.Runners.2.6.3/tools/nunit-console.exe ./Tests/BruTile.MBTiles.Tests/bin/Release/BruTile.MBTiles.Tests.dll
+  - xbuild BruTile.sln /p:Configuration="ReleaseLinux Portable"
