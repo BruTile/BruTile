@@ -203,10 +203,10 @@ namespace BruTile.Web
         }
 
         // Google version strings
-        private static string _versionGoogleMap = "m@130";
-        private static string _versionGoogleSatellite = "141";
-        private static string _versionGoogleLabels = "h@130";
-        private static string _versionGoogleTerrain = "t@125,r@130";
+        private static string _versionGoogleMap = "m@142";
+        private static string _versionGoogleSatellite = "190";
+        private static string _versionGoogleLabels = "h@142";
+        private static string _versionGoogleTerrain = "t@126,r@142";
         private const string SecGoogleWord = "Galileo";
 
         private static readonly CultureInfo FormatProvider = CultureInfo.InvariantCulture;
@@ -360,7 +360,7 @@ namespace BruTile.Web
                                 {
                                     string html = read.ReadToEnd();
 
-                                    var reg = new Regex("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",
+                                    var reg = new Regex(@"https://mts0\.google\.com/maps/vt\?lyrs=m@(\d+)",
                                                           RegexOptions.IgnoreCase);
                                     Match mat = reg.Match(html);
                                     if (mat.Success)
@@ -376,9 +376,15 @@ namespace BruTile.Web
                                         }
                                     }
 
-                                    reg = new Regex("\"*http://mt0.google.com/vt/lyrs=h@(\\d*)",
+                                    reg = new Regex(@"https://mts0\.google\.com/maps/vt\?lyrs=h@(\d+)",
                                                     RegexOptions.IgnoreCase);
                                     mat = reg.Match(html);
+                                    if (!mat.Success)
+                                    {
+                                        reg = new Regex(@"https://mts0\.google\.com/maps/vt\?lyrs=m@(\d+)", 
+                                            RegexOptions.IgnoreCase);
+                                        mat = reg.Match(html);
+                                    }
                                     if (mat.Success)
                                     {
                                         GroupCollection gc = mat.Groups;
@@ -392,7 +398,7 @@ namespace BruTile.Web
                                         }
                                     }
 
-                                    reg = new Regex("\"*http://khm0.google.com/kh/v=(\\d*)", RegexOptions.IgnoreCase);
+                                    reg = new Regex(@"https://khms0\.google\.com/kh\?v=(\d+)", RegexOptions.IgnoreCase);
                                     mat = reg.Match(html);
                                     if (mat.Success)
                                     {
@@ -408,7 +414,7 @@ namespace BruTile.Web
                                         }
                                     }
 
-                                    reg = new Regex("\"*http://mt0.google.com/vt/lyrs=t@(\\d*),r@(\\d*)",
+                                    reg = new Regex(@"https://mts0\.google\.com/maps/vt\?lyrs=t@(\d+),r@(\d+)",
                                                     RegexOptions.IgnoreCase);
                                     mat = reg.Match(html);
                                     if (mat.Success)
