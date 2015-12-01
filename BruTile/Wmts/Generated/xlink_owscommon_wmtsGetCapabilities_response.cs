@@ -388,9 +388,9 @@ namespace BruTile.Wmts.Generated
 
         void IXmlSerializable.WriteXml(System.Xml.XmlWriter writer)
         {
-            if (!string.IsNullOrWhiteSpace(dimensions))
+            if (!string.IsNullOrEmpty(dimensions))
                 writer.WriteAttributeString(OwsPrefix, "dimensions", OwsNamespace, dimensions);
-            if (!string.IsNullOrWhiteSpace(crs))
+            if (!string.IsNullOrEmpty(crs))
                 writer.WriteAttributeString(OwsPrefix, "crs", OwsNamespace, crs);
 
             writer.WriteElementString(OwsPrefix, "LowerCorner", OwsNamespace, LowerCorner);
