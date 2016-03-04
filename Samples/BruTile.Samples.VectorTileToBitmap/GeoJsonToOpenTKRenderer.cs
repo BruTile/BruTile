@@ -61,9 +61,7 @@ namespace BruTile.Samples.VectorTileToBitmap
                     
                     PolygonRenderer(featureCollections);
                     var byteArray = GraphicsContextToBitmapConverter.ToBitmap(_pixelWidth, _pixelHeight);
-
-                    SaveToPngFile(byteArray, @"C:\temp\tile.png");
-
+                    
                     GL.PopMatrix();
 
                     FrameBufferObjectHelper.StopFrameBufferObject();
@@ -81,12 +79,6 @@ namespace BruTile.Samples.VectorTileToBitmap
             GL.LoadIdentity();
 
             OpenTK.Graphics.OpenGL.GL.Ortho(0, pixelWidth, pixelHeight, 0, -1, 1); // This has no effect: OpenTK.Graphics.ES11.GL.Ortho(0, width, height, 0, 0, 1); 
-        }
-
-        private void SaveToPngFile(byte[] byteArray, string filePath)
-        {
-            var fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-            fileStream.Write(byteArray, 0, byteArray.Length);
         }
 
         private void PolygonRenderer(IEnumerable<FeatureCollection> featureCollections)
