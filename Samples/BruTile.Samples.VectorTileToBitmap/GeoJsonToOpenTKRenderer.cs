@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using GeoJSON.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
@@ -21,7 +22,7 @@ namespace BruTile.Samples.VectorTileToBitmap
         private readonly float _extentMinY;
         private readonly float _extentWidth;
         private readonly float _extentHeight;
-        private object _syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
         public GeoJSONToOpenTKRenderer(int pixelWidth, int pixelHeight, double[] boundingBox)
         {
@@ -54,11 +55,15 @@ namespace BruTile.Samples.VectorTileToBitmap
                     Set2DViewport(_pixelWidth, _pixelHeight);
 
                     GL.PushMatrix();
-                    GL.Scale(_pixelWidth/_extentWidth, _pixelHeight/_extentHeight, 1);
+                    
+                    GL.Scale(_pixelWidth / _extentWidth, _pixelHeight / _extentHeight, 1);
                     GL.Translate(-_extentMinX, -_extentMinY, 0);
+                    //GL.Scale(_pixelWidth, _pixelHeight, 1);
 
                     PolygonRenderer(featureCollections);
                     var byteArray = GraphicsContextToBitmapConverter.ToBitmap(_pixelWidth, _pixelHeight);
+
+                    SaveToPngFile(byteArray, @"C:\temp\tile.png");
 
                     GL.PopMatrix();
 
@@ -67,6 +72,22 @@ namespace BruTile.Samples.VectorTileToBitmap
                     return byteArray;
                 }
             }
+        }
+
+        private static void Set2DViewport(int pixelWidth, int pixelHeight)
+        {
+            GL.Viewport(0, 0, pixelWidth, pixelHeight);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
+            OpenTK.Graphics.OpenGL.GL.Ortho(0, pixelWidth, pixelHeight, 0, -1, 1); // This has no effect: OpenTK.Graphics.ES11.GL.Ortho(0, width, height, 0, 0, 1); 
+        }
+
+        private void SaveToPngFile(byte[] byteArray, string filePath)
+        {
+            var fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+            fileStream.Write(byteArray, 0, byteArray.Length);
         }
 
         private void PolygonRenderer(IEnumerable<FeatureCollection> featureCollections)
@@ -118,14 +139,6 @@ namespace BruTile.Samples.VectorTileToBitmap
             }
 
             return points;
-        }
-
-        private static void Set2DViewport(int width, int height)
-        {
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-
-            OpenTK.Graphics.OpenGL.GL.Ortho(0, width, height, 0, 0, 1); // This has no effect: OpenTK.Graphics.ES11.GL.Ortho(0, width, height, 0, 0, 1); 
         }
     }
 }
