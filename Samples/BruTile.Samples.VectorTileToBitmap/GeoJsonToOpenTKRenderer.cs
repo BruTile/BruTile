@@ -58,8 +58,7 @@ namespace BruTile.Samples.VectorTileToBitmap
                     
                     GL.Scale(_pixelWidth / _extentWidth, _pixelHeight / _extentHeight, 1);
                     GL.Translate(-_extentMinX, -_extentMinY, 0);
-                    //GL.Scale(_pixelWidth, _pixelHeight, 1);
-
+                    
                     PolygonRenderer(featureCollections);
                     var byteArray = GraphicsContextToBitmapConverter.ToBitmap(_pixelWidth, _pixelHeight);
 
