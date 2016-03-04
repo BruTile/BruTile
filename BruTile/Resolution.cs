@@ -15,7 +15,7 @@ namespace BruTile
         private readonly int _matrixHeight;
 
         public Resolution(string id, double unitsPerPixel, 
-            int tileWidth, int tileHeight,
+            int tileWidth = 256, int tileHeight = 256,
             double top = 0, double left = 0, 
             int matrixWidth = 0, int matrixHeight = 0,
             double scaledenominator = 0)
