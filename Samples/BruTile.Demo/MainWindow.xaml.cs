@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Windows.Controls;
-using BruTile.Samples.VectorTileToBitmap;
 
 namespace BruTile.Demo
 {
@@ -27,18 +26,8 @@ namespace BruTile.Demo
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
             Layers.Children.Add(ToRadioButton("Google Terrain", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
-            Layers.Children.Add(ToRadioButton("Mapzen Vector Tiles", CreateVectorTileTileSource));
         }
-
-        public ITileSource CreateVectorTileTileSource()
-        {
-            return new HttpVectorTileSource(new GlobalSphericalMercator(),
-                //   "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] { "a", "b", "c" }, 
-                //"http://basemapsbeta.arcgis.com/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{x}/{y}.pbf",
-            "https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-LM25tq4",
-            name: "vector tile");
-        }
-
+        
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
             return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"}, 
