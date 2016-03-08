@@ -14,17 +14,24 @@ namespace BruTile.Wmsc
         readonly Uri _baseUrl;
         readonly IDictionary<string, string> _customParameters;
         readonly IList<string> _layers;
-        private readonly ITileSchema _schema;
+        readonly ITileSchema _schema;
         readonly IList<string> _styles;
-        private readonly string _version;
+        readonly string _version;
 
-        public WmscRequest(Uri baseUrl, ITileSchema schema, IList<string> layers, IList<string> styles, IDictionary<string, string> customParameters = null, string version = null)
+        public WmscRequest(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles,
+            IDictionary<string, string> customParameters = null, string version = null) : 
+            this(new Uri(baseUrl), schema, layers, styles, customParameters, version)
+        {
+        }
+
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles, 
+            IDictionary<string, string> customParameters = null, string version = null)
         {
             _baseUrl = baseUrl;
             _customParameters = customParameters;
-            _layers = layers;
+            _layers = layers.ToList();
             _schema = schema;
-            _styles = styles;
+            _styles = styles.ToList();
             _version = version;
         }
 
