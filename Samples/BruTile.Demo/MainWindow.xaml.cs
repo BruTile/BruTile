@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Windows.Controls;
+using BruTile.Samples.Common;
 
 namespace BruTile.Demo
 {
@@ -26,6 +27,8 @@ namespace BruTile.Demo
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
             Layers.Children.Add(ToRadioButton("Google Terrain", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
+
+            Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
         }
         
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
