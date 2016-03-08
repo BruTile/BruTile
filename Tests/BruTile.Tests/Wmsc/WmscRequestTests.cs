@@ -2,7 +2,6 @@
 using BruTile.Wmsc;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace BruTile.Tests.Wmsc
 {
