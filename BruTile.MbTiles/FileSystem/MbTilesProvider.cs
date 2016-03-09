@@ -4,7 +4,6 @@
 
 using System;
 using System.Data.SQLite;
-using System.Runtime.Serialization;
 using BruTile.Cache;
 
 namespace BruTile.FileSystem
