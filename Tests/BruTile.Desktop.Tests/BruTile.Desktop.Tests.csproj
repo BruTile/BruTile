@@ -62,7 +62,6 @@
     <Compile Include="Cache\CacheTests.cs" />
     <Compile Include="Cache\FileCacheTests.cs" />
     <Compile Include="Cache\SQLiteCacheTests.cs" />
-    <Compile Include="Cache\SqliteDbCacheTest.cs" />
     <Compile Include="Crs\CrsUnitOfMeasureRegistryTest.cs" />
     <Compile Include="FileSystem\FileTileProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
