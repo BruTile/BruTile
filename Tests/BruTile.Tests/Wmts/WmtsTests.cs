@@ -15,7 +15,7 @@ namespace BruTile.Tests.Wmts
     public class WmtsTests
     {
         [TestCase("wmts-capabilities-dlr.xml")]
-        [TestCase("wmts-capabilities-maps-open.lantmateriet.se.xml")]
+        [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
@@ -169,16 +169,20 @@ namespace BruTile.Tests.Wmts
             Assert.True(count == 50);
         }
 
-        [Test, Ignore]
-        public void Test_ows_BoundingBoxType()
+        [Test]
+        public void TestParsingWmtsWhereUpperBoundAndLowerBoundLackOwsPrefix()
         {
-            const string xml = "<ows:BoundingBox xmlns:ows=\"http://www.opengis.net/ows/1.1\" crs=\"urn:ogc:def:crs:EPSG:6.3:900913\"><LowerCorner>-20037508.342789 -20037508.342789</LowerCorner><UpperCorner>20037508.342789 20037508.342789</UpperCorner></ows:BoundingBox>";
-            var ser = new XmlSerializer(typeof (BoundingBoxType));
-            var bbt = (BoundingBoxType) ser.Deserialize(new StringReader(xml));
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
 
-            Assert.IsNotNull(bbt, "bbt != null");
-            Assert.IsTrue(!string.IsNullOrEmpty(bbt.LowerCorner), "!string.IsNullOrEmpty(bbt.LowerCorner)");
-            Assert.IsTrue(!string.IsNullOrEmpty(bbt.UpperCorner), "!string.IsNullOrEmpty(bbt.UpperCorner)");
+                // assert
+                var tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb");
+                var tileSchema = (WmtsTileSchema)tileSource.Schema;
+                Assert.NotNull(tileSchema.Extent);
+            }
         }
     }
 }
