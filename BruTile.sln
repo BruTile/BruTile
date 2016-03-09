@@ -6,13 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles", "BruTile.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
 	ProjectSection(SolutionItems) = preProject
-		Scripts\BruTile.Desktop.nuspec = Scripts\BruTile.Desktop.nuspec
-		Scripts\BruTile.nuspec = Scripts\BruTile.nuspec
-		Scripts\build.proj = Scripts\build.proj
-		Scripts\buildpack.bat = Scripts\buildpack.bat
-		Scripts\buildpackpush.bat = Scripts\buildpackpush.bat
 		README.md = README.md
-		Scripts\readme.txt = Scripts\readme.txt
 		SharedAssemblyVersion.cs = SharedAssemblyVersion.cs
 	EndProjectSection
 EndProject
@@ -45,6 +39,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A0B43CA3-90D9-4477-9CEE-BF3FCB5A0AB0}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\BruTile.Desktop.nuspec = Scripts\BruTile.Desktop.nuspec
+		Scripts\BruTile.nuspec = Scripts\BruTile.nuspec
+		Scripts\build.proj = Scripts\build.proj
+		Scripts\buildpack.bat = Scripts\buildpack.bat
+		Scripts\buildpackpush.bat = Scripts\buildpackpush.bat
+		Scripts\readme.txt = Scripts\readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
