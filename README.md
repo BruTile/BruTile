@@ -22,7 +22,7 @@ https://www.nuget.org/packages/BruTile
 * [PDOK] (https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ###Demo
-Go [here] (http://brutiledemo.appspot.com/) for an online Silverlight demo of BruTile used in Mapsui
+For a demo download the source code and run BruTile.Demo in the Samples folder
 
 ###Portable Class Library (PCL)
 BruTile is a PCL with Profile336 which targets:
