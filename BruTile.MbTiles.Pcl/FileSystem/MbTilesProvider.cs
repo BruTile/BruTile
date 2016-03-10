@@ -26,13 +26,9 @@ namespace BruTile.FileSystem
             }
         }
 
-        #region Implementation of ITileProvider
-
         public byte[] GetTile(TileInfo tileInfo)
         {
             return _cache.Find(tileInfo.Index);
         }
-
-        #endregion Implementation of ITileProvider
     }
 }
