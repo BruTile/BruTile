@@ -24,9 +24,5 @@
     <file src="..\Release\v3.5\BruTile.MbTiles.dll" target="lib\net35\BruTile.MbTiles.dll" />
     <file src="..\Release\v4.0\BruTile.Desktop.dll" target="lib\net40\BruTile.Desktop.dll" />
     <file src="..\Release\v4.0\BruTile.MbTiles.dll" target="lib\net40\BruTile.MbTiles.dll" />
-    <!--
-    <file src="..\Release\v4.0\BruTile.Serialization.dll" target="lib\net40\BruTile.Serialization.dll" />
-    <file src="..\Release\v3.5\BruTile.Serialization.dll" target="lib\net35\BruTile.Serialization.dll" />
-    -->
   </files>
 </package>
