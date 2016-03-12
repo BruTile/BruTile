@@ -1,0 +1,17 @@
+The .nuspec needs a string version of the pcl profile. I get it in two steps:
+
+1)
+$p = Get-Project "BruTile"
+$p.Properties.Item("TargetFrameworkMoniker").Value
+> .NETPortable,Version=v4.5,Profile=Profile111
+
+Thanks Stephen Cleary:
+http://blog.stephencleary.com/2012/05/framework-profiles-in-net.html
+
+2)
+Download NuHelper en do:
+nuhelper shortFrameworkName .NETPortable,Version=v4.5,Profile=Profile111
+> portable-net45+win+WindowsPhoneApp81+Xamarin.iOS10+MonoAndroid10+MonoTouch10
+
+Thanks protomouse:
+https://github.com/protomouse/NuHelper
