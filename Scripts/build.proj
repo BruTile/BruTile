@@ -8,7 +8,7 @@
    
   <Target Name="BuildRelease" DependsOnTargets="CleanRelease;RestorePackages">
     <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile"
+             Targets="BruTile;BruTile_MbTiles_Pcl"
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\..\Release\Portable\" />
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
