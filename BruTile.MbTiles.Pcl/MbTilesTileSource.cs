@@ -5,7 +5,6 @@
 using System;
 using BruTile.Cache;
 using BruTile.FileSystem;
-using BruTile.Predefined;
 using SQLite.Net;
 using SQLite.Net.Interop;
 
@@ -17,14 +16,19 @@ namespace BruTile
     /// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
     public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
+        readonly MbTilesProvider _provider;
+        const string DefaultName = nameof(MbTilesTileSource);
+
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
         /// <param name="connectionString">The MapBox tiles file</param>
-        /// <param name="schema">The tile schema (should be of <see cref="GlobalMercator"/></param>
+        /// <param name="name">The name of the TileSource</param>
+        /// <param name="schema">The tile schema</param>
         /// <param name="type">The type of the MapBox tiles file</param>
-        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
-            : this(new MbTilesProvider(connectionString, schema, type))
+        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, 
+            MbTilesType type = MbTilesType.None, string name = DefaultName)
+            : this(new MbTilesProvider(connectionString, schema, type), name)
         {
         }
 
@@ -32,14 +36,13 @@ namespace BruTile
         /// Creates an instance of this class
         /// </summary>
         /// <param name="provider">The MapBox Tiles provider</param>
-        internal MbTilesTileSource(MbTilesProvider provider)
+        /// <param name="name">The name of the TileSource</param>
+        internal MbTilesTileSource(MbTilesProvider provider, string name = DefaultName)
         {
             _provider = provider;
+            Name = name;
         }
-        private readonly MbTilesProvider _provider;
-
-        #region Implementation of ITileSource
-
+        
         /// <summary>
         /// Gets the actual image content of the tile as byte array
         /// </summary>
@@ -51,28 +54,22 @@ namespace BruTile
         /// <summary>
         /// Gets a value indicating the schema of the tile source
         /// </summary>
-        public ITileSchema Schema
-        {
-            get { return _provider.Schema; }
-        }
+        public ITileSchema Schema => _provider.Schema;
 
         /// <summary>
         /// Gets a value indicating the name of the tile source
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets a value indicating the (image-)format of the tiles
         /// </summary>
-        public MbTilesFormat Format
-        {
-            get { return _provider.Cache.Format; }
-        }
+        public MbTilesFormat Format => _provider.Cache.Format;
 
         /// <summary>
         /// Gets a value indicating the type of the tiles
         /// </summary>
-        public MbTilesType Type { get { return _provider.Cache.Type; } }
+        public MbTilesType Type => _provider.Cache.Type;
 
         /// <summary>
         /// Method to initialize SQLite.Net with the platform it is used with.
@@ -81,7 +78,7 @@ namespace BruTile
         public static void SetPlatform(ISQLitePlatform platform)
         {
             if (platform == null)
-                throw new ArgumentNullException("platform");
+                throw new ArgumentNullException(nameof(platform));
 
             MbTilesCache.SetConnectionPool(new SQLiteConnectionPool(platform));
         }
@@ -89,8 +86,6 @@ namespace BruTile
         /// <summary>
         /// Gets a value indicating the covered extent
         /// </summary>
-        public Extent Extent { get { return _provider.Cache.Extent; }}
-
-        #endregion Implementation of ITileSource
+        public Extent Extent => _provider.Cache.Extent;
     }
 }
