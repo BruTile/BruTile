@@ -15,7 +15,7 @@ namespace BruTile.Web
         Hybrid
     }
 
-    [Obsolete("Use BasicRequest with {quadkey} tag instead")]
+    [Obsolete("Use BasicRequest with {quadkey} tag instead", true)]
     public class BingRequest : IRequest
     {
         private const string DefaultApiVersion = "517";
