@@ -382,8 +382,6 @@ namespace BruTile.Cache
                 dict.Add(kvp[i++], kvp[i]);
         }
 
-#if !(SILVERLIGHT || WINDOWS_PHONE)
-
         internal static void Create(string connectionString, IDictionary<string, string> metadata)
         {
             var csb = new SQLiteConnectionStringBuilder(connectionString);
@@ -421,8 +419,6 @@ namespace BruTile.Cache
                 }
             }
         }
-
-#endif
 
         protected override bool IsTileIndexValid(TileIndex index)
         {
