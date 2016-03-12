@@ -42,11 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Data.SQLite">
       <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -76,10 +72,6 @@
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj">
       <Project>{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}</Project>
       <Name>BruTile.Desktop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj">
-      <Project>{C847C0EA-38EC-49B8-AF07-12B65CA9C708}</Project>
-      <Name>BruTile.MbTiles</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj">
       <Project>{9FB60E2D-C682-4A01-9584-8B495B8DA85A}</Project>
