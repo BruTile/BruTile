@@ -25,15 +25,15 @@ https://www.nuget.org/packages/BruTile
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
 ###Portable Class Library (PCL)
-BruTile is a PCL with Profile336 which targets:
+BruTile is a PCL with Profile111 which targets:
 
-* .Net Framework 4.0.3 and higher
+* .Net Framework 4.5 and higher
+* ASP.NET Core 5.0
 * Windows 8
-* Windows Phone Silverlight 8
-* Silverlight 5 
 * Windows Phone 8.1
-* Xamarin.iOS
 * Xamarin.Android
+* Xamarin.iOS
+* Xamarin.iOS (Classic)
 
 ###For downward compatibility we also compile for:
 * .Net Framework 4.0
