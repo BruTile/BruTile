@@ -16,13 +16,7 @@ namespace BruTile.Cache
         private bool _disposed;
         private readonly Func<TileIndex, bool> _keepTileInMemory;
         
-        public int TileCount
-        {
-            get
-            {
-                return _bitmaps.Count;
-            }
-        }
+        public int TileCount => _bitmaps.Count;
 
         public int MinTiles { get; set; }
         public int MaxTiles { get; set; }
@@ -61,20 +55,15 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                LocalRemove(index);
+                if (!_bitmaps.ContainsKey(index)) return;
+                var disposable = _bitmaps[index] as IDisposable;
+                disposable?.Dispose();
+                _touched.Remove(index);
+                _bitmaps.Remove(index);
+                OnNotifyPropertyChange("TileCount");
             }
         }
-
-        private void LocalRemove(TileIndex index)
-        {
-            if (!_bitmaps.ContainsKey(index)) return;
-            var disposable = (_bitmaps[index] as IDisposable);
-            if (disposable != null) disposable.Dispose();
-            _touched.Remove(index);
-            _bitmaps.Remove(index);
-            OnNotifyPropertyChange("TileCount");
-        }
-
+        
         public T Find(TileIndex index)
         {
             lock (_syncRoot)
@@ -97,8 +86,9 @@ namespace BruTile.Cache
             }
         }
 
-        virtual protected void CleanUp()
+        protected virtual void CleanUp()
         {
+
             if (_bitmaps.Count <= MaxTiles) return;
 
             var numberOfTilesToKeepInMemory = 0;
@@ -121,10 +111,7 @@ namespace BruTile.Cache
         protected virtual void OnNotifyPropertyChange(string propertyName)
         {
             var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -142,8 +129,8 @@ namespace BruTile.Cache
         {
             foreach (var index in _bitmaps.Keys)
             {
-                var bitmap = (_bitmaps[index] as IDisposable);
-                if (bitmap != null) bitmap.Dispose();
+                var bitmap = _bitmaps[index] as IDisposable;
+                bitmap?.Dispose();
             }
         }
 
