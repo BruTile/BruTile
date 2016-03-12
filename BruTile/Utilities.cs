@@ -68,9 +68,10 @@ namespace BruTile
         {
             get
             {
-                string name = typeof(Utilities).Assembly.FullName;
-                var asmName = new AssemblyName(name);
-                return asmName.Version.Major + "." + asmName.Version.Minor;
+                var assembly = typeof(Utilities).GetTypeInfo().Assembly;
+                // In some PCL profiles the above line is: var assembly = typeof(Utilities).Assembly;
+                var assemblyName = new AssemblyName(assembly.FullName);
+                return assemblyName.Version.Major + "." + assemblyName.Version.Minor;
             }
         }
 
