@@ -16,7 +16,7 @@
              RunEachTargetSeparately="true"/>
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
+             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=NET40 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
              RunEachTargetSeparately="true"/>
   </Target>
   
