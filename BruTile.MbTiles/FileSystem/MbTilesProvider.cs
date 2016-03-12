@@ -13,10 +13,7 @@ namespace BruTile.FileSystem
     {
         private readonly MbTilesCache _cache;
 
-        public MbTilesProvider(string file)
-            : this(new SQLiteConnection(string.Format("Data Source={0}", file)))
-        {
-        }
+        public MbTilesProvider(string file) : this(new SQLiteConnection($"Data Source={file}")) {}
 
         public MbTilesProvider(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
@@ -25,13 +22,7 @@ namespace BruTile.FileSystem
 
         public ITileSchema Schema => _cache.TileSchema;
 
-        internal MbTilesCache Cache
-        {
-            get
-            {
-                return _cache;
-            }
-        }
+        internal MbTilesCache Cache => _cache;
 
         public byte[] GetTile(TileInfo tileInfo)
         {
