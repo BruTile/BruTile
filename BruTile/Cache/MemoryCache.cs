@@ -86,9 +86,8 @@ namespace BruTile.Cache
             }
         }
 
-        protected virtual void CleanUp()
+        void CleanUp()
         {
-
             if (_bitmaps.Count <= MaxTiles) return;
 
             var numberOfTilesToKeepInMemory = 0;
@@ -133,23 +132,5 @@ namespace BruTile.Cache
                 bitmap?.Dispose();
             }
         }
-
-#if DEBUG
-        public bool EqualSetup(MemoryCache<T> other)
-        {
-            if (MinTiles != other.MinTiles)
-                return false;
-
-            if (MaxTiles != other.MaxTiles)
-                return false;
-
-            System.Diagnostics.Debug.Assert(_syncRoot != null && other._syncRoot != null && _syncRoot != other._syncRoot);
-            System.Diagnostics.Debug.Assert(_bitmaps != null && other._bitmaps != null && _bitmaps != other._bitmaps);
-            System.Diagnostics.Debug.Assert(_touched != null && other._touched != null && _touched != other._touched);
-
-            return true;
-        }
-#endif
-
     }
 }
