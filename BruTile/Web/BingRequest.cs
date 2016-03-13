@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BruTile.Web
 {
-    [Obsolete("Use KnownTileSources instead")]
+    [Obsolete("Use KnownTileSources instead", true)]
     public enum BingMapType
     {
         Roads,

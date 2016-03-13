@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace BruTile.Demo
+﻿namespace BruTile.Demo
 {
-    public partial class App : Application
+    public partial class App
     {
     }
 }

@@ -103,13 +103,12 @@ namespace BruTile.Cache
             return cmd;
         }
 
-        private readonly int[] _declaredZoomLevels;
         private readonly Dictionary<string, int[]> _tileRange;
 
         private readonly ITileSchema _schema;
 
         public MbTilesCache(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
-            : base(connection, (parent, child) => string.Format("\"{0}\"", child), string.Empty, "tiles",
+            : base(connection, (parent, child) => $"\"{child}\"", string.Empty, "tiles",
             null, null, FindTileCommand)
         {
             var wasOpen = true;
@@ -145,10 +144,10 @@ namespace BruTile.Cache
                     // is not part of the MBTiles spec
                     
                     // Declared zoom levels
-                    _declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
+                    var declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
 
                     // Create schema
-                    _schema = new GlobalMercator(Format.ToString(), _declaredZoomLevels);
+                    _schema = new GlobalMercator(Format.ToString(), declaredZoomLevels);
                 }
                 else
                 {
@@ -221,11 +220,10 @@ namespace BruTile.Cache
                         var extentString = reader.GetString(0);
                         var components = extentString.Split(',');
                         var extent = new Extent(
-                            double.Parse(components[0], System.Globalization.NumberFormatInfo.InvariantInfo),
-                            double.Parse(components[1], System.Globalization.NumberFormatInfo.InvariantInfo),
-                            double.Parse(components[2], System.Globalization.NumberFormatInfo.InvariantInfo),
-                            double.Parse(components[3], System.Globalization.NumberFormatInfo.InvariantInfo)
-                            );
+                            double.Parse(components[0], NumberFormatInfo.InvariantInfo),
+                            double.Parse(components[1], NumberFormatInfo.InvariantInfo),
+                            double.Parse(components[2], NumberFormatInfo.InvariantInfo),
+                            double.Parse(components[3], NumberFormatInfo.InvariantInfo));
 
                         return ToMercator(extent);
 
@@ -372,10 +370,10 @@ namespace BruTile.Cache
             var dict = new Dictionary<string, string>();
             if (!string.IsNullOrEmpty(name)) dict.Add("name", name);
             dict.Add("type", type.ToString().ToLowerInvariant());
-            dict.Add("version", version.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            dict.Add("version", version.ToString(CultureInfo.InvariantCulture));
             if (!string.IsNullOrEmpty(description)) dict.Add("description", description);
             dict.Add("format", format.ToString().ToLower());
-            dict.Add("bounds", string.Format(System.Globalization.NumberFormatInfo.InvariantInfo,
+            dict.Add("bounds", string.Format(NumberFormatInfo.InvariantInfo,
                 "{0},{1},{2},{3}", extent.MinX, extent.MinY, extent.MaxX, extent.MaxY));
 
             for (var i = 0; i < kvp.Length - 1; i++)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using BruTile.Cache;
 using NUnit.Framework;
 using BruTile.FileSystem;

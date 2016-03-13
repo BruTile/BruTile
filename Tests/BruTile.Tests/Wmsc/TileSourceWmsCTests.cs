@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using BruTile.Web;
 using BruTile.Wmsc;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Web
+namespace BruTile.Tests.Wmsc
 {
     [TestFixture]
     internal class TileSourceWmsCTests
