@@ -164,21 +164,34 @@ namespace BruTile.Samples.Common
         {
             private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
             private const int MaxRetries = 0;
-            
+            private readonly int _threadId;
+            private const string CrossThreadExceptionMessage = "Cross thread access not allowed on class Retries";
+
+            public Retries()
+            {
+                _threadId = Environment.CurrentManagedThreadId;
+            }
+
             public bool ReachedMax(TileIndex index)
             {
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
+
                 var retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
                 return retryCount > MaxRetries;
             }
 
             public void PlusOne(TileIndex index)
             {
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
+
                 if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
                 else _retries[index]++;
             }
 
             public void Clear()
             {
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
+
                 _retries.Clear();
             }
         }
