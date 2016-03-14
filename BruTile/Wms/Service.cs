@@ -285,7 +285,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string @namespace)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         #endregion Overrides of XmlObject

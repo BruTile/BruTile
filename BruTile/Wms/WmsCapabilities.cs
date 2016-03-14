@@ -45,7 +45,7 @@ namespace BruTile.Wms
         public WmsCapabilities(XDocument doc)
             : this()
         {
-            if (doc.Root.Name == "ServiceExceptionReport")
+            if (doc.Root != null && doc.Root.Name == "ServiceExceptionReport")
             {
                 ServiceExceptionReport = new ServiceExceptionReport(doc.Root, "");
                 return;

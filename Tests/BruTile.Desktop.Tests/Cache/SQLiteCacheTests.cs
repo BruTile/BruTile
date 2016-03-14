@@ -75,7 +75,8 @@ namespace BruTile.Tests.Cache
                 cmd.CommandText = "SELECT count(*) FROM cache";
                 Assert.AreEqual(count, Convert.ToInt32(cmd.ExecuteScalar()));
             }
-            Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
+
+            Console.WriteLine($"{count} dummy tiles inserted.");
         }
     }
 }

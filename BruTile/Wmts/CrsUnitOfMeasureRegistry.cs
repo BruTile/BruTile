@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq.Expressions;
-using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
@@ -37,7 +35,7 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets a scale value to transform this Unit of measure to <see cref="Meter"/>
         /// </summary>
-        public Double ToMeter
+        public double ToMeter
         {
             get { return _toMeter; }
         }

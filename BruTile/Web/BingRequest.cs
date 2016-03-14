@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+// ReSharper disable All
 
 namespace BruTile.Web
 {
@@ -51,3 +52,4 @@ namespace BruTile.Web
         }
     }
 }
+// ReSharper restore All
