@@ -5,19 +5,26 @@
     <SolutionDir>$(MSBuildProjectDirectory)</SolutionDir>
     <ToolsHome Condition=" '$(ToolsHome)'=='' ">$(MSBuildProjectDirectory)\..\tools\</ToolsHome>
   </PropertyGroup>
-   
-  <Target Name="BuildRelease" DependsOnTargets="CleanRelease;RestorePackages">
+
+  <Target Name="BuildRelease" DependsOnTargets="Build_Core;Build_Desktop;Build_Desktop_MBTiles">
+
+  </Target>
+    <Target Name="Build_Core" DependsOnTargets="CleanRelease;RestorePackages">
     <MSBuild Projects="$(SolutionFile)"
              Targets="BruTile;BruTile_MbTiles_Pcl"
              Properties="Configuration=Release Portable;OutputPath=$(MSBuildProjectDirectory)\..\Release\Portable\" />
+  </Target>
+  <Target Name="Build_Desktop" DependsOnTargets="CleanRelease;RestorePackages">
     <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v3.5\"
-             RunEachTargetSeparately="true"/>
-    <MSBuild Projects="$(SolutionFile)"
-             Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
-             Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=NET40 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
-             RunEachTargetSeparately="true"/>
+            Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
+            Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v3.5;TargetFrameworkProfile=Client;DefineConstants=NET35 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v3.5\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v3.5\"
+            RunEachTargetSeparately="true"/>
+  </Target>
+  <Target Name="Build_Desktop_MBTiles" DependsOnTargets="CleanRelease;RestorePackages">
+      <MSBuild Projects="$(SolutionFile)"
+            Targets="BruTile;BruTile_Desktop;BruTile_MbTiles"
+            Properties="Portability=Desktop;Configuration=Release;Platform=Any CPU;TargetFrameworkVersion=v4.0;TargetFrameworkProfile=Client;DefineConstants=NET40 TRACE;BaseIntermediateOutputPath=$(MSBuildProjectDirectory)\..\obj\v4.0\;OutputPath=$(MSBuildProjectDirectory)\..\Release\v4.0\"
+            RunEachTargetSeparately="true"/>
   </Target>
   
   <Target Name="CleanRelease">
