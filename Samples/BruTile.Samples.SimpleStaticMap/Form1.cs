@@ -10,7 +10,6 @@ namespace BruTile.Samples.SimpleStaticMap
 {
     public partial class Form1 : Form
     {
-        private const int TileSize = 256;
         readonly Bitmap _buffer;
 
         //a list of resolutions in which the tiles are stored
@@ -46,7 +45,7 @@ namespace BruTile.Samples.SimpleStaticMap
             foreach (var tile in tiles)
             {
                 var url = requestBuilder.GetUri(tile);
-                byte[] bytes = RequestHelper.FetchImage(url);
+                var bytes = RequestHelper.FetchImage(url);
                 var bitmap = new Bitmap(new MemoryStream(bytes));
                 var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
                 graphics.DrawImage(bitmap, RoundToPixel(destination));
@@ -74,9 +73,7 @@ namespace BruTile.Samples.SimpleStaticMap
                 schema.Resolutions[levelId] = new Resolution
                 (
                     levelId,
-                    unitsPerPixel, 
-                    TileSize,
-                    TileSize
+                    unitsPerPixel
                 );
             }
             return schema;
@@ -93,6 +90,5 @@ namespace BruTile.Samples.SimpleStaticMap
                 (int)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
             return result;
         }
-
     }
 }
