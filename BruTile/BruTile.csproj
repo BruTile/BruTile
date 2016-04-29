@@ -93,6 +93,7 @@
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
     <Compile Include="Extent.cs" />
     <Compile Include="Predefined\KnownTileSources.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\HttpTileSource.cs" />
     <Compile Include="Wmts\CrsAxisOrderRegistry.cs" />
     <Compile Include="Wmts\CrsIdentifier.cs" />
