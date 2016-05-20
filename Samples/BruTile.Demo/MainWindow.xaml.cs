@@ -22,13 +22,18 @@ namespace BruTile.Demo
                 var radioButton = ToRadioButton(knownTileSource.ToString(), () => KnownTileSources.Create(source, "soep"));
                 Layers.Children.Add(radioButton);
             }
-
+            
             Layers.Children.Add(ToRadioButton("Google Map", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
             Layers.Children.Add(ToRadioButton("Google Terrain", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
 
             Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
+
+            Layers.Children.Add(ToRadioButton("Here Maps", () =>
+                new HttpTileSource(new GlobalSphericalMercator(0, 18),
+                    "https://{s}.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g",
+                    new[] { "1", "2", "3", "4" }, name: "Here Maps Source")));
         }
         
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
