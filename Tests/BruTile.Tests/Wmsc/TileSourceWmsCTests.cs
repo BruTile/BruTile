@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using BruTile.Wmsc;
@@ -30,6 +32,25 @@ namespace BruTile.Tests.Wmsc
                     Assert.NotNull(tileSource.Schema.Srs);
                 }
             }
+        }
+
+        [TestCase("http://resource.sgu.se/service/wms/130/brunnar?SERVICE=WMS&VERSION=1.3&REQUEST=getcapabilities&TILED=true", true)]
+        public void TestParseUrl(string url, bool ignore)
+        {
+            if (ignore)
+                throw new IgnoreException("Url is not for WMS-C");
+
+            // arrange
+            var myWmsc = new Uri(url);
+            // act
+            List<ITileSource> res = null;
+            var action = new TestDelegate(() => res = new List<ITileSource>(WmscTileSource.CreateFromWmscCapabilties(myWmsc)));
+            
+            // assert
+            Assert.DoesNotThrow(action);
+            Assert.IsNotNull(res);
+            Assert.That(res.Count, Is.GreaterThan(0));
+
         }
     }
 }
