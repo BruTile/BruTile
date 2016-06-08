@@ -25,6 +25,12 @@ namespace BruTile.Wms
         {
         }
 
+        public WmsCapabilities(Uri uri)
+            :this(ToXDocument(uri))
+        {
+        }
+
+
         public WmsCapabilities(string version)
         {
             Version = new WmsVersion(version);

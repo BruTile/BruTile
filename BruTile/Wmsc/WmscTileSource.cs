@@ -21,7 +21,7 @@ namespace BruTile.Wmsc
 
         public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
         {
-            var wmsCapabilities = new WmsCapabilities(uri.ToString());
+            var wmsCapabilities = new WmsCapabilities(uri);
             var cap = wmsCapabilities.Capability;
             var ec = cap.ExtendedCapabilities;
             XNode vsc = null;
