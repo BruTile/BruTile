@@ -80,7 +80,7 @@ namespace BruTile
             if (platform == null)
                 throw new ArgumentNullException(nameof(platform));
 
-            MbTilesCache.SetConnectionPool(new SQLiteConnectionPool(platform));
+            MbTilesCache.SetPlatform(platform);
         }
 
         /// <summary>

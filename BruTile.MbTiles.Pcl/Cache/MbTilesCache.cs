@@ -5,35 +5,46 @@ using System.Collections.Generic;
 using System.Globalization;
 using BruTile.Predefined;
 using SQLite.Net;
+using SQLite.Net.Interop;
 
 namespace BruTile.Cache
 {
     internal class MbTilesCache : IPersistentCache<byte[]>
     {
+        private static ISQLitePlatform _platform;
+
+        internal static void SetPlatform(ISQLitePlatform platform)
+        {
+            _platform = platform;
+        }
+
+        /*
         private static SQLiteConnectionPool _connectionPool;
 
         public static void SetConnectionPool(SQLiteConnectionPool connectionPool)
         {
             _connectionPool = connectionPool;
         }
-        
+         */
+
         private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
 
         private readonly SQLiteConnectionString _connectionString;
 
         private readonly Dictionary<string, int[]> _tileRange;
-        private readonly MbTilesType _type = MbTilesType.None;
+        private readonly MbTilesType _type;
         private readonly ITileSchema _schema;
         private readonly MbTilesFormat _format;
         private readonly Extent _extent;
 
         internal MbTilesCache(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
+            /*
             if (_connectionPool == null)
                 throw new InvalidOperationException("You must assign a platform prior to using MbTilesCache by calling MbTilesTileSource.SetPlatform()");
-
+             */
             _connectionString = connectionString;
-            var connection = _connectionPool.GetConnection(connectionString);
+            var connection = new SQLiteConnectionWithLock(_platform, connectionString);
             using (connection.Lock())
             {
                 _type = type == MbTilesType.None ? ReadType(connection) : type;
@@ -131,17 +142,17 @@ namespace BruTile.Cache
             return new Extent(minX, minY, maxX, maxY);
         }
 
-        private static void ToMercator(ref double mercatorX_lon, ref double mercatorY_lat)
+        private static void ToMercator(ref double mercatorXLon, ref double mercatorYLat)
         {
-            if ((Math.Abs(mercatorX_lon) > 180 || Math.Abs(mercatorY_lat) > 90))
+            if ((Math.Abs(mercatorXLon) > 180 || Math.Abs(mercatorYLat) > 90))
                 return;
 
-            double num = mercatorX_lon * 0.017453292519943295;
+            double num = mercatorXLon * 0.017453292519943295;
             double x = 6378137.0 * num;
-            double a = mercatorY_lat * 0.017453292519943295;
+            double a = mercatorYLat * 0.017453292519943295;
 
-            mercatorX_lon = x;
-            mercatorY_lat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
+            mercatorXLon = x;
+            mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
         }
 
 
@@ -238,7 +249,7 @@ namespace BruTile.Cache
             if (IsTileIndexValid(index))
             {
                 byte[] result;
-                var cn = _connectionPool.GetConnection(_connectionString);
+                var cn = new SQLiteConnectionWithLock(_platform, _connectionString);
                 using(cn.Lock())
                 {
                     const string sql =
@@ -259,7 +270,6 @@ namespace BruTile.Cache
         {
             get { return _extent; }
         }
-
     }
 
     [SQLite.Net.Attributes.Table("tiles")]
