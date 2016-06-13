@@ -10,7 +10,7 @@ namespace BruTile.Tests.Crs
 {
     public class AxisOrderUtilityTest
     {
-        private const string EpsgAccessDatabase = @"D:\GIS\EPSG_v8_3.mdb";
+        private const string EpsgAccessDatabase = @"D:\Daten\Epsg\EPSG_v8_9.mdb";
 
         private const string Sql =
             @"SELECT COORD_REF_SYS_CODE FROM [Coordinate Reference System] 
@@ -35,7 +35,8 @@ WHERE COORD_SYS_CODE IN
             var ba = new BitArray(32768);
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};"))
+                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
+                $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
                 var cmd = cn.CreateCommand();
@@ -72,6 +73,9 @@ WHERE COORD_SYS_CODE IN
                 }
             }
 #endif
+            Console.WriteLine("\nByte array");
+            WriteBytes(buffer, 20);
+
             enc = Convert.ToBase64String(buffer);
             Console.WriteLine("\nUncompressed");
             WriteBlocks(enc);
@@ -132,7 +136,8 @@ WHERE COORD_SYS_CODE IN
             var unusual = new HashSet<int>();
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};"))
+                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
+                $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
                 var cmd = cn.CreateCommand();
