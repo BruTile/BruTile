@@ -12,6 +12,28 @@ using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
+    /// <summary>
+    /// An enumeration of possibilities of how to interpret the axis order in &lt;ows:BoundingBox&gt; definitions
+    /// </summary>
+    public enum BoundingBoxAxisOrderInterpretation
+    {
+        /// <summary>
+        /// Natural, first x, then y
+        /// </summary>
+        Natural,
+
+        /// <summary>
+        /// As defined in the definition of the coordinate reference system
+        /// </summary>
+        CRS,
+
+        /// <summary>
+        /// Geographic, first y (latitude), then x (longitude)
+        /// </summary>
+        Geographic
+
+    }
+
     public class WmtsParser
     {
         /// <summary>
@@ -24,8 +46,10 @@ namespace BruTile.Wmts
         /// Method to parse WMTS tile sources from a stream
         /// </summary>
         /// <param name="source">The source stream</param>
+        /// <param name="bbaoi">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
         /// <returns>An enumeration of tile sources</returns>
-        public static IEnumerable<ITileSource> Parse(Stream source)
+        public static IEnumerable<ITileSource> Parse(Stream source, 
+            BoundingBoxAxisOrderInterpretation bbaoi = BoundingBoxAxisOrderInterpretation.Natural)
         {
             var ser = new XmlSerializer(typeof(Capabilities));
             Capabilities capabilties;
@@ -33,7 +57,7 @@ namespace BruTile.Wmts
             using (var reader = new StreamReader(source))
                 capabilties = (Capabilities)ser.Deserialize(reader);
             
-            var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet);
+            var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet, bbaoi);
             var tileSources = GetLayers(capabilties, tileSchemas);
 
             return tileSources;
@@ -179,7 +203,8 @@ namespace BruTile.Wmts
         }
 
 
-        private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets)
+        private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets,
+            BoundingBoxAxisOrderInterpretation bbaoi)
         {
             // Get a set of well known scale sets. For these we don't need to have
             var wkss = new WellKnownScaleSets();
@@ -225,7 +250,7 @@ namespace BruTile.Wmts
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
                 }
 
-                tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, ordinateOrder);
+                tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, GetOrdinateOrder(bbaoi, ordinateOrder));
 
                 // Fill in the remaining properties
                 tileSchema.Name = tileMatrixSet.Identifier.Value;
@@ -237,6 +262,19 @@ namespace BruTile.Wmts
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
+        }
+
+        private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)
+        {
+            switch (bbaoi)
+            {
+                case BoundingBoxAxisOrderInterpretation.Natural:
+                    return new[] { 0, 1 };
+                case BoundingBoxAxisOrderInterpretation.Geographic:
+                    return new[] { 1, 0 };
+                default:
+                    return ordinateOrder;
+            }
         }
 
         private static Extent ToExtent(TileMatrixSet tileMatrixSet, WmtsTileSchema tileSchema, int[] ordinateOrder)
