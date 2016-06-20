@@ -9,8 +9,8 @@ namespace BruTile.Wmts
     /// </summary>
     public class CrsAxisOrderRegistry
     {
-        private static readonly int[] Usual = { 0, 1 };
-        private static readonly int[] Unusual = { 1, 0 };
+        private static readonly int[] Natural = { 0, 1 };
+        private static readonly int[] Geographic = { 1, 0 };
 
         private static readonly byte[] EpsgAxisOrderBitField =
         {
@@ -230,14 +230,14 @@ namespace BruTile.Wmts
         {
             get
             {
-                switch (identifier.Authority)
+                switch (identifier.Authority.ToUpper())
                 {
                     //case "OGC":
                     default:
-                        return Usual;
+                        return Natural;
 
                     case "EPSG":
-                        var code = Int32.Parse(identifier.Identifier);
+                        var code = int.Parse(identifier.Identifier);
                         if (code == 900913) code = 3857;
                         if (code < 0)
                             throw new ArgumentException("Invalid Epsg identifier");
@@ -245,7 +245,7 @@ namespace BruTile.Wmts
                         var byteIndex = code / 8;
                         var bitIndex = code % 8;
                         var flag = 1 << bitIndex;//1 << (7 - bitIndex);
-                        return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Unusual : Usual;
+                        return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Geographic : Natural;
 
                 }
             }
