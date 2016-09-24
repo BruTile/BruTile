@@ -14,7 +14,7 @@ https://www.nuget.org/packages/BruTile
 
 ###Getting Started
 
-Here is a little on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started)
+Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started)
 
 ###Projects that use BruTile
 
