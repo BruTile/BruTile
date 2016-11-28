@@ -45,11 +45,9 @@ namespace BruTile.Web
             return _provider.GetTile(tileInfo);
         }
 
-        public ITileSchema Schema
-        {
-            get { return _tileSchema; }
-        }
+        public ITileSchema Schema => _tileSchema;
 
-        public string Name { get; private set; }
+        public string Name { get; } = "Google Maps";
+        public string Attribution { get; set; } = "Map data © Google";
     }
 }

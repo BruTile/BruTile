@@ -39,7 +39,9 @@ namespace BruTile
 
         public override string ToString()
         {
-            return string.Format("[TileSource:{0}]", Name);
+            return $"[TileSource:{Name}]";
         }
+
+        public string Attribution { get; set; } = "";
     }
 }

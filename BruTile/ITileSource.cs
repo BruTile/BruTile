@@ -17,5 +17,10 @@ namespace BruTile
         /// Gets a value indicating the title of the tile source
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Gets the attribution text with respect the provided data
+        /// </summary>
+        string Attribution { get; }
     }
 }
