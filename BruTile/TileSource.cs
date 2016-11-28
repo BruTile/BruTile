@@ -8,6 +8,7 @@ namespace BruTile
     public class TileSource : ITileSource
     {
         private readonly ITileProvider _provider;
+
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -18,7 +19,7 @@ namespace BruTile
             _provider = tileProvider;
             Schema = tileSchema;
         }
-        
+
         /// <summary>
         /// Gets a the Name of the tile source
         /// </summary>

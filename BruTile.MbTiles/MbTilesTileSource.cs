@@ -59,7 +59,8 @@ namespace BruTile
         /// <param name="connection">The connection to the MapBox tiles file</param>
         /// <param name="schema">The tile schema (should be of <see cref="GlobalMercator"/></param>
         /// <param name="type">The type of the MapBox tiles file</param>
-        public MbTilesTileSource(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
+        public MbTilesTileSource(SQLiteConnection connection, ITileSchema schema = null,
+            MbTilesType type = MbTilesType.None)
             : this(new MbTilesProvider(connection, schema, type))
         {
         }

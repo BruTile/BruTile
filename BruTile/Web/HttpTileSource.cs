@@ -10,14 +10,14 @@ namespace BruTile.Web
     {
         private readonly HttpTileProvider _provider;
 
-        public  HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, 
-            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null, 
+        public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
+            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> tileFetcher = null)
             : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher)
         {
         }
 
-        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null, 
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
         {
             _provider = new HttpTileProvider(request, persistentCache, tileFetcher);
@@ -45,7 +45,5 @@ namespace BruTile.Web
         {
             return _provider.GetTile(tileInfo);
         }
-
-
     }
 }
