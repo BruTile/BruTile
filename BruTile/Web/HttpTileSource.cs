@@ -12,18 +12,18 @@ namespace BruTile.Web
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> tileFetcher = null, string attribution = null)
+            Func<Uri, byte[]> tileFetcher = null, Attribution attribution = null)
             : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution)
         {
         }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, string attibution = null)
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, Attribution attibution = null)
         {
             _provider = new HttpTileProvider(request, persistentCache, tileFetcher);
             Schema = tileSchema;
             Name = name ?? string.Empty;
-            Attribution = attibution;
+            Attribution = attibution ?? new Attribution();
         }
 
         public IPersistentCache<byte[]> PersistentCache => _provider.PersistentCache;
@@ -37,7 +37,7 @@ namespace BruTile.Web
 
         public string Name { get; set; }
 
-        public string Attribution { get; set; }
+        public Attribution Attribution { get; set; }
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array

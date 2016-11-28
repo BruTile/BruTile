@@ -48,6 +48,6 @@ namespace BruTile.Web
         public ITileSchema Schema => _tileSchema;
 
         public string Name { get; } = "Google Maps";
-        public string Attribution { get; set; } = "Map data © Google";
+        public Attribution Attribution { get; set; } = new Attribution("Map data © Google");
     }
 }

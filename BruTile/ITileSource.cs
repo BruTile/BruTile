@@ -21,6 +21,6 @@ namespace BruTile
         /// <summary>
         /// Gets the attribution text with respect the provided data
         /// </summary>
-        string Attribution { get; }
+        Attribution Attribution { get; }
     }
 }

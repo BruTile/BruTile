@@ -8,7 +8,6 @@ namespace BruTile.Wms
     public class Attribution : XmlObject
     {
         private OnlineResource _onlineResourceField;
-
         private LogoURL _logoUrlField;
 
         public Attribution()
@@ -41,10 +40,7 @@ namespace BruTile.Wms
                 }
                 return _onlineResourceField;
             }
-            set
-            {
-                _onlineResourceField = value;
-            }
+            set { _onlineResourceField = value; }
         }
 
         public LogoURL LogoURL
@@ -57,13 +53,8 @@ namespace BruTile.Wms
                 }
                 return _logoUrlField;
             }
-            set
-            {
-                _logoUrlField = value;
-            }
+            set { _logoUrlField = value; }
         }
-
-        #region Overrides of XmlObject
 
         public override void ReadXml(XmlReader reader)
         {
@@ -99,7 +90,5 @@ namespace BruTile.Wms
                 OnlineResource.ToXElement(@namespace),
                 LogoURL.ToXElement(@namespace));
         }
-
-        #endregion Overrides of XmlObject
     }
 }

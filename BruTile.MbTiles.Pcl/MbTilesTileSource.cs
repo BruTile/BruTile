@@ -61,7 +61,7 @@ namespace BruTile
         /// </summary>
         public string Name { get; }
 
-        public string Attribution { get; set; }
+        public Attribution Attribution { get; set; } = new Attribution();
 
         /// <summary>
         /// Gets a value indicating the (image-)format of the tiles

@@ -30,7 +30,7 @@ namespace BruTile
 
         public string Name { get; set; }
 
-        public string Attribution { get; set; } = "";
+        public Attribution Attribution { get; set; } = new Attribution();
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array

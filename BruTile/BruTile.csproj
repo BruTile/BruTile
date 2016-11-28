@@ -82,6 +82,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Attribution.cs" />
     <Compile Include="Cache\IMemoryCache.cs" />
     <Compile Include="Cache\IPersistentCache.cs" />
     <Compile Include="..\SharedAssemblyVersion.cs">

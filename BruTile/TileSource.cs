@@ -43,6 +43,6 @@ namespace BruTile
             return $"[TileSource:{Name}]";
         }
 
-        public string Attribution { get; set; } = "";
+        public Attribution Attribution { get; set; } = new Attribution();
     }
 }

@@ -38,7 +38,8 @@ namespace BruTile.Predefined
 
     public static class KnownTileSources
     {
-        private const string OpenStreetMapAttribution = "© OpenStreetMap contributors";
+        private static readonly Attribution OpenStreetMapAttribution = new Attribution(
+            "© OpenStreetMap contributors", "http://www.openstreetmap.org/copyright");
 
         /// <summary>
         /// Static factory method for known tile services
@@ -90,17 +91,17 @@ namespace BruTile.Predefined
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
                 case KnownTileSource.BingHybrid:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
                 case KnownTileSource.BingRoads:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
                 case KnownTileSource.BingAerialStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
