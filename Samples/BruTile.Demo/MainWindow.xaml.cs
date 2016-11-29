@@ -16,11 +16,8 @@ namespace BruTile.Demo
 
             foreach (var knownTileSource in Enum.GetValues(typeof(KnownTileSource)).Cast<KnownTileSource>())
             {
-                if (knownTileSource.ToString().ToLower().Contains("cloudmade")) continue; // Exclude CloudMade
-
-                KnownTileSource source = knownTileSource;
-                var radioButton = ToRadioButton(knownTileSource.ToString(), () => KnownTileSources.Create(source, "soep"));
-                Layers.Children.Add(radioButton);
+                var httpTileSource = KnownTileSources.Create(knownTileSource);
+                Layers.Children.Add(ToRadioButton(knownTileSource.ToString(), () => httpTileSource));
             }
             
             Layers.Children.Add(ToRadioButton("Google Map", () => 
