@@ -8,21 +8,17 @@ namespace BruTile.Web
     public class HttpTileProvider : ITileProvider, IRequest
     {
         private readonly Func<Uri, byte[]> _fetchTile;
-        private readonly IPersistentCache<byte[]> _persistentCache;
         private readonly IRequest _request;
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null)
         {
             _request = request ?? new NullRequest();
-            _persistentCache = persistentCache ?? new NullCache();
+            PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = fetchTile ?? (RequestHelper.FetchImage);
         }
 
-        public IPersistentCache<byte[]> PersistentCache
-        {
-            get { return _persistentCache; }
-        }
+        public IPersistentCache<byte[]> PersistentCache { get; }
 
         public Uri GetUri(TileInfo tileInfo)
         {
@@ -32,11 +28,9 @@ namespace BruTile.Web
         public byte[] GetTile(TileInfo tileInfo)
         {
             var bytes = PersistentCache.Find(tileInfo.Index);
-            if (bytes == null)
-            {
-                bytes = _fetchTile(_request.GetUri(tileInfo));
-                if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
-            }
+            if (bytes != null) return bytes;
+            bytes = _fetchTile(_request.GetUri(tileInfo));
+            if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             return bytes;
         }
     }
