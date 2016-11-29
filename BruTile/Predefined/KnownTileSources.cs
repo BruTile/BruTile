@@ -14,9 +14,6 @@ namespace BruTile.Predefined
         OpenStreetMap,
         OpenCycleMap,
         OpenCycleMapTransport,
-        MapQuest,
-        MapQuestAerial,
-        MapQuestRoadsAndLabels,
         BingAerial,
         BingHybrid,
         BingRoads,
@@ -72,21 +69,6 @@ namespace BruTile.Predefined
                         new[] {"a", "b", "c"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
                         attribution: OpenStreetMapAttribution);
-                case KnownTileSource.MapQuest:
-                    return new HttpTileSource(new GlobalSphericalMercator(),
-                        "http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
-                        new[] {"1", "2", "3", "4"}, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher);
-                case KnownTileSource.MapQuestAerial:
-                    return new HttpTileSource(new GlobalSphericalMercator(0, 11),
-                        "http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png",
-                        new[] {"1", "2", "3", "4"}, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher);
-                case KnownTileSource.MapQuestRoadsAndLabels:
-                    return new HttpTileSource(new GlobalSphericalMercator(),
-                        "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png",
-                        new[] {"1", "2", "3", "4"}, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher);
                 case KnownTileSource.BingAerial:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
