@@ -9,6 +9,7 @@ namespace BruTile
     public enum CrsAxisOrder
     {
         Natural,
+        Geographic
     }
 
     /// <summary>
