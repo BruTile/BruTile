@@ -9,33 +9,35 @@ namespace BruTile.Web
     public class HttpTileSource : ITileSource, IRequest
     {
         private readonly HttpTileProvider _provider;
-        private readonly ITileSchema _tileSchema;
 
-        public  HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null, 
-            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null, 
-            Func<Uri, byte[]> tileFetcher = null)
-            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher)
+        public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
+            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
+            Func<Uri, byte[]> tileFetcher = null, Attribution attribution = null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution)
         {
         }
 
-        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null, 
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, Attribution attibution = null)
         {
             _provider = new HttpTileProvider(request, persistentCache, tileFetcher);
-            _tileSchema = tileSchema;
+            Schema = tileSchema;
             Name = name ?? string.Empty;
+            Attribution = attibution ?? new Attribution();
         }
 
-        public IPersistentCache<byte[]> PersistentCache { get { return _provider.PersistentCache; } }
+        public IPersistentCache<byte[]> PersistentCache => _provider.PersistentCache;
 
         public Uri GetUri(TileInfo tileInfo)
         {
             return _provider.GetUri(tileInfo);
         }
 
-        public ITileSchema Schema { get { return _tileSchema;  } }
+        public ITileSchema Schema { get; }
 
         public string Name { get; set; }
+
+        public Attribution Attribution { get; set; }
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array
@@ -44,7 +46,5 @@ namespace BruTile.Web
         {
             return _provider.GetTile(tileInfo);
         }
-
-
     }
 }

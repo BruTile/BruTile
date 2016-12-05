@@ -8,6 +8,7 @@ namespace BruTile
     public class TileSource : ITileSource
     {
         private readonly ITileProvider _provider;
+
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -18,7 +19,7 @@ namespace BruTile
             _provider = tileProvider;
             Schema = tileSchema;
         }
-        
+
         /// <summary>
         /// Gets a the Name of the tile source
         /// </summary>
@@ -39,7 +40,9 @@ namespace BruTile
 
         public override string ToString()
         {
-            return string.Format("[TileSource:{0}]", Name);
+            return $"[TileSource:{Name}]";
         }
+
+        public Attribution Attribution { get; set; } = new Attribution();
     }
 }

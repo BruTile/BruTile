@@ -13,6 +13,7 @@ namespace BruTile.Web
     /// </summary>
     public class BasicRequest : IRequest
     {
+        public const string QuadKeyTag = "{quadkey}";
         /// <summary>
         /// Tag to be replaced by column value.
         /// </summary>
@@ -25,7 +26,6 @@ namespace BruTile.Web
         /// Tag to be replaced by zoom level value.
         /// </summary>
         private const string ZTag = "{z}";
-
         /// <summary>
         /// Tag to be replaced by server node entries, if any.
         /// </summary>
@@ -34,15 +34,11 @@ namespace BruTile.Web
         /// Tag to be replaced by api key, if defined.
         /// </summary>
         private const string ApiKeyTag = "{k}";
-
         /// <summary>
         /// Tag to be replaced with the Bing quad key. This is a single number that 
         /// represents a combination of X, Y and Z. This can not be used in combination
         /// with the X, Y and Z tags.
         /// </summary>
-        public const string QuadKeyTag = "{quadkey}";
-        
-
         private readonly string _urlFormatter;
         private int _nodeCounter;
         private readonly List<string> _serverNodes;
@@ -57,7 +53,7 @@ namespace BruTile.Web
         public BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey= null)
         {
             _urlFormatter = urlFormatter;
-            _serverNodes = serverNodes != null ? serverNodes.ToList() : null;
+            _serverNodes = serverNodes?.ToList();
 
             // for backward compatibility
             _urlFormatter = _urlFormatter.Replace("{0}", ZTag);

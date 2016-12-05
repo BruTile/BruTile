@@ -26,7 +26,7 @@ namespace BruTile
         /// <param name="name">The name of the TileSource</param>
         /// <param name="schema">The tile schema</param>
         /// <param name="type">The type of the MapBox tiles file</param>
-        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, 
+        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null,
             MbTilesType type = MbTilesType.None, string name = DefaultName)
             : this(new MbTilesProvider(connectionString, schema, type), name)
         {
@@ -42,7 +42,7 @@ namespace BruTile
             _provider = provider;
             Name = name;
         }
-        
+
         /// <summary>
         /// Gets the actual image content of the tile as byte array
         /// </summary>
@@ -60,6 +60,8 @@ namespace BruTile
         /// Gets a value indicating the name of the tile source
         /// </summary>
         public string Name { get; }
+
+        public Attribution Attribution { get; set; } = new Attribution();
 
         /// <summary>
         /// Gets a value indicating the (image-)format of the tiles

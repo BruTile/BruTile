@@ -56,8 +56,7 @@ namespace BruTile.Cache
 
                     // Extent
                     _extent = ReadExtent(connection);
-
-
+                    
                     if (HasMapTable(connection))
                     {
                         // it is possible to override the schema by definining it in a 'map' table.
@@ -73,8 +72,9 @@ namespace BruTile.Cache
                     else
                     {
                         // this is actually the most regular case:
-                        _schema = new GlobalSphericalMercator();
+                        _schema = new GlobalSphericalMercator(YAxis.TMS);
                     }
+     
                 }
                 else
                 {
