@@ -46,7 +46,12 @@ namespace BruTile.Wmsc
             url.Append("&SERVICE=WMS");
             if (!string.IsNullOrEmpty(_version)) url.AppendFormat("&VERSION={0}", _version);
             url.Append("&REQUEST=GetMap");
-            url.AppendFormat("&BBOX={0}", TileTransform.TileToWorld(new TileRange(info.Index.Col, info.Index.Row), info.Index.Level, _schema));
+            var extent = TileTransform.TileToWorld(new TileRange(info.Index.Col, info.Index.Row), info.Index.Level, _schema);
+            if (_schema.CrsAxisOrder == CrsAxisOrder.Reversed && _schema.BoundingBoxAxisOrderInterpretation == BoundingBoxAxisOrderInterpretation.Geographic)
+            {
+                extent = new Extent(extent.MinY, extent.MinX, extent.MaxY, extent.MaxX);
+            }
+            url.AppendFormat("&BBOX={0}", extent);
             url.AppendFormat("&FORMAT={0}", _schema.Format);
             url.AppendFormat("&WIDTH={0}", _schema.GetTileWidth(info.Index.Level));
             url.AppendFormat("&HEIGHT={0}", _schema.GetTileHeight(info.Index.Level));

@@ -12,28 +12,6 @@ using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
-    /// <summary>
-    /// An enumeration of possibilities of how to interpret the axis order in &lt;ows:BoundingBox&gt; definitions
-    /// </summary>
-    public enum BoundingBoxAxisOrderInterpretation
-    {
-        /// <summary>
-        /// Natural, first x, then y
-        /// </summary>
-        Natural,
-
-        /// <summary>
-        /// As defined in the definition of the coordinate reference system
-        /// </summary>
-        CRS,
-
-        /// <summary>
-        /// Geographic, first y (latitude), then x (longitude)
-        /// </summary>
-        Geographic
-
-    }
-
     public class WmtsParser
     {
         /// <summary>

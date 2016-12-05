@@ -1,6 +1,8 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
+using BruTile.Wms;
+using BruTile.Wmts;
 
 namespace BruTile
 {
@@ -80,6 +82,19 @@ namespace BruTile
         /// Gets a value indicating the orientation of the y-axis
         /// </summary>
         YAxis YAxis { get; }
+
+        /// <summary>
+        /// How to interpret the axis order in BoundingBox definitions
+        /// </summary>
+        BoundingBoxAxisOrderInterpretation BoundingBoxAxisOrderInterpretation { get; set; }
+
+        /// <summary>
+        /// Axis order of the CRS
+        /// </summary>
+        CrsAxisOrder CrsAxisOrder { get; set; }
+
+        IList<object> Styles { get; set; }
+        IList<string> LayerTitles { get; set; }
 
         /// <summary>
         /// Function to get the <see cref="TileInfo"/>s for a given extent and zoom level.
