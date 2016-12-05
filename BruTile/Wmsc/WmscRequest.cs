@@ -47,7 +47,7 @@ namespace BruTile.Wmsc
             if (!string.IsNullOrEmpty(_version)) url.AppendFormat("&VERSION={0}", _version);
             url.Append("&REQUEST=GetMap");
             var extent = TileTransform.TileToWorld(new TileRange(info.Index.Col, info.Index.Row), info.Index.Level, _schema);
-            if (_schema.CrsAxisOrder == CrsAxisOrder.Reversed && _schema.BoundingBoxAxisOrderInterpretation == BoundingBoxAxisOrderInterpretation.Geographic)
+            if (_schema.CrsAxisOrder == CrsAxisOrder.Geographic && _schema.BoundingBoxAxisOrderInterpretation == BoundingBoxAxisOrderInterpretation.Geographic)
             {
                 extent = new Extent(extent.MinY, extent.MinX, extent.MaxY, extent.MaxX);
             }
