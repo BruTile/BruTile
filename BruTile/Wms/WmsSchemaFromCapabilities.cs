@@ -67,9 +67,8 @@ namespace BruTile.Wms
                 return;
             }
 
-            var axisOrder = CrsHelpers.GetOrdinateOrderFromCrs(Srs, null);
-            if (axisOrder != null && axisOrder[0] == 1)
-                CrsAxisOrder = CrsAxisOrder.Geographic;
+            var ordinateOrder = CrsHelpers.GetOrdinateOrderFromCrs(Srs, null);
+            var axisOrder = (ordinateOrder != null && ordinateOrder[0] == 1) ? CrsAxisOrder.Geographic : CrsAxisOrder.Natural;
 
             Format = "image/png";
             if (isVersion_1_3)
@@ -85,7 +84,7 @@ namespace BruTile.Wms
 
             var bbox = firstLayer.BoundingBox.First(s => s.CRS == Srs); //[bboxIndex];
 
-            bool swapAxis = CrsAxisOrder == CrsAxisOrder.Geographic && isVersion_1_3 && boundingBoxOrderHonoursCrs;
+            bool swapAxis = axisOrder == CrsAxisOrder.Geographic && isVersion_1_3 && boundingBoxOrderHonoursCrs;
             if (swapAxis)
                 BoundingBoxAxisOrderInterpretation = BoundingBoxAxisOrderInterpretation.Geographic;
 

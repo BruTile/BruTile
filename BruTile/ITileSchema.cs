@@ -88,11 +88,6 @@ namespace BruTile
         /// </summary>
         BoundingBoxAxisOrderInterpretation BoundingBoxAxisOrderInterpretation { get; set; }
 
-        /// <summary>
-        /// Axis order of the CRS
-        /// </summary>
-        CrsAxisOrder CrsAxisOrder { get; set; }
-
         IList<object> Styles { get; set; }
         IList<string> LayerTitles { get; set; }
 

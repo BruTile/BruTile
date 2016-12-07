@@ -43,7 +43,6 @@ namespace BruTile
             OriginY = Double.NaN;
             OriginX = Double.NaN;
             BoundingBoxAxisOrderInterpretation = BoundingBoxAxisOrderInterpretation.Natural;
-            CrsAxisOrder = CrsAxisOrder.Natural;
         }
 
         public double OriginX { get; set; }
@@ -57,7 +56,6 @@ namespace BruTile
         public IList<object> Styles { get; set; }
         public IList<string> LayerTitles { get; set; }
         public BoundingBoxAxisOrderInterpretation BoundingBoxAxisOrderInterpretation { get; set; }
-        public CrsAxisOrder CrsAxisOrder { get; set; }
 
         public IDictionary<string, Resolution> Resolutions
         {
