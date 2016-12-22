@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Windows.Controls;
+using BruTile.Samples.Common;
 
 namespace BruTile.Demo
 {
@@ -15,19 +16,25 @@ namespace BruTile.Demo
 
             foreach (var knownTileSource in Enum.GetValues(typeof(KnownTileSource)).Cast<KnownTileSource>())
             {
-                if (knownTileSource.ToString().ToLower().Contains("cloudmade")) continue; // Exclude CloudMade
-
-                KnownTileSource source = knownTileSource;
-                var radioButton = ToRadioButton(knownTileSource.ToString(), () => KnownTileSources.Create(source, "soep"));
-                Layers.Children.Add(radioButton);
+                var httpTileSource = KnownTileSources.Create(knownTileSource);
+                Layers.Children.Add(ToRadioButton(knownTileSource.ToString(), () => httpTileSource));
             }
-
+            
             Layers.Children.Add(ToRadioButton("Google Map", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
             Layers.Children.Add(ToRadioButton("Google Terrain", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
-        }
 
+            Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
+
+            Layers.Children.Add(ToRadioButton("Here Maps", () =>
+                new HttpTileSource(new GlobalSphericalMercator(0, 18),
+                    "https://{s}.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g",
+                    new[] { "1", "2", "3", "4" }, name: "Here Maps Source")));
+
+            Layers.Children.Add(ToRadioButton("LM topowebb", LantMaterietTopowebbTileSourceTest.Create));
+        }
+        
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
             return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"}, 

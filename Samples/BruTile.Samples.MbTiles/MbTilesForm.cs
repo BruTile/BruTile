@@ -182,9 +182,12 @@ namespace BruTile.Samples.MbTiles
                             var buffer = new byte[4 * 8192];
                             while (true)
                             {
-                                var read = stream.Read(buffer, 0, buffer.Length);
-                                if (read <= 0) break;
-                                streamWriter.Write(buffer, 0, read);
+                                if (stream != null)
+                                {
+                                    var read = stream.Read(buffer, 0, buffer.Length);
+                                    if (read <= 0) break;
+                                    streamWriter.Write(buffer, 0, read);
+                                }
                             }
                         }
                     }

@@ -37,8 +37,10 @@ namespace BruTile.Tests.Cache
         public void InsertFindRemoveTest()
         {
             TestInsertFindRemove();
+#if DEBUG
             Console.WriteLine("Commands in store: {0}", Cache.CommandsInStore);
             Console.WriteLine("Max no. of commands borrowed: {0}", Cache.MaxBorrowed);
+#endif
         }
 
         protected override void InsertTiles()
@@ -74,7 +76,7 @@ namespace BruTile.Tests.Cache
                 Assert.AreEqual(count, Convert.ToInt32(cmd.ExecuteScalar()));
             }
 
-            Console.WriteLine(string.Format("{0} dummy tiles inserted.", count));
+            Console.WriteLine($"{count} dummy tiles inserted.");
         }
     }
 }

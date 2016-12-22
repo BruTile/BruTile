@@ -120,9 +120,6 @@ namespace BruTile.Tests.Cache
             var resetEvent = (AutoResetEvent)args[1];
             var count = (int) args[2];
 
-            //Let this take some time
-            if (WaitMilliseconds > 0)
-                Thread.Sleep(WaitMilliseconds);
             var sw = new Stopwatch();
             sw.Start();
             var buffer = Cache.Find(tileIndex);

@@ -14,6 +14,7 @@ namespace BruTile.Tests.Wmts
     public class WmtsTests
     {
         [TestCase("wmts-capabilities-dlr.xml")]
+        [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
@@ -165,6 +166,22 @@ namespace BruTile.Tests.Wmts
             // assert
             var count = urls.Count(u => u.ToString() == "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg");
             Assert.True(count == 50);
+        }
+
+        [Test]
+        public void TestParsingWmtsWhereUpperBoundAndLowerBoundLackOwsPrefix()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                var tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb");
+                var tileSchema = (WmtsTileSchema)tileSource.Schema;
+                Assert.NotNull(tileSchema.Extent);
+            }
         }
     }
 }

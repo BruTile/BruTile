@@ -185,7 +185,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "Service", string.Empty, true))
+            if (CheckEmptyNode(reader, "Service", string.Empty))
                 throw WmsParsingException.ElementNotFound("Service");
            
             while (!reader.EOF)
@@ -285,7 +285,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string @namespace)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         #endregion Overrides of XmlObject

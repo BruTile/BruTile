@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace BruTile.Samples.Common.Geometries
+﻿namespace BruTile.Samples.Common.Geometries
 {
     // Point is in its own namespace to avoid collisions with other Point types
     public struct Point

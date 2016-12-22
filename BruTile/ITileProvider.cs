@@ -4,6 +4,11 @@ namespace BruTile
 {
     public interface ITileProvider
     {
+        /// <summary>
+        /// May return null
+        /// </summary>
+        /// <param name="tileInfo"></param>
+        /// <returns></returns>
         byte[] GetTile(TileInfo tileInfo);
     }
 }

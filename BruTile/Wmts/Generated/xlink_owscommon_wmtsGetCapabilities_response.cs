@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Xml;
 using System.Xml.Serialization;
 
 // 
@@ -322,6 +323,7 @@ namespace BruTile.Wmts.Generated
     }
 
     /// <remarks/>
+    /*
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -329,10 +331,78 @@ namespace BruTile.Wmts.Generated
     [XmlType(Namespace = "http://www.opengis.net/ows/1.1")]
     [XmlRoot("WGS84BoundingBox", Namespace = "http://www.opengis.net/ows/1.1",
         IsNullable = false)]
+     */
     public partial class WGS84BoundingBoxType : BoundingBoxType
     {
     }
 
+    public partial class BoundingBoxType : IXmlSerializable
+    {
+        protected const string OwsPrefix = "ows";
+        protected const string OwsNamespace = "http://www.opengis.net/ows/1.1";
+
+        System.Xml.Schema.XmlSchema IXmlSerializable.GetSchema()
+        {
+            return null;
+        }
+
+        void IXmlSerializable.ReadXml(System.Xml.XmlReader reader)
+        {
+            var name = reader.Name;
+            if (!string.IsNullOrEmpty(reader.Prefix))
+                name = name.Substring(reader.Prefix.Length+1);
+            System.Diagnostics.Debug.Assert(name == "BoundingBox" || name == "WGS84BoundingBox");
+
+            var isEmpty = reader.IsEmptyElement;
+
+            crs = reader.GetAttribute("crs") ?? string.Empty;
+            dimensions = reader.GetAttribute("dimensions") ?? string.Empty;
+
+            reader.ReadStartElement();
+            if (!isEmpty)
+            {
+                do
+                {
+                    name = reader.Name;
+                    if (!string.IsNullOrEmpty(reader.Prefix))
+                        name = name.Substring(reader.Prefix.Length + 1);
+                    switch (name)
+                    {
+                        case "ows:LowerCorner":
+                        case "LowerCorner":
+                            LowerCorner = reader.ReadElementContentAsString();
+                            break;
+                        case "ows:UpperCorner":
+                        case "UpperCorner":
+                            UpperCorner = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Read();
+                            break;
+                    }
+                } while (reader.NodeType != XmlNodeType.EndElement);
+
+                reader.ReadEndElement();
+            }
+        }
+
+        void IXmlSerializable.WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (!string.IsNullOrEmpty(dimensions))
+                writer.WriteAttributeString(OwsPrefix, "dimensions", OwsNamespace, dimensions);
+            if (!string.IsNullOrEmpty(crs))
+                writer.WriteAttributeString(OwsPrefix, "crs", OwsNamespace, crs);
+
+            writer.WriteElementString(OwsPrefix, "LowerCorner", OwsNamespace, LowerCorner);
+            writer.WriteElementString(OwsPrefix, "UpperCorner", OwsNamespace, UpperCorner);
+        }
+
+        public string LowerCorner { get; set; }
+        public string UpperCorner { get; set; }
+        public string crs { get; set; }
+        public string dimensions { get; set; }
+    }
+    /*
     /// <remarks/>
     [XmlInclude(typeof (WGS84BoundingBoxType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
@@ -344,7 +414,12 @@ namespace BruTile.Wmts.Generated
         IsNullable = false)]
     public partial class BoundingBoxType
     {
-
+        [XmlElement(Type = typeof(string),
+ElementName = "lowerCornerField",
+Namespace = "http://www.opengis.net/wmts/1.0")]
+        [XmlElement(Type = typeof(string),
+        ElementName = "lowerCornerField",
+        Namespace = "")]
         private string lowerCornerField;
 
         private string upperCornerField;
@@ -383,6 +458,7 @@ namespace BruTile.Wmts.Generated
             set { this.dimensionsField = value; }
         }
     }
+     */
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
@@ -1591,6 +1667,7 @@ namespace BruTile.Wmts.Generated
 
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlRoot(Namespace = "http://www.opengis.net/wmts/1.0", IsNullable = false)]
+
     public partial class TileMatrixSet : DescriptionType
     {
 
@@ -3176,9 +3253,16 @@ namespace BruTile.Wmts.Generated
 
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlRoot(Namespace = "http://www.opengis.net/wmts/1.0", IsNullable = false)]
+
     public partial class Capabilities : CapabilitiesBaseType
     {
 
+        [XmlElement(Type = typeof(ContentsType),
+        ElementName = "ContentsType",
+        Namespace = "http://www.opengis.net/wmts/1.0")]
+        [XmlElement(Type = typeof(ContentsType),
+        ElementName = "ContentsType",
+        Namespace = "")]
         private ContentsType contentsField;
 
         private Theme[][] themesField;

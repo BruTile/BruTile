@@ -16,16 +16,14 @@ namespace BruTile.Web
                 ITileSchema schema, 
                 IPersistentCache<byte[]> persistentCache = null,
                 Func<Uri, byte[]> fetchTile = null)
-            : base(
-                new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), 
-                schema)
+            : base(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)
         {
             BaseUrl = baseUrl;
         }
 
         private static IRequest CreateArcGISRequest(string baseUrl)
         {
-            return new BasicRequest(string.Format("{0}/tile/{1}", baseUrl, "{0}/{2}/{1}"));
+            return new BasicRequest($"{baseUrl}/tile/{"{0}/{2}/{1}"}");
         }
     }
 }

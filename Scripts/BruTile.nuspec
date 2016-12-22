@@ -6,8 +6,8 @@
     <title>BruTile</title>
     <authors>Paul den Dulk, Felix Obermaier</authors>
     <owners>Paul den Dulk</owners>
-    <licenseUrl>http://brutile.codeplex.com/license</licenseUrl>
-    <projectUrl>http://brutile.codeplex.com</projectUrl>
+    <licenseUrl>https://github.com/BruTile/BruTile/blob/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/BruTile/BruTile</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap
@@ -18,6 +18,6 @@
   <files>
     <file src="..\Release\v3.5\BruTile.dll" target="lib\net35\BruTile.dll" />
     <file src="..\Release\v4.0\BruTile.dll" target="lib\net40\BruTile.dll" />
-    <file src="..\Release\Portable\BruTile.dll" target="lib\portable-net403+sl50+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\BruTile.dll" />
+    <file src="..\Release\Portable\BruTile.dll" target="lib\portable-net45+win+WindowsPhoneApp81+Xamarin.iOS10+MonoAndroid10+MonoTouch10\BruTile.dll" />
   </files>
 </package>

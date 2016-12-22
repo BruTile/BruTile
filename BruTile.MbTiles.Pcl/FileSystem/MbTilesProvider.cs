@@ -16,23 +16,13 @@ namespace BruTile.FileSystem
             _cache = new MbTilesCache(connectionString, schema, type);
         }
 
-        internal ITileSchema Schema { get { return _cache.TileSchema; } }
+        internal ITileSchema Schema => _cache.TileSchema;
 
-        internal MbTilesCache Cache
-        {
-            get
-            {
-                return _cache;
-            }
-        }
-
-        #region Implementation of ITileProvider
+        internal MbTilesCache Cache => _cache;
 
         public byte[] GetTile(TileInfo tileInfo)
         {
             return _cache.Find(tileInfo.Index);
         }
-
-        #endregion Implementation of ITileProvider
     }
 }

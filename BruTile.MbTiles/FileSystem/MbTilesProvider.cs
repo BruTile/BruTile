@@ -4,7 +4,6 @@
 
 using System;
 using System.Data.SQLite;
-using System.Runtime.Serialization;
 using BruTile.Cache;
 
 namespace BruTile.FileSystem
@@ -14,33 +13,20 @@ namespace BruTile.FileSystem
     {
         private readonly MbTilesCache _cache;
 
-        public MbTilesProvider(string file)
-            : this(new SQLiteConnection(string.Format("Data Source={0}", file)))
-        {
-        }
+        public MbTilesProvider(string file) : this(new SQLiteConnection($"Data Source={file}")) {}
 
         public MbTilesProvider(SQLiteConnection connection, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
             _cache = new MbTilesCache(connection, schema, type);
         }
 
-        public ITileSchema Schema { get { return _cache.TileSchema; } }
+        public ITileSchema Schema => _cache.TileSchema;
 
-        internal MbTilesCache Cache
-        {
-            get
-            {
-                return _cache;
-            }
-        }
-
-        #region Implementation of ITileProvider
+        internal MbTilesCache Cache => _cache;
 
         public byte[] GetTile(TileInfo tileInfo)
         {
             return _cache.Find(tileInfo.Index);
         }
-
-        #endregion Implementation of ITileProvider
     }
 }

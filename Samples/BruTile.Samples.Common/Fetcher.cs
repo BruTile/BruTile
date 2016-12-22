@@ -5,6 +5,7 @@ using BruTile.Cache;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BruTile.Samples.Common
 {
@@ -20,7 +21,7 @@ namespace BruTile.Samples.Common
         private readonly IFetchStrategy _strategy = new FetchStrategy();
         private volatile bool _isAborted;
         private volatile bool _isViewChanged;
-        private readonly Retries _retries = new Retries();
+        private Retries _retries;
 
         public event DataChangedEventHandler<T> DataChanged;
 
@@ -45,7 +46,7 @@ namespace BruTile.Samples.Common
 
         private void StartFetchLoop()
         {
-            ThreadPool.QueueUserWorkItem(FetchLoop);
+            Task.Run(() => FetchLoop());
         }
 
         public void AbortFetch()
@@ -54,9 +55,10 @@ namespace BruTile.Samples.Common
             _waitHandle.Set(); // activate fetch loop so it can run out of the loop
         }
 
-        private void FetchLoop(object state)
+        private void FetchLoop()
         {
             IEnumerable<TileInfo> tilesWanted = null;
+            if (_retries == null) _retries = new Retries();
 
             while (!_isAborted)
             {
@@ -121,8 +123,8 @@ namespace BruTile.Samples.Common
 
         private void FetchAsync(TileInfo tileInfo)
         {
-            ThreadPool.QueueUserWorkItem(
-                source =>
+            Task.Run(
+                () =>
                 {
                     Exception error = null;
                     Tile<T> tile = null;
@@ -163,24 +165,24 @@ namespace BruTile.Samples.Common
             private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
             private const int MaxRetries = 0;
             private readonly int _threadId;
-            private readonly string _crossThreadExceptionMessage = "Cross thread access not allowed on class Retires";
+            private const string CrossThreadExceptionMessage = "Cross thread access not allowed on class Retries";
 
             public Retries()
             {
-                _threadId = Thread.CurrentThread.ManagedThreadId;
+                _threadId = Environment.CurrentManagedThreadId;
             }
 
             public bool ReachedMax(TileIndex index)
             {
-                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
 
-                int retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
+                var retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
                 return retryCount > MaxRetries;
             }
 
             public void PlusOne(TileIndex index)
             {
-                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
 
                 if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
                 else _retries[index]++;
@@ -188,7 +190,7 @@ namespace BruTile.Samples.Common
 
             public void Clear()
             {
-                if (_threadId != Thread.CurrentThread.ManagedThreadId) throw new Exception(_crossThreadExceptionMessage);
+                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
 
                 _retries.Clear();
             }

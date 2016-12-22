@@ -4,10 +4,10 @@ namespace BruTile
 {
     public struct TileRange
     {
-        public int FirstCol { get; private set; }
-        public int FirstRow { get; private set; }
-        public int ColCount { get; private set; }
-        public int RowCount { get; private set; }
+        public int FirstCol { get; }
+        public int FirstRow { get; }
+        public int ColCount { get; }
+        public int RowCount { get; }
 
         public TileRange(int col, int row) : this(col, row, 1, 1) { }
 

@@ -1,5 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/BruTile/BruTile.png?label=ready&title=Ready)](https://waffle.io/BruTile/BruTile)
 [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
+[![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)](http://teamcity.codebetter.com/project.html?projectId=BruTile&tab=projectOverview)
 
 ###BruTile
 BruTile is a C# open source library to access tile services like OpenStreetMap and Bing. BruTile has few dependencies, is platform independent and has a limited scope. It is intended for reuse by other more sophisticated libraries
@@ -11,28 +12,31 @@ PM> Install-Package BruTile
 
 https://www.nuget.org/packages/BruTile
 
+###Getting Started
+
+Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
 
 ###Projects that use BruTile
 
-* [ArcBruTile] (https://arcbrutile.codeplex.com/) a plugin for ArcGIS
-* [SharpMap] (https://sharpmap.codeplex.com/) a GIS library
+* [ArcBruTile] (https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
+* [SharpMap] (https://github.com/SharpMap/SharpMap) a GIS library
 * [Mapsui] (https://github.com/pauldendulk/Mapsui) a slippy map that runs in Silverlight
-* [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [HyrdroDesktop] (https://hydrodesktop.codeplex.com/)
+* [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop] (https://hydrodesktop.codeplex.com/)
 * [PDOK] (https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ###Demo
-Go [here] (http://brutiledemo.appspot.com/) for an online Silverlight demo of BruTile used in Mapsui
+For a demo download the source code and run BruTile.Demo in the Samples folder
 
 ###Portable Class Library (PCL)
-BruTile is a PCL with Profile336 which targets:
+BruTile is a PCL with Profile111 which targets:
 
-* .Net Framework 4.0.3 and higher
+* .Net Framework 4.5 and higher
+* ASP.NET Core 5.0
 * Windows 8
-* Windows Phone Silverlight 8
-* Silverlight 5 
 * Windows Phone 8.1
-* Xamarin.iOS
 * Xamarin.Android
+* Xamarin.iOS
+* Xamarin.iOS (Classic)
 
 ###For downward compatibility we also compile for:
 * .Net Framework 4.0
