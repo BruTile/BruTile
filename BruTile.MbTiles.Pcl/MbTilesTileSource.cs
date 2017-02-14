@@ -5,16 +5,15 @@
 using System;
 using BruTile.Cache;
 using BruTile.FileSystem;
-using SQLite.Net;
-using SQLite.Net.Interop;
+using SQLite;
 
 namespace BruTile
 {
-    /// <summary>
-    /// An <see cref="ITileSource"/> implementation for MapBox Tiles files
-    /// </summary>
-    /// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
-    public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
+	/// <summary>
+	/// An <see cref="ITileSource"/> implementation for MapBox Tiles files
+	/// </summary>
+	/// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
+	public class MbTilesTileSource : ITileSource //, System.Runtime.Serialization.ISerializable
     {
         readonly MbTilesProvider _provider;
         const string DefaultName = nameof(MbTilesTileSource);
@@ -72,18 +71,6 @@ namespace BruTile
         /// Gets a value indicating the type of the tiles
         /// </summary>
         public MbTilesType Type => _provider.Cache.Type;
-
-        /// <summary>
-        /// Method to initialize SQLite.Net with the platform it is used with.
-        /// </summary>
-        /// <param name="platform"></param>
-        public static void SetPlatform(ISQLitePlatform platform)
-        {
-            if (platform == null)
-                throw new ArgumentNullException(nameof(platform));
-
-            MbTilesCache.SetPlatform(platform);
-        }
 
         /// <summary>
         /// Gets a value indicating the covered extent
