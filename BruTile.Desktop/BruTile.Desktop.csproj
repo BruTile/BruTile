@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,8 +52,6 @@
     <Compile Include="Cache\DbCache.cs" />
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="FileSystem\FileTileProvider.cs" />
-    <Compile Include="Web\GoogleRequest.cs" />
-    <Compile Include="Web\GoogleTileSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BruTile\BruTile.csproj">
@@ -64,6 +63,9 @@
     <None Include="..\BruTile\BruTile.licenseheader">
       <Link>BruTile.licenseheader</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
