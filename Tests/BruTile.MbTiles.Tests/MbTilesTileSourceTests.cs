@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using SQLite.Net;
-using SQLite.Net.Platform.Win32;
+using SQLite;
 
 namespace BruTile.MbTiles.Tests
 {
@@ -12,7 +11,7 @@ namespace BruTile.MbTiles.Tests
         public void FetchTiles()
         {
             // arrange
-            MbTilesTileSource.SetPlatform(new SQLitePlatformWin32());
+            SQLitePCL.Batteries.Init();
             const string path = ".\\Resources\\test.mbtiles";
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
             var extent = tileSource.Extent;

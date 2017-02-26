@@ -4,20 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using BruTile.Predefined;
-using SQLite.Net;
-using SQLite.Net.Interop;
+using SQLite;
 
 namespace BruTile.Cache
 {
     internal class MbTilesCache : IPersistentCache<byte[]>
     {
-        private static ISQLitePlatform _platform;
-
-        internal static void SetPlatform(ISQLitePlatform platform)
-        {
-            _platform = platform;
-        }
-
         /*
         private static SQLiteConnectionPool _connectionPool;
 
@@ -44,8 +36,8 @@ namespace BruTile.Cache
                 throw new InvalidOperationException("You must assign a platform prior to using MbTilesCache by calling MbTilesTileSource.SetPlatform()");
              */
             _connectionString = connectionString;
-            var connection = new SQLiteConnectionWithLock(_platform, connectionString);
-            using (connection.Lock())
+			var connection = new SQLiteConnectionWithLock(connectionString, SQLiteOpenFlags.ReadOnly);
+			using (connection.Lock())
             {
                 _type = type == MbTilesType.None ? ReadType(connection) : type;
 
@@ -249,8 +241,8 @@ namespace BruTile.Cache
             if (IsTileIndexValid(index))
             {
                 byte[] result;
-                var cn = new SQLiteConnectionWithLock(_platform, _connectionString);
-                using(cn.Lock())
+				var cn = new SQLiteConnectionWithLock(_connectionString, SQLiteOpenFlags.ReadOnly);
+				using (cn.Lock())
                 {
                     const string sql =
                         "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
@@ -272,31 +264,31 @@ namespace BruTile.Cache
         }
     }
 
-    [SQLite.Net.Attributes.Table("tiles")]
+    [Table("tiles")]
     internal class TileRecord
     {
-        [SQLite.Net.Attributes.Column("zoom_level")] 
+        [Column("zoom_level")] 
         public int ZoomLevel { get; set; }
-        [SQLite.Net.Attributes.Column("tile_row")]
+        [Column("tile_row")]
         public int TileRow { get; set; }
-        [SQLite.Net.Attributes.Column("tile_column")]
+        [Column("tile_column")]
         public int TileCol { get; set; }
-        [SQLite.Net.Attributes.Column("tile_data")]
+        [Column("tile_data")]
         public byte[] TileData { get; set; }
     }
 
-    [SQLite.Net.Attributes.Table("tiles")]
+    [Table("tiles")]
     internal class ZoomLevelMinMax
     {
-        [SQLite.Net.Attributes.Column("zoom_level")]
+        [Column("zoom_level")]
         public int ZoomLevel { get; set; }
-        [SQLite.Net.Attributes.Column("tr_min")]
+        [Column("tr_min")]
         public int TileRowMin { get; set; }
-        [SQLite.Net.Attributes.Column("tr_max")]
+        [Column("tr_max")]
         public int TileRowMax { get; set; }
-        [SQLite.Net.Attributes.Column("tc_min")]
+        [Column("tc_min")]
         public int TileColMin { get; set; }
-        [SQLite.Net.Attributes.Column("tc_max")]
+        [Column("tc_max")]
         public int TileColMax { get; set; }
     }
 }

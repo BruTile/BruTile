@@ -11,7 +11,7 @@ namespace BruTile.Samples.MbTiles
         [STAThread]
         static void Main()
         {
-            MbTilesTileSource.SetPlatform(new SQLite.Net.Platform.Win32.SQLitePlatformWin32());
+            SQLitePCL.Batteries.Init();
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

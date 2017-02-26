@@ -3,7 +3,7 @@
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2010.
 
 using BruTile.Cache;
-using SQLite.Net;
+using SQLite;
 
 namespace BruTile.FileSystem
 {
