@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net.Http;
 using System.Windows.Forms;
 
 namespace BruTile.Samples.SimpleStaticMap
@@ -11,6 +12,8 @@ namespace BruTile.Samples.SimpleStaticMap
     public partial class Form1 : Form
     {
         readonly Bitmap _buffer;
+        private readonly HttpClient _httpClient = new HttpClient();
+
 
         //a list of resolutions in which the tiles are stored
         readonly double[] _unitsPerPixelArray =
@@ -45,12 +48,17 @@ namespace BruTile.Samples.SimpleStaticMap
             foreach (var tile in tiles)
             {
                 var url = requestBuilder.GetUri(tile);
-                var bytes = RequestHelper.FetchImage(url);
+                var bytes = FetchTile(url);
                 var bitmap = new Bitmap(new MemoryStream(bytes));
                 var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
                 graphics.DrawImage(bitmap, RoundToPixel(destination));
             }
             Invalidate();
+        }
+
+        private byte[] FetchTile(Uri arg)
+        {
+            return _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private ITileSchema CreateTileSchema()

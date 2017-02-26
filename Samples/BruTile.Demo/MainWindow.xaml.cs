@@ -2,7 +2,7 @@
 using BruTile.Web;
 using System;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Windows.Controls;
 using BruTile.Samples.Common;
 
@@ -38,20 +38,19 @@ namespace BruTile.Demo
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
             return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"}, 
-                tileFetcher: FetchImageAsGoogle()); 
+                tileFetcher: FetchGoogleTile); 
         }
 
-        private static Func<Uri, byte[]> FetchImageAsGoogle()
+        private static byte[] FetchGoogleTile(Uri arg)
         {
-            return uri =>
-            {
-                var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
-                httpWebRequest.UserAgent =
-                    @"Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
-                httpWebRequest.Referer = "http://maps.google.com/";
-                return RequestHelper.FetchImage(httpWebRequest);
-            };
+            var httpClient = new HttpClient();
+
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", "http://maps.google.com/");
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", @"Mozilla / 5.0(Windows; U; Windows NT 6.0; en - US; rv: 1.9.1.7) Gecko / 20091221 Firefox / 3.5.7");
+           
+            return httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
+
 
         private RadioButton ToRadioButton(string name, Func<ITileSource> func)
         {

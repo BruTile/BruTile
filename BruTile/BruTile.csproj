@@ -125,7 +125,6 @@
     <Compile Include="Web\IRequest.cs" />
     <Compile Include="Web\OsmRequest.cs" />
     <Compile Include="Web\OsmTileSource.cs" />
-    <Compile Include="Web\RequestHelper.cs" />
     <Compile Include="Tms\TmsRequest.cs" />
     <Compile Include="Tms\Root.cs" />
     <Compile Include="Tms\TileMap.cs" />

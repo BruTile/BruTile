@@ -1,6 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Net.Http;
 using BruTile.Cache;
 
 namespace BruTile.Web
@@ -9,13 +10,19 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, byte[]> _fetchTile;
         private readonly IRequest _request;
+        private readonly HttpClient _httpClient = new HttpClient();
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null)
         {
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
-            _fetchTile = fetchTile ?? (RequestHelper.FetchImage);
+            _fetchTile = fetchTile ?? FetchTile;
+        }
+
+        private byte[] FetchTile(Uri arg)
+        {
+            return _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         public IPersistentCache<byte[]> PersistentCache { get; }
