@@ -10,8 +10,6 @@ BruTile is a C# open source library to access tile services like OpenStreetMap a
 PM> Install-Package BruTile
 `
 
-https://www.nuget.org/packages/BruTile
-
 ###Getting Started
 
 Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
@@ -28,19 +26,7 @@ Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-S
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
 ###Portable Class Library (PCL)
-BruTile is a PCL with Profile111 which targets:
-
-* .Net Framework 4.5 and higher
-* ASP.NET Core 5.0
-* Windows 8
-* Windows Phone 8.1
-* Xamarin.Android
-* Xamarin.iOS
-* Xamarin.iOS (Classic)
-
-###For downward compatibility we also compile for:
-* .Net Framework 4.0
-* .Net Framework 3.5
+BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic)
 
 ###Supported tile service protocols:
 * TMS
@@ -52,7 +38,6 @@ BruTile is a PCL with Profile111 which targets:
 
 ###Known tile sources:
 You can easily create an `ITileSource` for a number of specific tile servers with statements like:
-
 
     var tileSource1 = KnownTileSources.Create(KnownTileSource.OpenStreetMap)
     var tileSource2 = KnownTileSources.Create(KnownTileSource.MapQuestAerial)
