@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/BruTile/BruTile.png?label=ready&title=Ready)](https://waffle.io/BruTile/BruTile)
 [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 [![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)](http://teamcity.codebetter.com/project.html?projectId=BruTile&tab=projectOverview)
 
@@ -45,7 +44,6 @@ You can easily create an `ITileSource` for a number of specific tile servers wit
     var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite)
     var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 
-
 ### Roadmap
 Here are our future plans: 
 
@@ -62,4 +60,3 @@ Note, this library is work in progress. It is in BETA.
 * We will introduce breaking changed frequently. We change the API whenever we feel this is an improvement.
 * We adopt new technologies relatively fast, dropping support for older frameworks.
 * Although I do have a general plan of where to go with this library I do not have the resources to go towards that goal in a systematic way. I add functionality depending on what is needed in the projects I work on.
-
