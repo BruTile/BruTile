@@ -2,19 +2,19 @@
 [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 [![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)](http://teamcity.codebetter.com/project.html?projectId=BruTile&tab=projectOverview)
 
-###BruTile
+### BruTile
 BruTile is a C# open source library to access tile services like OpenStreetMap and Bing. BruTile has few dependencies, is platform independent and has a limited scope. It is intended for reuse by other more sophisticated libraries
 
-###Get it from NuGet 
+### Get it from NuGet 
 `
 PM> Install-Package BruTile
 `
 
-###Getting Started
+### Getting Started
 
 Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
 
-###Projects that use BruTile
+### Projects that use BruTile
 
 * [ArcBruTile] (https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
 * [SharpMap] (https://github.com/SharpMap/SharpMap) a GIS library
@@ -22,13 +22,13 @@ Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-S
 * [DotSpatial] (https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop] (https://hydrodesktop.codeplex.com/)
 * [PDOK] (https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
-###Demo
+### Demo
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
-###Portable Class Library (PCL)
+### Portable Class Library (PCL)
 BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic)
 
-###Supported tile service protocols:
+### Supported tile service protocols:
 * TMS
 * OSM (TMS with inverted y-axis)
 * WMS-C
@@ -36,7 +36,7 @@ BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core
 * WMTS
 * ArcGIS Tile Server
 
-###Known tile sources:
+### Known tile sources:
 You can easily create an `ITileSource` for a number of specific tile servers with statements like:
 
     var tileSource1 = KnownTileSources.Create(KnownTileSource.OpenStreetMap)
@@ -46,7 +46,7 @@ You can easily create an `ITileSource` for a number of specific tile servers wit
     var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 
 
-###Roadmap
+### Roadmap
 Here are our future plans: 
 
 * Update automatic TileSchema generation to bring WMTS, WMS, TMS and WMSC in line.
@@ -55,7 +55,7 @@ Here are our future plans:
 * Better documentation
 * Release v1
 
-###Warnings
+### Warnings
 Note, this library is work in progress. It is in BETA.
 
 * At the moment there is no documentation.
