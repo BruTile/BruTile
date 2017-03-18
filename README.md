@@ -18,7 +18,7 @@ Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-S
 * [ArcBruTile](https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
 * [SharpMap](https://github.com/SharpMap/SharpMap) a GIS library
 * [Mapsui](https://github.com/pauldendulk/Mapsui) a slippy map that runs in Silverlight
-* [DotSpatial](https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop] (https://hydrodesktop.codeplex.com/)
+* [DotSpatial](https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop](https://hydrodesktop.codeplex.com/)
 * [PDOK](https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ### Demo
