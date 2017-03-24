@@ -28,12 +28,12 @@ For a demo download the source code and run BruTile.Demo in the Samples folder
 BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic)
 
 ### Supported tile service protocols:
-* TMS
-* OSM (TMS with inverted y-axis)
-* WMS-C
-* WMS (tiled requests to a regular WMS - like WMS-C)
-* WMTS
-* ArcGIS Tile Server
+* [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification)
+* [OSM](http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames) (Like TMS with inverted y-axis)
+* [WMS-C](https://wiki.osgeo.org/wiki/WMS_Tile_Caching#WMS-C_as_WMS_Profile)
+* [WMS](http://www.opengeospatial.org/standards/wms) (tiled requests to a regular WMS - like WMS-C)
+* [WMTS](http://www.opengeospatial.org/standards/wmts)
+* [ArcGIS Tile Server](http://resources.arcgis.com/en/help/rest/apiref/tile.html)
 
 ### Known tile sources:
 You can easily create an `ITileSource` for a number of specific tile servers with statements like:
