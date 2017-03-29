@@ -33,7 +33,7 @@ namespace BruTile.Tests.Cache
             return new DbCache<SQLiteConnection>(cn, (p, c) => c, "main", "cache");
         }
 
-        [Test]
+        //[Test] // Perhaps think we should replace the SQLiteCache with MbTilesTileSource
         public void InsertFindRemoveTest()
         {
             TestInsertFindRemove();
