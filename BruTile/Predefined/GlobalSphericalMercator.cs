@@ -34,13 +34,13 @@ namespace BruTile.Predefined
         {
         }
 
-        public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null) :
-            this(ToResolutions(zoomLevels), format, yAxis, name)
+        public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null, Extent extent = default(Extent)) :
+            this(ToResolutions(zoomLevels), format, yAxis, name, extent)
         {
         }
 
-        internal GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
-                                         YAxis yAxis = YAxis.OSM, string name = null)
+        private GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
+                                         YAxis yAxis = YAxis.OSM, string name = null, Extent extent = default(Extent))
         {
             Name = name ?? "GlobalSphericalMercator";
             Format = format;
@@ -55,7 +55,7 @@ namespace BruTile.Predefined
             OriginX = -ScaleFactor * TileSize;
             OriginY = -ScaleFactor * TileSize;
 
-            Extent = new Extent(OriginX, OriginY, -OriginX, -OriginY);
+            Extent = extent == default(Extent) ? new Extent(OriginX, OriginY, -OriginX, -OriginY) : extent;
 
             if (yAxis == YAxis.OSM) OriginY = -OriginY; // OSM has an inverted Y-axis
         }
@@ -69,15 +69,15 @@ namespace BruTile.Predefined
 
         private static IEnumerable<KeyValuePair<string, Resolution>> ToResolutions(IEnumerable<int> levels)
         {
+            if (levels == null) return ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel);
+
             var dictionary = new Dictionary<string, Resolution>();
             foreach (var level in levels)
             {
                 dictionary[level.ToString()] = new Resolution
                     (
                         level.ToString(), 
-                        2 * ScaleFactor / (1 << level),
-                        TileSize,
-                        TileSize
+                        2 * ScaleFactor / (1 << level)
                     );
             }
             return dictionary;
