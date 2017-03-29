@@ -234,7 +234,7 @@ namespace BruTile
             return false;
         }
         public ITileSchema Schema { get; }
-        public string Name { get; } = nameof(SQLiteTileSource);
+        public string Name { get; } = nameof(MbTilesTileSource);
         public Attribution Attribution { get; set; }
 
         [Table("tiles")]
