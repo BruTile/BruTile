@@ -152,7 +152,7 @@ namespace BruTile.Samples.MbTiles
                 if (ofn.ShowDialog() == DialogResult.OK)
                 {
                     _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
-                    var extent = _source.Extent;
+                    var extent = _source.Schema.Extent;
                     var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
                         new PointF((float)extent.CenterX, (float)extent.CenterY),

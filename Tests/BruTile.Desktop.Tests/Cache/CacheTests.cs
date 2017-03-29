@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace BruTile.Tests.Cache
 {
-    [TestFixture, Category("CacheTest")]
+    //[TestFixture, Category("CacheTest")] // Perhaps think we should replace the SQLiteCache with MbTilesTileSource
     public abstract class CacheTests<TCache>
         where TCache : ITileCache<byte[]>
     {
