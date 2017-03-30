@@ -72,7 +72,9 @@ namespace BruTile.Tests.Cache
         {
             // arrange
             Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // keep all where Row = 2
-            var memoryCache = new MemoryCache<byte[]>(1, 2, keepTileInMemory);
+            const int maxTiles = 2;
+            const int minTiles = 1;
+            var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, keepTileInMemory);
             var tileBytes = new byte[] { 0, 0, 0, 0 };
             var tileOne = new TileIndex(0, 2, "0");
             var tileTwo = new TileIndex(2, 2, "2");
@@ -89,6 +91,7 @@ namespace BruTile.Tests.Cache
             // assert
             Assert.True(memoryCache.Find(tileOne) != null);
             Assert.True(memoryCache.Find(tileTwo) != null);
+            Assert.True(memoryCache.Find(tileThree) == null);
         }
     }
 }

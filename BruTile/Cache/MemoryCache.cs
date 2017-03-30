@@ -11,7 +11,7 @@ namespace BruTile.Cache
     public class MemoryCache<T>: IMemoryCache<T>, INotifyPropertyChanged, IDisposable
     {
         private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
-        private readonly Dictionary<TileIndex, DateTime> _touched = new Dictionary<TileIndex, DateTime>();
+        private readonly Dictionary<TileIndex, long> _touched = new Dictionary<TileIndex, long>();
         private readonly object _syncRoot = new object();
         private bool _disposed;
         private readonly Func<TileIndex, bool> _keepTileInMemory;
@@ -39,11 +39,11 @@ namespace BruTile.Cache
                 if (_bitmaps.ContainsKey(index))
                 {
                     _bitmaps[index] = item;
-                    _touched[index] = DateTime.Now;
+                    _touched[index] = DateTime.Now.Ticks;
                 }
                 else
                 {
-                    _touched.Add(index, DateTime.Now);
+                    _touched.Add(index, DateTime.Now.Ticks);
                     _bitmaps.Add(index, item);
                     CleanUp();
                     OnNotifyPropertyChange("TileCount");
@@ -70,7 +70,7 @@ namespace BruTile.Cache
             {
                 if (!_bitmaps.ContainsKey(index)) return default(T);
 
-                _touched[index] = DateTime.Now;
+                _touched[index] = DateTime.Now.Ticks;
                 return _bitmaps[index];
             }
         }
@@ -94,7 +94,7 @@ namespace BruTile.Cache
             if (_keepTileInMemory != null)
             {
                 var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
-                foreach (var index in tilesToKeep) _touched[index] = DateTime.Now; // touch tiles to keep
+                foreach (var index in tilesToKeep) _touched[index] = DateTime.Now.Ticks; // touch tiles to keep
                 numberOfTilesToKeepInMemory = tilesToKeep.Count;
             }
             var numberOfTilesToRemove = _bitmaps.Count  - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
