@@ -15,6 +15,8 @@ namespace BruTile.Cache
         private readonly object _syncRoot = new object();
         private bool _disposed;
         private readonly Func<TileIndex, bool> _keepTileInMemory;
+
+        private long _cacheVersion;
         
         public int TileCount => _bitmaps.Count;
 
@@ -32,6 +34,12 @@ namespace BruTile.Cache
             _keepTileInMemory = keepTileInMemory;
         }
 
+        public long GetNextCacheVersion()
+        {
+            _cacheVersion++;
+            return _cacheVersion;
+        }
+
         public void Add(TileIndex index, T item)
         {
             lock (_syncRoot)
@@ -39,11 +47,11 @@ namespace BruTile.Cache
                 if (_bitmaps.ContainsKey(index))
                 {
                     _bitmaps[index] = item;
-                    _touched[index] = DateTime.Now.Ticks;
+                    _touched[index] = GetNextCacheVersion();
                 }
                 else
                 {
-                    _touched.Add(index, DateTime.Now.Ticks);
+                    _touched.Add(index, GetNextCacheVersion());
                     _bitmaps.Add(index, item);
                     CleanUp();
                     OnNotifyPropertyChange("TileCount");
@@ -70,7 +78,7 @@ namespace BruTile.Cache
             {
                 if (!_bitmaps.ContainsKey(index)) return default(T);
 
-                _touched[index] = DateTime.Now.Ticks;
+                _touched[index] = GetNextCacheVersion();
                 return _bitmaps[index];
             }
         }
@@ -94,7 +102,7 @@ namespace BruTile.Cache
             if (_keepTileInMemory != null)
             {
                 var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
-                foreach (var index in tilesToKeep) _touched[index] = DateTime.Now.Ticks; // touch tiles to keep
+                foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // touch tiles to keep
                 numberOfTilesToKeepInMemory = tilesToKeep.Count;
             }
             var numberOfTilesToRemove = _bitmaps.Count  - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
