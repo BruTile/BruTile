@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using BruTile.Predefined;
 using SQLite;
 
@@ -21,7 +22,7 @@ namespace BruTile
 
         private readonly SQLiteConnectionString _connectionString;
         private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
-        private Dictionary<string, int[]> _tileRange;
+        private Dictionary<string, ZoomLevelMinMax> _tileRange = new Dictionary<string, ZoomLevelMinMax>();
 
         public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
@@ -36,34 +37,13 @@ namespace BruTile
 
         private ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)
         {
-
             var format = ReadFormat(connection);
-
             var extent = ReadExtent(connection);
+            var zoomLevels = ReadZoomLevels(connection);
+            _tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevels);
 
-            if (HasMapTable(connection))
-            {
-                // it is possible to override the schema by definining it in a 'map' table.
-                // This method depends on reading tiles from an 'images' table, which
-                // is not part of the MBTiles spec
-
-                // Declared zoom levels
-                var declaredZoomLevels = ReadZoomLevels(connection, out _tileRange);
-
-                // Create schema
-                return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, declaredZoomLevels, extent: extent);
-            }
-            else
-            {
-                // this is the most regular case:
-                return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, extent: extent);
-            }
-        }
-
-        private static bool HasMapTable(SQLiteConnection connection)
-        {
-            const string sql = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='map';";
-            return connection.ExecuteScalar<int>(sql) > 0;
+            // Create schema
+            return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
         }
 
         private static Extent ReadExtent(SQLiteConnection connection)
@@ -82,6 +62,7 @@ namespace BruTile
                     );
 
                 return ToMercator(extent);
+
             }
             catch (Exception)
             {
@@ -134,54 +115,34 @@ namespace BruTile
             }
             return null;
         }
-        private static int[] ReadZoomLevels(SQLiteConnection connection, out Dictionary<string, int[]> tileRange)
+
+        private static int[] ReadZoomLevels(SQLiteConnection connection)
         {
-            var zoomLevels = new List<int>();
-            tileRange = new Dictionary<string, int[]>();
+            var sql = "select distinct zoom_level as level from tiles";
+            var zoomLevelsObjects = connection.Query<ZoomLevel>(sql);
+            var zoomLevels = zoomLevelsObjects.Select(z => z.Level).ToArray();
+            return zoomLevels;
+        }
 
-            //Hack to see if "tiles" is a view
-            var sql = "SELECT count(*) FROM sqlite_master WHERE type = 'view' AND name = 'tiles';";
-            var name = "tiles";
-            if (connection.ExecuteScalar<int>(sql) == 1)
+        [Table("tiles")]
+        private class ZoomLevel // I would rather just user 'int' instead of this class in Query, but can't get it to work
+        {
+            [Column("level")]
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local
+            public int Level { get; set; }
+        }
+
+        private static Dictionary<string, ZoomLevelMinMax> ReadZoomLevelsFromTilesTable(SQLiteConnection connection, int[] zoomLevels)
+        {
+            var tableName = "tiles";
+            var tileRange = new Dictionary<string, ZoomLevelMinMax>();
+            foreach (var zoomLevel in zoomLevels)
             {
-                //Hack to choose the index table
-                sql = "SELECT sql FROM sqlite_master WHERE type = 'view' AND name = 'tiles';";
-                var sqlCreate = connection.ExecuteScalar<string>(sql);
-                if (!string.IsNullOrEmpty(sqlCreate))
-                {
-                    sql = sql.Replace("\n", "");
-                    var indexFrom = sql.IndexOf(" FROM ", StringComparison.OrdinalIgnoreCase) + 6;
-                    var indexJoin = sql.IndexOf(" INNER ", StringComparison.OrdinalIgnoreCase);
-                    if (indexJoin == -1)
-                        indexJoin = sql.IndexOf(" JOIN ", StringComparison.OrdinalIgnoreCase);
-                    if (indexJoin > indexFrom)
-                    {
-                        sql = sql.Substring(indexFrom, indexJoin - indexFrom).Trim();
-                        name = sql.Replace("\"", "");
-                    }
-                }
+                var sql = $"select min(tile_column) AS tc_min, max(tile_column) AS tc_max, min(tile_row) AS tr_min, max(tile_row) AS tr_max from {tableName} where zoom_level = {zoomLevel};";
+                var rangeForLevel = connection.Query<ZoomLevelMinMax>(sql);
+                tileRange.Add(zoomLevel.ToString(), rangeForLevel.First());
             }
-
-            sql = "select \"zoom_level\", " +
-                  "min(\"tile_column\") AS tc_min, max(\"tile_column\") AS tc_max, " +
-                  "min(\"tile_row\") AS tr_min, max(\"tile_row\") AS tr_max " +
-                  "from \"" + name + "\" group by \"zoom_level\";";
-
-            var zlminmax = connection.Query<ZoomLevelMinMax>(sql);
-            if (zlminmax == null || zlminmax.Count == 0)
-                throw new Exception("No data in MbTiles");
-
-            foreach (var tmp in zlminmax)
-            {
-                zoomLevels.Add(tmp.ZoomLevel);
-                tileRange.Add(tmp.ZoomLevel.ToString(NumberFormatInfo.InvariantInfo), new[]
-                {
-                    tmp.TileColMin, tmp.TileColMax,
-                    tmp.TileRowMin, tmp.TileRowMax
-                });
-            }
-
-            return zoomLevels.ToArray();
+            return tileRange;
         }
 
         private static MbTilesFormat ReadFormat(SQLiteConnection connection)
@@ -217,11 +178,14 @@ namespace BruTile
             if (_tileRange == null) return true;
 
             // this is an optimization that makes use of an additional 'map' table which is not part of the spec
-            int[] range;
-            if (_tileRange.TryGetValue(index.Level, out range))
+            ZoomLevelMinMax tileRange;
+            if (_tileRange.TryGetValue(index.Level, out tileRange))
             {
-                return ((range[0] <= index.Col) && (index.Col <= range[1]) &&
-                        (range[2] <= index.Row) && (index.Row <= range[3]));
+                return
+                    tileRange.TileColMin <= index.Col &&
+                    index.Col <= tileRange.TileColMax &&
+                    tileRange.TileRowMin <= index.Row && 
+                    index.Row <= tileRange.TileRowMax;
             }
             return false;
         }

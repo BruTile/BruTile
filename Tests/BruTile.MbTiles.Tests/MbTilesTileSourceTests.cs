@@ -26,5 +26,52 @@ namespace BruTile.MbTiles.Tests
             Assert.AreEqual(MbTilesType.BaseLayer, tileSource.Type);
             Assert.AreEqual("attribution", tileSource.Attribution.Text);
         }
+
+        [Test]
+        public void SchemaGeneratedFromMbTiles()
+        {
+            // arrange
+            SQLitePCL.Batteries.Init();
+            const string path = ".\\Resources\\test.mbtiles";
+
+            // act
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
+
+            // assert
+            var extent = new Extent(-20037508.3427892, -20037471.205137, 20037508.3427892, 20037471.205137);
+            Assert.IsTrue(extent.Area / tileSource.Schema.Extent.Area > 0.0000001);
+            Assert.AreEqual(3, tileSource.Schema.Resolutions.Count);
+        }
+
+
+        [Test]
+        public void SchemaGeneratedFromMbTilesContainingSmallArea()
+        {
+            // arrange
+            SQLitePCL.Batteries.Init();
+            const string path = ".\\Resources\\el-molar.mbtiles";
+
+            // act
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
+
+            // assert
+            Assert.AreEqual(95490133.792558521d, tileSource.Schema.Extent.Area);
+            Assert.AreEqual(17, tileSource.Schema.Resolutions.Count);
+        }
+
+        [Test]
+        public void SchemaGeneratedFromMbTilesContainingSmallAreaWithFewLevels()
+        {
+            // arrange
+            SQLitePCL.Batteries.Init();
+            const string path = ".\\Resources\\torrejon-de-ardoz.mbtiles";
+
+            // act
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
+
+            // assert
+            Assert.AreEqual(692609746.90386355, tileSource.Schema.Extent.Area);
+            Assert.AreEqual(5, tileSource.Schema.Resolutions.Count);
+        }
     }
 }
