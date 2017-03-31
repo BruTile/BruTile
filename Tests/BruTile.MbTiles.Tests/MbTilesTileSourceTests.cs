@@ -16,12 +16,15 @@ namespace BruTile.MbTiles.Tests
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
             var extent = tileSource.Schema.Extent;
             var tileInfos = tileSource.Schema.GetTileInfos(extent, "1").ToList();
+            tileSource.Attribution = new Attribution("attribution", "url");
             
             // act
             var data = tileSource.GetTile(tileInfos.First());
 
             // assert
             Assert.True(data.Length > 0);
+            Assert.AreEqual(MbTilesType.BaseLayer, tileSource.Type);
+            Assert.AreEqual("attribution", tileSource.Attribution.Text);
         }
     }
 }

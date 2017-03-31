@@ -1,6 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
+// Merged TileSource, Provider and Cache into MbTilesTileSource. PDD, 2017.
 
 using System;
 using System.Collections.Generic;
@@ -29,15 +30,7 @@ namespace BruTile
             using (connection.Lock())
             {
                 Type = type == MbTilesType.None ? ReadType(connection) : type;
-
-                if (schema != null)
-                {
-                    Schema = schema;
-                }
-                else
-                {
-                    Schema = ReadSchemaFromDatabase(connection);
-                }
+                Schema = schema ?? ReadSchemaFromDatabase(connection);
             }
         }
 
@@ -180,7 +173,6 @@ namespace BruTile
 
             foreach (var tmp in zlminmax)
             {
-                var zlString = tmp.ZoomLevel.ToString(NumberFormatInfo.InvariantInfo);
                 zoomLevels.Add(tmp.ZoomLevel);
                 tileRange.Add(tmp.ZoomLevel.ToString(NumberFormatInfo.InvariantInfo), new[]
                 {
@@ -240,6 +232,7 @@ namespace BruTile
         [Table("tiles")]
         private class ZoomLevelMinMax
         {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
             [Column("zoom_level")]
             public int ZoomLevel { get; set; }
             [Column("tr_min")]
@@ -250,6 +243,7 @@ namespace BruTile
             public int TileColMin { get; set; }
             [Column("tc_max")]
             public int TileColMax { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
     }
 }
