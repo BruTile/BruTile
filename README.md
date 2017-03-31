@@ -1,5 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/5s4poobpfab9g8ny?svg=true)](https://ci.appveyor.com/project/pauldendulk/brutile)
-[![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)](http://teamcity.codebetter.com/project.html?projectId=BruTile&tab=projectOverview)
+[![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 
 ### BruTile
 BruTile is a C# open source library to access tile services like OpenStreetMap and Bing. BruTile has few dependencies, is platform independent and has a limited scope. It is intended for reuse by other more sophisticated libraries
