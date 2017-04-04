@@ -22,7 +22,7 @@ namespace BruTile
 
         private readonly SQLiteConnectionString _connectionString;
         private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
-        private Dictionary<string, ZoomLevelMinMax> _tileRange = new Dictionary<string, ZoomLevelMinMax>();
+        private readonly Dictionary<string, ZoomLevelMinMax> _tileRange;
 
         public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
         {
@@ -31,7 +31,12 @@ namespace BruTile
             using (connection.Lock())
             {
                 Type = type == MbTilesType.None ? ReadType(connection) : type;
-                Schema = schema ?? ReadSchemaFromDatabase(connection);
+                var schemaFromDatabase = ReadSchemaFromDatabase(connection);
+                Schema = schema ?? schemaFromDatabase;
+
+                // the tile range should be based on the tiles actually present. 
+                var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
+                _tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevelsFromDatabase);
             }
         }
 
@@ -40,7 +45,6 @@ namespace BruTile
             var format = ReadFormat(connection);
             var extent = ReadExtent(connection);
             var zoomLevels = ReadZoomLevels(connection);
-            _tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevels);
 
             // Create schema
             return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
@@ -132,7 +136,7 @@ namespace BruTile
             public int Level { get; set; }
         }
 
-        private static Dictionary<string, ZoomLevelMinMax> ReadZoomLevelsFromTilesTable(SQLiteConnection connection, int[] zoomLevels)
+        private static Dictionary<string, ZoomLevelMinMax> ReadZoomLevelsFromTilesTable(SQLiteConnection connection, IEnumerable<string> zoomLevels)
         {
             var tableName = "tiles";
             var tileRange = new Dictionary<string, ZoomLevelMinMax>();
@@ -140,7 +144,7 @@ namespace BruTile
             {
                 var sql = $"select min(tile_column) AS tc_min, max(tile_column) AS tc_max, min(tile_row) AS tr_min, max(tile_row) AS tr_max from {tableName} where zoom_level = {zoomLevel};";
                 var rangeForLevel = connection.Query<ZoomLevelMinMax>(sql);
-                tileRange.Add(zoomLevel.ToString(), rangeForLevel.First());
+                tileRange.Add(zoomLevel, rangeForLevel.First());
             }
             return tileRange;
         }
@@ -197,8 +201,6 @@ namespace BruTile
         private class ZoomLevelMinMax
         {
             // ReSharper disable UnusedAutoPropertyAccessor.Local
-            [Column("zoom_level")]
-            public int ZoomLevel { get; set; }
             [Column("tr_min")]
             public int TileRowMin { get; set; }
             [Column("tr_max")]

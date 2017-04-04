@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BruTile.Predefined;
 using NUnit.Framework;
 using SQLite;
 
@@ -72,6 +73,23 @@ namespace BruTile.MbTiles.Tests
             // assert
             Assert.AreEqual(692609746.90386355, tileSource.Schema.Extent.Area);
             Assert.AreEqual(5, tileSource.Schema.Resolutions.Count);
+        }
+
+
+        [Test]
+        public void SchemaGeneratedFromMbTilesWithSchemaInConstructor()
+        {
+            // arrange
+            SQLitePCL.Batteries.Init();
+            const string path = ".\\Resources\\torrejon-de-ardoz.mbtiles";
+
+            // act
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false), new GlobalSphericalMercator("png", YAxis.TMS, null));
+
+            // assert
+            var tile = tileSource.GetTile(new TileInfo { Index = new TileIndex(2006, 2552, "12")});
+            Assert.NotNull(tile);
+
         }
     }
 }
