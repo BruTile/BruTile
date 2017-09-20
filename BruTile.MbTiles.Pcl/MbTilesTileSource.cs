@@ -47,7 +47,7 @@ namespace BruTile
 			}
         }
 
-        private ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)
+        private static ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)
         {
             var format = ReadFormat(connection);
             var extent = ReadExtent(connection);
