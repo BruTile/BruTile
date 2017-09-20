@@ -24,20 +24,27 @@ namespace BruTile
         private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
         private readonly Dictionary<string, ZoomLevelMinMax> _tileRange;
 
-        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None)
+        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None, bool tileRangeOptimization = true)
         {
             _connectionString = connectionString;
-            var connection = new SQLiteConnectionWithLock(connectionString, SQLiteOpenFlags.ReadOnly);
-            using (connection.Lock())
-            {
-                Type = type == MbTilesType.None ? ReadType(connection) : type;
-                var schemaFromDatabase = ReadSchemaFromDatabase(connection);
-                Schema = schema ?? schemaFromDatabase;
+			if (tileRangeOptimization || schema == null)
+			{
+				var connection = new SQLiteConnectionWithLock(connectionString, SQLiteOpenFlags.ReadOnly);
+				using (connection.Lock())
+				{
+					Type = type == MbTilesType.None ? ReadType(connection) : type;
+					var schemaFromDatabase = ReadSchemaFromDatabase(connection);
+					Schema = schema ?? schemaFromDatabase;
 
-                // the tile range should be based on the tiles actually present. 
-                var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
-                _tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevelsFromDatabase);
-            }
+					// the tile range should be based on the tiles actually present. 
+					var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
+					_tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevelsFromDatabase);
+				}
+			}
+			else {
+				Schema = schema;
+				_tileRange = null;
+			}
         }
 
         private ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)
