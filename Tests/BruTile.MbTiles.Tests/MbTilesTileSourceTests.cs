@@ -89,7 +89,6 @@ namespace BruTile.MbTiles.Tests
             // assert
             var tile = tileSource.GetTile(new TileInfo { Index = new TileIndex(2006, 2552, "12")});
             Assert.NotNull(tile);
-
         }
     }
 }
