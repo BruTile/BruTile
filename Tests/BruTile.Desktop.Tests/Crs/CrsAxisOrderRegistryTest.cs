@@ -14,24 +14,23 @@ namespace BruTile.Tests.Crs
 
         private const string Sql =
             @"SELECT COORD_REF_SYS_CODE FROM [Coordinate Reference System] 
-WHERE COORD_SYS_CODE IN 
-( SELECT CAA.COORD_SYS_CODE FROM [Coordinate Axis] AS CAA 
-  INNER JOIN [Coordinate Axis] AS CAB 
-  ON CAA.COORD_SYS_CODE = CAB.COORD_SYS_CODE 
-  WHERE caa.ORDER=1 AND cab.ORDER=2
-  AND ( 
-   ( left(CAA.COORD_AXIS_ORIENTATION,5)='north' 
-     and left(CAB.COORD_AXIS_ORIENTATION,4)='east' ) 
-   or ( left(CAA.COORD_AXIS_ORIENTATION,5)='south' 
-     and left(CAB.COORD_AXIS_ORIENTATION,4)='west' ) 
-  ) 
-);";
+            WHERE COORD_SYS_CODE IN 
+            ( SELECT CAA.COORD_SYS_CODE FROM [Coordinate Axis] AS CAA 
+              INNER JOIN [Coordinate Axis] AS CAB 
+              ON CAA.COORD_SYS_CODE = CAB.COORD_SYS_CODE 
+              WHERE caa.ORDER=1 AND cab.ORDER=2
+              AND ( 
+               ( left(CAA.COORD_AXIS_ORIENTATION,5)='north' 
+                 and left(CAB.COORD_AXIS_ORIENTATION,4)='east' ) 
+               or ( left(CAA.COORD_AXIS_ORIENTATION,5)='south' 
+                 and left(CAB.COORD_AXIS_ORIENTATION,4)='west' ) 
+              ) 
+            );";
+
         [Test, Explicit("This is not a test, it creates the bit field crs directions.\nYou need to have the EPSG Access Database at '"+EpsgAccessDatabase+"'!")]
+        [Ignore("Use this one when finally resolving the axis order issue")]
         public void BuildAxisOrderBitArray()
         {
-            if (!File.Exists(EpsgAccessDatabase))
-                throw new IgnoreException("Epsg Access Database not found");
-
             var ba = new BitArray(32768);
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
@@ -128,6 +127,7 @@ WHERE COORD_SYS_CODE IN
         }
 
         [Test]
+        [Ignore("Use this one when finally resolving the axis order issue")]
         public void TestAxisOrder()
         {
             if (!File.Exists(EpsgAccessDatabase))

@@ -129,16 +129,18 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
         }
 
         [Test]
+        [Ignore("Use this one when finally resolving the axis order issue")]
         public void TestEpsgCodeUom()
         {
             if (!File.Exists(EpsgAccessDatabase))
                 throw new IgnoreException("Epsg Access Database not found");
 
-            using (var cn = new System.Data.OleDb.OleDbConnection(
-                string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase)))
+            var connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};";
+
+            using (var connection = new System.Data.OleDb.OleDbConnection(connectionString))
             {
-                cn.Open();
-                var cmd = cn.CreateCommand();
+                connection.Open();
+                var cmd = connection.CreateCommand();
                 cmd.CommandText = SqlEpsgToUom;
                 var uomr = new CrsUnitOfMeasureRegistry();
                 using (var dr = cmd.ExecuteReader())

@@ -37,8 +37,7 @@ namespace BruTile.Tests.Wmsc
         [TestCase("http://resource.sgu.se/service/wms/130/brunnar?SERVICE=WMS&VERSION=1.3&REQUEST=getcapabilities&TILED=true", true)]
         public void TestParseUrl(string url, bool ignore)
         {
-            if (ignore)
-                throw new IgnoreException("Url is not for WMS-C");
+            if (ignore) Assert.Pass();
 
             // arrange
             var myWmsc = new Uri(url);

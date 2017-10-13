@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using BruTile.Predefined;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;
@@ -12,7 +13,7 @@ namespace BruTile.Tests.Web
     public class HttpTileSourceTests
     {
         [Test]
-        public static async void TestAsyncTileFetcher()
+        public static async Task TestAsyncTileFetcher()
         {
             // arrange
             var tileSource = KnownTileSources.Create();
