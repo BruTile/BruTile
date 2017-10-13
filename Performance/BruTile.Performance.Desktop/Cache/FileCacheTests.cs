@@ -10,7 +10,7 @@ namespace BruTile.PerformanceTests.Cache
     {
         private FileCache _cache;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _cache = ClearedFileCacheTest();
