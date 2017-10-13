@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Windows.Controls;
 using BruTile.Samples.Common;
+using BruTile.Wmts;
 
 namespace BruTile.Demo
 {
@@ -19,7 +20,12 @@ namespace BruTile.Demo
                 var httpTileSource = KnownTileSources.Create(knownTileSource);
                 Layers.Children.Add(ToRadioButton(knownTileSource.ToString(), () => httpTileSource));
             }
-            
+
+            var httpClient = new HttpClient();
+            var stream = httpClient.GetStreamAsync("https://bertt.github.io/wmts/capabilities/michelin.xml").Result;
+            var michelinTileSource = WmtsParser.Parse(stream).First();
+            Layers.Children.Add(ToRadioButton("Michelin Map", () =>michelinTileSource));
+
             Layers.Children.Add(ToRadioButton("Google Map", () => 
                 CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
             Layers.Children.Add(ToRadioButton("Google Terrain", () => 
