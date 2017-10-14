@@ -28,7 +28,7 @@ namespace BruTile.Tests.Web
 
             // assert
             Console.WriteLine("Durations: {0:0} milliseconds", DateTime.Now.Subtract(timeStart).TotalMilliseconds);
-            Assert.AreEqual(tiles.Count(), 64);
+            Assert.AreEqual(64, tiles.Count());
         }
     }
 }

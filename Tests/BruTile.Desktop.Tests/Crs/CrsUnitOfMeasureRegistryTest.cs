@@ -33,7 +33,9 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
         public void TestCreateRegistryEntries()
         {
             if (!File.Exists(EpsgAccessDatabase))
-                throw new IgnoreException("Epsg Access Database not found");
+            {
+                Assert.Pass("Epsg Access Database not found");
+            }
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
                 string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase)))
@@ -74,7 +76,10 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
         public void TestCreateEpsgToUom()
         {
             if (!File.Exists(EpsgAccessDatabase))
-                throw new IgnoreException("Epsg Access Database not found");
+            {
+                Assert.Pass("Epsg Access Database not found");
+            }
+            
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
                 string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase)))
