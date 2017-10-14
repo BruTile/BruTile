@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
@@ -13,12 +14,23 @@ namespace BruTile.Tests.Wmts
     [TestFixture]
     public class WmtsTests
     {
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
         [TestCase("wmts-capabilities-dlr.xml")]
         [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmts", xml)))
+            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", xml)))
             {
                 // act
                 IEnumerable<ITileSource> tileSources = null;
