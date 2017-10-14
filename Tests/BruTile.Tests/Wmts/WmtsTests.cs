@@ -30,7 +30,6 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
-            var x
             using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", xml)))
             {
                 // act
