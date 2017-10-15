@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace BruTile.Tests.Utilities
 {
-    public class Paths
+    public static class Paths
     {
         public static string AssemblyDirectory
         {
