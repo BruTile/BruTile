@@ -58,6 +58,7 @@
     <Compile Include="..\..\SharedAssemblyVersion.cs">
       <Link>Properties\SharedAssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="Utilities\Paths.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj">

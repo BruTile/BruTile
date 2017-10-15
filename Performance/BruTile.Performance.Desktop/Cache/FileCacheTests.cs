@@ -9,11 +9,14 @@ namespace BruTile.PerformanceTests.Cache
     class FileCacheTests
     {
         private FileCache _cache;
+        private string _directory;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _cache = ClearedFileCacheTest();
+            _directory = Path.Combine(Utilities.Paths.AssemblyDirectory, "FileCacheTest");
+
+            _cache = ClearedFileCacheTest(_directory);
         }
 
         [Test]
@@ -42,39 +45,23 @@ namespace BruTile.PerformanceTests.Cache
             Console.WriteLine("Min FileCache.Find time is {0}ms", findWork.MinTime);
         }
 
-        private static FileCache ClearedFileCacheTest()
+        private static FileCache ClearedFileCacheTest(string directory)
         {
-            if (Directory.Exists("FileCacheTest"))
-            {
-                DeleteDirectory("FileCacheTest");
-            }
-            return new FileCache("FileCacheTest", "buf");
-        }
-
-        /// <summary>
-        /// Depth-first recursive delete, with handling for descendant 
-        /// directories open in Windows Explorer.
-        /// </summary>
-        public static void DeleteDirectory(string path)
-        {
-            // gettting it wrong with Ryan S: https://stackoverflow.com/a/1703799/85325
-            foreach (string directory in Directory.GetDirectories(path))
+            if (Directory.Exists(directory))
             {
                 DeleteDirectory(directory);
             }
+            return new FileCache(directory, "buf");
+        }
 
-            try
+        public static void DeleteDirectory(string directory)
+        {
+            var files = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
+            foreach (var file in files)
             {
-                Directory.Delete(path, true);
+                File.Delete(file);
             }
-            catch (IOException)
-            {
-                Directory.Delete(path, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Directory.Delete(path, true);
-            }
+            Directory.Delete(directory, true);
         }
     }
 }
