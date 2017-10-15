@@ -15,7 +15,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            const string path = ".\\Resources\\test.mbtiles";
+            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
             var extent = tileSource.Schema.Extent;
             var tileInfos = tileSource.Schema.GetTileInfos(extent, "1").ToList();
