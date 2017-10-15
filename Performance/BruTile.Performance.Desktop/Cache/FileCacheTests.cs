@@ -52,26 +52,29 @@ namespace BruTile.PerformanceTests.Cache
         }
 
         /// <summary>
-        /// From stackoverflow: https://stackoverflow.com/a/329502/85325
+        /// Depth-first recursive delete, with handling for descendant 
+        /// directories open in Windows Explorer.
         /// </summary>
-        /// <param name="directory"></param>
-        public static void DeleteDirectory(string directory)
+        public static void DeleteDirectory(string path)
         {
-            string[] files = Directory.GetFiles(directory);
-            string[] dirs = Directory.GetDirectories(directory);
-
-            foreach (string file in files)
+            // gettting it wrong with Ryan S: https://stackoverflow.com/a/1703799/85325
+            foreach (string directory in Directory.GetDirectories(path))
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
+                DeleteDirectory(directory);
             }
 
-            foreach (string dir in dirs)
+            try
             {
-                DeleteDirectory(dir);
+                Directory.Delete(path, true);
             }
-
-            Directory.Delete(directory, false);
+            catch (IOException)
+            {
+                Directory.Delete(path, true);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Directory.Delete(path, true);
+            }
         }
     }
 }
