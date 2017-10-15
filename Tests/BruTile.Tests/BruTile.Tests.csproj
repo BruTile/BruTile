@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="TileIndexTests.cs" />
     <Compile Include="TileTransformTests.cs" />
+    <Compile Include="Utilities\Paths.cs" />
     <Compile Include="UtilityTests.cs" />
     <Compile Include="Web\BasisRequestTests.cs" />
     <Compile Include="Web\HttpTileSourceExtensions.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Linq;
+using BruTile.Tests.Utilities;
 using BruTile.Wms;
 using NUnit.Framework;
 
@@ -12,7 +13,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesWhenParsedShouldSetCorrectGetMapUrl()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "BgrGroundwaterWhyMapCapabilities_1_1_1.xml")))
+            var fileName = "BgrGroundwaterWhyMapCapabilities_1_1_1.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
 
@@ -28,7 +30,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesWhenInitializedWithWmsCShouldInitializeAllTileLayers()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml")))
+            var fileName = "WmsCCapabilities_1_1_1.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", fileName)))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);
@@ -43,7 +46,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesWhenCreatedWithCapabilitiesWithMultipleRootLayersShouldInitializeCorrectly()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "MultiTopLayersCapabilities_1_3_0.xml")))
+            var fileName = "MultiTopLayersCapabilities_1_3_0.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);
@@ -59,7 +63,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesWhenCreatedWithValidCapabilitiesV111DocumentShouldInitializeCorrectly()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "FrioCountyTXMapsWmsCapabilities_1_1_1.xml")))
+            var fileName = "FrioCountyTXMapsWmsCapabilities_1_1_1.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream); 
@@ -75,7 +80,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesForLizardTech()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "LizardtechWmsCapabilities_1_1_1.xml")))
+            var fileName = "LizardtechWmsCapabilities_1_1_1.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 // act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
@@ -88,7 +94,9 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWithXmlnsAttribute()
         {
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "WmsCapabilities_1_3_0_withXmlns.xml")))
+            // arrange
+            var fileName = "WmsCapabilities_1_3_0_withXmlns.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 // act
                 var capabilities = new WmsCapabilities(stream);
@@ -105,7 +113,8 @@ namespace BruTile.Tests.Wms
         public void WmsCapabilitiesForNrcsSoilWms()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine("Resources", "Wms", "NrcsSoilWmsCapabilities_1_1_1.xml")))
+            var fileName = "NrcsSoilWmsCapabilities_1_1_1.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 // act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
