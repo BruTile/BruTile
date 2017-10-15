@@ -3,8 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
+using BruTile.Tests.Utilities;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
@@ -14,23 +14,12 @@ namespace BruTile.Tests.Wmts
     [TestFixture]
     public class WmtsTests
     {
-        public static string AssemblyDirectory
-        {
-            get
-            {
-                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                var uri = new UriBuilder(codeBase);
-                var path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
-
         [TestCase("wmts-capabilities-dlr.xml")]
         [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", xml)))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", xml)))
             {
                 // act
                 IEnumerable<ITileSource> tileSources = null;
@@ -46,7 +35,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsCapabilitiesResourceUrls()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien-resourceUrls.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien-resourceUrls.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
@@ -60,7 +49,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsCapabilities()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
@@ -74,7 +63,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsCapabilitiesKvp()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
@@ -88,7 +77,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsGlobalCRS84Scale()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
@@ -103,7 +92,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsCapabilitiesKvpAndRestful()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-arcgis-server-doggersbank.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-arcgis-server-doggersbank.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
@@ -184,7 +173,7 @@ namespace BruTile.Tests.Wmts
         public void TestParsingWmtsWhereUpperBoundAndLowerBoundLackOwsPrefix()
         {
             // arrange
-            using (var stream = File.OpenRead(Path.Combine(AssemblyDirectory, "Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")))
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")))
             {
                 // act
                 var tileSources = WmtsParser.Parse(stream);
