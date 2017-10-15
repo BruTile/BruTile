@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using BruTile.Predefined;
 using NUnit.Framework;
 using SQLite;
+using BruTile.Tests.Utilities;
 
 namespace BruTile.MbTiles.Tests
 {
@@ -33,7 +35,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            const string path = ".\\Resources\\test.mbtiles";
+            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -50,7 +52,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            const string path = ".\\Resources\\el-molar.mbtiles";
+            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -65,7 +67,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            const string path = ".\\Resources\\torrejon-de-ardoz.mbtiles";
+            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -81,7 +83,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            const string path = ".\\Resources\\torrejon-de-ardoz.mbtiles";
+            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false), new GlobalSphericalMercator("png", YAxis.TMS, null));
