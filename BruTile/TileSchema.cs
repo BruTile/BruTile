@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using BruTile.Wms;
+using BruTile.Wmts;
 
 [assembly: CLSCompliant(true)]
 
@@ -40,6 +42,7 @@ namespace BruTile
             YAxis = YAxis.TMS;
             OriginY = Double.NaN;
             OriginX = Double.NaN;
+            BoundingBoxAxisOrderInterpretation = BoundingBoxAxisOrderInterpretation.Natural;
         }
 
         public double OriginX { get; set; }
@@ -50,6 +53,9 @@ namespace BruTile
         public string Format { get; set; }
         public Extent Extent { get; set; }
         public YAxis YAxis { get; set; }
+        public IList<object> Styles { get; set; }
+        public IList<string> LayerTitles { get; set; }
+        public BoundingBoxAxisOrderInterpretation BoundingBoxAxisOrderInterpretation { get; set; }
 
         public IDictionary<string, Resolution> Resolutions
         {

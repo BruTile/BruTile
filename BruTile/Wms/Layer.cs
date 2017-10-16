@@ -215,6 +215,8 @@ namespace BruTile.Wms
             }
         }
 
+        public LatLonBoundingBox LatLonBoundingBox { get; set; }
+
         public ExGeographicBoundingBox ExGeographicBoundingBox { get; set; }
 
         public List<BoundingBox> BoundingBox { get; private set; }

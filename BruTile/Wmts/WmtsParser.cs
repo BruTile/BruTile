@@ -12,28 +12,6 @@ using BruTile.Wmts.Generated;
 
 namespace BruTile.Wmts
 {
-    /// <summary>
-    /// An enumeration of possibilities of how to interpret the axis order in &lt;ows:BoundingBox&gt; definitions
-    /// </summary>
-    public enum BoundingBoxAxisOrderInterpretation
-    {
-        /// <summary>
-        /// Natural, first x, then y
-        /// </summary>
-        Natural,
-
-        /// <summary>
-        /// As defined in the definition of the coordinate reference system
-        /// </summary>
-        CRS,
-
-        /// <summary>
-        /// Geographic, first y (latitude), then x (longitude)
-        /// </summary>
-        Geographic
-
-    }
-
     public class WmtsParser
     {
         /// <summary>
@@ -47,18 +25,19 @@ namespace BruTile.Wmts
         /// </summary>
         /// <param name="source">The source stream</param>
         /// <param name="bbaoi">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
+        /// <param name="preferredSrs">Srs preferred</param>
         /// <returns>An enumeration of tile sources</returns>
-        public static IEnumerable<ITileSource> Parse(Stream source, 
-            BoundingBoxAxisOrderInterpretation bbaoi = BoundingBoxAxisOrderInterpretation.Natural)
+        public static IEnumerable<ITileSource> Parse(Stream source,
+            BoundingBoxAxisOrderInterpretation bbaoi = BoundingBoxAxisOrderInterpretation.Natural, string preferredSrs = "")
         {
             var ser = new XmlSerializer(typeof(Capabilities));
             Capabilities capabilties;
 
             using (var reader = new StreamReader(source))
                 capabilties = (Capabilities)ser.Deserialize(reader);
-            
+
             var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet, bbaoi);
-            var tileSources = GetLayers(capabilties, tileSchemas);
+            var tileSources = GetLayers(capabilties, tileSchemas, preferredSrs);
 
             return tileSources;
         }
@@ -68,8 +47,9 @@ namespace BruTile.Wmts
         /// </summary>
         /// <param name="capabilties">The capabilities document</param>
         /// <param name="tileSchemas">A set of</param>
+        /// <param name="preferredSrs"></param>
         /// <returns></returns>
-        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas)
+        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas, string preferredSrs = "")
         {
             var tileSources = new List<ITileSource>();
 
@@ -107,19 +87,42 @@ namespace BruTile.Wmts
                                     tileMatrixLink.TileMatrixSet));
                             }
 
-                            var tileMatrixSet = tileMatrixLink.TileMatrixSet;
-                            var tileSchema = (WmtsTileSchema)tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
+                            WmtsTileSchema tileSchema = null;
+                            string tileMatrixSet = "";
+                            if (!string.IsNullOrWhiteSpace(preferredSrs))
+                            {
+                                foreach (var ts in tileSchemas)
+                                {
+                                    var crsIdentifier = ((WmtsTileSchema)ts).SupportedSRS;
+                                    var authCode = crsIdentifier.Authority + ":" + crsIdentifier.Identifier;
+                                    if (authCode.Equals(preferredSrs, StringComparison.CurrentCultureIgnoreCase))
+                                    {
+                                        tileSchema = (WmtsTileSchema)ts;
+                                        tileMatrixSet = ts.Name;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                tileMatrixSet = tileMatrixLink.TileMatrixSet;
+                                tileSchema = (WmtsTileSchema)tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
+                            }
 
-                            //var layerName = layer.Identifier.Value;
-                            var styleName = style.Identifier.Value;
+                            if (tileSchema != null)
+                            {
+                                //var layerName = layer.Identifier.Value;
+                                var styleName = style.Identifier.Value;
 
-                            var tileSource = new TileSource(new HttpTileProvider(wmtsRequest),
-                                tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format))
+                                var tileSource = new TileSource(new HttpTileProvider(wmtsRequest),
+                                    tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName,
+                                        format))
                                 {
                                     Name = title
                                 };
 
-                            tileSources.Add(tileSource);
+                                tileSources.Add(tileSource);
+                            }
                         }
                     }
                 }

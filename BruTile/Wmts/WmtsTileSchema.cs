@@ -48,6 +48,9 @@ namespace BruTile.Wmts
         /// </summary>
         public string Style { get; private set; }
 
+        public IList<object> Styles { get; set; }
+        public IList<string> LayerTitles { get; set; }
+
         /// <summary>
         /// Creates a copy of this schema with <see cref="Format"/> set to <paramref name="format"/>
         /// </summary>
@@ -85,7 +88,8 @@ namespace BruTile.Wmts
                 Format = format,
                 Name = Name,
                 Srs = Srs,
-                SupportedSRS = SupportedSRS
+                SupportedSRS = SupportedSRS,
+                CrsAxisOrder = CrsAxisOrder.Natural
             };
 
             foreach (var resolution in Resolutions) res.Resolutions.Add(resolution);
@@ -130,7 +134,10 @@ namespace BruTile.Wmts
         /// Gets a value indicating the orientation of the y-axis
         /// </summary>
         public YAxis YAxis { get; set; }
-        
+
+        public BoundingBoxAxisOrderInterpretation BoundingBoxAxisOrderInterpretation { get; set; }
+        public CrsAxisOrder CrsAxisOrder { get; set; }
+
         public IDictionary<string, Resolution> Resolutions { get; set; }
 
         public int GetTileWidth(string levelId)

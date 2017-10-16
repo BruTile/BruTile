@@ -81,7 +81,11 @@ namespace BruTile.Wms
 
             att = node.Attribute("updateSequence");
             if (att != null)
-                UpdateSequence = int.Parse(att.Value, NumberFormatInfo.InvariantInfo);
+            {
+                int val;
+                if (int.TryParse(att.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out val))
+                    UpdateSequence = val;
+            }
 
             var element = node.Element(XName.Get("Service", @namespace));
             if (element == null)

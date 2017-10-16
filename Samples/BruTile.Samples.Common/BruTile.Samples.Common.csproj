@@ -55,6 +55,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="TileSourceForWmsSample.cs" />
     <Compile Include="Viewport.cs" />
+    <Compile Include="WorldHeritageSwedenTest.cs" />
     <Compile Include="ZoomHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -39,8 +39,9 @@ namespace BruTile.Demo
                     new[] { "1", "2", "3", "4" }, name: "Here Maps Source")));
 
             Layers.Children.Add(ToRadioButton("LM topowebb", LantMaterietTopowebbTileSourceTest.Create));
+            Layers.Children.Add(ToRadioButton("Sweden Natura 2000", () => WorldHeritageSwedenTest.CreateNatura2000TileSource()));
         }
-        
+
         private static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
             return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] {"0", "1", "2", "3"}, 
