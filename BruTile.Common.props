@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <Company>Geodan</Company>
+    <Version>0.22.1</Version>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>Copyright © Geodan 2012-2017</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/BruTile/BruTile</RepositoryUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/9279219?s=200&amp;v=4</PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
+    <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+</Project>
