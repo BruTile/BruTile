@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
-using BruTile.Web.TmsService;
+using BruTile.Tms;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Web.TmsService
+namespace BruTile.Tests.Tms
 {
     [TestFixture]
     class RootTest

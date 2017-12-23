@@ -1,7 +1,9 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using BruTile.Wmts;
 using NUnit.Framework;
@@ -175,3 +177,4 @@ namespace BruTile.Tests.Crs
         }
     }
 }
+#endif
