@@ -4,8 +4,8 @@
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\</SolutionDir>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
-    <PackageTags>tiling gis osm geo</PackageTags>
+    <Description>Extensions for BruTile that require the full .Net Framework</Description>
+    <PackageTags>tiling gis osm geo file ado.net</PackageTags>
     <Authors>Paul den Dulk, Felix Obermaier</Authors>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
