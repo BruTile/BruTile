@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Company>Geodan</Company>
-    <Version>0.22.1</Version>
+    <Version>0.23.0-pre1</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Copyright © Geodan 2012-2017</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt</PackageLicenseUrl>
