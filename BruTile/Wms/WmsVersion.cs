@@ -161,11 +161,11 @@ using (var writer = XmlWriter.Create("file.xml"))
 
 */
 
-        internal void WriteStartRootElement(XmlWriter writer, int? updateSequence)
+        internal void WriteStartRootElement(XmlWriter writer, string updateSequence)
         {
             writer.WriteAttributeString("version", VersionString);
-            if (updateSequence.HasValue)
-                writer.WriteAttributeString("updateSequence", updateSequence.Value.ToString(NumberFormatInfo.InvariantInfo));
+            if (updateSequence != null)
+                writer.WriteAttributeString("updateSequence", updateSequence);
 
             if (Version >= WmsVersionEnum.Version_1_3_0)
             {
