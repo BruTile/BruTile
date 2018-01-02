@@ -9,8 +9,8 @@ namespace BruTile.Wmts
     /// </summary>
     public class CrsAxisOrderRegistry
     {
-        private static readonly int[] Natural = { 0, 1 };
-        private static readonly int[] Geographic = { 1, 0 };
+        private static readonly int[] Natural = {0, 1};
+        private static readonly int[] Geographic = {1, 0};
 
         private static readonly byte[] EpsgAxisOrderBitField =
         {
@@ -230,6 +230,9 @@ namespace BruTile.Wmts
         {
             get
             {
+                const int
+                    maxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
+
                 switch (identifier.Authority.ToUpper())
                 {
                     //case "OGC":
@@ -241,15 +244,19 @@ namespace BruTile.Wmts
                         if (code == 900913) code = 3857;
                         if (code < 0)
                             throw new ArgumentException("Invalid Epsg identifier");
-
-                        var byteIndex = code / 8;
-                        var bitIndex = code % 8;
-                        var flag = 1 << bitIndex;//1 << (7 - bitIndex);
-                        return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Geographic : Natural;
-
+                        if (code > maxSrid)
+                        {
+                            return Natural; // Default to Natural because this is the most common case.
+                        }
+                        else
+                        {
+                            var byteIndex = code / 8;
+                            var bitIndex = code % 8;
+                            var flag = 1 << bitIndex; //1 << (7 - bitIndex);
+                            return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Geographic : Natural;
+                        }
                 }
             }
         }
-
     }
 }

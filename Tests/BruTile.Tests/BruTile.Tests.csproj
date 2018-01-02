@@ -87,5 +87,9 @@
     <None Update="Resources\Wmts\wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wmts\wmts-capabilities-cuzk-cz.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
   </ItemGroup>
 </Project>
