@@ -184,5 +184,19 @@ namespace BruTile.Tests.Wmts
                 Assert.NotNull(tileSchema.Extent);
             }
         }
+
+        [Test]
+        public void TestParsingWmtsCapabilitiesWithDeviatingEpsgCodes()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-cuzk-cz.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                Assert.NotNull(tileSources);
+            }
+        }
     }
 }
