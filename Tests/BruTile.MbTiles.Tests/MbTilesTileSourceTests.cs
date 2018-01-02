@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using BruTile.Predefined;
 using NUnit.Framework;
@@ -10,12 +11,25 @@ namespace BruTile.MbTiles.Tests
     [TestFixture]
     public class MbTilesTileSourceTests
     {
+        [SetUp]
+        public void TestSetUp()
+        {
+            try
+            {
+                SQLitePCL.Batteries.Init();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new IgnoreException("You need to manually provide [x86|x64|arm] sqlite library.", e);
+            }
+        }
+
         [Test]
         public void FetchTiles()
         {
             // arrange
-            SQLitePCL.Batteries.Init();
-            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
+            var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
             var extent = tileSource.Schema.Extent;
             var tileInfos = tileSource.Schema.GetTileInfos(extent, "1").ToList();
@@ -34,8 +48,7 @@ namespace BruTile.MbTiles.Tests
         public void SchemaGeneratedFromMbTiles()
         {
             // arrange
-            SQLitePCL.Batteries.Init();
-            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
+            var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -51,8 +64,7 @@ namespace BruTile.MbTiles.Tests
         public void SchemaGeneratedFromMbTilesContainingSmallArea()
         {
             // arrange
-            SQLitePCL.Batteries.Init();
-            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
+            var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -66,8 +78,7 @@ namespace BruTile.MbTiles.Tests
         public void SchemaGeneratedFromMbTilesContainingSmallAreaWithFewLevels()
         {
             // arrange
-            SQLitePCL.Batteries.Init();
-            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
+            var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false));
@@ -83,7 +94,7 @@ namespace BruTile.MbTiles.Tests
         {
             // arrange
             SQLitePCL.Batteries.Init();
-            string path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
+            var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false), new GlobalSphericalMercator("png", YAxis.TMS, null));
