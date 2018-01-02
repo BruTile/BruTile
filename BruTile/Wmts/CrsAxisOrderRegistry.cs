@@ -9,8 +9,8 @@ namespace BruTile.Wmts
     /// </summary>
     public class CrsAxisOrderRegistry
     {
-        private static readonly int[] Natural = { 0, 1 };
-        private static readonly int[] Geographic = { 1, 0 };
+        private static readonly int[] Natural = {0, 1};
+        private static readonly int[] Geographic = {1, 0};
 
         private static readonly byte[] EpsgAxisOrderBitField =
         {
@@ -221,6 +221,7 @@ namespace BruTile.Wmts
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
+        /// <summary>
         /// Gets the axis order for *all* EPSG defined coordinate reference systems with an srid less than 32768
         /// </summary>
         /// <param name="identifier">The identifier</param>
@@ -229,7 +230,8 @@ namespace BruTile.Wmts
         {
             get
             {
-                const int maxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
+                const int
+                    maxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
 
                 switch (identifier.Authority.ToUpper())
                 {
@@ -255,6 +257,6 @@ namespace BruTile.Wmts
                         }
                 }
             }
-
         }
+    }
 }
