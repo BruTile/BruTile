@@ -15,7 +15,7 @@ namespace BruTile.Wms
     {
         private Service _serviceField;
         private Capability _capabilityField;
-        public int? UpdateSequence { get; set; }
+        public string UpdateSequence { get; set; }
         public ServiceExceptionReport ServiceExceptionReport { get; private set; }
         public WmsVersion Version { get; set; }
 
@@ -79,10 +79,8 @@ namespace BruTile.Wms
                           : string.Empty;
             XmlObject.Namespace = @namespace;
 
-            att = node.Attribute("updateSequence");
-            if (att != null)
-                UpdateSequence = int.Parse(att.Value, NumberFormatInfo.InvariantInfo);
-
+            UpdateSequence = node.Attribute("updateSequence")?.Value;
+             
             var element = node.Element(XName.Get("Service", @namespace));
             if (element == null)
             {
@@ -151,9 +149,7 @@ namespace BruTile.Wms
 
                 var version = reader.GetAttribute("version");
                 var wms = new WmsCapabilities(version);
-                var updateSequence = reader.GetAttribute("updateSequence");
-                if (!string.IsNullOrEmpty(updateSequence))
-                    wms.UpdateSequence = int.Parse(updateSequence, NumberFormatInfo.InvariantInfo);
+                wms.UpdateSequence = reader.GetAttribute("updateSequence");
 
                 if (reader.IsEmptyElement)
                 {
