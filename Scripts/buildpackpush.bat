@@ -9,5 +9,6 @@ CALL buildpack %VERSION%
 %NUGET% push .\..\Release\brutile.mbtiles.%VERSION%.nupkg -source nuget.org
 git commit -m %VERSION% -a
 git tag %VERSION%
+git push origin %VERSION%
 git push
 
