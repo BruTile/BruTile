@@ -229,7 +229,7 @@ namespace BruTile.Wmts
         {
             get
             {
-                const int MaxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
+                const int maxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
 
                 switch (identifier.Authority.ToUpper())
                 {
@@ -242,7 +242,7 @@ namespace BruTile.Wmts
                         if (code == 900913) code = 3857;
                         if (code < 0)
                             throw new ArgumentException("Invalid Epsg identifier");
-                        if (code > MaxSrid)
+                        if (code > maxSrid)
                         {
                             return Natural; // Default to Natural because this is the most common case.
                         }
