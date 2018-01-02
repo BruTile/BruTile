@@ -9,49 +9,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BruTile.sln.DotSettings = BruTile.sln.DotSettings
 		license.txt = license.txt
 		README.md = README.md
-		SharedAssemblyVersion.cs = SharedAssemblyVersion.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop", "BruTile.Desktop\BruTile.Desktop.csproj", "{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Desktop", "BruTile.Desktop\BruTile.Desktop.csproj", "{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "BruTile\BruTile.csproj", "{9FB60E2D-C682-4A01-9584-8B495B8DA85A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile", "BruTile\BruTile.csproj", "{9FB60E2D-C682-4A01-9584-8B495B8DA85A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{57766550-A465-4797-80B7-9D7746D2DCF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.SimpleStaticMap", "Samples\BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3B8883BB-764B-40AA-B7BD-A30F4C9D5808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Tests", "Tests\BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Tests", "Tests\BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop.Tests", "Tests\BruTile.Desktop.Tests\BruTile.Desktop.Tests.csproj", "{C2F848EF-E0AE-4A0C-909B-C9C10AFB2CEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Desktop.Tests", "Tests\BruTile.Desktop.Tests\BruTile.Desktop.Tests.csproj", "{C2F848EF-E0AE-4A0C-909B-C9C10AFB2CEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.MbTiles", "Samples\BruTile.Samples.MbTiles\BruTile.Samples.MbTiles.csproj", "{F450520B-00BE-4FA0-9B40-8AAD5A74F321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Console", "Samples\BruTile.Samples.Console\BruTile.Samples.Console.csproj", "{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A0B43CA3-90D9-4477-9CEE-BF3FCB5A0AB0}"
-	ProjectSection(SolutionItems) = preProject
-		Scripts\BruTile.Desktop.nuspec = Scripts\BruTile.Desktop.nuspec
-		Scripts\BruTile.MbTiles.nuspec = Scripts\BruTile.MbTiles.nuspec
-		Scripts\BruTile.nuspec = Scripts\BruTile.nuspec
-		Scripts\build.proj = Scripts\build.proj
-		Scripts\buildpack.bat = Scripts\buildpack.bat
-		Scripts\buildpackpush.bat = Scripts\buildpackpush.bat
-		Scripts\readme.txt = Scripts\readme.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
