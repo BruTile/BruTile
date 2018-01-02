@@ -221,7 +221,6 @@ namespace BruTile.Wmts
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
-        /// <summary>
         /// Gets the axis order for *all* EPSG defined coordinate reference systems with an srid less than 32768
         /// </summary>
         /// <param name="identifier">The identifier</param>
@@ -230,6 +229,8 @@ namespace BruTile.Wmts
         {
             get
             {
+                const int MaxSrid = 32767; // PDD: I don't know where this number comes from. I based it on the comment below.
+
                 switch (identifier.Authority.ToUpper())
                 {
                     //case "OGC":
@@ -241,15 +242,19 @@ namespace BruTile.Wmts
                         if (code == 900913) code = 3857;
                         if (code < 0)
                             throw new ArgumentException("Invalid Epsg identifier");
-
-                        var byteIndex = code / 8;
-                        var bitIndex = code % 8;
-                        var flag = 1 << bitIndex;//1 << (7 - bitIndex);
-                        return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Geographic : Natural;
-
+                        if (code > MaxSrid)
+                        {
+                            return Natural; // Default to Natural because this is the most common case.
+                        }
+                        else
+                        {
+                            var byteIndex = code / 8;
+                            var bitIndex = code % 8;
+                            var flag = 1 << bitIndex; //1 << (7 - bitIndex);
+                            return (EpsgAxisOrderBitField[byteIndex] & flag) == flag ? Geographic : Natural;
+                        }
                 }
             }
-        }
 
-    }
+        }
 }
