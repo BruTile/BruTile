@@ -13,14 +13,6 @@ PM> Install-Package BruTile
 
 Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
 
-### Projects that use BruTile
-
-* [ArcBruTile](https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
-* [SharpMap](https://github.com/SharpMap/SharpMap) a GIS library
-* [Mapsui](https://github.com/pauldendulk/Mapsui) a slippy map that runs in Silverlight
-* [DotSpatial](https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop](https://hydrodesktop.codeplex.com/)
-* [PDOK](https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
-
 ### Demo
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
@@ -42,14 +34,16 @@ BruTile 1.0 has been released as a PCL with Profile111. This profile targets: .N
 * [WMTS](http://www.opengeospatial.org/standards/wmts)
 * [ArcGIS Tile Server](http://resources.arcgis.com/en/help/rest/apiref/tile.html)
 
-### Known tile sources:
-You can easily create an `ITileSource` for a number of specific tile servers with statements like:
-
-    var tileSource1 = KnownTileSources.Create(KnownTileSource.OpenStreetMap)
-    var tileSource2 = KnownTileSources.Create(KnownTileSource.MapQuestAerial)
-    var tileSource3 = KnownTileSources.Create(KnownTileSource.BingHybrid)
-    var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite)
-    var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
-
 ### Roadmap
 - Stability of v1 and v2 is currently our primary focus.
+
+### Projects that use BruTile
+
+* [ArcBruTile](https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
+* [SharpMap](https://github.com/SharpMap/SharpMap) a GIS library
+* [Mapsui](https://github.com/pauldendulk/Mapsui) a MapComponent for Xamarin.Android. Xamarin.iOS, UWP and WPF
+* [DotSpatial](https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop](https://hydrodesktop.codeplex.com/)
+* [PDOK](https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
+
+### License
+[Apache 2.0](https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt)
