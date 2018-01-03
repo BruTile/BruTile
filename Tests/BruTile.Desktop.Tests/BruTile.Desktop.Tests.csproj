@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <TargetFrameworkToTest>net45</TargetFrameworkToTest>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RootNamespace>BruTile.Tests</RootNamespace>
