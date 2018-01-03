@@ -1,4 +1,4 @@
-#if NET45
+#if HAS_SYSTEM_DATA
 using System;
 using System.Data.SQLite;
 using System.Globalization;

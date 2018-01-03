@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <TargetFrameworkToTest>net45</TargetFrameworkToTest>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RootNamespace>BruTile.Tests</RootNamespace>
@@ -20,6 +20,10 @@
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <ProjectReference Include="..\..\BruTile.Desktop.DbCache\BruTile.Desktop.DbCache.csproj" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
