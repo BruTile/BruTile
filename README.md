@@ -24,9 +24,15 @@ Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-S
 ### Demo
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
-### Portable Class Library (PCL), Net-Standard
-BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic)
-The project no longer support plain PCL. The project has been refactored and now BruTile is delivered as __netStandard1.1__ library.
+### BruTile 2.0 (prerelease) as .NET Standard
+BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
+- BruTile .NET Standard 1.1
+- BruTile.MbTiles .NET Standard 1.1
+- BruTile.Desktop .NET Standard 1.6
+- BruTile.Desktop.DbCache .NET Standard 2.0
+
+### BruTile 1.0 as Portable Class Library (PCL)
+BruTile 1.0 has been released as a PCL with Profile111. This profile targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic).
 
 ### Supported tile service protocols:
 * [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification)
@@ -47,12 +53,8 @@ You can easily create an `ITileSource` for a number of specific tile servers wit
 
 ### Roadmap
 Here are our future plans: 
+- Stability of v1 and v2 is currently our primary focus.
 
-* Update automatic TileSchema generation to bring WMTS, WMS, TMS and WMSC in line.
-* Rename all classes to get them in line with WMTS types.
-* Better samples
-* Better documentation
-* Release v1
 
 ### Warnings
 Note, this library is work in progress. It is in BETA.
