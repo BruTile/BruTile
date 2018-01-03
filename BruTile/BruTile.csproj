@@ -7,6 +7,9 @@
     <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
     <PackageTags>tiling gis osm geo</PackageTags>
     <Authors>Paul den Dulk, Felix Obermaier</Authors>
+    <Copyright>Copyright © BruTile developers team 2008-2017</Copyright>
+    <Version>2.0.0-alpha1</Version>
+    <Company>BruTile</Company>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
