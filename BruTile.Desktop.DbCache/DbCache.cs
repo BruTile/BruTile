@@ -389,11 +389,8 @@ namespace BruTile.Cache
                     pNew.Scale = parameter.Scale;
                     pNew.Size = parameter.Size;
                     pNew.SourceColumn = parameter.SourceColumn;
-#if !(SILVERLIGHT || WINDOWS_PHONE)
                     pNew.SourceVersion = parameter.SourceVersion;
-#endif
                     //pNew.Value = ()parameter.Value.
-
                     newItem.Parameters.Add(pNew);
                 }
                 _maxStore++;

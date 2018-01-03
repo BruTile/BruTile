@@ -109,8 +109,6 @@ namespace BruTile.Cache
             return false;
         }
 
-#if !NET35
-
         public string GetFileName(TileIndex index)
         {
             return Path.Combine(GetDirectoryName(index), 
@@ -125,20 +123,6 @@ namespace BruTile.Cache
                 level, 
                 index.Col.ToString(CultureInfo.InvariantCulture));
         }
-
-#else
-        public string GetFileName(TileIndex index)
-        {
-            return string.Format(CultureInfo.InvariantCulture,
-                                 "{0}\\{1}.{2}", GetDirectoryName(index), index.Row, _format);
-        }
-        
-        private string GetDirectoryName(TileIndex index)
-        {
-            return string.Format(CultureInfo.InvariantCulture,
-                                 "{0}\\{1}\\{2}", _directory, index.Level, index.Col);
-        }
-#endif
 
         private void WriteToFile(byte[] image, TileIndex index)
         {

@@ -68,12 +68,7 @@ namespace BruTile
         {
             get
             {
-#if !NET35 && !NET40
                 var assembly = typeof(Utilities).GetTypeInfo().Assembly;
-#else
-                // In some PCL profiles the above line is: 
-                var assembly = typeof(Utilities).Assembly;
-#endif
                 var assemblyName = new AssemblyName(assembly.FullName);
                 return assemblyName.Version.Major + "." + assemblyName.Version.Minor;
             }
