@@ -29,7 +29,7 @@ namespace BruTile.Wmts
         public string Name { get; }
 
         /// <summary>
-        /// Gets a scale value to transform this Unit of measure to <see cref="Meter"/>
+        /// Gets a scale value to transform this Unit of measure to <see cref="ToMeter"/>
         /// </summary>
         public double ToMeter => _toMeter;
 

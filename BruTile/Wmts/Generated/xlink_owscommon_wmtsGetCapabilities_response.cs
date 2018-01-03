@@ -2599,18 +2599,6 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         }
 
         /// <remarks/>
-        [XmlText()]
-        [XmlAnyElement()]
-        //public System.Xml.XmlNode[] Any {
-        //    get {
-        //        return this.anyField;
-        //    }
-        //    set {
-        //        this.anyField = value;
-        //    }
-        //}
-
-        /// <remarks/>
         [XmlAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified)]
         public typeType type
         {
@@ -2739,18 +2727,6 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         {
             this.typeField = typeType.simple;
         }
-
-        /// <remarks/>
-        //[System.Xml.Serialization.XmlTextAttribute()]
-        //[System.Xml.Serialization.XmlAnyElementAttribute()]
-        //public System.Xml.XmlNode[] Any {
-        //    get {
-        //        return this.anyField;
-        //    }
-        //    set {
-        //        this.anyField = value;
-        //    }
-        //}
 
         /// <remarks/>
         [XmlAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified)]
