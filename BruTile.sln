@@ -49,7 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Tools", "05_Tools", "{6E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Build", "06_Build", "{B583AE04-DFDB-4232-9888-2FEDA348165F}"
 	ProjectSection(SolutionItems) = preProject
-		Build\buildpackpush.bat = Build\buildpackpush.bat
+		Build\buildpackpush.cmd = Build\buildpackpush.cmd
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetVersionFromAssembly", "Tools\GetVersionFromAssembly\GetVersionFromAssembly.csproj", "{DB13792C-8391-4D3A-AC4A-DA910E9464DC}"
