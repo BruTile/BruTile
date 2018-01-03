@@ -9,6 +9,7 @@
     <Authors>Paul den Dulk, Felix Obermaier</Authors>
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <RootNamespace>BruTile.Cache</RootNamespace>
+    <Company />
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
