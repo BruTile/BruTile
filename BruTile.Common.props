@@ -20,4 +20,12 @@
     <OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
     <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <DefineConstants>$(DefineConstants);HAS_SERIALIZEABLE_ATTRIBUTE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);HAS_SYSTEM_DATA;HAS_SERIALIZEABLE_ATTRIBUTE</DefineConstants>
+  </PropertyGroup>
+
 </Project>

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
   <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\</SolutionDir>
-  <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
+  <TargetFrameworks>net45;netstandard1.1</TargetFrameworks>
   <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   <Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
   <PackageTags>tiling brutile mbtiles</PackageTags>

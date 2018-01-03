@@ -1,3 +1,4 @@
+#if HAS_SYSTEM_DATA
 // Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2009.
@@ -468,3 +469,4 @@ namespace BruTile.Cache
         #endregion
     }
 }
+#endif

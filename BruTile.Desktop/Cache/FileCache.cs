@@ -3,16 +3,22 @@
 using System;
 using System.Globalization;
 using System.IO;
+#if HAS_SERIALIZABLE_ATTRIBUTE
 using System.Reflection;
 using System.Runtime.Serialization;
+#endif
 using System.Threading;
 
 namespace BruTile.Cache
 {
+#if HAS_SERIALIZABLE_ATTRIBUTE
     [Serializable]
+#endif
     public class FileCache : IPersistentCache<byte[]>
     {
+#if HAS_SERIALIZABLE_ATTRIBUTE
         [NonSerialized]
+#endif
         private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
         private readonly string _directory;
         private readonly string _format;
@@ -113,7 +119,7 @@ namespace BruTile.Cache
 
         private string GetDirectoryName(TileIndex index)
         {
-            var level = index.Level.ToString(CultureInfo.InvariantCulture);
+            var level = index.Level;//.ToString(CultureInfo.InvariantCulture);
             level = level.Replace(':', '_');
             return Path.Combine(_directory, 
                 level, 
@@ -136,11 +142,11 @@ namespace BruTile.Cache
 
         private void WriteToFile(byte[] image, TileIndex index)
         {
-            using (FileStream fileStream = File.Open(GetFileName(index), FileMode.Create))
+            using (var fileStream = File.Open(GetFileName(index), FileMode.Create))
             {
                 fileStream.Write(image, 0, image.Length);
                 fileStream.Flush();
-                fileStream.Close();
+                //fileStream.Close();
             }
         }
 
@@ -162,6 +168,7 @@ namespace BruTile.Cache
         }
 #endif
 
+#if HAS_SERIALIZABLE_ATTRIBUTE
         [OnDeserialized]
         protected void OnDeserialized(StreamingContext context)
         {
@@ -169,5 +176,6 @@ namespace BruTile.Cache
             System.Diagnostics.Debug.Assert(fi != null);
             fi.SetValue(this, new ReaderWriterLockSlim());
         }
+#endif
     }
 }
