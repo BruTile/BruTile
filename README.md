@@ -53,12 +53,3 @@ You can easily create an `ITileSource` for a number of specific tile servers wit
 
 ### Roadmap
 - Stability of v1 and v2 is currently our primary focus.
-
-
-### Warnings
-Note, this library is work in progress. It is in BETA.
-
-* At the moment there is no documentation.
-* We will introduce breaking changed frequently. We change the API whenever we feel this is an improvement.
-* We adopt new technologies relatively fast, dropping support for older frameworks.
-* Although I do have a general plan of where to go with this library I do not have the resources to go towards that goal in a systematic way. I add functionality depending on what is needed in the projects I work on.
