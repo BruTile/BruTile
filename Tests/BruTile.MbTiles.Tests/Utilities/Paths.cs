@@ -10,15 +10,11 @@ namespace BruTile.Tests.Utilities
         {
             get
             {
-#if NET45
                 var asm = typeof(Paths).GetTypeInfo().Assembly;
                 var codeBase = asm.CodeBase;
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
-#else
-                return AppContext.BaseDirectory;
-#endif
             }
         }
     }

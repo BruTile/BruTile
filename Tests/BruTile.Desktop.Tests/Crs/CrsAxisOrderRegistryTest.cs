@@ -1,5 +1,4 @@
-﻿#if NET45
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +57,6 @@ namespace BruTile.Tests.Crs
             var buffer = new byte[4096];
             ba.CopyTo(buffer, 0);
 
-#if NET45
             using (var bufferStream = new MemoryStream(buffer))
             {
                 using (var compressedStream = new MemoryStream())
@@ -73,7 +71,7 @@ namespace BruTile.Tests.Crs
                     WriteBlocks(enc);
                 }
             }
-#endif
+
             Console.WriteLine("\nByte array");
             WriteBytes(buffer, 20);
 
@@ -177,4 +175,3 @@ namespace BruTile.Tests.Crs
         }
     }
 }
-#endif

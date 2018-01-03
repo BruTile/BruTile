@@ -1,5 +1,4 @@
-﻿#if NET45
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using BruTile.Wmts;
@@ -174,4 +173,3 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
         }
     }
 }
-#endif
