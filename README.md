@@ -52,7 +52,6 @@ You can easily create an `ITileSource` for a number of specific tile servers wit
     var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 
 ### Roadmap
-Here are our future plans: 
 - Stability of v1 and v2 is currently our primary focus.
 
 
