@@ -41,9 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Performance.Desktop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Library", "01_Library", "{19780978-0590-4DCF-85A6-5D2941A1085C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Source", "01_Source", "{19780978-0590-4DCF-85A6-5D2941A1085C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop.DbCache", "BruTile.Desktop.DbCache\BruTile.Desktop.DbCache.csproj", "{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Desktop.DbCache", "BruTile.Desktop.DbCache\BruTile.Desktop.DbCache.csproj", "{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
