@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using BruTile.Cache;
 using NUnit.Framework;
 
@@ -88,14 +89,15 @@ namespace BruTile.Tests.Cache
 
         public void FindTiles()
         {
-            var sw = new Stopwatch();
             var waitHandle = new AutoResetEvent(false);
-            sw.Start();
+            var sw = new Stopwatch();
             var count = 0;
             foreach (var ti in GetRandomTileIndices(NumberToSearch))
             {
-                ThreadPool.QueueUserWorkItem(FindTileOnTread, new object[] { ti, waitHandle, ++count });
+                var task = new Task(FindTileOnTread, new object[] {ti, waitHandle, ++count});
+                task.Start();
             }
+
             waitHandle.WaitOne();
             sw.Stop();
             Console.WriteLine("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds);

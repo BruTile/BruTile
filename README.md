@@ -24,8 +24,9 @@ Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-S
 ### Demo
 For a demo download the source code and run BruTile.Demo in the Samples folder
 
-### Portable Class Library (PCL)
+### Portable Class Library (PCL), Net-Standard
 BruTile is a PCL with Profile111 which targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic)
+The project no longer support plain PCL. The project has been refactored and now BruTile is delivered as __netStandard1.1__ library.
 
 ### Supported tile service protocols:
 * [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification)

@@ -1,3 +1,4 @@
+#if HAS_SYSTEM_DATA
 using System;
 using System.Data.SQLite;
 using System.Globalization;
@@ -80,3 +81,4 @@ namespace BruTile.Tests.Cache
         }
     }
 }
+#endif

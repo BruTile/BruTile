@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+  <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\</SolutionDir>
+  <TargetFrameworks>net45;netstandard1.1</TargetFrameworks>
+  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  <Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
+  <PackageTags>tiling brutile mbtiles</PackageTags>
+  <Authors>Paul den Dulk, Felix Obermaier</Authors>
+  <NoWarn>1701;1702;1705;1591</NoWarn>
+</PropertyGroup>
+
+<Import Project="$(SolutionDir)BruTile.Common.props" />
+
+<ItemGroup>
+  <ProjectReference Include="..\BruTile\BruTile.csproj" />
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Properties\" />
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="sqlite-net-standard" Version="1.5.1" />
+</ItemGroup>
+</Project>

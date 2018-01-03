@@ -2,55 +2,48 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Common", "00_Common", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		BruTile.Common.props = BruTile.Common.props
 		BruTile.sln.DotSettings = BruTile.sln.DotSettings
 		license.txt = license.txt
 		README.md = README.md
-		SharedAssemblyVersion.cs = SharedAssemblyVersion.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop", "BruTile.Desktop\BruTile.Desktop.csproj", "{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Desktop", "BruTile.Desktop\BruTile.Desktop.csproj", "{2F6D9E1C-2001-40C8-89BA-FDF8597BB719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile", "BruTile\BruTile.csproj", "{9FB60E2D-C682-4A01-9584-8B495B8DA85A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile", "BruTile\BruTile.csproj", "{9FB60E2D-C682-4A01-9584-8B495B8DA85A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Samples", "03_Samples", "{136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{57766550-A465-4797-80B7-9D7746D2DCF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.SimpleStaticMap", "Samples\BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3B8883BB-764B-40AA-B7BD-A30F4C9D5808}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Tests", "02_Tests", "{3B8883BB-764B-40AA-B7BD-A30F4C9D5808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Tests", "Tests\BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Tests", "Tests\BruTile.Tests\BruTile.Tests.csproj", "{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop.Tests", "Tests\BruTile.Desktop.Tests\BruTile.Desktop.Tests.csproj", "{C2F848EF-E0AE-4A0C-909B-C9C10AFB2CEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Desktop.Tests", "Tests\BruTile.Desktop.Tests\BruTile.Desktop.Tests.csproj", "{C2F848EF-E0AE-4A0C-909B-C9C10AFB2CEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.MbTiles", "Samples\BruTile.Samples.MbTiles\BruTile.Samples.MbTiles.csproj", "{F450520B-00BE-4FA0-9B40-8AAD5A74F321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Pcl", "BruTile.MbTiles.Pcl\BruTile.MbTiles.Pcl.csproj", "{8F0D52B5-70B3-4469-BBAF-80908B223CF6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Console", "Samples\BruTile.Samples.Console\BruTile.Samples.Console.csproj", "{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Performance", "04_Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{7114313B-7563-4D86-B052-5E5667D7E17C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A0B43CA3-90D9-4477-9CEE-BF3FCB5A0AB0}"
-	ProjectSection(SolutionItems) = preProject
-		Scripts\BruTile.Desktop.nuspec = Scripts\BruTile.Desktop.nuspec
-		Scripts\BruTile.MbTiles.nuspec = Scripts\BruTile.MbTiles.nuspec
-		Scripts\BruTile.nuspec = Scripts\BruTile.nuspec
-		Scripts\build.proj = Scripts\build.proj
-		Scripts\buildpack.bat = Scripts\buildpack.bat
-		Scripts\buildpackpush.bat = Scripts\buildpackpush.bat
-		Scripts\readme.txt = Scripts\readme.txt
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Library", "01_Library", "{19780978-0590-4DCF-85A6-5D2941A1085C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Desktop.DbCache", "BruTile.Desktop.DbCache\BruTile.Desktop.DbCache.csproj", "{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,10 +83,6 @@ Global
 		{F450520B-00BE-4FA0-9B40-8AAD5A74F321}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F450520B-00BE-4FA0-9B40-8AAD5A74F321}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F450520B-00BE-4FA0-9B40-8AAD5A74F321}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F0D52B5-70B3-4469-BBAF-80908B223CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F0D52B5-70B3-4469-BBAF-80908B223CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F0D52B5-70B3-4469-BBAF-80908B223CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F0D52B5-70B3-4469-BBAF-80908B223CF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,11 +95,21 @@ Global
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7114313B-7563-4D86-B052-5E5667D7E17C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2F6D9E1C-2001-40C8-89BA-FDF8597BB719} = {19780978-0590-4DCF-85A6-5D2941A1085C}
+		{9FB60E2D-C682-4A01-9584-8B495B8DA85A} = {19780978-0590-4DCF-85A6-5D2941A1085C}
 		{57766550-A465-4797-80B7-9D7746D2DCF3} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{11C2C7B4-3A50-4984-9466-478526091EE2} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
@@ -120,6 +119,8 @@ Global
 		{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F} = {3B8883BB-764B-40AA-B7BD-A30F4C9D5808}
 		{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{7114313B-7563-4D86-B052-5E5667D7E17C} = {E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}
+		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1} = {19780978-0590-4DCF-85A6-5D2941A1085C}
+		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0} = {19780978-0590-4DCF-85A6-5D2941A1085C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73DFC204-2E2B-4AE0-A5AD-99FE18C3F923}
