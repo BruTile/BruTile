@@ -8,7 +8,6 @@ using System.Text;
 using System.Xml.Linq;
 using BruTile.Web;
 using BruTile.Wms;
-using Exception = System.Exception;
 
 namespace BruTile.Wmsc
 {
@@ -24,8 +23,7 @@ namespace BruTile.Wmsc
             var wmsCapabilities = new WmsCapabilities(uri);
             var cap = wmsCapabilities.Capability;
             var ec = cap.ExtendedCapabilities;
-            XNode vsc = null;
-            if (!ec.TryGetValue(XName.Get("VendorSpecificCapabilities"), out vsc))
+            if (!ec.TryGetValue(XName.Get("VendorSpecificCapabilities"), out var vsc))
                 throw new WmsParsingException("Node 'VendorSpecificCapabilities' not found in wms capabilty document");
 
             return ParseVendorSpecificCapabilitiesNode(

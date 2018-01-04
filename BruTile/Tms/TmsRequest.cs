@@ -84,7 +84,7 @@ namespace BruTile.Tms
             }
             else
             {
-                url.Append(_baseUrls[levelId].ToString());
+                url.Append(_baseUrls[levelId]);
                 if (!_baseUrls[levelId].ToString().EndsWith("/")) url.Append("/");
             }
             return url.ToString();

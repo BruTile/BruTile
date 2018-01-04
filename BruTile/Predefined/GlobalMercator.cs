@@ -109,8 +109,7 @@ namespace BruTile.Predefined
                 results[i] = new Resolution(
                     levels[i].ToString(),
                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                    2*ScaleFactor/(1 << levels[i]),
-                    TileSize, TileSize);
+                    2*ScaleFactor/(1 << levels[i]));
                                  
             return results;
         }
