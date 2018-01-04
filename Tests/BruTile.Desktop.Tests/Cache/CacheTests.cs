@@ -102,15 +102,15 @@ namespace BruTile.Tests.Cache
             Console.WriteLine("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds);
         }
 
-        private static readonly Random Random = new Random(93765783);
+        private readonly Random _random = new Random(93765783);
 
-        private static IEnumerable<TileIndex> GetRandomTileIndices(int numberOfTileInfos)
+        private IEnumerable<TileIndex> GetRandomTileIndices(int numberOfTileInfos)
         {
             for (var i = 0; i < numberOfTileInfos; i++)
             {
-                var level = Random.Next(MaxLevel);
+                var level = _random.Next(MaxLevel);
                 var maxValue = (int)Math.Pow(2, level);
-                yield return new TileIndex(Random.Next(maxValue), Random.Next(maxValue), level.ToString(CultureInfo.InvariantCulture));
+                yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level.ToString(CultureInfo.InvariantCulture));
             }
         }
 

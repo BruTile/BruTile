@@ -18,7 +18,16 @@ namespace BruTile.Cache
 
         private long _cacheVersion;
         
-        public int TileCount => _bitmaps.Count;
+        public int TileCount
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _bitmaps.Count;
+                }
+            }
+        }
 
         public int MinTiles { get; set; }
         public int MaxTiles { get; set; }

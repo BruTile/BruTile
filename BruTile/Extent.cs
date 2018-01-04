@@ -7,37 +7,38 @@ namespace BruTile
 {
     public struct Extent
     {
-        public double MinX { get; private set; }
-        public double MinY { get; private set; }
-        public double MaxX { get; private set; }
-        public double MaxY { get; private set; }
+        private readonly double _minX;
+        private readonly double _minY;
+        private readonly double _maxX;
+        private readonly double _maxY;
 
-        public double CenterX
+        public double MinX
         {
-            get { return (MinX + MaxX)/2.0; }
+            get { return _minX; }
         }
 
-        public double CenterY
+        public double MinY
         {
-            get { return (MinY + MaxY)/2.0; }
+            get { return _minY; }
         }
 
-        public double Width
+        public double MaxX
         {
-            get { return MaxX - MinX; }
+            get { return _maxX; }
         }
 
-        public double Height
+        public double MaxY
         {
-            get { return MaxY - MinY; }
+            get { return _maxY; }
         }
 
-        public double Area
-        {
-            get { return Width*Height; }
-        }
+        public double CenterX => (MinX + MaxX) / 2.0;
+        public double CenterY => (MinY + MaxY) / 2.0;
+        public double Width => MaxX - MinX;
+        public double Height => MaxY - MinY;
+        public double Area => Width * Height;
 
-        public Extent Intersect(Extent other) 
+        public Extent Intersect(Extent other)
         {
             return new Extent(
                 Math.Max(MinX, other.MinX),
@@ -48,10 +49,10 @@ namespace BruTile
 
         public Extent(double minX, double minY, double maxX, double maxY) : this()
         {
-            MinX = minX;
-            MinY = minY;
-            MaxX = maxX;
-            MaxY = maxY;
+            _minX = minX;
+            _minY = minY;
+            _maxX = maxX;
+            _maxY = maxY;
 
             if (minX > maxX || minY > maxY)
             {
@@ -80,27 +81,27 @@ namespace BruTile
             {
                 return false;
             }
-            return Equals((Extent) obj);
+            return Equals((Extent)obj);
         }
 
         public bool Equals(Extent extent)
         {
-            if (MinX != extent.MinX)
+            if (_minX != extent.MinX)
             {
                 return false;
             }
 
-            if (MinY != extent.MinY)
+            if (_minY != extent.MinY)
             {
                 return false;
             }
 
-            if (MaxX != extent.MaxX)
+            if (_maxX != extent.MaxX)
             {
                 return false;
             }
 
-            if (MaxY != extent.MaxY)
+            if (_maxY != extent.MaxY)
             {
                 return false;
             }

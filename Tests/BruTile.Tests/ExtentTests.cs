@@ -30,7 +30,11 @@ namespace BruTile.Tests
         public void TestMinSmallerThanMax()
         {
             // arrange + act + assert
-            Assert.Throws<ArgumentException> (() => new Extent(-180, 90, 180, -90));
+            Assert.Throws<ArgumentException> (() =>
+            {
+                var extent = new Extent(-180, 90, 180, -90);
+                Assert.IsNotNull(extent);
+            });
         }
     }
 }

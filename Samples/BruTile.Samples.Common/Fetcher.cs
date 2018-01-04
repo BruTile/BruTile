@@ -84,7 +84,13 @@ namespace BruTile.Samples.Common
 
                 if (tilesMissing.Count == 0) { _waitHandle.Reset(); }
 
-                if (_tilesInProgress.Count >= MaxThreads) { _waitHandle.Reset(); }
+                lock (_tilesInProgress)
+                {
+                    if (_tilesInProgress.Count >= MaxThreads)
+                    {
+                        _waitHandle.Reset();
+                    }
+                }
             }
         }
 
@@ -100,7 +106,10 @@ namespace BruTile.Samples.Common
         {
             foreach (TileInfo info in tilesMissing)
             {
-                if (_tilesInProgress.Count >= MaxThreads) return;
+                lock (_tilesInProgress)
+                {
+                    if (_tilesInProgress.Count >= MaxThreads) return;
+                }
                 FetchTile(info);
             }
         }
