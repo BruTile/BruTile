@@ -10,7 +10,7 @@ using System.Linq;
 using BruTile.Predefined;
 using SQLite;
 
-namespace BruTile
+namespace BruTile.MbTiles
 {
     /// <summary>
     /// An <see cref="ITileSource"/> implementation for MapBox Tiles files

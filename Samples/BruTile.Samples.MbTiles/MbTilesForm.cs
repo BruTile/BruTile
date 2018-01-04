@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using BruTile.MbTiles;
 using SQLite;
 
 namespace BruTile.Samples.MbTiles

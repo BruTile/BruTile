@@ -2,7 +2,7 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
-namespace BruTile
+namespace BruTile.MbTiles
 {
     /// <summary>
     /// Image format of tiles
