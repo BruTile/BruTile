@@ -185,7 +185,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string @namespace)
         {
-            var elements = new List<XElement>(
+            var elements = new List<object>(
                 new[] {
                         new XElement(XName.Get("Name", @namespace), Name),
                         new XElement(XName.Get("Title", @namespace), Title),

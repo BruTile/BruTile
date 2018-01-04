@@ -160,7 +160,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string @namespace)
         {
-            var elements = new List<XElement>();
+            var elements = new List<object>();
             if (!ContactPersonPrimary.IsEmpty) elements.Add(ContactPersonPrimary.ToXElement(@namespace));
             if (!string.IsNullOrEmpty("ContactPosition")) elements.Add(new XElement(XName.Get("ContactPosition", @namespace), ContactPosition));
             if (!ContactAddress.IsEmpty) elements.Add(ContactAddress.ToXElement(@namespace));

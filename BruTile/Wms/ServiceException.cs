@@ -12,7 +12,7 @@ namespace BruTile.Wms
         {
         }
 
-        public ServiceException(XElement node, string @namespace)
+        public ServiceException(XElement node, string ns)
         {
             var att = node.Attribute("code");
             Code = att != null ? att.Value : string.Empty;

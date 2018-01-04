@@ -330,16 +330,16 @@ namespace BruTile.Wmts
         private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, 
             int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
-            
             // Get the coordinates
             var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
             
             // Try to get units per pixel from passed scale set
             var unitsPerPixel = tileMatrix.ScaleDenominator*ScaleHint/metersPerUnit;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
             {
-                if (ss == null)
-                    throw new ArgumentNullException();
+                if (ss == null) throw new ArgumentNullException();
+
                 unitsPerPixel = ss[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
             }
 

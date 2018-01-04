@@ -114,7 +114,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string @namespace)
         {
-            var lst = new List<XElement>();
+            var lst = new List<object>();
             if (!string.IsNullOrEmpty(AddressType))
                 lst.Add(new XElement(XName.Get("AddressType", @namespace), Address));
             if (!string.IsNullOrEmpty(Address))

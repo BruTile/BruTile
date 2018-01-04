@@ -14,7 +14,7 @@ namespace BruTile.Wms
         public BoundingBox()
         { }
 
-        public BoundingBox(XElement node, string nameSpace)
+        public BoundingBox(XElement node, string ns)
         {
             var att = node.Attribute(XName.Get("CRS"));
             if (att == null) att = node.Attribute(XName.Get("crs"));

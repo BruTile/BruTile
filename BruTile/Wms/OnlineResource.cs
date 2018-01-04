@@ -12,7 +12,7 @@ namespace BruTile.Wms
             Type = "simple";
         }
 
-        public OnlineResource(XElement node, string nameSpace)
+        public OnlineResource(XElement node, string ns)
         {
             var att = node.Attribute(XName.Get("href", WmsNamespaces.Xlink));
             Href = att.Value;

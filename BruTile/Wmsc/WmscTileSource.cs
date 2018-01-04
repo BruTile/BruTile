@@ -89,16 +89,14 @@ namespace BruTile.Wmsc
             var xBoundingBox = xTileSet.Element("BoundingBox");
             if (xBoundingBox != null)
             {
-                double minx, miny, maxx, maxy;
-                if (
-                    !double.TryParse(xBoundingBox.Attribute("minx").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out minx) &
-                    !double.TryParse(xBoundingBox.Attribute("miny").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out miny) &
-                    !double.TryParse(xBoundingBox.Attribute("maxx").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out maxx) &
-                    !double.TryParse(xBoundingBox.Attribute("maxy").Value, NumberStyles.Any, CultureInfo.InvariantCulture,
-                                     out maxy))
+                if (!double.TryParse(xBoundingBox.Attribute("minx")?.Value, NumberStyles.Any, 
+                    CultureInfo.InvariantCulture, out var minx) &
+                    !double.TryParse(xBoundingBox.Attribute("miny")?.Value, NumberStyles.Any, 
+                    CultureInfo.InvariantCulture, out var miny) &
+                    !double.TryParse(xBoundingBox.Attribute("maxx")?.Value, NumberStyles.Any, 
+                    CultureInfo.InvariantCulture, out var maxx) &
+                    !double.TryParse(xBoundingBox.Attribute("maxy")?.Value, NumberStyles.Any, 
+                    CultureInfo.InvariantCulture, out var maxy))
                 {
                     throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
                 }
