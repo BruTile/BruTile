@@ -6,7 +6,7 @@ BruTile is a C# open source library to access tile services like OpenStreetMap a
 
 ### Getting Started
 
-Take a look here on the [wiki](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
+Take a look [here](https://github.com/BruTile/BruTile/wiki/Getting-Started-with-BruTile)
 
 ### Demo
 For a demo download the source code and run BruTile.Demo in the Samples folder
