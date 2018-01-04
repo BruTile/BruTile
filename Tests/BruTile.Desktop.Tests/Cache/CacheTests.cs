@@ -58,9 +58,8 @@ namespace BruTile.Tests.Cache
             var sw = new Stopwatch();
 
             var tk = new TileIndex(1, 2, "2");
-            byte[] bm = Cache.Find(tk);
             sw.Start();
-            bm = Cache.Find(tk);
+            var bm = Cache.Find(tk);
             sw.Stop();
             Assert.IsNotNull(bm);
             Assert.AreEqual(TileSizeX * TileSizeY * BitsPerPixel, bm.Length);

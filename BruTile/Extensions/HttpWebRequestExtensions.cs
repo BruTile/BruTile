@@ -73,8 +73,6 @@ namespace BruTile.Extensions
                 {
                     if (response != null)
                         return response;
-                    if (request != null)
-                        request.Abort();
                 }
                 catch
                 {

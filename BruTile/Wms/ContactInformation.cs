@@ -99,7 +99,6 @@ namespace BruTile.Wms
             {
                 if (reader.IsStartElement())
                 {
-                    var isEmpty = reader.IsEmptyElement;
                     switch (reader.LocalName)
                     {
                         case "ContactPersonPrimary":
