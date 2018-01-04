@@ -17,6 +17,8 @@ namespace BruTile.Samples.Common
         // Methods
         public void Add(T item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             // We don't care for the value in dictionary, Keys matter.
             _dictionary.Add(item, 0);
         }

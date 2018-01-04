@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace BruTile.Tms
@@ -18,15 +19,15 @@ namespace BruTile.Tms
             
             XDocument xml = XDocument.Parse(new StreamReader(result).ReadToEnd());
 
-            tileMapService.TileMaps =
-                from tileMap in xml.Root.Descendants("TileMap")
-                select new TileMapItem
-                {
-                    Href = tileMap.Attribute("href").Value,
-                    Srs = tileMap.Attribute("srs").Value,
-                    Title = tileMap.Attribute("title").Value,
-                    Profile = tileMap.Attribute("profile").Value
-                };
+            if (xml.Root == null) throw new XmlException("TMS xml root is null");
+
+            tileMapService.TileMaps = xml.Root.Descendants("TileMap").Select(tileMap => new TileMapItem
+            {
+                Href = tileMap.Attribute("href")?.Value,
+                Srs = tileMap.Attribute("srs")?.Value,
+                Title = tileMap.Attribute("title")?.Value,
+                Profile = tileMap.Attribute("profile")?.Value
+            });
 
             return tileMapService;
         }

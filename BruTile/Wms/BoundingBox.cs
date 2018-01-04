@@ -46,7 +46,7 @@ namespace BruTile.Wms
 
         public override XElement ToXElement(string nameSpace)
         {
-            var attributes = new List<XAttribute>
+            var attributes = new List<object>
                                  {
                                      new XAttribute("CRS", CRS),
                                      new XAttribute("minx", MinX.ToString(NumberFormatInfo.InvariantInfo)),

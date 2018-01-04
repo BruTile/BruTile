@@ -45,7 +45,6 @@ namespace BruTile.Demo
             ClipToBounds = true;
             _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
             _fetcher.DataChanged += FetcherOnDataChanged;
-            _invalid = true;
         }
 
         public void SetTileSource(ITileSource source)

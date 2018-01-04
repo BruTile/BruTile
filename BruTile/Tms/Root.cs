@@ -1,6 +1,5 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,24 +18,13 @@ namespace BruTile.Tms
             var services = new Root();
             if (xml.Root != null)
             {
-                services.TileMapServices =
-                    from tileMapService in xml.Root.Descendants("TileMapService")
-                    select new TileMapServiceItem
+                services.TileMapServices = xml.Root.Descendants("TileMapService")
+                    .Select(tileMapService => new TileMapServiceItem
                     {
-                        Href =
-                            (tileMapService.Attribute("href") != null)
-                                ? tileMapService.Attribute("href").Value
-                                : String.Empty,
-                        Title =
-                            (tileMapService.Attribute("title") != null)
-                                ? tileMapService.Attribute("title").Value
-                                : String.Empty,
-                        Version =
-                            (tileMapService.Attribute("version") != null)
-                                ? tileMapService.Attribute("version").Value
-                                : String.Empty,
-                    };
-
+                        Href = tileMapService.Attribute("href")?.Value ?? string.Empty,
+                        Title = tileMapService.Attribute("title")?.Value ?? string.Empty,
+                        Version = tileMapService.Attribute("version")?.Value ?? string.Empty,
+                    });
             }
             return services;
         }

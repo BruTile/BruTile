@@ -14,11 +14,8 @@ namespace BruTile.Wms
 
         public OnlineResource(XElement node, string ns)
         {
-            var att = node.Attribute(XName.Get("href", WmsNamespaces.Xlink));
-            Href = att.Value;
-            att = node.Attribute(XName.Get("type", WmsNamespaces.Xlink));
-            if (att != null)
-                Type = att.Value;
+            Href = node.Attribute(XName.Get("href", WmsNamespaces.Xlink))?.Value;
+            Type = node.Attribute(XName.Get("type", WmsNamespaces.Xlink))?.Value;
         }
 
         public override XElement ToXElement(string nameSpace)

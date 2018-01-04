@@ -47,7 +47,7 @@ namespace BruTile.Wmts
 
     public class CrsUnitOfMeasureRegistry
     {
-        private static readonly Dictionary<int, UnitOfMeasure> Registry = new Dictionary<int, UnitOfMeasure>();
+        private static readonly Dictionary<int, UnitOfMeasure> Registry;
 
         private const double EarthRadius = 6378137;
         private const double EarthCircumference = 2*EarthRadius*Math.PI;

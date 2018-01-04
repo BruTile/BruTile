@@ -53,7 +53,7 @@ namespace BruTile.Wms
         public override XElement ToXElement(string @namespace)
         {
             return new XElement(XName.Get("Exception", Namespace),
-                Format.Select(format => new XElement(XName.Get("Format", Namespace), format)).ToArray());
+                Format.Select(format => new XElement(XName.Get("Format", Namespace), format)).ToArray<object>());
         }
 
         #endregion Overrides of XmlObject
