@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using BruTile.Cache;
+using BruTile.Performance.Desktop.Utilities;
 using NUnit.Framework;
 
-namespace BruTile.PerformanceTests.Cache
+namespace BruTile.Performance.Desktop.Cache
 {
     [TestFixture, Category("CacheTest")]
     class FileCacheTests
@@ -14,7 +15,7 @@ namespace BruTile.PerformanceTests.Cache
         [OneTimeSetUp]
         public void Setup()
         {
-            _directory = Path.Combine(Utilities.Paths.AssemblyDirectory, "FileCacheTest");
+            _directory = Path.Combine(Paths.AssemblyDirectory, "FileCacheTest");
 
             _cache = ClearedFileCacheTest(_directory);
         }

@@ -4,6 +4,7 @@ using System.Collections;
 
 namespace BruTile.Samples.Common
 {
+    // todo: Use frameworks HashSet which I think is now available
     public class HashSet<T> : ICollection<T>
     {
         private readonly Dictionary<T, short> _dictionary;

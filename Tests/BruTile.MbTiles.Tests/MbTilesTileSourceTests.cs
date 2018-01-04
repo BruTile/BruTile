@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BruTile.MbTiles.Tests.Utilities;
 using BruTile.Predefined;
 using NUnit.Framework;
 using SQLite;
-using BruTile.Tests.Utilities;
 
 namespace BruTile.MbTiles.Tests
 {

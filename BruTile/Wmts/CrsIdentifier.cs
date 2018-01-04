@@ -13,9 +13,9 @@ namespace BruTile.Wmts
         private readonly string _version;
         private readonly string _identifier;
 
-        public static bool TryParse(string urn_ogc_def_crs, out CrsIdentifier crs)
+        public static bool TryParse(string urnOgcDefCRS, out CrsIdentifier crs)
         {
-            var parts = urn_ogc_def_crs.Split(':');
+            var parts = urnOgcDefCRS.Split(':');
             switch (parts.Length)
             {
                 case 2:

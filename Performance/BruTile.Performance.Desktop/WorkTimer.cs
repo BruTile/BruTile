@@ -3,9 +3,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BruTile.PerformanceTests
+namespace BruTile.Performance.Desktop
 {
-
     class WorkTimer
     {
         private long _maxTime = long.MinValue;

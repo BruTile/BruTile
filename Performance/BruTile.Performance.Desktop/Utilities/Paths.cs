@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace BruTile.PerformanceTests.Utilities
+namespace BruTile.Performance.Desktop.Utilities
 {
     public static class Paths
     {
