@@ -30,6 +30,7 @@ namespace BruTile.Samples.Common
 
         public bool Contains(T item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
             return _dictionary.ContainsKey(item);
         }
 
@@ -40,6 +41,7 @@ namespace BruTile.Samples.Common
 
         public bool Remove(T item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
             return _dictionary.Remove(item);
         }
 
