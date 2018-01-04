@@ -6,10 +6,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
     <PackageTags>tiling gis osm geo</PackageTags>
-    <Authors>Paul den Dulk, Felix Obermaier</Authors>
-    <Copyright>Copyright © BruTile developers team 2008-2017</Copyright>
-    <Version>2.0.0-alpha1</Version>
-    <Company></Company>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
@@ -18,13 +14,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' Or '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 

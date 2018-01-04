@@ -1,15 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\</SolutionDir>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Extensions for BruTile that require the full .Net Framework</Description>
     <PackageTags>tiling gis osm geo file ado.net</PackageTags>
-    <Authors>Paul den Dulk, Felix Obermaier</Authors>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
     <RootNamespace>BruTile.Cache</RootNamespace>
-    <Company />
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
