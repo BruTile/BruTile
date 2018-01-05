@@ -41,4 +41,4 @@ BruTile 1.0 has been released as a PCL with Profile111. This profile targets: .N
 * [PDOK](https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ### License
-[Apache 2.0](https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt)
+[Apache 2.0](https://raw.githubusercontent.com/BruTile/BruTile/master/license.md)
