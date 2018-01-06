@@ -25,7 +25,7 @@ BruTile 1.0 has been released as a PCL with Profile111. This profile targets: .N
 * [WMTS](http://www.opengeospatial.org/standards/wmts)
 * [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification)
 * [OSM](http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames) (Like TMS with inverted y-axis)
-* [WMS](http://www.opengeospatial.org/standards/wms) (tiled requests to a regular WMS - like WMS-C)
+* [WMS](http://www.opengeospatial.org/standards/wms) (tiled requests to a regular WMS)
 * [ArcGIS Tile Server](http://resources.arcgis.com/en/help/rest/apiref/tile.html)
 * [WMS-C](https://wiki.osgeo.org/wiki/WMS_Tile_Caching#WMS-C_as_WMS_Profile)
 
