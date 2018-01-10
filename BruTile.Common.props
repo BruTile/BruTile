@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-
+  
   <!--- Package information, Version -->
   <PropertyGroup>
     <Version>2.0.0-alpha1</Version>
@@ -22,14 +22,4 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
-  <!--- No longer needed
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <DefineConstants>$(DefineConstants);HAS_SERIALIZEABLE_ATTRIBUTE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);HAS_SYSTEM_DATA;HAS_SERIALIZEABLE_ATTRIBUTE</DefineConstants>
-  </PropertyGroup>
-
-  -->
 </Project>
