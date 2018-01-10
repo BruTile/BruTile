@@ -13,10 +13,15 @@ For a demo download the source code and run BruTile.Demo in the Samples folder
 
 ### BruTile 2.0 (prerelease) as .NET Standard
 BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
-- BruTile .NET Standard 1.1
-- BruTile.MbTiles .NET Standard 1.1
-- BruTile.Desktop .NET Standard 1.6
-- BruTile.Desktop.DbCache .NET Standard 2.0
+
+| Library                  |   Targeted Framework  |
+| ------------------------ | --------------------- |
+| BruTile                  |  .NET Standard 1.1    |
+| BruTile.MbTiles          |  .NET Standard 1.1    |
+| BruTile.Desktop          |  .NET Standard 1.6    |
+| BruTile.Desktop.DbCache  |  .NET Standard 2.0    |
+
+All these libraries additionally target .Net Framework 4.5
 
 ### BruTile 1.0 as Portable Class Library (PCL)
 BruTile 1.0 has been released as a PCL with Profile111. This profile targets: .Net Framework 4.5, ASP.NET Core 5.0, Windows 8, Windows Phone 8.1, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic).
