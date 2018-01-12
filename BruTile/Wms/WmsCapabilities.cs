@@ -248,12 +248,31 @@ namespace BruTile.Wms
             return ret;
         }
 
-        private static Stream GetRemoteXmlStream(Uri uri)
+        private static Stream GetRemoteXmlStream(Uri uri, ICredentials credentials = null)
         {
             var myRequest = (HttpWebRequest)WebRequest.Create(uri);
+            myRequest.Credentials = credentials;
             var myResponse = myRequest.GetSyncResponse(30000);
             var stream = myResponse.GetResponseStream();
             return stream;
+        }
+
+        public static WmsCapabilities GetCapabilities(Uri uri, NetworkCredential credentials = null)
+        {
+            return new WmsCapabilities(GetRemoteXmlStream(uri, credentials));
+        }
+
+        public static WmsCapabilities GetCapabilities(string serverUrl, NetworkCredential credentials = null)
+        {
+            if (string.IsNullOrWhiteSpace(serverUrl)) throw new System.Exception("Server Url was not set");
+
+            if (serverUrl.IndexOf("Request=GetCapabilities", StringComparison.OrdinalIgnoreCase) < 0)
+                serverUrl = serverUrl + "&Request=GetCapabilities";
+
+            if (serverUrl.IndexOf("SERVICE=WMS", StringComparison.OrdinalIgnoreCase) < 0)
+                serverUrl = serverUrl + "&SERVICE=WMS";
+
+            return new WmsCapabilities(GetRemoteXmlStream(new Uri(serverUrl), credentials));
         }
     }
 }
