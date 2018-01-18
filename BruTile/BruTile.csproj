@@ -110,7 +110,6 @@
     <Compile Include="Resolution.cs" />
     <Compile Include="TileIndex.cs" />
     <Compile Include="TileInfo.cs" />
-    <Compile Include="TileMatrix.cs" />
     <Compile Include="TileRange.cs" />
     <Compile Include="TileSchema.cs" />
     <Compile Include="TileSource.cs" />
