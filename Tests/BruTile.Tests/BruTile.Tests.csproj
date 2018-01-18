@@ -118,7 +118,9 @@
     <Content Include="Resources\Wmts\wmts-capabilities-cuzk-cz.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Wmts\wmts-capabilities-mars.xml" />
+    <Content Include="Resources\Wmts\wmts-capabilities-mars.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Wmts\wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

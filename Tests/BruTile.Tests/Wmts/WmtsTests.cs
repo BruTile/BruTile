@@ -199,21 +199,6 @@ namespace BruTile.Tests.Wmts
             }
         }
 
-
-        [Test]
-        public void TestParsingWmtsCapabilitiesRayaBasemapServer()
-        {
-            // arrange
-            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-raya-basemap-server.xml")))
-            {
-                // act
-                var tileSources = WmtsParser.Parse(stream);
-
-                // assert
-                Assert.AreEqual(3, tileSources.Count());
-            }
-        }
-
         [Test]
         public void TestParsingWmtsCapabilitiesMarsWithDoubleValues()
         {
