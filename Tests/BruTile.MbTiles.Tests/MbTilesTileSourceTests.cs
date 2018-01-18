@@ -14,15 +14,7 @@ namespace BruTile.MbTiles.Tests
         [SetUp]
         public void TestSetUp()
         {
-            try
-            {
-                SQLitePCL.Batteries.Init();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw new IgnoreException("You need to manually provide [x86|x64|arm] sqlite library.", e);
-            }
+            SQLitePCL.Batteries.Init();
         }
 
         [Test]
