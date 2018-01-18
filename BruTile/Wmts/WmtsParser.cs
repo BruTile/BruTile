@@ -327,7 +327,7 @@ namespace BruTile.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(Generated.TileMatrix tileMatrix, 
+        private static KeyValuePair<string, Resolution> ToResolution(TileMatrix tileMatrix, 
             int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
             
@@ -354,8 +354,8 @@ namespace BruTile.Wmts
                     CultureInfo.InvariantCulture), 
                     Convert.ToDouble(coords[ordinateOrder[1]], 
                     CultureInfo.InvariantCulture),
-                    tileMatrix.MatrixWidth,
-                    tileMatrix.MatrixHeight,
+                    (int)tileMatrix.MatrixWidth,
+                    (int)tileMatrix.MatrixHeight,
                     tileMatrix.ScaleDenominator));
           }
     }
