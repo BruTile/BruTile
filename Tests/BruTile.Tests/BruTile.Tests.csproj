@@ -75,6 +75,9 @@
     <None Update="Resources\Wmts\wmts-capabilities-dlr.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wmts\wmts-capabilities-mars.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
