@@ -78,6 +78,9 @@
     <None Update="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wmts\wmts-capabilities-raya-basemap-server.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
