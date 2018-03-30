@@ -22,7 +22,11 @@ namespace BruTile.MbTiles
         /// <summary>
         /// Joint Photographic Experts Group (JPEG)
         /// </summary>
-        Jpeg = Jpg
+        Jpeg = Jpg,
 
+        /// <summary>
+        /// Protobuf vector format
+        /// </summary>
+        Pbf
     }
 }
