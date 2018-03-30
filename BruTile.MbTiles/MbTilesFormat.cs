@@ -25,6 +25,11 @@ namespace BruTile.MbTiles
         Jpeg = Jpg,
 
         /// <summary>
+        /// Webp format
+        /// </summary>
+        Webp,
+
+        /// <summary>
         /// Protobuf vector format
         /// </summary>
         Pbf
