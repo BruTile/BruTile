@@ -12,7 +12,7 @@ namespace BruTile
         /// <summary>
         /// Portable Network Graphics (PNG)
         /// </summary>
-        Png, 
+        Png,
 
         /// <summary>
         /// Joint Photographic Experts Group (JPEG)
@@ -22,7 +22,16 @@ namespace BruTile
         /// <summary>
         /// Joint Photographic Experts Group (JPEG)
         /// </summary>
-        Jpeg = Jpg
+        Jpeg = Jpg,
 
+        /// <summary>
+        /// Webp format
+        /// </summary>
+        Webp,
+
+        /// <summary>
+        /// Protobuf vector format
+        /// </summary>
+        Pbf
     }
 }
