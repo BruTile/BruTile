@@ -4,7 +4,7 @@
 
 ### BruTile
 BruTile is a .NET library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
-BruTile returns tiles as raw streams and has no UI dependencies which makes it usable in any .NET platform.
+BruTile returns tiles as raw image streams and has no UI dependencies which makes it usable in any .NET platform.
 
 ### Getting Started
 
