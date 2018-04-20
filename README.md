@@ -3,7 +3,7 @@
 [![NuGet pre-release status](http://img.shields.io/nuget/vpre/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 
 ### BruTile
-BruTile is a C# open source library to access tile services like OpenStreetMap and Bing. BruTile has few dependencies, is platform independent and has a limited scope. It is intended for reuse by other more sophisticated libraries
+BruTile is a .NET library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
 
 ### Getting Started
 
