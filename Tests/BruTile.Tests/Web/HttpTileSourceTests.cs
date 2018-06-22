@@ -24,7 +24,7 @@ namespace BruTile.Tests.Web
             var timeStart = DateTime.Now;
 
             // act
-            var tiles = await tileSource.GetTilesAsync(httpClient, range);
+            var tiles = await tileSource.GetTilesAsync(httpClient, range).ConfigureAwait(false);
 
             // assert
             Console.WriteLine("Durations: {0:0} milliseconds", DateTime.Now.Subtract(timeStart).TotalMilliseconds);

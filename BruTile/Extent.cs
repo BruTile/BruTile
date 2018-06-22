@@ -86,22 +86,22 @@ namespace BruTile
 
         public bool Equals(Extent extent)
         {
-            if (_minX != extent.MinX)
+            if (Math.Abs(_minX - extent.MinX) > double.Epsilon)
             {
                 return false;
             }
 
-            if (_minY != extent.MinY)
+            if (Math.Abs(_minY - extent.MinY) > double.Epsilon)
             {
                 return false;
             }
 
-            if (_maxX != extent.MaxX)
+            if (Math.Abs(_maxX - extent.MaxX) > double.Epsilon)
             {
                 return false;
             }
 
-            if (_maxY != extent.MaxY)
+            if (Math.Abs(_maxY - extent.MaxY) > double.Epsilon)
             {
                 return false;
             }

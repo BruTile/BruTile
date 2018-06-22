@@ -9,18 +9,18 @@ namespace GetVersionFromAssembly
     {
         static void Main(string[] args)
         {
-            foreach (string arg in args)
+            foreach (var arg in args)
             {
                 try
                 {
-                    string path = Path.GetFullPath(arg);
+                    var path = Path.GetFullPath(arg);
                     var assembly = Assembly.LoadFile(path);
-                    FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
                     Console.Out.WriteLine(fileVersionInfo.ProductVersion);
                 }
                 catch (Exception exception)
                 {
-                    Console.Out.WriteLine(string.Format("{0}: {1}", arg, exception.Message));
+                    Console.Out.WriteLine($"{arg}: {exception.Message}");
                 }
             }
         }

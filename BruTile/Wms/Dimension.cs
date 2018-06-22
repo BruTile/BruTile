@@ -8,10 +8,7 @@ namespace BruTile.Wms
 {
     public class Dimension : XmlObject
     {
-        public Dimension()
-        {
-        }
-
+        // ReSharper disable once UnusedParameter.Local
         public Dimension(XElement el, string ns)
         {
             var att = el.Attribute("name");

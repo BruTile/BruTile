@@ -11,6 +11,7 @@ namespace BruTile.Wms
         {
         }
 
+        // ReSharper disable once UnusedParameter.Local
         public Identifier(XElement el, string ns)
         {
             var att = el.Attribute("authority");

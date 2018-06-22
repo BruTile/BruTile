@@ -12,6 +12,7 @@ namespace BruTile.Wms
             Type = "simple";
         }
 
+        // ReSharper disable once UnusedParameter.Local
         public OnlineResource(XElement node, string ns)
         {
             Href = node.Attribute(XName.Get("href", WmsNamespaces.Xlink))?.Value;

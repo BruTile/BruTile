@@ -40,7 +40,7 @@ namespace BruTile.Wmts
         /// <returns><c>true</c> if <see cref="ToMeter"/>s are equal</returns>
         public bool Equals(UnitOfMeasure other)
         {
-            return _toMeter == other.ToMeter;
+            return Math.Abs(_toMeter - other.ToMeter) < double.Epsilon;
         }
 
     }
