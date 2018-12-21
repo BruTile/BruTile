@@ -10,7 +10,7 @@ namespace BruTile.GettingStarted
         {
             // Dear BruTile maintainer,
             // If the code in this file does not compile and need changes you 
-            // also need to update the 'getting started' sample in the wiki.
+            // also needs to update the 'getting started' sample in the wiki.
 
             // 1) Create a tile source
 
