@@ -9,8 +9,8 @@ namespace BruTile.GettingStarted
         static void Main()
         {
             // Dear BruTile maintainer,
-            // If the code in this file does not compile and need changes you 
-            // also needs to update the 'getting started' sample in the wiki.
+            // If the code in this file does not compile and needs changes you 
+            // also need to update the 'getting started' sample in the wiki.
 
             // 1) Create a tile source
 
