@@ -124,5 +124,21 @@ namespace BruTile.Tests.Wms
             }
         }
 
+        [Test]
+        public void WmsCapabilitiesTopPlusWebOpen()
+        {
+            // arrange
+            var fileName = "wms_topplus_web_open.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
+            {
+                // act
+                var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
+
+                // assert
+                Assert.AreEqual(16, wmsCapabilities.Capability.Layer.ChildLayers.Count);
+            }
+        }
+
+
     }
 }

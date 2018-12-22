@@ -69,6 +69,9 @@
     <None Update="Resources\Wms\WmsCapabilities_1_3_0_withXmlns.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wms\wms_topplus_web_open.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
