@@ -136,6 +136,10 @@ namespace BruTile.Tests.Wms
 
                 // assert
                 Assert.AreEqual(16, wmsCapabilities.Capability.Layer.ChildLayers.Count);
+                foreach (var layerChildLayer in wmsCapabilities.Capability.Layer.ChildLayers)
+                {
+                    Assert.True(layerChildLayer.CRS.Count > 0);
+                }
             }
         }
 
