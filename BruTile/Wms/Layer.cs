@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -10,9 +11,6 @@ namespace BruTile.Wms
     public class Layer : XmlObject
     {
         private KeywordList _keywordListField;
-
-        private List<string> _crsField = new List<string>();
-        private List<string> _srsField = new List<string>();
 
         private List<Layer> _childLayers;
 
@@ -33,10 +31,7 @@ namespace BruTile.Wms
         /// </summary>
         public int Cascaded
         {
-            get
-            {
-                return _cascaded;
-            }
+            get => _cascaded;
             set
             {
                 if (value < 0)
@@ -49,7 +44,7 @@ namespace BruTile.Wms
 
         public int FixedWidth
         {
-            get { return _fixedWidth; }
+            get => _fixedWidth;
             set
             {
                 if (value < 0)
@@ -62,7 +57,7 @@ namespace BruTile.Wms
 
         public int FixedHeight
         {
-            get { return _fixedHeight; }
+            get => _fixedHeight;
             set
             {
                 if (value < 0)
@@ -112,10 +107,10 @@ namespace BruTile.Wms
             if (element != null) _keywordListField = new KeywordList(element, ns);
 
             foreach (var el in node.Elements(XName.Get("CRS", ns)))
-                _crsField.Add(el.Value);
+                CRS.Add(el.Value);
 
             foreach (var el in node.Elements(XName.Get("SRS", ns)))
-                _srsField.Add(el.Value);
+                SRS.Add(el.Value);
             
             element = node.Element(XName.Get("EX_GeographicBoundingBox", ns));
             if (element != null) ExGeographicBoundingBox = new ExGeographicBoundingBox(element, ns);
@@ -164,56 +159,23 @@ namespace BruTile.Wms
                 MaxScaleDenominator = double.Parse(element.Value, NumberFormatInfo.InvariantInfo);
 
             foreach (var layerNode in node.Elements(XName.Get("Layer", ns)))
-                ChildLayers.Add(new Layer(layerNode, ns));
+            {
+                var layer = new Layer(layerNode, ns);
+                layer.CRS.AddRange(CRS); // The child CRSes are inherited from the parent. Section 7.2.4.6.7  of WMS spec 1.3.0
+                layer.CRS = layer.CRS.Distinct().ToList(); // Lets do a distinct because I am not very sure a child could repeat the parent nodes
+                ChildLayers.Add(layer);
+            }
         }
 
         public KeywordList KeywordList
         {
-            get
-            {
-                if ((_keywordListField == null))
-                {
-                    _keywordListField = new KeywordList();
-                }
-                return _keywordListField;
-            }
-            set
-            {
-                _keywordListField = value;
-            }
+            get => _keywordListField ?? (_keywordListField = new KeywordList());
+            set => _keywordListField = value;
         }
 
-        public List<string> CRS
-        {
-            get
-            {
-                if ((_crsField == null))
-                {
-                    _crsField = new List<string>();
-                }
-                return _crsField;
-            }
-            set
-            {
-                _crsField = value;
-            }
-        }
+        public List<string> CRS { get; set; } = new List<string>();
 
-        public List<string> SRS
-        {
-            get
-            {
-                if ((_srsField == null))
-                {
-                    _srsField = new List<string>();
-                }
-                return _srsField;
-            }
-            set
-            {
-                _srsField = value;
-            }
-        }
+        public List<string> SRS { get; set; } = new List<string>();
 
         public ExGeographicBoundingBox ExGeographicBoundingBox { get; set; }
 
@@ -237,18 +199,8 @@ namespace BruTile.Wms
 
         public List<Layer> ChildLayers
         {
-            get
-            {
-                if ((_childLayers == null))
-                {
-                    _childLayers = new List<Layer>();
-                }
-                return _childLayers;
-            }
-            set
-            {
-                _childLayers = value;
-            }
+            get => _childLayers ?? (_childLayers = new List<Layer>());
+            set => _childLayers = value;
         }
 
         public bool Queryable { get; set; }
@@ -279,8 +231,8 @@ namespace BruTile.Wms
             if (!string.IsNullOrEmpty(Abstract))
                 writer.WriteElementString("Abstract", Namespace, Abstract);
             WriteXmlItem("KeywordList", Namespace, writer, _keywordListField);
-            WriteXmlList("CRS", Namespace, writer, _crsField);
-            WriteXmlList("SRS", Namespace, writer, _srsField);
+            WriteXmlList("CRS", Namespace, writer, CRS);
+            WriteXmlList("SRS", Namespace, writer, SRS);
             WriteXmlItem("EX_GeographicBoundingBox", Namespace, writer, ExGeographicBoundingBox);
             WriteXmlList("BoundingBox", Namespace, writer, BoundingBox);
             WriteXmlList("Dimension", Namespace, writer, Dimension);

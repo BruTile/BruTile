@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Build", "06_Build", "{B5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetVersionFromAssembly", "Tools\GetVersionFromAssembly\GetVersionFromAssembly.csproj", "{DB13792C-8391-4D3A-AC4A-DA910E9464DC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.GettingStarted", "Samples\BruTile.GettingStarted\BruTile.GettingStarted.csproj", "{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,10 @@ Global
 		{DB13792C-8391-4D3A-AC4A-DA910E9464DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB13792C-8391-4D3A-AC4A-DA910E9464DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB13792C-8391-4D3A-AC4A-DA910E9464DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{D67D3DCC-6494-4C0A-91DD-DB9AE9EA43F1} = {19780978-0590-4DCF-85A6-5D2941A1085C}
 		{EA5DFD5A-BBF6-404F-A95E-DF096B56C5C0} = {19780978-0590-4DCF-85A6-5D2941A1085C}
 		{DB13792C-8391-4D3A-AC4A-DA910E9464DC} = {6EE2299B-A487-4B50-BEE3-3CEE6D07A6C5}
+		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73DFC204-2E2B-4AE0-A5AD-99FE18C3F923}

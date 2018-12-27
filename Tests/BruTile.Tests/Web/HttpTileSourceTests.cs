@@ -18,13 +18,13 @@ namespace BruTile.Tests.Web
             // arrange
             var tileSource = KnownTileSources.Create();
             var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("http://*").Respond("image/png", new MemoryStream());
+            mockHttp.When("https://*").Respond("image/png", new MemoryStream());
             var httpClient = new HttpClient(mockHttp);
             var range = tileSource.Schema.GetTileInfos(tileSource.Schema.Extent, "3");
             var timeStart = DateTime.Now;
 
             // act
-            var tiles = await tileSource.GetTilesAsync(httpClient, range);
+            var tiles = await tileSource.GetTilesAsync(httpClient, range).ConfigureAwait(false);
 
             // assert
             Console.WriteLine("Durations: {0:0} milliseconds", DateTime.Now.Subtract(timeStart).TotalMilliseconds);

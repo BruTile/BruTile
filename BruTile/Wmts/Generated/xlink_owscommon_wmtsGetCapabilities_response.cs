@@ -1746,9 +1746,9 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
 
         private int tileHeightField;
 
-        private int matrixWidthField;
+        private double matrixWidthField;
 
-        private int matrixHeightField;
+        private double matrixHeightField;
 
         /// <remarks/>
         [XmlElement(Namespace = "http://www.opengis.net/ows/1.1")]
@@ -1788,17 +1788,13 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
             set { this.tileHeightField = value; }
         }
 
-        /// <remarks/>
-        [XmlElement(DataType = "int")]
-        public int MatrixWidth
+        public double MatrixWidth
         {
             get { return this.matrixWidthField; }
             set { this.matrixWidthField = value; }
         }
 
-        /// <remarks/>
-        [XmlElement(DataType = "int")]
-        public int MatrixHeight
+        public double MatrixHeight
         {
             get { return this.matrixHeightField; }
             set { this.matrixHeightField = value; }

@@ -19,6 +19,12 @@ namespace BruTile.MbTiles
     public class MbTilesTileSource : ITileSource
     {
         public MbTilesType Type { get; }
+        public string Version { get; }
+        public string Description { get; }
+        public int ZoomMin { get; }
+        public int ZoomMax { get; }
+        public string Json { get; }
+        public string Compression { get; }
 
         private readonly SQLiteConnectionString _connectionString;
         private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
@@ -36,8 +42,22 @@ namespace BruTile.MbTiles
 					var schemaFromDatabase = ReadSchemaFromDatabase(connection);
 					Schema = schema ?? schemaFromDatabase;
 
-					// the tile range should be based on the tiles actually present. 
-					var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
+                    // Read other stuff
+				    Version = ReadString(connection, "version");
+				    Attribution = new Attribution(ReadString(connection, "attribution"));
+				    Description = ReadString(connection, "description");
+				    Name = ReadString(connection, "name");
+				    Json = ReadString(connection, "json");
+				    Compression = ReadString(connection, "compression");
+
+				    var zoomMin = ReadInt(connection, "minzoom");
+				    ZoomMin = zoomMin < 0 ? 0 : zoomMin;
+
+				    var zoomMax = ReadInt(connection, "maxzoom");
+				    ZoomMax = zoomMax < 0 ? int.MaxValue : zoomMax;
+
+                    // the tile range should be based on the tiles actually present. 
+                    var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
 					_tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevelsFromDatabase);
 				}
 			}
@@ -45,6 +65,36 @@ namespace BruTile.MbTiles
 				Schema = schema;
 				_tileRange = null;
 			}
+        }
+
+        private static string ReadString(SQLiteConnection connection, string name)
+        {
+            const string sql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
+            try
+            {
+                var result = connection.ExecuteScalar<string>(sql, name);
+
+                return result;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        private static int ReadInt(SQLiteConnection connection, string name)
+        {
+            const string sql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
+            try
+            {
+                var result = connection.ExecuteScalar<int>(sql, name);
+
+                return result;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         private static ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)

@@ -8,10 +8,7 @@ namespace BruTile.Wms
 {
     public class ServiceException : XmlObject
     {
-        public ServiceException()
-        {
-        }
-
+        // ReSharper disable once UnusedParameter.Local
         public ServiceException(XElement node, string ns)
         {
             var att = node.Attribute("code");

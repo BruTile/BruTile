@@ -18,7 +18,7 @@ namespace BruTile.Samples.Common
             using (var stream = resp.Result.GetResponseStream())
             {
                 var tileSources = WmtsParser.Parse(stream);
-                tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb");
+                tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
             }
             return tileSource;
         }

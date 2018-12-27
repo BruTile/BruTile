@@ -9,10 +9,7 @@ namespace BruTile.Wms
 {
     public class BoundingBox : XmlObject
     {
-        //<BoundingBox CRS="CRS:84" minx="-71.63" miny="41.75" maxx="-70.78" maxy="42.90" resx="0.01" resy="0.01"/>
-
-        public BoundingBox() {}
-
+        // ReSharper disable once UnusedParameter.Local
         public BoundingBox(XElement node, string ns)
         {
             var att =

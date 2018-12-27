@@ -174,5 +174,24 @@ namespace BruTile.Tests.Wms
             if (!string.IsNullOrWhiteSpace(version))
                 Assert.That(cap.Version.VersionString, Is.EqualTo(version));
         }
+
+        [Test]
+        public void WmsCapabilitiesChildInheritsCrsFromParentLayer()
+        {
+            // arrange
+            var fileName = "wms_topplus_web_open.xml";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
+            {
+                // act
+                var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
+
+                // assert
+                Assert.AreEqual(16, wmsCapabilities.Capability.Layer.ChildLayers.Count);
+                foreach (var layerChildLayer in wmsCapabilities.Capability.Layer.ChildLayers)
+                {
+                    Assert.True(layerChildLayer.CRS.Count > 0);
+                }
+            }
+        }
     }
 }
