@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
 using BruTile.Tests.Utilities;
 using BruTile.Wms;
@@ -124,6 +126,55 @@ namespace BruTile.Tests.Wms
             }
         }
 
+        [TestCase("http://abc.de?", null, false)]
+        [TestCase("http://abc.de?Service=WMS&", null, false)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.0.7", null, false)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.0.0&REQUEST=GetCapabilities&", null, true)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.0.7&REQUEST=GetCapabilities&", null, true)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.1.0&REQUEST=GetCapabilities&", null, true)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.1.1&REQUEST=GetCapabilities&", null, true)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.3.0&REQUEST=GetCapabilities&", null, true)]
+        [TestCase("http://abc.de?Service=NG&Version=1.0.7&REQUEST=GetCapabilities&", typeof(ArgumentException), false)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.0.6&REQUEST=GetCapabilities&", typeof(ArgumentException), true)]
+        [TestCase("http://abc.de?Service=WMS&Version=1.0.7&REQUEST=GetBlaBla&", typeof(ArgumentException), false)]
+        public void WmsValidateGetCapabilitiesRequest(string url, Type exception, bool expected)
+        {
+            // arrange
+            var valid = !expected;
+            var uri = new Uri(url);
+
+            // act
+            if (exception != null)
+            {
+                Assert.Throws<ArgumentException>(() => valid = WmsCapabilities.ValidateGetCapabilitiesRequest(uri.Query));
+                return;
+            }
+            Assert.DoesNotThrow(() => valid = WmsCapabilities.ValidateGetCapabilitiesRequest(uri.Query));
+
+            //assert
+            Assert.That(valid, Is.EqualTo(expected));
+        }
+
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk", "WMS MV DTK", "1.3.0")]
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.1", "WMS MV DTK", "1.1.1")]
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.0", "WMS MV DTK", "1.1.0")]
+        public void WmsGetCapabilitiesUrl(string url, string serviceTitle = null, string version = null)
+        {
+            // arrange, act
+            WmsCapabilities cap = null;
+            Assert.DoesNotThrow(() => cap = new WmsCapabilities(url, null));
+
+            // assert
+            Assert.That(cap, Is.Not.Null);
+
+            Console.WriteLine($"{cap.Service.Title} (WMS {cap.Version.VersionString})");
+            if (!string.IsNullOrWhiteSpace(serviceTitle))
+                Assert.That(cap.Service.Title, Is.EqualTo(serviceTitle));
+
+            if (!string.IsNullOrWhiteSpace(version))
+                Assert.That(cap.Version.VersionString, Is.EqualTo(version));
+        }
+
         [Test]
         public void WmsCapabilitiesChildInheritsCrsFromParentLayer()
         {
@@ -142,7 +193,5 @@ namespace BruTile.Tests.Wms
                 }
             }
         }
-
-
     }
 }
