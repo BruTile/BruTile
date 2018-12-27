@@ -154,24 +154,34 @@ namespace BruTile.Tests.Wms
             Assert.That(valid, Is.EqualTo(expected));
         }
 
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk", "GDI MV DTK WMS", "1.3.0")]
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.1", "GDI MV DTK WMS", "1.1.1")]
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.0", "GDI MV DTK WMS", "1.1.0")]
-        public void WmsGetCapabilitiesUrl(string url, string serviceTitle = null, string version = null)
+        [Test]
+        public void WmsGetCapabilitiesUrl()
         {
-            // arrange, act
-            WmsCapabilities cap = null;
-            Assert.DoesNotThrow(() => cap = new WmsCapabilities(url, null));
+            // note: Not sure if this test makes much sense anymore now I 
+            // changed it to use local resources. Perhaps this one should
+            // just be removed since the above test covers the url 
+            // generating logic.
 
-            // assert
-            Assert.That(cap, Is.Not.Null);
+            // arrange
+            var fileName = "wms-capabilities-gdimv_dtk.xml";
+            var version = "1.3.0";
+            var serviceTitle = "GDI MV DTK WMS";
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
+            {
+                // arrange, act
+                WmsCapabilities cap = null;
+                Assert.DoesNotThrow(() => cap = new WmsCapabilities(XDocument.Load(stream)));
 
-            Console.WriteLine($"{cap.Service.Title} (WMS {cap.Version.VersionString})");
-            if (!string.IsNullOrWhiteSpace(serviceTitle))
-                Assert.That(cap.Service.Title, Is.EqualTo(serviceTitle));
+                // assert
+                Assert.That(cap, Is.Not.Null);
 
-            if (!string.IsNullOrWhiteSpace(version))
-                Assert.That(cap.Version.VersionString, Is.EqualTo(version));
+                Console.WriteLine($"{cap.Service.Title} (WMS {cap.Version.VersionString})");
+                if (!string.IsNullOrWhiteSpace(serviceTitle))
+                    Assert.That(cap.Service.Title, Is.EqualTo(serviceTitle));
+
+                if (!string.IsNullOrWhiteSpace(version))
+                    Assert.That(cap.Version.VersionString, Is.EqualTo(version));
+            }
         }
 
         [Test]

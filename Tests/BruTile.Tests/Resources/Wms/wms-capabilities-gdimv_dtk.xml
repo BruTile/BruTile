@@ -1,0 +1,1574 @@
+<?xml version='1.0' encoding="UTF-8" standalone="no" ?>
+<WMS_Capabilities version="1.3.0"  xmlns="http://www.opengis.net/wms"   xmlns:sld="http://www.opengis.net/sld"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns:ms="http://mapserver.gis.umn.edu/mapserver"   xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0"   xmlns:inspire_vs="http://inspire.ec.europa.eu/schemas/inspire_vs/1.0"   xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd  http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/sld_capabilities.xsd  http://inspire.ec.europa.eu/schemas/inspire_vs/1.0  http://inspire.ec.europa.eu/schemas/inspire_vs/1.0/inspire_vs.xsd http://mapserver.gis.umn.edu/mapserver http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;service=WMS&amp;version=1.3.0&amp;request=GetSchemaExtension">
+
+<!-- MapServer version 7.0.4 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=SVG_SYMBOLS SUPPORTS=RSVG SUPPORTS=ICONV SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT SUPPORTS=WCS_SERVER SUPPORTS=SOS_SERVER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS INPUT=JPEG INPUT=POSTGIS INPUT=OGR INPUT=GDAL INPUT=SHAPEFILE -->
+
+<Service>
+  <Name>WMS</Name>
+  <Title>GDI MV DTK WMS</Title>
+  <Abstract>Geodateninfrastruktur M-V - Dienst zur Darstellung der Topographischen Kartenwerke 1:10 000 - 1:1 000 000</Abstract>
+  <KeywordList>
+      <Keyword>Geobasisdaten</Keyword>
+      <Keyword>AdV</Keyword>
+      <Keyword>WMS</Keyword>
+      <Keyword>MV</Keyword>
+      <Keyword>Mecklenburg-Vorpommern</Keyword>
+      <Keyword>Topographische Karte</Keyword>
+      <Keyword>Übersichtskarte</Keyword>
+      <Keyword>DTK</Keyword>
+      <Keyword>TK</Keyword>
+      <Keyword>WMS_MV_DTK</Keyword>
+  </KeywordList>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/>
+  <ContactInformation>
+    <ContactPersonPrimary>
+      <ContactPerson>Geodatenservice</ContactPerson>
+      <ContactOrganization>Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen</ContactOrganization>
+    </ContactPersonPrimary>
+      <ContactPosition>pointOfContact</ContactPosition>
+    <ContactAddress>
+        <AddressType>postal</AddressType>
+        <Address>Lübecker Straße 289</Address>
+        <City>Schwerin</City>
+        <StateOrProvince>Mecklenburg-Vorpommern</StateOrProvince>
+        <PostCode>19059</PostCode>
+        <Country>Germany</Country>
+    </ContactAddress>
+      <ContactVoiceTelephone>0385 - 588 56264</ContactVoiceTelephone>
+      <ContactFacsimileTelephone>0385 - 588 48256255</ContactFacsimileTelephone>
+  <ContactElectronicMailAddress>geodatenservice@laiv-mv.de</ContactElectronicMailAddress>
+  </ContactInformation>
+  <Fees>Interne Nutzung: der Dienst darf mit eigenen Diensten und Daten sowie Diensten und Daten Dritter, soweit von diesen entsprechende Rechte eingeräumt wurden, zusammengeführt und in interne Geschäftsprozesse, Produkte und Anwendungen eingebunden werden. Externe Nutzung: das Einbinden des Dienstes in geldleistungsfrei zugängliche Internetpräsentationen oder geldleistungsfrei erhältliche Applikationen (Apps) ist zulässig. Jede darüber hinausgehende externe Nutzung des Dienstes, z. B. Weitergabe analoger Auszüge zum Zweck der unmittelbaren Gewinnerzielung (Gutachten oder Exposés) oder das Einbinden in geldleistungspflichtige Internetpräsentationen bzw. Apps, ist genehmigungs- und ggf. geldleistungspflichtig.</Fees>
+  <AccessConstraints>copyright</AccessConstraints>
+  <MaxWidth>4192</MaxWidth>
+  <MaxHeight>4192</MaxHeight>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/png; mode=8bit</Format>
+      <Format>image/tiff</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/html</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <Format>text/plain</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <sld:GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/gif</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/tiff</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </sld:GetLegendGraphic>
+  </Request>
+  <Exception>
+    <Format>XML</Format>
+    <Format>INIMAGE</Format>
+    <Format>BLANK</Format>
+  </Exception>
+  <sld:UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0" InlineFeature="0" RemoteWCS="0"/>
+  <inspire_vs:ExtendedCapabilities>
+    <inspire_common:MetadataUrl xsi:type="inspire_common:resourceLocatorType">
+      <inspire_common:URL>http://www.geodaten-mv.de/geomis/id/fb553970-609f-4964-9ec6-e8e40435684d</inspire_common:URL>
+      <inspire_common:MediaType>application/vnd.ogc.csw.GetRecordByIdResponse_xml</inspire_common:MediaType>
+    </inspire_common:MetadataUrl>
+    <inspire_common:SupportedLanguages>
+      <inspire_common:DefaultLanguage><inspire_common:Language>ger</inspire_common:Language></inspire_common:DefaultLanguage>
+    </inspire_common:SupportedLanguages>
+    <inspire_common:ResponseLanguage><inspire_common:Language>ger</inspire_common:Language></inspire_common:ResponseLanguage>
+  </inspire_vs:ExtendedCapabilities>
+  <Layer>
+    <Name>WMS_MV_DTK</Name>
+    <Title>Digitale Topographische Karten</Title>
+    <Abstract>Dienst zur Darstellung der Digitalen Topographischen Karten und Übersichtskarten.</Abstract>
+    <KeywordList>
+        <Keyword>Geobasisdaten</Keyword>
+        <Keyword>AdV</Keyword>
+        <Keyword>WMS</Keyword>
+        <Keyword>MV</Keyword>
+        <Keyword>Mecklenburg-Vorpommern</Keyword>
+        <Keyword>Topographische Karte</Keyword>
+        <Keyword>Übersichtskarte</Keyword>
+        <Keyword>DTK</Keyword>
+        <Keyword>TK</Keyword>
+        <Keyword>WMS_MV_DTK</Keyword>
+    </KeywordList>
+    <CRS>EPSG:5650</CRS>
+    <CRS>EPSG:4647</CRS>
+    <CRS>EPSG:5652</CRS>
+    <CRS>EPSG:5653</CRS>
+    <CRS>EPSG:25833</CRS>
+    <CRS>EPSG:25832</CRS>
+    <CRS>EPSG:35832</CRS>
+    <CRS>EPSG:35833</CRS>
+    <CRS>EPSG:28402</CRS>
+    <CRS>EPSG:28403</CRS>
+    <CRS>EPSG:32632</CRS>
+    <CRS>EPSG:32633</CRS>
+    <CRS>EPSG:4326</CRS>
+    <CRS>EPSG:4258</CRS>
+    <CRS>EPSG:4269</CRS>
+    <CRS>EPSG:4178</CRS>
+    <CRS>EPSG:2398</CRS>
+    <CRS>EPSG:2399</CRS>
+    <CRS>EPSG:4314</CRS>
+    <CRS>EPSG:31467</CRS>
+    <CRS>EPSG:31468</CRS>
+    <CRS>EPSG:31469</CRS>
+    <CRS>EPSG:3034</CRS>
+    <CRS>EPSG:3035</CRS>
+    <CRS>EPSG:3038</CRS>
+    <CRS>EPSG:3039</CRS>
+    <CRS>EPSG:3040</CRS>
+    <CRS>EPSG:3041</CRS>
+    <CRS>EPSG:3042</CRS>
+    <CRS>EPSG:3043</CRS>
+    <CRS>EPSG:3044</CRS>
+    <CRS>EPSG:3045</CRS>
+    <CRS>EPSG:3046</CRS>
+    <CRS>EPSG:3047</CRS>
+    <CRS>EPSG:3048</CRS>
+    <CRS>EPSG:3049</CRS>
+    <CRS>EPSG:3050</CRS>
+    <CRS>EPSG:3051</CRS>
+    <CRS>EPSG:2166</CRS>
+    <CRS>EPSG:2167</CRS>
+    <CRS>EPSG:2168</CRS>
+    <CRS>EPSG:900913</CRS>
+    <CRS>EPSG:3785</CRS>
+    <CRS>EPSG:3857</CRS>
+    <CRS>EPSG:3834</CRS>
+    <CRS>EPSG:3835</CRS>
+    <CRS>EPSG:5664</CRS>
+    <CRS>EPSG:5665</CRS>
+    <CRS>EPSG:5555</CRS>
+    <CRS>EPSG:5556</CRS>
+    <CRS>EPSG:5673</CRS>
+    <CRS>EPSG:5674</CRS>
+    <CRS>EPSG:5675</CRS>
+    <CRS>EPSG:5677</CRS>
+    <CRS>EPSG:5678</CRS>
+    <CRS>EPSG:5679</CRS>
+    <CRS>CRS:84</CRS>
+    <EX_GeographicBoundingBox>
+        <westBoundLongitude>10.3481</westBoundLongitude>
+        <eastBoundLongitude>14.6928</eastBoundLongitude>
+        <southBoundLatitude>53.0044</southBoundLatitude>
+        <northBoundLatitude>54.7727</northBoundLatitude>
+    </EX_GeographicBoundingBox>
+    <BoundingBox CRS="EPSG:5650"
+                minx="3.31926e+07" miny="5.87284e+06" maxx="3.34802e+07" maxy="6.07818e+06" />
+    <BoundingBox CRS="EPSG:4647"
+                minx="3.25867e+07" miny="5.87564e+06" maxx="3.28745e+07" maxy="6.08105e+06" />
+    <BoundingBox CRS="EPSG:5652"
+                minx="5.87564e+06" miny="3.25867e+07" maxx="6.08105e+06" maxy="3.28745e+07" />
+    <BoundingBox CRS="EPSG:5653"
+                minx="5.87284e+06" miny="3.31926e+07" maxx="6.07818e+06" maxy="3.34802e+07" />
+    <BoundingBox CRS="EPSG:25833"
+                minx="192565" miny="5.87284e+06" maxx="480225" maxy="6.07818e+06" />
+    <BoundingBox CRS="EPSG:25832"
+                minx="586744" miny="5.87564e+06" maxx="874496" maxy="6.08105e+06" />
+    <BoundingBox CRS="EPSG:35832"
+                minx="3.25867e+07" miny="5.87564e+06" maxx="3.28745e+07" maxy="6.08105e+06" />
+    <BoundingBox CRS="EPSG:35833"
+                minx="3.31926e+07" miny="5.87284e+06" maxx="3.34802e+07" maxy="6.07818e+06" />
+    <BoundingBox CRS="EPSG:28402"
+                minx="5.87815e+06" miny="2.58691e+06" maxx="6.08363e+06" maxy="2.87478e+06" />
+    <BoundingBox CRS="EPSG:28403"
+                minx="5.87533e+06" miny="3.19257e+06" maxx="6.08075e+06" maxy="3.48034e+06" />
+    <BoundingBox CRS="EPSG:32632"
+                minx="586744" miny="5.87564e+06" maxx="874496" maxy="6.08105e+06" />
+    <BoundingBox CRS="EPSG:32633"
+                minx="192565" miny="5.87284e+06" maxx="480225" maxy="6.07818e+06" />
+    <BoundingBox CRS="EPSG:4326"
+                minx="53.0044" miny="10.3481" maxx="54.7727" maxy="14.6928" />
+    <BoundingBox CRS="EPSG:4258"
+                minx="53.0044" miny="10.3481" maxx="54.7727" maxy="14.6928" />
+    <BoundingBox CRS="EPSG:4269"
+                minx="53.0044" miny="10.3481" maxx="54.7727" maxy="14.6928" />
+    <BoundingBox CRS="EPSG:4178"
+                minx="53.0047" miny="10.3501" maxx="54.7731" maxy="14.6948" />
+    <BoundingBox CRS="EPSG:2398"
+                minx="5.87838e+06" miny="4.39379e+06" maxx="6.07207e+06" maxy="4.67353e+06" />
+    <BoundingBox CRS="EPSG:2399"
+                minx="5.87533e+06" miny="5.19257e+06" maxx="6.08075e+06" maxy="5.48034e+06" />
+    <BoundingBox CRS="EPSG:4314"
+                minx="53.0058" miny="10.3494" maxx="54.7744" maxy="14.6948" />
+    <BoundingBox CRS="EPSG:31467"
+                minx="5.87756e+06" miny="3.58685e+06" maxx="6.08304e+06" maxy="3.87472e+06" />
+    <BoundingBox CRS="EPSG:31468"
+                minx="5.87779e+06" miny="4.39377e+06" maxx="6.07148e+06" maxy="4.67351e+06" />
+    <BoundingBox CRS="EPSG:31469"
+                minx="5.87474e+06" miny="5.19258e+06" maxx="6.08016e+06" maxy="5.48035e+06" />
+    <BoundingBox CRS="EPSG:3034"
+                minx="2.90993e+06" miny="4.02169e+06" maxx="3.10436e+06" maxy="4.29713e+06" />
+    <BoundingBox CRS="EPSG:3035"
+                minx="3.32379e+06" miny="4.34342e+06" maxx="3.52503e+06" maxy="4.62846e+06" />
+    <BoundingBox CRS="EPSG:3038"
+                minx="6.55477e+06" miny="2.83539e+06" maxx="6.89484e+06" maxy="3.20219e+06" />
+    <BoundingBox CRS="EPSG:3039"
+                minx="6.34917e+06" miny="2.479e+06" maxx="6.66803e+06" maxy="2.83607e+06" />
+    <BoundingBox CRS="EPSG:3040"
+                minx="6.18242e+06" miny="2.11176e+06" maxx="6.47923e+06" maxy="2.45715e+06" />
+    <BoundingBox CRS="EPSG:3041"
+                minx="6.05293e+06" miny="1.7367e+06" maxx="6.32725e+06" maxy="2.06904e+06" />
+    <BoundingBox CRS="EPSG:3042"
+                minx="5.95931e+06" miny="1.35626e+06" maxx="6.2109e+06" maxy="1.67454e+06" />
+    <BoundingBox CRS="EPSG:3043"
+                minx="5.90046e+06" miny="972396" maxx="6.1291e+06" maxy="1.27579e+06" />
+    <BoundingBox CRS="EPSG:3044"
+                minx="5.87564e+06" miny="586744" maxx="6.08105e+06" maxy="874496" />
+    <BoundingBox CRS="EPSG:3045"
+                minx="5.87284e+06" miny="192565" maxx="6.07818e+06" maxy="480225" />
+    <BoundingBox CRS="EPSG:3046"
+                minx="5.89204e+06" miny="-208850" maxx="6.12043e+06" maxy="94237" />
+    <BoundingBox CRS="EPSG:3047"
+                minx="5.94519e+06" miny="-607959" maxx="6.1963e+06" maxy="-290230" />
+    <BoundingBox CRS="EPSG:3048"
+                minx="6.03298e+06" miny="-1.00313e+06" maxx="6.30656e+06" maxy="-671578" />
+    <BoundingBox CRS="EPSG:3049"
+                minx="6.15643e+06" miny="-1.3923e+06" maxx="6.45223e+06" maxy="-1.04791e+06" />
+    <BoundingBox CRS="EPSG:3050"
+                minx="6.31692e+06" miny="-1.77279e+06" maxx="6.6345e+06" maxy="-1.41691e+06" />
+    <BoundingBox CRS="EPSG:3051"
+                minx="6.51599e+06" miny="-2.14113e+06" maxx="6.85456e+06" maxy="-1.77564e+06" />
+    <BoundingBox CRS="EPSG:2166"
+                minx="5.87815e+06" miny="3.58691e+06" maxx="6.08363e+06" maxy="3.87478e+06" />
+    <BoundingBox CRS="EPSG:2167"
+                minx="5.87838e+06" miny="4.39379e+06" maxx="6.07207e+06" maxy="4.67353e+06" />
+    <BoundingBox CRS="EPSG:2168"
+                minx="5.87533e+06" miny="5.19257e+06" maxx="6.08075e+06" maxy="5.48034e+06" />
+    <BoundingBox CRS="EPSG:900913"
+                minx="1.15194e+06" miny="6.98381e+06" maxx="1.6356e+06" maxy="7.31787e+06" />
+    <BoundingBox CRS="EPSG:3785"
+                minx="1.15194e+06" miny="6.98381e+06" maxx="1.6356e+06" maxy="7.31787e+06" />
+    <BoundingBox CRS="EPSG:3857"
+                minx="1.15194e+06" miny="6.98381e+06" maxx="1.6356e+06" maxy="7.31787e+06" />
+    <BoundingBox CRS="EPSG:3834"
+                minx="5.87815e+06" miny="2.58691e+06" maxx="6.08363e+06" maxy="2.87478e+06" />
+    <BoundingBox CRS="EPSG:3835"
+                minx="5.87533e+06" miny="3.19257e+06" maxx="6.08075e+06" maxy="3.48034e+06" />
+    <BoundingBox CRS="EPSG:5664"
+                minx="2.58691e+06" miny="5.87815e+06" maxx="2.87478e+06" maxy="6.08363e+06" />
+    <BoundingBox CRS="EPSG:5665"
+                minx="3.19257e+06" miny="5.87533e+06" maxx="3.48034e+06" maxy="6.08075e+06" />
+    <BoundingBox CRS="EPSG:5555"
+                minx="586744" miny="5.87564e+06" maxx="874496" maxy="6.08105e+06" />
+    <BoundingBox CRS="EPSG:5556"
+                minx="192565" miny="5.87284e+06" maxx="480225" maxy="6.07818e+06" />
+    <BoundingBox CRS="EPSG:5673"
+                minx="3.58691e+06" miny="5.87815e+06" maxx="3.87478e+06" maxy="6.08363e+06" />
+    <BoundingBox CRS="EPSG:5674"
+                minx="4.39379e+06" miny="5.87838e+06" maxx="4.67353e+06" maxy="6.07207e+06" />
+    <BoundingBox CRS="EPSG:5675"
+                minx="5.19257e+06" miny="5.87533e+06" maxx="5.48034e+06" maxy="6.08075e+06" />
+    <BoundingBox CRS="EPSG:5677"
+                minx="3.58685e+06" miny="5.87756e+06" maxx="3.87472e+06" maxy="6.08304e+06" />
+    <BoundingBox CRS="EPSG:5678"
+                minx="4.39377e+06" miny="5.87779e+06" maxx="4.67351e+06" maxy="6.07148e+06" />
+    <BoundingBox CRS="EPSG:5679"
+                minx="5.19258e+06" miny="5.87474e+06" maxx="5.48035e+06" maxy="6.08016e+06" />
+    <BoundingBox CRS="CRS:84"
+                minx="10.3481" miny="53.0044" maxx="14.6928" maxy="54.7727" />
+    <Attribution>
+        <Title>Landesamt für Innere Verwaltung M-V</Title>
+        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.laiv-mv.de"/>
+    </Attribution>
+    <AuthorityURL name="GeoPortal.MV">
+      <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geodaten-mv.de/geomis/"/>
+    </AuthorityURL>
+    <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/f83e2a19-0929-4991-92a1-4f1a351d0fc5</Identifier>
+    <MetadataURL type="ISO19115:2003">
+      <Format>text/xml</Format>
+      <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/f83e2a19-0929-4991-92a1-4f1a351d0fc5"/>
+    </MetadataURL>
+    <Style>
+       <Name>default</Name>
+       <Title>farbige Darstellung</Title>
+       <LegendURL width="39" height="110">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=WMS_MV_DTK&amp;format=image/png&amp;STYLE=default"/>
+       </LegendURL>
+    </Style>
+    <MinScaleDenominator>1</MinScaleDenominator>
+    <MaxScaleDenominator>1e+07</MaxScaleDenominator>
+    <Layer>
+      <Name>mv_dtk</Name>
+      <Title>Digitale Topographische Karten</Title>
+      <Abstract>Digitale Topographische Karten 1:10.000 bis 1:1.000.000, Maßstabsbereich bis 1:10.000.000</Abstract>
+    <Style>
+       <Name>default</Name>
+       <Title>default</Title>
+       <LegendURL width="39" height="110">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_dtk&amp;format=image/png&amp;STYLE=default"/>
+       </LegendURL>
+    </Style>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_dtk10</Name>
+        <Title>DTK10</Title>
+        <Abstract>Digitale Topographische Karte 1:10.000, Maßstabsbereich bis 1:10.000</Abstract>
+        <KeywordList>
+            <Keyword>Geobasisdaten</Keyword>
+            <Keyword>AdV</Keyword>
+            <Keyword>WMS</Keyword>
+            <Keyword>Mecklenburg-Vorpommern</Keyword>
+            <Keyword>Topographische Karte 1:10000</Keyword>
+            <Keyword>DTK10</Keyword>
+            <Keyword>TK10</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/de11c698-2c9a-49bc-b18a-a28b92a79090</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/de11c698-2c9a-49bc-b18a-a28b92a79090"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>farbige Darstellung</Title>
+          <LegendURL width="302" height="5712">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk10.gif"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>graue Darstellung</Title>
+          <LegendURL width="302" height="5712">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk10g.gif"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>1</MinScaleDenominator>
+        <MaxScaleDenominator>10500</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_dtk25</Name>
+        <Title>DTK25</Title>
+        <Abstract>Digitale Topographische Karte 1:25.000, Maßstabsbereich bis 1:20.000</Abstract>
+        <KeywordList>
+            <Keyword>Geobasisdaten</Keyword>
+            <Keyword>AdV</Keyword>
+            <Keyword>WMS</Keyword>
+            <Keyword>Mecklenburg-Vorpommern</Keyword>
+            <Keyword>Topographische Karte 1:25000</Keyword>
+            <Keyword>DTK25</Keyword>
+            <Keyword>TK25</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/0f4b799e-ba9b-4ec2-9210-f4a0fe749681</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/0f4b799e-ba9b-4ec2-9210-f4a0fe749681"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>farbige Darstellung</Title>
+          <LegendURL width="633" height="4562">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk25.gif"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>graue Darstellung</Title>
+          <LegendURL width="633" height="4562">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk25g.gif"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>10500</MinScaleDenominator>
+        <MaxScaleDenominator>20000</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_dtk50</Name>
+        <Title>DTK50</Title>
+        <Abstract>Digitale Topographische Karte 1:50.000, Maßstabsbereich bis 1:50.000</Abstract>
+        <KeywordList>
+            <Keyword>Geobasisdaten</Keyword>
+            <Keyword>AdV</Keyword>
+            <Keyword>WMS</Keyword>
+            <Keyword>Mecklenburg-Vorpommern</Keyword>
+            <Keyword>Topographische Karte 1:50000</Keyword>
+            <Keyword>DTK50</Keyword>
+            <Keyword>TK50</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/737aeb9e-6083-40d8-abac-58131690c6a7</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/737aeb9e-6083-40d8-abac-58131690c6a7"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>farbige Darstellung</Title>
+          <LegendURL width="300" height="3315">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk50.gif"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>graue Darstellung</Title>
+          <LegendURL width="300" height="3315">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk50g.gif"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>20000</MinScaleDenominator>
+        <MaxScaleDenominator>50000</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_dtk100</Name>
+        <Title>DTK100</Title>
+        <Abstract>Digitale Topographische Karte 1:100.000, Maßstabsbereich bis 1:100.000</Abstract>
+        <KeywordList>
+            <Keyword>Geobasisdaten</Keyword>
+            <Keyword>AdV</Keyword>
+            <Keyword>WMS</Keyword>
+            <Keyword>Mecklenburg-Vorpommern</Keyword>
+            <Keyword>Topographische Karte 1:100000</Keyword>
+            <Keyword>DTK100</Keyword>
+            <Keyword>TK100</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/f20ef064-0ddc-4271-ae7a-f9e6d0276b2b</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/f20ef064-0ddc-4271-ae7a-f9e6d0276b2b"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>farbige Darstellung</Title>
+          <LegendURL width="684" height="3136">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk100.gif"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>graue Darstellung</Title>
+          <LegendURL width="684" height="3136">
+             <Format>image/gif</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/legenden/adv_dtk100g.gif"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>50000</MinScaleDenominator>
+        <MaxScaleDenominator>100000</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_uek250</Name>
+        <Title>UEK250</Title>
+        <Abstract>Übersichtskarte 1:250.000, Maßstabsbereich bis 1:250.000</Abstract>
+        <KeywordList>
+            <Keyword>Physische Übersicht 1:250000</Keyword>
+            <Keyword>Topographische Karte 1:250000</Keyword>
+            <Keyword>DTK250</Keyword>
+            <Keyword>TK250</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/c542a441-f43e-4bd2-ba52-b9ab32bb1ae8</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/c542a441-f43e-4bd2-ba52-b9ab32bb1ae8"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>palette_rgb</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek250&amp;format=image/png&amp;STYLE=palette_rgb"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>palette_grau</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek250&amp;format=image/png&amp;STYLE=palette_grau"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>100000</MinScaleDenominator>
+        <MaxScaleDenominator>250000</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_uek750</Name>
+        <Title>UEK750</Title>
+        <Abstract>Übersichtskarte 1:750.000, Maßstabsbereich bis 1:1.500.000</Abstract>
+        <KeywordList>
+            <Keyword>Physische Übersicht 1:750000</Keyword>
+            <Keyword>Topographische Karte 1:750000</Keyword>
+            <Keyword>DTK750</Keyword>
+            <Keyword>TK750</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/9944e80f-3d5f-48ab-84bf-e63197991d5b</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/9944e80f-3d5f-48ab-84bf-e63197991d5b"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>palette_rgb</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek750&amp;format=image/png&amp;STYLE=palette_rgb"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>palette_grau</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek750&amp;format=image/png&amp;STYLE=palette_grau"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>250000</MinScaleDenominator>
+        <MaxScaleDenominator>500000</MaxScaleDenominator>
+      </Layer>
+      <Layer queryable="0" opaque="1" cascaded="0">
+        <Name>mv_uek1000</Name>
+        <Title>UEK1000</Title>
+        <Abstract>Physische Übersicht 1:1.000.000, Maßstabsbereich bis 1:10.000.000</Abstract>
+        <KeywordList>
+            <Keyword>Physische Übersicht 1:1000000</Keyword>
+            <Keyword>Topographische Karte 1:1000000</Keyword>
+            <Keyword>DTK1000</Keyword>
+            <Keyword>TK1000</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <Identifier authority="GeoPortal.MV">http://www.geodaten-mv.de/geomis/id/2733a6d9-775f-4aea-bf1a-5287aab06548</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/geomis/id/2733a6d9-775f-4aea-bf1a-5287aab06548"/>
+        </MetadataURL>
+        <Style>
+          <Name>palette_rgb</Name>
+          <Title>palette_rgb</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek1000&amp;format=image/png&amp;STYLE=palette_rgb"/>
+          </LegendURL>
+        </Style>
+        <Style>
+          <Name>palette_grau</Name>
+          <Title>palette_grau</Title>
+          <LegendURL width="39" height="20">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.geodaten-mv.de/dienste/gdimv_dtk?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=mv_uek1000&amp;format=image/png&amp;STYLE=palette_grau"/>
+          </LegendURL>
+        </Style>
+        <MinScaleDenominator>500000</MinScaleDenominator>
+        <MaxScaleDenominator>1e+07</MaxScaleDenominator>
+      </Layer>
+    </Layer>
+    <Layer queryable="1" opaque="0" cascaded="0">
+        <Name>mv_dtk_info</Name>
+        <Title>Digitale Topographische Karten Metadaten</Title>
+        <Abstract>Blattschnitte und Aktualität der Topographische Karten 1:10.000 bis 1:1.000.000</Abstract>
+        <KeywordList>
+            <Keyword>Geobasisdaten</Keyword>
+            <Keyword>AdV</Keyword>
+            <Keyword>WMS</Keyword>
+            <Keyword>Mecklenburg-Vorpommern</Keyword>
+            <Keyword>Blattschnitte Aktualität Topographische Karten</Keyword>
+        </KeywordList>
+        <CRS>EPSG:5650</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>10.3394</westBoundLongitude>
+            <eastBoundLongitude>14.477</eastBoundLongitude>
+            <southBoundLatitude>53.0392</southBoundLatitude>
+            <northBoundLatitude>54.8209</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:5650"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5652"
+                    minx="5.87772e+06" miny="3.25862e+07" maxx="6.08851e+06" maxy="3.28664e+07" />
+        <BoundingBox CRS="EPSG:5653"
+                    minx="5.886e+06" miny="3.32e+07" maxx="6.075e+06" maxy="3.3465e+07" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:25832"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35832"
+                    minx="3.25862e+07" miny="5.87772e+06" maxx="3.28664e+07" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:35833"
+                    minx="3.32e+07" miny="5.886e+06" maxx="3.3465e+07" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:28402"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:28403"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:32632"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:32633"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4269"
+                    minx="53.0392" miny="10.3394" maxx="54.8209" maxy="14.477" />
+        <BoundingBox CRS="EPSG:4178"
+                    minx="53.0396" miny="10.3414" maxx="54.8213" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:2398"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2399"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:4314"
+                    minx="53.0407" miny="10.3407" maxx="54.8226" maxy="14.4789" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.87963e+06" miny="3.58635e+06" maxx="6.09051e+06" maxy="3.86659e+06" />
+        <BoundingBox CRS="EPSG:31468"
+                    minx="5.87956e+06" miny="4.39313e+06" maxx="6.07962e+06" maxy="4.66592e+06" />
+        <BoundingBox CRS="EPSG:31469"
+                    minx="5.88791e+06" miny="5.20001e+06" maxx="6.07699e+06" maxy="5.46512e+06" />
+        <BoundingBox CRS="EPSG:3034"
+                    minx="2.91183e+06" miny="4.02116e+06" maxx="3.11186e+06" maxy="4.28948e+06" />
+        <BoundingBox CRS="EPSG:3035"
+                    minx="3.32576e+06" miny="4.34287e+06" maxx="3.53275e+06" maxy="4.62052e+06" />
+        <BoundingBox CRS="EPSG:3038"
+                    minx="6.56064e+06" miny="2.8367e+06" maxx="6.89276e+06" maxy="3.18759e+06" />
+        <BoundingBox CRS="EPSG:3039"
+                    minx="6.35438e+06" miny="2.47998e+06" maxx="6.66782e+06" maxy="2.82253e+06" />
+        <BoundingBox CRS="EPSG:3040"
+                    minx="6.18697e+06" miny="2.11242e+06" maxx="6.48075e+06" maxy="2.44469e+06" />
+        <BoundingBox CRS="EPSG:3041"
+                    minx="6.05685e+06" miny="1.73706e+06" maxx="6.33039e+06" maxy="2.05767e+06" />
+        <BoundingBox CRS="EPSG:3042"
+                    minx="5.96261e+06" miny="1.35633e+06" maxx="6.21556e+06" maxy="1.66425e+06" />
+        <BoundingBox CRS="EPSG:3043"
+                    minx="5.90314e+06" miny="972177" maxx="6.1352e+06" maxy="1.26658e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.87772e+06" miny="586247" maxx="6.08851e+06" maxy="866367" />
+        <BoundingBox CRS="EPSG:3045"
+                    minx="5.886e+06" miny="200000" maxx="6.075e+06" maxy="465000" />
+        <BoundingBox CRS="EPSG:3046"
+                    minx="5.90577e+06" miny="-201281" maxx="6.11732e+06" maxy="79789.6" />
+        <BoundingBox CRS="EPSG:3047"
+                    minx="5.95947e+06" miny="-600279" maxx="6.19327e+06" maxy="-303831" />
+        <BoundingBox CRS="EPSG:3048"
+                    minx="6.04776e+06" miny="-995368" maxx="6.30362e+06" maxy="-684248" />
+        <BoundingBox CRS="EPSG:3049"
+                    minx="6.17167e+06" miny="-1.38449e+06" maxx="6.44941e+06" maxy="-1.05955e+06" />
+        <BoundingBox CRS="EPSG:3050"
+                    minx="6.33256e+06" miny="-1.76498e+06" maxx="6.63183e+06" maxy="-1.42738e+06" />
+        <BoundingBox CRS="EPSG:3051"
+                    minx="6.53196e+06" miny="-2.13339e+06" maxx="6.85206e+06" maxy="-1.78478e+06" />
+        <BoundingBox CRS="EPSG:2166"
+                    minx="5.88022e+06" miny="3.58641e+06" maxx="6.0911e+06" maxy="3.86664e+06" />
+        <BoundingBox CRS="EPSG:2167"
+                    minx="5.88015e+06" miny="4.39316e+06" maxx="6.08021e+06" maxy="4.66594e+06" />
+        <BoundingBox CRS="EPSG:2168"
+                    minx="5.8885e+06" miny="5.2e+06" maxx="6.07757e+06" maxy="5.46511e+06" />
+        <BoundingBox CRS="EPSG:900913"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3785"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.15098e+06" miny="6.99025e+06" maxx="1.61157e+06" maxy="7.32719e+06" />
+        <BoundingBox CRS="EPSG:3834"
+                    minx="5.88022e+06" miny="2.58641e+06" maxx="6.0911e+06" maxy="2.86664e+06" />
+        <BoundingBox CRS="EPSG:3835"
+                    minx="5.8885e+06" miny="3.2e+06" maxx="6.07757e+06" maxy="3.46511e+06" />
+        <BoundingBox CRS="EPSG:5664"
+                    minx="2.58641e+06" miny="5.88022e+06" maxx="2.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5665"
+                    minx="3.2e+06" miny="5.8885e+06" maxx="3.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5555"
+                    minx="586247" miny="5.87772e+06" maxx="866367" maxy="6.08851e+06" />
+        <BoundingBox CRS="EPSG:5556"
+                    minx="200000" miny="5.886e+06" maxx="465000" maxy="6.075e+06" />
+        <BoundingBox CRS="EPSG:5673"
+                    minx="3.58641e+06" miny="5.88022e+06" maxx="3.86664e+06" maxy="6.0911e+06" />
+        <BoundingBox CRS="EPSG:5674"
+                    minx="4.39316e+06" miny="5.88015e+06" maxx="4.66594e+06" maxy="6.08021e+06" />
+        <BoundingBox CRS="EPSG:5675"
+                    minx="5.2e+06" miny="5.8885e+06" maxx="5.46511e+06" maxy="6.07757e+06" />
+        <BoundingBox CRS="EPSG:5677"
+                    minx="3.58635e+06" miny="5.87963e+06" maxx="3.86659e+06" maxy="6.09051e+06" />
+        <BoundingBox CRS="EPSG:5678"
+                    minx="4.39313e+06" miny="5.87956e+06" maxx="4.66592e+06" maxy="6.07962e+06" />
+        <BoundingBox CRS="EPSG:5679"
+                    minx="5.20001e+06" miny="5.88791e+06" maxx="5.46512e+06" maxy="6.07699e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="10.3394" miny="53.0392" maxx="14.477" maxy="54.8209" />
+        <MinScaleDenominator>1</MinScaleDenominator>
+        <MaxScaleDenominator>1e+07</MaxScaleDenominator>
+    </Layer>
+  </Layer>
+</Capability>
+</WMS_Capabilities>

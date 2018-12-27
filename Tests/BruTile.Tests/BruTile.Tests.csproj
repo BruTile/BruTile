@@ -66,6 +66,9 @@
     <None Update="Resources\Wms\NrcsSoilWmsCapabilities_1_1_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wms\wms-capabilities-gdimv_dtk.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Wms\WmsCapabilities_1_3_0_withXmlns.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
