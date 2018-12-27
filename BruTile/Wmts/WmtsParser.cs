@@ -76,7 +76,7 @@ namespace BruTile.Wmts
             foreach (var layer in capabilties.Contents.Layers)
             {
                 var identifier = layer.Identifier.Value;
-                var title = layer.Title[0].Value;
+                var title = layer.Title?[0].Value;
                 string @abstract = layer.Abstract != null ? layer.Abstract[0].Value : string.Empty;
 
                 foreach (var tileMatrixLink in layer.TileMatrixSetLink)

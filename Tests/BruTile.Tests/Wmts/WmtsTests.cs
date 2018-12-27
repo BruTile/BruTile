@@ -227,5 +227,19 @@ namespace BruTile.Tests.Wmts
                 Assert.AreEqual(1, tileSources.Count());
             }
         }
+
+        [Test]
+        public void TestNoTitlePresentInWmtsCapabilitiesLayer()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-opencache-statkart-no.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream);
+
+                // assert
+                Assert.AreEqual(319, tileSources.Count());
+            }
+        }
     }
 }
