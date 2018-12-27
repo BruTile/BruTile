@@ -14,6 +14,21 @@ What BruTile does is:
 2. Helps to calculate which tiles you need, given a certain map extent and a map resolution (units per pixel). 
 3. Helps you fetch those tiles.
 
+### Demo
+For a demo showing various data sources download the source code and run BruTile.Demo in the Samples folder
+
+### BruTile 2.0 as .NET Standard
+BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
+
+| Library                  |   Targeted Framework  |
+| ------------------------ | --------------------- |
+| BruTile                  |  .NET Standard 1.1    |
+| BruTile.MbTiles          |  .NET Standard 1.1    |
+| BruTile.Desktop          |  .NET Standard 1.6    |
+| BruTile.Desktop.DbCache  |  .NET Standard 2.0    |
+
+All the above libraries additionally target .Net Framework 4.5
+
 ## Getting Started
 
 ### Create an app and add the BruTile NuGet package
@@ -72,21 +87,6 @@ var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 The predefined tile sources are defined in a single file. Take a look at that file [here](https://github.com/BruTile/BruTile/blob/master/BruTile/Predefined/KnownTileSources.cs) to learn how you could create any tile source.
 
 The above code can also be found in the BruTile sample called BruTile.GettingStarted in the Samples folder of this repository.
-
-### Demo
-For a demo showing various data sources download the source code and run BruTile.Demo in the Samples folder
-
-### BruTile 2.0 as .NET Standard
-BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
-
-| Library                  |   Targeted Framework  |
-| ------------------------ | --------------------- |
-| BruTile                  |  .NET Standard 1.1    |
-| BruTile.MbTiles          |  .NET Standard 1.1    |
-| BruTile.Desktop          |  .NET Standard 1.6    |
-| BruTile.Desktop.DbCache  |  .NET Standard 2.0    |
-
-All the above libraries additionally target .Net Framework 4.5
 
 ### Supported tile service protocols:
 * [WMTS](http://www.opengeospatial.org/standards/wmts)
