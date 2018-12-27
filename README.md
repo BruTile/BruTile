@@ -14,10 +14,7 @@ What BruTile does is:
 2. Helps to calculate which tiles you need, given a certain map extent and a map resolution (units per pixel). 
 3. Helps you fetch those tiles.
 
-### Demo
-For a demo showing various data sources download the source code and run BruTile.Demo in the Samples folder
-
-### BruTile 2.0 as .NET Standard
+### BruTile 2.0 is a .NET Standard library
 BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
 
 | Library                  |   Targeted Framework  |
@@ -28,6 +25,9 @@ BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
 | BruTile.Desktop.DbCache  |  .NET Standard 2.0    |
 
 All the above libraries additionally target .Net Framework 4.5
+
+### Demo
+For a demo showing various data sources download the source code and run BruTile.Demo in the Samples folder
 
 ## Getting Started
 
