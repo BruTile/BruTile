@@ -31,20 +31,20 @@ All the above libraries additionally target .Net Framework 4.5
 
 ## Getting Started
 
-### 0) Create an app and add the BruTile NuGet package
+### 1) Create an app and add the BruTile NuGet package
 Create a .NET Console app in Visual Studio. The the BruTile NuGet package. Use the package manager tools in Visual Studio or add it from the package manager console:
 ```
 PM> install-package BruTile 
 ```
 
-### 1) Create a tile source
+### 2) Create a tile source
 ```c#
 // This is an example that creates the OpenStreetMap tile source:
 var tileSource = new HttpTileSource(new GlobalSphericalMercator(0, 18),
     "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     new[] {"a", "b", "c"}, "OSM");
 ```
-### 2) Calculate which tiles you need
+### 3) Calculate which tiles you need
 ```c#
 // the extent of the visible map changes but lets start with the whole world
 var extent = new Extent(-20037508, -20037508, 20037508, 20037508);
@@ -53,7 +53,7 @@ var resolution = extent.Width / screenWidthInPixels;
 var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
 ```
 
-### 3) Fetch the tiles from the service
+### 4) Fetch the tiles from the service
 ```c#
 foreach (var tileInfo in tileInfos)
 {
@@ -73,7 +73,7 @@ This will be the output:
     tile col: 1, tile row: 0, tile level: 1 , tile size 10679
     tile col: 1, tile row: 1, tile level: 1 , tile size 4009
 
-### 4) Try other tile sources
+### 5) Try other tile sources
 
 ```c#
 // You can easily create an ITileSource for a number of predefined tile servers
