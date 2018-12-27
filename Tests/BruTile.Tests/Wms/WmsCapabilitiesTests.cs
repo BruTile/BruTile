@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
 using BruTile.Tests.Utilities;
@@ -155,9 +154,9 @@ namespace BruTile.Tests.Wms
             Assert.That(valid, Is.EqualTo(expected));
         }
 
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk", "WMS MV DTK", "1.3.0")]
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.1", "WMS MV DTK", "1.1.1")]
-        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.0", "WMS MV DTK", "1.1.0")]
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk", "GDI MV DTK WMS", "1.3.0")]
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.1", "GDI MV DTK WMS", "1.1.1")]
+        [TestCase("http://www.geodaten-mv.de/dienste/gdimv_dtk?VERSION=1.1.0", "GDI MV DTK WMS", "1.1.0")]
         public void WmsGetCapabilitiesUrl(string url, string serviceTitle = null, string version = null)
         {
             // arrange, act
