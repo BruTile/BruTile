@@ -125,7 +125,7 @@ namespace BruTile.Tests.Wms
         }
 
         [Test]
-        public void WmsCapabilitiesTopPlusWebOpen()
+        public void WmsCapabilitiesChildInheritsCrsFromParentLayer()
         {
             // arrange
             var fileName = "wms_topplus_web_open.xml";
