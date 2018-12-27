@@ -31,7 +31,7 @@ All the above libraries additionally target .Net Framework 4.5
 
 ## Getting Started
 
-### 1) Create an app and add the BruTile NuGet package
+### 0) Create an app and add the BruTile NuGet package
 Create a .NET Console app in Visual Studio. The the BruTile NuGet package. Use the package manager tools in Visual Studio or add it from the package manager console:
 ```
 PM> install-package BruTile 
