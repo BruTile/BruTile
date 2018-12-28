@@ -1,12 +1,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/5s4poobpfab9g8ny?svg=true)](https://ci.appveyor.com/project/pauldendulk/brutile)
 [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
-[![NuGet pre-release status](http://img.shields.io/nuget/vpre/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/)
 
 ### BruTile
 BruTile is a .NET Standard 1.1 library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
-BruTile returns tiles as raw image streams and has no UI dependencies which makes it usable in any .NET platform.
-
-BruTile does not display those tiles. You need to use a mapping library like SharpMap, ArcBruTile or [Mapsui](https://github.com/Mapsui/Mapsui) or write your own code to display tiles. 
+BruTile returns tiles as raw image streams and has no dependency on a specific client platform. BruTile does not display those tiles. You need to use a mapping library like SharpMap, ArcBruTile or [Mapsui](https://github.com/Mapsui/Mapsui) or write your own code to display tiles. 
 
 What BruTile does is:
 
@@ -14,7 +11,7 @@ What BruTile does is:
 2. Helps to calculate which tiles you need, given a certain map extent and a map resolution (units per pixel). 
 3. Helps you fetch those tiles.
 
-### BruTile 2.0 is a .NET Standard library
+### BruTile is a .NET Standard library
 BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
 
 | Library                  |   Targeted Framework  |
