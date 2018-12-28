@@ -1,6 +1,7 @@
 ﻿using System;
 using BruTile.Predefined;
 using BruTile.Web;
+// ReSharper disable UnusedVariable
 
 namespace BruTile.GettingStarted
 {
