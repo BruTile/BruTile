@@ -6,30 +6,15 @@ namespace BruTile
 {
     public struct TileIndex : IComparable
     {
-        private readonly int _col;
-        private readonly int _row;
-        private readonly string _level;
-        
-        public int Col
-        {
-            get { return _col; }
-        }
-
-        public int Row
-        {
-            get { return _row; }
-        }
-
-        public string Level
-        {
-            get { return _level; }
-        }
+        public int Col { get; }
+        public int Row { get; }
+        public string Level { get; }  // Note: TileIndex is a struct but Level is a class which needs GC. It would be nice if we could avoid GC.
 
         public TileIndex(int col, int row, string level)
         {
-            _col = col;
-            _row = row;
-            _level = level;
+            Col = col;
+            Row = row;
+            Level = level;
         }
 
         public int CompareTo(object obj)
@@ -43,11 +28,11 @@ namespace BruTile
 
         public int CompareTo(TileIndex index)
         {
-            if (_col < index._col) return -1;
-            if (_col > index._col) return 1;
-            if (_row < index._row) return -1;
-            if (_row > index._row) return 1;
-            return String.Compare(_level, index._level, StringComparison.Ordinal);
+            if (Col < index.Col) return -1;
+            if (Col > index.Col) return 1;
+            if (Row < index.Row) return -1;
+            if (Row > index.Row) return 1;
+            return String.Compare(Level, index.Level, StringComparison.Ordinal);
         }
 
         public override bool Equals(object obj)
@@ -60,12 +45,12 @@ namespace BruTile
 
         public bool Equals(TileIndex index)
         {
-            return _col == index._col && _row == index._row && _level == index._level;
+            return Col == index.Col && Row == index.Row && Level == index.Level;
         }
 
         public override int GetHashCode()
         {
-            return _col ^ _row ^ ((_level == null) ? 0 : _level.GetHashCode());
+            return Col ^ Row ^ ((Level == null) ? 0 : Level.GetHashCode());
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)
