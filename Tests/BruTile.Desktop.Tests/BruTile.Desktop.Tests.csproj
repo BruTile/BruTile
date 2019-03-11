@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <PackageReference Include="System.Data.SQLite.Core" version="1.0.106" />
+    <PackageReference Include="System.Data.SQLite.Core" version="1.0.110" />
   </ItemGroup>
 
 </Project>
