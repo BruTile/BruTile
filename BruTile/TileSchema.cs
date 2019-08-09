@@ -76,12 +76,12 @@ namespace BruTile
             return Resolutions[levelId].TileHeight;
         }
 
-        public int GetMatrixWidth(string levelId)
+        public long GetMatrixWidth(string levelId)
         {
             return GetMatrixLastCol(levelId) - GetMatrixFirstCol(levelId) + 1;
         }
 
-        public int GetMatrixHeight(string levelId)
+        public long GetMatrixHeight(string levelId)
         {
             return GetMatrixLastRow(levelId) - GetMatrixFirstRow(levelId) + 1;
         }

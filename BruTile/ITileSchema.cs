@@ -57,14 +57,14 @@ namespace BruTile
         /// </summary>
         /// <param name="levelId">The zoom level's id</param>
         /// <returns>The matrix width</returns>
-        int GetMatrixWidth(string levelId);
+        long GetMatrixWidth(string levelId);
 
         /// <summary>
         /// Function to get the matrix height (aka number of rows) of the schema for a given zoom level.
         /// </summary>
         /// <param name="levelId">The zoom level's id</param>
         /// <returns>The matrix height</returns>
-        int GetMatrixHeight(string levelId);
+        long GetMatrixHeight(string levelId);
 
         /// <summary>
         /// Gets a value indicating the resolutions defined in this schema
