@@ -11,13 +11,13 @@ namespace BruTile
         private readonly double _left;
         private readonly int _tileWidth;
         private readonly int _tileHeight;
-        private readonly int _matrixWidth;
-        private readonly int _matrixHeight;
+        private readonly long _matrixWidth;
+        private readonly long _matrixHeight;
 
         public Resolution(string id, double unitsPerPixel, 
             int tileWidth = 256, int tileHeight = 256,
             double left = 0, double top = 0,
-            int matrixWidth = 0, int matrixHeight = 0,
+            long matrixWidth = 0, long matrixHeight = 0,
             double scaledenominator = 0)
         {
             _id = id;
@@ -66,12 +66,12 @@ namespace BruTile
             get { return _tileHeight; }
         }
 
-        public int MatrixWidth
+        public long MatrixWidth
         {
             get { return _matrixWidth; }
         }
 
-        public int MatrixHeight
+        public long MatrixHeight
         {
             get { return _matrixHeight; }
         }

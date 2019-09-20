@@ -354,8 +354,8 @@ namespace BruTile.Wmts
                     CultureInfo.InvariantCulture), 
                     Convert.ToDouble(coords[ordinateOrder[1]], 
                     CultureInfo.InvariantCulture),
-                    (int)tileMatrix.MatrixWidth,
-                    (int)tileMatrix.MatrixHeight,
+                    (long)tileMatrix.MatrixWidth,
+                    (long)tileMatrix.MatrixHeight,
                     tileMatrix.ScaleDenominator));
           }
     }

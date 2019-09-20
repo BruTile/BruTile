@@ -31,7 +31,7 @@ namespace BruTile.Wmsc
             _customParameters = customParameters;
             _layers = layers.ToList();
             _schema = schema;
-            _styles = styles?.ToList();
+            _styles = (styles == null) ? null : styles.ToList();
             _version = version;
         }
 

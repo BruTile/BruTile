@@ -153,12 +153,12 @@ namespace BruTile.Wmts
             return Resolutions[levelId].Top;
         }
 
-        public int GetMatrixWidth(string levelId)
+        public long GetMatrixWidth(string levelId)
         {
             return Resolutions[levelId].MatrixWidth;
         }
 
-        public int GetMatrixHeight(string levelId)
+        public long GetMatrixHeight(string levelId)
         {
             return Resolutions[levelId].MatrixHeight;
         }
