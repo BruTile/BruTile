@@ -18,12 +18,9 @@ namespace BruTile.Web
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = fetchTile ?? FetchTile;
-            if (!string.IsNullOrWhiteSpace(userAgent))
-            {
-                _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
-            }
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "BruTile Tile Library");
         }
-
+        
         private byte[] FetchTile(Uri arg)
         {
             return _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
