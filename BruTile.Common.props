@@ -5,8 +5,8 @@
   <PropertyGroup>
     <Version>2.1.1</Version>
     <NeutralLanguage>en</NeutralLanguage>
-    <Copyright>Copyright © BruTile Developers Team 2008-2018</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt</PackageLicenseUrl>
+    <Copyright>Copyright © BruTile Developers Team 2008-$([System.DateTime]::UtcNow.Year)</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/BruTile/BruTile</RepositoryUrl>
@@ -20,6 +20,32 @@
     <OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
     <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Version numbers">
+
+    <!-- MAJOR, MINOR, and PATCH are defined according to SemVer 2.0.0. -->
+    <BtMajor>2</BtMajor>
+    <BtMinor>0</BtMinor>
+    <BtPatch>3</BtPatch>
+
+    <Version>$(BtMajor).$(BtMinor).$(BtPatch)</Version>
+
+    <BtBuildNumber Condition=" '$(BtBuildNumber)' == '' And '$(TRAVIS_BUILD_NUMBER)' != '' ">$(TRAVIS_BUILD_NUMBER)</BtBuildNumber>
+    <BtBuildNumber Condition=" '$(BtBuildNumber)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(APPVEYOR_BUILD_NUMBER)</BtBuildNumber>
+    <BtBuildNumber Condition=" '$(BtBuildNumber)' == '' And '$(BUILD_NUMBER)' != '' ">$(BUILD_NUMBER)</BtBuildNumber>
+    <BtBuildNumber Condition=" '$(BtBuildNumber)' == '' ">0</BtBuildNumber>
+
+    <BtBuildServer Condition=" '$(BtBuildServer)' == '' And '$(TRAVIS_BUILD_NUMBER)' != '' ">Build: Travis-$(TRAVIS_BUILD_NUMBER)</BtBuildServer>
+    <BtBuildServer Condition=" '$(BtBuildServer)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">Build: AppVeyor-$(APPVEYOR_BUILD_NUMBER)</BtBuildServer>
+    <BtBuildServer Condition=" '$(BtBuildServer)' == '' ">local build</BtBuildServer>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly Info">
+    <!-- See https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/versioning -->
+    <AssemblyVersion>$(BtMajor).0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>$(BtMajor).$(BtMinor).$(BtPatch).$(BtBuildNumber)</AssemblyFileVersion>
+    <InformationalVersion>$(BtMajor).$(BtMinor).$(BtPatch) ($(BtBuildServer))</InformationalVersion>
   </PropertyGroup>
 
 </Project>
