@@ -73,9 +73,5 @@ namespace BruTile
                 return assemblyName.Version.Major + "." + assemblyName.Version.Minor;
             }
         }
-
-        public static string DefaultUserAgent { get { return "BruTile/" + Version; } }
-
-        public static string DefaultReferer { get { return string.Empty; } }
     }
 }
