@@ -90,19 +90,19 @@
       <Version>1.6.1</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
-      <Version>1.4.118</Version>
+      <Version>1.6.292</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>1.1.9</Version>
+      <Version>1.1.13</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.linux">
-      <Version>1.1.9</Version>
+      <Version>1.1.13</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.osx">
-      <Version>1.1.9</Version>
+      <Version>1.1.13</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.v110_xp">
-      <Version>1.1.9</Version>
+      <Version>1.1.13</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.3</Version>
