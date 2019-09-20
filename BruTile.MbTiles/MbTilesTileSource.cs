@@ -35,7 +35,7 @@ namespace BruTile.MbTiles
             _connectionString = connectionString;
 			if (tileRangeOptimization || schema == null)
 			{
-				using (var connection = new SQLiteConnectionWithLock(connectionString, SQLiteOpenFlags.ReadOnly))
+				using (var connection = new SQLiteConnectionWithLock(connectionString))
 				using (connection.Lock())
 				{
 					Type = type == MbTilesType.None ? ReadType(connection) : type;
@@ -163,7 +163,7 @@ namespace BruTile.MbTiles
             if (IsTileIndexValid(index))
             {
                 byte[] result;
-				using (var cn = new SQLiteConnectionWithLock(_connectionString, SQLiteOpenFlags.ReadOnly))
+				using (var cn = new SQLiteConnectionWithLock(_connectionString))
                 using (cn.Lock())
                 {
                     const string sql =
