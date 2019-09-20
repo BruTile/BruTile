@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using BruTile.MbTiles.Tests.Utilities;
@@ -64,7 +63,7 @@ namespace BruTile.MbTiles.Tests
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
 
             // assert
-            Assert.AreEqual(95490133.792558521d, tileSource.Schema.Extent.Area);
+            Assert.AreEqual(95490133.792558521d, tileSource.Schema.Extent.Area, 0.0001d);
             Assert.AreEqual(17, tileSource.Schema.Resolutions.Count);
         }
 
