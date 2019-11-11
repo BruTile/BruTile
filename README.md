@@ -30,6 +30,8 @@ For a demo showing various data sources download the source code and run BruTile
 
 ## Getting Started
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/bertt/brutile/patch-1)
+
 ### 1) Create an app and add the BruTile NuGet package
 Create a .NET Console app in Visual Studio. The the BruTile NuGet package. Use the package manager tools in Visual Studio or add it from the package manager console:
 ```
