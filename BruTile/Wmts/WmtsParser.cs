@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using BruTile.Web;
 using BruTile.Wmts.Generated;
@@ -191,7 +192,7 @@ namespace BruTile.Wmts
             foreach (var resourceUrl in inputResourceUrls)
             {
                 var template = resourceUrl.template.Replace(WmtsRequest.TileMatrixSetTag, tileMatrixSet);
-                template = template.Replace(WmtsRequest.StyleTag, style);
+                template = Regex.Replace(template, WmtsRequest.StyleTag, style, RegexOptions.IgnoreCase);
                 resourceUrls.Add(new ResourceUrl
                     {
                         Format = resourceUrl.format,
