@@ -27,7 +27,13 @@ namespace BruTile.Web
             Attribution = attribution ?? new Attribution();
         }
 
-        public IPersistentCache<byte[]> PersistentCache => _provider.PersistentCache;
+        public IPersistentCache<byte[]> PersistentCache
+        {
+            get { return _provider.PersistentCache; }
+            set { 
+                // _provider.PersistentCache = value; This is problem, no setter
+            }
+        }
 
         public Uri GetUri(TileInfo tileInfo)
         {

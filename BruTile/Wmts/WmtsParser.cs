@@ -70,9 +70,9 @@ namespace BruTile.Wmts
         /// <param name="capabilties">The capabilities document</param>
         /// <param name="tileSchemas">A set of</param>
         /// <returns></returns>
-        private static IEnumerable<ITileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas)
+        private static IEnumerable<HttpTileSource> GetLayers(Capabilities capabilties, List<ITileSchema> tileSchemas)
         {
-            var tileSources = new List<ITileSource>();
+            var tileSources = new List<HttpTileSource>();
 
             foreach (var layer in capabilties.Contents.Layers)
             {
@@ -114,8 +114,8 @@ namespace BruTile.Wmts
                             //var layerName = layer.Identifier.Value;
                             var styleName = style.Identifier.Value;
 
-                            var tileSource = new TileSource(new HttpTileProvider(wmtsRequest),
-                                tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format))
+                            var tileSource = new HttpTileSource(
+                                tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format), wmtsRequest)
                                 {
                                     Name = title
                                 };
