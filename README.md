@@ -4,7 +4,7 @@
 | NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
 
 ### News
-- 2020 juni 7: published a couple of new releases. They are based on just four PRs but because of semver they came out as 3 separate releases.
+- 2020 june 7: published a couple of new releases. They are based on just four PRs but because of semver they came out as three separate releases.
   - [2.1.3](https://github.com/BruTile/BruTile/releases/tag/2.1.3) with a small fix to allow case insensitive style in wmts.
   - [2.2.0](https://github.com/BruTile/BruTile/releases/tag/2.2.0) in which HttpTileSource.PersistentCache now has a setter.
   - [3.0.0](https://github.com/BruTile/BruTile/releases/tag/3.0.0) which has two breaking changes.
@@ -64,7 +64,9 @@ var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
 ```
 
 ### 4) Fetch the tiles from the service
+
 ```c#
+Console.WriteLine("Show tile info");
 foreach (var tileInfo in tileInfos)
 {
     var tile = tileSource.GetTile(tileInfo);
@@ -76,14 +78,15 @@ foreach (var tileInfo in tileInfos)
         $"tile size {tile.Length}");
 }
 ```
-This will be the output:
-
+Output:
+```console
     tile col: 0, tile row: 0, tile level: 1 , tile size 11276
     tile col: 0, tile row: 1, tile level: 1 , tile size 3260
     tile col: 1, tile row: 0, tile level: 1 , tile size 10679
     tile col: 1, tile row: 1, tile level: 1 , tile size 4009
+```
 
-### 5) Try other tile sources
+### 5) Try some of the known tile sources 
 
 ```c#
 // You can easily create an ITileSource for a number of predefined tile servers
@@ -95,6 +98,19 @@ var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite);
 var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief);
 ```
 The predefined tile sources are defined in a single file. Take a look at that file [here](https://github.com/BruTile/BruTile/blob/master/BruTile/Predefined/KnownTileSources.cs) to learn how you could create any tile source.
+
+
+### 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
+
+```c#
+var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
+var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
+Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
+```
+Output:
+```console
+This is a byte array of an image file loaded from MBTiles with size: 27412
+```
 
 The above code can also be found in the BruTile sample called BruTile.GettingStarted in the Samples folder of this repository.
 
