@@ -117,7 +117,7 @@ namespace BruTile.Cache
 
         private string GetDirectoryName(TileIndex index)
         {
-            var level = index.Level;//.ToString(CultureInfo.InvariantCulture);
+            var level = index.Level.ToString(CultureInfo.InvariantCulture);
             level = level.Replace(':', '_');
             return Path.Combine(_directory, 
                 level, 

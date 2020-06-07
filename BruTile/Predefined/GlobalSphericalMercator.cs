@@ -76,7 +76,7 @@ namespace BruTile.Predefined
             {
                 dictionary[level.ToString()] = new Resolution
                     (
-                        level.ToString(), 
+                        level, 
                         2 * ScaleFactor / (1 << level)
                     );
             }

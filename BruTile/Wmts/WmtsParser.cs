@@ -125,7 +125,6 @@ namespace BruTile.Wmts
             return tileSources;
         }
 
-
         private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Operation> operations, 
             string format, string version, string layer, string style, string tileMatrixSet)
         {
@@ -200,7 +199,6 @@ namespace BruTile.Wmts
             return resourceUrls;
         }
 
-
         private static List<ITileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets,
             BoundingBoxAxisOrderInterpretation bbaoi)
         {
@@ -222,7 +220,7 @@ namespace BruTile.Wmts
 
                 // Try to parse the Crs
                 var supportedCrs = tileMatrixSet.SupportedCRS;
-                
+
                 // Hack to fix broken crs spec
                 supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
 
@@ -242,8 +240,10 @@ namespace BruTile.Wmts
                 // Create a new WMTS tile schema 
                 var tileSchema = new WmtsTileSchema();
 
+                var tileMatrices = SetLevelOnTileTileMatrix(tileMatrixSet);
+
                 // Add the resolutions
-                foreach (var tileMatrix in tileMatrixSet.TileMatrix)
+                foreach (var tileMatrix in tileMatrices)
                 {
                     tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
                 }
@@ -260,6 +260,19 @@ namespace BruTile.Wmts
                 tileSchemas.Add(tileSchema);
             }
             return tileSchemas;
+        }
+
+        private static IEnumerable<TileMatrix> SetLevelOnTileTileMatrix(TileMatrixSet tileMatrixSet)
+        {
+            var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator);
+            var count = 0;
+            foreach (var tileMatrix in tileMatrices)
+            {
+                tileMatrix.Level = count;
+                count++;
+            }
+
+            return tileMatrices.ToList();
         }
 
         private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)
@@ -325,7 +338,7 @@ namespace BruTile.Wmts
                 tileMatrix.Top);
         }
 
-        private static KeyValuePair<string, Resolution> ToResolution(TileMatrix tileMatrix, 
+        private static KeyValuePair<int, Resolution> ToResolution(TileMatrix tileMatrix, 
             int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
         {
             // Get the coordinates
@@ -341,10 +354,10 @@ namespace BruTile.Wmts
                 unitsPerPixel = ss[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
             }
 
-            return new KeyValuePair<string, Resolution>(tileMatrix.Identifier.Value,
+            return new KeyValuePair<int, Resolution>(tileMatrix.Level,
                 new Resolution
                 (
-                    tileMatrix.Identifier.Value,
+                    tileMatrix.Level,
                     unitsPerPixel,
                     tileMatrix.TileWidth,
                     tileMatrix.TileHeight,

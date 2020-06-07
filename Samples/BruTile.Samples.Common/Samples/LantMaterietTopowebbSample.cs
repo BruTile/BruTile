@@ -3,9 +3,9 @@ using System.Linq;
 using System.Net;
 using BruTile.Wmts;
 
-namespace BruTile.Samples.Common
+namespace BruTile.Samples.Common.Samples
 {
-    public static class LantMaterietTopowebbTileSourceTest
+    public static class LantMaterietTopowebbSample
     {
         public static ITileSource Create()
         {

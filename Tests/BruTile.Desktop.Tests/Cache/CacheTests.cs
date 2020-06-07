@@ -46,7 +46,7 @@ namespace BruTile.Tests.Cache
                         bm[0] = i;
                         bm[1] = j;
                         bm[2] = level;
-                        Cache.Add(new TileIndex(i, j, level.ToString(CultureInfo.InvariantCulture)), bm);
+                        Cache.Add(new TileIndex(i, j, level), bm);
                         count++;
                     }
             }
@@ -57,7 +57,7 @@ namespace BruTile.Tests.Cache
         {
             var sw = new Stopwatch();
 
-            var tk = new TileIndex(1, 2, "2");
+            var tk = new TileIndex(1, 2, 2);
             sw.Start();
             var bm = Cache.Find(tk);
             sw.Stop();
@@ -70,7 +70,7 @@ namespace BruTile.Tests.Cache
             Console.WriteLine($"Specific Tile ({tk.Level},{tk.Row},{tk.Col}) found in {sw.ElapsedMilliseconds}ms.");
 
             sw.Reset();
-            tk = new TileIndex(5, 5, (MaxLevel - 1).ToString(CultureInfo.InvariantCulture));
+            tk = new TileIndex(5, 5, (MaxLevel - 1));
             sw.Start();
             bm = Cache.Find(tk);
             sw.Stop();
@@ -110,7 +110,7 @@ namespace BruTile.Tests.Cache
             {
                 var level = _random.Next(MaxLevel);
                 var maxValue = (int)Math.Pow(2, level);
-                yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level.ToString(CultureInfo.InvariantCulture));
+                yield return new TileIndex(_random.Next(maxValue), _random.Next(maxValue), level);
             }
         }
 
@@ -145,7 +145,7 @@ namespace BruTile.Tests.Cache
 
         public void RemoveTile()
         {
-            var tk = new TileIndex(1, 2, "0");
+            var tk = new TileIndex(1, 2, 0);
             Cache.Remove(tk);
 
             byte[] bm = Cache.Find(tk);

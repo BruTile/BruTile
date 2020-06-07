@@ -31,15 +31,15 @@ namespace BruTile
     public class TileSchema : ITileSchema
     {
         public double ProportionIgnored;
-        private readonly IDictionary<string, Resolution> _resolutions;
+        private readonly IDictionary<int, Resolution> _resolutions;
 
         public TileSchema()
         {
             ProportionIgnored = 0.0001;
-            _resolutions = new Dictionary<string, Resolution>();
+            _resolutions = new Dictionary<int, Resolution>();
             YAxis = YAxis.TMS;
-            OriginY = Double.NaN;
-            OriginX = Double.NaN;
+            OriginY = double.NaN;
+            OriginX = double.NaN;
         }
 
         public double OriginX { get; set; }
@@ -51,49 +51,49 @@ namespace BruTile
         public Extent Extent { get; set; }
         public YAxis YAxis { get; set; }
 
-        public IDictionary<string, Resolution> Resolutions
+        public IDictionary<int, Resolution> Resolutions
         {
             get { return _resolutions; }
         }
 
-        public double GetOriginX(string levelId)
+        public double GetOriginX(int level)
         {
             return OriginX;
         }
 
-        public double GetOriginY(string levelId)
+        public double GetOriginY(int level)
         {
             return OriginY;
         }
 
-        public int GetTileWidth(string levelId)
+        public int GetTileWidth(int level)
         {
-            return Resolutions[levelId].TileWidth;
+            return Resolutions[level].TileWidth;
         }
 
-        public int GetTileHeight(string levelId)
+        public int GetTileHeight(int level)
         {
-            return Resolutions[levelId].TileHeight;
+            return Resolutions[level].TileHeight;
         }
 
-        public long GetMatrixWidth(string levelId)
+        public long GetMatrixWidth(int level)
         {
-            return GetMatrixLastCol(levelId) - GetMatrixFirstCol(levelId) + 1;
+            return GetMatrixLastCol(level) - GetMatrixFirstCol(level) + 1;
         }
 
-        public long GetMatrixHeight(string levelId)
+        public long GetMatrixHeight(int level)
         {
-            return GetMatrixLastRow(levelId) - GetMatrixFirstRow(levelId) + 1;
+            return GetMatrixLastRow(level) - GetMatrixFirstRow(level) + 1;
         }
 
-        public int GetMatrixFirstCol(string levelId)
+        public int GetMatrixFirstCol(int level)
         {
-            return (int)Math.Floor(((GetFirstXRelativeToOrigin(Extent, OriginX) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId)));
+            return (int)Math.Floor(((GetFirstXRelativeToOrigin(Extent, OriginX) / Resolutions[level].UnitsPerPixel) / GetTileWidth(level)));
         }
 
-        public int GetMatrixFirstRow(string levelId)
+        public int GetMatrixFirstRow(int level)
         {
-            return (int)Math.Floor((GetFirstYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId));
+            return (int)Math.Floor((GetFirstYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[level].UnitsPerPixel) / GetTileHeight(level));
         }
 
         /// <summary>
@@ -105,24 +105,24 @@ namespace BruTile
             return GetTileInfos(extent, level);
         }
 
-        public IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, int level)
         {
-            return GetTileInfos(this, extent, levelId);
+            return GetTileInfos(this, extent, level);
         }
 
-        public Extent GetExtentOfTilesInView(Extent extent, string levelId)
+        public Extent GetExtentOfTilesInView(Extent extent, int level)
         {
-            return GetExtentOfTilesInView(this, extent, levelId);
+            return GetExtentOfTilesInView(this, extent, level);
         }
 
-        private int GetMatrixLastCol(string levelId)
+        private int GetMatrixLastCol(int level)
         {
-            return (int)Math.Floor(((GetLastXRelativeToOrigin(Extent, OriginX)) / Resolutions[levelId].UnitsPerPixel) / GetTileWidth(levelId) - ProportionIgnored);
+            return (int)Math.Floor(((GetLastXRelativeToOrigin(Extent, OriginX)) / Resolutions[level].UnitsPerPixel) / GetTileWidth(level) - ProportionIgnored);
         }
 
-        private int GetMatrixLastRow(string levelId)
+        private int GetMatrixLastRow(int level)
         {
-            return (int)Math.Floor((GetLastYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[levelId].UnitsPerPixel) / GetTileHeight(levelId) - ProportionIgnored);
+            return (int)Math.Floor((GetLastYRelativeToOrigin(YAxis, Extent, OriginY) / Resolutions[level].UnitsPerPixel) / GetTileHeight(level) - ProportionIgnored);
         }
 
         private static double GetLastXRelativeToOrigin(Extent extent, double originX)
@@ -145,16 +145,16 @@ namespace BruTile
             return (yAxis == YAxis.TMS) ? extent.MinY - originY : -extent.MaxY + originY;
         }
 
-        internal static IEnumerable<TileInfo> GetTileInfos(ITileSchema schema, Extent extent, string levelId)
+        internal static IEnumerable<TileInfo> GetTileInfos(ITileSchema schema, Extent extent, int level)
         {
             // todo: move this method elsewhere.
-            var range = TileTransform.WorldToTile(extent, levelId, schema);
+            var range = TileTransform.WorldToTile(extent, level, schema);
 
             // todo: use a method to get tilerange for full schema and intersect with requested tilerange.
-            var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(levelId));
-            var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(levelId) + schema.GetMatrixWidth(levelId));
-            var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(levelId));
-            var stopY = Math.Min(range.FirstRow + range.RowCount, schema.GetMatrixFirstRow(levelId) + schema.GetMatrixHeight(levelId));
+            var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(level));
+            var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(level) + schema.GetMatrixWidth(level));
+            var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(level));
+            var stopY = Math.Min(range.FirstRow + range.RowCount, schema.GetMatrixFirstRow(level) + schema.GetMatrixHeight(level));
 
             for (var x = startX; x < stopX; x++)
             {
@@ -162,17 +162,17 @@ namespace BruTile
                 {
                     yield return new TileInfo
                     {
-                        Extent = TileTransform.TileToWorld(new TileRange(x, y), levelId, schema),
-                        Index = new TileIndex(x, y, levelId)
+                        Extent = TileTransform.TileToWorld(new TileRange(x, y), level, schema),
+                        Index = new TileIndex(x, y, level)
                     };
                 }
             }
         }
 
-        public static Extent GetExtentOfTilesInView(ITileSchema schema, Extent extent, string levelId)
+        public static Extent GetExtentOfTilesInView(ITileSchema schema, Extent extent, int level)
         {
-            var range = TileTransform.WorldToTile(extent, levelId, schema);
-            return TileTransform.TileToWorld(range, levelId, schema);
+            var range = TileTransform.WorldToTile(extent, level, schema);
+            return TileTransform.TileToWorld(range, level, schema);
         }
 
         /// <summary>

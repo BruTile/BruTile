@@ -74,7 +74,7 @@ namespace BruTile.Web
             var stringBuilder = new StringBuilder(_urlFormatter);
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
-            stringBuilder.Replace(ZTag, info.Index.Level);
+            stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(QuadKeyTag, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level));
             
             InsertServerNode(stringBuilder, _serverNodes);
@@ -125,13 +125,11 @@ namespace BruTile.Web
         /// to 23 (highest detail).</param>
         /// <returns>A string containing the QuadKey.</returns>
         /// Stole this methode from this nice blog: http://www.silverlightshow.net/items/Virtual-earth-deep-zooming.aspx. PDD.
-        private static string TileXyToQuadKey(int tileX, int tileY, string levelId)
+        private static string TileXyToQuadKey(int tileX, int tileY, int level)
         {
             var quadKey = new StringBuilder();
 
-            var levelOfDetail = int.Parse(levelId);
-
-            for (var i = levelOfDetail; i > 0; i--)
+            for (var i = level; i > 0; i--)
             {
                 var digit = '0';
                 var mask = 1 << (i - 1);

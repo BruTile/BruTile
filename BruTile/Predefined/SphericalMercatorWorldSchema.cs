@@ -22,13 +22,13 @@ namespace BruTile.Predefined
             var count = 0;
             foreach (var unitsPerPixel in unitsPerPixelArray)
             {
-                var levelId = count.ToString(CultureInfo.InvariantCulture);
+                var level = count;
                 var ms = (long) Math.Pow(count, 2) / 2;
 
                 // Most of the parameters to the Resolutions constructor are not used for TileSchema.
                 // This is confusing and should be changed.
-                Resolutions[levelId] = new Resolution(
-                    levelId,
+                Resolutions[level] = new Resolution(
+                    level,
                     unitsPerPixel,
                     TileSize,
                     TileSize,

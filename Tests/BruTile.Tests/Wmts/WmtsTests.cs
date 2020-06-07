@@ -144,8 +144,8 @@ namespace BruTile.Tests.Wmts
             var wmtsRequest = new WmtsRequest(resourceUrls);
 
             // act
-            var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, "14") });
-            var url2 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, "14") });
+            var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
+            var url2 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
 
             // assert
             Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg"));
@@ -159,7 +159,7 @@ namespace BruTile.Tests.Wmts
             var resourceUrls = CreateResourceUrls();
             var request = new WmtsRequest(resourceUrls);
             var urls = new ConcurrentBag<Uri>(); // List is not thread save
-            var tileInfo = new TileInfo {Index = new TileIndex(8938, 5680, "14")};
+            var tileInfo = new TileInfo {Index = new TileIndex(8938, 5680, 14)};
 
             // act
             var requests = new List<Func<Uri>>();

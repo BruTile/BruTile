@@ -116,10 +116,10 @@ namespace BruTile.Wmsc
                 foreach (var resolution in resolutions)
                 {
                     double unitsPerPixel;
-                    if (!Double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
+                    if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
-                    var levelId = count.ToString(CultureInfo.InvariantCulture);
-                    schema.Resolutions[levelId] = new Resolution ( levelId, unitsPerPixel, width, height);
+                    var level = count;
+                    schema.Resolutions[level] = new Resolution ( level, unitsPerPixel, width, height);
                     count++;
                 }
             }

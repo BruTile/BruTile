@@ -12,7 +12,7 @@ namespace BruTile.Tests.Cache
         {
             // arrange
             var memoryCache = new MemoryCache<byte[]>();
-            var tileIndex = new TileIndex(1, 2, "3");
+            var tileIndex = new TileIndex(1, 2, 3);
             var tileBytes = new byte[] { 7, 7, 7 };
 
             // act
@@ -37,7 +37,7 @@ namespace BruTile.Tests.Cache
         {
             // arrange
             var memoryCache = new MemoryCache<DisposableTile>();
-            var tileIndex = new TileIndex(1, 2, "3");
+            var tileIndex = new TileIndex(1, 2, 3);
             var disposableTile = new DisposableTile();
             memoryCache.Add(tileIndex, disposableTile);
 
@@ -53,13 +53,13 @@ namespace BruTile.Tests.Cache
         {
             // arrange
             var memoryCache = new MemoryCache<DisposableTile>(2, 3);
-            memoryCache.Add(new TileIndex(1, 0, "0"), new DisposableTile());
-            memoryCache.Add(new TileIndex(2, 0, "0"), new DisposableTile());
-            memoryCache.Add(new TileIndex(3, 0, "0"), new DisposableTile());
+            memoryCache.Add(new TileIndex(1, 0, 0), new DisposableTile());
+            memoryCache.Add(new TileIndex(2, 0, 0), new DisposableTile());
+            memoryCache.Add(new TileIndex(3, 0, 0), new DisposableTile());
             var tileCountBeforeExceedingMax = memoryCache.TileCount;
             
             // act
-            memoryCache.Add(new TileIndex(4, 0, "0"), new DisposableTile());
+            memoryCache.Add(new TileIndex(4, 0, 0), new DisposableTile());
             var tileCountAfterExceedingMax = memoryCache.TileCount;
             
             // assert
@@ -76,9 +76,9 @@ namespace BruTile.Tests.Cache
             const int minTiles = 1;
             var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, keepTileInMemory);
             var tileBytes = new byte[] { 0, 0, 0, 0 };
-            var tileOne = new TileIndex(0, 2, "0");
-            var tileTwo = new TileIndex(2, 2, "2");
-            var tileThree = new TileIndex(0, 8, "0");
+            var tileOne = new TileIndex(0, 2, 0);
+            var tileTwo = new TileIndex(2, 2, 2);
+            var tileThree = new TileIndex(0, 8, 0);
             
             // act
             memoryCache.Add(tileOne, tileBytes);

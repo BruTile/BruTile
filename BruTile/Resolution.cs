@@ -4,7 +4,7 @@ namespace BruTile
 {
     public struct Resolution
     {
-        private readonly string _id;
+        private readonly int _id;
         private readonly double _unitsPerPixel;
         private readonly double _scaleDenominator;
         private readonly double _top;
@@ -14,7 +14,7 @@ namespace BruTile
         private readonly long _matrixWidth;
         private readonly long _matrixHeight;
 
-        public Resolution(string id, double unitsPerPixel, 
+        public Resolution(int id, double unitsPerPixel, 
             int tileWidth = 256, int tileHeight = 256,
             double left = 0, double top = 0,
             long matrixWidth = 0, long matrixHeight = 0,
@@ -31,7 +31,7 @@ namespace BruTile
             _scaleDenominator = scaledenominator;
         }
 
-        public string Id
+        public int Id
         {
             get { return _id; }
         }

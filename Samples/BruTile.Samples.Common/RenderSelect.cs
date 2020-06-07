@@ -17,9 +17,9 @@ namespace BruTile.Samples.Common
 
             if (schema == null) return selection.Values;
 
-            var levelId = Utilities.GetNearestLevel(schema.Resolutions, unitsPerPixel);
+            var level = Utilities.GetNearestLevel(schema.Resolutions, unitsPerPixel);
 
-            SelectRecursive(selection, cache, schema, extent, levelId);
+            SelectRecursive(selection, cache, schema, extent, level);
 
             return SortOnLevel(selection).Values;
         }
@@ -30,9 +30,9 @@ namespace BruTile.Samples.Common
         }
 
         public static void SelectRecursive(IDictionary<TileIndex, Tile<T>> selection, ITileCache<Tile<T>> cache, 
-            ITileSchema schema, Extent extent, string levelId)
+            ITileSchema schema, Extent extent, int level)
         {
-            var unitsPerPixel = schema.Resolutions[levelId].UnitsPerPixel;
+            var unitsPerPixel = schema.Resolutions[level].UnitsPerPixel;
             var tiles = schema.GetTileInfos(extent, unitsPerPixel);
 
             foreach (var tileInfo in tiles)

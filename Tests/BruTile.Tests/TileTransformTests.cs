@@ -21,7 +21,7 @@ namespace BruTile.Tests
             const double toleratedDelta = 0.01;
 
             // act
-            var extent = TileTransform.TileToWorld(range, "3", schema);
+            var extent = TileTransform.TileToWorld(range, 3, schema);
 
 
             // assert
@@ -40,7 +40,7 @@ namespace BruTile.Tests
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
 
             // act
-            var range = TileTransform.WorldToTile(extent, "3", schema);
+            var range = TileTransform.WorldToTile(extent, 3, schema);
 
             // assert
             Assert.AreEqual(range, expectedRange);
@@ -83,7 +83,7 @@ namespace BruTile.Tests
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act
-            var tileInfos = schema.GetTileInfos(requestExtent, "14").ToList();
+            var tileInfos = schema.GetTileInfos(requestExtent, 14).ToList();
 
             // assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
@@ -99,7 +99,7 @@ namespace BruTile.Tests
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
             // act
-            var tileInfos = schema.GetTileInfos(requestExtent, "14");
+            var tileInfos = schema.GetTileInfos(requestExtent, 14);
 
             // assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
@@ -124,7 +124,7 @@ namespace BruTile.Tests
             var mapExtent = new Extent(187256.999043765, 331197.712996388, 187437.576002535, 331303.350517269);
 
             // act
-            var tileInfos = schema.GetTileInfos(mapExtent, "14");
+            var tileInfos = schema.GetTileInfos(mapExtent, 14);
 
             // assert
             Assert.AreEqual(tileInfos.Count(), 0);

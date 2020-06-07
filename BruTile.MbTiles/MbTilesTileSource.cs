@@ -25,7 +25,7 @@ namespace BruTile.MbTiles
         public string Compression { get; }
 
         private readonly SQLiteConnectionString _connectionString;
-        private readonly Dictionary<string, TileRange> _tileRange;
+        private readonly Dictionary<int, TileRange> _tileRange;
 
         /// <summary>
         /// 
@@ -187,7 +187,7 @@ namespace BruTile.MbTiles
                 using (cn.Lock())
                 {
                     var sql = "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
-                    result = cn.ExecuteScalar<byte[]>(sql, int.Parse(index.Level), index.Row, index.Col);
+                    result = cn.ExecuteScalar<byte[]>(sql, index.Level, index.Row, index.Col);
                 }
                 return result == null || result.Length == 0
                     ? null
@@ -213,10 +213,10 @@ namespace BruTile.MbTiles
             public int Level { get; set; }
         }
 
-        private static Dictionary<string, TileRange> ReadTileRangeForEachLevelFromTilesTable(SQLiteConnection connection, IEnumerable<string> zoomLevels)
+        private static Dictionary<int, TileRange> ReadTileRangeForEachLevelFromTilesTable(SQLiteConnection connection, IEnumerable<int> zoomLevels)
         {
             var tableName = "tiles";
-            var tileRange = new Dictionary<string, TileRange>();
+            var tileRange = new Dictionary<int, TileRange>();
             foreach (var zoomLevel in zoomLevels)
             {
                 var sql = $"select min(tile_column) AS tc_min, max(tile_column) AS tc_max, min(tile_row) AS tr_min, max(tile_row) AS tr_max from {tableName} where zoom_level = {zoomLevel};";

@@ -13,11 +13,11 @@ namespace BruTile.Tests.FileSystem
         {
             // arrange
             var tileCache = new FileCache(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
-            tileCache.Add(new TileIndex(4, 5, "8"),new byte[243]);
+            tileCache.Add(new TileIndex(4, 5, 8),new byte[243]);
             var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
             // act
-            var tile = fileTileProvider.GetTile(new TileInfo { Index = new TileIndex(4, 5, "8") });
+            var tile = fileTileProvider.GetTile(new TileInfo { Index = new TileIndex(4, 5, 8) });
 
             // assert
             Assert.AreEqual(tile.Length, 243);

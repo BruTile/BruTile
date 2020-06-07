@@ -16,7 +16,7 @@ namespace BruTile.Tests.Web
         {
             // arrange
             var request = new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] {"a", "b", "c"});
-            var tileInfo = new TileInfo {Index = new TileIndex(3, 4, "5")};
+            var tileInfo = new TileInfo {Index = new TileIndex(3, 4, 5)};
         
             // act
             var url = request.GetUri(tileInfo);
@@ -30,7 +30,7 @@ namespace BruTile.Tests.Web
         {
             // arrange
             var request = new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", new[] {"a", "b", "c"});
-            var tileInfo = new TileInfo {Index = new TileIndex(3, 4, "5")};
+            var tileInfo = new TileInfo {Index = new TileIndex(3, 4, 5)};
             var urls = new ConcurrentBag<Uri>(); // List is not thread save
 
             // act

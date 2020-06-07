@@ -51,16 +51,14 @@ namespace BruTile.Web
             }
         }
 
-        private static string LevelToHex(string zoomLevelId)
+        private static string LevelToHex(int level)
         {
-            var zoom = int.Parse(zoomLevelId);
-
             string zoomUrl;
 
-            if (zoom < 10)
-                zoomUrl = "L0" + zoom;
+            if (level < 10)
+                zoomUrl = "L0" + level;
             else
-                zoomUrl = "L" + zoom;
+                zoomUrl = "L" + level;
 
             return zoomUrl;
         }

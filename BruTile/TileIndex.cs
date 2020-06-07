@@ -8,9 +8,9 @@ namespace BruTile
     {
         public int Col { get; }
         public int Row { get; }
-        public string Level { get; }  // Note: TileIndex is a struct but Level is a class which needs GC. It would be nice if we could avoid GC.
+        public int Level { get; }
 
-        public TileIndex(int col, int row, string level)
+        public TileIndex(int col, int row, int level)
         {
             Col = col;
             Row = row;
@@ -32,7 +32,9 @@ namespace BruTile
             if (Col > index.Col) return 1;
             if (Row < index.Row) return -1;
             if (Row > index.Row) return 1;
-            return String.Compare(Level, index.Level, StringComparison.Ordinal);
+            if (Level < index.Level) return -1;
+            if (Level > index.Level) return 1;
+            return 0;
         }
 
         public override bool Equals(object obj)
@@ -50,7 +52,7 @@ namespace BruTile
 
         public override int GetHashCode()
         {
-            return Col ^ Row ^ ((Level == null) ? 0 : Level.GetHashCode());
+            return Col ^ Row ^ Level;
         }
 
         public static bool operator ==(TileIndex key1, TileIndex key2)

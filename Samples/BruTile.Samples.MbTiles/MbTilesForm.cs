@@ -118,7 +118,7 @@ namespace BruTile.Samples.MbTiles
             picMap.Image = _buffer;
         }
 
-        private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent, string levelId)
+        private static void DrawTile(ITileSchema schema, Graphics graphics, Bitmap bitmap, RectangleF extent, int level)
         {
             // For drawing on WinForms there are two things to take into account
             // to prevent seams between tiles.
@@ -128,7 +128,7 @@ namespace BruTile.Samples.MbTiles
             imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
             // 2) The rectangle should be rounded to actual pixels.
             var roundedExtent = RoundToPixel(extent);
-            graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.GetTileWidth(levelId), schema.GetTileHeight(levelId), GraphicsUnit.Pixel, imageAttributes);
+            graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.GetTileWidth(level), schema.GetTileHeight(level), GraphicsUnit.Pixel, imageAttributes);
         }
 
         private static Rectangle RoundToPixel(RectangleF dest)
