@@ -4,7 +4,7 @@
 | NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
 
 ### News
-- Just published a couple of new releases. They are based on just four PRs but because of semver they came out as 3 separate releases.
+- 2020 juni 7: published a couple of new releases. They are based on just four PRs but because of semver they came out as 3 separate releases.
   - [2.1.3](https://github.com/BruTile/BruTile/releases/tag/2.1.3) with a small fix to allow case insensitive style in wmts.
   - [2.2.0](https://github.com/BruTile/BruTile/releases/tag/2.2.0) in which HttpTileSource.PersistentCache now has a setter.
   - [3.0.0](https://github.com/BruTile/BruTile/releases/tag/3.0.0) which has two breaking changes.
