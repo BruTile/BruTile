@@ -23,7 +23,8 @@ namespace BruTile.Demo
             Layers.Children.Add(ToRadioButton("Google Terrain", GoogleMapsTerrainSample.Create));
             Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
             Layers.Children.Add(ToRadioButton("Here Maps", HereMapsSample.Create));
-            Layers.Children.Add(ToRadioButton("LM topowebb", LantMaterietTopowebbSample.Create));
+            Layers.Children.Add(ToRadioButton("Lant Materiet Topowebb", LantMaterietTopowebbSample.Create));
+            Layers.Children.Add(ToRadioButton("World MbTiles", MbTilesSample.Create));
         }
 
         private RadioButton ToRadioButton(string name, Func<ITileSource> func)

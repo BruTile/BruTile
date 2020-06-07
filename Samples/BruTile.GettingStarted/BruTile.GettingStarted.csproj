@@ -6,7 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="brutile" Version="2.1.1" />
+    <PackageReference Include="brutile" Version="3.0.0" />
+    <PackageReference Include="BruTile.MbTiles" Version="3.0.0" />
+    <PackageReference Include="sqlite" Version="3.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\world.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

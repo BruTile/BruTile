@@ -1,6 +1,8 @@
 ﻿using System;
+using BruTile.MbTiles;
 using BruTile.Predefined;
 using BruTile.Web;
+using SQLite;
 // ReSharper disable UnusedVariable
 
 namespace BruTile.GettingStarted
@@ -30,6 +32,7 @@ namespace BruTile.GettingStarted
 
             // 3) Fetch the tiles from the service
 
+            Console.WriteLine("Show tile info");
             foreach (var tileInfo in tileInfos)
             {
                 var tile = tileSource.GetTile(tileInfo);
@@ -41,7 +44,7 @@ namespace BruTile.GettingStarted
                     $"tile size {tile.Length}");
             }
 
-            // 4) Try other tile sources
+            // 4) Try some of the known tile sources 
 
             // You can easily create an ITileSource for a number of predefined tile servers
             // with single line statements like:
@@ -50,6 +53,14 @@ namespace BruTile.GettingStarted
             var tileSource3 = KnownTileSources.Create(KnownTileSource.BingHybrid);
             var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite);
             var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief);
+
+            // 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
+
+            var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
+            var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
+            Console.WriteLine();
+            Console.WriteLine("MBTiles");
+            Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
         }
     }
 }

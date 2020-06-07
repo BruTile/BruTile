@@ -9,6 +9,5 @@
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="Layers" Grid.Column="0" Background="White"></StackPanel>
         <demo:MapControl x:Name="MapControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="DimGray"></demo:MapControl>
-        <Ellipse Grid.Column="1" Fill="Red" IsHitTestVisible="False" Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Window>
