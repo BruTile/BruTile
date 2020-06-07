@@ -111,10 +111,10 @@ The above code can also be found in the BruTile sample called BruTile.GettingSta
 
 ### Projects that use BruTile
 
-* [ArcBruTile](https://github.com/arcbrutile/arcbrutile/) a plugin for ArcGIS
+* [ArcBruTile](https://bertt.itch.io/arcbrutile) a plugin for ArcGIS
 * [SharpMap](https://github.com/SharpMap/SharpMap) a GIS library
-* [Mapsui](https://github.com/pauldendulk/Mapsui) a MapComponent for Xamarin.Android. Xamarin.iOS, UWP and WPF
-* [DotSpatial](https://dotspatial.codeplex.com/) a GIS library that is used in [HydroDesktop](https://hydrodesktop.codeplex.com/)
+* [Mapsui](https://github.com/Mapsui/Mapsui) a MapComponent for Xamarin.Android. Xamarin.iOS, UWP and WPF
+* [DotSpatial](https://github.com/DotSpatial/DotSpatial) a GIS library that is used in [HydroDesktop](https://hydrodesktop.codeplex.com/)
 * [PDOK](https://www.pdok.nl/nl/producten/pdok-software/pdok-extensie-voor-arcgis) extensie voor ArcGIS
 
 ### License
