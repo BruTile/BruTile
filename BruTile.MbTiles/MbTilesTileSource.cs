@@ -27,43 +27,54 @@ namespace BruTile.MbTiles
         public string Compression { get; }
 
         private readonly SQLiteConnectionString _connectionString;
-        private const string MetadataSql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
-        private readonly Dictionary<string, ZoomLevelMinMax> _tileRange;
+        private readonly Dictionary<string, TileRange> _tileRange;
 
-        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None, bool tileRangeOptimization = true)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString">The connection string to the mbtiles file</param>
+        /// <param name="schema">The TileSchema of the mbtiles file. If this parameter is set the schema information 
+        /// within the mbtiles file will be ignored. </param>
+        /// <param name="type"></param>
+        /// <param name="obtainSchemaFromTilesTable">This parameter will have no effect if the schema </param>
+        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None, bool obtainSchemaFromTilesTable = false)
         {
             _connectionString = connectionString;
-			if (tileRangeOptimization || schema == null)
+
+            if (schema != null)
+            {
+                Schema = schema;
+            }
+            else
 			{
 				using (var connection = new SQLiteConnectionWithLock(connectionString))
 				using (connection.Lock())
 				{
 					Type = type == MbTilesType.None ? ReadType(connection) : type;
-					var schemaFromDatabase = ReadSchemaFromDatabase(connection);
-					Schema = schema ?? schemaFromDatabase;
 
-                    // Read other stuff
-				    Version = ReadString(connection, "version");
+                    var format = ReadForma(connection);
+                    var extent = ReadExtent(connection);
+                    var zoomLevels = ReadZoomLevelsFromTilesTable(connection);
+
+                    var zoomMin = ReadInt(connection, "minzoom");
+                    ZoomMin = zoomMin < 0 ? 0 : zoomMin;
+                    var zoomMax = ReadInt(connection, "maxzoom");
+                    ZoomMax = zoomMax < 0 ? int.MaxValue : zoomMax;
+
+                    Schema = new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
+
+                    // Read other attributes
+                    Version = ReadString(connection, "version");
 				    Attribution = new Attribution(ReadString(connection, "attribution"));
 				    Description = ReadString(connection, "description");
 				    Name = ReadString(connection, "name");
 				    Json = ReadString(connection, "json");
 				    Compression = ReadString(connection, "compression");
 
-				    var zoomMin = ReadInt(connection, "minzoom");
-				    ZoomMin = zoomMin < 0 ? 0 : zoomMin;
-
-				    var zoomMax = ReadInt(connection, "maxzoom");
-				    ZoomMax = zoomMax < 0 ? int.MaxValue : zoomMax;
-
                     // the tile range should be based on the tiles actually present. 
-                    var zoomLevelsFromDatabase = schemaFromDatabase.Resolutions.Select(r => r.Key);
-					_tileRange = ReadZoomLevelsFromTilesTable(connection, zoomLevelsFromDatabase);
+                    var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
+					_tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
 				}
-			}
-			else {
-				Schema = schema;
-				_tileRange = null;
 			}
         }
 
@@ -72,9 +83,7 @@ namespace BruTile.MbTiles
             const string sql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
             try
             {
-                var result = connection.ExecuteScalar<string>(sql, name);
-
-                return result;
+                return connection.ExecuteScalar<string>(sql, name);
             }
             catch (Exception)
             {
@@ -95,16 +104,6 @@ namespace BruTile.MbTiles
             {
                 return -1;
             }
-        }
-
-        private static ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection)
-        {
-            var format = ReadFormat(connection);
-            var extent = ReadExtent(connection);
-            var zoomLevels = ReadZoomLevels(connection);
-
-            // Create schema
-            return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
         }
 
         private static Extent ReadExtent(SQLiteConnection connection)
@@ -166,8 +165,7 @@ namespace BruTile.MbTiles
 				using (var cn = new SQLiteConnectionWithLock(_connectionString))
                 using (cn.Lock())
                 {
-                    const string sql =
-                        "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
+                    var sql = "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
                     result = cn.ExecuteScalar<byte[]>(sql, int.Parse(index.Level), index.Row, index.Col);
                 }
                 return result == null || result.Length == 0
@@ -177,8 +175,9 @@ namespace BruTile.MbTiles
             return null;
         }
 
-        private static int[] ReadZoomLevels(SQLiteConnection connection)
+        private static int[] ReadZoomLevelsFromTilesTable(SQLiteConnection connection)
         {
+            // Note: This can be slow
             var sql = "select distinct zoom_level as level from tiles";
             var zoomLevelsObjects = connection.Query<ZoomLevel>(sql);
             var zoomLevels = zoomLevelsObjects.Select(z => z.Level).ToArray();
@@ -193,45 +192,39 @@ namespace BruTile.MbTiles
             public int Level { get; set; }
         }
 
-        private static Dictionary<string, ZoomLevelMinMax> ReadZoomLevelsFromTilesTable(SQLiteConnection connection, IEnumerable<string> zoomLevels)
+        private static Dictionary<string, TileRange> ReadTileRangeForEachLevelFromTilesTable(SQLiteConnection connection, IEnumerable<string> zoomLevels)
         {
             var tableName = "tiles";
-            var tileRange = new Dictionary<string, ZoomLevelMinMax>();
+            var tileRange = new Dictionary<string, TileRange>();
             foreach (var zoomLevel in zoomLevels)
             {
                 var sql = $"select min(tile_column) AS tc_min, max(tile_column) AS tc_max, min(tile_row) AS tr_min, max(tile_row) AS tr_max from {tableName} where zoom_level = {zoomLevel};";
-                var rangeForLevel = connection.Query<ZoomLevelMinMax>(sql);
-                tileRange.Add(zoomLevel, rangeForLevel.First());
+                var rangeForLevel = connection.Query<ZoomLevelMinMax>(sql).First();
+                tileRange.Add(zoomLevel, rangeForLevel.ToTileRange());
             }
             return tileRange;
         }
 
-        private static MbTilesFormat ReadFormat(SQLiteConnection connection)
+        private static MbTilesFormat ReadForma(SQLiteConnection connection)
         {
-            try
+            var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"format\";";
+            var formatString = connection.ExecuteScalar<string>(sql);
+            if (Enum.TryParse<MbTilesFormat>(formatString, true, out var format))
             {
-                var formatString = connection.ExecuteScalar<string>(MetadataSql, "format");
-                var format = (MbTilesFormat)Enum.Parse(typeof(MbTilesFormat), formatString, true);
                 return format;
             }
-            catch
-            {
-                return MbTilesFormat.Png;
-            }
+            return MbTilesFormat.Png;
         }
 
         private static MbTilesType ReadType(SQLiteConnection connection)
         {
-            try
+            var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"type\";";
+            var typeString = connection.ExecuteScalar<string>(sql);
+            if (Enum.TryParse<MbTilesType>(typeString, true, out var type))
             {
-                var typeString = connection.ExecuteScalar<string>(MetadataSql, "type");
-                var type = (MbTilesType)Enum.Parse(typeof(MbTilesType), typeString, true);
                 return type;
             }
-            catch
-            {
-                return MbTilesType.BaseLayer;
-            }
+            return MbTilesType.BaseLayer;
         }
 
         private bool IsTileIndexValid(TileIndex index)
@@ -239,14 +232,13 @@ namespace BruTile.MbTiles
             if (_tileRange == null) return true;
 
             // this is an optimization that makes use of an additional 'map' table which is not part of the spec
-            ZoomLevelMinMax tileRange;
-            if (_tileRange.TryGetValue(index.Level, out tileRange))
+            if (_tileRange.TryGetValue(index.Level, out var tileRange))
             {
                 return
-                    tileRange.TileColMin <= index.Col &&
-                    index.Col <= tileRange.TileColMax &&
-                    tileRange.TileRowMin <= index.Row && 
-                    index.Row <= tileRange.TileRowMax;
+                    tileRange.FirstCol <= index.Col &&
+                    index.Col <= tileRange.LastCol &&
+                    tileRange.FirstRow <= index.Row && 
+                    index.Row <= tileRange.LastRow;
             }
             return false;
         }
@@ -267,6 +259,11 @@ namespace BruTile.MbTiles
             [Column("tc_max")]
             public int TileColMax { get; set; }
             // ReSharper restore UnusedAutoPropertyAccessor.Local
+
+            public TileRange ToTileRange()
+            {
+                return new TileRange(TileColMin, TileRowMin, TileColMax, TileRowMax);
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace BruTile
         public int FirstRow { get; }
         public int ColCount { get; }
         public int RowCount { get; }
+        public int LastCol => FirstCol + ColCount - 1;
+        public int LastRow => FirstRow + RowCount - 1;
 
         public TileRange(int col, int row) : this(col, row, 1, 1) { }
 
