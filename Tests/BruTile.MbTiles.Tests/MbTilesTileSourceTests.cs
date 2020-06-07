@@ -60,7 +60,7 @@ namespace BruTile.MbTiles.Tests
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
 
             // act
-            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
             // assert
             Assert.AreEqual(95490133.792558521d, tileSource.Schema.Extent.Area, 0.0001d);
@@ -74,7 +74,7 @@ namespace BruTile.MbTiles.Tests
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // act
-            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
+            var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
             // assert
             Assert.AreEqual(692609746.90386355, tileSource.Schema.Extent.Area);
