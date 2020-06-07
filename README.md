@@ -78,12 +78,13 @@ foreach (var tileInfo in tileInfos)
         $"tile size {tile.Length}");
 }
 ```
-This will be the output:
-
+Output:
+```console
     tile col: 0, tile row: 0, tile level: 1 , tile size 11276
     tile col: 0, tile row: 1, tile level: 1 , tile size 3260
     tile col: 1, tile row: 0, tile level: 1 , tile size 10679
     tile col: 1, tile row: 1, tile level: 1 , tile size 4009
+```
 
 ### 5) Try some of the known tile sources 
 
@@ -100,14 +101,16 @@ The predefined tile sources are defined in a single file. Take a look at that fi
 
 The above code can also be found in the BruTile sample called BruTile.GettingStarted in the Samples folder of this repository.
 
-### // 5) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
+### // 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
 
 ```c#
 var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
 var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
-Console.WriteLine();
-Console.WriteLine("MBTiles");
 Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
+```
+Output:
+```console
+This is a byte array of an image file loaded from MBTiles with size: 27412
 ```
 
 ### Supported tile service protocols:
