@@ -17,7 +17,7 @@ namespace BruTile.Wmts
             Resolutions = new Dictionary<int, Resolution>();
             YAxis = YAxis.OSM;
         }
-        
+
         /// <summary>
         /// Gets an identifier for the layer and tile matrix set.
         /// </summary>
@@ -66,7 +66,7 @@ namespace BruTile.Wmts
                 throw new ArgumentNullException("tileMatrixSet");
             if (string.IsNullOrEmpty(format))
                 throw new ArgumentNullException("format");
-            
+
             if (@abstract == null) @abstract = string.Empty;
             if (string.IsNullOrEmpty(style)) style = "null";
 
@@ -130,7 +130,7 @@ namespace BruTile.Wmts
         /// Gets a value indicating the orientation of the y-axis
         /// </summary>
         public YAxis YAxis { get; set; }
-        
+
         public IDictionary<int, Resolution> Resolutions { get; set; }
 
         public int GetTileWidth(int level)
@@ -162,7 +162,7 @@ namespace BruTile.Wmts
         {
             return Resolutions[level].MatrixHeight;
         }
-        
+
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
@@ -191,5 +191,7 @@ namespace BruTile.Wmts
         {
             return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
         }
+
+        public IDictionary<int, string> LevelToIdentifier { get; set;} = new Dictionary<int, string>();
     }
 }

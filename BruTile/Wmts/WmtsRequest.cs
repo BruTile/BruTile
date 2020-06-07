@@ -20,10 +20,12 @@ namespace BruTile.Wmts
         private readonly List<ResourceUrl> _resourceUrls;
         private int _resourceUrlCounter;
         private readonly object _syncLock = new object();
+        private readonly IDictionary<int, string> _levelToIdentifier;
 
-        public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls)
+        public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier)
         {
             _resourceUrls = resourceUrls.ToList();
+            _levelToIdentifier = levelToIdentifier;
         }
 
         public Uri GetUri(TileInfo info)
@@ -31,9 +33,11 @@ namespace BruTile.Wmts
             var urlFormatter = GetNextServerNode();
             var stringBuilder = new StringBuilder(urlFormatter.Template);
 
+            // For wmts we need to map the level int to an identifier of type string.
+            var identifier = _levelToIdentifier[info.Index.Level];
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
-            stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
+            stringBuilder.Replace(ZTag, identifier);
 
             return new Uri(stringBuilder.ToString());
         }

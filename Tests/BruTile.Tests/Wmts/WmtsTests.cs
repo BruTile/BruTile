@@ -141,14 +141,15 @@ namespace BruTile.Tests.Wmts
         {
             // arrange
             var resourceUrls = CreateResourceUrls();
-            var wmtsRequest = new WmtsRequest(resourceUrls);
+            var levelToIdentifier = new Dictionary<int, string> {  [14] = "level-14" } ;
+            var wmtsRequest = new WmtsRequest(resourceUrls, levelToIdentifier);
 
             // act
             var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
             var url2 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
 
             // assert
-            Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg"));
+            Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/level-14/5680/8938.jpeg"));
             Assert.True(url2.ToString().Contains("maps2"));
         }
 
@@ -157,7 +158,8 @@ namespace BruTile.Tests.Wmts
         {
             // arrange
             var resourceUrls = CreateResourceUrls();
-            var request = new WmtsRequest(resourceUrls);
+            var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
+            var request = new WmtsRequest(resourceUrls, levelToIdentifier);
             var urls = new ConcurrentBag<Uri>(); // List is not thread save
             var tileInfo = new TileInfo {Index = new TileIndex(8938, 5680, 14)};
 
@@ -167,7 +169,7 @@ namespace BruTile.Tests.Wmts
             Parallel.ForEach(requests, r => urls.Add(r()));
 
             // assert
-            var count = urls.Count(u => u.ToString() == "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/14/5680/8938.jpeg");
+            var count = urls.Count(u => u.ToString() == "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/level-14/5680/8938.jpeg");
             Assert.True(count == 50);
         }
 
