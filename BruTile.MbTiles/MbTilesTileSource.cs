@@ -21,8 +21,6 @@ namespace BruTile.MbTiles
         public MbTilesType Type { get; }
         public string Version { get; }
         public string Description { get; }
-        public int ZoomMin { get; }
-        public int ZoomMax { get; }
         public string Json { get; }
         public string Compression { get; }
 
@@ -35,47 +33,72 @@ namespace BruTile.MbTiles
         /// <param name="connectionString">The connection string to the mbtiles file</param>
         /// <param name="schema">The TileSchema of the mbtiles file. If this parameter is set the schema information 
         /// within the mbtiles file will be ignored. </param>
-        /// <param name="type"></param>
-        /// <param name="obtainSchemaFromTilesTable">This parameter will have no effect if the schema </param>
-        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None, bool obtainSchemaFromTilesTable = false)
+        /// <param name="type">BaseLayer or Overlay</param>
+        /// <param name="determineZoomLevelsFromTilesTable">When 'determineZoomLevelsFromTilesTable' is true the zoom levels
+        /// will be determined from the available tiles in the 'tiles' table. This operation can take long if there are many tiles in 
+        /// the 'tiles' table. When 'determineZoomLevelsFromTilesTable' is false the zoom levels will be read from the metadata table 
+        ///(by reading 'zoommin' and 'zoommax'). If there are no zoom levels specificied in the metadata table the GlobalSphericalMercator 
+        ///default levels are assumed. This parameter will have no effect if the schema is passed in as argument. The default is false.</param>
+        /// <param name="determineTileRangeFromTilesTable">In some cases not all tiles specified by the schema are present in each 
+        /// level. When 'determineTileRangeFromTilesTable' is 'true' the range of tiles available for each level is determined 
+        /// by the tiles present for each level in the 'tiles' table. The advantage is that requests can be faster because they do not have to 
+        /// go to the database if they are outside the TileRange. The downside is that for large files it can take long to read the TileRange 
+        /// from the tiles table. The default is false.</param>
+        public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None,
+            bool determineZoomLevelsFromTilesTable = false, bool determineTileRangeFromTilesTable = false)
         {
             _connectionString = connectionString;
 
-            if (schema != null)
+            using (var connection = new SQLiteConnectionWithLock(connectionString))
+            using (connection.Lock())
             {
-                Schema = schema;
-            }
-            else
-			{
-				using (var connection = new SQLiteConnectionWithLock(connectionString))
-				using (connection.Lock())
-				{
-					Type = type == MbTilesType.None ? ReadType(connection) : type;
+                Schema = schema ?? ReadSchemaFromDatabase(connection, determineZoomLevelsFromTilesTable);
+                Type = type == MbTilesType.None ? ReadType(connection) : type;
+                Version = ReadString(connection, "version");
+                Attribution = new Attribution(ReadString(connection, "attribution"));
+                Description = ReadString(connection, "description");
+                Name = ReadString(connection, "name");
+                Json = ReadString(connection, "json");
+                Compression = ReadString(connection, "compression");
 
-                    var format = ReadForma(connection);
-                    var extent = ReadExtent(connection);
-                    var zoomLevels = ReadZoomLevelsFromTilesTable(connection);
-
-                    var zoomMin = ReadInt(connection, "minzoom");
-                    ZoomMin = zoomMin < 0 ? 0 : zoomMin;
-                    var zoomMax = ReadInt(connection, "maxzoom");
-                    ZoomMax = zoomMax < 0 ? int.MaxValue : zoomMax;
-
-                    Schema = new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
-
-                    // Read other attributes
-                    Version = ReadString(connection, "version");
-				    Attribution = new Attribution(ReadString(connection, "attribution"));
-				    Description = ReadString(connection, "description");
-				    Name = ReadString(connection, "name");
-				    Json = ReadString(connection, "json");
-				    Compression = ReadString(connection, "compression");
-
+                if (determineTileRangeFromTilesTable)
+                {
                     // the tile range should be based on the tiles actually present. 
                     var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
-					_tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
-				}
-			}
+                    _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
+                }
+            }
+        }
+
+        private static ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection, bool determineZoomLevelsFromTilesTable)
+        {
+            // ReadZoomLevels can return null. This is no problem. GlobalSphericalMercator will initialize with default values
+            var zoomLevels = ReadZoomLevels(connection);
+
+            var format = ReadFormat(connection);
+            var extent = ReadExtent(connection);
+
+            if (determineZoomLevelsFromTilesTable)
+            {
+                zoomLevels = ReadZoomLevelsFromTilesTable(connection);
+            }
+
+            return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
+        }
+
+        private static int[] ReadZoomLevels(SQLiteConnectionWithLock connection)
+        {
+            var zoomMin = ReadInt(connection, "minzoom");
+            if (zoomMin == null) return null;
+            var zoomMax = ReadInt(connection, "maxzoom");
+            if (zoomMax == null) return null;
+
+            var length = zoomMax.Value - zoomMin.Value + 1;
+            var levels = new int[length];
+            for (int i = 0; i < length; i++)
+                levels[i] = i + zoomMin.Value;
+
+            return levels;
         }
 
         private static string ReadString(SQLiteConnection connection, string name)
@@ -91,18 +114,16 @@ namespace BruTile.MbTiles
             }
         }
 
-        private static int ReadInt(SQLiteConnection connection, string name)
+        private static int? ReadInt(SQLiteConnection connection, string name)
         {
             const string sql = "SELECT \"value\" FROM metadata WHERE \"name\"=?;";
             try
             {
-                var result = connection.ExecuteScalar<int>(sql, name);
-
-                return result;
+                return connection.ExecuteScalar<int?>(sql, name);
             }
             catch (Exception)
             {
-                return -1;
+                return null;
             }
         }
 
@@ -162,7 +183,7 @@ namespace BruTile.MbTiles
             if (IsTileIndexValid(index))
             {
                 byte[] result;
-				using (var cn = new SQLiteConnectionWithLock(_connectionString))
+                using (var cn = new SQLiteConnectionWithLock(_connectionString))
                 using (cn.Lock())
                 {
                     var sql = "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
@@ -205,7 +226,7 @@ namespace BruTile.MbTiles
             return tileRange;
         }
 
-        private static MbTilesFormat ReadForma(SQLiteConnection connection)
+        private static MbTilesFormat ReadFormat(SQLiteConnection connection)
         {
             var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"format\";";
             var formatString = connection.ExecuteScalar<string>(sql);
@@ -237,7 +258,7 @@ namespace BruTile.MbTiles
                 return
                     tileRange.FirstCol <= index.Col &&
                     index.Col <= tileRange.LastCol &&
-                    tileRange.FirstRow <= index.Row && 
+                    tileRange.FirstRow <= index.Row &&
                     index.Row <= tileRange.LastRow;
             }
             return false;
