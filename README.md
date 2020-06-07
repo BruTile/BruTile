@@ -64,7 +64,9 @@ var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
 ```
 
 ### 4) Fetch the tiles from the service
+
 ```c#
+Console.WriteLine("Show tile info");
 foreach (var tileInfo in tileInfos)
 {
     var tile = tileSource.GetTile(tileInfo);
@@ -83,7 +85,7 @@ This will be the output:
     tile col: 1, tile row: 0, tile level: 1 , tile size 10679
     tile col: 1, tile row: 1, tile level: 1 , tile size 4009
 
-### 5) Try other tile sources
+### 5) Try some of the known tile sources 
 
 ```c#
 // You can easily create an ITileSource for a number of predefined tile servers
@@ -97,6 +99,16 @@ var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief)
 The predefined tile sources are defined in a single file. Take a look at that file [here](https://github.com/BruTile/BruTile/blob/master/BruTile/Predefined/KnownTileSources.cs) to learn how you could create any tile source.
 
 The above code can also be found in the BruTile sample called BruTile.GettingStarted in the Samples folder of this repository.
+
+### // 5) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
+
+```c#
+var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
+var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
+Console.WriteLine();
+Console.WriteLine("MBTiles");
+Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
+```
 
 ### Supported tile service protocols:
 * [WMTS](http://www.opengeospatial.org/standards/wmts)
