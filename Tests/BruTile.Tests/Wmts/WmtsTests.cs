@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BruTile.Cache;
 using BruTile.Tests.Utilities;
+using BruTile.Web;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
@@ -239,6 +241,24 @@ namespace BruTile.Tests.Wmts
 
                 // assert
                 Assert.AreEqual(319, tileSources.Count());
+            }
+        }
+
+        [Test]
+        public void TestPersistentCacheCanBeSet()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-dlr.xml")))
+            {
+                IEnumerable<HttpTileSource> tileSources = null;
+                Assert.DoesNotThrow(() => tileSources = WmtsParser.Parse(stream));
+                var tileSource = tileSources.First();
+
+                // act
+                tileSource.PersistentCache = new NullCache();
+
+                // assert
+                Assert.NotNull(tileSource.PersistentCache);
             }
         }
     }

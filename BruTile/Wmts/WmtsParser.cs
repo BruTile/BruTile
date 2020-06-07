@@ -49,7 +49,7 @@ namespace BruTile.Wmts
         /// <param name="source">The source stream</param>
         /// <param name="bbaoi">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
         /// <returns>An enumeration of tile sources</returns>
-        public static IEnumerable<ITileSource> Parse(Stream source, 
+        public static IEnumerable<HttpTileSource> Parse(Stream source, 
             BoundingBoxAxisOrderInterpretation bbaoi = BoundingBoxAxisOrderInterpretation.Natural)
         {
             var ser = new XmlSerializer(typeof(Capabilities));
@@ -114,11 +114,8 @@ namespace BruTile.Wmts
                             //var layerName = layer.Identifier.Value;
                             var styleName = style.Identifier.Value;
 
-                            var tileSource = new HttpTileSource(
-                                tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format), wmtsRequest)
-                                {
-                                    Name = title
-                                };
+                            var schema = tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format);
+                            var tileSource = new HttpTileSource(schema, wmtsRequest, name: title);
 
                             tileSources.Add(tileSource);
                         }
@@ -185,8 +182,8 @@ namespace BruTile.Wmts
             return requestBuilder.ToString();
         }
 
-        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(IEnumerable<URLTemplateType> inputResourceUrls,
-            string style, string tileMatrixSet)
+        private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(
+            IEnumerable<URLTemplateType> inputResourceUrls, string style, string tileMatrixSet)
         {
             var resourceUrls = new List<ResourceUrl>();
             foreach (var resourceUrl in inputResourceUrls)
