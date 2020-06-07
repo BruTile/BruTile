@@ -49,7 +49,7 @@ namespace BruTile.Predefined
 
             foreach (var resolution in resolutions)
             {
-                Resolutions[resolution.Value.Id] = resolution.Value;
+                Resolutions[resolution.Value.Level] = resolution.Value;
             }
 
             OriginX = -ScaleFactor * TileSize;

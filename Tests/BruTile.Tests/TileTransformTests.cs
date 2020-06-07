@@ -57,7 +57,7 @@ namespace BruTile.Tests
             foreach (var resolution in schema.Resolutions.OrderByDescending(r => r.Value.UnitsPerPixel))
             {
                 // act
-                var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Id).ToList();
+                var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Level).ToList();
 
                 // assert
                 Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));

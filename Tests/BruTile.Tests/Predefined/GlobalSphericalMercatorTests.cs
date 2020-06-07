@@ -19,9 +19,9 @@ namespace BruTile.Tests.Predefined
             
             // assert
             Assert.True(schema.Resolutions.Count == 19);
-            Assert.True(schema.Resolutions.All(r => r.Value.Id != 0));
-            Assert.True(schema.Resolutions.Any(r => r.Value.Id == 1));
-            Assert.True(schema.Resolutions[3].Id == 3);
+            Assert.True(schema.Resolutions.All(r => r.Value.Level != 0));
+            Assert.True(schema.Resolutions.Any(r => r.Value.Level == 1));
+            Assert.True(schema.Resolutions[3].Level == 3);
             Assert.True(schema.Name == name);
             Assert.True(schema.Format == format);
         }

@@ -75,7 +75,7 @@ namespace BruTile.Predefined
             Srs = "OSGEO:41001";
 
             foreach (var resolution in resolutions)
-                Resolutions[resolution.Id] = resolution;
+                Resolutions[resolution.Level] = resolution;
 
             OriginX = -ScaleFactor * TileSize;
             OriginY = -ScaleFactor * TileSize;
