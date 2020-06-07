@@ -9,18 +9,15 @@ namespace BruTile.Samples.Common.Samples
     {
         public static ITileSource Create()
         {
-            Uri uri =
-                new Uri(
-                    "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/7cdfdab81eba86d0bc4fbb328165e9a/?request=GetCapabilities&version=1.1.1&service=wmts");
-            var req = WebRequest.Create(uri);
-            var resp = req.GetResponseAsync();
-            ITileSource tileSource;
-            using (var stream = resp.Result.GetResponseStream())
+            var url = "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/7cdfdab81eba86d0bc4fbb328165e9a/?request=GetCapabilities&version=1.1.1&service=wmts";
+            var request = WebRequest.Create(new Uri(url));
+            var response = request.GetResponseAsync();
+
+            using (var stream = response.Result.GetResponseStream())
             {
                 var tileSources = WmtsParser.Parse(stream);
-                tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
+                return tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
             }
-            return tileSource;
         }
     }
 }
