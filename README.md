@@ -101,7 +101,7 @@ The predefined tile sources are defined in a single file. Take a look at that fi
 
 The above code can also be found in the BruTile sample called BruTile.GettingStarted in the Samples folder of this repository.
 
-### // 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
+### 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
 
 ```c#
 var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
