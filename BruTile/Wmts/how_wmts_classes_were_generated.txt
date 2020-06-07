@@ -9,4 +9,5 @@
 7) replaced XmlNode with XNode to fix a compile error
 8) on 'public BoundingBoxType[] Items' I removed the WGS84BoundingBox attribute to fix an error in the code that xsd.exe generated.
 9) on 'public Theme[][] Themes' I added '[]' after Theme in the attribute to fix an error in the code that xsd.exe generated.
+10) TileMatrix.Level was added.
 

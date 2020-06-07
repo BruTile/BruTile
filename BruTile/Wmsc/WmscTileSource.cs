@@ -89,13 +89,13 @@ namespace BruTile.Wmsc
             var xBoundingBox = xTileSet.Element("BoundingBox");
             if (xBoundingBox != null)
             {
-                if (!double.TryParse(xBoundingBox.Attribute("minx")?.Value, NumberStyles.Any, 
+                if (!double.TryParse(xBoundingBox.Attribute("minx")?.Value, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var minx) &
-                    !double.TryParse(xBoundingBox.Attribute("miny")?.Value, NumberStyles.Any, 
+                    !double.TryParse(xBoundingBox.Attribute("miny")?.Value, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var miny) &
-                    !double.TryParse(xBoundingBox.Attribute("maxx")?.Value, NumberStyles.Any, 
+                    !double.TryParse(xBoundingBox.Attribute("maxx")?.Value, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var maxx) &
-                    !double.TryParse(xBoundingBox.Attribute("maxy")?.Value, NumberStyles.Any, 
+                    !double.TryParse(xBoundingBox.Attribute("maxy")?.Value, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var maxy))
                 {
                     throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
@@ -116,10 +116,10 @@ namespace BruTile.Wmsc
                 foreach (var resolution in resolutions)
                 {
                     double unitsPerPixel;
-                    if (!Double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
+                    if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
                         throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
-                    var levelId = count.ToString(CultureInfo.InvariantCulture);
-                    schema.Resolutions[levelId] = new Resolution ( levelId, unitsPerPixel, width, height);
+                    var level = count;
+                    schema.Resolutions[level] = new Resolution(level, unitsPerPixel, width, height);
                     count++;
                 }
             }

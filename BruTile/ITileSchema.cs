@@ -27,49 +27,49 @@ namespace BruTile
         /// <summary>
         /// Function to get a tile's width for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The width of the tile</returns>
-        int GetTileWidth(string levelId);
+        int GetTileWidth(int level);
 
         /// <summary>
         /// Function to get a tile's height for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The height of the tile</returns>
-        int GetTileHeight(string levelId);
+        int GetTileHeight(int level);
 
         /// <summary>
         /// Function to get the x vertex of the schema's origin for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The x vertex of the origin</returns>
-        double GetOriginX(string levelId);
+        double GetOriginX(int level);
 
         /// <summary>
         /// Function to get the y vertex of the schema's origin for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The y vertex of the origin</returns>
-        double GetOriginY(string levelId);
+        double GetOriginY(int level);
 
         /// <summary>
         /// Function to get the matrix width (aka number of columns) of the schema for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The matrix width</returns>
-        long GetMatrixWidth(string levelId);
+        long GetMatrixWidth(int level);
 
         /// <summary>
         /// Function to get the matrix height (aka number of rows) of the schema for a given zoom level.
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The matrix height</returns>
-        long GetMatrixHeight(string levelId);
+        long GetMatrixHeight(int level);
 
         /// <summary>
         /// Gets a value indicating the resolutions defined in this schema
         /// </summary>
-        IDictionary<string, Resolution> Resolutions { get; }
+        IDictionary<int, Resolution> Resolutions { get; }
         
         /// <summary>
         /// Gets a value indicating the file format of the tiles
@@ -85,9 +85,9 @@ namespace BruTile
         /// Function to get the <see cref="TileInfo"/>s for a given extent and zoom level.
         /// </summary>
         /// <param name="extent">The extent for which to get the tiles</param>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>A number of <see cref="TileInfo"/>s</returns>
-        IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId);
+        IEnumerable<TileInfo> GetTileInfos(Extent extent, int level);
 
         /// <summary>
         /// Function to get the <see cref="TileInfo"/>s for a given extent and unitsPerPixel.
@@ -102,20 +102,20 @@ namespace BruTile
         /// and this schema's <see cref="Extent"/> for a given zoom level.
         /// </summary>
         /// <param name="extent">The extent for which to get tiles</param>
-        /// <param name="levelId">The zoom level's id</param>
+        /// <param name="level">The zoom level</param>
         /// <returns>The intersection of requested extent and this schema's extent</returns>
-        Extent GetExtentOfTilesInView(Extent extent, string levelId);
+        Extent GetExtentOfTilesInView(Extent extent, int level);
 
         /// <summary>
         /// Function to get the first matrix column served by this schema for a given zoom level. 
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
-        int GetMatrixFirstCol(string levelId);
+        /// <param name="level">The zoom level</param>
+        int GetMatrixFirstCol(int level);
 
         /// <summary>
         /// Function to get the first matrix row served by this schema for a given zoom level. 
         /// </summary>
-        /// <param name="levelId">The zoom level's id</param>
-        int GetMatrixFirstRow(string levelId);
+        /// <param name="level">The zoom level</param>
+        int GetMatrixFirstRow(int level);
     }
 }

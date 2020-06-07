@@ -29,12 +29,12 @@ namespace BruTile.Performance.Desktop.Cache
             loadWork.TimeWork(
                 i => new
                 {
-                    TileIndex = new TileIndex(i % 10, i / 10, "1"),
+                    TileIndex = new TileIndex(i % 10, i / 10, 1),
                     Image = new [] { (byte)i }
                 },
                 args => _cache.Add(args.TileIndex, args.Image));
             loadWork.WaitForTestsToComplete();
-            findWork.TimeWork(i => new TileIndex(i % 10, i / 10, "1"), index => _cache.Find(index));
+            findWork.TimeWork(i => new TileIndex(i % 10, i / 10, 1), index => _cache.Find(index));
             findWork.WaitForTestsToComplete();
             Console.WriteLine("Total FileCache.Add time is {0}ms", loadWork.TotalTime);
             Console.WriteLine("Average FileCache.Add time is {0}ms", loadWork.TotalTime / threadCount);

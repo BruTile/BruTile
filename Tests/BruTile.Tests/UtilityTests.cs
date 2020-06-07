@@ -13,9 +13,9 @@ namespace BruTile.Tests
             var schema = new GlobalSphericalMercator();
 
             // act
-            var levelId = BruTile.Utilities.GetNearestLevel(schema.Resolutions, 300.0);
+            var level = BruTile.Utilities.GetNearestLevel(schema.Resolutions, 300.0);
             // assert
-            Assert.True(levelId == "9");
+            Assert.True(level == 9);
         }
     }
 }

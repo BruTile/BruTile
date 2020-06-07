@@ -26,10 +26,10 @@ namespace BruTile.Tms
             var tileMap = (TileMap)serializer.Deserialize(reader);
             var tileSchema = CreateSchema(tileMap);
 
-            var tileUrls = new Dictionary<string, Uri>();
+            var tileUrls = new Dictionary<int, Uri>();
             foreach (TileMapTileSetsTileSet ts in tileMap.TileSets.TileSet)
             {
-                tileUrls[ts.order] = new Uri(ts.href);
+                tileUrls[int.Parse(ts.order)] = new Uri(ts.href);
             }
             var tileProvider = new HttpTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
                 persistentCache, fetchTile);
@@ -70,7 +70,7 @@ namespace BruTile.Tms
             {
                 error = ex;
             }
-            if (callback != null) callback(tileSource, error);
+            callback?.Invoke(tileSource, error);
         }
 
         private static TileSchema CreateSchema(TileMap tileMap)
@@ -90,13 +90,13 @@ namespace BruTile.Tms
                 double.Parse(tileMap.BoundingBox.maxx, CultureInfo.InvariantCulture),
                 double.Parse(tileMap.BoundingBox.maxy, CultureInfo.InvariantCulture));
 
-
             foreach (var tileSet in tileMap.TileSets.TileSet)
             {
                 double unitsPerPixel = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
-                schema.Resolutions[tileSet.order] = new Resolution
+                int level = int.Parse(tileSet.order);
+                schema.Resolutions[level] = new Resolution
                 (
-                    tileSet.order,
+                    level,
                     unitsPerPixel,
                     tileWidth,
                     tileHeight
@@ -105,7 +105,7 @@ namespace BruTile.Tms
             return schema;
         }
 
-        private static IRequest CreateRequest(IDictionary<string, Uri> tileUrls, string format, string overrideUrl,
+        private static IRequest CreateRequest(IDictionary<int, Uri> tileUrls, string format, string overrideUrl,
             Dictionary<string, string> customParameters = null)
         {
             if (string.IsNullOrEmpty(overrideUrl))

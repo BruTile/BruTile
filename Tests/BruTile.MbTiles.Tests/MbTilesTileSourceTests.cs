@@ -25,7 +25,7 @@ namespace BruTile.MbTiles.Tests
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
             var extent = tileSource.Schema.Extent;
-            var tileInfos = tileSource.Schema.GetTileInfos(extent, "1").ToList();
+            var tileInfos = tileSource.Schema.GetTileInfos(extent, 1).ToList();
             tileSource.Attribution = new Attribution("attribution", "url");
             
             // act
@@ -93,7 +93,7 @@ namespace BruTile.MbTiles.Tests
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), new GlobalSphericalMercator("png", YAxis.TMS, null));
 
             // assert
-            var tile = tileSource.GetTile(new TileInfo { Index = new TileIndex(2006, 2552, "12")});
+            var tile = tileSource.GetTile(new TileInfo { Index = new TileIndex(2006, 2552, 12)});
             Assert.NotNull(tile);
         }
     }

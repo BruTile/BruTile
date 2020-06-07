@@ -75,7 +75,7 @@ namespace BruTile.Predefined
             Srs = "OSGEO:41001";
 
             foreach (var resolution in resolutions)
-                Resolutions[resolution.Id] = resolution;
+                Resolutions[resolution.Level] = resolution;
 
             OriginX = -ScaleFactor * TileSize;
             OriginY = -ScaleFactor * TileSize;
@@ -89,7 +89,7 @@ namespace BruTile.Predefined
             for (var i = min; i <= max; i++)
             {
                 results.Add(new Resolution (
-                    i.ToString(),
+                    i,
                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
                     2*ScaleFactor/(1 << i),
                     TileSize,
@@ -107,7 +107,7 @@ namespace BruTile.Predefined
             var results = new Resolution[levels.Count];
             for (var i = 0; i < levels.Count; i++)
                 results[i] = new Resolution(
-                    levels[i].ToString(),
+                    levels[i],
                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
                     2*ScaleFactor/(1 << levels[i]));
                                  

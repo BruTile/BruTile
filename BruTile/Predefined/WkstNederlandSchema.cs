@@ -35,10 +35,10 @@ namespace BruTile.Predefined
             var count = 0;
             foreach (var unitsPerPixel in unitsPerPixelArray)
             {
-                var levelId = count.ToString(CultureInfo.InvariantCulture);
-                Resolutions[levelId] = new Resolution 
+                var level = count;
+                Resolutions[level] = new Resolution 
                 (
-                    levelId, 
+                    level, 
                     unitsPerPixel,
                     TileSize,
                     TileSize,

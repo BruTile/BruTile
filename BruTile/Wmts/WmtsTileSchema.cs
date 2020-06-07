@@ -14,7 +14,7 @@ namespace BruTile.Wmts
         /// </summary>
         internal WmtsTileSchema()
         {
-            Resolutions = new Dictionary<string, Resolution>();
+            Resolutions = new Dictionary<int, Resolution>();
             YAxis = YAxis.OSM;
         }
 
@@ -66,7 +66,7 @@ namespace BruTile.Wmts
                 throw new ArgumentNullException("tileMatrixSet");
             if (string.IsNullOrEmpty(format))
                 throw new ArgumentNullException("format");
-            
+
             if (@abstract == null) @abstract = string.Empty;
             if (string.IsNullOrEmpty(style)) style = "null";
 
@@ -130,39 +130,39 @@ namespace BruTile.Wmts
         /// Gets a value indicating the orientation of the y-axis
         /// </summary>
         public YAxis YAxis { get; set; }
-        
-        public IDictionary<string, Resolution> Resolutions { get; set; }
 
-        public int GetTileWidth(string levelId)
+        public IDictionary<int, Resolution> Resolutions { get; set; }
+
+        public int GetTileWidth(int level)
         {
-            return Resolutions[levelId].TileWidth;
+            return Resolutions[level].TileWidth;
         }
 
-        public int GetTileHeight(string levelId)
+        public int GetTileHeight(int level)
         {
-            return Resolutions[levelId].TileHeight;
+            return Resolutions[level].TileHeight;
         }
 
-        public double GetOriginX(string levelId)
+        public double GetOriginX(int level)
         {
-            return Resolutions[levelId].Left;
+            return Resolutions[level].Left;
         }
 
-        public double GetOriginY(string levelId)
+        public double GetOriginY(int level)
         {
-            return Resolutions[levelId].Top;
+            return Resolutions[level].Top;
         }
 
-        public long GetMatrixWidth(string levelId)
+        public long GetMatrixWidth(int level)
         {
-            return Resolutions[levelId].MatrixWidth;
+            return Resolutions[level].MatrixWidth;
         }
 
-        public long GetMatrixHeight(string levelId)
+        public long GetMatrixHeight(int level)
         {
-            return Resolutions[levelId].MatrixHeight;
+            return Resolutions[level].MatrixHeight;
         }
-        
+
         /// <summary>
         /// Returns a List of TileInfos that cover the provided extent. 
         /// </summary>
@@ -172,24 +172,26 @@ namespace BruTile.Wmts
             return GetTileInfos(extent, level);
         }
 
-        public IEnumerable<TileInfo> GetTileInfos(Extent extent, string levelId)
+        public IEnumerable<TileInfo> GetTileInfos(Extent extent, int level)
         {
-            return TileSchema.GetTileInfos(this, extent, levelId);
+            return TileSchema.GetTileInfos(this, extent, level);
         }
 
-        public Extent GetExtentOfTilesInView(Extent extent, string levelId)
+        public Extent GetExtentOfTilesInView(Extent extent, int level)
         {
-            return TileSchema.GetExtentOfTilesInView(this, extent, levelId);
+            return TileSchema.GetExtentOfTilesInView(this, extent, level);
         }
 
-        public int GetMatrixFirstCol(string levelId)
+        public int GetMatrixFirstCol(int level)
         {
             return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
         }
 
-        public int GetMatrixFirstRow(string levelId)
+        public int GetMatrixFirstRow(int level)
         {
             return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
         }
+
+        public IDictionary<int, string> LevelToIdentifier { get; set;} = new Dictionary<int, string>();
     }
 }

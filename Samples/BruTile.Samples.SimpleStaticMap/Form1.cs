@@ -76,10 +76,10 @@ namespace BruTile.Samples.SimpleStaticMap
             var i = 0;
             foreach (var unitsPerPixel in _unitsPerPixelArray)
             {
-                var levelId = i++.ToString(CultureInfo.InvariantCulture);
-                schema.Resolutions[levelId] = new Resolution
+                var level = i++;
+                schema.Resolutions[level] = new Resolution
                 (
-                    levelId,
+                    level,
                     unitsPerPixel
                 );
             }

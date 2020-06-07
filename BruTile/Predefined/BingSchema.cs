@@ -11,7 +11,7 @@ namespace BruTile.Predefined
         {
             Format = "jpg";
             Name = "BingMaps";
-            Resolutions.Remove("0"); //Bing does not have the single tile top level.
+            Resolutions.Remove(0); //Bing does not have the single tile top level.
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BruTile.Tms
     public class TmsRequest : IRequest
     {
         private readonly string _baseUrl;
-        private readonly IDictionary<string, Uri> _baseUrls;
+        private readonly IDictionary<int, Uri> _baseUrls;
         private readonly string _imageFormat;
         private readonly Dictionary<string, string> _customParameters;
         private readonly IList<string> _serverNodes;
@@ -42,7 +42,7 @@ namespace BruTile.Tms
             _baseUrl = baseUrl.ToString();
         }
 
-        public TmsRequest(IDictionary<string, Uri> baseUrls, string imageFormat,
+        public TmsRequest(IDictionary<int, Uri> baseUrls, string imageFormat,
             Dictionary<string, string> customParameters = null)
             : this(imageFormat, null, customParameters)
         {
@@ -72,7 +72,7 @@ namespace BruTile.Tms
             return new Uri(url.ToString());
         }
 
-        private string GetUrlForLevel(string levelId)
+        private string GetUrlForLevel(int level)
         {
             var url = new StringBuilder();
             // if a single url is specified for all levels return that one plus the level id
@@ -80,12 +80,12 @@ namespace BruTile.Tms
             {
                 url.Append(_baseUrl);
                 if (!_baseUrl.EndsWith("/")) url.Append("/");
-                url.Append(levelId).Append("/");
+                url.Append(level).Append("/");
             }
             else
             {
-                url.Append(_baseUrls[levelId]);
-                if (!_baseUrls[levelId].ToString().EndsWith("/")) url.Append("/");
+                url.Append(_baseUrls[level]);
+                if (!_baseUrls[level].ToString().EndsWith("/")) url.Append("/");
             }
             return url.ToString();
         }

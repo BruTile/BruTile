@@ -1735,7 +1735,6 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlRoot(Namespace = "http://www.opengis.net/wmts/1.0", IsNullable = false)]
     public partial class TileMatrix : DescriptionType
     {
-
         private CodeType identifierField;
 
         private double scaleDenominatorField;
@@ -1749,6 +1748,9 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private double matrixWidthField;
 
         private double matrixHeightField;
+
+        // This fields was added to map the WMTS's Identifier (CodeType) field to BruTile's level (int)
+        public int Level { get; set; }
 
         /// <remarks/>
         [XmlElement(Namespace = "http://www.opengis.net/ows/1.1")]

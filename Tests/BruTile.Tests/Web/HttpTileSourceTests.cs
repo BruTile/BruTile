@@ -20,7 +20,7 @@ namespace BruTile.Tests.Web
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://*").Respond("image/png", new MemoryStream());
             var httpClient = new HttpClient(mockHttp);
-            var range = tileSource.Schema.GetTileInfos(tileSource.Schema.Extent, "3");
+            var range = tileSource.Schema.GetTileInfos(tileSource.Schema.Extent, 3);
             var timeStart = DateTime.Now;
 
             // act
