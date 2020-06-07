@@ -3,7 +3,7 @@
 
     <!--- Package information, Version -->
     <PropertyGroup>
-        <Version>2.1.3</Version>
+        <Version>2.2.0</Version>
         <NeutralLanguage>en</NeutralLanguage>
         <Copyright>Copyright © BruTile Developers Team 2008-2020</Copyright>
         <PackageLicenseUrl>https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt</PackageLicenseUrl>
