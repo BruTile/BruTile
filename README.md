@@ -3,6 +3,15 @@
 | Build | [![Build status](https://ci.appveyor.com/api/projects/status/5s4poobpfab9g8ny?svg=true)](https://ci.appveyor.com/project/pauldendulk/brutile) |
 | NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
 
+### News
+- Just published a couple of new releases. They are based on just four PRs but because of semver they came out as 3 separate releases.
+  - [2.1.3](https://github.com/BruTile/BruTile/releases/tag/2.1.3) with a small fix to allow case insensitive style in wmts.
+  - [2.2.0](https://github.com/BruTile/BruTile/releases/tag/2.2.0) in which HttpTileSource.PersistentCache now has a setter.
+  - [3.0.0](https://github.com/BruTile/BruTile/releases/tag/3.0.0) which has two breaking changes.
+    - In MbTiles there is a change in the default behavior that some users might notice. Zoom levels are not calculated from the 'tiles' table by default.
+    - The TileIndex.Level is now int instead of string. Most users will not notice this unless you write logic around tiling itself.
+
+
 ### BruTile
 BruTile is a .NET Standard 1.1 library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
 BruTile returns tiles as raw image streams and has no dependency on a specific client platform. BruTile does not display those tiles. You need to use a mapping library like SharpMap, ArcBruTile or [Mapsui](https://github.com/Mapsui/Mapsui) or write your own code to display tiles. 
