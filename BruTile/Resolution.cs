@@ -4,10 +4,14 @@ namespace BruTile
 {
     public struct Resolution
     {
-        public Resolution(int level, double unitsPerPixel, 
-            int tileWidth = 256, int tileHeight = 256,
-            double left = 0, double top = 0,
-            long matrixWidth = 0, long matrixHeight = 0,
+        public Resolution(int level, 
+            double unitsPerPixel, 
+            int tileWidth = 256, 
+            int tileHeight = 256,
+            double left = 0, 
+            double top = 0,
+            long matrixWidth = 0, 
+            long matrixHeight = 0,
             double scaledenominator = 0)
         {
             Level = level;
