@@ -26,21 +26,13 @@ namespace BruTile
         }
 
         public int Level { get; private set; }
-
         public double UnitsPerPixel { get; private set; }
-
         public double ScaleDenominator { get; private set; }
-
         public double Top { get; private set; }
-
         public double Left { get; private set; }
-
         public int TileWidth { get; private set; }
-
         public int TileHeight { get; private set; }
-
         public long MatrixWidth { get; private set; }
-
         public long MatrixHeight { get; private set; }
     }
 }
