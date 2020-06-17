@@ -44,7 +44,7 @@ namespace BruTile.Samples.Common
             
                 if (tile == null)
                 {
-                    if (nextLevelId != null) SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
+                    SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace BruTile.Samples.Common
                     // semi transparent one.
                     if (IsSemiTransparent(tile))
                     {
-                        if (nextLevelId != null) SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
+                        SelectRecursive(selection, cache, schema, tileInfo.Extent.Intersect(extent), nextLevelId);
                     }
                 }
             }

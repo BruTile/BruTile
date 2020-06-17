@@ -121,10 +121,10 @@ namespace BruTile.Web
         /// </summary>
         /// <param name="tileX">Tile X coordinate.</param>
         /// <param name="tileY">Tile Y coordinate.</param>
-        /// <param name="levelId">Level of detail, from 1 (lowest detail)
+        /// <param name="level">Level of detail, from 1 (lowest detail)
         /// to 23 (highest detail).</param>
         /// <returns>A string containing the QuadKey.</returns>
-        /// Stole this methode from this nice blog: http://www.silverlightshow.net/items/Virtual-earth-deep-zooming.aspx. PDD.
+        /// Stole this method from this nice blog: http://www.silverlightshow.net/items/Virtual-earth-deep-zooming.aspx. PDD.
         private static string TileXyToQuadKey(int tileX, int tileY, int level)
         {
             var quadKey = new StringBuilder();
