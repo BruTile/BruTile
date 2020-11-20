@@ -56,8 +56,8 @@ namespace BruTile.Samples.Common
             get { return _centerX; }
             set
             {
-                UpdateExtent();
                 _centerX = value;
+                UpdateExtent();
             }
         }
 
@@ -66,8 +66,8 @@ namespace BruTile.Samples.Common
             get { return _centerY; }
             set
             {
-                UpdateExtent();
                 _centerY = value;
+              UpdateExtent();
             }
         }
         
