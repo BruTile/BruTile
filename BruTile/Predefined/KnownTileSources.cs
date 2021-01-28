@@ -30,13 +30,17 @@ namespace BruTile.Predefined
         EsriWorldReferenceOverlay,
         EsriWorldTransportation,
         EsriWorldBoundariesAndPlaces,
-        EsriWorldDarkGrayBase
+        EsriWorldDarkGrayBase,
+        BKGTopPlusColor,
+        BKGTopPlusGrey
     }
 
     public static class KnownTileSources
     {
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
+        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie",
+                         "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
 
         /// <summary>
         /// Static factory method for known tile services
@@ -157,6 +161,16 @@ namespace BruTile.Predefined
                     return new HttpTileSource(new GlobalSphericalMercator(0, 16),
                         "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
+                case KnownTileSource.BKGTopPlusColor:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                        attribution: BKGAttribution, userAgent: userAgent);
+                case KnownTileSource.BKGTopPlusGrey:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                        attribution: BKGAttribution, userAgent: userAgent);
                 default:
                     throw new NotSupportedException("KnownTileSource not known");
             }
