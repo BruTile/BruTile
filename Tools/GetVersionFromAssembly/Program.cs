@@ -16,7 +16,9 @@ namespace GetVersionFromAssembly
                     var path = Path.GetFullPath(arg);
                     var assembly = Assembly.LoadFile(path);
                     var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-                    Console.Out.WriteLine(fileVersionInfo.ProductVersion);
+                    var version =
+                        $"{fileVersionInfo.ProductMajorPart}.{fileVersionInfo.ProductMinorPart}.{fileVersionInfo.ProductBuildPart}";
+                    Console.Out.WriteLine(version);
                 }
                 catch (Exception exception)
                 {
