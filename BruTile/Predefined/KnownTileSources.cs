@@ -79,17 +79,17 @@ namespace BruTile.Predefined
                         attribution: OpenStreetMapAttribution, userAgent: userAgent);
                 case KnownTileSource.BingAerial:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
+                        "https://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
                         persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
                 case KnownTileSource.BingHybrid:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
+                        "https://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
                         persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
                 case KnownTileSource.BingRoads:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
+                        "https://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
                         persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
                 case KnownTileSource.BingAerialStaging:
