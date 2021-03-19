@@ -61,8 +61,8 @@ namespace BruTile.Predefined
             {
                 case KnownTileSource.OpenStreetMap:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(18, maxZoomLevel)),
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        new[] {"a", "b", "c"}, name: source.ToString(),
+                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
                         attribution: OpenStreetMapAttribution, userAgent:userAgent);
                 case KnownTileSource.OpenCycleMap:

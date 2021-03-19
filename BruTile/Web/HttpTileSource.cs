@@ -27,7 +27,7 @@ namespace BruTile.Web
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTile;
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "BruTile Tile Library");
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
             Schema = tileSchema;
             Name = name ?? string.Empty;
             Attribution = attribution ?? new Attribution();
