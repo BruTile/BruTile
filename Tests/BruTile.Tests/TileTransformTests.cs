@@ -129,5 +129,27 @@ namespace BruTile.Tests
             // assert
             Assert.AreEqual(tileInfos.Count(), 0);
         }
+
+        [Test]
+        public void TileTransformWithDifferentTileWidthAndHeight()
+        {
+            // arrange
+            var tileWidth = 10;
+            var tileHeight = 5; // Note, tile tileHeight is half the tileWidth
+
+            var expectedColCount = 10;
+            var expectedRowCount = 20; // Because tileHeight is half the tileHeight there is a double number of rows
+
+            var schema = new TileSchema {Extent = new Extent(0, 0, 100, 100), OriginX = 0, OriginY = 0};
+            schema.Resolutions.Add(0, new Resolution(0, 1, tileWidth, tileHeight, 0, 0, 10, 10, 1));
+            var requestedExtent = new Extent(0, 0, 100, 100);
+
+            // act
+            var range = TileTransform.WorldToTile(requestedExtent, 0, schema);
+
+            // assert
+            Assert.AreEqual(expectedColCount, range.ColCount, "ColCount");
+            Assert.AreEqual(expectedRowCount, range.RowCount, "RowCount");
+        }
     }
 }
