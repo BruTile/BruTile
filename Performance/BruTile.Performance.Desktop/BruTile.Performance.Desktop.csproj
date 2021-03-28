@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj" />
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
   </ItemGroup>
 
