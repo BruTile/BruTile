@@ -87,7 +87,7 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="NETStandard.Library">
-      <Version>1.6.1</Version>
+      <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.6.292</Version>
@@ -103,9 +103,6 @@
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.v110_xp">
       <Version>1.1.13</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
