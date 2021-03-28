@@ -16,11 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile", "BruTile\BruTile.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Samples", "03_Samples", "{136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{57766550-A465-4797-80B7-9D7746D2DCF3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.Common", "Samples\BruTile.Samples.Common\BruTile.Samples.Common.csproj", "{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.SimpleStaticMap", "Samples\BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.SimpleStaticMap", "Samples\BruTile.Samples.SimpleStaticMap\BruTile.Samples.SimpleStaticMap.csproj", "{11C2C7B4-3A50-4984-9466-478526091EE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Tests", "02_Tests", "{3B8883BB-764B-40AA-B7BD-A30F4C9D5808}"
 EndProject
@@ -28,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Tests", "Tests\BruT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{2DC1700A-F83F-44D9-A2AC-EA2DCF4E747F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BruTile.Samples.Console", "Samples\BruTile.Samples.Console\BruTile.Samples.Console.csproj", "{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.Console", "Samples\BruTile.Samples.Console\BruTile.Samples.Console.csproj", "{ADE23B05-8CCE-4EAD-BCA6-0A469F60B29B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Performance", "04_Performance", "{E8E1A22E-2F90-42E1-A8B6-BAB783881FD3}"
 EndProject
@@ -51,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.GettingStarted", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.MbTiles", "Samples\BruTile.Samples.MbTiles\BruTile.Samples.MbTiles.csproj", "{B7B95174-F996-45F5-9CC3-8FB245F52A3D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +61,6 @@ Global
 		{9FB60E2D-C682-4A01-9584-8B495B8DA85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB60E2D-C682-4A01-9584-8B495B8DA85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FB60E2D-C682-4A01-9584-8B495B8DA85A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57766550-A465-4797-80B7-9D7746D2DCF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57766550-A465-4797-80B7-9D7746D2DCF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57766550-A465-4797-80B7-9D7746D2DCF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57766550-A465-4797-80B7-9D7746D2DCF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,13 +101,16 @@ Global
 		{B7B95174-F996-45F5-9CC3-8FB245F52A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7B95174-F996-45F5-9CC3-8FB245F52A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7B95174-F996-45F5-9CC3-8FB245F52A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9FB60E2D-C682-4A01-9584-8B495B8DA85A} = {19780978-0590-4DCF-85A6-5D2941A1085C}
-		{57766550-A465-4797-80B7-9D7746D2DCF3} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{24A0D64A-F894-4EB4-8CB7-8F6081BFE324} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{11C2C7B4-3A50-4984-9466-478526091EE2} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{DFFD61EA-2A22-48D7-A5F7-17554AB10BCE} = {3B8883BB-764B-40AA-B7BD-A30F4C9D5808}
@@ -122,6 +121,7 @@ Global
 		{DB13792C-8391-4D3A-AC4A-DA910E9464DC} = {6EE2299B-A487-4B50-BEE3-3CEE6D07A6C5}
 		{ACB6A591-8735-4BB1-B8DC-4FBA65C4D722} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 		{B7B95174-F996-45F5-9CC3-8FB245F52A3D} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
+		{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6} = {136D7621-C2BA-419F-AF8E-07BF1D2BCE1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73DFC204-2E2B-4AE0-A5AD-99FE18C3F923}
