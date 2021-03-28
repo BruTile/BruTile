@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Common", "00_Common", "{
 		.gitignore = .gitignore
 		BruTile.Common.props = BruTile.Common.props
 		BruTile.sln.DotSettings = BruTile.sln.DotSettings
+		.github\workflows\build.yml = .github\workflows\build.yml
 		license.txt = license.txt
 		README.md = README.md
 	EndProjectSection
