@@ -1,40 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RootNamespace>BruTile.Tests</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
-
-  <ItemGroup>
-    <Compile Remove="FileCacheTest\**" />
-    <EmbeddedResource Remove="FileCacheTest\**" />
-    <None Remove="FileCacheTest\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
     <ProjectReference Include="..\..\BruTile.Desktop\BruTile.Desktop.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <ProjectReference Include="..\..\BruTile.Desktop.DbCache\BruTile.Desktop.DbCache.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <PackageReference Include="System.Data.SQLite.Core" version="1.0.111" />
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
