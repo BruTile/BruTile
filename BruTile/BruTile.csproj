@@ -10,9 +10,4 @@
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
 
-  <ItemGroup>
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
-  </ItemGroup>
-
 </Project>

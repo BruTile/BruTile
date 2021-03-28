@@ -112,9 +112,7 @@ namespace BruTile.Samples.MbTiles
                 g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Schema.Extent)));
             }
 
-            tsslExtent.Text = string.Format("[({0:N}/{1:N})/({2:N}/{3:N})]", _mapTransform.Extent.MinX,
-                                            _mapTransform.Extent.MinY, _mapTransform.Extent.MaxX,
-                                            _mapTransform.Extent.MaxY);
+            tsslExtent.Text = $@"[({_mapTransform.Extent.MinX:N}/{_mapTransform.Extent.MinY:N})/({_mapTransform.Extent.MaxX:N}/{_mapTransform.Extent.MaxY:N})]";
             picMap.Image = _buffer;
         }
 
