@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
     <PackageTags>tiling gis osm geo</PackageTags>
     <Authors>Paul den Dulk, Felix Obermaier</Authors>
@@ -15,10 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
     <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
