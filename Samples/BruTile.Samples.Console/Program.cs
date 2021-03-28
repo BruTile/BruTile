@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BruTile.Predefined;
 using BruTile.Web;
 
-namespace BruTile.Samples.Console
+namespace BruTile.Samples.Console1
 {
     class Program
     {
@@ -37,11 +38,11 @@ namespace BruTile.Samples.Console
 
             foreach (var tile in tiles)
             {
-                System.Console.WriteLine("Column: {0}, Row: {1}, level: {2}, bytes: {3}", 
+                System.Console.WriteLine("Column: {0}, Row: {1}, level: {2}, bytes: {3}",
                     tile.Key.Index.Col, tile.Key.Index.Row, tile.Key.Index.Level, tile.Value.Length);
             }
 
-			System.Console.ReadKey();
+            System.Console.ReadKey();
         }
     }
 }
