@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFrameworks>netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
     <PackageTags>tiling gis osm geo</PackageTags>

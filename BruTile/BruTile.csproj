@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\</SolutionDir>
-    <TargetFrameworks>netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
     <PackageTags>tiling gis osm geo</PackageTags>
@@ -10,18 +10,9 @@
 
   <Import Project="$(SolutionDir)BruTile.Common.props" />
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+  <ItemGroup>
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
 </Project>
