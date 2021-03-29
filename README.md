@@ -23,7 +23,18 @@ What BruTile does is:
 3. Helps you fetch those tiles.
 
 ### BruTile is a .NET Standard library
-BruTile 2.0 supports .NET Standard. The Profiles by NuGet package:
+
+**BruTile V4** consists of 2 nugets that support .NET Standard 2.0.
+
+| Library                  |   Targeted Framework  |
+| ------------------------ | --------------------- |
+| BruTile                  |  .NET Standard 2.0    |
+| BruTile.MbTiles          |  .NET Standard 2.0    |
+
+- Support for .NET Framework 4.5 has been removed (also the samples and tests have moved to .NET Core). 
+- BruTile.Desktop and BruTile.Desktop.DbCache have been deleted and their content has moved to the BruTile nuget.
+
+**BruTile V3** supports .NET Standard. The Profiles by NuGet package:
 
 | Library                  |   Targeted Framework  |
 | ------------------------ | --------------------- |
