@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(SolutionDir)BruTile.Common.props" />
+
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
   </ItemGroup>

@@ -6,6 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <Import Project="$(SolutionDir)BruTile.Common.props" />
+
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />

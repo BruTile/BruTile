@@ -6,6 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <Import Project="$(SolutionDir)BruTile.Common.props" />
+
   <ItemGroup>
     <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
     <ProjectReference Include="..\BruTile.Samples.Common\BruTile.Samples.Common.csproj" />
