@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Tests", "Tests\BruT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles.Tests", "Tests\BruTile.MbTiles.Tests\BruTile.MbTiles.Tests.csproj", "{1A6D2993-C380-4DF4-9952-A9F22FFD34EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B8BB928A-6C12-45B0-8B4C-DF76F5A2D32B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.GettingStarted", "Samples\BruTile.GettingStarted\BruTile.GettingStarted.csproj", "{5A72F57F-4213-4D85-9970-84C942F2B2A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,18 @@ Global
 		{1A6D2993-C380-4DF4-9952-A9F22FFD34EB}.Release|x64.Build.0 = Release|Any CPU
 		{1A6D2993-C380-4DF4-9952-A9F22FFD34EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A6D2993-C380-4DF4-9952-A9F22FFD34EB}.Release|x86.Build.0 = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|x64.Build.0 = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +128,7 @@ Global
 		{F1C36376-58EE-457F-A2A2-ADE35A39FC8D} = {FC9F55A8-498E-4FFE-9127-E8CB7725DC9D}
 		{65B03D41-85CD-492C-99F9-4CD545651A3A} = {D70B7185-B90D-4CB7-8FDB-441FADD9821D}
 		{1A6D2993-C380-4DF4-9952-A9F22FFD34EB} = {D70B7185-B90D-4CB7-8FDB-441FADD9821D}
+		{5A72F57F-4213-4D85-9970-84C942F2B2A8} = {B8BB928A-6C12-45B0-8B4C-DF76F5A2D32B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B183B66E-60DD-4958-AC91-81285E29B11D}
