@@ -12,7 +12,7 @@ namespace BruTile.Web
 
         public static HttpClient Build()
         {
-            if (HttpClientHandler is null)
+            if (HttpClientHandler != null)
                 return new HttpClient(HttpClientHandler, false);
 
             return new HttpClient();
