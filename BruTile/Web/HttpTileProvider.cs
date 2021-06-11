@@ -10,7 +10,7 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, byte[]> _fetchTile;
         private readonly IRequest _request;
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient = BruTile.Web.HttpClientBuilder.Build();
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null, string userAgent = null)
