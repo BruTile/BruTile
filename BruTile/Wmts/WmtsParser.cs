@@ -146,8 +146,7 @@ namespace BruTile.Wmts
                             {
                                 foreach (var allowedValue in constraint.AllowedValues)
                                 {
-                                    list.Add(new KeyValuePair<string, string>(((Generated.ValueType)allowedValue).Value,
-                                        item.href));
+                                    list.Add(new KeyValuePair<string, string>(((Generated.ValueType)allowedValue).Value, item.href));
                                 }
                             }
                         }
