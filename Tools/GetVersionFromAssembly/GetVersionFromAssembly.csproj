@@ -4,9 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
-  <Import Project="$(SolutionDir)BruTile.Common.props" />
-
   <ItemGroup>
     <PackageReference Update="Microsoft.NETCore.App" />
   </ItemGroup>
