@@ -72,6 +72,9 @@
     <None Update="Resources\Wmts\wmts-capabilities-pdok.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wmts\wmts-capabilities-noconstraint.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Wmts\wmts-capabilities-raya-basemap-server.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

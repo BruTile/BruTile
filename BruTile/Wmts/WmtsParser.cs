@@ -140,11 +140,26 @@ namespace BruTile.Wmts
                 {
                     foreach (var item in dcp.Http.Items)
                     {
-                        foreach (var constraint in item.Constraint)
+                        if (item.Constraint != null)
                         {
-                            foreach (var allowedValue in constraint.AllowedValues)
+                            foreach (var constraint in item.Constraint)
                             {
-                                list.Add(new KeyValuePair<string, string>(((Generated.ValueType)allowedValue).Value, item.href));
+                                foreach (var allowedValue in constraint.AllowedValues)
+                                {
+                                    list.Add(new KeyValuePair<string, string>(((Generated.ValueType)allowedValue).Value, item.href));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (item.href.Contains("?"))
+                            {
+                                // Use kvp Schema for urls because the url is already kvp system
+                                list.Add(new KeyValuePair<string, string>("kvp", item.href));    
+                            }
+                            else
+                            {
+                                list.Add(new KeyValuePair<string, string>(string.Empty, item.href));    
                             }
                         }
                     }

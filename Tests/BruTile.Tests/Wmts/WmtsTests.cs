@@ -219,6 +219,22 @@ namespace BruTile.Tests.Wmts
         }
 
         [Test]
+        public void TestParsingWmtsCapabilitiesNoConstraint()
+        {
+            // arrange
+            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-noconstraint.xml")))
+            {
+                // act
+                var tileSources = WmtsParser.Parse(stream).ToList();
+
+                // assert
+                Assert.AreEqual(1, tileSources.Count);
+                var s = tileSources[0].GetUri(new TileInfo()).ToString();
+                Assert.IsTrue(s.Contains("&FORMAT=image/png", StringComparison.OrdinalIgnoreCase), "Assures is kvp mapping"); 
+            }
+        }
+
+        [Test]
         public void TestParsingWmtsCapabilitiesMarsWithDoubleValues()
         {
             // arrange
