@@ -2,9 +2,14 @@
 
 namespace BruTile
 {
+    using System.Collections.Generic;
+
+    using BruTile.Wmts.Generated;
+
     public class TileInfo
     {
         public TileIndex Index { get; set; }
         public Extent Extent { get; set; }
-    }
+        public Dictionary<string, string> DimensionSettings { get; set; }
+}
 }

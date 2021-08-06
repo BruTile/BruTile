@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace BruTile.Wmts
 {
+    using BruTile.Wmts.Generated;
+
     public class WmtsTileSchema : ITileSchema
     {
         private Extent _extent;
@@ -49,6 +51,11 @@ namespace BruTile.Wmts
         public string Style { get; private set; }
 
         /// <summary>
+        /// Gets the dimension of the schema
+        /// </summary>
+        public Dimension[] Dimensions { get; private set; }
+
+        /// <summary>
         /// Creates a copy of this schema with <see cref="Format"/> set to <paramref name="format"/>
         /// </summary>
         /// <param name="title">The layer title</param>
@@ -57,8 +64,9 @@ namespace BruTile.Wmts
         /// <param name="tileMatrixSet">The TileMatrixSet identifier</param>
         /// <param name="style">The style identifier</param>
         /// <param name="format">The format used for this style</param>
+        /// <param name="dimensions">The format used for this style</param>
         /// <returns>A tile schema</returns>
-        internal WmtsTileSchema CreateSpecific(string title, string layer, string @abstract, string tileMatrixSet, string style, string format)
+        internal WmtsTileSchema CreateSpecific(string title, string layer, string @abstract, string tileMatrixSet, string style, string format, Dimension[] dimensions)
         {
             if (string.IsNullOrEmpty(layer))
                 throw new ArgumentNullException("layer");
@@ -85,7 +93,8 @@ namespace BruTile.Wmts
                 Format = format,
                 Name = Name,
                 Srs = Srs,
-                SupportedSRS = SupportedSRS
+                SupportedSRS = SupportedSRS,
+                Dimensions = dimensions
             };
 
             foreach (var resolution in Resolutions) res.Resolutions.Add(resolution);
@@ -132,6 +141,7 @@ namespace BruTile.Wmts
         public YAxis YAxis { get; set; }
 
         public IDictionary<int, Resolution> Resolutions { get; set; }
+
 
         public int GetTileWidth(int level)
         {

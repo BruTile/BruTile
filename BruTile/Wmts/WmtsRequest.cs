@@ -9,12 +9,15 @@ using BruTile.Web;
 
 namespace BruTile.Wmts
 {
+    using BruTile.Wmts.Generated;
+
     public class WmtsRequest : IRequest
     {
         public const string XTag = "{TileCol}";
         public const string YTag = "{TileRow}";
         public const string ZTag = "{TileMatrix}";
         public const string TileMatrixSetTag = "{TileMatrixSet}";
+        public const string TimeTag = "{Time}";
         public const string StyleTag = "{Style}";
 
         private readonly List<ResourceUrl> _resourceUrls;
@@ -23,6 +26,7 @@ namespace BruTile.Wmts
         private readonly IDictionary<int, string> _levelToIdentifier;
 
         public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier)
+        //public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier, string[] dimensionValues)
         {
             _resourceUrls = resourceUrls.ToList();
             _levelToIdentifier = levelToIdentifier;
@@ -35,9 +39,11 @@ namespace BruTile.Wmts
 
             // For wmts we need to map the level int to an identifier of type string.
             var identifier = _levelToIdentifier[info.Index.Level];
+            var time = info.DimensionSettings.FirstOrDefault(setting => setting.Key.Equals("Time")).Value;
             stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(ZTag, identifier);
+            stringBuilder.Replace(TimeTag, time);
 
             return new Uri(stringBuilder.ToString());
         }
