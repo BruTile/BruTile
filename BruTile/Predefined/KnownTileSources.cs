@@ -39,7 +39,8 @@ namespace BruTile.Predefined
     {
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
-        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie",
+        private static readonly string currentYear = DateTime.Today.Year.ToString();
+        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie (" + currentYear + ")",
                          "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
 
         /// <summary>
@@ -166,12 +167,12 @@ namespace BruTile.Predefined
                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
                 case KnownTileSource.BKGTopPlusColor:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale/default/WEBMERCATOR/{z}/{y}/{x}.png",
                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
                         attribution: BKGAttribution, userAgent: userAgent);
                 case KnownTileSource.BKGTopPlusGrey:
                     return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
                         attribution: BKGAttribution, userAgent: userAgent);
                 default:
