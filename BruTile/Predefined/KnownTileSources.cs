@@ -1,6 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Threading.Tasks;
 using BruTile.Cache;
 using BruTile.Web;
 
@@ -55,7 +56,7 @@ namespace BruTile.Predefined
         /// <param name="maxZoomLevel">The maximum zoom level</param>
         /// <returns>The tile source</returns>
         public static HttpTileSource Create(KnownTileSource source = KnownTileSource.OpenStreetMap, string apiKey = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, string userAgent = null,
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null, string userAgent = null,
             int minZoomLevel = 0, int maxZoomLevel = 20)
         {
             switch (source)

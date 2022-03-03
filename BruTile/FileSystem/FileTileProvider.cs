@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using BruTile.Cache;
 
 namespace BruTile.FileSystem
@@ -20,11 +21,11 @@ namespace BruTile.FileSystem
             _fileCache = fileCache;
         }
 
-        public byte[] GetTile(TileInfo tileInfo)
+        public Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
             byte[] bytes = _fileCache.Find(tileInfo.Index);
             if (bytes == null) throw new FileNotFoundException("The tile was not found at it's expected location");
-            return bytes;
+            return Task.FromResult(bytes);
         }
     }
 }

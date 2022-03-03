@@ -3,6 +3,7 @@
 using System.Linq;
 using BruTile.Cache;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,11 +18,12 @@ namespace BruTile.Samples.Common
         private double _unitsPerPixel;
         private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
         private const int MaxThreads = 4;
-        private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(MaxThreads);
         private readonly IFetchStrategy _strategy = new FetchStrategy();
-        private volatile bool _isAborted;
+        private volatile CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isViewChanged;
         private Retries _retries;
+        private ConcurrentQueue<TileInfo> _loadingTiles;
 
         public event DataChangedEventHandler<T> DataChanged;
 
@@ -41,32 +43,32 @@ namespace BruTile.Samples.Common
             _extent = extent;
             _unitsPerPixel = unitsPerPixel;
             _isViewChanged = true;
-            _waitHandle.Set();
         }
 
         private void StartFetchLoop()
         {
-            Task.Run(() => FetchLoop());
+            Task.Run(FetchLoop, _cancellationTokenSource.Token);
         }
 
         public void AbortFetch()
         {
-            _isAborted = true;
-            _waitHandle.Set(); // activate fetch loop so it can run out of the loop
+            _cancellationTokenSource.Cancel();
+            while (_loadingTiles.TryDequeue(out _))
+            {
+            }
         }
 
-        private void FetchLoop()
+        private async Task FetchLoop()
         {
             IEnumerable<TileInfo> tilesWanted = null;
             if (_retries == null) _retries = new Retries();
 
-            while (!_isAborted)
+            while (!_cancellationTokenSource.IsCancellationRequested)
             {
-                _waitHandle.WaitOne();
+                await Task.Delay(100).ConfigureAwait(false);
 
                 if (_tileSource.Schema == null)
                 {
-                    _waitHandle.Reset();    // set in wait mode 
                     continue;              // and go to begin of loop to wait
                 }
 
@@ -79,18 +81,9 @@ namespace BruTile.Samples.Common
                 }
 
                 var tilesMissing = GetTilesMissing(tilesWanted, _memoryCache, _retries);
+                _loadingTiles = new ConcurrentQueue<TileInfo>(tilesMissing);
 
-                FetchTiles(tilesMissing);
-
-                if (tilesMissing.Count == 0) { _waitHandle.Reset(); }
-
-                lock (_tilesInProgress)
-                {
-                    if (_tilesInProgress.Count >= MaxThreads)
-                    {
-                        _waitHandle.Reset();
-                    }
-                }
+                await FetchTiles(_loadingTiles).ConfigureAwait(false);
             }
         }
 
@@ -102,14 +95,11 @@ namespace BruTile.Samples.Common
                 !retries.ReachedMax(info.Index)).ToList();
         }
 
-        private void FetchTiles(IEnumerable<TileInfo> tilesMissing)
+        private async Task FetchTiles(ConcurrentQueue<TileInfo> tilesMissing)
         {
-            foreach (TileInfo info in tilesMissing)
+            while(tilesMissing.TryDequeue(out var info))
             {
-                lock (_tilesInProgress)
-                {
-                    if (_tilesInProgress.Count >= MaxThreads) return;
-                }
+                await _semaphore.WaitAsync().ConfigureAwait(false);
                 FetchTile(info);
             }
         }
@@ -133,7 +123,7 @@ namespace BruTile.Samples.Common
         private void FetchAsync(TileInfo tileInfo)
         {
             Task.Run(
-                () =>
+                async () =>
                 {
                     Exception error = null;
                     Tile<T> tile = null;
@@ -142,7 +132,7 @@ namespace BruTile.Samples.Common
                     {
                         if (_tileSource != null)
                         {
-                            byte[] data = _tileSource.GetTile(tileInfo);
+                            byte[] data = await _tileSource.GetTileAsync(tileInfo).ConfigureAwait(false);
                             tile = new Tile<T> { Data = data, Info = tileInfo };
                         }
                     }
@@ -157,12 +147,12 @@ namespace BruTile.Samples.Common
                             _tilesInProgress.Remove(tileInfo.Index);
                     }
 
-                    _waitHandle.Set();
+                    _semaphore.Release();
 
-                    if (DataChanged != null && !_isAborted)
+                    if (DataChanged != null && !_cancellationTokenSource.IsCancellationRequested)
                         DataChanged(this, new DataChangedEventArgs<T>(error, false, tile));
 
-                });
+                }, _cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -171,36 +161,28 @@ namespace BruTile.Samples.Common
         /// </summary>
         class Retries
         {
-            private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
+            private readonly IDictionary<TileIndex, int> _retries = new ConcurrentDictionary<TileIndex, int>();
             private const int MaxRetries = 0;
-            private readonly int _threadId;
             private const string CrossThreadExceptionMessage = "Cross thread access not allowed on class Retries";
 
             public Retries()
             {
-                _threadId = Environment.CurrentManagedThreadId;
             }
 
             public bool ReachedMax(TileIndex index)
             {
-                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
                 var retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
                 return retryCount > MaxRetries;
             }
 
             public void PlusOne(TileIndex index)
             {
-                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
                 if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
                 else _retries[index]++;
             }
 
             public void Clear()
             {
-                if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
                 _retries.Clear();
             }
         }

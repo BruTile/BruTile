@@ -147,7 +147,7 @@ namespace BruTile.Samples.MbTiles
             tsslPosition.Text = string.Format("({0:N} East/{1:N} North", pt.X, pt.Y);
         }
 
-        private void picMap_MouseClick(object sender, MouseEventArgs e)
+        private async void picMap_MouseClick(object sender, MouseEventArgs e)
         {
             if (_mapTransform == null) return;
             
@@ -155,7 +155,7 @@ namespace BruTile.Samples.MbTiles
             {
                 var pt = _mapTransform.MapToWorld(e.X, e.Y);
                 _mapTransform = new MapTransform(pt, _mapTransform.UnitsPerPixel, picMap.Width, picMap.Height);
-                RenderToBuffer();
+                await RenderToBuffer();
             }
         }
 

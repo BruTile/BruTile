@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BruTile.Cache;
 using NUnit.Framework;
 using BruTile.FileSystem;
@@ -9,7 +10,7 @@ namespace BruTile.Tests.FileSystem
     public class FileTileProviderTests
     {
         [Test]
-        public void GetTile_WhenTilePresent_ShouldReturnTile()
+        public async Task GetTile_WhenTilePresent_ShouldReturnTile()
         {
             // arrange
             var tileCache = new FileCache(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
@@ -17,7 +18,7 @@ namespace BruTile.Tests.FileSystem
             var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
             // act
-            var tile = fileTileProvider.GetTile(new TileInfo { Index = new TileIndex(4, 5, 8) });
+            var tile = await fileTileProvider.GetTileAsync(new TileInfo { Index = new TileIndex(4, 5, 8) }).ConfigureAwait(false);
 
             // assert
             Assert.AreEqual(tile.Length, 243);

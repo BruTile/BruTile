@@ -1,5 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System.Threading.Tasks;
+
 namespace BruTile
 {
     /// <summary>
@@ -28,9 +30,9 @@ namespace BruTile
         /// <summary>
         /// Gets the image content of the tile 
         /// </summary>
-        public byte[] GetTile(TileInfo tileInfo)
+        public async Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
-            return _provider.GetTile(tileInfo);
+            return await _provider.GetTileAsync(tileInfo).ConfigureAwait(false);
         }
 
         /// <summary>

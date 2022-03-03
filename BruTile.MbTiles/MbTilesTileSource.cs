@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using BruTile.Predefined;
 using SQLite;
 
@@ -176,19 +177,20 @@ namespace BruTile.MbTiles
             mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
         }
 
-        public byte[] GetTile(TileInfo tileInfo)
+        public async Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
             var index = tileInfo.Index;
 
             if (IsTileIndexValid(index))
             {
                 byte[] result;
-                using (var cn = new SQLiteConnectionWithLock(_connectionString))
-                using (cn.Lock())
+                var cn = new SQLiteAsyncConnection(_connectionString);
                 {
                     var sql = "SELECT tile_data FROM \"tiles\" WHERE zoom_level=? AND tile_row=? AND tile_column=?;";
-                    result = cn.ExecuteScalar<byte[]>(sql, index.Level, index.Row, index.Col);
+                    result = await cn.ExecuteScalarAsync<byte[]>(sql, index.Level, index.Row, index.Col)
+                        .ConfigureAwait(false);
                 }
+
                 return result == null || result.Length == 0
                     ? null
                     : result;

@@ -80,7 +80,7 @@ var tileInfos = tileSource.Schema.GetTileInfos(extent, resolution);
 Console.WriteLine("Show tile info");
 foreach (var tileInfo in tileInfos)
 {
-    var tile = tileSource.GetTile(tileInfo);
+    var tile = await tileSource.GetTileAsync(tileInfo);
 
     Console.WriteLine(
         $"tile col: {tileInfo.Index.Col}, " +
@@ -115,7 +115,7 @@ The predefined tile sources are defined in a single file. Take a look at that fi
 
 ```c#
 var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
-var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
+var mbTilesTile = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
 ```
 Output:

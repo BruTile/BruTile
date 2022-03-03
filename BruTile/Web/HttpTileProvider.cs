@@ -1,29 +1,31 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using BruTile.Cache;
 
 namespace BruTile.Web
 {
     public class HttpTileProvider : ITileProvider, IRequest
     {
-        private readonly Func<Uri, byte[]> _fetchTile;
+        private readonly Func<Uri, Task<byte[]>> _fetchTile;
         private readonly IRequest _request;
         private readonly HttpClient _httpClient = BruTile.Web.HttpClientBuilder.Build();
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> fetchTile = null, string userAgent = null)
+            Func<Uri, Task<byte[]>> fetchTile = null, string userAgent = null)
         {
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
-            _fetchTile = fetchTile ?? FetchTile;
+            _fetchTile = fetchTile ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "BruTile Tile Library");
         }
         
-        private byte[] FetchTile(Uri arg)
+        private async Task<byte[]> FetchTileAsync(Uri arg)
         {
-            return _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
+            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
         }
 
         public IPersistentCache<byte[]> PersistentCache { get; }
@@ -33,11 +35,11 @@ namespace BruTile.Web
             return _request.GetUri(tileInfo);
         }
 
-        public byte[] GetTile(TileInfo tileInfo)
+        public async Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
             var bytes = PersistentCache.Find(tileInfo.Index);
             if (bytes != null) return bytes;
-            bytes = _fetchTile(_request.GetUri(tileInfo));
+            bytes = await _fetchTile(_request.GetUri(tileInfo)).ConfigureAwait(false);
             if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             return bytes;
         }
