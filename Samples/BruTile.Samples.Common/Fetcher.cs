@@ -65,7 +65,7 @@ namespace BruTile.Samples.Common
 
             while (!_cancellationTokenSource.IsCancellationRequested)
             {
-                await Task.Delay(100).ConfigureAwait(false);
+                await Task.Delay(100);
 
                 if (_tileSource.Schema == null)
                 {
@@ -83,7 +83,7 @@ namespace BruTile.Samples.Common
                 var tilesMissing = GetTilesMissing(tilesWanted, _memoryCache, _retries);
                 _loadingTiles = new ConcurrentQueue<TileInfo>(tilesMissing);
 
-                await FetchTiles(_loadingTiles).ConfigureAwait(false);
+                await FetchTiles(_loadingTiles);
             }
         }
 
@@ -99,7 +99,7 @@ namespace BruTile.Samples.Common
         {
             while(tilesMissing.TryDequeue(out var info))
             {
-                await _semaphore.WaitAsync().ConfigureAwait(false);
+                await _semaphore.WaitAsync();
                 FetchTile(info);
             }
         }
