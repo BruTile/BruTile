@@ -53,7 +53,7 @@ namespace BruTile.Samples.Common
         public void AbortFetch()
         {
             _cancellationTokenSource.Cancel();
-            while (_loadingTiles.TryDequeue(out _))
+            while (_loadingTiles != null && _loadingTiles.TryDequeue(out _))
             {
             }
         }
