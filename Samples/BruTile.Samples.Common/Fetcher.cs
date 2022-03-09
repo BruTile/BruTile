@@ -133,7 +133,7 @@ namespace BruTile.Samples.Common
         private void FetchAsync(TileInfo tileInfo)
         {
             Task.Run(
-                () =>
+                async () =>
                 {
                     Exception error = null;
                     Tile<T> tile = null;
@@ -142,7 +142,7 @@ namespace BruTile.Samples.Common
                     {
                         if (_tileSource != null)
                         {
-                            byte[] data = _tileSource.GetTile(tileInfo);
+                            byte[] data = await _tileSource.GetTileAsync(tileInfo);
                             tile = new Tile<T> { Data = data, Info = tileInfo };
                         }
                     }

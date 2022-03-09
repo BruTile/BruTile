@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using BruTile.Cache;
 using BruTile.Web;
@@ -19,7 +20,7 @@ namespace BruTile.Tms
 
         public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl = null,
             Dictionary<string, string> customParameters = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> fetchTile = null)
+            Func<Uri, Task<byte[]>> fetchTile = null)
         {
             var reader = new StreamReader(tileMapResource);
             var serializer = new XmlSerializer(typeof(TileMap));

@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using BruTile.MbTiles.Tests.Utilities;
 using BruTile.Predefined;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace BruTile.MbTiles.Tests
         }
 
         [Test]
-        public void FetchTiles()
+        public async Task FetchTiles()
         {
             // arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
@@ -29,7 +30,7 @@ namespace BruTile.MbTiles.Tests
             tileSource.Attribution = new Attribution("attribution", "url");
             
             // act
-            var data = tileSource.GetTile(tileInfos.First());
+            var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
             // assert
             Assert.True(data.Length > 0);
@@ -83,7 +84,7 @@ namespace BruTile.MbTiles.Tests
 
 
         [Test]
-        public void SchemaGeneratedFromMbTilesWithSchemaInConstructor()
+        public async Task SchemaGeneratedFromMbTilesWithSchemaInConstructor()
         {
             // arrange
             SQLitePCL.Batteries.Init();
@@ -93,7 +94,7 @@ namespace BruTile.MbTiles.Tests
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), new GlobalSphericalMercator("png", YAxis.TMS, null));
 
             // assert
-            var tile = tileSource.GetTile(new TileInfo { Index = new TileIndex(2006, 2552, 12)});
+            var tile = await tileSource.GetTileAsync(new TileInfo { Index = new TileIndex(2006, 2552, 12)}).ConfigureAwait(false);
             Assert.NotNull(tile);
         }
     }

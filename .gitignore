@@ -188,3 +188,4 @@ FakesAssemblies/
 
 # Mac OS
 .DS_Store
+/Samples/BruTile.Demo.Uno/.vsconfig

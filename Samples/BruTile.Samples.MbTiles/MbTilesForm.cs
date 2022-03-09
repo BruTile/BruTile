@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BruTile.MbTiles;
 using SQLite;
@@ -29,7 +30,7 @@ namespace BruTile.Samples.MbTiles
             base.OnPaint(e);
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override async void OnLoad(EventArgs e)
         {
             /* http://a.tiles.mapbox.com/mapbox/download/haiti-terrain-grey.mbtiles */
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain-grey.mbtiles");
@@ -41,12 +42,12 @@ namespace BruTile.Samples.MbTiles
                     new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
                     scale, picMap.Width, picMap.Height);
 
-                RenderToBuffer();
+                await RenderToBuffer();
             }
             base.OnLoad(e);
         }
 
-        protected override void OnMouseWheel(MouseEventArgs e)
+        protected override async void OnMouseWheel(MouseEventArgs e)
         {
             if (_mapTransform == null)
                 return;
@@ -70,12 +71,12 @@ namespace BruTile.Samples.MbTiles
 
             var transform = new MapTransform(newCenter, res * factor, picMap.Width, picMap.Height);
             _mapTransform = transform;
-            RenderToBuffer();
+            await RenderToBuffer();
 
             base.OnMouseWheel(e);
         }
 
-        protected override void OnResize(EventArgs e)
+        protected override async void OnResize(EventArgs e)
         {
             base.OnResize(e);
             if (_mapTransform == null) return;
@@ -83,10 +84,10 @@ namespace BruTile.Samples.MbTiles
 
             _buffer = new Bitmap(picMap.Width, picMap.Height);
             _mapTransform = new MapTransform(_mapTransform.Center, _mapTransform.UnitsPerPixel, picMap.Width, picMap.Height);
-            RenderToBuffer();
+            await RenderToBuffer();
         }
 
-        private void RenderToBuffer()
+        private async Task RenderToBuffer()
         {
             var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.UnitsPerPixel);
 
@@ -95,7 +96,7 @@ namespace BruTile.Samples.MbTiles
                 g.Clear(Color.White);
                 foreach (var tileInfo in _source.Schema.GetTileInfos(_mapTransform.Extent, levelIndex))
                 {
-                    var res = _source.GetTile(tileInfo);
+                    var res = await _source.GetTileAsync(tileInfo).ConfigureAwait(false);
                     var extent = _mapTransform.WorldToMap(tileInfo.Extent.MinX, tileInfo.Extent.MinY,
                                                             tileInfo.Extent.MaxX, tileInfo.Extent.MaxY);
                     if (res != null)
@@ -140,7 +141,7 @@ namespace BruTile.Samples.MbTiles
                 (int)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var ofn = new OpenFileDialog())
             {
@@ -157,12 +158,12 @@ namespace BruTile.Samples.MbTiles
                         new PointF((float)extent.CenterX, (float)extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
-                    RenderToBuffer();
+                    await RenderToBuffer();
                 }
             }
         }
 
-        private void getSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void getSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
             var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
@@ -210,7 +211,7 @@ namespace BruTile.Samples.MbTiles
                         new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
                         scale, picMap.Width, picMap.Height);
 
-                    RenderToBuffer();
+                    await RenderToBuffer();
                 }
                 Enabled = true;
             }

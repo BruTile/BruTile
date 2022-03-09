@@ -2,6 +2,7 @@
 using BruTile.Web;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace BruTile.Samples.Common.Samples
 {
@@ -15,17 +16,17 @@ namespace BruTile.Samples.Common.Samples
         public static ITileSource CreateGoogleTileSource(string urlFormatter)
         {
             return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] { "0", "1", "2", "3" },
-                tileFetcher: FetchGoogleTile);
+                tileFetcher: FetchGoogleTileAsync);
         }
 
-        private static byte[] FetchGoogleTile(Uri arg)
+        private static async Task<byte[]> FetchGoogleTileAsync(Uri arg)
         {
             var httpClient = BruTile.Web.HttpClientBuilder.Build();
 
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", "http://maps.google.com/");
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", @"Mozilla / 5.0(Windows; U; Windows NT 6.0; en - US; rv: 1.9.1.7) Gecko / 20091221 Firefox / 3.5.7");
 
-            return httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
+            return await httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
         }
 
     }

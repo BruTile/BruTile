@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BruTile.Samples.SimpleStaticMap
@@ -34,7 +35,7 @@ namespace BruTile.Samples.SimpleStaticMap
             e.Graphics.DrawImage(_buffer, 0, 0);
         }
 
-        private void Form1Load(object sender, EventArgs e)
+        private async void Form1Load(object sender, EventArgs e)
         {
             var viewport = new Viewport(new PointF(629816f, 6805085f), 1222.992452344f, Width, Height);
 
@@ -47,7 +48,7 @@ namespace BruTile.Samples.SimpleStaticMap
             foreach (var tile in tiles)
             {
                 var url = requestBuilder.GetUri(tile);
-                var bytes = FetchTile(url);
+                var bytes = await FetchTileAsync(url).ConfigureAwait(false);
                 var bitmap = new Bitmap(new MemoryStream(bytes));
                 var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
                 graphics.DrawImage(bitmap, RoundToPixel(destination));
@@ -55,9 +56,9 @@ namespace BruTile.Samples.SimpleStaticMap
             Invalidate();
         }
 
-        private byte[] FetchTile(Uri arg)
+        private async Task<byte[]> FetchTileAsync(Uri arg)
         {
-            return _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
+            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
         }
 
         private ITileSchema CreateTileSchema()
