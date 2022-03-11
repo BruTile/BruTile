@@ -14,7 +14,7 @@ namespace BruTile.Tests
         [Test]
         public void TileToWorldShouldReturnCorrectExtent()
         {
-            // arrange
+            // Arrange
             var range = new TileRange(1, 2);
             var schema = new GlobalSphericalMercator(YAxis.TMS);
             var expectedExtent = new Extent(-15028131.257989, -10018754.173189, -10018754.173189, -5009377.088389);
@@ -34,7 +34,7 @@ namespace BruTile.Tests
         [Test]
         public void WorldToTileShouldReturnCorrectTileRange()
         {
-            // arrange
+            // Arrange
             var expectedRange = new TileRange(1, 2);
             var schema = new GlobalSphericalMercator(YAxis.TMS);
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
@@ -49,7 +49,7 @@ namespace BruTile.Tests
         [Test]
         public void GetTilesInViewWithBiggerExtentThanTileSchemaExtentReturnsCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schema = new GlobalSphericalMercator();
             var requestExtent = GrowExtent(schema.Extent, schema.Extent.Width);
 
@@ -77,7 +77,7 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesOriginateInOriginShouldReturnCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -100000 };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
@@ -93,7 +93,7 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesOriginateInOriginAndWithInverteYShouldReturnCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, YAxis = YAxis.OSM };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
@@ -119,7 +119,7 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesNotStartInOriginShouldReturnNoTiles()
         {
-            // arrange
+            // Arrange
             var schema = new WkstNederlandSchema { Extent = new Extent(187036, 331205, 187202, 331291) };
             var mapExtent = new Extent(187256.999043765, 331197.712996388, 187437.576002535, 331303.350517269);
 
@@ -133,7 +133,7 @@ namespace BruTile.Tests
         [Test]
         public void TileTransformWithDifferentTileWidthAndHeight()
         {
-            // arrange
+            // Arrange
             var tileWidth = 10;
             var tileHeight = 5; // Note, tile tileHeight is half the tileWidth
 

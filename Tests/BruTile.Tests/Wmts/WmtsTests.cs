@@ -20,7 +20,7 @@ namespace BruTile.Tests.Wmts
         [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", xml)))
             {
                 // Act
@@ -36,7 +36,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesResourceUrls()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien-resourceUrls.xml")))
             {
                 // Act
@@ -50,7 +50,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilities()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien.xml")))
             {
                 // Act
@@ -64,7 +64,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesKvp()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
             {
                 // Act
@@ -78,7 +78,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsGlobalCRS84Scale()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml")))
             {
                 // Act
@@ -93,7 +93,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesKvpAndRestful()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-arcgis-server-doggersbank.xml")))
             {
                 // Act
@@ -139,7 +139,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestWmtsRequest()
         {
-            // arrange
+            // Arrange
             var resourceUrls = CreateResourceUrls();
             var levelToIdentifier = new Dictionary<int, string> {  [14] = "level-14" } ;
             var wmtsRequest = new WmtsRequest(resourceUrls, levelToIdentifier);
@@ -156,7 +156,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestWmtsRequestInParallel()
         {
-            // arrange
+            // Arrange
             var resourceUrls = CreateResourceUrls();
             var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
             var request = new WmtsRequest(resourceUrls, levelToIdentifier);
@@ -176,7 +176,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsWhereUpperBoundAndLowerBoundLackOwsPrefix()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")))
             {
                 // Act
@@ -192,7 +192,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesWithDeviatingEpsgCodes()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-cuzk-cz.xml")))
             {
                 // Act
@@ -207,7 +207,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesRayaBasemapServer()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-raya-basemap-server.xml")))
             {
                 // Act
@@ -221,7 +221,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesNoConstraint()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-noconstraint.xml")))
             {
                 // Act
@@ -237,7 +237,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestParsingWmtsCapabilitiesMarsWithDoubleValues()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-mars.xml")))
             {
                 // Act
@@ -251,7 +251,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestNoTitlePresentInWmtsCapabilitiesLayer()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-opencache-statkart-no.xml")))
             {
                 // Act
@@ -265,7 +265,7 @@ namespace BruTile.Tests.Wmts
         [Test]
         public void TestPersistentCacheCanBeSet()
         {
-            // arrange
+            // Arrange
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-dlr.xml")))
             {
                 IEnumerable<HttpTileSource> tileSources = null;

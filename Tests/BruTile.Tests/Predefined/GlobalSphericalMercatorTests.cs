@@ -10,7 +10,7 @@ namespace BruTile.Tests.Predefined
         [Test]
         public void InitializeAsBingSchema()
         {
-            // arrange
+            // Arrange
             const string name = "BingMaps";
             const string format = "jpg";
 

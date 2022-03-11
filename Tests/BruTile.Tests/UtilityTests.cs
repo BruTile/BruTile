@@ -9,7 +9,7 @@ namespace BruTile.Tests
         [Test]
         public void TestGetNearestLevel()
         {
-            // arrange
+            // Arrange
             var schema = new GlobalSphericalMercator();
 
             // Act

@@ -15,7 +15,7 @@ namespace BruTile.Tests.Wmsc
         [Test]
         public void ParseCapabilitiesWmsC()
         {
-            // arrange
+            // Arrange
             const int expectedNumberOfTileSources = 54;
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml")))
             {
@@ -40,7 +40,7 @@ namespace BruTile.Tests.Wmsc
         {
             if (ignore) Assert.Pass();
 
-            // arrange
+            // Arrange
             var myWmsc = new Uri(url);
             // Act
             List<ITileSource> res = null;

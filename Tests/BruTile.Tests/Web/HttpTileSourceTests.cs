@@ -15,7 +15,7 @@ namespace BruTile.Tests.Web
         [Test]
         public static async Task TestAsyncTileFetcher()
         {
-            // arrange
+            // Arrange
             var tileSource = KnownTileSources.Create();
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://*").Respond("image/png", new MemoryStream());

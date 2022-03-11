@@ -13,7 +13,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenParsedShouldSetCorrectGetMapUrl()
         {
-            // arrange
+            // Arrange
             var fileName = "BgrGroundwaterWhyMapCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -30,7 +30,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenInitializedWithWmsCShouldInitializeAllTileLayers()
         {
-            // arrange
+            // Arrange
             var fileName = "WmsCCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", fileName)))
             {
@@ -46,7 +46,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenCreatedWithCapabilitiesWithMultipleRootLayersShouldInitializeCorrectly()
         {
-            // arrange
+            // Arrange
             var fileName = "MultiTopLayersCapabilities_1_3_0.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -63,7 +63,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenCreatedWithValidCapabilitiesV111DocumentShouldInitializeCorrectly()
         {
-            // arrange
+            // Arrange
             var fileName = "FrioCountyTXMapsWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -80,7 +80,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesForLizardTech()
         {
-            // arrange
+            // Arrange
             var fileName = "LizardtechWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -95,7 +95,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWithXmlnsAttribute()
         {
-            // arrange
+            // Arrange
             var fileName = "WmsCapabilities_1_3_0_withXmlns.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -113,7 +113,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesForNrcsSoilWms()
         {
-            // arrange
+            // Arrange
             var fileName = "NrcsSoilWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
@@ -138,7 +138,7 @@ namespace BruTile.Tests.Wms
         [TestCase("http://abc.de?Service=WMS&Version=1.0.7&REQUEST=GetBlaBla&", typeof(ArgumentException), false)]
         public void WmsValidateGetCapabilitiesRequest(string url, Type exception, bool expected)
         {
-            // arrange
+            // Arrange
             var valid = !expected;
             var uri = new Uri(url);
 
@@ -162,13 +162,13 @@ namespace BruTile.Tests.Wms
             // just be removed since the above test covers the url 
             // generating logic.
 
-            // arrange
+            // Arrange
             var fileName = "wms-capabilities-gdimv_dtk.xml";
             var version = "1.3.0";
             var serviceTitle = "GDI MV DTK WMS";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // arrange & act
+                // Arrange & Act
                 WmsCapabilities cap = null;
                 Assert.DoesNotThrow(() => cap = new WmsCapabilities(XDocument.Load(stream)));
 
@@ -187,7 +187,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesChildInheritsCrsFromParentLayer()
         {
-            // arrange
+            // Arrange
             var fileName = "wms_topplus_web_open.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {

@@ -10,7 +10,7 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenContentIsAddedItShouldBeRetrieved()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<byte[]>();
             var tileIndex = new TileIndex(1, 2, 3);
             var tileBytes = new byte[] { 7, 7, 7 };
@@ -35,7 +35,7 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenContentIsDisposableItShouldBeDisposed()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<DisposableTile>();
             var tileIndex = new TileIndex(1, 2, 3);
             var disposableTile = new DisposableTile();
@@ -51,7 +51,7 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenMaxTilesIsExceededTileCountShouldGoToMinTiles()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<DisposableTile>(2, 3);
             memoryCache.Add(new TileIndex(1, 0, 0), new DisposableTile());
             memoryCache.Add(new TileIndex(2, 0, 0), new DisposableTile());
@@ -70,7 +70,7 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenKeepInMemoryIsUsedItShouldPreserveTilesThatMeetTheCondition()
         {
-            // arrange
+            // Arrange
             Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // Keep all where Row = 2
             const int maxTiles = 2;
             const int minTiles = 1;

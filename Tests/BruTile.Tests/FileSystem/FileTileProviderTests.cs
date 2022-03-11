@@ -12,7 +12,7 @@ namespace BruTile.Tests.FileSystem
         [Test]
         public async Task GetTile_WhenTilePresent_ShouldReturnTile()
         {
-            // arrange
+            // Arrange
             var tileCache = new FileCache(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
             tileCache.Add(new TileIndex(4, 5, 8),new byte[243]);
             var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));

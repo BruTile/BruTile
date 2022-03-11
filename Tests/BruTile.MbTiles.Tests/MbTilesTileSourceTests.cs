@@ -41,7 +41,7 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public void SchemaGeneratedFromMbTiles()
         {
-            // arrange
+            // Arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
 
             // Act
@@ -57,7 +57,7 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public void SchemaGeneratedFromMbTilesContainingSmallArea()
         {
-            // arrange
+            // Arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
 
             // Act
@@ -71,7 +71,7 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public void SchemaGeneratedFromMbTilesContainingSmallAreaWithFewLevels()
         {
-            // arrange
+            // Arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
             // Act
@@ -86,7 +86,7 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public async Task SchemaGeneratedFromMbTilesWithSchemaInConstructor()
         {
-            // arrange
+            // Arrange
             SQLitePCL.Batteries.Init();
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
