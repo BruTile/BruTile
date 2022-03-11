@@ -63,7 +63,7 @@ namespace BruTile.Wms
             if (node == null) node = doc.Element(XName.Get("WMS_Capabilities"));
             if (node == null)
             {
-                // try load root node with xmlns="http://www.opengis.net/wms"
+                // Try load root node with xmlns="http://www.opengis.net/wms"
                 node = doc.Element(XName.Get("WMS_Capabilities", "http://www.opengis.net/wms"));
                 if (node == null)
                 {
@@ -231,7 +231,7 @@ namespace BruTile.Wms
 
         private static XDocument ToXDocument(Uri uri, ICredentials credentials)
         {
-            // ToDo: wrap in using?
+            // Todo: Wrap in using?
             using (var stream = GetRemoteXmlStream(uri, credentials))
             {
                 var sr = new StreamReader(stream);
@@ -295,7 +295,7 @@ namespace BruTile.Wms
                 if (!parameters.Contains("SERVICE"))
                     qry.Insert(pos, "SERVICE=WMS&");
 
-                // write modified server URL
+                // Write modified server URL
                 var serverUrlBuilder = new UriBuilder(serverUrl.Scheme, serverUrl.Host, serverUrl.Port, serverUrl.AbsolutePath);
                 serverUrlBuilder.Query = qry.ToString().Substring(1);
                 serverUrl = serverUrlBuilder.Uri;

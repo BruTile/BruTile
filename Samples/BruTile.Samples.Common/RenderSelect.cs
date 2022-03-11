@@ -61,7 +61,7 @@ namespace BruTile.Samples.Common
 
         public static bool IsSemiTransparent(Tile<T> tile)
         {
-            if (tile.StartAnimation == default(long)) return false; // not yet shown at all
+            if (tile.StartAnimation == default(long)) return false; // Not yet shown at all
             var currentTime = DateTime.Now.Ticks;
             var timePassedSinceStartAnimation = currentTime - tile.StartAnimation;
             return timePassedSinceStartAnimation < DurationOfAnimation;

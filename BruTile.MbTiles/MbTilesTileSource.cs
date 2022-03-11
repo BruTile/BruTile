@@ -64,7 +64,7 @@ namespace BruTile.MbTiles
 
                 if (determineTileRangeFromTilesTable)
                 {
-                    // the tile range should be based on the tiles actually present. 
+                    // The tile range should be based on the tiles actually present. 
                     var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
                     _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
                 }
@@ -254,7 +254,7 @@ namespace BruTile.MbTiles
         {
             if (_tileRange == null) return true;
 
-            // this is an optimization that makes use of an additional 'map' table which is not part of the spec
+            // This is an optimization that makes use of an additional 'map' table which is not part of the spec
             if (_tileRange.TryGetValue(index.Level, out var tileRange))
             {
                 return

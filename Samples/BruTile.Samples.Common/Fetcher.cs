@@ -52,7 +52,7 @@ namespace BruTile.Samples.Common
         public void AbortFetch()
         {
             _isAborted = true;
-            _waitHandle.Set(); // activate fetch loop so it can run out of the loop
+            _waitHandle.Set(); // Activate fetch loop so it can run out of the loop
         }
 
         private void FetchLoop()
@@ -66,8 +66,8 @@ namespace BruTile.Samples.Common
 
                 if (_tileSource.Schema == null)
                 {
-                    _waitHandle.Reset();    // set in wait mode 
-                    continue;              // and go to begin of loop to wait
+                    _waitHandle.Reset(); // Set in wait mode
+                    continue;            // Then go to begin of loop to wait
                 }
 
                 if (_isViewChanged || tilesWanted == null)
@@ -126,7 +126,7 @@ namespace BruTile.Samples.Common
             
             _retries.PlusOne(info.Index);
 
-            // now we can go for the request.
+            // Now we can go for the request.
             FetchAsync(info);
         }
 

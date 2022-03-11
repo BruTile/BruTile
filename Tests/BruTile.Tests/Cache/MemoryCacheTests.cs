@@ -71,7 +71,7 @@ namespace BruTile.Tests.Cache
         public void WhenKeepInMemoryIsUsedItShouldPreserveTilesThatMeetTheCondition()
         {
             // arrange
-            Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // keep all where Row = 2
+            Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // Keep all where Row = 2
             const int maxTiles = 2;
             const int minTiles = 1;
             var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, keepTileInMemory);
@@ -84,7 +84,7 @@ namespace BruTile.Tests.Cache
             memoryCache.Add(tileOne, tileBytes);
             memoryCache.Add(tileTwo, tileBytes);
             memoryCache.Add(tileThree, tileBytes); 
-            // 3th tile causes CleanUp inside Add because max is 2
+            // Third tile causes CleanUp inside Add because max is 2
             // normally only the last one would remain.
             // With this keepTileMemory method the first two remain.
 

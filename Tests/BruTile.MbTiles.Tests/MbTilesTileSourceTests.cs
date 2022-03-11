@@ -22,7 +22,7 @@ namespace BruTile.MbTiles.Tests
         [Test]
         public async Task FetchTiles()
         {
-            // arrange
+            // Arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
             var extent = tileSource.Schema.Extent;

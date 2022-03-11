@@ -4,8 +4,8 @@ namespace BruTile.Predefined
 {
     public class WkstNederlandSchema : TileSchema
     {
-        // Well known scale set: urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale
-        // see: http://www.geonovum.nl/sites/default/files/Nederlandse_richtlijn_tiling_-_versie_1.0.pdf
+        // Well known scale set: urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale,
+        // See: http://www.geonovum.nl/sites/default/files/Nederlandse_richtlijn_tiling_-_versie_1.0.pdf
         private const int TileSize = 256;
         private double _originX = -285401.920;
         private double _originY = 22598.080;

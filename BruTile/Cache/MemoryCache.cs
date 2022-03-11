@@ -111,7 +111,7 @@ namespace BruTile.Cache
             if (_keepTileInMemory != null)
             {
                 var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
-                foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // touch tiles to keep
+                foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // Touch tiles to keep
                 numberOfTilesToKeepInMemory = tilesToKeep.Count;
             }
             var numberOfTilesToRemove = _bitmaps.Count  - Math.Max(MinTiles, numberOfTilesToKeepInMemory);

@@ -157,7 +157,7 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsGetCapabilitiesUrl()
         {
-            // note: Not sure if this test makes much sense anymore now I 
+            // Note: Not sure if this test makes much sense anymore now I 
             // changed it to use local resources. Perhaps this one should
             // just be removed since the above test covers the url 
             // generating logic.
@@ -168,7 +168,7 @@ namespace BruTile.Tests.Wms
             var serviceTitle = "GDI MV DTK WMS";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // arrange, act
+                // arrange & act
                 WmsCapabilities cap = null;
                 Assert.DoesNotThrow(() => cap = new WmsCapabilities(XDocument.Load(stream)));
 

@@ -75,7 +75,7 @@ namespace BruTile.Tms
         private string GetUrlForLevel(int level)
         {
             var url = new StringBuilder();
-            // if a single url is specified for all levels return that one plus the level id
+            // If a single url is specified for all levels return that one plus the level id
             if (_baseUrl != null)
             {
                 url.Append(_baseUrl);

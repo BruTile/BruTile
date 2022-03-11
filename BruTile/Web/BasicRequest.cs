@@ -55,7 +55,7 @@ namespace BruTile.Web
             _urlFormatter = urlFormatter;
             _serverNodes = serverNodes?.ToList();
 
-            // for backward compatibility
+            // For backward compatibility
             _urlFormatter = _urlFormatter.Replace("{0}", ZTag);
             _urlFormatter = _urlFormatter.Replace("{1}", XTag);
             _urlFormatter = _urlFormatter.Replace("{2}", YTag);
