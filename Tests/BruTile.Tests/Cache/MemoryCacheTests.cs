@@ -10,15 +10,15 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenContentIsAddedItShouldBeRetrieved()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<byte[]>();
             var tileIndex = new TileIndex(1, 2, 3);
             var tileBytes = new byte[] { 7, 7, 7 };
 
-            // act
+            // Act
             memoryCache.Add(tileIndex, tileBytes);
 
-            // assert
+            // Assert
             Assert.AreEqual(tileBytes, memoryCache.Find(tileIndex));
         }
 
@@ -35,34 +35,34 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenContentIsDisposableItShouldBeDisposed()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<DisposableTile>();
             var tileIndex = new TileIndex(1, 2, 3);
             var disposableTile = new DisposableTile();
             memoryCache.Add(tileIndex, disposableTile);
 
-            // act
+            // Act
             memoryCache.Remove(tileIndex);
 
-            // assert
+            // Assert
             Assert.True(disposableTile.Disposed);
         }
 
         [Test]
         public void WhenMaxTilesIsExceededTileCountShouldGoToMinTiles()
         {
-            // arrange
+            // Arrange
             var memoryCache = new MemoryCache<DisposableTile>(2, 3);
             memoryCache.Add(new TileIndex(1, 0, 0), new DisposableTile());
             memoryCache.Add(new TileIndex(2, 0, 0), new DisposableTile());
             memoryCache.Add(new TileIndex(3, 0, 0), new DisposableTile());
             var tileCountBeforeExceedingMax = memoryCache.TileCount;
             
-            // act
+            // Act
             memoryCache.Add(new TileIndex(4, 0, 0), new DisposableTile());
             var tileCountAfterExceedingMax = memoryCache.TileCount;
             
-            // assert
+            // Assert
             Assert.True(tileCountBeforeExceedingMax == 3);
             Assert.True(tileCountAfterExceedingMax == 2);
         }
@@ -70,8 +70,8 @@ namespace BruTile.Tests.Cache
         [Test]
         public void WhenKeepInMemoryIsUsedItShouldPreserveTilesThatMeetTheCondition()
         {
-            // arrange
-            Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // keep all where Row = 2
+            // Arrange
+            Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // Keep all where Row = 2
             const int maxTiles = 2;
             const int minTiles = 1;
             var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, keepTileInMemory);
@@ -80,15 +80,15 @@ namespace BruTile.Tests.Cache
             var tileTwo = new TileIndex(2, 2, 2);
             var tileThree = new TileIndex(0, 8, 0);
             
-            // act
+            // Act
             memoryCache.Add(tileOne, tileBytes);
             memoryCache.Add(tileTwo, tileBytes);
             memoryCache.Add(tileThree, tileBytes); 
-            // 3th tile causes CleanUp inside Add because max is 2
+            // Third tile causes CleanUp inside Add because max is 2
             // normally only the last one would remain.
             // With this keepTileMemory method the first two remain.
 
-            // assert
+            // Assert
             Assert.True(memoryCache.Find(tileOne) != null);
             Assert.True(memoryCache.Find(tileTwo) != null);
             Assert.True(memoryCache.Find(tileThree) == null);

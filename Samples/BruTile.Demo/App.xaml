@@ -1,9 +1,7 @@
-﻿<Application x:Class="BruTile.Demo1.App"
+﻿<Application x:Class="BruTile.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:BruTile.Demo1"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

@@ -247,7 +247,7 @@ namespace BruTile.Wmts
                 if (!CrsIdentifier.TryParse(supportedCrs, out crs))
                 {
                     // If we cannot parse the crs, we cannot compute tile schema, thus ignore.
-                    // ToDo: Log this
+                    // Todo: Log this
                     continue;
                 }
 

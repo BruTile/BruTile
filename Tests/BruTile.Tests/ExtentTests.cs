@@ -9,7 +9,7 @@ namespace BruTile.Tests
         [Test]
         public void TestEquals()
         {
-            // arrange
+            // Arrange
             var extent = new Extent(-180, -90, 180, 90);
             var extentSame = new Extent(-180, -90, 180, 90);
             var extentDiffMinX = new Extent(-181, -90, 180, 90);
@@ -17,7 +17,7 @@ namespace BruTile.Tests
             var extentDiffMaxX = new Extent(-180, -90, 181, 90);
             var extentDiffMaxy = new Extent(-180, -90, 180, 91);
             
-            // act + assert
+            // Act + Assert
             Assert.True(extent == extentSame);
             Assert.False(extent != extentSame);
             Assert.False(extent == extentDiffMinX);
@@ -29,7 +29,7 @@ namespace BruTile.Tests
         [Test]
         public void TestMinSmallerThanMax()
         {
-            // arrange + act + assert
+            // Arrange + act + assert
             Assert.Throws<ArgumentException> (() =>
             {
                 var extent = new Extent(-180, 90, 180, -90);

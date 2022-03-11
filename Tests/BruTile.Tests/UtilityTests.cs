@@ -9,12 +9,12 @@ namespace BruTile.Tests
         [Test]
         public void TestGetNearestLevel()
         {
-            // arrange
+            // Arrange
             var schema = new GlobalSphericalMercator();
 
-            // act
+            // Act
             var level = BruTile.Utilities.GetNearestLevel(schema.Resolutions, 300.0);
-            // assert
+            // Assert
             Assert.True(level == 9);
         }
     }

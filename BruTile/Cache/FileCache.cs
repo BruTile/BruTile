@@ -54,7 +54,7 @@ namespace BruTile.Cache
                 _rwLock.EnterWriteLock();
                 if (Exists(index))
                 {
-                    return; // ignore
+                    return; // Ignore
                 }
                 string dir = GetDirectoryName(index);
                 if (!Directory.Exists(dir))
@@ -75,7 +75,7 @@ namespace BruTile.Cache
             try
             {
                 _rwLock.EnterReadLock();
-                if (!Exists(index)) return null; // to indicate not found
+                if (!Exists(index)) return null; // To indicate not found
                 return File.ReadAllBytes(GetFileName(index));
             }
             finally

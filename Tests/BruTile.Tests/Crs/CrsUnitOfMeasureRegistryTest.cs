@@ -10,10 +10,10 @@ namespace BruTile.Tests.Crs
     {
         private const string EpsgAccessDatabase = @"D:\GIS\EPSG_v8_3.mdb";
 
-        private String SqlLength = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
+        private string SqlLength = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
                                    " FROM [Unit of Measure] AS uom WHERE (((uom.TARGET_UOM_CODE)=9001));";
 
-        private String SqlAngle = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
+        private string SqlAngle = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
                                   " FROM [Unit of Measure] AS uom WHERE (((uom.TARGET_UOM_CODE)=9101));";
 
         private string SqlEpsgToUom =
@@ -23,7 +23,7 @@ WHERE ((([Coordinate Axis].ORDER)=1))
 ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
 
         /// <summary>
-        /// Earth radius as definde for WGS84
+        /// Earth radius as defined for WGS84
         /// </summary>
         private const double EarthRadius = 6378137;
 
@@ -45,27 +45,25 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
                 cmd.CommandText = SqlLength;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
-                        {
-                            Console.WriteLine("_registry.Add({0}, new UnitOfMeasure(\"{1}\", {2}d/{3}d));",
-                                dr.GetInt32(0), dr.GetString(1),
-                                dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
-                                dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                        }
+                    while (dr.Read())
+                    {
+                        Console.WriteLine("_registry.Add({0}, new UnitOfMeasure(\"{1}\", {2}d/{3}d));",
+                            dr.GetInt32(0), dr.GetString(1),
+                            dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
+                            dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
+                    }
                 }
                 cmd.CommandText = SqlAngle;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
-                        {
-                            Console.WriteLine(
-                                "_registry.Add({0}, new UnitOfMeasure(\"{1}\", 0.5 * EarthCircumference * {2}d/{3}d));",
-                                dr.GetInt32(0), dr.GetString(1),
-                                dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
-                                dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                        }
+                    while (dr.Read())
+                    {
+                        Console.WriteLine(
+                            "_registry.Add({0}, new UnitOfMeasure(\"{1}\", 0.5 * EarthCircumference * {2}d/{3}d));",
+                            dr.GetInt32(0), dr.GetString(1),
+                            dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
+                            dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
+                    }
                 }
             }
 
@@ -91,21 +89,20 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
                 var bw = new BinaryWriter(ms);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
-                        {
-                            if ((int)dr[0] > 32768) break;
+                    while (dr.Read())
+                    {
+                        if ((int)dr[0] > 32768) break;
 
-                            //Console.WriteLine("{0} -> {1}", dr[0], dr[1]);
-                            var uom = Convert.ToInt16(dr[1]);
-                            if (uom == 9001) continue;
-                            if (Convert.ToInt16(dr[2]) == 9102)
-                                uom = 9102;
+                        //Console.WriteLine("{0} -> {1}", dr[0], dr[1]);
+                        var uom = Convert.ToInt16(dr[1]);
+                        if (uom == 9001) continue;
+                        if (Convert.ToInt16(dr[2]) == 9102)
+                            uom = 9102;
 
-                            var epsg = Convert.ToUInt16(dr[0]);
-                            bw.Write(epsg);
-                            bw.Write(uom);
-                        }
+                        var epsg = Convert.ToUInt16(dr[0]);
+                        bw.Write(epsg);
+                        bw.Write(uom);
+                    }
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
@@ -147,27 +144,26 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
                 connection.Open();
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = SqlEpsgToUom;
-                var uomr = new CrsUnitOfMeasureRegistry();
+                var registry = new CrsUnitOfMeasureRegistry();
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
+                    while (dr.Read())
+                    {
+                        if ((int)dr[0] > 32768) break;
+
+                        CrsIdentifier crs;
+                        if (CrsIdentifier.TryParse(string.Format("urn:ogc:def:crs:EPSG::{0}", dr.GetInt32(0)), out crs))
                         {
-                            if ((int)dr[0] > 32768) break;
+                            var uom = new UnitOfMeasure();
+                            Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
 
-                            CrsIdentifier crs;
-                            if (CrsIdentifier.TryParse(string.Format("urn:ogc:def:crs:EPSG::{0}", dr.GetInt32(0)), out crs))
-                            {
-                                var uom = new UnitOfMeasure();
-                                Assert.DoesNotThrow(() => uom = uomr[crs], "Getting unit of measure failed for {0}", crs);
-
-                                var uomCode = dr.GetInt32(1);
-                                if (uomCode == 9001 || uomCode == 1024)
-                                    Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
-                                else
-                                    Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
-                            }
+                            var uomCode = dr.GetInt32(1);
+                            if (uomCode == 9001 || uomCode == 1024)
+                                Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
+                            else
+                                Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
                         }
+                    }
                 }
             }
         }

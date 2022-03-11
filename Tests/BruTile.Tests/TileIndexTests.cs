@@ -8,15 +8,15 @@ namespace BruTile.Tests
         [Test]
         public void CompareToTest()
         {
-            // arrange
+            // Arrange
             var target = new TileIndex(2, 4, 2);
             var index = new TileIndex(2, 5, 2);
             const int expected = -1;
 
-            // act
+            // Act
             int actual = target.CompareTo(index);
 
-            // assert
+            // Assert
             Assert.AreEqual(expected, actual);
         }
     }

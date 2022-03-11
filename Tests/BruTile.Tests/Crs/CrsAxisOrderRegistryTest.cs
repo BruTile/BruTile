@@ -35,7 +35,6 @@ namespace BruTile.Tests.Crs
             var ba = new BitArray(32768);
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
                 $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
@@ -43,7 +42,6 @@ namespace BruTile.Tests.Crs
                 cmd.CommandText = Sql;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
                     while (dr.Read())
                     {
                         var code = dr.GetInt32(0);
@@ -136,7 +134,6 @@ namespace BruTile.Tests.Crs
             var unusual = new HashSet<int>();
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
                 $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
@@ -144,13 +141,12 @@ namespace BruTile.Tests.Crs
                 cmd.CommandText = Sql;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
-                        {
-                            var code = dr.GetInt32(0);
-                            if (code > 32767) continue;
-                            unusual.Add(code);
-                        }
+                    while (dr.Read())
+                    {
+                        var code = dr.GetInt32(0);
+                        if (code > 32767) continue;
+                        unusual.Add(code);
+                    }
                 }
             }
             var crsAxisOrderRegistry = new CrsAxisOrderRegistry();

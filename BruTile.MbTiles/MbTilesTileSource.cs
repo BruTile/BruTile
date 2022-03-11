@@ -38,7 +38,7 @@ namespace BruTile.MbTiles
         /// <param name="determineZoomLevelsFromTilesTable">When 'determineZoomLevelsFromTilesTable' is true the zoom levels
         /// will be determined from the available tiles in the 'tiles' table. This operation can take long if there are many tiles in 
         /// the 'tiles' table. When 'determineZoomLevelsFromTilesTable' is false the zoom levels will be read from the metadata table 
-        ///(by reading 'zoommin' and 'zoommax'). If there are no zoom levels specificied in the metadata table the GlobalSphericalMercator 
+        ///(by reading 'zoomMin' and 'zoomMax'). If there are no zoom levels specified in the metadata table the GlobalSphericalMercator 
         ///default levels are assumed. This parameter will have no effect if the schema is passed in as argument. The default is false.</param>
         /// <param name="determineTileRangeFromTilesTable">In some cases not all tiles specified by the schema are present in each 
         /// level. When 'determineTileRangeFromTilesTable' is 'true' the range of tiles available for each level is determined 
@@ -64,7 +64,7 @@ namespace BruTile.MbTiles
 
                 if (determineTileRangeFromTilesTable)
                 {
-                    // the tile range should be based on the tiles actually present. 
+                    // The tile range should be based on the tiles actually present. 
                     var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
                     _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
                 }
@@ -254,7 +254,7 @@ namespace BruTile.MbTiles
         {
             if (_tileRange == null) return true;
 
-            // this is an optimization that makes use of an additional 'map' table which is not part of the spec
+            // This is an optimization that makes use of an additional 'map' table which is not part of the spec
             if (_tileRange.TryGetValue(index.Level, out var tileRange))
             {
                 return
@@ -266,7 +266,7 @@ namespace BruTile.MbTiles
             return false;
         }
         public ITileSchema Schema { get; }
-        public string Name { get; } = nameof(MbTilesTileSource);
+        public string Name { get; }
         public Attribution Attribution { get; set; }
 
         [Table("tiles")]

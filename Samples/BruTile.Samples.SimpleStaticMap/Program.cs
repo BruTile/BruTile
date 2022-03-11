@@ -1,8 +1,7 @@
 using System;
 using System.Windows.Forms;
-using BruTile.Samples.SimpleStaticMap;
 
-namespace BruTile.Samples.SimpleStaticMap1
+namespace BruTile.Samples.SimpleStaticMap
 {
     static class Program
     {

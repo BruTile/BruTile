@@ -9,18 +9,13 @@ namespace BruTile.Wms
 {
     public class Exception : XmlObject
     {
-        public Exception()
-        {
-            Format = new List<string>();
-        }
-
         public Exception(XElement node, string @namespace)
         {
             foreach (var format in node.Elements(XName.Get("Format", @namespace)))
                 Format.Add(format.Value);
         }
 
-        public List<string> Format { get; private set; }
+        public List<string> Format { get; } = new List<string>();
 
         #region Overrides of XmlObject
 

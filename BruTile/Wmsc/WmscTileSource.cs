@@ -103,7 +103,7 @@ namespace BruTile.Wmsc
 
                 schema.Extent = new Extent(minx, miny, maxx, maxy);
 
-                //In WMS-C the origin is defined as the lower left corner of the boundingbox
+                // In WMS-C the origin is defined as the lower left corner of the bounding box
                 schema.OriginX = minx;
                 schema.OriginY = miny;
             }

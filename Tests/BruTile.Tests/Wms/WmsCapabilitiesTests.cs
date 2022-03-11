@@ -13,16 +13,16 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenParsedShouldSetCorrectGetMapUrl()
         {
-            // arrange
+            // Arrange
             var fileName = "BgrGroundwaterWhyMapCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
                 const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
 
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.True(expectedUrl == capabilities.Capability.Request.GetMap.DCPType[0].Http.Get.OnlineResource.Href);
             }
         }
@@ -30,14 +30,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenInitializedWithWmsCShouldInitializeAllTileLayers()
         {
-            // arrange
+            // Arrange
             var fileName = "WmsCCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual(54, capabilities.Capability.Layer.ChildLayers.Count);
             }
@@ -46,14 +46,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenCreatedWithCapabilitiesWithMultipleRootLayersShouldInitializeCorrectly()
         {
-            // arrange
+            // Arrange
             var fileName = "MultiTopLayersCapabilities_1_3_0.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("Root Layer", capabilities.Capability.Layer.Title);
                 Assert.AreEqual(4, capabilities.Capability.Layer.ChildLayers.Count);
@@ -63,14 +63,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWhenCreatedWithValidCapabilitiesV111DocumentShouldInitializeCorrectly()
         {
-            // arrange
+            // Arrange
             var fileName = "FrioCountyTXMapsWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream); 
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("Frio County TX Maps", capabilities.Capability.Layer.Title);
                 Assert.AreEqual(13, capabilities.Capability.Layer.ChildLayers.Count);
@@ -80,14 +80,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesForLizardTech()
         {
-            // arrange
+            // Arrange
             var fileName = "LizardtechWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
                 
-                // assert
+                // Assert
                 Assert.AreEqual(12, wmsCapabilities.Capability.Layer.ChildLayers.Count);
             }
         }
@@ -95,14 +95,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesWithXmlnsAttribute()
         {
-            // arrange
+            // Arrange
             var fileName = "WmsCapabilities_1_3_0_withXmlns.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities);
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("1 Million Scale WMS Layers from the National Atlas of the United States", capabilities.Capability.Layer.Title);
@@ -113,14 +113,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesForNrcsSoilWms()
         {
-            // arrange
+            // Arrange
             var fileName = "NrcsSoilWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.True(wmsCapabilities.Service.Name == ServiceName.WMS);
             }
         }
@@ -138,11 +138,11 @@ namespace BruTile.Tests.Wms
         [TestCase("http://abc.de?Service=WMS&Version=1.0.7&REQUEST=GetBlaBla&", typeof(ArgumentException), false)]
         public void WmsValidateGetCapabilitiesRequest(string url, Type exception, bool expected)
         {
-            // arrange
+            // Arrange
             var valid = !expected;
             var uri = new Uri(url);
 
-            // act
+            // Act
             if (exception != null)
             {
                 Assert.Throws<ArgumentException>(() => valid = WmsCapabilities.ValidateGetCapabilitiesRequest(uri.Query));
@@ -157,22 +157,22 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsGetCapabilitiesUrl()
         {
-            // note: Not sure if this test makes much sense anymore now I 
+            // Note: Not sure if this test makes much sense anymore now I 
             // changed it to use local resources. Perhaps this one should
             // just be removed since the above test covers the url 
             // generating logic.
 
-            // arrange
+            // Arrange
             var fileName = "wms-capabilities-gdimv_dtk.xml";
             var version = "1.3.0";
             var serviceTitle = "GDI MV DTK WMS";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // arrange, act
+                // Arrange & Act
                 WmsCapabilities cap = null;
                 Assert.DoesNotThrow(() => cap = new WmsCapabilities(XDocument.Load(stream)));
 
-                // assert
+                // Assert
                 Assert.That(cap, Is.Not.Null);
 
                 Console.WriteLine($"{cap.Service.Title} (WMS {cap.Version.VersionString})");
@@ -187,14 +187,14 @@ namespace BruTile.Tests.Wms
         [Test]
         public void WmsCapabilitiesChildInheritsCrsFromParentLayer()
         {
-            // arrange
+            // Arrange
             var fileName = "wms_topplus_web_open.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.AreEqual(16, wmsCapabilities.Capability.Layer.ChildLayers.Count);
                 foreach (var layerChildLayer in wmsCapabilities.Capability.Layer.ChildLayers)
                 {

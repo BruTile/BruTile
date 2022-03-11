@@ -1,7 +1,6 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BruTile.Cache;
@@ -12,7 +11,7 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, Task<byte[]>> _fetchTile;
         private readonly IRequest _request;
-        private readonly HttpClient _httpClient = BruTile.Web.HttpClientBuilder.Build();
+        private readonly HttpClient _httpClient = HttpClientBuilder.Build();
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, Task<byte[]>> fetchTile = null, string userAgent = null)

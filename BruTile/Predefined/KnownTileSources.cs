@@ -40,8 +40,8 @@ namespace BruTile.Predefined
     {
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
-        private static readonly string currentYear = DateTime.Today.Year.ToString();
-        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie (" + currentYear + ")",
+        private static readonly string CurrentYear = DateTime.Today.Year.ToString();
+        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie (" + CurrentYear + ")",
                          "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
 
         /// <summary>

@@ -65,12 +65,12 @@ namespace BruTile.Web
 
         static string ColumnToHex(int x)
         {
-            return "C" + String.Format("{0:x8}", x); //Column (xTile naar hex met min/max 8 getallen aanvullen met 0)
+            return "C" + String.Format("{0:x8}", x); // Column (xTile to hex with min/max 8 and justify with 0)
         }
 
         static string RowToHex(int y)
         {
-            return "R" + String.Format("{0:x8}", y); //Row (yTile naar hex met min/max 8 getallen aanvullen met 0)
+            return "R" + String.Format("{0:x8}", y); // Row (yTile to hex with min/max 8 and justify with 0)
         }
 
     }

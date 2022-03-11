@@ -10,14 +10,14 @@ namespace BruTile.Tests.Predefined
         [Test]
         public void InitializeAsBingSchema()
         {
-            // arrange
+            // Arrange
             const string name = "BingMaps";
             const string format = "jpg";
 
-            // act
+            // Act
             var schema = new GlobalSphericalMercator(format, YAxis.OSM, 1, 19, name);
             
-            // assert
+            // Assert
             Assert.True(schema.Resolutions.Count == 19);
             Assert.True(schema.Resolutions.All(r => r.Value.Level != 0));
             Assert.True(schema.Resolutions.Any(r => r.Value.Level == 1));

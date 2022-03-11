@@ -15,14 +15,14 @@ namespace BruTile.Tests.Wmsc
         [Test]
         public void ParseCapabilitiesWmsC()
         {
-            // arrange
+            // Arrange
             const int expectedNumberOfTileSources = 54;
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml")))
             {
-                // act
+                // Act
                 var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
                 foreach (var tileSource in tileSources)
                 {
@@ -40,13 +40,13 @@ namespace BruTile.Tests.Wmsc
         {
             if (ignore) Assert.Pass();
 
-            // arrange
+            // Arrange
             var myWmsc = new Uri(url);
-            // act
+            // Act
             List<ITileSource> res = null;
             var action = new TestDelegate(() => res = new List<ITileSource>(WmscTileSource.CreateFromWmscCapabilties(myWmsc)));
             
-            // assert
+            // Assert
             Assert.DoesNotThrow(action);
             Assert.IsNotNull(res);
             Assert.That(res.Count, Is.GreaterThan(0));

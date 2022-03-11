@@ -14,17 +14,17 @@ namespace BruTile.Tests
         [Test]
         public void TileToWorldShouldReturnCorrectExtent()
         {
-            // arrange
+            // Arrange
             var range = new TileRange(1, 2);
             var schema = new GlobalSphericalMercator(YAxis.TMS);
             var expectedExtent = new Extent(-15028131.257989, -10018754.173189, -10018754.173189, -5009377.088389);
             const double toleratedDelta = 0.01;
 
-            // act
+            // Act
             var extent = TileTransform.TileToWorld(range, 3, schema);
 
 
-            // assert
+            // Assert
             Assert.AreEqual(extent.MinX, expectedExtent.MinX, toleratedDelta);
             Assert.AreEqual(extent.MinY, expectedExtent.MinY, toleratedDelta);
             Assert.AreEqual(extent.MaxX, expectedExtent.MaxX, toleratedDelta);
@@ -34,32 +34,32 @@ namespace BruTile.Tests
         [Test]
         public void WorldToTileShouldReturnCorrectTileRange()
         {
-            // arrange
+            // Arrange
             var expectedRange = new TileRange(1, 2);
             var schema = new GlobalSphericalMercator(YAxis.TMS);
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
 
-            // act
+            // Act
             var range = TileTransform.WorldToTile(extent, 3, schema);
 
-            // assert
+            // Assert
             Assert.AreEqual(range, expectedRange);
         }
 
         [Test]
         public void GetTilesInViewWithBiggerExtentThanTileSchemaExtentReturnsCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schema = new GlobalSphericalMercator();
             var requestExtent = GrowExtent(schema.Extent, schema.Extent.Width);
 
             var counter = 0;
             foreach (var resolution in schema.Resolutions.OrderByDescending(r => r.Value.UnitsPerPixel))
             {
-                // act
+                // Act
                 var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Level).ToList();
 
-                // assert
+                // Assert
                 Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));
                 if (counter >= 6) break;
             }
@@ -77,15 +77,15 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesOriginateInOriginShouldReturnCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -100000 };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14).ToList();
 
-            // assert
+            // Assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
             Assert.True(Math.Abs(TileAreaWithinEnvelope(tileInfos, schemaExtent) - schemaExtent.Area) < Epsilon);
         }
@@ -93,15 +93,15 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesOriginateInOriginAndWithInverteYShouldReturnCorrectNumberOfTiles()
         {
-            // arrange
+            // Arrange
             var schemaExtent = new Extent(187009, 331184, 187189, 331290);
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, YAxis = YAxis.OSM };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14);
 
-            // assert
+            // Assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
             Assert.True(Math.Abs(TileAreaWithinEnvelope(tileInfos, schemaExtent) - schemaExtent.Area) < Epsilon);
         }
@@ -119,21 +119,21 @@ namespace BruTile.Tests
         [Test]
         public void TileSchemaWithExtentThatDoesNotStartInOriginShouldReturnNoTiles()
         {
-            // arrange
+            // Arrange
             var schema = new WkstNederlandSchema { Extent = new Extent(187036, 331205, 187202, 331291) };
             var mapExtent = new Extent(187256.999043765, 331197.712996388, 187437.576002535, 331303.350517269);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(mapExtent, 14);
 
-            // assert
+            // Assert
             Assert.AreEqual(tileInfos.Count(), 0);
         }
 
         [Test]
         public void TileTransformWithDifferentTileWidthAndHeight()
         {
-            // arrange
+            // Arrange
             var tileWidth = 10;
             var tileHeight = 5; // Note, tile tileHeight is half the tileWidth
 
@@ -144,10 +144,10 @@ namespace BruTile.Tests
             schema.Resolutions.Add(0, new Resolution(0, 1, tileWidth, tileHeight, 0, 0, 10, 10, 1));
             var requestedExtent = new Extent(0, 0, 100, 100);
 
-            // act
+            // Act
             var range = TileTransform.WorldToTile(requestedExtent, 0, schema);
 
-            // assert
+            // Assert
             Assert.AreEqual(expectedColCount, range.ColCount, "ColCount");
             Assert.AreEqual(expectedRowCount, range.RowCount, "RowCount");
         }

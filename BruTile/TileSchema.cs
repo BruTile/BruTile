@@ -147,10 +147,10 @@ namespace BruTile
 
         internal static IEnumerable<TileInfo> GetTileInfos(ITileSchema schema, Extent extent, int level)
         {
-            // todo: move this method elsewhere.
+            // Todo: Move this method elsewhere.
             var range = TileTransform.WorldToTile(extent, level, schema);
 
-            // todo: use a method to get tilerange for full schema and intersect with requested tilerange.
+            // Todo: Use a method to get TileRange for full schema and intersect with requested TileRange.
             var startX = Math.Max(range.FirstCol, schema.GetMatrixFirstCol(level));
             var stopX = Math.Min(range.FirstCol + range.ColCount, schema.GetMatrixFirstCol(level) + schema.GetMatrixWidth(level));
             var startY = Math.Max(range.FirstRow, schema.GetMatrixFirstRow(level));
