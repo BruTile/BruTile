@@ -13,7 +13,7 @@ namespace BruTile.Tests
             var index = new TileIndex(2, 5, 2);
             const int expected = -1;
 
-            // act
+            // Act
             int actual = target.CompareTo(index);
 
             // assert

@@ -14,7 +14,7 @@ namespace BruTile.Tests.Tms
             var request = new TmsRequest("http://tileserver.com", "png");
             var tileInfo = new TileInfo {Index = new TileIndex(1, 2, 3)};
             
-            // act
+            // Act
             var uri = request.GetUri(tileInfo);
 
             // assert
@@ -29,7 +29,7 @@ namespace BruTile.Tests.Tms
             var request = new TmsRequest("http://{S}.tileserver.com", "png", new[] { "a", "b"});
             var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
             
-            // act
+            // Act
             var uri = request.GetUri(tileInfo);
 
             // assert

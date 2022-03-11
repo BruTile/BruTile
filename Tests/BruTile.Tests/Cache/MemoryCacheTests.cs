@@ -15,7 +15,7 @@ namespace BruTile.Tests.Cache
             var tileIndex = new TileIndex(1, 2, 3);
             var tileBytes = new byte[] { 7, 7, 7 };
 
-            // act
+            // Act
             memoryCache.Add(tileIndex, tileBytes);
 
             // assert
@@ -41,7 +41,7 @@ namespace BruTile.Tests.Cache
             var disposableTile = new DisposableTile();
             memoryCache.Add(tileIndex, disposableTile);
 
-            // act
+            // Act
             memoryCache.Remove(tileIndex);
 
             // assert
@@ -58,7 +58,7 @@ namespace BruTile.Tests.Cache
             memoryCache.Add(new TileIndex(3, 0, 0), new DisposableTile());
             var tileCountBeforeExceedingMax = memoryCache.TileCount;
             
-            // act
+            // Act
             memoryCache.Add(new TileIndex(4, 0, 0), new DisposableTile());
             var tileCountAfterExceedingMax = memoryCache.TileCount;
             
@@ -80,7 +80,7 @@ namespace BruTile.Tests.Cache
             var tileTwo = new TileIndex(2, 2, 2);
             var tileThree = new TileIndex(0, 8, 0);
             
-            // act
+            // Act
             memoryCache.Add(tileOne, tileBytes);
             memoryCache.Add(tileTwo, tileBytes);
             memoryCache.Add(tileThree, tileBytes); 

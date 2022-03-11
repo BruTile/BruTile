@@ -17,7 +17,7 @@ namespace BruTile.Tests.FileSystem
             tileCache.Add(new TileIndex(4, 5, 8),new byte[243]);
             var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
-            // act
+            // Act
             var tile = await fileTileProvider.GetTileAsync(new TileInfo { Index = new TileIndex(4, 5, 8) }).ConfigureAwait(false);
 
             // assert

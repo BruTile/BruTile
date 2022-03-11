@@ -23,7 +23,7 @@ namespace BruTile.Tests.Web
             var range = tileSource.Schema.GetTileInfos(tileSource.Schema.Extent, 3);
             var timeStart = DateTime.Now;
 
-            // act
+            // Act
             var tiles = await tileSource.GetTilesAsync(httpClient, range).ConfigureAwait(false);
 
             // assert

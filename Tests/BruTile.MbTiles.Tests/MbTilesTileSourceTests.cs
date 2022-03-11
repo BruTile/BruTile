@@ -29,7 +29,7 @@ namespace BruTile.MbTiles.Tests
             var tileInfos = tileSource.Schema.GetTileInfos(extent, 1).ToList();
             tileSource.Attribution = new Attribution("attribution", "url");
             
-            // act
+            // Act
             var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
             // assert
@@ -44,7 +44,7 @@ namespace BruTile.MbTiles.Tests
             // arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
 
-            // act
+            // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
 
             // assert
@@ -60,7 +60,7 @@ namespace BruTile.MbTiles.Tests
             // arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "el-molar.mbtiles");
 
-            // act
+            // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
             // assert
@@ -74,7 +74,7 @@ namespace BruTile.MbTiles.Tests
             // arrange
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
-            // act
+            // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
             // assert
@@ -90,7 +90,7 @@ namespace BruTile.MbTiles.Tests
             SQLitePCL.Batteries.Init();
             var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
-            // act
+            // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), new GlobalSphericalMercator("png", YAxis.TMS, null));
 
             // assert

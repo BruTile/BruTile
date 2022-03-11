@@ -20,7 +20,7 @@ namespace BruTile.Tests
             var expectedExtent = new Extent(-15028131.257989, -10018754.173189, -10018754.173189, -5009377.088389);
             const double toleratedDelta = 0.01;
 
-            // act
+            // Act
             var extent = TileTransform.TileToWorld(range, 3, schema);
 
 
@@ -39,7 +39,7 @@ namespace BruTile.Tests
             var schema = new GlobalSphericalMercator(YAxis.TMS);
             var extent = new Extent(-15028130, -10018753, -10018755, -5009378);
 
-            // act
+            // Act
             var range = TileTransform.WorldToTile(extent, 3, schema);
 
             // assert
@@ -56,7 +56,7 @@ namespace BruTile.Tests
             var counter = 0;
             foreach (var resolution in schema.Resolutions.OrderByDescending(r => r.Value.UnitsPerPixel))
             {
-                // act
+                // Act
                 var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Level).ToList();
 
                 // assert
@@ -82,7 +82,7 @@ namespace BruTile.Tests
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -100000 };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14).ToList();
 
             // assert
@@ -98,7 +98,7 @@ namespace BruTile.Tests
             var schema = new WkstNederlandSchema { Extent = schemaExtent, OriginY = -22598.080, YAxis = YAxis.OSM };
             var requestExtent = GrowExtent(schemaExtent, schemaExtent.Width);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14);
 
             // assert
@@ -123,7 +123,7 @@ namespace BruTile.Tests
             var schema = new WkstNederlandSchema { Extent = new Extent(187036, 331205, 187202, 331291) };
             var mapExtent = new Extent(187256.999043765, 331197.712996388, 187437.576002535, 331303.350517269);
 
-            // act
+            // Act
             var tileInfos = schema.GetTileInfos(mapExtent, 14);
 
             // assert
@@ -144,7 +144,7 @@ namespace BruTile.Tests
             schema.Resolutions.Add(0, new Resolution(0, 1, tileWidth, tileHeight, 0, 0, 10, 10, 1));
             var requestedExtent = new Extent(0, 0, 100, 100);
 
-            // act
+            // Act
             var range = TileTransform.WorldToTile(requestedExtent, 0, schema);
 
             // assert

@@ -19,7 +19,7 @@ namespace BruTile.Tests.Wms
             {
                 const string expectedUrl = "http://www.bgr.de/Service/groundwater/whymap/?";
 
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
                 // assert
@@ -34,7 +34,7 @@ namespace BruTile.Tests.Wms
             var fileName = "WmsCCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
                 // assert
@@ -50,7 +50,7 @@ namespace BruTile.Tests.Wms
             var fileName = "MultiTopLayersCapabilities_1_3_0.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
                 // assert
@@ -67,7 +67,7 @@ namespace BruTile.Tests.Wms
             var fileName = "FrioCountyTXMapsWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream); 
 
                 // assert
@@ -84,7 +84,7 @@ namespace BruTile.Tests.Wms
             var fileName = "LizardtechWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
                 
                 // assert
@@ -99,7 +99,7 @@ namespace BruTile.Tests.Wms
             var fileName = "WmsCapabilities_1_3_0_withXmlns.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var capabilities = new WmsCapabilities(stream);
 
                 // assert
@@ -117,7 +117,7 @@ namespace BruTile.Tests.Wms
             var fileName = "NrcsSoilWmsCapabilities_1_1_1.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
                 // assert
@@ -142,7 +142,7 @@ namespace BruTile.Tests.Wms
             var valid = !expected;
             var uri = new Uri(url);
 
-            // act
+            // Act
             if (exception != null)
             {
                 Assert.Throws<ArgumentException>(() => valid = WmsCapabilities.ValidateGetCapabilitiesRequest(uri.Query));
@@ -191,7 +191,7 @@ namespace BruTile.Tests.Wms
             var fileName = "wms_topplus_web_open.xml";
             using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName)))
             {
-                // act
+                // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
                 // assert

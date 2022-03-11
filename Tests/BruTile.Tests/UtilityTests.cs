@@ -12,7 +12,7 @@ namespace BruTile.Tests
             // arrange
             var schema = new GlobalSphericalMercator();
 
-            // act
+            // Act
             var level = BruTile.Utilities.GetNearestLevel(schema.Resolutions, 300.0);
             // assert
             Assert.True(level == 9);

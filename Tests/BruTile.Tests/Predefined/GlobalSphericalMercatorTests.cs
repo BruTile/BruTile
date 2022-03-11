@@ -14,7 +14,7 @@ namespace BruTile.Tests.Predefined
             const string name = "BingMaps";
             const string format = "jpg";
 
-            // act
+            // Act
             var schema = new GlobalSphericalMercator(format, YAxis.OSM, 1, 19, name);
             
             // assert
