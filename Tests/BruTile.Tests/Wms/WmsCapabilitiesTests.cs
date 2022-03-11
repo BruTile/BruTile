@@ -22,7 +22,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.True(expectedUrl == capabilities.Capability.Request.GetMap.DCPType[0].Http.Get.OnlineResource.Href);
             }
         }
@@ -37,7 +37,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual(54, capabilities.Capability.Layer.ChildLayers.Count);
             }
@@ -53,7 +53,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("Root Layer", capabilities.Capability.Layer.Title);
                 Assert.AreEqual(4, capabilities.Capability.Layer.ChildLayers.Count);
@@ -70,7 +70,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var capabilities = new WmsCapabilities(stream); 
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("Frio County TX Maps", capabilities.Capability.Layer.Title);
                 Assert.AreEqual(13, capabilities.Capability.Layer.ChildLayers.Count);
@@ -87,7 +87,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
                 
-                // assert
+                // Assert
                 Assert.AreEqual(12, wmsCapabilities.Capability.Layer.ChildLayers.Count);
             }
         }
@@ -102,7 +102,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var capabilities = new WmsCapabilities(stream);
 
-                // assert
+                // Assert
                 Assert.NotNull(capabilities);
                 Assert.NotNull(capabilities.Version);
                 Assert.AreEqual("1 Million Scale WMS Layers from the National Atlas of the United States", capabilities.Capability.Layer.Title);
@@ -120,7 +120,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.True(wmsCapabilities.Service.Name == ServiceName.WMS);
             }
         }
@@ -172,7 +172,7 @@ namespace BruTile.Tests.Wms
                 WmsCapabilities cap = null;
                 Assert.DoesNotThrow(() => cap = new WmsCapabilities(XDocument.Load(stream)));
 
-                // assert
+                // Assert
                 Assert.That(cap, Is.Not.Null);
 
                 Console.WriteLine($"{cap.Service.Title} (WMS {cap.Version.VersionString})");
@@ -194,7 +194,7 @@ namespace BruTile.Tests.Wms
                 // Act
                 var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.AreEqual(16, wmsCapabilities.Capability.Layer.ChildLayers.Count);
                 foreach (var layerChildLayer in wmsCapabilities.Capability.Layer.ChildLayers)
                 {

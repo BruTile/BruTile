@@ -18,7 +18,7 @@ namespace BruTile.Tests.Cache
             // Act
             memoryCache.Add(tileIndex, tileBytes);
 
-            // assert
+            // Assert
             Assert.AreEqual(tileBytes, memoryCache.Find(tileIndex));
         }
 
@@ -44,7 +44,7 @@ namespace BruTile.Tests.Cache
             // Act
             memoryCache.Remove(tileIndex);
 
-            // assert
+            // Assert
             Assert.True(disposableTile.Disposed);
         }
 
@@ -62,7 +62,7 @@ namespace BruTile.Tests.Cache
             memoryCache.Add(new TileIndex(4, 0, 0), new DisposableTile());
             var tileCountAfterExceedingMax = memoryCache.TileCount;
             
-            // assert
+            // Assert
             Assert.True(tileCountBeforeExceedingMax == 3);
             Assert.True(tileCountAfterExceedingMax == 2);
         }
@@ -88,7 +88,7 @@ namespace BruTile.Tests.Cache
             // normally only the last one would remain.
             // With this keepTileMemory method the first two remain.
 
-            // assert
+            // Assert
             Assert.True(memoryCache.Find(tileOne) != null);
             Assert.True(memoryCache.Find(tileTwo) != null);
             Assert.True(memoryCache.Find(tileThree) == null);

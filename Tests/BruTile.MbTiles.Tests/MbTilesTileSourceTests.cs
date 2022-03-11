@@ -32,7 +32,7 @@ namespace BruTile.MbTiles.Tests
             // Act
             var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
-            // assert
+            // Assert
             Assert.True(data.Length > 0);
             Assert.AreEqual(MbTilesType.BaseLayer, tileSource.Type);
             Assert.AreEqual("attribution", tileSource.Attribution.Text);
@@ -47,7 +47,7 @@ namespace BruTile.MbTiles.Tests
             // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
 
-            // assert
+            // Assert
             var extent = new Extent(-20037508.3427892, -20037471.205137, 20037508.3427892, 20037471.205137);
             Assert.IsTrue(extent.Area / tileSource.Schema.Extent.Area > 0.0000001);
             Assert.AreEqual(3, tileSource.Schema.Resolutions.Count);
@@ -63,7 +63,7 @@ namespace BruTile.MbTiles.Tests
             // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
-            // assert
+            // Assert
             Assert.AreEqual(95490133.792558521d, tileSource.Schema.Extent.Area, 0.0001d);
             Assert.AreEqual(17, tileSource.Schema.Resolutions.Count);
         }
@@ -77,7 +77,7 @@ namespace BruTile.MbTiles.Tests
             // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), determineZoomLevelsFromTilesTable: true);
 
-            // assert
+            // Assert
             Assert.AreEqual(692609746.90386355, tileSource.Schema.Extent.Area);
             Assert.AreEqual(5, tileSource.Schema.Resolutions.Count);
         }
@@ -93,7 +93,7 @@ namespace BruTile.MbTiles.Tests
             // Act
             var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), new GlobalSphericalMercator("png", YAxis.TMS, null));
 
-            // assert
+            // Assert
             var tile = await tileSource.GetTileAsync(new TileInfo { Index = new TileIndex(2006, 2552, 12)}).ConfigureAwait(false);
             Assert.NotNull(tile);
         }

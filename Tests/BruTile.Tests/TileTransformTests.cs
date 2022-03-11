@@ -24,7 +24,7 @@ namespace BruTile.Tests
             var extent = TileTransform.TileToWorld(range, 3, schema);
 
 
-            // assert
+            // Assert
             Assert.AreEqual(extent.MinX, expectedExtent.MinX, toleratedDelta);
             Assert.AreEqual(extent.MinY, expectedExtent.MinY, toleratedDelta);
             Assert.AreEqual(extent.MaxX, expectedExtent.MaxX, toleratedDelta);
@@ -42,7 +42,7 @@ namespace BruTile.Tests
             // Act
             var range = TileTransform.WorldToTile(extent, 3, schema);
 
-            // assert
+            // Assert
             Assert.AreEqual(range, expectedRange);
         }
 
@@ -59,7 +59,7 @@ namespace BruTile.Tests
                 // Act
                 var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Level).ToList();
 
-                // assert
+                // Assert
                 Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));
                 if (counter >= 6) break;
             }
@@ -85,7 +85,7 @@ namespace BruTile.Tests
             // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14).ToList();
 
-            // assert
+            // Assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
             Assert.True(Math.Abs(TileAreaWithinEnvelope(tileInfos, schemaExtent) - schemaExtent.Area) < Epsilon);
         }
@@ -101,7 +101,7 @@ namespace BruTile.Tests
             // Act
             var tileInfos = schema.GetTileInfos(requestExtent, 14);
 
-            // assert
+            // Assert
             Assert.True(TilesWithinEnvelope(tileInfos, schemaExtent));
             Assert.True(Math.Abs(TileAreaWithinEnvelope(tileInfos, schemaExtent) - schemaExtent.Area) < Epsilon);
         }
@@ -126,7 +126,7 @@ namespace BruTile.Tests
             // Act
             var tileInfos = schema.GetTileInfos(mapExtent, 14);
 
-            // assert
+            // Assert
             Assert.AreEqual(tileInfos.Count(), 0);
         }
 
@@ -147,7 +147,7 @@ namespace BruTile.Tests
             // Act
             var range = TileTransform.WorldToTile(requestedExtent, 0, schema);
 
-            // assert
+            // Assert
             Assert.AreEqual(expectedColCount, range.ColCount, "ColCount");
             Assert.AreEqual(expectedRowCount, range.RowCount, "RowCount");
         }

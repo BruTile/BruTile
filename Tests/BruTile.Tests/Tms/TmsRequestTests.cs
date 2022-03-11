@@ -17,7 +17,7 @@ namespace BruTile.Tests.Tms
             // Act
             var uri = request.GetUri(tileInfo);
 
-            // assert
+            // Assert
             Assert.AreEqual(uri.ToString(), "http://tileserver.com/3/1/2.png"); 
         }
 
@@ -32,7 +32,7 @@ namespace BruTile.Tests.Tms
             // Act
             var uri = request.GetUri(tileInfo);
 
-            // assert
+            // Assert
             Assert.True(new [] { "http://a.tileserver.com/3/1/2.png", "http://b.tileserver.com/3/1/2.png" }.Contains(uri.ToString()));
         }
     }

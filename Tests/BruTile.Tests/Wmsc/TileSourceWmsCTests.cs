@@ -22,7 +22,7 @@ namespace BruTile.Tests.Wmsc
                 // Act
                 var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
 
-                // assert
+                // Assert
                 Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
                 foreach (var tileSource in tileSources)
                 {
@@ -46,7 +46,7 @@ namespace BruTile.Tests.Wmsc
             List<ITileSource> res = null;
             var action = new TestDelegate(() => res = new List<ITileSource>(WmscTileSource.CreateFromWmscCapabilties(myWmsc)));
             
-            // assert
+            // Assert
             Assert.DoesNotThrow(action);
             Assert.IsNotNull(res);
             Assert.That(res.Count, Is.GreaterThan(0));

@@ -21,7 +21,7 @@ namespace BruTile.Tests.Web
             // Act
             var url = request.GetUri(tileInfo);
 
-            // assert
+            // Assert
             Assert.True(url.ToString() == "http://a.tile.openstreetmap.org/5/3/4.png");
         }
 
@@ -38,7 +38,7 @@ namespace BruTile.Tests.Web
             for (var i = 0; i < 100; i++) requests.Add(() => request.GetUri(tileInfo));
             Parallel.ForEach(requests, r => urls.Add(r()));
 
-            // assert
+            // Assert
             Assert.True(urls.FirstOrDefault(u => u.ToString() == "http://b.tile.openstreetmap.org/5/3/4.png") != null);
         }
     }

@@ -16,7 +16,7 @@ namespace BruTile.Tests
             // Act
             int actual = target.CompareTo(index);
 
-            // assert
+            // Assert
             Assert.AreEqual(expected, actual);
         }
     }

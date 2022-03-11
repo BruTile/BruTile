@@ -20,7 +20,7 @@ namespace BruTile.Tests.FileSystem
             // Act
             var tile = await fileTileProvider.GetTileAsync(new TileInfo { Index = new TileIndex(4, 5, 8) }).ConfigureAwait(false);
 
-            // assert
+            // Assert
             Assert.AreEqual(tile.Length, 243);
         }
     }
