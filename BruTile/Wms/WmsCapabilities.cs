@@ -251,20 +251,6 @@ namespace BruTile.Wms
             return stream;
         }
 
-        /// <summary>
-        /// A function to get a 
-        /// </summary>
-        /// <param name="serverUrl">The URL</param>
-        /// <param name="credentials">The credentials to use for the request</param>
-        /// <returns>A WMS capabilities object</returns>
-        [Obsolete("Use Constructor")]
-        public static WmsCapabilities GetCapabilities(string serverUrl, ICredentials credentials = null)
-        {
-            return new WmsCapabilities(serverUrl, credentials);
-            //var serverUri = CompleteGetCapabilitiesRequest(new Uri(serverUrl));
-            //return new WmsCapabilities(GetRemoteXmlStream(serverUri, credentials));
-        }
-
         #region validation and completion of request url
 
         internal static Uri CompleteGetCapabilitiesRequest(Uri serverUrl)
