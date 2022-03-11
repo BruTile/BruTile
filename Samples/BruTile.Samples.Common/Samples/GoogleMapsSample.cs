@@ -1,7 +1,6 @@
 ﻿using BruTile.Predefined;
 using BruTile.Web;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace BruTile.Samples.Common.Samples
