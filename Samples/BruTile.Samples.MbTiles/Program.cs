@@ -1,8 +1,7 @@
 using System;
 using System.Windows.Forms;
-using BruTile.Samples.MbTiles;
 
-namespace BruTile.Samples.MbTiles2
+namespace BruTile.Samples.MbTiles
 {
     static class Program
     {

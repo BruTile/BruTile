@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace BruTile.Demo1
+namespace BruTile.Demo
 {
     /// <summary>
     /// Interaction logic for App.xaml

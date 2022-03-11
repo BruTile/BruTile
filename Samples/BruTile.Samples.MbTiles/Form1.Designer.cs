@@ -1,5 +1,5 @@
 ﻿
-namespace BruTile.Samples.MbTiles2
+namespace BruTile.Samples.MbTiles
 {
     partial class Form1
     {

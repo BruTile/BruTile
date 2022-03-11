@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace BruTile.Samples.MbTiles2
+namespace BruTile.Samples.MbTiles
 {
     public partial class Form1 : Form
     {
