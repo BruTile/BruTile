@@ -266,7 +266,7 @@ namespace BruTile.MbTiles
             return false;
         }
         public ITileSchema Schema { get; }
-        public string Name { get; } = nameof(MbTilesTileSource);
+        public string Name { get; }
         public Attribution Attribution { get; set; }
 
         [Table("tiles")]

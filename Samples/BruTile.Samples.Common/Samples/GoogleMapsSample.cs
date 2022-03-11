@@ -20,7 +20,7 @@ namespace BruTile.Samples.Common.Samples
 
         private static async Task<byte[]> FetchGoogleTileAsync(Uri arg)
         {
-            var httpClient = BruTile.Web.HttpClientBuilder.Build();
+            var httpClient = HttpClientBuilder.Build();
 
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", "http://maps.google.com/");
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", @"Mozilla / 5.0(Windows; U; Windows NT 6.0; en - US; rv: 1.9.1.7) Gecko / 20091221 Firefox / 3.5.7");

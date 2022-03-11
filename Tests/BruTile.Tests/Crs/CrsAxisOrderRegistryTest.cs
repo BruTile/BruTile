@@ -42,7 +42,6 @@ namespace BruTile.Tests.Crs
                 cmd.CommandText = Sql;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
                     while (dr.Read())
                     {
                         var code = dr.GetInt32(0);
@@ -142,13 +141,12 @@ namespace BruTile.Tests.Crs
                 cmd.CommandText = Sql;
                 using (var dr = cmd.ExecuteReader())
                 {
-                    if (dr != null)
-                        while (dr.Read())
-                        {
-                            var code = dr.GetInt32(0);
-                            if (code > 32767) continue;
-                            unusual.Add(code);
-                        }
+                    while (dr.Read())
+                    {
+                        var code = dr.GetInt32(0);
+                        if (code > 32767) continue;
+                        unusual.Add(code);
+                    }
                 }
             }
             var crsAxisOrderRegistry = new CrsAxisOrderRegistry();
