@@ -13,7 +13,7 @@ namespace BruTile.Wmts
         private readonly double _toMeter;
 
         /// <summary>
-        /// Initializes this unit of measue with a <paramref name="name"/> and <paramref name="toMeter"/> value.
+        /// Initializes this unit of measure with a <paramref name="name"/> and <paramref name="toMeter"/> value.
         /// </summary>
         /// <param name="name">A value indicating the name of the unit of measure</param>
         /// <param name="toMeter">A scale value to transform this Unit of measure</param>

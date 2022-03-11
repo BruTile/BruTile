@@ -39,14 +39,14 @@ namespace BruTile
         int GetTileHeight(int level);
 
         /// <summary>
-        /// Function to get the x vertex of the schema's origin for a given zoom level.
+        /// Function to get the x vertex of the schemas origin for a given zoom level.
         /// </summary>
         /// <param name="level">The zoom level</param>
         /// <returns>The x vertex of the origin</returns>
         double GetOriginX(int level);
 
         /// <summary>
-        /// Function to get the y vertex of the schema's origin for a given zoom level.
+        /// Function to get the y vertex of the schemas origin for a given zoom level.
         /// </summary>
         /// <param name="level">The zoom level</param>
         /// <returns>The y vertex of the origin</returns>
@@ -99,11 +99,11 @@ namespace BruTile
 
         /// <summary>
         /// Function to get the intersection of requested <paramref name="extent"/> 
-        /// and this schema's <see cref="Extent"/> for a given zoom level.
+        /// and this schemas <see cref="Extent"/> for a given zoom level.
         /// </summary>
         /// <param name="extent">The extent for which to get tiles</param>
         /// <param name="level">The zoom level</param>
-        /// <returns>The intersection of requested extent and this schema's extent</returns>
+        /// <returns>The intersection of requested extent and this schemas extent</returns>
         Extent GetExtentOfTilesInView(Extent extent, int level);
 
         /// <summary>

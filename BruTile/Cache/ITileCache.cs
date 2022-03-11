@@ -7,7 +7,7 @@ namespace BruTile.Cache
         /// <summary>
         /// Adds a tile that corresponds to the index
         /// </summary>
-        /// <param name="index">The index of the tile to add. If the tile already exists no exepection is thrown.</param>
+        /// <param name="index">The index of the tile to add. If the tile already exists no exception is thrown.</param>
         /// <param name="tile">The tile data</param>
         void Add(TileIndex index, T tile);
         /// <summary>

@@ -119,47 +119,6 @@ namespace BruTile.Wms
             return string.Format(urlFormat, versionBytes[0], versionBytes[1], versionBytes[2], name);
         }
 
-        /*
-using (var writer = XmlWriter.Create("file.xml"))
-{
-    const string Ns = "http://bladibla";
-    const string Prefix = "abx";
-
-    writer.WriteStartDocument();
-
-    writer.WriteStartElement("root");
-
-    // set root namespace
-    writer.WriteAttributeString("xmlns", Prefix, null, Ns);
-
-    writer.WriteStartElement(Prefix, "child", Ns);
-    writer.WriteAttributeString("id", "A");
-
-    writer.WriteStartElement("grandchild");
-    writer.WriteAttributeString("id", "B");
-
-    writer.WriteElementString(Prefix, "grandgrandchild", Ns, null);
-
-    // grandchild
-    writer.WriteEndElement();
-    // child
-    writer.WriteEndElement();
-    // root
-    writer.WriteEndElement();
-
-    writer.WriteEndDocument();
-}
-<?xml version="1.0" encoding="utf-8"?>
-<root xmlns:abx="http://bladibla">
-  <abx:child id="A">
-    <grandchild id="B">
-      <abx:grandgrandchild />
-    </grandchild>
-  </abx:child>
-</root>
-
-*/
-
         internal void WriteStartRootElement(XmlWriter writer, string updateSequence)
         {
             writer.WriteAttributeString("version", VersionString);

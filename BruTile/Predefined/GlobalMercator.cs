@@ -12,7 +12,7 @@ namespace BruTile.Predefined
     /// <seealso href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator"/>
     //FObermaier::
     //This class is necessary for MbTiles. I don't know where 'GlobalSphericalMercator' comes from,
-    //but this class was created follwing the MBTiles Spec 1.0
+    //but this class was created following the MBTiles Spec 1.0
     //see:https://github.com/mapbox/mbtiles-spec/blob/master/1.0/spec.md
     //see:http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-mercator
     public class GlobalMercator : TileSchema
@@ -60,7 +60,7 @@ namespace BruTile.Predefined
         /// Creates an instance of this class
         /// </summary>
         /// <param name="format">The image format of the tiles</param>
-        /// <param name="declaredZoomLevels">The declared zoomlevels</param>
+        /// <param name="declaredZoomLevels">The declared zoom levels</param>
         public GlobalMercator(string format, IList<int> declaredZoomLevels)
             : this(format, ToResolutions(declaredZoomLevels))
         {

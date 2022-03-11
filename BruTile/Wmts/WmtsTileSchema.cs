@@ -184,12 +184,12 @@ namespace BruTile.Wmts
 
         public int GetMatrixFirstCol(int level)
         {
-            return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
+            return 0; // Always zero because WMTS can not have a discrepancy between schema origin and bounding box origin
         }
 
         public int GetMatrixFirstRow(int level)
         {
-            return 0; // always zero because WMTS can not have a discrepancy between schema origin and bbox origin
+            return 0; // Always zero because WMTS can not have a discrepancy between schema origin and bounding box origin
         }
 
         public IDictionary<int, string> LevelToIdentifier { get; set;} = new Dictionary<int, string>();

@@ -305,7 +305,7 @@ namespace BruTile.Wms
         }
 
         /// <summary>
-        /// Method to check a GetCapabilities request URL for completeness and valididity
+        /// Method to check a GetCapabilities request URL for completeness and validity
         /// </summary>
         /// <param name="query">The query part of the request URL</param>
         /// <param name="parameters">

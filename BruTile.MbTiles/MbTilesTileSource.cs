@@ -38,7 +38,7 @@ namespace BruTile.MbTiles
         /// <param name="determineZoomLevelsFromTilesTable">When 'determineZoomLevelsFromTilesTable' is true the zoom levels
         /// will be determined from the available tiles in the 'tiles' table. This operation can take long if there are many tiles in 
         /// the 'tiles' table. When 'determineZoomLevelsFromTilesTable' is false the zoom levels will be read from the metadata table 
-        ///(by reading 'zoommin' and 'zoommax'). If there are no zoom levels specificied in the metadata table the GlobalSphericalMercator 
+        ///(by reading 'zoomMin' and 'zoomMax'). If there are no zoom levels specified in the metadata table the GlobalSphericalMercator 
         ///default levels are assumed. This parameter will have no effect if the schema is passed in as argument. The default is false.</param>
         /// <param name="determineTileRangeFromTilesTable">In some cases not all tiles specified by the schema are present in each 
         /// level. When 'determineTileRangeFromTilesTable' is 'true' the range of tiles available for each level is determined 

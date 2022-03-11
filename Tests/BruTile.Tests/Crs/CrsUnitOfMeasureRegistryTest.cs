@@ -23,7 +23,7 @@ WHERE ((([Coordinate Axis].ORDER)=1))
 ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
 
         /// <summary>
-        /// Earth radius as definde for WGS84
+        /// Earth radius as defined for WGS84
         /// </summary>
         private const double EarthRadius = 6378137;
 

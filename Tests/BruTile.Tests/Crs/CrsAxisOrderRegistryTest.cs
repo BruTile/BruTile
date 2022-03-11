@@ -35,7 +35,6 @@ namespace BruTile.Tests.Crs
             var ba = new BitArray(32768);
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
                 $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
@@ -136,7 +135,6 @@ namespace BruTile.Tests.Crs
             var unusual = new HashSet<int>();
 
             using (var cn = new System.Data.OleDb.OleDbConnection(
-                //$"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={EpsgAccessDatabase};" 
                 $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={EpsgAccessDatabase};"))
             {
                 cn.Open();
