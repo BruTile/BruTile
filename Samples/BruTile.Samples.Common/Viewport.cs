@@ -73,16 +73,6 @@ namespace BruTile.Samples.Common
         
         public Extent Extent => (_extent == default(Extent)) ? (_extent = new Extent(0, 0, 0, 0)) : _extent;
 
-        public Point WorldToScreen(Point worldPosition)
-        {
-            return WorldToScreen(worldPosition.X, worldPosition.Y);
-        }
-
-        public Point ScreenToWorld(Point screenPosition)
-        {
-            return ScreenToWorld(screenPosition.X, screenPosition.Y);
-        }
-
         public Point WorldToScreen(double worldX, double worldY)
         {
             return new Point((worldX - _extent.MinX) / _unitsPerPixel, (_extent.MaxY - worldY) / _unitsPerPixel);

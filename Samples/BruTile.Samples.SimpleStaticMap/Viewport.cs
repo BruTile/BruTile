@@ -63,11 +63,6 @@ namespace BruTile.Samples.SimpleStaticMap
             return new PointF((float)(x - _extent.MinX) / _unitsPerPixel, (float)(_extent.MaxY - y) / _unitsPerPixel);
         }
 
-        public PointF ViewToWorld(double x, double y)
-        {
-            return new PointF((float)(_extent.MinX + x) * _unitsPerPixel, (float)(_extent.MaxY - y) * _unitsPerPixel);
-        }
-
         public RectangleF WorldToScreen(double x1, double y1, double x2, double y2)
         {
             var point1 = WorldToScreen(x1, y1);

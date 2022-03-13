@@ -36,8 +36,6 @@ namespace BruTile.Samples.MbTiles
             _isSet = false;
         }
 
-        public bool IsEmpty => !_isSet;
-
         public static implicit operator PointD(PointF pd)
         {
             return new PointD(pd.X, pd.Y);
