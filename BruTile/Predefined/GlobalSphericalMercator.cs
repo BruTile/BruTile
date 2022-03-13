@@ -34,13 +34,13 @@ namespace BruTile.Predefined
         {
         }
 
-        public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null, Extent extent = default(Extent)) :
+        public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null, Extent extent = default) :
             this(ToResolutions(zoomLevels), format, yAxis, name, extent)
         {
         }
 
         private GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
-                                         YAxis yAxis = YAxis.OSM, string name = null, Extent extent = default(Extent))
+                                         YAxis yAxis = YAxis.OSM, string name = null, Extent extent = default)
         {
             Name = name ?? "GlobalSphericalMercator";
             Format = format;
