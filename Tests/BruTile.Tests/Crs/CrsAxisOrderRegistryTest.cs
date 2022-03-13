@@ -40,14 +40,12 @@ namespace BruTile.Tests.Crs
                 cn.Open();
                 var cmd = cn.CreateCommand();
                 cmd.CommandText = Sql;
-                using (var dr = cmd.ExecuteReader())
+                using var dr = cmd.ExecuteReader();
+                while (dr.Read())
                 {
-                    while (dr.Read())
-                    {
-                        var code = dr.GetInt32(0);
-                        if (code > 32767) continue;
-                        ba[code] = true;
-                    }
+                    var code = dr.GetInt32(0);
+                    if (code > 32767) continue;
+                    ba[code] = true;
                 }
             }
 
@@ -57,17 +55,15 @@ namespace BruTile.Tests.Crs
 
             using (var bufferStream = new MemoryStream(buffer))
             {
-                using (var compressedStream = new MemoryStream())
+                using var compressedStream = new MemoryStream();
+                using (var s = new DeflateStream(compressedStream, CompressionMode.Compress))
                 {
-                    using (var s = new DeflateStream(compressedStream, CompressionMode.Compress))
-                    {
-                        bufferStream.CopyTo(s);
-                        compressedStream.Flush();
-                    }
-                    enc = Convert.ToBase64String(compressedStream.ToArray());
-                    Console.WriteLine("Compressed");
-                    WriteBlocks(enc);
+                    bufferStream.CopyTo(s);
+                    compressedStream.Flush();
                 }
+                enc = Convert.ToBase64String(compressedStream.ToArray());
+                Console.WriteLine("Compressed");
+                WriteBlocks(enc);
             }
 
             Console.WriteLine("\nByte array");
@@ -89,7 +85,7 @@ namespace BruTile.Tests.Crs
                 Console.WriteLine("\"{0}\" + ", text.Substring(i, block));
                 i += block;
             }
-            Console.WriteLine("\"{0}\"", text.Substring(i));
+            Console.WriteLine("\"{0}\"", text[i..]);
         }
 
         private static void WriteBytes(byte[] buffer, int bytesPerRow)
@@ -110,7 +106,7 @@ namespace BruTile.Tests.Crs
             tmp = new byte[bytesPerRow];
             Buffer.BlockCopy(buffer, i, tmp, 0, bytesPerRow);
             var txt = WriteBytesRow(tmp);
-            txt = txt.Substring(0, txt.Length - 1);
+            txt = txt[0..^1];
 
 
             Console.WriteLine(txt + "};");
@@ -139,14 +135,12 @@ namespace BruTile.Tests.Crs
                 cn.Open();
                 var cmd = cn.CreateCommand();
                 cmd.CommandText = Sql;
-                using (var dr = cmd.ExecuteReader())
+                using var dr = cmd.ExecuteReader();
+                while (dr.Read())
                 {
-                    while (dr.Read())
-                    {
-                        var code = dr.GetInt32(0);
-                        if (code > 32767) continue;
-                        unusual.Add(code);
-                    }
+                    var code = dr.GetInt32(0);
+                    if (code > 32767) continue;
+                    unusual.Add(code);
                 }
             }
             var crsAxisOrderRegistry = new CrsAxisOrderRegistry();

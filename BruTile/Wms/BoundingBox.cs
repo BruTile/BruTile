@@ -10,7 +10,7 @@ namespace BruTile.Wms
     public class BoundingBox : XmlObject
     {
         // ReSharper disable once UnusedParameter.Local
-        public BoundingBox(XElement node, string ns)
+        public BoundingBox(XElement node)
         {
             var att =
                 node.Attribute(XName.Get("CRS")) ??

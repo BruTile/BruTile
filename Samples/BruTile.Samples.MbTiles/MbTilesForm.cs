@@ -141,7 +141,7 @@ namespace BruTile.Samples.MbTiles
                 (int)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
         }
 
-        private async void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void OpenToolStripMenuItemClick(object sender, EventArgs e)
         {
             using var ofn = new OpenFileDialog();
             ofn.Filter = @"MbTiles file|*.mbtiles";
@@ -171,22 +171,18 @@ namespace BruTile.Samples.MbTiles
                 Enabled = false;
 
                 var tmpFile = Path.GetTempFileName();
-                using (var response = req.GetResponse())
+                using (var response = await req.GetResponseAsync())
                 {
-                    await using (var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile)))
+                    await using var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile));
+                    await using var stream = response.GetResponseStream();
+                    var buffer = new byte[4 * 8192];
+                    while (true)
                     {
-                        await using (var stream = response.GetResponseStream())
+                        if (stream != null)
                         {
-                            var buffer = new byte[4 * 8192];
-                            while (true)
-                            {
-                                if (stream != null)
-                                {
-                                    var read = stream.Read(buffer, 0, buffer.Length);
-                                    if (read <= 0) break;
-                                    streamWriter.Write(buffer, 0, read);
-                                }
-                            }
+                            var read = stream.Read(buffer, 0, buffer.Length);
+                            if (read <= 0) break;
+                            streamWriter.Write(buffer, 0, read);
                         }
                     }
                 }

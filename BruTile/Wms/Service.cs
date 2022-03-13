@@ -155,7 +155,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "Service", string.Empty))
+            if (CheckEmptyNode(reader, string.Empty))
                 throw WmsParsingException.ElementNotFound("Service");
 
             while (!reader.EOF)
