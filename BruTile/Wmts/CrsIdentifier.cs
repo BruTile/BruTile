@@ -7,7 +7,7 @@ namespace BruTile.Wmts
     /// <summary>
     /// An identifier for the crs
     /// </summary>
-    public struct CrsIdentifier : IEquatable<CrsIdentifier>
+    public readonly struct CrsIdentifier : IEquatable<CrsIdentifier>
     {
         public static bool TryParse(string urnOgcDefCRS, out CrsIdentifier crs)
         {

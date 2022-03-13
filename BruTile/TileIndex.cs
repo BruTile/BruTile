@@ -4,7 +4,7 @@ using System;
 
 namespace BruTile
 {
-    public struct TileIndex : IComparable
+    public readonly struct TileIndex : IComparable
     {
         public int Col { get; }
         public int Row { get; }

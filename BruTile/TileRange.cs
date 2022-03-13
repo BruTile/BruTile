@@ -2,7 +2,7 @@
 
 namespace BruTile
 {
-    public struct TileRange
+    public readonly struct TileRange
     {
         public int FirstCol { get; }
         public int FirstRow { get; }

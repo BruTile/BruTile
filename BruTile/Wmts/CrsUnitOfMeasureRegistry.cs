@@ -8,7 +8,7 @@ namespace BruTile.Wmts
     /// <summary>
     /// A unit of measure
     /// </summary>
-    public struct UnitOfMeasure : IEquatable<UnitOfMeasure>
+    public readonly struct UnitOfMeasure : IEquatable<UnitOfMeasure>
     {
         private readonly double _toMeter;
 
