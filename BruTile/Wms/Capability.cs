@@ -44,7 +44,7 @@ namespace BruTile.Wms
             if (Exception.Count == 0)
                 throw WmsParsingException.ElementNotFound("Exception");
 
-            bool baseNodeCreated = false;
+            var baseNodeCreated = false;
             foreach (var layerNode in node.Elements(XName.Get("Layer", @namespace)))
             {
                 var layer = new Layer(layerNode, @namespace);
@@ -101,7 +101,7 @@ namespace BruTile.Wms
             if (CheckEmptyNode(reader, "Capability", string.Empty))
                 throw WmsParsingException.ElementNotFound("Capability");
 
-            bool baseLayerCreated = false;
+            var baseLayerCreated = false;
 
             while (!reader.EOF)
             {

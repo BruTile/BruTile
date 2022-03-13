@@ -49,11 +49,11 @@ namespace BruTile
             //bigger than biggest
             if (orderedResolutions.First().Value.UnitsPerPixel < unitsPerPixel) return orderedResolutions.First().Key;
 
-            int result = -1;
-            double resultDistance = double.MaxValue;
+            var result = -1;
+            var resultDistance = double.MaxValue;
             foreach (var current in orderedResolutions)
             {
-                double distance = Math.Abs(current.Value.UnitsPerPixel - unitsPerPixel);
+                var distance = Math.Abs(current.Value.UnitsPerPixel - unitsPerPixel);
                 if (distance < resultDistance)
                 {
                     result = current.Key;

@@ -9,8 +9,8 @@ namespace BruTile.Wmts
     /// </summary>
     public class CrsAxisOrderRegistry
     {
-        private static readonly int[] Natural = {0, 1};
-        private static readonly int[] Geographic = {1, 0};
+        private static readonly int[] Natural = { 0, 1 };
+        private static readonly int[] Geographic = { 1, 0 };
 
         private static readonly byte[] EpsgAxisOrderBitField =
         {

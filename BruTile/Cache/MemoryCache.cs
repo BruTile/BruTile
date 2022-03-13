@@ -8,7 +8,7 @@ using System.Linq;
 namespace BruTile.Cache
 {
 
-    public class MemoryCache<T>: IMemoryCache<T>, INotifyPropertyChanged, IDisposable
+    public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposable
     {
         private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
         private readonly Dictionary<TileIndex, long> _touched = new Dictionary<TileIndex, long>();
@@ -17,7 +17,7 @@ namespace BruTile.Cache
         private readonly Func<TileIndex, bool> _keepTileInMemory;
 
         private long _cacheVersion;
-        
+
         public int TileCount
         {
             get
@@ -37,7 +37,7 @@ namespace BruTile.Cache
             if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
             if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
             if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
-            
+
             MinTiles = minTiles;
             MaxTiles = maxTiles;
             _keepTileInMemory = keepTileInMemory;
@@ -80,7 +80,7 @@ namespace BruTile.Cache
                 OnNotifyPropertyChange("TileCount");
             }
         }
-        
+
         public T Find(TileIndex index)
         {
             lock (_syncRoot)
@@ -103,7 +103,7 @@ namespace BruTile.Cache
             }
         }
 
-        void CleanUp()
+        private void CleanUp()
         {
             if (_bitmaps.Count <= MaxTiles) return;
 
@@ -114,9 +114,9 @@ namespace BruTile.Cache
                 foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // Touch tiles to keep
                 numberOfTilesToKeepInMemory = tilesToKeep.Count;
             }
-            var numberOfTilesToRemove = _bitmaps.Count  - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
+            var numberOfTilesToRemove = _bitmaps.Count - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
 
-            var oldItems = _touched.OrderBy(p => p.Value).Take(numberOfTilesToRemove); 
+            var oldItems = _touched.OrderBy(p => p.Value).Take(numberOfTilesToRemove);
 
             foreach (var oldItem in oldItems)
             {

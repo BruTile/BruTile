@@ -13,7 +13,7 @@ namespace BruTile.Tms
 
         public static Root CreateFromResource(Stream result)
         {
-            XDocument xml = XDocument.Parse(new StreamReader(result).ReadToEnd());
+            var xml = XDocument.Parse(new StreamReader(result).ReadToEnd());
 
             var services = new Root();
             if (xml.Root != null)

@@ -9,7 +9,7 @@ namespace BruTile.FileSystem
 {
     public class FileTileProvider : ITileProvider
     {
-        readonly FileCache _fileCache;
+        private readonly FileCache _fileCache;
 
         public FileTileProvider(string directory, string format, TimeSpan cacheExpireTime)
         {
@@ -20,10 +20,10 @@ namespace BruTile.FileSystem
         {
             _fileCache = fileCache;
         }
-        
+
         public Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
-            byte[] bytes = _fileCache.Find(tileInfo.Index);
+            var bytes = _fileCache.Find(tileInfo.Index);
             if (bytes == null) throw new FileNotFoundException("The tile was not found at it's expected location");
             return Task.FromResult(bytes);
         }

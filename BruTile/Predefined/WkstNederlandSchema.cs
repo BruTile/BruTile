@@ -7,12 +7,12 @@ namespace BruTile.Predefined
         // Well known scale set: urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale,
         // See: http://www.geonovum.nl/sites/default/files/Nederlandse_richtlijn_tiling_-_versie_1.0.pdf
         private const int TileSize = 256;
-        private double _originX = -285401.920;
-        private double _originY = 22598.080;
-            
+        private readonly double _originX = -285401.920;
+        private readonly double _originY = 22598.080;
+
         public WkstNederlandSchema()
         {
-            var unitsPerPixelArray = new[] { 
+            var unitsPerPixelArray = new[] {
                 3440.64,
                 1720.32,
                 860.16,
@@ -34,9 +34,9 @@ namespace BruTile.Predefined
             foreach (var unitsPerPixel in unitsPerPixelArray)
             {
                 var level = count;
-                Resolutions[level] = new Resolution 
+                Resolutions[level] = new Resolution
                 (
-                    level, 
+                    level,
                     unitsPerPixel,
                     TileSize,
                     TileSize,
@@ -50,7 +50,7 @@ namespace BruTile.Predefined
             OriginX = _originX;
             OriginY = _originY;
             Name = "urn:ogc:def:wkss:OGC:1.0:NLDEPSG28992Scale";
-            Format = "png"; 
+            Format = "png";
             YAxis = YAxis.TMS;
             Srs = "EPSG:28992";
         }

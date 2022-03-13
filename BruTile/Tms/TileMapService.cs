@@ -16,8 +16,8 @@ namespace BruTile.Tms
         public static TileMapService CreateFromResource(Stream result)
         {
             var tileMapService = new TileMapService();
-            
-            XDocument xml = XDocument.Parse(new StreamReader(result).ReadToEnd());
+
+            var xml = XDocument.Parse(new StreamReader(result).ReadToEnd());
 
             if (xml.Root == null) throw new XmlException("TMS xml root is null");
 
@@ -33,7 +33,7 @@ namespace BruTile.Tms
         }
     }
 
-    public class TileMapItem 
+    public class TileMapItem
     {
         public string Href { get; set; }
         public string Srs { get; set; }

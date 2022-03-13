@@ -7,13 +7,13 @@ namespace BruTile.Predefined
     public class GlobalSphericalMercator : TileSchema
     {
         private const double ScaleFactor = 78271.51696401953125;
-        private const string DefaultFormat = "png"; 
-        private const int DefaultMinZoomLevel = 0; 
+        private const string DefaultFormat = "png";
+        private const int DefaultMinZoomLevel = 0;
         private const int DefaultMaxZoomLevel = 19;
         private const int TileSize = 256;
 
         // The default for YAxis is YAxis.OSM for all constructors
-        
+
         public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), format, yAxis, name)
         {
@@ -76,7 +76,7 @@ namespace BruTile.Predefined
             {
                 dictionary[level.ToString()] = new Resolution
                     (
-                        level, 
+                        level,
                         2 * ScaleFactor / (1 << level)
                     );
             }

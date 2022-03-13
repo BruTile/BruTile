@@ -46,7 +46,7 @@ namespace BruTile.Cache
                 {
                     return; // Ignore
                 }
-                string dir = GetDirectoryName(index);
+                var dir = GetDirectoryName(index);
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
@@ -101,7 +101,7 @@ namespace BruTile.Cache
 
         public string GetFileName(TileIndex index)
         {
-            return Path.Combine(GetDirectoryName(index), 
+            return Path.Combine(GetDirectoryName(index),
                 string.Format(CultureInfo.InvariantCulture, "{0}.{1}", index.Row, _format));
         }
 
@@ -109,8 +109,8 @@ namespace BruTile.Cache
         {
             var level = index.Level.ToString(CultureInfo.InvariantCulture);
             level = level.Replace(':', '_');
-            return Path.Combine(_directory, 
-                level, 
+            return Path.Combine(_directory,
+                level,
                 index.Col.ToString(CultureInfo.InvariantCulture));
         }
 

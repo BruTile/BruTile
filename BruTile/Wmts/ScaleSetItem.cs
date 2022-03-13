@@ -17,7 +17,7 @@ namespace BruTile.Wmts
             ScaleDenominator = scaleDenominator;
             PixelSize = pixelSize;
         }
-        
+
         /// <summary>
         /// Gets a value indicating the scale denominator (1:...)
         /// </summary>

@@ -115,10 +115,10 @@ namespace BruTile.Tms
         {
             if (customParameters == null) return;
 
-            bool first = true;
-            foreach (string name in customParameters.Keys)
+            var first = true;
+            foreach (var name in customParameters.Keys)
             {
-                string value = customParameters[name];
+                var value = customParameters[name];
                 url.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}={2}", first ? "?" : "&", name, value);
                 first = false;
             }

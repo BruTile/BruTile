@@ -77,7 +77,7 @@ namespace BruTile.Wms
             }
         }
 
-        protected internal static void WriteXmlItem<T>(string element, string @namespace, XmlWriter writer, T item)
+        internal protected static void WriteXmlItem<T>(string element, string @namespace, XmlWriter writer, T item)
             where T : class, IXmlSerializable
         {
             if (item == null)
