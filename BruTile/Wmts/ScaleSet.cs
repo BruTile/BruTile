@@ -58,14 +58,15 @@ namespace BruTile.Wmts
         {
             get
             {
-                for (var i = 0; i < _items.Length; i++)
+                foreach (var item in _items)
                 {
-                    if (Math.Abs(scaleDenominator - _items[i].ScaleDenominator) < 1e-7)
+                    if (Math.Abs(scaleDenominator - item.ScaleDenominator) < 1e-7)
                     {
-                        return _items[i].PixelSize;
+                        return item.PixelSize;
                     }
-                    if (_items[i].ScaleDenominator < scaleDenominator) break;
+                    if (item.ScaleDenominator < scaleDenominator) break;
                 }
+
                 return null;
             }
         }
