@@ -13,7 +13,7 @@ namespace BruTile.Samples.Common.Samples
             const string url = "http://geodata.nationaalgeoregister.nl/omgevingswarmte/wms?SERVICE=WMS&VERSION=1.1.1";
             // You need to know the schema. This can be a problem. Usually it is GlobalSphericalMercator
             var schema = new WkstNederlandSchema { Format = "image/png" };
-            var request = new WmscRequest(new Uri(url), schema, new[] { "koudegeslotenwkobuurt" }.ToList(), new string[0].ToList());
+            var request = new WmscRequest(new Uri(url), schema, new[] { "koudegeslotenwkobuurt" }.ToList(), Array.Empty<string>().ToList());
             var provider = new HttpTileProvider(request);
             return new TileSource(provider, schema);
         }

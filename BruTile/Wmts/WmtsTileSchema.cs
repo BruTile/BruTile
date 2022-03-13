@@ -59,11 +59,11 @@ namespace BruTile.Wmts
         internal WmtsTileSchema CreateSpecific(string title, string layer, string @abstract, string tileMatrixSet, string style, string format)
         {
             if (string.IsNullOrEmpty(layer))
-                throw new ArgumentNullException("layer");
+                throw new ArgumentNullException(nameof(layer));
             if (string.IsNullOrEmpty(tileMatrixSet))
-                throw new ArgumentNullException("tileMatrixSet");
+                throw new ArgumentNullException(nameof(tileMatrixSet));
             if (string.IsNullOrEmpty(format))
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
 
             if (@abstract == null) @abstract = string.Empty;
             if (string.IsNullOrEmpty(style)) style = "null";
