@@ -9,10 +9,7 @@ namespace BruTile.Wms
     {
         private readonly string _name;
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name => _name;
 
         private OnlineResource _onlineResourceField;
 

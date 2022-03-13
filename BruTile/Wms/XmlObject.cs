@@ -11,9 +11,9 @@ namespace BruTile.Wms
 {
     public static class WmsNamespaces
     {
-        public static string Xlink { get { return "http://www.w3.org/1999/xlink"; } }
+        public static string Xlink => "http://www.w3.org/1999/xlink";
 
-        public static string Xsi { get { return "http://www.w3.org/2001/XMLSchema-instance"; } }
+        public static string Xsi => "http://www.w3.org/2001/XMLSchema-instance";
 
         public static string Wms { get { return "http://schemas.opengis.net"; } }
 

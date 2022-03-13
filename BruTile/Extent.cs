@@ -5,32 +5,12 @@ using System.Globalization;
 
 namespace BruTile
 {
-    public struct Extent
+    public readonly struct Extent
     {
-        private readonly double _minX;
-        private readonly double _minY;
-        private readonly double _maxX;
-        private readonly double _maxY;
-
-        public double MinX
-        {
-            get { return _minX; }
-        }
-
-        public double MinY
-        {
-            get { return _minY; }
-        }
-
-        public double MaxX
-        {
-            get { return _maxX; }
-        }
-
-        public double MaxY
-        {
-            get { return _maxY; }
-        }
+        public double MinX { get; }
+        public double MinY { get; }
+        public double MaxX { get; }
+        public double MaxY { get; }
 
         public double CenterX => (MinX + MaxX) / 2.0;
         public double CenterY => (MinY + MaxY) / 2.0;
@@ -49,10 +29,10 @@ namespace BruTile
 
         public Extent(double minX, double minY, double maxX, double maxY) : this()
         {
-            _minX = minX;
-            _minY = minY;
-            _maxX = maxX;
-            _maxY = maxY;
+            MinX = minX;
+            MinY = minY;
+            MaxX = maxX;
+            MaxY = maxY;
 
             if (minX > maxX || minY > maxY)
             {
@@ -71,7 +51,7 @@ namespace BruTile
 
         public override string ToString()
         {
-            return String.Format(CultureInfo.InvariantCulture,
+            return string.Format(CultureInfo.InvariantCulture,
                                  "{0},{1},{2},{3}", MinX, MinY, MaxX, MaxY);
         }
 
@@ -86,22 +66,22 @@ namespace BruTile
 
         public bool Equals(Extent extent)
         {
-            if (Math.Abs(_minX - extent.MinX) > double.Epsilon)
+            if (Math.Abs(MinX - extent.MinX) > double.Epsilon)
             {
                 return false;
             }
 
-            if (Math.Abs(_minY - extent.MinY) > double.Epsilon)
+            if (Math.Abs(MinY - extent.MinY) > double.Epsilon)
             {
                 return false;
             }
 
-            if (Math.Abs(_maxX - extent.MaxX) > double.Epsilon)
+            if (Math.Abs(MaxX - extent.MaxX) > double.Epsilon)
             {
                 return false;
             }
 
-            if (Math.Abs(_maxY - extent.MaxY) > double.Epsilon)
+            if (Math.Abs(MaxY - extent.MaxY) > double.Epsilon)
             {
                 return false;
             }

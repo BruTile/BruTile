@@ -9,7 +9,7 @@ namespace BruTile.Samples.MbTiles
 
         public double X
         {
-            get { return _x; }
+            get => _x;
             set
             {
                 _x = value;
@@ -21,7 +21,7 @@ namespace BruTile.Samples.MbTiles
 
         public double Y
         {
-            get { return _y; }
+            get => _y;
             set
             {
                 _y = value;
