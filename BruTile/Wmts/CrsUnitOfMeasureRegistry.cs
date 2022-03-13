@@ -472,8 +472,7 @@ namespace BruTile.Wmts
         {
             lock (EpsgToUom)
             {
-                int resUom;
-                if (EpsgToUom.TryGetValue(epsgCode, out resUom))
+                if (EpsgToUom.TryGetValue(epsgCode, out var resUom))
                     return resUom;
 
                 resUom = 9001;

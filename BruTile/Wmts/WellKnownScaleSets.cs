@@ -79,16 +79,7 @@ namespace BruTile.Wmts
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public ScaleSet this[string key]
-        {
-            get
-            {
-                ScaleSet result;
-                if (Definitions.TryGetValue(key, out result))
-                    return result;
-                return null;
-            }
-        }
+        public ScaleSet this[string key] => Definitions.TryGetValue(key, out var result) ? result : null;
 
         private static ScaleSet CreateGoogleMapsCompatible()
         {

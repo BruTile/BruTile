@@ -237,8 +237,7 @@ namespace BruTile.Wmts
                 // Hack to fix broken crs spec
                 supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
 
-                CrsIdentifier crs;
-                if (!CrsIdentifier.TryParse(supportedCrs, out crs))
+                if (!CrsIdentifier.TryParse(supportedCrs, out var crs))
                 {
                     // If we cannot parse the crs, we cannot compute tile schema, thus ignore.
                     // Todo: Log this

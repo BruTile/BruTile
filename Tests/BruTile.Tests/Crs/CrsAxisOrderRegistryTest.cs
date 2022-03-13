@@ -151,18 +151,9 @@ namespace BruTile.Tests.Crs
             }
             var crsAxisOrderRegistry = new CrsAxisOrderRegistry();
 
-            /*
-            foreach (var code in unusual)
-            {
-                CrsIdentifier crs;
-                if (CrsIdentifier.TryParse("urn:ogc:def:crs:EPSG::" + code, out crs))
-                    Assert.AreEqual(1, crsAOR[crs][0]);
-            }*/
-
             for (var code = 1; code < 32768; code++)
             {
-                CrsIdentifier crs;
-                if (CrsIdentifier.TryParse("urn:ogc:def:crs:EPSG::" + code, out crs))
+                if (CrsIdentifier.TryParse("urn:ogc:def:crs:EPSG::" + code, out var crs))
                 {
                     var expected = unusual.Contains(code) ? 1 : 0;
                     Assert.AreEqual(expected, crsAxisOrderRegistry[crs][0]);
