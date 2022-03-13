@@ -26,7 +26,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "DCPType", Namespace))
+            if (CheckEmptyNode(reader, "DCPType"))
                 return;
             reader.MoveToContent();
             Http.ReadXml(reader.ReadSubtree());

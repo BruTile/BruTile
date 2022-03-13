@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using System;
 using BruTile.Predefined;
 using BruTile.Wmsc;
 using NUnit.Framework;

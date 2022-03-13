@@ -117,11 +117,11 @@ namespace BruTile.Wms
 
             BoundingBox = new List<BoundingBox>();
             foreach (var el in node.Elements(XName.Get("BoundingBox", ns)))
-                BoundingBox.Add(new BoundingBox(el, ns));
+                BoundingBox.Add(new BoundingBox(el));
 
             Dimension = new List<Dimension>();
             foreach (var el in node.Elements(XName.Get("Dimension", ns)))
-                Dimension.Add(new Dimension(el, ns));
+                Dimension.Add(new Dimension(el));
 
             element = node.Element(XName.Get("Attribution", ns));
             if (element != null) Attribution = new Attribution(element, ns);
@@ -132,7 +132,7 @@ namespace BruTile.Wms
 
             Identifier = new List<Identifier>();
             foreach (var el in node.Elements(XName.Get("Identifier", ns)))
-                Identifier.Add(new Identifier(el, ns));
+                Identifier.Add(new Identifier(el));
 
             MetadataURL = new List<MetadataURL>();
             foreach (var el in node.Elements(XName.Get("MetadataURL", ns)))

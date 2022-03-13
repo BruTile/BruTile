@@ -53,7 +53,7 @@ namespace BruTile.Wms
 
             element = node.Element(XName.Get("OnlineResource", @namespace));
             if (element != null)
-                OnlineResource = new OnlineResource(element, @namespace);
+                OnlineResource = new OnlineResource(element);
 
             element = node.Element(XName.Get("ContactInformation", @namespace));
             if (element != null)
@@ -155,7 +155,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "Service", string.Empty))
+            if (CheckEmptyNode(reader, string.Empty))
                 throw WmsParsingException.ElementNotFound("Service");
 
             while (!reader.EOF)

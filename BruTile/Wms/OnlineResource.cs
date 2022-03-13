@@ -13,15 +13,15 @@ namespace BruTile.Wms
         }
 
         // ReSharper disable once UnusedParameter.Local
-        public OnlineResource(XElement node, string ns)
+        public OnlineResource(XElement node)
         {
             Href = node.Attribute(XName.Get("href", WmsNamespaces.Xlink))?.Value;
             Type = node.Attribute(XName.Get("type", WmsNamespaces.Xlink))?.Value;
         }
 
-        public override XElement ToXElement(string nameSpace)
+        public override XElement ToXElement(string ns)
         {
-            return new XElement(XName.Get("OnlineResource", nameSpace),
+            return new XElement(XName.Get("OnlineResource", ns),
                 new XAttribute(XName.Get("href", WmsNamespaces.Xlink), Href),
                 new XAttribute(XName.Get("type"), Type));
         }

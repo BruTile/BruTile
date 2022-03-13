@@ -55,7 +55,7 @@ namespace BruTile.Predefined
             OriginX = -ScaleFactor * TileSize;
             OriginY = -ScaleFactor * TileSize;
 
-            Extent = extent == default(Extent) ? new Extent(OriginX, OriginY, -OriginX, -OriginY) : extent;
+            Extent = extent == default ? new Extent(OriginX, OriginY, -OriginX, -OriginY) : extent;
 
             if (yAxis == YAxis.OSM) OriginY = -OriginY; // OSM has an inverted Y-axis
         }

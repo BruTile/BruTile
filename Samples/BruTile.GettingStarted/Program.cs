@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using System;
 using BruTile.MbTiles;
 using BruTile.Predefined;
 using BruTile.Web;
@@ -52,12 +54,12 @@ namespace BruTile.GettingStarted
             var tileSource2 = KnownTileSources.Create(KnownTileSource.BingAerial);
             var tileSource3 = KnownTileSources.Create(KnownTileSource.BingHybrid);
             var tileSource4 = KnownTileSources.Create(KnownTileSource.StamenTonerLite);
-            var tileSource5 = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief);
+            var _ = KnownTileSources.Create(KnownTileSource.EsriWorldShadedRelief);
 
             // 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
 
-            var mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
-            var mbTilesTile = mbtilesTilesource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
+            var mbtilesTileSource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
+            var mbTilesTile = mbtilesTileSource.GetTile(new TileInfo { Index = new TileIndex(0, 0, 0) });
             Console.WriteLine();
             Console.WriteLine("MBTiles");
             Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");

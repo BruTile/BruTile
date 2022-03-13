@@ -85,7 +85,7 @@ namespace BruTile.Cache
         {
             lock (_syncRoot)
             {
-                if (!_bitmaps.ContainsKey(index)) return default(T);
+                if (!_bitmaps.ContainsKey(index)) return default;
 
                 _touched[index] = GetNextCacheVersion();
                 return _bitmaps[index];

@@ -1,4 +1,6 @@
-﻿using BruTile.Samples.Common.Geometries;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using BruTile.Samples.Common.Geometries;
 
 namespace BruTile.Samples.Common
 {
@@ -71,7 +73,7 @@ namespace BruTile.Samples.Common
             }
         }
 
-        public Extent Extent => (_extent == default(Extent)) ? (_extent = new Extent(0, 0, 0, 0)) : _extent;
+        public Extent Extent => _extent == default ? _extent = new Extent(0, 0, 0, 0) : _extent;
 
         public Point WorldToScreen(double worldX, double worldY)
         {
@@ -96,7 +98,7 @@ namespace BruTile.Samples.Common
             var scaleCorrectionX = (1 - deltaScale) * (current.X - CenterX);
             var scaleCorrectionY = (1 - deltaScale) * (current.Y - CenterY);
 
-            UnitsPerPixel = UnitsPerPixel / deltaScale;
+            UnitsPerPixel /= deltaScale;
             CenterX = newX - scaleCorrectionX;
             CenterY = newY - scaleCorrectionY;
         }

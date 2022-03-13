@@ -14,7 +14,7 @@ namespace BruTile.Wms
         {
         }
 
-        public LegendURL(XElement node, string nameSpace)
+        public LegendURL(XElement node, string ns)
         {
             var widthAttribute = node.Attribute(XName.Get("width"))
                 ?? throw new System.Exception("Width node is null in xml");
@@ -24,12 +24,12 @@ namespace BruTile.Wms
                 ?? throw new System.Exception("Height node is null in xml");
             Height = int.Parse(heightAttribute.Value, NumberFormatInfo.InvariantInfo);
 
-            var element = node.Element(XName.Get("Format", nameSpace));
+            var element = node.Element(XName.Get("Format", ns));
             Format = element?.Value ?? "png";
 
-            element = node.Element(XName.Get("OnlineResource", nameSpace));
+            element = node.Element(XName.Get("OnlineResource", ns));
             if (element != null)
-                OnlineResource = new OnlineResource(element, nameSpace);
+                OnlineResource = new OnlineResource(element);
         }
 
         public override XElement ToXElement(string @namespace)

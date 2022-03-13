@@ -21,7 +21,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "Exception", Namespace))
+            if (CheckEmptyNode(reader, "Exception"))
                 return;
 
             while (!reader.EOF)

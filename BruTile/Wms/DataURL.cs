@@ -22,7 +22,7 @@ namespace BruTile.Wms
             element = node.Element(XName.Get("OnlineResource", ns));
             if (element == null)
                 throw WmsParsingException.ElementNotFound("OnlineResource");
-            OnlineResource = new OnlineResource(element, ns);
+            OnlineResource = new OnlineResource(element);
         }
 
         public string Format { get; set; }
@@ -37,7 +37,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "DataURL", Namespace))
+            if (CheckEmptyNode(reader, "DataURL"))
                 return;
 
             while (!reader.EOF)

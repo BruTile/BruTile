@@ -23,7 +23,7 @@ namespace BruTile.Wms
         {
             var element = node.Element(XName.Get("OnlineResource", @namespace));
             if (element != null)
-                OnlineResource = new OnlineResource(element, @namespace);
+                OnlineResource = new OnlineResource(element);
         }
 
         public OnlineResource OnlineResource
@@ -36,7 +36,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, _name, Namespace))
+            if (CheckEmptyNode(reader, _name))
 
                 OnlineResource = new OnlineResource();
             OnlineResource.ReadXml(reader);

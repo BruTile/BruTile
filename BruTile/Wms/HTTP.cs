@@ -39,7 +39,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "HTTP", Namespace))
+            if (CheckEmptyNode(reader, "HTTP"))
                 return;
 
             while (!reader.EOF)

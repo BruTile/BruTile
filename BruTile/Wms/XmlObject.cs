@@ -88,12 +88,12 @@ namespace BruTile.Wms
             writer.WriteEndElement();
         }
 
-        protected static bool CheckEmptyNode(XmlReader reader, string localName, string @namespace, bool advance = true)
+        protected static bool CheckEmptyNode(XmlReader reader, string localName, bool advance = true)
         {
             reader.MoveToContent();
             var isEmpty = reader.IsEmptyElement;
             if (advance)
-                reader.ReadStartElement(localName /*, @namespace*/ );
+                reader.ReadStartElement(localName);
             return isEmpty;
         }
     }

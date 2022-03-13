@@ -52,7 +52,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "ContactAddress", Namespace))
+            if (CheckEmptyNode(reader, "ContactAddress"))
                 return;
 
             while (!reader.EOF)
