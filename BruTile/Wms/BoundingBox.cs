@@ -89,11 +89,11 @@ namespace BruTile.Wms
                 MaxY = maxY;
 
             var res = reader.GetAttribute("resx");
-            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                ResX = val;
+            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var resX))
+                ResX = resX;
             res = reader.GetAttribute("resy");
-            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                ResY = val;
+            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var resY))
+                ResY = resY;
             var isEmptyElement = reader.IsEmptyElement;
             reader.ReadStartElement();
             if (!isEmptyElement)
