@@ -20,7 +20,7 @@ namespace BruTile.FileSystem
         {
             _fileCache = fileCache;
         }
-
+        
         public Task<byte[]> GetTileAsync(TileInfo tileInfo)
         {
             byte[] bytes = _fileCache.Find(tileInfo.Index);

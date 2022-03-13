@@ -3,22 +3,12 @@
 using System;
 using System.Globalization;
 using System.IO;
-#if HAS_SERIALIZABLE_ATTRIBUTE
-using System.Reflection;
-using System.Runtime.Serialization;
-#endif
 using System.Threading;
 
 namespace BruTile.Cache
 {
-#if HAS_SERIALIZABLE_ATTRIBUTE
-    [Serializable]
-#endif
     public class FileCache : IPersistentCache<byte[]>
     {
-#if HAS_SERIALIZABLE_ATTRIBUTE
-        [NonSerialized]
-#endif
         private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
         private readonly string _directory;
         private readonly string _format;
@@ -130,36 +120,7 @@ namespace BruTile.Cache
             {
                 fileStream.Write(image, 0, image.Length);
                 fileStream.Flush();
-                //fileStream.Close();
             }
         }
-
-#if DEBUG
-        public bool EqualSetup(FileCache other)
-        {
-            if (!string.Equals(_directory, other._directory))
-                return false;
-
-            if (!string.Equals(_format, other._format))
-                return false;
-
-            if (!_cacheExpireTime.Equals(other._cacheExpireTime))
-                return false;
-
-            System.Diagnostics.Debug.Assert(_rwLock != null && other._rwLock != null && _rwLock != other._rwLock);
-
-            return true;
-        }
-#endif
-
-#if HAS_SERIALIZABLE_ATTRIBUTE
-        [OnDeserialized]
-        protected void OnDeserialized(StreamingContext context)
-        {
-            var fi = GetType().GetField("_rwLock", BindingFlags.Instance | BindingFlags.NonPublic);
-            System.Diagnostics.Debug.Assert(fi != null);
-            fi.SetValue(this, new ReaderWriterLockSlim());
-        }
-#endif
     }
 }
