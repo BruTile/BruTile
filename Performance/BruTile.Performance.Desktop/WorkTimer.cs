@@ -31,13 +31,12 @@ namespace BruTile.Performance.Desktop
             }
         }
 
-        public void TimeWork<T>(Func<int, T> argFactory, Action<T> workT)
+        public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
         {
-            for (int i = 0; i < _testCount; i++)
+            for (var i = 0; i < _testCount; i++)
             {
                 var arg = argFactory(i);
-                Action work = () => workT(arg);
-                Task.Run(() => TimeSingleWork(work));
+                Task.Run(() => TimeSingleWork(() => work(arg)));
             }
         }
 
