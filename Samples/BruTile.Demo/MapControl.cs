@@ -12,7 +12,7 @@ using BruTile.Samples.Common;
 
 namespace BruTile.Demo
 {
-    class MapControl : Grid
+    internal class MapControl : Grid
     {
         private Fetcher<Image> _fetcher;
         private readonly Renderer _renderer;
@@ -34,7 +34,7 @@ namespace BruTile.Demo
             Children.Add(canvas);
             _renderer = new Renderer(canvas);
 
-            _tileSource = KnownTileSources.Create(); 
+            _tileSource = KnownTileSources.Create();
             CompositionTarget.Rendering += CompositionTargetRendering;
             SizeChanged += MapControlSizeChanged;
             MouseWheel += MapControlMouseWheel;
@@ -51,7 +51,7 @@ namespace BruTile.Demo
         {
             _fetcher.DataChanged -= FetcherOnDataChanged;
             _fetcher.AbortFetch();
-            
+
             _tileSource = source;
             _viewport.CenterX = source.Schema.Extent.CenterX;
             _viewport.CenterY = source.Schema.Extent.CenterY;
@@ -73,9 +73,9 @@ namespace BruTile.Demo
             _previousMousePosition = new Point();
         }
 
-        void MapControlMouseMove(object sender, MouseEventArgs e)
+        private void MapControlMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton != MouseButtonState.Pressed) return; 
+            if (e.LeftButton != MouseButtonState.Pressed) return;
             if (_previousMousePosition == new Point())
             {
                 _previousMousePosition = e.GetPosition(this);
@@ -89,7 +89,7 @@ namespace BruTile.Demo
             _invalid = true;
         }
 
-        void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
+        private void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_viewport == null) return;
             _viewport.Width = ActualWidth;
@@ -129,7 +129,7 @@ namespace BruTile.Demo
             return image;
         }
 
-        void MapControlMouseWheel(object sender, MouseWheelEventArgs e)
+        private void MapControlMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
             {
@@ -145,7 +145,7 @@ namespace BruTile.Demo
             _invalid = true;
         }
 
-        void CompositionTargetRendering(object sender, EventArgs e)
+        private void CompositionTargetRendering(object sender, EventArgs e)
         {
             if (!_invalid) return;
             if (_renderer == null) return;
@@ -155,7 +155,7 @@ namespace BruTile.Demo
                 if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, _tileSource.Schema)) return;
                 _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // start fetching when viewport is first initialized
             }
-            
+
             _renderer.Render(_viewport, _tileSource, _tileCache);
             _invalid = false;
         }
@@ -168,12 +168,12 @@ namespace BruTile.Demo
             var nearestLevel = Utilities.GetNearestLevel(schema.Resolutions, schema.Extent.Width / actualWidth);
 
             viewport = new Viewport
-                {
-                    Width = actualWidth,
-                    Height = actualHeight,
-                    UnitsPerPixel = schema.Resolutions[nearestLevel].UnitsPerPixel,
-                    Center = new Samples.Common.Geometries.Point(schema.Extent.CenterX, schema.Extent.CenterY)
-                };
+            {
+                Width = actualWidth,
+                Height = actualHeight,
+                UnitsPerPixel = schema.Resolutions[nearestLevel].UnitsPerPixel,
+                Center = new Samples.Common.Geometries.Point(schema.Extent.CenterX, schema.Extent.CenterY)
+            };
             return true;
         }
     }

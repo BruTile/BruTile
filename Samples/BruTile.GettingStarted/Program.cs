@@ -7,9 +7,9 @@ using SQLite;
 
 namespace BruTile.GettingStarted
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             // Dear BruTile maintainer,
             // If the code in this file does not compile and needs changes you 

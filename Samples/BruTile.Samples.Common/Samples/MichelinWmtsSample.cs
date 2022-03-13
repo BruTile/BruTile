@@ -1,5 +1,5 @@
-﻿using BruTile.Wmts;
-using System.Linq;
+﻿using System.Linq;
+using BruTile.Wmts;
 
 namespace BruTile.Samples.Common.Samples
 {

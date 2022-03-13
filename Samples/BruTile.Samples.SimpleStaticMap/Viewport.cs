@@ -2,13 +2,13 @@
 
 namespace BruTile.Samples.SimpleStaticMap
 {
-    class Viewport
+    internal class Viewport
     {
-        float _unitsPerPixel;
-        PointF _center;
-        float _width;
-        float _height;
-        Extent _extent;
+        private float _unitsPerPixel;
+        private PointF _center;
+        private float _width;
+        private float _height;
+        private Extent _extent;
 
         public Viewport(PointF center, float unitsPerPixel, float width, float height)
         {
@@ -72,8 +72,8 @@ namespace BruTile.Samples.SimpleStaticMap
 
         private void UpdateExtent()
         {
-            float spanX = _width * _unitsPerPixel;
-            float spanY = _height * _unitsPerPixel;
+            var spanX = _width * _unitsPerPixel;
+            var spanY = _height * _unitsPerPixel;
             _extent = new Extent(_center.X - spanX * 0.5f, _center.Y - spanY * 0.5f,
               _center.X + spanX * 0.5f, _center.Y + spanY * 0.5f);
         }

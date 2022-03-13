@@ -27,17 +27,11 @@ namespace BruTile.Samples.MbTiles
 
     internal class MapTransform
     {
-        #region Fields
-
-        double _unitsPerPixel;
-        PointD _center;
-        double _width;
-        double _height;
-        Extent _extent;
-
-        #endregion Fields
-
-        #region Public Methods
+        private double _unitsPerPixel;
+        private PointD _center;
+        private double _width;
+        private double _height;
+        private Extent _extent;
 
         public MapTransform(PointD center, double unitsPerPixel, double width, double height)
         {
@@ -110,10 +104,6 @@ namespace BruTile.Samples.MbTiles
             return new RectangleF(point1.X, point2.Y, point2.X - point1.X, point1.Y - point2.Y);
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void UpdateExtent()
         {
             var spanX = _width * _unitsPerPixel;
@@ -122,7 +112,5 @@ namespace BruTile.Samples.MbTiles
                 _center.X - spanX * 0.5f, _center.Y - spanY * 0.5f,
                 _center.X + spanX * 0.5f, _center.Y + spanY * 0.5f);
         }
-
-        #endregion Private Methods
     }
 }
