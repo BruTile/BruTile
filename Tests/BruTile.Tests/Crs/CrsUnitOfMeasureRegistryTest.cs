@@ -38,7 +38,7 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             }
 
             using var cn = new System.Data.OleDb.OleDbConnection(
-                string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase));
+                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
             cn.Open();
             var cmd = cn.CreateCommand();
             cmd.CommandText = SqlLength;
@@ -76,7 +76,7 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
 
 
             using var cn = new System.Data.OleDb.OleDbConnection(
-                string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase));
+                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
             cn.Open();
             var cmd = cn.CreateCommand();
             cmd.CommandText = SqlEpsgToUom;
@@ -142,19 +142,16 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             while (dr.Read())
             {
                 if ((int)dr[0] > 32768) break;
+                if (!CrsIdentifier.TryParse($"urn:ogc:def:crs:EPSG::{dr.GetInt32(0)}", out var crs)) continue;
+                
+                var uom = new UnitOfMeasure();
+                Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
 
-                CrsIdentifier crs;
-                if (CrsIdentifier.TryParse(string.Format("urn:ogc:def:crs:EPSG::{0}", dr.GetInt32(0)), out crs))
-                {
-                    var uom = new UnitOfMeasure();
-                    Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
-
-                    var uomCode = dr.GetInt32(1);
-                    if (uomCode == 9001 || uomCode == 1024)
-                        Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
-                    else
-                        Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
-                }
+                var uomCode = dr.GetInt32(1);
+                if (uomCode == 9001 || uomCode == 1024)
+                    Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
+                else
+                    Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
             }
         }
     }

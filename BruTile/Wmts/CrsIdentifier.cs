@@ -61,7 +61,7 @@ namespace BruTile.Wmts
 
         public override string ToString()
         {
-            return string.Format("urn:ogc:def:crs:{0}:{1}:{2}", Authority, Version, Identifier);
+            return $"urn:ogc:def:crs:{Authority}:{Version}:{Identifier}";
         }
 
         public bool Equals(CrsIdentifier other)
