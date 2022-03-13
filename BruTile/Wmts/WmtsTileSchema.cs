@@ -7,8 +7,6 @@ namespace BruTile.Wmts
 {
     public class WmtsTileSchema : ITileSchema
     {
-        private Extent _extent;
-
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -115,11 +113,7 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets or sets a value indicating the extent covered by this tile schema
         /// </summary>
-        public Extent Extent
-        {
-            get { return _extent; }
-            set { _extent = value; }
-        }
+        public Extent Extent { get; set; }
 
         /// <summary>
         /// Gets a value indicating the file format of the tiles

@@ -7,9 +7,6 @@ namespace BruTile.Wmts
     /// </summary>
     internal struct ScaleSetItem
     {
-        private readonly double _scaleDenominator;
-        private readonly double _pixelSize;
-
         /// <summary>
         /// Initializes a scale set item with the provided values
         /// </summary>
@@ -17,18 +14,18 @@ namespace BruTile.Wmts
         /// <param name="pixelSize">The pixel size</param>
         public ScaleSetItem(double scaleDenominator, double pixelSize)
         {
-            _scaleDenominator = scaleDenominator;
-            _pixelSize = pixelSize;
+            ScaleDenominator = scaleDenominator;
+            PixelSize = pixelSize;
         }
         
         /// <summary>
         /// Gets a value indicating the scale denominator (1:...)
         /// </summary>
-        public double ScaleDenominator { get { return _scaleDenominator; } }
+        public double ScaleDenominator { get; }
 
         /// <summary>
         /// Gets a value indicating the pixel size
         /// </summary>
-        public double PixelSize { get { return _pixelSize; } }
+        public double PixelSize { get; }
     }
 }

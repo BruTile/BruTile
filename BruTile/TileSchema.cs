@@ -31,12 +31,11 @@ namespace BruTile
     public class TileSchema : ITileSchema
     {
         public double ProportionIgnored;
-        private readonly IDictionary<int, Resolution> _resolutions;
 
         public TileSchema()
         {
             ProportionIgnored = 0.0001;
-            _resolutions = new Dictionary<int, Resolution>();
+            Resolutions = new Dictionary<int, Resolution>();
             YAxis = YAxis.TMS;
             OriginY = double.NaN;
             OriginX = double.NaN;
@@ -51,10 +50,7 @@ namespace BruTile
         public Extent Extent { get; set; }
         public YAxis YAxis { get; set; }
 
-        public IDictionary<int, Resolution> Resolutions
-        {
-            get { return _resolutions; }
-        }
+        public IDictionary<int, Resolution> Resolutions { get; }
 
         public double GetOriginX(int level)
         {
