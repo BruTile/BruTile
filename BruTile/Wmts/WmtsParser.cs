@@ -152,15 +152,9 @@ namespace BruTile.Wmts
                         }
                         else
                         {
-                            if (item.href.Contains("?"))
-                            {
-                                // Use kvp Schema for urls because the url is already kvp system
-                                list.Add(new KeyValuePair<string, string>("kvp", item.href));    
-                            }
-                            else
-                            {
-                                list.Add(new KeyValuePair<string, string>(string.Empty, item.href));    
-                            }
+                            list.Add(item.href.Contains("?")
+                                ? new KeyValuePair<string, string>("kvp", item.href)
+                                : new KeyValuePair<string, string>(string.Empty, item.href));
                         }
                     }
                 }

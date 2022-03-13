@@ -25,18 +25,8 @@ namespace BruTile.Wms
 
         public List<Keyword> Keyword
         {
-            get
-            {
-                if (_keywordField == null)
-                {
-                    _keywordField = new List<Keyword>();
-                }
-                return _keywordField;
-            }
-            set
-            {
-                _keywordField = value;
-            }
+            get => _keywordField ?? (_keywordField = new List<Keyword>());
+            set => _keywordField = value;
         }
 
         #region Overrides of XmlObject

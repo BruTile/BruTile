@@ -49,18 +49,8 @@ namespace BruTile.Wms
 
         public OnlineResource OnlineResource
         {
-            get
-            {
-                if ((_onlineResourceField == null))
-                {
-                    _onlineResourceField = new OnlineResource();
-                }
-                return _onlineResourceField;
-            }
-            set
-            {
-                _onlineResourceField = value;
-            }
+            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            set => _onlineResourceField = value;
         }
 
         #region Overrides of XmlObject

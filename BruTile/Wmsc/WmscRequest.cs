@@ -43,14 +43,7 @@ namespace BruTile.Wmsc
         public Uri GetUri(TileInfo info)
         {
             var url = new StringBuilder(_baseUrl.AbsoluteUri);
-            if (String.IsNullOrWhiteSpace(_baseUrl.Query))
-            {
-                url.Append("?SERVICE=WMS");
-            }
-            else
-            {
-                url.Append("&SERVICE=WMS");
-            }
+            url.Append(string.IsNullOrWhiteSpace(_baseUrl.Query) ? "?SERVICE=WMS" : "&SERVICE=WMS");
             if (!string.IsNullOrEmpty(_version)) url.AppendFormat("&VERSION={0}", _version);
             url.Append("&REQUEST=GetMap");
             url.AppendFormat("&BBOX={0}", TileTransform.TileToWorld(new TileRange(info.Index.Col, info.Index.Row), info.Index.Level, _schema));

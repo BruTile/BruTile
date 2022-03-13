@@ -135,50 +135,20 @@ namespace BruTile.Wms
 
         public KeywordList KeywordList
         {
-            get
-            {
-                if ((_keywordListField == null))
-                {
-                    _keywordListField = new KeywordList();
-                }
-                return _keywordListField;
-            }
-            set
-            {
-                _keywordListField = value;
-            }
+            get => _keywordListField ?? (_keywordListField = new KeywordList());
+            set => _keywordListField = value;
         }
 
         public OnlineResource OnlineResource
         {
-            get
-            {
-                if ((_onlineResourceField == null))
-                {
-                    _onlineResourceField = new OnlineResource();
-                }
-                return _onlineResourceField;
-            }
-            set
-            {
-                _onlineResourceField = value;
-            }
+            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            set => _onlineResourceField = value;
         }
 
         public ContactInformation ContactInformation
         {
-            get
-            {
-                if ((_contactInformationField == null))
-                {
-                    _contactInformationField = new ContactInformation();
-                }
-                return _contactInformationField;
-            }
-            set
-            {
-                _contactInformationField = value;
-            }
+            get => _contactInformationField ?? (_contactInformationField = new ContactInformation());
+            set => _contactInformationField = value;
         }
 
         #region Overrides of XmlObject

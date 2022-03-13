@@ -59,8 +59,7 @@ namespace BruTile.Wms
                 return;
             }
 
-            var node = doc.Element(XName.Get("WMT_MS_Capabilities"));
-            if (node == null) node = doc.Element(XName.Get("WMS_Capabilities"));
+            var node = doc.Element(XName.Get("WMT_MS_Capabilities")) ?? doc.Element(XName.Get("WMS_Capabilities"));
             if (node == null)
             {
                 // Try load root node with xmlns="http://www.opengis.net/wms"
@@ -105,30 +104,14 @@ namespace BruTile.Wms
 
         public Service Service
         {
-            get
-            {
-                if ((_serviceField == null))
-                {
-                    _serviceField = new Service();
-                }
-
-                return _serviceField;
-            }
-            set { _serviceField = value; }
+            get => _serviceField ?? (_serviceField = new Service());
+            set => _serviceField = value;
         }
 
         public Capability Capability
         {
-            get
-            {
-                if ((_capabilityField == null))
-                {
-                    _capabilityField = new Capability();
-                }
-
-                return _capabilityField;
-            }
-            set { _capabilityField = value; }
+            get => _capabilityField ?? (_capabilityField = new Capability());
+            set => _capabilityField = value;
         }
 
         #region Overrides of XmlObject
@@ -151,12 +134,9 @@ namespace BruTile.Wms
                     return null;
                 }
 
-                if (wms.Version.Version >= WmsVersionEnum.Version_1_3_0)
-                    reader.ReadStartElement("WMS_Capabilities");
-                else
-                {
-                    reader.ReadStartElement("WMT_MS_Capabilities");
-                }
+                reader.ReadStartElement(wms.Version.Version >= WmsVersionEnum.Version_1_3_0
+                    ? "WMS_Capabilities"
+                    : "WMT_MS_Capabilities");
 
                 reader.MoveToContent();
                 wms.Service.ReadXml(reader.ReadSubtree());

@@ -25,34 +25,14 @@ namespace BruTile.Wms
 
         public Get Get
         {
-            get
-            {
-                if ((_getField == null))
-                {
-                    _getField = new Get();
-                }
-                return _getField;
-            }
-            set
-            {
-                _getField = value;
-            }
+            get => _getField ?? (_getField = new Get());
+            set => _getField = value;
         }
 
         public Post Post
         {
-            get
-            {
-                if ((_postField == null))
-                {
-                    _postField = new Post();
-                }
-                return _postField;
-            }
-            set
-            {
-                _postField = value;
-            }
+            get => _postField ?? (_postField = new Post());
+            set => _postField = value;
         }
 
         #region Overrides of XmlObject

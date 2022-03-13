@@ -58,34 +58,14 @@ namespace BruTile.Wms
 
         public ContactPersonPrimary ContactPersonPrimary
         {
-            get
-            {
-                if ((_contactPersonPrimaryField == null))
-                {
-                    _contactPersonPrimaryField = new ContactPersonPrimary();
-                }
-                return _contactPersonPrimaryField;
-            }
-            set
-            {
-                _contactPersonPrimaryField = value;
-            }
+            get => _contactPersonPrimaryField ?? (_contactPersonPrimaryField = new ContactPersonPrimary());
+            set => _contactPersonPrimaryField = value;
         }
 
         public ContactAddress ContactAddress
         {
-            get
-            {
-                if ((_contactAddressField == null))
-                {
-                    _contactAddressField = new ContactAddress();
-                }
-                return _contactAddressField;
-            }
-            set
-            {
-                _contactAddressField = value;
-            }
+            get => _contactAddressField ?? (_contactAddressField = new ContactAddress());
+            set => _contactAddressField = value;
         }
 
         #region Overrides of XmlObject
