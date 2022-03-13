@@ -143,23 +143,21 @@ namespace BruTile.Samples.MbTiles
 
         private async void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var ofn = new OpenFileDialog())
+            using var ofn = new OpenFileDialog();
+            ofn.Filter = @"MbTiles file|*.mbtiles";
+            ofn.FilterIndex = 0;
+            ofn.Multiselect = false;
+            ofn.CheckFileExists = true;
+            if (ofn.ShowDialog() == DialogResult.OK)
             {
-                ofn.Filter = @"MbTiles file|*.mbtiles";
-                ofn.FilterIndex = 0;
-                ofn.Multiselect = false;
-                ofn.CheckFileExists = true;
-                if (ofn.ShowDialog() == DialogResult.OK)
-                {
-                    _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
-                    var extent = _source.Schema.Extent;
-                    var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
-                    _mapTransform = new MapTransform(
-                        new PointF((float)extent.CenterX, (float)extent.CenterY),
-                        scale, picMap.Width, picMap.Height);
+                _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
+                var extent = _source.Schema.Extent;
+                var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
+                _mapTransform = new MapTransform(
+                    new PointF((float)extent.CenterX, (float)extent.CenterY),
+                    scale, picMap.Width, picMap.Height);
 
-                    await RenderToBuffer();
-                }
+                await RenderToBuffer();
             }
         }
 
