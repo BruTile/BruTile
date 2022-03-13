@@ -4,36 +4,14 @@ namespace BruTile.Samples.MbTiles
 {
     public struct PointD
     {
-        private bool _isSet;
-        private double _x;
+        public double X { get; set; }
 
-        public double X
-        {
-            get => _x;
-            set
-            {
-                _x = value;
-                _isSet = true;
-            }
-        }
-
-        private double _y;
-
-        public double Y
-        {
-            get => _y;
-            set
-            {
-                _y = value;
-                _isSet = true;
-            }
-        }
+        public double Y { get; set; }
 
         public PointD(double x, double y)
         {
-            _x = x;
-            _y = y;
-            _isSet = false;
+            X = x;
+            Y = y;
         }
 
         public static implicit operator PointD(PointF pd)
