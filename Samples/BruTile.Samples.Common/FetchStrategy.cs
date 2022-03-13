@@ -11,20 +11,6 @@ namespace BruTile.Samples.Common
 
     class FetchStrategy : IFetchStrategy
     {
-        public static HashSet<int> GetPreFetchLevels(int min, int max)
-        {
-            var preFetchLayers = new HashSet<int>();
-            int level = min;
-            var step = 1;
-            while (level <= max)
-            {
-                preFetchLayers.Add(level);
-                level += step;
-                step++;
-            }
-            return preFetchLayers;
-        }
-
         public IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level)
         {
             IList<TileInfo> infos = new List<TileInfo>();

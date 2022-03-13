@@ -7,8 +7,6 @@ namespace BruTile.Wmts
 {
     public class WmtsTileSchema : ITileSchema
     {
-        private Extent _extent;
-
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
@@ -21,7 +19,7 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets an identifier for the layer and tile matrix set.
         /// </summary>
-        public string Identifier { get { return Layer + "(" + TileMatrixSet + ")"; } }
+        public string Identifier => Layer + "(" + TileMatrixSet + ")";
 
         /// <summary>
         /// The layer identifier
@@ -61,11 +59,11 @@ namespace BruTile.Wmts
         internal WmtsTileSchema CreateSpecific(string title, string layer, string @abstract, string tileMatrixSet, string style, string format)
         {
             if (string.IsNullOrEmpty(layer))
-                throw new ArgumentNullException("layer");
+                throw new ArgumentNullException(nameof(layer));
             if (string.IsNullOrEmpty(tileMatrixSet))
-                throw new ArgumentNullException("tileMatrixSet");
+                throw new ArgumentNullException(nameof(tileMatrixSet));
             if (string.IsNullOrEmpty(format))
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
 
             if (@abstract == null) @abstract = string.Empty;
             if (string.IsNullOrEmpty(style)) style = "null";
@@ -115,11 +113,7 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets or sets a value indicating the extent covered by this tile schema
         /// </summary>
-        public Extent Extent
-        {
-            get { return _extent; }
-            set { _extent = value; }
-        }
+        public Extent Extent { get; set; }
 
         /// <summary>
         /// Gets a value indicating the file format of the tiles

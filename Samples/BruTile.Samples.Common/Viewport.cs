@@ -13,7 +13,7 @@ namespace BruTile.Samples.Common
 
         public double UnitsPerPixel 
         {
-            get { return _unitsPerPixel; }
+            get => _unitsPerPixel;
             set
             {
                 _unitsPerPixel = value;
@@ -33,7 +33,7 @@ namespace BruTile.Samples.Common
 
         public double Width
         {
-            get { return _width; }
+            get => _width;
             set
             {
                 _width = value;
@@ -43,7 +43,7 @@ namespace BruTile.Samples.Common
 
         public double Height
         {
-            get { return _height; }
+            get => _height;
             set
             {
                 _height = value;
@@ -53,7 +53,7 @@ namespace BruTile.Samples.Common
 
         public double CenterX
         {
-            get { return _centerX; }
+            get => _centerX;
             set
             {
                 _centerX = value;
@@ -63,7 +63,7 @@ namespace BruTile.Samples.Common
 
         public double CenterY
         {
-            get { return _centerY; }
+            get => _centerY;
             set
             {
                 _centerY = value;
@@ -71,20 +71,7 @@ namespace BruTile.Samples.Common
             }
         }
         
-        public Extent Extent
-        {
-            get { return (_extent == default(Extent)) ? (_extent = new Extent(0, 0, 0, 0)) : _extent; }
-        }
-
-        public Point WorldToScreen(Point worldPosition)
-        {
-            return WorldToScreen(worldPosition.X, worldPosition.Y);
-        }
-
-        public Point ScreenToWorld(Point screenPosition)
-        {
-            return ScreenToWorld(screenPosition.X, screenPosition.Y);
-        }
+        public Extent Extent => (_extent == default(Extent)) ? (_extent = new Extent(0, 0, 0, 0)) : _extent;
 
         public Point WorldToScreen(double worldX, double worldY)
         {

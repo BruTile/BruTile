@@ -49,66 +49,26 @@ namespace BruTile.Wms
 
         public OperationType GetCapabilities
         {
-            get
-            {
-                if ((_getCapabilitiesField == null))
-                {
-                    _getCapabilitiesField = new OperationType();
-                }
-                return _getCapabilitiesField;
-            }
-            set
-            {
-                _getCapabilitiesField = value;
-            }
+            get => _getCapabilitiesField ?? (_getCapabilitiesField = new OperationType());
+            set => _getCapabilitiesField = value;
         }
 
         public OperationType GetMap
         {
-            get
-            {
-                if ((_getMapField == null))
-                {
-                    _getMapField = new OperationType();
-                }
-                return _getMapField;
-            }
-            set
-            {
-                _getMapField = value;
-            }
+            get => _getMapField ?? (_getMapField = new OperationType());
+            set => _getMapField = value;
         }
 
         public OperationType GetFeatureInfo
         {
-            get
-            {
-                if ((_getFeatureInfoField == null))
-                {
-                    _getFeatureInfoField = new OperationType();
-                }
-                return _getFeatureInfoField;
-            }
-            set
-            {
-                _getFeatureInfoField = value;
-            }
+            get => _getFeatureInfoField ?? (_getFeatureInfoField = new OperationType());
+            set => _getFeatureInfoField = value;
         }
 
         public Dictionary<XName, OperationType> ExtendedOperation
         {
-            get
-            {
-                if ((_extendedOperationField == null))
-                {
-                    _extendedOperationField = new Dictionary<XName, OperationType>();
-                }
-                return _extendedOperationField;
-            }
-            set
-            {
-                _extendedOperationField = value;
-            }
+            get => _extendedOperationField ?? (_extendedOperationField = new Dictionary<XName, OperationType>());
+            set => _extendedOperationField = value;
         }
 
         #region Overrides of XmlObject

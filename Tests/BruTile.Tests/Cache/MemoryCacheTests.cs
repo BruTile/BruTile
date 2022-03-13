@@ -71,10 +71,9 @@ namespace BruTile.Tests.Cache
         public void WhenKeepInMemoryIsUsedItShouldPreserveTilesThatMeetTheCondition()
         {
             // Arrange
-            Func<TileIndex, bool> keepTileInMemory = index => index.Row == 2; // Keep all where Row = 2
             const int maxTiles = 2;
             const int minTiles = 1;
-            var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, keepTileInMemory);
+            var memoryCache = new MemoryCache<byte[]>(minTiles, maxTiles, index => index.Row == 2);
             var tileBytes = new byte[] { 0, 0, 0, 0 };
             var tileOne = new TileIndex(0, 2, 0);
             var tileTwo = new TileIndex(2, 2, 2);

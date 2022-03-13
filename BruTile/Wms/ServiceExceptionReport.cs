@@ -8,7 +8,7 @@ namespace BruTile.Wms
 {
     public class ServiceExceptionReport : XmlObject
     {
-        public List<ServiceException> ServiceExceptions { get; private set; }
+        public List<ServiceException> ServiceExceptions { get; }
 
         public string Version { get; set; }
 

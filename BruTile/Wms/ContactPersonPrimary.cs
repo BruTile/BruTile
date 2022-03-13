@@ -24,10 +24,7 @@ namespace BruTile.Wms
 
         public string ContactOrganization { get; set; }
 
-        public bool IsEmpty
-        {
-            get { return string.IsNullOrEmpty(ContactPerson) & string.IsNullOrEmpty(ContactOrganization); }
-        }
+        public bool IsEmpty => string.IsNullOrEmpty(ContactPerson) & string.IsNullOrEmpty(ContactOrganization);
 
         #region Overrides of XmlObject
 

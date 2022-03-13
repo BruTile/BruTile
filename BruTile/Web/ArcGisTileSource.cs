@@ -10,7 +10,7 @@ namespace BruTile.Web
 {
     public class ArcGisTileSource : TileSource
     {
-        public string BaseUrl { get; private set; }
+        public string BaseUrl { get; }
 
         public ArcGisTileSource(
                 string baseUrl, 
@@ -24,7 +24,7 @@ namespace BruTile.Web
 
         private static IRequest CreateArcGISRequest(string baseUrl)
         {
-            return new BasicRequest($"{baseUrl}/tile/{"{0}/{2}/{1}"}");
+            return new BasicRequest($"{baseUrl}/tile/{{0}}/{{2}}/{{1}}");
         }
     }
 }

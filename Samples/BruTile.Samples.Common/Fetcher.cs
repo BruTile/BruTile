@@ -27,11 +27,8 @@ namespace BruTile.Samples.Common
 
         public Fetcher(ITileSource tileSource, ITileCache<Tile<T>> memoryCache)
         {
-            if (tileSource == null) throw new ArgumentException("TileProvider can not be null");
-            _tileSource = tileSource;
-
-            if (memoryCache == null) throw new ArgumentException("MemoryCache can not be null");
-            _memoryCache = memoryCache;
+            _tileSource = tileSource ?? throw new ArgumentException("TileProvider can not be null");
+            _memoryCache = memoryCache ?? throw new ArgumentException("MemoryCache can not be null");
 
             StartFetchLoop();
         }
@@ -46,7 +43,7 @@ namespace BruTile.Samples.Common
 
         private void StartFetchLoop()
         {
-            Task.Run(() => FetchLoop());
+            Task.Run(FetchLoop);
         }
 
         public void AbortFetch()
@@ -217,8 +214,8 @@ namespace BruTile.Samples.Common
             Tile = tile;
         }
 
-        public Exception Error { get; private set; }
-        public bool Cancelled { get; private set; }
-        public Tile<T> Tile { get; private set; }
+        public Exception Error { get; }
+        public bool Cancelled { get; }
+        public Tile<T> Tile { get; }
     }
 }

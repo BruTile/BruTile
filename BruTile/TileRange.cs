@@ -2,7 +2,7 @@
 
 namespace BruTile
 {
-    public struct TileRange
+    public readonly struct TileRange
     {
         public int FirstCol { get; }
         public int FirstRow { get; }
@@ -23,10 +23,10 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TileRange))
+            if (!(obj is TileRange range))
                 return false;
 
-            return Equals((TileRange)obj);
+            return Equals(range);
         }
 
         public bool Equals(TileRange tileRange)

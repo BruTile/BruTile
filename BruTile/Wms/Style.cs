@@ -53,50 +53,20 @@ namespace BruTile.Wms
 
         public List<LegendURL> LegendURL
         {
-            get
-            {
-                if ((_legendURLField == null))
-                {
-                    _legendURLField = new List<LegendURL>();
-                }
-                return _legendURLField;
-            }
-            set
-            {
-                _legendURLField = value;
-            }
+            get => _legendURLField ?? (_legendURLField = new List<LegendURL>());
+            set => _legendURLField = value;
         }
 
         public StyleSheetURL StyleSheetURL
         {
-            get
-            {
-                if ((_styleSheetURLField == null))
-                {
-                    _styleSheetURLField = new StyleSheetURL();
-                }
-                return _styleSheetURLField;
-            }
-            set
-            {
-                _styleSheetURLField = value;
-            }
+            get => _styleSheetURLField ?? (_styleSheetURLField = new StyleSheetURL());
+            set => _styleSheetURLField = value;
         }
 
         public StyleURL StyleURL
         {
-            get
-            {
-                if ((_styleURLField == null))
-                {
-                    _styleURLField = new StyleURL();
-                }
-                return _styleURLField;
-            }
-            set
-            {
-                _styleURLField = value;
-            }
+            get => _styleURLField ?? (_styleURLField = new StyleURL());
+            set => _styleURLField = value;
         }
 
         #region Overrides of XmlObject

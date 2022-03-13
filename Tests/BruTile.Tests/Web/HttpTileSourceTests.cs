@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BruTile.Predefined;
@@ -28,7 +27,7 @@ namespace BruTile.Tests.Web
 
             // Assert
             Console.WriteLine("Durations: {0:0} milliseconds", DateTime.Now.Subtract(timeStart).TotalMilliseconds);
-            Assert.AreEqual(64, tiles.Count());
+            Assert.AreEqual(64, tiles.Length);
         }
     }
 }

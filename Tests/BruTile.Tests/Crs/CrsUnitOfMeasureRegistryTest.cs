@@ -37,37 +37,33 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
                 Assert.Pass("Epsg Access Database not found");
             }
 
-            using (var cn = new System.Data.OleDb.OleDbConnection(
-                string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase)))
+            using var cn = new System.Data.OleDb.OleDbConnection(
+                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
+            cn.Open();
+            var cmd = cn.CreateCommand();
+            cmd.CommandText = SqlLength;
+            using (var dr = cmd.ExecuteReader())
             {
-                cn.Open();
-                var cmd = cn.CreateCommand();
-                cmd.CommandText = SqlLength;
-                using (var dr = cmd.ExecuteReader())
+                while (dr.Read())
                 {
-                    while (dr.Read())
-                    {
-                        Console.WriteLine("_registry.Add({0}, new UnitOfMeasure(\"{1}\", {2}d/{3}d));",
-                            dr.GetInt32(0), dr.GetString(1),
-                            dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
-                            dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                    }
-                }
-                cmd.CommandText = SqlAngle;
-                using (var dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        Console.WriteLine(
-                            "_registry.Add({0}, new UnitOfMeasure(\"{1}\", 0.5 * EarthCircumference * {2}d/{3}d));",
-                            dr.GetInt32(0), dr.GetString(1),
-                            dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
-                            dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                    }
+                    Console.WriteLine("_registry.Add({0}, new UnitOfMeasure(\"{1}\", {2}d/{3}d));",
+                        dr.GetInt32(0), dr.GetString(1),
+                        dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
+                        dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
                 }
             }
-
-
+            cmd.CommandText = SqlAngle;
+            using (var dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    Console.WriteLine(
+                        "_registry.Add({0}, new UnitOfMeasure(\"{1}\", 0.5 * EarthCircumference * {2}d/{3}d));",
+                        dr.GetInt32(0), dr.GetString(1),
+                        dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
+                        dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
+                }
+            }
         }
 
         [Test, Explicit]
@@ -77,45 +73,43 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             {
                 Assert.Pass("Epsg Access Database not found");
             }
-            
 
-            using (var cn = new System.Data.OleDb.OleDbConnection(
-                string.Format("Provider=Microsoft.Jet.OLEDB.4.0; Data Source={0};", EpsgAccessDatabase)))
+
+            using var cn = new System.Data.OleDb.OleDbConnection(
+                $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
+            cn.Open();
+            var cmd = cn.CreateCommand();
+            cmd.CommandText = SqlEpsgToUom;
+            var ms = new MemoryStream();
+            var bw = new BinaryWriter(ms);
+            using (var dr = cmd.ExecuteReader())
             {
-                cn.Open();
-                var cmd = cn.CreateCommand();
-                cmd.CommandText = SqlEpsgToUom;
-                var ms = new MemoryStream();
-                var bw = new BinaryWriter(ms);
-                using (var dr = cmd.ExecuteReader())
+                while (dr.Read())
                 {
-                    while (dr.Read())
-                    {
-                        if ((int)dr[0] > 32768) break;
+                    if ((int)dr[0] > 32768) break;
 
-                        //Console.WriteLine("{0} -> {1}", dr[0], dr[1]);
-                        var uom = Convert.ToInt16(dr[1]);
-                        if (uom == 9001) continue;
-                        if (Convert.ToInt16(dr[2]) == 9102)
-                            uom = 9102;
+                    //Console.WriteLine("{0} -> {1}", dr[0], dr[1]);
+                    var uom = Convert.ToInt16(dr[1]);
+                    if (uom == 9001) continue;
+                    if (Convert.ToInt16(dr[2]) == 9102)
+                        uom = 9102;
 
-                        var epsg = Convert.ToUInt16(dr[0]);
-                        bw.Write(epsg);
-                        bw.Write(uom);
-                    }
+                    var epsg = Convert.ToUInt16(dr[0]);
+                    bw.Write(epsg);
+                    bw.Write(uom);
                 }
+            }
 
-                ms.Seek(0, SeekOrigin.Begin);
-                var br = new BinaryReader(ms);
-                var count = 0;
-                while (ms.Position < ms.Length)
-                {
-                    var byteValue = br.ReadByte();
-                    Console.Write("{0}, ", byteValue);
-                    count++;
-                    if (count % 16 == 0) Console.Write("\n");
+            ms.Seek(0, SeekOrigin.Begin);
+            var br = new BinaryReader(ms);
+            var count = 0;
+            while (ms.Position < ms.Length)
+            {
+                var byteValue = br.ReadByte();
+                Console.Write("{0}, ", byteValue);
+                count++;
+                if (count % 16 == 0) Console.Write("\n");
 
-                }
             }
         }
 
@@ -139,32 +133,25 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
 
             var connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};";
 
-            using (var connection = new System.Data.OleDb.OleDbConnection(connectionString))
+            using var connection = new System.Data.OleDb.OleDbConnection(connectionString);
+            connection.Open();
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = SqlEpsgToUom;
+            var registry = new CrsUnitOfMeasureRegistry();
+            using var dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                connection.Open();
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = SqlEpsgToUom;
-                var registry = new CrsUnitOfMeasureRegistry();
-                using (var dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        if ((int)dr[0] > 32768) break;
+                if ((int)dr[0] > 32768) break;
+                if (!CrsIdentifier.TryParse($"urn:ogc:def:crs:EPSG::{dr.GetInt32(0)}", out var crs)) continue;
+                
+                var uom = new UnitOfMeasure();
+                Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
 
-                        CrsIdentifier crs;
-                        if (CrsIdentifier.TryParse(string.Format("urn:ogc:def:crs:EPSG::{0}", dr.GetInt32(0)), out crs))
-                        {
-                            var uom = new UnitOfMeasure();
-                            Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
-
-                            var uomCode = dr.GetInt32(1);
-                            if (uomCode == 9001 || uomCode == 1024)
-                                Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
-                            else
-                                Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
-                        }
-                    }
-                }
+                var uomCode = dr.GetInt32(1);
+                if (uomCode == 9001 || uomCode == 1024)
+                    Assert.AreEqual(1d, uom.ToMeter, "Unit of measure ToMeter is not 1d: {0}", crs);
+                else
+                    Assert.AreNotEqual(1d, uom.ToMeter, "Unit of measure ToMeter should not be 1d: {0}", crs);
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using BruTile.Cache;
 using BruTile.Samples.Common;
 
@@ -42,18 +40,5 @@ namespace BruTile.Demo
             image.Width = max.X - min.X;
             image.Height = min.Y - max.Y;
         }
-
-        public static Rect RoundToPixel(Rect dest)
-        {
-            // To get seamless aligning you need to round the 
-            // corner coordinates to pixel.
-            dest = new Rect(
-                Math.Round(dest.Left),
-                Math.Round(dest.Top),
-                (Math.Round(dest.Right) - Math.Round(dest.Left)),
-                (Math.Round(dest.Bottom) - Math.Round(dest.Top)));
-            return dest;
-        }
-
     }
 }

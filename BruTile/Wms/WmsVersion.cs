@@ -81,13 +81,7 @@ namespace BruTile.Wms
                                        : "WMS_Capability";
         }
 
-        public string Namespace
-        {
-            get
-            {
-                return Version < WmsVersionEnum.Version_1_3_0 ? string.Empty : WmsNamespaces.Wms;
-            }
-        }
+        public string Namespace => Version < WmsVersionEnum.Version_1_3_0 ? string.Empty : WmsNamespaces.Wms;
 
         public void WriteCapabilitiesDocType(XmlWriter writer)
         {

@@ -21,14 +21,11 @@ namespace BruTile.Samples.SimpleStaticMap
 
         public float UnitsPerPixel
         {
+            get => _unitsPerPixel;
             set
             {
                 _unitsPerPixel = value;
                 UpdateExtent();
-            }
-            get
-            {
-                return _unitsPerPixel;
             }
         }
 
@@ -59,19 +56,11 @@ namespace BruTile.Samples.SimpleStaticMap
             }
         }
 
-        public Extent Extent
-        {
-            get { return _extent; }
-        }
+        public Extent Extent => _extent;
 
         public PointF WorldToScreen(double x, double y)
         {
             return new PointF((float)(x - _extent.MinX) / _unitsPerPixel, (float)(_extent.MaxY - y) / _unitsPerPixel);
-        }
-
-        public PointF ViewToWorld(double x, double y)
-        {
-            return new PointF((float)(_extent.MinX + x) * _unitsPerPixel, (float)(_extent.MaxY - y) * _unitsPerPixel);
         }
 
         public RectangleF WorldToScreen(double x1, double y1, double x2, double y2)

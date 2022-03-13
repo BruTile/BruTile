@@ -41,7 +41,7 @@ namespace BruTile
                 throw new ArgumentException("No tile resolutions");
             }
 
-            var orderedResolutions = resolutions.OrderByDescending(r => r.Value.UnitsPerPixel);
+            var orderedResolutions = resolutions.OrderByDescending(r => r.Value.UnitsPerPixel).ToList();
 
             //smaller than smallest
             if (orderedResolutions.Last().Value.UnitsPerPixel > unitsPerPixel) return orderedResolutions.Last().Key;

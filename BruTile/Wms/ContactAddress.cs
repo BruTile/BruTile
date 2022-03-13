@@ -41,16 +41,12 @@ namespace BruTile.Wms
 
         public string Country { get; set; }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return string.IsNullOrEmpty(AddressType) & string.IsNullOrEmpty(Address) &
-                       string.IsNullOrEmpty(City) & string.IsNullOrEmpty(StateOrProvince) &
-                       string.IsNullOrEmpty(PostCode) & string.IsNullOrEmpty(Country);
-            }
-            //set { throw new System.NotImplementedException(); }
-        }
+        public bool IsEmpty =>
+            string.IsNullOrEmpty(AddressType) & string.IsNullOrEmpty(Address) &
+            string.IsNullOrEmpty(City) & string.IsNullOrEmpty(StateOrProvince) &
+            string.IsNullOrEmpty(PostCode) & string.IsNullOrEmpty(Country);
+
+        //set { throw new System.NotImplementedException(); }
 
         #region Overrides of XmlObject
 

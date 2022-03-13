@@ -8,7 +8,7 @@ namespace BruTile.Wmts
     /// <summary>
     /// A unit of measure
     /// </summary>
-    public struct UnitOfMeasure : IEquatable<UnitOfMeasure>
+    public readonly struct UnitOfMeasure : IEquatable<UnitOfMeasure>
     {
         private readonly double _toMeter;
 
@@ -375,76 +375,78 @@ namespace BruTile.Wmts
         
         static CrsUnitOfMeasureRegistry()
         {
-            Registry = new Dictionary<int, UnitOfMeasure>();
-            Registry.Add(1024, new UnitOfMeasure("bin", 1d));
-            Registry.Add(9201, new UnitOfMeasure("unity", 1d));
-            Registry.Add(1025, new UnitOfMeasure("millimetre", 1d/1000d));
-            Registry.Add(1033, new UnitOfMeasure("centimetre", 1d/100d));
-            Registry.Add(9001, new UnitOfMeasure("metre", 1d/1d));
-            Registry.Add(9002, new UnitOfMeasure("foot", 0.3048d/1d));
-            Registry.Add(9003, new UnitOfMeasure("US survey foot", 12d/39.37d));
-            Registry.Add(9005, new UnitOfMeasure("Clarke's foot", 0.3047972654d/1d));
-            Registry.Add(9014, new UnitOfMeasure("fathom", 1.8288d/1d));
-            Registry.Add(9030, new UnitOfMeasure("nautical mile", 1852d/1d));
-            Registry.Add(9031, new UnitOfMeasure("German legal metre", 1.0000135965d/1d));
-            Registry.Add(9033, new UnitOfMeasure("US survey chain", 792d/39.37d));
-            Registry.Add(9034, new UnitOfMeasure("US survey link", 7.92d/39.37d));
-            Registry.Add(9035, new UnitOfMeasure("US survey mile", 63360d/39.37d));
-            Registry.Add(9036, new UnitOfMeasure("kilometre", 1000d/1d));
-            Registry.Add(9037, new UnitOfMeasure("Clarke's yard", 0.9143917962d/1d));
-            Registry.Add(9038, new UnitOfMeasure("Clarke's chain", 20.1166195164d/1d));
-            Registry.Add(9039, new UnitOfMeasure("Clarke's link", 0.201166195164d/1d));
-            Registry.Add(9040, new UnitOfMeasure("British yard (Sears 1922)", 36d/39.370147d));
-            Registry.Add(9041, new UnitOfMeasure("British foot (Sears 1922)", 12d/39.370147d));
-            Registry.Add(9042, new UnitOfMeasure("British chain (Sears 1922)", 792d/39.370147d));
-            Registry.Add(9043, new UnitOfMeasure("British link (Sears 1922)", 7.92d/39.370147d));
-            Registry.Add(9050, new UnitOfMeasure("British yard (Benoit 1895 A)", 0.9143992d/1d));
-            Registry.Add(9051, new UnitOfMeasure("British foot (Benoit 1895 A)", 0.9143992d/3d));
-            Registry.Add(9052, new UnitOfMeasure("British chain (Benoit 1895 A)", 20.1167824d/1d));
-            Registry.Add(9053, new UnitOfMeasure("British link (Benoit 1895 A)", 0.201167824d/1d));
-            Registry.Add(9060, new UnitOfMeasure("British yard (Benoit 1895 B)", 36d/39.370113d));
-            Registry.Add(9061, new UnitOfMeasure("British foot (Benoit 1895 B)", 12d/39.370113d));
-            Registry.Add(9062, new UnitOfMeasure("British chain (Benoit 1895 B)", 792d/39.370113d));
-            Registry.Add(9063, new UnitOfMeasure("British link (Benoit 1895 B)", 7.92d/39.370113d));
-            Registry.Add(9070, new UnitOfMeasure("British foot (1865)", 0.9144025d/3d));
-            Registry.Add(9080, new UnitOfMeasure("Indian foot", 12d/39.370142d));
-            Registry.Add(9081, new UnitOfMeasure("Indian foot (1937)", 0.30479841d/1d));
-            Registry.Add(9082, new UnitOfMeasure("Indian foot (1962)", 0.3047996d/1d));
-            Registry.Add(9083, new UnitOfMeasure("Indian foot (1975)", 0.3047995d/1d));
-            Registry.Add(9084, new UnitOfMeasure("Indian yard", 36d/39.370142d));
-            Registry.Add(9085, new UnitOfMeasure("Indian yard (1937)", 0.91439523d/1d));
-            Registry.Add(9086, new UnitOfMeasure("Indian yard (1962)", 0.9143988d/1d));
-            Registry.Add(9087, new UnitOfMeasure("Indian yard (1975)", 0.9143985d/1d));
-            Registry.Add(9093, new UnitOfMeasure("Statute mile", 1609.344d/1d));
-            Registry.Add(9094, new UnitOfMeasure("Gold Coast foot", 6378300d/20926201d));
-            Registry.Add(9095, new UnitOfMeasure("British foot (1936)", 0.3048007491d/1d));
-            Registry.Add(9096, new UnitOfMeasure("yard", 0.9144d/1d));
-            Registry.Add(9097, new UnitOfMeasure("chain", 20.1168d/1d));
-            Registry.Add(9098, new UnitOfMeasure("link", 20.1168d/100d));
-            Registry.Add(9099, new UnitOfMeasure("British yard (Sears 1922 truncated)", 0.914398d/1d));
-            Registry.Add(9204, new UnitOfMeasure("Bin width 330 US survey feet", 3960d/39.37d));
-            Registry.Add(9205, new UnitOfMeasure("Bin width 165 US survey feet", 1980d/39.37d));
-            Registry.Add(9206, new UnitOfMeasure("Bin width 82.5 US survey feet", 990d/39.37d));
-            Registry.Add(9207, new UnitOfMeasure("Bin width 37.5 metres", 37.5d/1d));
-            Registry.Add(9208, new UnitOfMeasure("Bin width 25 metres", 25d/1d));
-            Registry.Add(9209, new UnitOfMeasure("Bin width 12.5 metres", 12.5d/1d));
-            Registry.Add(9210, new UnitOfMeasure("Bin width 6.25 metres", 6.25d/1d));
-            Registry.Add(9211, new UnitOfMeasure("Bin width 3.125 metres", 3.125d/1d));
-            Registry.Add(9300, new UnitOfMeasure("British foot (Sears 1922 truncated)", 0.914398d/3d));
-            Registry.Add(9301, new UnitOfMeasure("British chain (Sears 1922 truncated)", 20.116756d/1d));
-            Registry.Add(9302, new UnitOfMeasure("British link (Sears 1922 truncated)", 20.116756d/100d));
-            Registry.Add(1031, new UnitOfMeasure("milliarc-second", EarthArc*3.14159265358979d/648000000d));
-            Registry.Add(9101, new UnitOfMeasure("radian", EarthArc*1d/1d));
-            Registry.Add(9102, new UnitOfMeasure("degree", EarthArc*3.14159265358979d/180d));
-            Registry.Add(9103, new UnitOfMeasure("arc-minute", EarthArc*3.14159265358979d/10800d));
-            Registry.Add(9104, new UnitOfMeasure("arc-second", EarthArc*3.14159265358979d/648000d));
-            Registry.Add(9105, new UnitOfMeasure("grad", EarthArc*3.14159265358979d/200d));
-            Registry.Add(9106, new UnitOfMeasure("gon", EarthArc*3.14159265358979d/200d));
-            Registry.Add(9109, new UnitOfMeasure("microradian", EarthArc*1d/1000000d));
-            Registry.Add(9112, new UnitOfMeasure("centesimal minute", EarthArc*3.14159265358979d/20000d));
-            Registry.Add(9113, new UnitOfMeasure("centesimal second", EarthArc*3.14159265358979d/2000000d));
-            Registry.Add(9114, new UnitOfMeasure("mil_6400", EarthArc*3.14159265358979d/3200d));
-            Registry.Add(9122, new UnitOfMeasure("degree (supplier to define representation)", EarthArc*3.14159265358979d/180d));
+            Registry = new Dictionary<int, UnitOfMeasure>
+            {
+                { 1024, new UnitOfMeasure("bin", 1d) },
+                { 9201, new UnitOfMeasure("unity", 1d) },
+                { 1025, new UnitOfMeasure("millimetre", 1d/1000d) },
+                { 1033, new UnitOfMeasure("centimetre", 1d/100d) },
+                { 9001, new UnitOfMeasure("metre", 1d/1d) },
+                { 9002, new UnitOfMeasure("foot", 0.3048d/1d) },
+                { 9003, new UnitOfMeasure("US survey foot", 12d/39.37d) },
+                { 9005, new UnitOfMeasure("Clarke's foot", 0.3047972654d/1d) },
+                { 9014, new UnitOfMeasure("fathom", 1.8288d/1d) },
+                { 9030, new UnitOfMeasure("nautical mile", 1852d/1d) },
+                { 9031, new UnitOfMeasure("German legal metre", 1.0000135965d/1d) },
+                { 9033, new UnitOfMeasure("US survey chain", 792d/39.37d) },
+                { 9034, new UnitOfMeasure("US survey link", 7.92d/39.37d) },
+                { 9035, new UnitOfMeasure("US survey mile", 63360d/39.37d) },
+                { 9036, new UnitOfMeasure("kilometre", 1000d/1d) },
+                { 9037, new UnitOfMeasure("Clarke's yard", 0.9143917962d/1d) },
+                { 9038, new UnitOfMeasure("Clarke's chain", 20.1166195164d/1d) },
+                { 9039, new UnitOfMeasure("Clarke's link", 0.201166195164d/1d) },
+                { 9040, new UnitOfMeasure("British yard (Sears 1922)", 36d/39.370147d) },
+                { 9041, new UnitOfMeasure("British foot (Sears 1922)", 12d/39.370147d) },
+                { 9042, new UnitOfMeasure("British chain (Sears 1922)", 792d/39.370147d) },
+                { 9043, new UnitOfMeasure("British link (Sears 1922)", 7.92d/39.370147d) },
+                { 9050, new UnitOfMeasure("British yard (Benoit 1895 A)", 0.9143992d/1d) },
+                { 9051, new UnitOfMeasure("British foot (Benoit 1895 A)", 0.9143992d/3d) },
+                { 9052, new UnitOfMeasure("British chain (Benoit 1895 A)", 20.1167824d/1d) },
+                { 9053, new UnitOfMeasure("British link (Benoit 1895 A)", 0.201167824d/1d) },
+                { 9060, new UnitOfMeasure("British yard (Benoit 1895 B)", 36d/39.370113d) },
+                { 9061, new UnitOfMeasure("British foot (Benoit 1895 B)", 12d/39.370113d) },
+                { 9062, new UnitOfMeasure("British chain (Benoit 1895 B)", 792d/39.370113d) },
+                { 9063, new UnitOfMeasure("British link (Benoit 1895 B)", 7.92d/39.370113d) },
+                { 9070, new UnitOfMeasure("British foot (1865)", 0.9144025d/3d) },
+                { 9080, new UnitOfMeasure("Indian foot", 12d/39.370142d) },
+                { 9081, new UnitOfMeasure("Indian foot (1937)", 0.30479841d/1d) },
+                { 9082, new UnitOfMeasure("Indian foot (1962)", 0.3047996d/1d) },
+                { 9083, new UnitOfMeasure("Indian foot (1975)", 0.3047995d/1d) },
+                { 9084, new UnitOfMeasure("Indian yard", 36d/39.370142d) },
+                { 9085, new UnitOfMeasure("Indian yard (1937)", 0.91439523d/1d) },
+                { 9086, new UnitOfMeasure("Indian yard (1962)", 0.9143988d/1d) },
+                { 9087, new UnitOfMeasure("Indian yard (1975)", 0.9143985d/1d) },
+                { 9093, new UnitOfMeasure("Statute mile", 1609.344d/1d) },
+                { 9094, new UnitOfMeasure("Gold Coast foot", 6378300d/20926201d) },
+                { 9095, new UnitOfMeasure("British foot (1936)", 0.3048007491d/1d) },
+                { 9096, new UnitOfMeasure("yard", 0.9144d/1d) },
+                { 9097, new UnitOfMeasure("chain", 20.1168d/1d) },
+                { 9098, new UnitOfMeasure("link", 20.1168d/100d) },
+                { 9099, new UnitOfMeasure("British yard (Sears 1922 truncated)", 0.914398d/1d) },
+                { 9204, new UnitOfMeasure("Bin width 330 US survey feet", 3960d/39.37d) },
+                { 9205, new UnitOfMeasure("Bin width 165 US survey feet", 1980d/39.37d) },
+                { 9206, new UnitOfMeasure("Bin width 82.5 US survey feet", 990d/39.37d) },
+                { 9207, new UnitOfMeasure("Bin width 37.5 metres", 37.5d/1d) },
+                { 9208, new UnitOfMeasure("Bin width 25 metres", 25d/1d) },
+                { 9209, new UnitOfMeasure("Bin width 12.5 metres", 12.5d/1d) },
+                { 9210, new UnitOfMeasure("Bin width 6.25 metres", 6.25d/1d) },
+                { 9211, new UnitOfMeasure("Bin width 3.125 metres", 3.125d/1d) },
+                { 9300, new UnitOfMeasure("British foot (Sears 1922 truncated)", 0.914398d/3d) },
+                { 9301, new UnitOfMeasure("British chain (Sears 1922 truncated)", 20.116756d/1d) },
+                { 9302, new UnitOfMeasure("British link (Sears 1922 truncated)", 20.116756d/100d) },
+                { 1031, new UnitOfMeasure("milliarc-second", EarthArc*3.14159265358979d/648000000d) },
+                { 9101, new UnitOfMeasure("radian", EarthArc*1d/1d) },
+                { 9102, new UnitOfMeasure("degree", EarthArc*3.14159265358979d/180d) },
+                { 9103, new UnitOfMeasure("arc-minute", EarthArc*3.14159265358979d/10800d) },
+                { 9104, new UnitOfMeasure("arc-second", EarthArc*3.14159265358979d/648000d) },
+                { 9105, new UnitOfMeasure("grad", EarthArc*3.14159265358979d/200d) },
+                { 9106, new UnitOfMeasure("gon", EarthArc*3.14159265358979d/200d) },
+                { 9109, new UnitOfMeasure("microradian", EarthArc*1d/1000000d) },
+                { 9112, new UnitOfMeasure("centesimal minute", EarthArc*3.14159265358979d/20000d) },
+                { 9113, new UnitOfMeasure("centesimal second", EarthArc*3.14159265358979d/2000000d) },
+                { 9114, new UnitOfMeasure("mil_6400", EarthArc*3.14159265358979d/3200d) },
+                { 9122, new UnitOfMeasure("degree (supplier to define representation)", EarthArc*3.14159265358979d/180d) }
+            };
         }
 
         public UnitOfMeasure this[int index] => Registry[index];
@@ -472,8 +474,7 @@ namespace BruTile.Wmts
         {
             lock (EpsgToUom)
             {
-                int resUom;
-                if (EpsgToUom.TryGetValue(epsgCode, out resUom))
+                if (EpsgToUom.TryGetValue(epsgCode, out var resUom))
                     return resUom;
 
                 resUom = 9001;

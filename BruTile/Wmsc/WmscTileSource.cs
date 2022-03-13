@@ -63,8 +63,6 @@ namespace BruTile.Wmsc
         private static TileSchema ToTileSchema(XElement xTileSet, string name)
         {
             var schema = new TileSchema { Name = name };
-            int width;
-            int height;
 
             var xSrs = xTileSet.Element("SRS");
             if (xSrs != null)
@@ -73,13 +71,13 @@ namespace BruTile.Wmsc
             var xWidth = xTileSet.Element("Width");
             if (xWidth == null) throw new System.Exception("'Width' field not found in xml");
 
-            if (!Int32.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out width))
+            if (!int.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var width))
                 throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
 
             var xHeight = xTileSet.Element("Height");
             if (xHeight == null) throw new System.Exception("'Height' field not found in xml");
 
-            if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+            if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var height))
                 throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
 
             var xFormat = xTileSet.Element("Format");
@@ -115,9 +113,8 @@ namespace BruTile.Wmsc
                 string[] resolutions = xResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var resolution in resolutions)
                 {
-                    double unitsPerPixel;
-                    if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out unitsPerPixel))
-                        throw new ArgumentException("Invalid resolution on tileset '" + schema.Name + "'");
+                    if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out var unitsPerPixel))
+                        throw new ArgumentException("Invalid resolution on tileSet '" + schema.Name + "'");
                     var level = count;
                     schema.Resolutions[level] = new Resolution(level, unitsPerPixel, width, height);
                     count++;

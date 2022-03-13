@@ -19,12 +19,12 @@ namespace BruTile.Wms
 
         public static WmsParsingException AttributeNotFound(string attribute)
         {
-            return new WmsParsingException(string.Format("'{0}' attribute not found", attribute));
+            return new WmsParsingException($"'{attribute}' attribute not found");
         }
 
         public static WmsParsingException ElementNotFound(string element)
         {
-            return new WmsParsingException(string.Format("'<{0}>' element not found", element));
+            return new WmsParsingException($"'<{element}>' element not found");
         }
     }
 }

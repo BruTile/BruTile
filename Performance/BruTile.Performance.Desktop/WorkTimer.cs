@@ -7,37 +7,25 @@ namespace BruTile.Performance.Desktop
 {
     class WorkTimer
     {
-        private long _maxTime = long.MinValue;
-        private long _minTime = long.MaxValue;
-        private long _totalTime;
         private int _threadCompleteCount;
-        private int _testCount;
-        private object _syncRoot = new object();
+        private readonly int _testCount;
+        private readonly object _syncRoot = new object();
 
-        public long MaxTime { get { return _maxTime; } }
-        public long MinTime { get { return _minTime; } }
-        public long TotalTime { get { return _totalTime; } }
+        public long MaxTime { get; private set; } = long.MinValue;
+        public long MinTime { get; private set; } = long.MaxValue;
+        public long TotalTime { get; private set; }
 
         public WorkTimer(int testCount)
         {
             _testCount = testCount;
         }
 
-        public void TimeWork(Action work)
+        public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
         {
-            for (int i = 0; i < _testCount; i++)
-            {
-                Task.Run(() => TimeSingleWork(work));
-            }
-        }
-
-        public void TimeWork<T>(Func<int, T> argFactory, Action<T> workT)
-        {
-            for (int i = 0; i < _testCount; i++)
+            for (var i = 0; i < _testCount; i++)
             {
                 var arg = argFactory(i);
-                Action work = () => workT(arg);
-                Task.Run(() => TimeSingleWork(work));
+                Task.Run(() => TimeSingleWork(() => work(arg)));
             }
         }
 
@@ -61,9 +49,9 @@ namespace BruTile.Performance.Desktop
                 stopwatch.Stop();
                 lock (_syncRoot)
                 {
-                    _totalTime += stopwatch.ElapsedMilliseconds;
-                    _minTime = Math.Min(_minTime, stopwatch.ElapsedMilliseconds);
-                    _maxTime = Math.Max(_maxTime, stopwatch.ElapsedMilliseconds);
+                    TotalTime += stopwatch.ElapsedMilliseconds;
+                    MinTime = Math.Min(MinTime, stopwatch.ElapsedMilliseconds);
+                    MaxTime = Math.Max(MaxTime, stopwatch.ElapsedMilliseconds);
                 }
                 Interlocked.Increment(ref _threadCompleteCount);
             }

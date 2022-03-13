@@ -109,7 +109,7 @@ namespace BruTile.Samples.MbTiles
             this.getSampleFileFromInternetToolStripMenuItem.Name = "getSampleFileFromInternetToolStripMenuItem";
             this.getSampleFileFromInternetToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.getSampleFileFromInternetToolStripMenuItem.Text = "Get sample file from internet";
-            this.getSampleFileFromInternetToolStripMenuItem.Click += new System.EventHandler(this.getSampleFileFromInternetToolStripMenuItem_Click);
+            this.getSampleFileFromInternetToolStripMenuItem.Click += new System.EventHandler(this.GetSampleFileFromInternetToolStripMenuItem_Click);
             // 
             // MbTilesForm
             // 

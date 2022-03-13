@@ -79,16 +79,7 @@ namespace BruTile.Wmts
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public ScaleSet this[string key]
-        {
-            get
-            {
-                ScaleSet result;
-                if (Definitions.TryGetValue(key, out result))
-                    return result;
-                return null;
-            }
-        }
+        public ScaleSet this[string key] => Definitions.TryGetValue(key, out var result) ? result : null;
 
         private static ScaleSet CreateGoogleMapsCompatible()
         {
@@ -167,26 +158,11 @@ namespace BruTile.Wmts
             });
         }
 
-        internal static CrsIdentifier CRS84
-        {
-            get
-            {
-                return new CrsIdentifier("OGC", "1.3", "CRS84");
-            }
-        }
+        internal static CrsIdentifier CRS84 => new CrsIdentifier("OGC", "1.3", "CRS84");
 
-        internal static CrsIdentifier EPSG3857
-        {
-            get
-            {
-                return new CrsIdentifier ("EPSG", string.Empty, "3857");
-            }
-        }
+        internal static CrsIdentifier EPSG3857 => new CrsIdentifier ("EPSG", string.Empty, "3857");
 
-        internal static CrsIdentifier EPSG4326
-        {
-            get { return new CrsIdentifier("EPSG", string.Empty, "4326"); }
-        }
+        internal static CrsIdentifier EPSG4326 => new CrsIdentifier("EPSG", string.Empty, "4326");
 
         private static ScaleSet CreateGlobalCRS84Scale()
         {

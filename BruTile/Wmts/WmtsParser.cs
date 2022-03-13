@@ -152,15 +152,9 @@ namespace BruTile.Wmts
                         }
                         else
                         {
-                            if (item.href.Contains("?"))
-                            {
-                                // Use kvp Schema for urls because the url is already kvp system
-                                list.Add(new KeyValuePair<string, string>("kvp", item.href));    
-                            }
-                            else
-                            {
-                                list.Add(new KeyValuePair<string, string>(string.Empty, item.href));    
-                            }
+                            list.Add(item.href.Contains("?")
+                                ? new KeyValuePair<string, string>("kvp", item.href)
+                                : new KeyValuePair<string, string>(string.Empty, item.href));
                         }
                     }
                 }
@@ -243,8 +237,7 @@ namespace BruTile.Wmts
                 // Hack to fix broken crs spec
                 supportedCrs = supportedCrs.Replace("6.18:3", "6.18.3");
 
-                CrsIdentifier crs;
-                if (!CrsIdentifier.TryParse(supportedCrs, out crs))
+                if (!CrsIdentifier.TryParse(supportedCrs, out var crs))
                 {
                     // If we cannot parse the crs, we cannot compute tile schema, thus ignore.
                     // Todo: Log this
@@ -288,7 +281,7 @@ namespace BruTile.Wmts
 
         private static IEnumerable<TileMatrix> SetLevelOnTileTileMatrix(TileMatrixSet tileMatrixSet)
         {
-            var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator);
+            var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator).ToList();
             var count = 0;
             foreach (var tileMatrix in tileMatrices)
             {
@@ -296,7 +289,7 @@ namespace BruTile.Wmts
                 count++;
             }
 
-            return tileMatrices.ToList();
+            return tileMatrices;
         }
 
         private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)

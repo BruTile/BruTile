@@ -17,21 +17,19 @@ namespace BruTile.Tests.Wmsc
         {
             // Arrange
             const int expectedNumberOfTileSources = 54;
-            using (var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml")))
-            {
-                // Act
-                var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
+            using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml"));
+            // Act
+            var tileSources = WmscTileSource.CreateFromWmscCapabilties(XDocument.Load(stream));
 
-                // Assert
-                Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
-                foreach (var tileSource in tileSources)
-                {
-                    Assert.NotNull(tileSource.Schema);
-                    Assert.NotNull(tileSource.Schema.Resolutions);
-                    Assert.NotNull(tileSource.Schema.YAxis);
-                    Assert.NotNull(tileSource.Schema.Extent);
-                    Assert.NotNull(tileSource.Schema.Srs);
-                }
+            // Assert
+            Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
+            foreach (var tileSource in tileSources)
+            {
+                Assert.NotNull(tileSource.Schema);
+                Assert.NotNull(tileSource.Schema.Resolutions);
+                Assert.NotNull(tileSource.Schema.YAxis);
+                Assert.NotNull(tileSource.Schema.Extent);
+                Assert.NotNull(tileSource.Schema.Srs);
             }
         }
 

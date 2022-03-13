@@ -46,7 +46,7 @@ namespace BruTile.Wms
 
         public int Width
         {
-            get { return _width; }
+            get => _width;
             set
             {
                 if (value < 1)
@@ -57,7 +57,7 @@ namespace BruTile.Wms
 
         public int Height
         {
-            get { return _height; }
+            get => _height;
             set
             {
                 if (value < 1)
@@ -68,8 +68,8 @@ namespace BruTile.Wms
 
         public OnlineResource OnlineResource
         {
-            get { return _onlineResourceField ?? (_onlineResourceField = new OnlineResource()); }
-            set { _onlineResourceField = value; }
+            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            set => _onlineResourceField = value;
         }
 
         #region Overrides of XmlObject

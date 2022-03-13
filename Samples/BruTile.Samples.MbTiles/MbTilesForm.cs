@@ -143,27 +143,25 @@ namespace BruTile.Samples.MbTiles
 
         private async void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var ofn = new OpenFileDialog())
+            using var ofn = new OpenFileDialog();
+            ofn.Filter = @"MbTiles file|*.mbtiles";
+            ofn.FilterIndex = 0;
+            ofn.Multiselect = false;
+            ofn.CheckFileExists = true;
+            if (ofn.ShowDialog() == DialogResult.OK)
             {
-                ofn.Filter = @"MbTiles file|*.mbtiles";
-                ofn.FilterIndex = 0;
-                ofn.Multiselect = false;
-                ofn.CheckFileExists = true;
-                if (ofn.ShowDialog() == DialogResult.OK)
-                {
-                    _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
-                    var extent = _source.Schema.Extent;
-                    var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
-                    _mapTransform = new MapTransform(
-                        new PointF((float)extent.CenterX, (float)extent.CenterY),
-                        scale, picMap.Width, picMap.Height);
+                _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
+                var extent = _source.Schema.Extent;
+                var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
+                _mapTransform = new MapTransform(
+                    new PointF((float)extent.CenterX, (float)extent.CenterY),
+                    scale, picMap.Width, picMap.Height);
 
-                    await RenderToBuffer();
-                }
+                await RenderToBuffer();
             }
         }
 
-        private async void getSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void GetSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
             var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
@@ -175,9 +173,9 @@ namespace BruTile.Samples.MbTiles
                 var tmpFile = Path.GetTempFileName();
                 using (var response = req.GetResponse())
                 {
-                    using (var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile)))
+                    await using (var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile)))
                     {
-                        using (var stream = response.GetResponseStream())
+                        await using (var stream = response.GetResponseStream())
                         {
                             var buffer = new byte[4 * 8192];
                             while (true)

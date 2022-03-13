@@ -13,10 +13,10 @@ namespace BruTile.Samples.Common
             //smaller than smallest
             if (unitsPerPixelList[unitsPerPixelList.Count - 1] > unitsPerPixel) return unitsPerPixelList[unitsPerPixelList.Count - 1];
 
-            for (int i = 0; i < unitsPerPixelList.Count; i++)
+            foreach (var unitsPerPixelItem in unitsPerPixelList)
             {
-                if (unitsPerPixelList[i] < unitsPerPixel)
-                    return unitsPerPixelList[i];
+                if (unitsPerPixelItem < unitsPerPixel)
+                    return unitsPerPixelItem;
             }
             return unitsPerPixelList[unitsPerPixelList.Count - 1];
         }

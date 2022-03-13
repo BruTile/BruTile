@@ -76,33 +76,34 @@ namespace BruTile.Tms
 
         private static TileSchema CreateSchema(TileMap tileMap)
         {
-            var schema = new TileSchema();
-            schema.OriginX = double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture);
-            schema.OriginY = double.Parse(tileMap.Origin.y, CultureInfo.InvariantCulture);
-            schema.Srs = tileMap.SRS;
-            var tileWidth = int.Parse(tileMap.TileFormat.width);
-            var tileHeight = int.Parse(tileMap.TileFormat.height);
-            schema.Name = tileMap.Title;
-            schema.Format = tileMap.TileFormat.extension;
-            schema.YAxis = YAxis.TMS;
-            schema.Extent = new Extent(
-                double.Parse(tileMap.BoundingBox.minx, CultureInfo.InvariantCulture),
-                double.Parse(tileMap.BoundingBox.miny, CultureInfo.InvariantCulture),
-                double.Parse(tileMap.BoundingBox.maxx, CultureInfo.InvariantCulture),
-                double.Parse(tileMap.BoundingBox.maxy, CultureInfo.InvariantCulture));
+            var schema = new TileSchema
+            {
+                OriginX = double.Parse(tileMap.Origin.x, CultureInfo.InvariantCulture),
+                OriginY = double.Parse(tileMap.Origin.y, CultureInfo.InvariantCulture),
+                Srs = tileMap.SRS,
+                Name = tileMap.Title,
+                Format = tileMap.TileFormat.extension,
+                YAxis = YAxis.TMS,
+                Extent = new Extent(
+                    double.Parse(tileMap.BoundingBox.minx, CultureInfo.InvariantCulture),
+                    double.Parse(tileMap.BoundingBox.miny, CultureInfo.InvariantCulture),
+                    double.Parse(tileMap.BoundingBox.maxx, CultureInfo.InvariantCulture),
+                    double.Parse(tileMap.BoundingBox.maxy, CultureInfo.InvariantCulture))
+            };
 
             foreach (var tileSet in tileMap.TileSets.TileSet)
             {
-                double unitsPerPixel = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
-                int level = int.Parse(tileSet.order);
+                var unitsPerPixel = double.Parse(tileSet.unitsperpixel, CultureInfo.InvariantCulture);
+                var level = int.Parse(tileSet.order);
                 schema.Resolutions[level] = new Resolution
                 (
                     level,
                     unitsPerPixel,
-                    tileWidth,
-                    tileHeight
+                    int.Parse(tileMap.TileFormat.width),
+                    int.Parse(tileMap.TileFormat.height)
                 );
             }
+
             return schema;
         }
 

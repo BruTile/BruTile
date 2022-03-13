@@ -70,68 +70,28 @@ namespace BruTile.Wms
 
         public Request Request
         {
-            get
-            {
-                if ((_requestField == null))
-                {
-                    _requestField = new Request();
-                }
-                return _requestField;
-            }
-            set
-            {
-                _requestField = value;
-            }
+            get => _requestField ?? (_requestField = new Request());
+            set => _requestField = value;
         }
 
         [System.Xml.Serialization.XmlArrayAttribute(Order = 1)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
         public List<string> Exception
         {
-            get
-            {
-                if ((_exceptionField == null))
-                {
-                    _exceptionField = new List<string>();
-                }
-                return _exceptionField;
-            }
-            set
-            {
-                _exceptionField = value;
-            }
+            get => _exceptionField ?? (_exceptionField = new List<string>());
+            set => _exceptionField = value;
         }
 
         public Dictionary<XName, XNode> ExtendedCapabilities
         {
-            get
-            {
-                if ((_extendedCapabilitiesField == null))
-                {
-                    _extendedCapabilitiesField = new Dictionary<XName, XNode>();
-                }
-                return _extendedCapabilitiesField;
-            }
-            set
-            {
-                _extendedCapabilitiesField = value;
-            }
+            get => _extendedCapabilitiesField ?? (_extendedCapabilitiesField = new Dictionary<XName, XNode>());
+            set => _extendedCapabilitiesField = value;
         }
 
         public Layer Layer
         {
-            get
-            {
-                if ((_layerField == null))
-                {
-                    _layerField = new Layer();
-                }
-                return _layerField;
-            }
-            set
-            {
-                _layerField = value;
-            }
+            get => _layerField ?? (_layerField = new Layer());
+            set => _layerField = value;
         }
 
         #region Overrides of XmlObject

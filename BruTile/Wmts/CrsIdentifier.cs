@@ -7,12 +7,8 @@ namespace BruTile.Wmts
     /// <summary>
     /// An identifier for the crs
     /// </summary>
-    public struct CrsIdentifier : IEquatable<CrsIdentifier>
+    public readonly struct CrsIdentifier : IEquatable<CrsIdentifier>
     {
-        private readonly string _authority;
-        private readonly string _version;
-        private readonly string _identifier;
-
         public static bool TryParse(string urnOgcDefCRS, out CrsIdentifier crs)
         {
             var parts = urnOgcDefCRS.Split(':');
@@ -43,38 +39,29 @@ namespace BruTile.Wmts
         /// <param name="identifier">The identifier</param>
         internal CrsIdentifier(string authority, string version, string identifier)
         {
-            _authority = authority;
-            _version = version;
-            _identifier = identifier;
+            Authority = authority;
+            Version = version;
+            Identifier = identifier;
         }
 
         /// <summary>
         /// The authority
         /// </summary>
-        public string Authority
-        {
-            get { return _authority; }
-        }
+        public string Authority { get; }
 
         /// <summary>
         /// The identifier
         /// </summary>
-        public string Identifier
-        {
-            get { return _identifier; }
-        }
+        public string Identifier { get; }
 
         /// <summary>
         /// The version
         /// </summary>
-        public string Version
-        {
-            get { return _version; }
-        }
+        public string Version { get; }
 
         public override string ToString()
         {
-            return string.Format("urn:ogc:def:crs:{0}:{1}:{2}", Authority, Version, Identifier);
+            return $"urn:ogc:def:crs:{Authority}:{Version}:{Identifier}";
         }
 
         public bool Equals(CrsIdentifier other)

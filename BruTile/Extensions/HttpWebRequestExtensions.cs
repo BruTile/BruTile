@@ -25,7 +25,7 @@ namespace BruTile.Extensions
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             /*
@@ -37,12 +37,12 @@ namespace BruTile.Extensions
             HttpWebResponse response = null;
             Exception exception = null;
 
-            AsyncCallback callback = ar =>
+            void Callback(IAsyncResult ar)
             {
                 try
                 {
                     //get the response
-                    response = (HttpWebResponse) request.EndGetResponse(ar);
+                    response = (HttpWebResponse)request.EndGetResponse(ar);
                 }
                 catch (WebException we)
                 {
@@ -60,10 +60,10 @@ namespace BruTile.Extensions
                     //setting the handle unblocks the loop below
                     waitHandle.Set();
                 }
-            };
+            }
 
             //request response async
-            var asyncResult = request.BeginGetResponse(callback, null);
+            var asyncResult = request.BeginGetResponse(Callback, null);
             if (asyncResult.CompletedSynchronously) return response;
 
             var hasSignal = waitHandle.WaitOne(timeout ?? Timeout.Infinite);

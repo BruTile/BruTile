@@ -31,18 +31,13 @@ namespace BruTile.Wms
             if (element != null) ContactElectronicMailAddress = element.Value;
         }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return _contactPersonPrimaryField.IsEmpty &
-                       string.IsNullOrEmpty(ContactPosition) &
-                       _contactAddressField.IsEmpty &
-                       string.IsNullOrEmpty(ContactVoiceTelephone) &
-                       string.IsNullOrEmpty(ContactFacsimileTelephone) &
-                       string.IsNullOrEmpty(ContactElectronicMailAddress);
-            }
-        }
+        public bool IsEmpty =>
+            _contactPersonPrimaryField.IsEmpty &
+            string.IsNullOrEmpty(ContactPosition) &
+            _contactAddressField.IsEmpty &
+            string.IsNullOrEmpty(ContactVoiceTelephone) &
+            string.IsNullOrEmpty(ContactFacsimileTelephone) &
+            string.IsNullOrEmpty(ContactElectronicMailAddress);
 
         private ContactPersonPrimary _contactPersonPrimaryField;
 
@@ -58,34 +53,14 @@ namespace BruTile.Wms
 
         public ContactPersonPrimary ContactPersonPrimary
         {
-            get
-            {
-                if ((_contactPersonPrimaryField == null))
-                {
-                    _contactPersonPrimaryField = new ContactPersonPrimary();
-                }
-                return _contactPersonPrimaryField;
-            }
-            set
-            {
-                _contactPersonPrimaryField = value;
-            }
+            get => _contactPersonPrimaryField ?? (_contactPersonPrimaryField = new ContactPersonPrimary());
+            set => _contactPersonPrimaryField = value;
         }
 
         public ContactAddress ContactAddress
         {
-            get
-            {
-                if ((_contactAddressField == null))
-                {
-                    _contactAddressField = new ContactAddress();
-                }
-                return _contactAddressField;
-            }
-            set
-            {
-                _contactAddressField = value;
-            }
+            get => _contactAddressField ?? (_contactAddressField = new ContactAddress());
+            set => _contactAddressField = value;
         }
 
         #region Overrides of XmlObject

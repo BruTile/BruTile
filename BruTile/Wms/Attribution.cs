@@ -32,28 +32,14 @@ namespace BruTile.Wms
 
         public OnlineResource OnlineResource
         {
-            get
-            {
-                if ((_onlineResourceField == null))
-                {
-                    _onlineResourceField = new OnlineResource();
-                }
-                return _onlineResourceField;
-            }
-            set { _onlineResourceField = value; }
+            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            set => _onlineResourceField = value;
         }
 
         public LogoURL LogoURL
         {
-            get
-            {
-                if ((_logoUrlField == null))
-                {
-                    _logoUrlField = new LogoURL();
-                }
-                return _logoUrlField;
-            }
-            set { _logoUrlField = value; }
+            get => _logoUrlField ?? (_logoUrlField = new LogoURL());
+            set => _logoUrlField = value;
         }
 
         public override void ReadXml(XmlReader reader)

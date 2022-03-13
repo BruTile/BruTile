@@ -79,22 +79,21 @@ namespace BruTile.Wms
         {
             reader.MoveToContent();
             CRS = reader.GetAttribute("CRS");
-            double val;
-            if (double.TryParse(reader.GetAttribute("minx"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                MinX = val;
-            if (double.TryParse(reader.GetAttribute("maxx"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                MaxX = val;
-            if (double.TryParse(reader.GetAttribute("miny"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                MinY = val;
-            if (double.TryParse(reader.GetAttribute("maxy"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                MaxY = val;
+            if (double.TryParse(reader.GetAttribute("minx"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var minX))
+                MinX = minX;
+            if (double.TryParse(reader.GetAttribute("maxx"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var maxX))
+                MaxX = maxX;
+            if (double.TryParse(reader.GetAttribute("miny"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var minY))
+                MinY = minY;
+            if (double.TryParse(reader.GetAttribute("maxy"), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var maxY))
+                MaxY = maxY;
 
             var res = reader.GetAttribute("resx");
-            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                ResX = val;
+            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var resX))
+                ResX = resX;
             res = reader.GetAttribute("resy");
-            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out val))
-                ResY = val;
+            if (res != null && double.TryParse(res, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var resY))
+                ResY = resY;
             var isEmptyElement = reader.IsEmptyElement;
             reader.ReadStartElement();
             if (!isEmptyElement)

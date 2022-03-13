@@ -33,34 +33,14 @@ namespace BruTile.Wms
 
         public List<string> Format
         {
-            get
-            {
-                if ((_formatField == null))
-                {
-                    _formatField = new List<string>();
-                }
-                return _formatField;
-            }
-            set
-            {
-                _formatField = value;
-            }
+            get => _formatField ?? (_formatField = new List<string>());
+            set => _formatField = value;
         }
 
         public List<DCPType> DCPType
         {
-            get
-            {
-                if ((_DCpTypeField == null))
-                {
-                    _DCpTypeField = new List<DCPType>();
-                }
-                return _DCpTypeField;
-            }
-            set
-            {
-                _DCpTypeField = value;
-            }
+            get => _DCpTypeField ?? (_DCpTypeField = new List<DCPType>());
+            set => _DCpTypeField = value;
         }
 
         // ReSharper restore InconsistentNaming

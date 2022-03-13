@@ -4,7 +4,7 @@ using System;
 
 namespace BruTile
 {
-    public struct TileIndex : IComparable
+    public readonly struct TileIndex : IComparable
     {
         public int Col { get; }
         public int Row { get; }
@@ -19,11 +19,11 @@ namespace BruTile
 
         public int CompareTo(object obj)
         {
-            if (!(obj is TileIndex))
+            if (!(obj is TileIndex index))
             {
                 throw new ArgumentException("object of type TileIndex was expected");
             }
-            return CompareTo((TileIndex) obj);
+            return CompareTo(index);
         }
 
         public int CompareTo(TileIndex index)
@@ -39,10 +39,10 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TileIndex))
+            if (!(obj is TileIndex index))
                 return false;
 
-            return Equals((TileIndex) obj);
+            return Equals(index);
         }
 
         public bool Equals(TileIndex index)
