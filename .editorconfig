@@ -127,3 +127,5 @@ dotnet_style_qualification_for_method = false:suggestion
 #prefer properties not to be prefaced with this. or Me. in Visual Basic
 dotnet_style_qualification_for_property = false:suggestion
 insert_final_newline=true
+
+file_header_template = Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
