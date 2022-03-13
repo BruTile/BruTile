@@ -24,7 +24,7 @@ namespace BruTile.Web
 
         private static IRequest CreateArcGISRequest(string baseUrl)
         {
-            return new BasicRequest($"{baseUrl}/tile/{"{0}/{2}/{1}"}");
+            return new BasicRequest($"{baseUrl}/tile/{{0}}/{{2}}/{{1}}");
         }
     }
 }
