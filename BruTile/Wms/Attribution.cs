@@ -18,11 +18,11 @@ namespace BruTile.Wms
         public Attribution(XElement node, string @namespace)
             : this()
         {
-            var element = node.Element(XName.Get("Title", @namespace));
+            var element = node.Element(XName.Get("Title"));
             if (element != null) Title = element.Value;
 
-            element = node.Element(XName.Get("OnlineResource", @namespace));
-            if (element != null) OnlineResource = new OnlineResource(element, @namespace);
+            element = node.Element(XName.Get("OnlineResource"));
+            if (element != null) OnlineResource = new OnlineResource(element);
 
             element = node.Element(XName.Get("LogoURL", @namespace));
             if (element != null) LogoURL = new LogoURL(element, @namespace);

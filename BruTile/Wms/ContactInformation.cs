@@ -67,7 +67,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "ContactInformation", Namespace))
+            if (CheckEmptyNode(reader, "ContactInformation"))
                 return;
 
             while (!reader.EOF)

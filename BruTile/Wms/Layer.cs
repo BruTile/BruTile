@@ -132,7 +132,7 @@ namespace BruTile.Wms
 
             Identifier = new List<Identifier>();
             foreach (var el in node.Elements(XName.Get("Identifier", ns)))
-                Identifier.Add(new Identifier(el, ns));
+                Identifier.Add(new Identifier(el));
 
             MetadataURL = new List<MetadataURL>();
             foreach (var el in node.Elements(XName.Get("MetadataURL", ns)))

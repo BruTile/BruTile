@@ -25,7 +25,7 @@ namespace BruTile.Wms
                 Version = att.Value;
 
             foreach (var serviceException in node.Elements(XName.Get("ServiceException", ns)))
-                ServiceExceptions.Add(new ServiceException(serviceException, ns));
+                ServiceExceptions.Add(new ServiceException(serviceException));
         }
 
         #region Overrides of XmlObject

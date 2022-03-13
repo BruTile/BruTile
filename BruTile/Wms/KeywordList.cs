@@ -37,7 +37,7 @@ namespace BruTile.Wms
 
             var subReader = reader.ReadSubtree();
 
-            if (CheckEmptyNode(subReader, "KeywordList", string.Empty))
+            if (CheckEmptyNode(subReader, "KeywordList"))
                 return;
 
             while (!subReader.EOF)

@@ -98,7 +98,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-            if (CheckEmptyNode(reader, "Capability", string.Empty))
+            if (CheckEmptyNode(reader, "Capability"))
                 throw WmsParsingException.ElementNotFound("Capability");
 
             var baseLayerCreated = false;

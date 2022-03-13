@@ -42,7 +42,7 @@ namespace BruTile.Wms
             if (att != null) ResY = double.Parse(att.Value, NumberFormatInfo.InvariantInfo);
         }
 
-        public override XElement ToXElement(string nameSpace)
+        public override XElement ToXElement(string ns)
         {
             var attributes = new List<object>
                                  {
@@ -56,7 +56,7 @@ namespace BruTile.Wms
                 attributes.Add(new XAttribute("resx", ResX.Value.ToString(NumberFormatInfo.InvariantInfo)));
             if (ResY.HasValue)
                 attributes.Add(new XAttribute("resy", ResY.Value.ToString(NumberFormatInfo.InvariantInfo)));
-            return new XElement(XName.Get("BoundingBox", nameSpace), attributes.ToArray());
+            return new XElement(XName.Get("BoundingBox", ns), attributes.ToArray());
         }
 
         public string CRS { get; set; }

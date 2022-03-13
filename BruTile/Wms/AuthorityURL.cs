@@ -23,7 +23,7 @@ namespace BruTile.Wms
 
             var element = node.Element(XName.Get("OnlineResource", @namespace));
             if (element != null)
-                OnlineResource = new OnlineResource(element, @namespace);
+                OnlineResource = new OnlineResource(element);
         }
 
         public string Name { get; set; }
