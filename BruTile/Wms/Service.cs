@@ -96,7 +96,7 @@ namespace BruTile.Wms
 
         public int? LayerLimit
         {
-            get { return _layerLimit; }
+            get => _layerLimit;
             set
             {
                 if (value.HasValue && value < 1)
@@ -109,7 +109,7 @@ namespace BruTile.Wms
 
         public int? MaxWidth
         {
-            get { return _maxWidth; }
+            get => _maxWidth;
             set
             {
                 if (value.HasValue && value.Value < 1)
@@ -122,7 +122,7 @@ namespace BruTile.Wms
 
         public int? MaxHeight
         {
-            get { return _maxHeight; }
+            get => _maxHeight;
             set
             {
                 if (value.HasValue && value.Value < 1)

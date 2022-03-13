@@ -31,18 +31,13 @@ namespace BruTile.Wms
             if (element != null) ContactElectronicMailAddress = element.Value;
         }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return _contactPersonPrimaryField.IsEmpty &
-                       string.IsNullOrEmpty(ContactPosition) &
-                       _contactAddressField.IsEmpty &
-                       string.IsNullOrEmpty(ContactVoiceTelephone) &
-                       string.IsNullOrEmpty(ContactFacsimileTelephone) &
-                       string.IsNullOrEmpty(ContactElectronicMailAddress);
-            }
-        }
+        public bool IsEmpty =>
+            _contactPersonPrimaryField.IsEmpty &
+            string.IsNullOrEmpty(ContactPosition) &
+            _contactAddressField.IsEmpty &
+            string.IsNullOrEmpty(ContactVoiceTelephone) &
+            string.IsNullOrEmpty(ContactFacsimileTelephone) &
+            string.IsNullOrEmpty(ContactElectronicMailAddress);
 
         private ContactPersonPrimary _contactPersonPrimaryField;
 

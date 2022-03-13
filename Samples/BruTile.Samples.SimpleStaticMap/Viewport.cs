@@ -21,14 +21,11 @@ namespace BruTile.Samples.SimpleStaticMap
 
         public float UnitsPerPixel
         {
+            get => _unitsPerPixel;
             set
             {
                 _unitsPerPixel = value;
                 UpdateExtent();
-            }
-            get
-            {
-                return _unitsPerPixel;
             }
         }
 
@@ -59,10 +56,7 @@ namespace BruTile.Samples.SimpleStaticMap
             }
         }
 
-        public Extent Extent
-        {
-            get { return _extent; }
-        }
+        public Extent Extent => _extent;
 
         public PointF WorldToScreen(double x, double y)
         {

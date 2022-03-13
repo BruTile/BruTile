@@ -19,7 +19,7 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets an identifier for the layer and tile matrix set.
         /// </summary>
-        public string Identifier { get { return Layer + "(" + TileMatrixSet + ")"; } }
+        public string Identifier => Layer + "(" + TileMatrixSet + ")";
 
         /// <summary>
         /// The layer identifier

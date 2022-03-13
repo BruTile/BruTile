@@ -44,10 +44,7 @@ namespace BruTile.Wmts
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        public ScaleSetItem this[int level]
-        {
-            get { return _items[level]; }
-        }
+        public ScaleSetItem this[int level] => _items[level];
 
         /// <summary>
         /// Accessor to a pixel size

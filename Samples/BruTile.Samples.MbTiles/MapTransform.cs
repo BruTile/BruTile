@@ -36,7 +36,7 @@ namespace BruTile.Samples.MbTiles
             _isSet = false;
         }
 
-        public bool IsEmpty { get { return !_isSet; } }
+        public bool IsEmpty => !_isSet;
 
         public static implicit operator PointD(PointF pd)
         {
@@ -74,25 +74,22 @@ namespace BruTile.Samples.MbTiles
 
         public double UnitsPerPixel
         {
+            get => _unitsPerPixel;
             set
             {
                 _unitsPerPixel = value;
                 UpdateExtent();
             }
-            get
-            {
-                return _unitsPerPixel;
-            }
         }
 
         public PointD Center
         {
+            get => _center;
             set
             {
                 _center = value;
                 UpdateExtent();
             }
-            get { return _center; }
         }
 
         public double Width
@@ -113,10 +110,7 @@ namespace BruTile.Samples.MbTiles
             }
         }
 
-        public Extent Extent
-        {
-            get { return _extent; }
-        }
+        public Extent Extent => _extent;
 
         public PointF WorldToMap(double x, double y)
         {

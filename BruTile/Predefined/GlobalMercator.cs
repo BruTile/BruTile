@@ -117,22 +117,16 @@ namespace BruTile.Predefined
         /// <summary>
         /// Gets the Well-Known-Text representation of the spatial reference system
         /// </summary>
-        public string SrsWkt
-        {
-            get
-            {
-                return
-                    "PROJCS[\"WGS84 / Simple Mercator\", " +
-                  "GEOGCS[\"WGS 84\", " +
-                      "DATUM[\"WGS_1984\", SPHEROID[\"WGS_1984\",6378137,298.257223563]], " +
-                      "PRIMEM[\"Greenwich\",0], " +
-                      "UNIT[\"Decimal_Degree\", 0.0174532925199433]], " +
-                  "PROJECTION[\"Mercator_1SP\"], " +
-                  "PARAMETER[\"central_meridian\",0], " +
-                  "PARAMETER[\"false_easting\",0]," +
-                  "PARAMETER[\"false_northing\",0]," +
-                  "UNIT[\"Meter\",1]]";
-            }
-        }
+        public string SrsWkt =>
+            "PROJCS[\"WGS84 / Simple Mercator\", " +
+            "GEOGCS[\"WGS 84\", " +
+            "DATUM[\"WGS_1984\", SPHEROID[\"WGS_1984\",6378137,298.257223563]], " +
+            "PRIMEM[\"Greenwich\",0], " +
+            "UNIT[\"Decimal_Degree\", 0.0174532925199433]], " +
+            "PROJECTION[\"Mercator_1SP\"], " +
+            "PARAMETER[\"central_meridian\",0], " +
+            "PARAMETER[\"false_easting\",0]," +
+            "PARAMETER[\"false_northing\",0]," +
+            "UNIT[\"Meter\",1]]";
     }
 }

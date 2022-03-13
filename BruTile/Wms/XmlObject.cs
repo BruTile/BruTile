@@ -15,7 +15,7 @@ namespace BruTile.Wms
 
         public static string Xsi => "http://www.w3.org/2001/XMLSchema-instance";
 
-        public static string Wms { get { return "http://schemas.opengis.net"; } }
+        public static string Wms => "http://schemas.opengis.net";
 
         public static string WmsSchemaUrl(WmsVersionEnum version, string schemaName)
         {

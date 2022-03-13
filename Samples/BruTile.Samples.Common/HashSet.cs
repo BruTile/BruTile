@@ -56,15 +56,9 @@ namespace BruTile.Samples.Common
         }
 
         // Properties
-        public int Count
-        {
-            get { return _dictionary.Keys.Count; }
-        }
+        public int Count => _dictionary.Keys.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
     }
 
 }
