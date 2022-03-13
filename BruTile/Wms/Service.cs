@@ -157,7 +157,7 @@ namespace BruTile.Wms
         {
             if (CheckEmptyNode(reader, "Service", string.Empty))
                 throw WmsParsingException.ElementNotFound("Service");
-           
+
             while (!reader.EOF)
             {
                 if (reader.IsStartElement())
@@ -165,10 +165,10 @@ namespace BruTile.Wms
                     switch (reader.LocalName)
                     {
                         case "Name":
-                            string name = reader.ReadElementContentAsString();
+                            var name = reader.ReadElementContentAsString();
                             const string prefix = "ogc:";
                             if (name.ToLower().StartsWith(prefix)) name = name.Substring(prefix.Length);
-                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name , true);
+                            Name = (ServiceName)Enum.Parse(typeof(ServiceName), name, true);
                             break;
                         case "Title":
                             Title = reader.ReadElementContentAsString();

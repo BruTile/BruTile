@@ -16,11 +16,11 @@ namespace BruTile.Wms
 
         public LegendURL(XElement node, string nameSpace)
         {
-            var widthAttribute = node.Attribute(XName.Get("width")) 
+            var widthAttribute = node.Attribute(XName.Get("width"))
                 ?? throw new System.Exception("Width node is null in xml");
             Width = int.Parse(widthAttribute.Value, NumberFormatInfo.InvariantInfo);
 
-            var heightAttribute = node.Attribute(XName.Get("height")) 
+            var heightAttribute = node.Attribute(XName.Get("height"))
                 ?? throw new System.Exception("Height node is null in xml");
             Height = int.Parse(heightAttribute.Value, NumberFormatInfo.InvariantInfo);
 

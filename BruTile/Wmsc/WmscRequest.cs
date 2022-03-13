@@ -11,20 +11,20 @@ namespace BruTile.Wmsc
 {
     public class WmscRequest : IRequest
     {
-        readonly Uri _baseUrl;
-        readonly IDictionary<string, string> _customParameters;
-        readonly IList<string> _layers;
-        readonly ITileSchema _schema;
-        readonly IList<string> _styles;
-        readonly string _version;
+        private readonly Uri _baseUrl;
+        private readonly IDictionary<string, string> _customParameters;
+        private readonly IList<string> _layers;
+        private readonly ITileSchema _schema;
+        private readonly IList<string> _styles;
+        private readonly string _version;
 
         public WmscRequest(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-            IDictionary<string, string> customParameters = null, string version = null) : 
+            IDictionary<string, string> customParameters = null, string version = null) :
             this(new Uri(baseUrl), schema, layers, styles, customParameters, version)
         {
         }
 
-        public WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null, 
+        public WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
             IDictionary<string, string> customParameters = null, string version = null)
         {
             _baseUrl = baseUrl;
@@ -61,7 +61,7 @@ namespace BruTile.Wmsc
         private static string ToCommaSeparatedValues(IEnumerable<string> items)
         {
             var result = new StringBuilder();
-            foreach (string str in items)
+            foreach (var str in items)
             {
                 result.AppendFormat(CultureInfo.InvariantCulture, ",{0}", str);
             }
@@ -73,7 +73,7 @@ namespace BruTile.Wmsc
         {
             if (_customParameters != null && _customParameters.Count > 0)
             {
-                foreach (string name in _customParameters.Keys)
+                foreach (var name in _customParameters.Keys)
                 {
                     url.AppendFormat("&{0}={1}", name, _customParameters[name]);
                 }

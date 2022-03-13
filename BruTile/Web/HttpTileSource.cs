@@ -22,7 +22,7 @@ namespace BruTile.Web
         }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null, 
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,
             Attribution attribution = null, string userAgent = null)
         {
             _request = request ?? new NullRequest();

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System.Linq;
-using BruTile.Cache;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BruTile.Cache;
 
 namespace BruTile.Samples.Common
 {
@@ -95,13 +95,13 @@ namespace BruTile.Samples.Common
             ITileCache<Tile<T>> memoryCache, Retries retries)
         {
             return tilesWanted.Where(
-                info => memoryCache.Find(info.Index) == null && 
+                info => memoryCache.Find(info.Index) == null &&
                 !retries.ReachedMax(info.Index)).ToList();
         }
 
         private void FetchTiles(IEnumerable<TileInfo> tilesMissing)
         {
-            foreach (TileInfo info in tilesMissing)
+            foreach (var info in tilesMissing)
             {
                 lock (_tilesInProgress)
                 {
@@ -120,7 +120,7 @@ namespace BruTile.Samples.Common
                 if (_tilesInProgress.Contains(info.Index)) return;
                 _tilesInProgress.Add(info.Index);
             }
-            
+
             _retries.PlusOne(info.Index);
 
             // Now we can go for the request.
@@ -139,7 +139,7 @@ namespace BruTile.Samples.Common
                     {
                         if (_tileSource != null)
                         {
-                            byte[] data = await _tileSource.GetTileAsync(tileInfo);
+                            var data = await _tileSource.GetTileAsync(tileInfo);
                             tile = new Tile<T> { Data = data, Info = tileInfo };
                         }
                     }
@@ -166,7 +166,7 @@ namespace BruTile.Samples.Common
         /// Keeps track of retries per tile. This class doesn't do much interesting work
         /// but makes the rest of the code a bit easier to read.
         /// </summary>
-        class Retries
+        private class Retries
         {
             private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
             private const int MaxRetries = 0;
@@ -205,7 +205,7 @@ namespace BruTile.Samples.Common
 
     public delegate void DataChangedEventHandler<T>(object sender, DataChangedEventArgs<T> e);
 
-    public class DataChangedEventArgs <T>
+    public class DataChangedEventArgs<T>
     {
         public DataChangedEventArgs(Exception error, bool cancelled, Tile<T> tile)
         {

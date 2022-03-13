@@ -176,39 +176,39 @@ namespace BruTile
         /// </summary>
         public void Validate()
         {
-            if (String.IsNullOrEmpty(Srs))
+            if (string.IsNullOrEmpty(Srs))
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
                     "The SRS was not set for TileSchema '{0}'", Name));
             }
 
             if (Extent == new Extent())
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
                     "The BoundingBox was not set for TileSchema '{0}'", Name));
             }
 
-            if (Double.IsNaN(OriginX))
+            if (double.IsNaN(OriginX))
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
                     "TileSchema {0} OriginX was 'not a number', perhaps it was not initialized.", Name));
             }
 
-            if (Double.IsNaN(OriginY))
+            if (double.IsNaN(OriginY))
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
-                    "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.",Name));
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
+                    "TileSchema {0} OriginY was 'not a number', perhaps it was not initialized.", Name));
             }
 
             if (Resolutions.Count == 0)
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
                     "No Resolutions were added for TileSchema '{0}'", Name));
             }
 
-            if (String.IsNullOrEmpty(Format))
+            if (string.IsNullOrEmpty(Format))
             {
-                throw new ValidationException(String.Format(CultureInfo.InvariantCulture,
+                throw new ValidationException(string.Format(CultureInfo.InvariantCulture,
                     "The Format was not set for TileSchema '{0}'", Name));
             }
         }

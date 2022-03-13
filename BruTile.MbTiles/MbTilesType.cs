@@ -17,7 +17,7 @@ namespace BruTile.MbTiles
         /// <summary>
         /// Base layer
         /// </summary>
-        BaseLayer, 
+        BaseLayer,
 
         /// <summary>
         /// Overlay

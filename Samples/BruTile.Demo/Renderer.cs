@@ -4,10 +4,10 @@ using BruTile.Samples.Common;
 
 namespace BruTile.Demo
 {
-    class Renderer
+    internal class Renderer
     {
         private readonly Canvas _canvas;
-        
+
         public Renderer(Canvas canvas)
         {
             _canvas = canvas;
@@ -34,7 +34,7 @@ namespace BruTile.Demo
         {
             var min = viewport.WorldToScreen(extent.MinX, extent.MinY);
             var max = viewport.WorldToScreen(extent.MaxX, extent.MaxY);
-            
+
             Canvas.SetLeft(image, min.X);
             Canvas.SetTop(image, max.Y);
             image.Width = max.X - min.X;

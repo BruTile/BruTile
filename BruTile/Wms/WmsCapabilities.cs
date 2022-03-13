@@ -26,7 +26,7 @@ namespace BruTile.Wms
         }
 
         public WmsCapabilities(string url, ICredentials credentials = null)
-            :this(new Uri(url), credentials)
+            : this(new Uri(url), credentials)
         { }
 
         public WmsCapabilities(Uri uri, ICredentials credentials = null)
@@ -118,15 +118,17 @@ namespace BruTile.Wms
 
         public static WmsCapabilities Parse(Stream stream)
         {
-            var settings = new XmlReaderSettings {DtdProcessing = DtdProcessing.Ignore};
+            var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
 
             using (var reader = XmlReader.Create(stream, settings))
             {
                 reader.MoveToContent();
 
                 var version = reader.GetAttribute("version");
-                var wms = new WmsCapabilities(version);
-                wms.UpdateSequence = reader.GetAttribute("updateSequence");
+                var wms = new WmsCapabilities(version)
+                {
+                    UpdateSequence = reader.GetAttribute("updateSequence")
+                };
 
                 if (reader.IsEmptyElement)
                 {
@@ -223,7 +225,7 @@ namespace BruTile.Wms
 
         private static Stream GetRemoteXmlStream(Uri uri, ICredentials credentials)
         {
-            var myRequest = (HttpWebRequest) WebRequest.Create(uri);
+            var myRequest = (HttpWebRequest)WebRequest.Create(uri);
             if (credentials != null)
                 myRequest.Credentials = credentials;
             var myResponse = myRequest.GetSyncResponse(30000);
@@ -276,8 +278,10 @@ namespace BruTile.Wms
                     qry.Insert(pos, "SERVICE=WMS&");
 
                 // Write modified server URL
-                var serverUrlBuilder = new UriBuilder(serverUrl.Scheme, serverUrl.Host, serverUrl.Port, serverUrl.AbsolutePath);
-                serverUrlBuilder.Query = qry.ToString().Substring(1);
+                var serverUrlBuilder = new UriBuilder(serverUrl.Scheme, serverUrl.Host, serverUrl.Port, serverUrl.AbsolutePath)
+                {
+                    Query = qry.ToString().Substring(1)
+                };
                 serverUrl = serverUrlBuilder.Uri;
             }
 

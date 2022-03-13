@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace BruTile.Tests.Tms
 {
     [TestFixture]
-    class RootTest
+    internal class RootTest
     {
-        const string RootResource =
+        private const string RootResource =
             "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
             "<Services>" +
             "<TileMapService title=\"Example Tile Map Service\" version=\"1.0.0\" href=\"http://tms.osgeo.org/1.0.0/\" />" +

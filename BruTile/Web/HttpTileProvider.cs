@@ -21,7 +21,7 @@ namespace BruTile.Web
             _fetchTile = fetchTile ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "BruTile Tile Library");
         }
-        
+
         private async Task<byte[]> FetchTileAsync(Uri arg)
         {
             return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);

@@ -14,7 +14,7 @@ namespace BruTile.Tests
             const int expected = -1;
 
             // Act
-            int actual = target.CompareTo(index);
+            var actual = target.CompareTo(index);
 
             // Assert
             Assert.AreEqual(expected, actual);

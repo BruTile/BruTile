@@ -13,8 +13,8 @@ namespace BruTile.Web
         public string BaseUrl { get; }
 
         public ArcGisTileSource(
-                string baseUrl, 
-                ITileSchema schema, 
+                string baseUrl,
+                ITileSchema schema,
                 IPersistentCache<byte[]> persistentCache = null,
                 Func<Uri, Task<byte[]>> fetchTile = null)
             : base(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)

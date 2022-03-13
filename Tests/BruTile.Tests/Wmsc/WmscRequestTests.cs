@@ -1,18 +1,18 @@
-﻿using BruTile.Predefined;
+﻿using System;
+using BruTile.Predefined;
 using BruTile.Wmsc;
 using NUnit.Framework;
-using System;
 
 namespace BruTile.Tests.Wmsc
 {
     [TestFixture]
-    class WmscRequestTests
+    internal class WmscRequestTests
     {
         [Test]
         public void WmscRequest_NoVersion()
         {
-            var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), new [] { "Layer One" });
-            var ti = new TileInfo {Index = new TileIndex(0, 0, 0)};
+            var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), new[] { "Layer One" });
+            var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
             var uri = request.GetUri(ti);
             StringAssert.DoesNotContain("VERSION=", uri.ToString());
             StringAssert.Contains("SRS=", uri.ToString());

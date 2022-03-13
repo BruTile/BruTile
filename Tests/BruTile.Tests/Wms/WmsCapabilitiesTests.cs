@@ -38,7 +38,7 @@ namespace BruTile.Tests.Wms
             Assert.NotNull(capabilities.Version);
             Assert.AreEqual(54, capabilities.Capability.Layer.ChildLayers.Count);
         }
-        
+
         [Test]
         public void WmsCapabilitiesWhenCreatedWithCapabilitiesWithMultipleRootLayersShouldInitializeCorrectly()
         {
@@ -61,9 +61,9 @@ namespace BruTile.Tests.Wms
             // Arrange
             var fileName = "FrioCountyTXMapsWmsCapabilities_1_1_1.xml";
             using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName));
-            
+
             // Act
-            var capabilities = new WmsCapabilities(stream); 
+            var capabilities = new WmsCapabilities(stream);
 
             // Assert
             Assert.NotNull(capabilities.Version);
@@ -77,14 +77,14 @@ namespace BruTile.Tests.Wms
             // Arrange
             var fileName = "LizardtechWmsCapabilities_1_1_1.xml";
             using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName));
-            
+
             // Act
             var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
-                
+
             // Assert
             Assert.AreEqual(12, wmsCapabilities.Capability.Layer.ChildLayers.Count);
         }
-        
+
         [Test]
         public void WmsCapabilitiesWithXmlnsAttribute()
         {
@@ -108,7 +108,7 @@ namespace BruTile.Tests.Wms
             // Arrange
             var fileName = "NrcsSoilWmsCapabilities_1_1_1.xml";
             using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName));
-            
+
             // Act
             var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 
@@ -180,7 +180,7 @@ namespace BruTile.Tests.Wms
             // Arrange
             var fileName = "wms_topplus_web_open.xml";
             using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wms", fileName));
-            
+
             // Act
             var wmsCapabilities = new WmsCapabilities(XDocument.Load(stream));
 

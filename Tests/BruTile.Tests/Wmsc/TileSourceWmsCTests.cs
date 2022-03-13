@@ -43,7 +43,7 @@ namespace BruTile.Tests.Wmsc
             // Act
             List<ITileSource> res = null;
             var action = new TestDelegate(() => res = new List<ITileSource>(WmscTileSource.CreateFromWmscCapabilties(myWmsc)));
-            
+
             // Assert
             Assert.DoesNotThrow(action);
             Assert.IsNotNull(res);

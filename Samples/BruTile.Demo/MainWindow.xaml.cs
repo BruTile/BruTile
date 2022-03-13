@@ -1,7 +1,7 @@
-﻿using BruTile.Predefined;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
+using BruTile.Predefined;
 using BruTile.Samples.Common.Samples;
 
 namespace BruTile.Demo

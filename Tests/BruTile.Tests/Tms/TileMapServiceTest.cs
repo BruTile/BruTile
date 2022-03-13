@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace BruTile.Tests.Tms
 {
     [TestFixture]
-    class TileMapServiceTest
+    internal class TileMapServiceTest
     {
-        const string TileMapServiceResource = 
+        private const string TileMapServiceResource =
             "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
             "<TileMapService version=\"1.0.0\" services=\"http://tms.osgeo.org\">" +
             "<Title>Example Tile Map Service</Title>" +
@@ -35,13 +35,13 @@ namespace BruTile.Tests.Tms
             "<TileMaps>" +
             "<TileMap " +
             "title=\"VMAP0 World Map\" " +
-            "srs=\"EPSG:4326\" "  +
-            "profile=\"global-geodetic\" "  +
+            "srs=\"EPSG:4326\" " +
+            "profile=\"global-geodetic\" " +
             "href=\"http://tms.osgeo.org/1.0.0/vmap0\" />" +
             "<TileMap " +
             "title=\"British Columbia Landsat Imagery (2000)\" " +
             "srs=\"EPSG:3005\" " +
-            "profile=\"local\" "  +
+            "profile=\"local\" " +
             "href=\"http://tms.osgeo.org/1.0.0/landsat2000\" />" +
             "</TileMaps>" +
             "</TileMapService>";

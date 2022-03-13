@@ -70,7 +70,7 @@ namespace BruTile
         /// Gets a value indicating the resolutions defined in this schema
         /// </summary>
         IDictionary<int, Resolution> Resolutions { get; }
-        
+
         /// <summary>
         /// Gets a value indicating the file format of the tiles
         /// </summary>

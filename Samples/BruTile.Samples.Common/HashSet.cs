@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace BruTile.Samples.Common
 {
@@ -14,7 +14,10 @@ namespace BruTile.Samples.Common
             _dictionary = new Dictionary<T, short>();
         }
 
-        // Methods
+        public int Count => _dictionary.Keys.Count;
+
+        public bool IsReadOnly => false;
+
         public void Add(T item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
@@ -54,11 +57,5 @@ namespace BruTile.Samples.Common
         {
             throw new NotImplementedException();
         }
-
-        // Properties
-        public int Count => _dictionary.Keys.Count;
-
-        public bool IsReadOnly => false;
     }
-
 }

@@ -75,7 +75,7 @@ namespace BruTile.Wms
 
         public override void ReadXml(XmlReader reader)
         {
-  
+
             reader.MoveToContent();
             if (reader.IsEmptyElement)
             {

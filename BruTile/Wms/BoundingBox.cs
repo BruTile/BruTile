@@ -13,8 +13,8 @@ namespace BruTile.Wms
         public BoundingBox(XElement node, string ns)
         {
             var att =
-                node.Attribute(XName.Get("CRS")) ?? 
-                node.Attribute(XName.Get("crs")) ?? 
+                node.Attribute(XName.Get("CRS")) ??
+                node.Attribute(XName.Get("crs")) ??
                 node.Attribute(XName.Get("SRS")) ??
                 node.Attribute(XName.Get("srs"));
 

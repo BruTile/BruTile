@@ -28,7 +28,7 @@ namespace BruTile.Samples.Common
             //bigger than biggest
             if (unitsPerPixelList[0] < unitsPerPixel) return unitsPerPixelList[0];
 
-            for (int i = unitsPerPixelList.Count - 1; i >= 0; i--)
+            for (var i = unitsPerPixelList.Count - 1; i >= 0; i--)
             {
                 if (unitsPerPixelList[i] > unitsPerPixel)
                     return unitsPerPixelList[i];

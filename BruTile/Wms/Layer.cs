@@ -111,7 +111,7 @@ namespace BruTile.Wms
 
             foreach (var el in node.Elements(XName.Get("SRS", ns)))
                 SRS.Add(el.Value);
-            
+
             element = node.Element(XName.Get("EX_GeographicBoundingBox", ns));
             if (element != null) ExGeographicBoundingBox = new ExGeographicBoundingBox(element, ns);
 

@@ -77,7 +77,7 @@ namespace BruTile.Wmsc
             var xHeight = xTileSet.Element("Height");
             if (xHeight == null) throw new System.Exception("'Height' field not found in xml");
 
-            if (!Int32.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var height))
+            if (!int.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var height))
                 throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
 
             var xFormat = xTileSet.Element("Format");
@@ -110,7 +110,7 @@ namespace BruTile.Wmsc
             if (xResolutions != null)
             {
                 var count = 0;
-                string[] resolutions = xResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var resolutions = xResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var resolution in resolutions)
                 {
                     if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out var unitsPerPixel))
@@ -126,7 +126,7 @@ namespace BruTile.Wmsc
         private static string CreateDefaultName(IEnumerable<string> layers)
         {
             var stringBuilder = new StringBuilder();
-            foreach (string layer in layers)
+            foreach (var layer in layers)
             {
                 stringBuilder.Append(layer + ",");
             }

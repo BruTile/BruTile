@@ -88,17 +88,17 @@ namespace BruTile.Predefined
             var results = new List<Resolution>(max - min + 1);
             for (var i = min; i <= max; i++)
             {
-                results.Add(new Resolution (
+                results.Add(new Resolution(
                     i,
                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                    2*ScaleFactor/(1 << i),
+                    2 * ScaleFactor / (1 << i),
                     TileSize,
                     TileSize,
-                    -ScaleFactor*TileSize,
-                    ScaleFactor*TileSize
+                    -ScaleFactor * TileSize,
+                    ScaleFactor * TileSize
                 ));
             }
-            
+
             return results.ToArray();
         }
 
@@ -109,8 +109,8 @@ namespace BruTile.Predefined
                 results[i] = new Resolution(
                     levels[i],
                     //2 * ScaleFactor: this is a hack, since first level is made up of 4 tiles
-                    2*ScaleFactor/(1 << levels[i]));
-                                 
+                    2 * ScaleFactor / (1 << levels[i]));
+
             return results;
         }
 

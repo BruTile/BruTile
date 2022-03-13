@@ -50,7 +50,7 @@ namespace BruTile.Web
         /// <param name="urlFormatter">The url formatter</param>
         /// <param name="serverNodes">The server nodes</param>
         /// <param name="apiKey">The API key</param>
-        public BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey= null)
+        public BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey = null)
         {
             _urlFormatter = urlFormatter;
             _serverNodes = serverNodes?.ToList();
@@ -61,7 +61,7 @@ namespace BruTile.Web
             _urlFormatter = _urlFormatter.Replace("{2}", YTag);
 
             if (!string.IsNullOrEmpty(apiKey))
-                _urlFormatter = _urlFormatter.Replace(ApiKeyTag, apiKey) ;
+                _urlFormatter = _urlFormatter.Replace(ApiKeyTag, apiKey);
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace BruTile.Web
             stringBuilder.Replace(YTag, info.Index.Row.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(ZTag, info.Index.Level.ToString(CultureInfo.InvariantCulture));
             stringBuilder.Replace(QuadKeyTag, TileXyToQuadKey(info.Index.Col, info.Index.Row, info.Index.Level));
-            
+
             InsertServerNode(stringBuilder, _serverNodes);
-            
+
             return new Uri(stringBuilder.ToString());
         }
 

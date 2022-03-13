@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace BruTile.Samples.Common
 {
-    interface IFetchStrategy
+    internal interface IFetchStrategy
     {
         IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level);
     }
 
-    class FetchStrategy : IFetchStrategy
+    internal class FetchStrategy : IFetchStrategy
     {
         public IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level)
         {
@@ -18,7 +18,7 @@ namespace BruTile.Samples.Common
             // not available the renderer can fall back on higher level tiles. 
             var unitsPerPixel = schema.Resolutions[level].UnitsPerPixel;
             var resolutions = schema.Resolutions.Where(k => unitsPerPixel <= k.Value.UnitsPerPixel).OrderByDescending(x => x.Value.UnitsPerPixel);
-            
+
             foreach (var resolution in resolutions)
             {
                 var tileInfos = schema.GetTileInfos(extent, resolution.Key);

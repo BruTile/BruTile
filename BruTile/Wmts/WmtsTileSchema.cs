@@ -186,6 +186,6 @@ namespace BruTile.Wmts
             return 0; // Always zero because WMTS can not have a discrepancy between schema origin and bounding box origin
         }
 
-        public IDictionary<int, string> LevelToIdentifier { get; set;} = new Dictionary<int, string>();
+        public IDictionary<int, string> LevelToIdentifier { get; set; } = new Dictionary<int, string>();
     }
 }

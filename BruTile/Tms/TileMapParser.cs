@@ -28,7 +28,7 @@ namespace BruTile.Tms
             var tileSchema = CreateSchema(tileMap);
 
             var tileUrls = new Dictionary<int, Uri>();
-            foreach (TileMapTileSetsTileSet ts in tileMap.TileSets.TileSet)
+            foreach (var ts in tileMap.TileSets.TileSet)
             {
                 tileUrls[int.Parse(ts.order)] = new Uri(ts.href);
             }
