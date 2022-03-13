@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BruTile.Performance.Desktop
 {
-    class WorkTimer
+    internal class WorkTimer
     {
         private int _threadCompleteCount;
         private readonly int _testCount;

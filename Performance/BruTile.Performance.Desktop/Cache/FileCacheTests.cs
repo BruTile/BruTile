@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace BruTile.Performance.Desktop.Cache
 {
     [TestFixture, Category("CacheTest")]
-    class FileCacheTests
+    internal class FileCacheTests
     {
         private FileCache _cache;
         private string _directory;
@@ -27,10 +27,9 @@ namespace BruTile.Performance.Desktop.Cache
             var loadWork = new WorkTimer(threadCount);
             var findWork = new WorkTimer(threadCount);
             loadWork.TimeWork(
-                i => new
-                {
+                i => new {
                     TileIndex = new TileIndex(i % 10, i / 10, 1),
-                    Image = new [] { (byte)i }
+                    Image = new[] { (byte)i }
                 },
                 args => _cache.Add(args.TileIndex, args.Image));
             loadWork.WaitForTestsToComplete();
