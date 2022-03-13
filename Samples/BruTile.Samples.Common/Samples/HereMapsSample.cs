@@ -1,4 +1,6 @@
-﻿using BruTile.Predefined;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using BruTile.Predefined;
 using BruTile.Web;
 
 namespace BruTile.Samples.Common.Samples

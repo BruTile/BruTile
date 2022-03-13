@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using System.Drawing;
 
 namespace BruTile.Samples.MbTiles
 {

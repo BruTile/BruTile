@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
+
+using System;
 using NUnit.Framework;
 
 namespace BruTile.Tests
@@ -15,7 +17,7 @@ namespace BruTile.Tests
             var extentDiffMinX = new Extent(-181, -90, 180, 90);
             var extentDiffMinY = new Extent(-180, -91, 180, 90);
             var extentDiffMaxX = new Extent(-180, -90, 181, 90);
-            var extentDiffMaxy = new Extent(-180, -90, 180, 91);
+            var extentDiffMaxY = new Extent(-180, -90, 180, 91);
 
             // Act + Assert
             Assert.True(extent == extentSame);
@@ -23,7 +25,7 @@ namespace BruTile.Tests
             Assert.False(extent == extentDiffMinX);
             Assert.False(extent == extentDiffMinY);
             Assert.False(extent == extentDiffMaxX);
-            Assert.False(extent == extentDiffMaxy);
+            Assert.False(extent == extentDiffMaxY);
         }
 
         [Test]

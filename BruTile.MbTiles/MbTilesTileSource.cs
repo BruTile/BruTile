@@ -96,7 +96,7 @@ namespace BruTile.MbTiles
 
             var length = zoomMax.Value - zoomMin.Value + 1;
             var levels = new int[length];
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
                 levels[i] = i + zoomMin.Value;
 
             return levels;
@@ -169,9 +169,9 @@ namespace BruTile.MbTiles
             if ((Math.Abs(mercatorXLon) > 180 || Math.Abs(mercatorYLat) > 90))
                 return;
 
-            double num = mercatorXLon * 0.017453292519943295;
-            double x = 6378137.0 * num;
-            double a = mercatorYLat * 0.017453292519943295;
+            var num = mercatorXLon * 0.017453292519943295;
+            var x = 6378137.0 * num;
+            var a = mercatorYLat * 0.017453292519943295;
 
             mercatorXLon = x;
             mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
