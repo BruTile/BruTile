@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using BruTile.Cache;
 using BruTile.Samples.Common;
 
