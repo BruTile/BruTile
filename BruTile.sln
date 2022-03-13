@@ -4,6 +4,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Common", "00_Common", "{3C2B3A0E-FCC9-4ACC-88D0-D8A540C4E249}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		BruTile.Common.props = BruTile.Common.props
 		BruTile.sln.DotSettings = BruTile.sln.DotSettings
@@ -49,11 +50,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Samples.MbTiles", "Samples\BruTile.Samples.MbTiles\BruTile.Samples.MbTiles.csproj", "{B7B95174-F996-45F5-9CC3-8FB245F52A3D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Demo", "Samples\BruTile.Demo\BruTile.Demo.csproj", "{2B4CD5F9-D17E-4EA4-8E6F-E16CF02773A6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F11BCE7-5663-4987-AE52-E6BB14F6BDA1}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
