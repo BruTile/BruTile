@@ -217,8 +217,8 @@ namespace BruTile.Samples.Common
             Tile = tile;
         }
 
-        public Exception Error { get; private set; }
-        public bool Cancelled { get; private set; }
-        public Tile<T> Tile { get; private set; }
+        public Exception Error { get; }
+        public bool Cancelled { get; }
+        public Tile<T> Tile { get; }
     }
 }

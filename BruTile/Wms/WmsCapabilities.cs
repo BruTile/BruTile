@@ -16,7 +16,7 @@ namespace BruTile.Wms
         private Service _serviceField;
         private Capability _capabilityField;
         public string UpdateSequence { get; set; }
-        public ServiceExceptionReport ServiceExceptionReport { get; private set; }
+        public ServiceExceptionReport ServiceExceptionReport { get; }
         public WmsVersion Version { get; set; }
 
 

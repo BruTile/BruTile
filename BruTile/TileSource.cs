@@ -38,7 +38,7 @@ namespace BruTile
         /// <summary>
         /// Gets a value indicating the tile schema
         /// </summary>
-        public ITileSchema Schema { get; private set; }
+        public ITileSchema Schema { get; }
 
         public override string ToString()
         {

@@ -32,16 +32,12 @@ namespace BruTile.Wmts
         /// <summary>
         /// Gets the Crs identifier for this scale set
         /// </summary>
-        public CrsIdentifier Crs
-        {
-            get; private set;
-            
-        }
+        public CrsIdentifier Crs { get; }
 
         /// <summary>
         /// Gets a value indicating the name of the scale set
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 

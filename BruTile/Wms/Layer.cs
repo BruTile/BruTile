@@ -179,23 +179,23 @@ namespace BruTile.Wms
 
         public ExGeographicBoundingBox ExGeographicBoundingBox { get; set; }
 
-        public List<BoundingBox> BoundingBox { get; private set; }
+        public List<BoundingBox> BoundingBox { get; }
 
-        public List<Dimension> Dimension { get; private set; }
+        public List<Dimension> Dimension { get; }
 
         public Attribution Attribution { get; set; }
 
-        public List<AuthorityURL> AuthorityURL { get; private set; }
+        public List<AuthorityURL> AuthorityURL { get; }
 
-        public List<Identifier> Identifier { get; private set; }
+        public List<Identifier> Identifier { get; }
 
-        public List<MetadataURL> MetadataURL { get; private set; }
+        public List<MetadataURL> MetadataURL { get; }
 
-        public List<DataURL> DataURL { get; private set; }
+        public List<DataURL> DataURL { get; }
 
-        public List<FeatureListURL> FeatureListURL { get; private set; }
+        public List<FeatureListURL> FeatureListURL { get; }
 
-        public List<Style> Style { get; private set; }
+        public List<Style> Style { get; }
 
         public List<Layer> ChildLayers
         {

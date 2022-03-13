@@ -10,7 +10,7 @@ namespace BruTile.Web
 {
     public class ArcGisTileSource : TileSource
     {
-        public string BaseUrl { get; private set; }
+        public string BaseUrl { get; }
 
         public ArcGisTileSource(
                 string baseUrl, 
