@@ -16,7 +16,7 @@ namespace BruTile.Tests
             var extentDiffMinY = new Extent(-180, -91, 180, 90);
             var extentDiffMaxX = new Extent(-180, -90, 181, 90);
             var extentDiffMaxy = new Extent(-180, -90, 180, 91);
-            
+
             // Act + Assert
             Assert.True(extent == extentSame);
             Assert.False(extent != extentSame);
@@ -30,11 +30,11 @@ namespace BruTile.Tests
         public void TestMinSmallerThanMax()
         {
             // Arrange + act + assert
-            Assert.Throws<ArgumentException> (() =>
-            {
-                var extent = new Extent(-180, 90, 180, -90);
-                Assert.IsNotNull(extent);
-            });
+            Assert.Throws<ArgumentException>(() =>
+           {
+               var extent = new Extent(-180, 90, 180, -90);
+               Assert.IsNotNull(extent);
+           });
         }
     }
 }

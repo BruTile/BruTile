@@ -10,13 +10,13 @@ namespace BruTile.Tests.Crs
     {
         private const string EpsgAccessDatabase = @"D:\GIS\EPSG_v8_3.mdb";
 
-        private string SqlLength = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
+        private readonly string SqlLength = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
                                    " FROM [Unit of Measure] AS uom WHERE (((uom.TARGET_UOM_CODE)=9001));";
 
-        private string SqlAngle = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
+        private readonly string SqlAngle = "SELECT [UOM_CODE], [UNIT_OF_MEAS_NAME], uom.FACTOR_B, uom.FACTOR_C" +
                                   " FROM [Unit of Measure] AS uom WHERE (((uom.TARGET_UOM_CODE)=9101));";
 
-        private string SqlEpsgToUom =
+        private readonly string SqlEpsgToUom =
             @"SELECT [Coordinate Reference System].COORD_REF_SYS_CODE, [Coordinate Axis].UOM_CODE, [Unit of Measure].TARGET_UOM_CODE
 FROM [Coordinate Reference System] INNER JOIN ([Unit of Measure] INNER JOIN [Coordinate Axis] ON [Unit of Measure].UOM_CODE = [Coordinate Axis].UOM_CODE) ON [Coordinate Reference System].COORD_SYS_CODE = [Coordinate Axis].COORD_SYS_CODE
 WHERE ((([Coordinate Axis].ORDER)=1))
@@ -143,7 +143,7 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             {
                 if ((int)dr[0] > 32768) break;
                 if (!CrsIdentifier.TryParse($"urn:ogc:def:crs:EPSG::{dr.GetInt32(0)}", out var crs)) continue;
-                
+
                 var uom = new UnitOfMeasure();
                 Assert.DoesNotThrow(() => uom = registry[crs], "Getting unit of measure failed for {0}", crs);
 

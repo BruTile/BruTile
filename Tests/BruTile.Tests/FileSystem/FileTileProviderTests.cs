@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BruTile.Cache;
-using NUnit.Framework;
 using BruTile.FileSystem;
+using NUnit.Framework;
 
 namespace BruTile.Tests.FileSystem
 {
@@ -14,7 +14,7 @@ namespace BruTile.Tests.FileSystem
         {
             // Arrange
             var tileCache = new FileCache(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
-            tileCache.Add(new TileIndex(4, 5, 8),new byte[243]);
+            tileCache.Add(new TileIndex(4, 5, 8), new byte[243]);
             var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
             // Act

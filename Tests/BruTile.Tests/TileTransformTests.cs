@@ -1,8 +1,8 @@
-﻿using BruTile.Predefined;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BruTile.Predefined;
+using NUnit.Framework;
 
 namespace BruTile.Tests
 {
@@ -60,7 +60,7 @@ namespace BruTile.Tests
                 var tileInfos = schema.GetTileInfos(requestExtent, resolution.Value.Level).ToList();
 
                 // Assert
-                Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4,counter++)));
+                Assert.True(tileInfos.Count == (int)Math.Round(Math.Pow(4, counter++)));
                 if (counter >= 6) break;
             }
         }
@@ -140,7 +140,7 @@ namespace BruTile.Tests
             var expectedColCount = 10;
             var expectedRowCount = 20; // Because tileHeight is half the tileHeight there is a double number of rows
 
-            var schema = new TileSchema {Extent = new Extent(0, 0, 100, 100), OriginX = 0, OriginY = 0};
+            var schema = new TileSchema { Extent = new Extent(0, 0, 100, 100), OriginX = 0, OriginY = 0 };
             schema.Resolutions.Add(0, new Resolution(0, 1, tileWidth, tileHeight, 0, 0, 10, 10, 1));
             var requestedExtent = new Extent(0, 0, 100, 100);
 

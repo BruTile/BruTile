@@ -92,7 +92,7 @@ namespace BruTile.Tests.Cache
             var count = 0;
             foreach (var ti in GetRandomTileIndices(NumberToSearch))
             {
-                var task = new Task(FindTileOnTread, new object[] {ti, waitHandle, ++count});
+                var task = new Task(FindTileOnTread, new object[] { ti, waitHandle, ++count });
                 task.Start();
             }
 
@@ -118,7 +118,7 @@ namespace BruTile.Tests.Cache
             var args = (object[])arg;
             var tileIndex = (TileIndex)args[0];
             var resetEvent = (AutoResetEvent)args[1];
-            var count = (int) args[2];
+            var count = (int)args[2];
 
             var sw = new Stopwatch();
             sw.Start();
@@ -147,7 +147,7 @@ namespace BruTile.Tests.Cache
             var tk = new TileIndex(1, 2, 0);
             Cache.Remove(tk);
 
-            byte[] bm = Cache.Find(tk);
+            var bm = Cache.Find(tk);
             Assert.IsNull(bm);
         }
     }

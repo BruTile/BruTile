@@ -57,11 +57,11 @@ namespace BruTile.Tests.Cache
             memoryCache.Add(new TileIndex(2, 0, 0), new DisposableTile());
             memoryCache.Add(new TileIndex(3, 0, 0), new DisposableTile());
             var tileCountBeforeExceedingMax = memoryCache.TileCount;
-            
+
             // Act
             memoryCache.Add(new TileIndex(4, 0, 0), new DisposableTile());
             var tileCountAfterExceedingMax = memoryCache.TileCount;
-            
+
             // Assert
             Assert.True(tileCountBeforeExceedingMax == 3);
             Assert.True(tileCountAfterExceedingMax == 2);
@@ -78,11 +78,11 @@ namespace BruTile.Tests.Cache
             var tileOne = new TileIndex(0, 2, 0);
             var tileTwo = new TileIndex(2, 2, 2);
             var tileThree = new TileIndex(0, 8, 0);
-            
+
             // Act
             memoryCache.Add(tileOne, tileBytes);
             memoryCache.Add(tileTwo, tileBytes);
-            memoryCache.Add(tileThree, tileBytes); 
+            memoryCache.Add(tileThree, tileBytes);
             // Third tile causes CleanUp inside Add because max is 2
             // normally only the last one would remain.
             // With this keepTileMemory method the first two remain.

@@ -28,7 +28,7 @@ namespace BruTile.Tests.Crs
               ) 
             );";
 
-        [Test, Explicit("This is not a test, it creates the bit field crs directions.\nYou need to have the EPSG Access Database at '"+EpsgAccessDatabase+"'!")]
+        [Test, Explicit("This is not a test, it creates the bit field crs directions.\nYou need to have the EPSG Access Database at '" + EpsgAccessDatabase + "'!")]
         [Ignore("Use this one when finally resolving the axis order issue")]
         public void BuildAxisOrderBitArray()
         {
@@ -81,7 +81,7 @@ namespace BruTile.Tests.Crs
             WriteBytes(buffer, 20);
         }
 
-        private static  void WriteBlocks(string text, int block = 60)
+        private static void WriteBlocks(string text, int block = 60)
         {
             var i = 0;
             while (i + block < text.Length)
@@ -113,7 +113,7 @@ namespace BruTile.Tests.Crs
             txt = txt.Substring(0, txt.Length - 1);
 
 
-            Console.WriteLine(txt +"};");
+            Console.WriteLine(txt + "};");
         }
 
         private static string WriteBytesRow(byte[] buffer)
