@@ -163,7 +163,7 @@ namespace BruTile.Samples.MbTiles
             }
         }
 
-        private async void getSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void GetSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
             var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
@@ -175,9 +175,9 @@ namespace BruTile.Samples.MbTiles
                 var tmpFile = Path.GetTempFileName();
                 using (var response = req.GetResponse())
                 {
-                    using (var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile)))
+                    await using (var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile)))
                     {
-                        using (var stream = response.GetResponseStream())
+                        await using (var stream = response.GetResponseStream())
                         {
                             var buffer = new byte[4 * 8192];
                             while (true)
