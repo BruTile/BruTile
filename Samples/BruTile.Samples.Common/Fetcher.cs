@@ -46,7 +46,7 @@ namespace BruTile.Samples.Common
 
         private void StartFetchLoop()
         {
-            Task.Run(() => FetchLoop());
+            Task.Run(FetchLoop);
         }
 
         public void AbortFetch()
