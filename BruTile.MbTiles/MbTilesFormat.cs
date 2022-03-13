@@ -12,7 +12,7 @@ namespace BruTile.MbTiles
         /// <summary>
         /// Portable Network Graphics (PNG)
         /// </summary>
-        Png, 
+        Png,
 
         /// <summary>
         /// Joint Photographic Experts Group (JPEG)
