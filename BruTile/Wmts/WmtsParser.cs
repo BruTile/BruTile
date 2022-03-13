@@ -281,7 +281,7 @@ namespace BruTile.Wmts
 
         private static IEnumerable<TileMatrix> SetLevelOnTileTileMatrix(TileMatrixSet tileMatrixSet)
         {
-            var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator);
+            var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator).ToList();
             var count = 0;
             foreach (var tileMatrix in tileMatrices)
             {
@@ -289,7 +289,7 @@ namespace BruTile.Wmts
                 count++;
             }
 
-            return tileMatrices.ToList();
+            return tileMatrices;
         }
 
         private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)
