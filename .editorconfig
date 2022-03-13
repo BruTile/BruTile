@@ -70,7 +70,7 @@ csharp_prefer_braces = false:suggestion
 #Style - expression bodied member options
 
 #prefer block bodies for accessors
-csharp_style_expression_bodied_accessors = false:suggestion
+csharp_style_expression_bodied_accessors =true:suggestion
 #prefer block bodies for constructors
 csharp_style_expression_bodied_constructors = false:suggestion
 #prefer expression-bodied members for indexers
@@ -78,7 +78,7 @@ csharp_style_expression_bodied_indexers = true:suggestion
 #prefer block bodies for methods
 csharp_style_expression_bodied_methods = false:suggestion
 #prefer block bodies for properties
-csharp_style_expression_bodied_properties = false:suggestion
+csharp_style_expression_bodied_properties =true:suggestion
 
 #Style - expression level options
 
@@ -114,7 +114,7 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggest
 #Style - Modifier preferences
 
 #when this rule is set to a list of modifiers, prefer the specified ordering.
-csharp_preferred_modifier_order = public,private,internal,protected,static,readonly,override,async,volatile:suggestion
+csharp_preferred_modifier_order = public,private,internal,protected,static,readonly,override,virtual,async,volatile:suggestion
 
 #Style - qualification options
 
@@ -126,3 +126,4 @@ dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 #prefer properties not to be prefaced with this. or Me. in Visual Basic
 dotnet_style_qualification_for_property = false:suggestion
+insert_final_newline=true
