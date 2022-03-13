@@ -20,14 +20,6 @@ namespace BruTile.Performance.Desktop
             _testCount = testCount;
         }
 
-        public void TimeWork(Action work)
-        {
-            for (int i = 0; i < _testCount; i++)
-            {
-                Task.Run(() => TimeSingleWork(work));
-            }
-        }
-
         public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
         {
             for (var i = 0; i < _testCount; i++)
