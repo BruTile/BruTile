@@ -57,11 +57,11 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Extent))
+            if (!(obj is Extent extent))
             {
                 return false;
             }
-            return Equals((Extent)obj);
+            return Equals(extent);
         }
 
         public bool Equals(Extent extent)
