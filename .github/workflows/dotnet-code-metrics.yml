@@ -2,7 +2,7 @@ name: '.NET code metrics'
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
     - 'github-actions/DotNet.GitHubAction/**'               # run on all changes to this dir
     - '!github-actions/DotNet.GitHubAction/CODE_METRICS.md' # ignore this file
