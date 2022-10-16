@@ -13,6 +13,7 @@
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/9279219?s=200&amp;v=4</PackageIconUrl>
     <Authors>Paul den Dulk, Felix Obermaier</Authors>
     <Company>BruTile Developers Team</Company>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <!--- Compiler settings -->
