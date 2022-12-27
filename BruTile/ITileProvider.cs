@@ -1,6 +1,9 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Threading.Tasks;
+
+#nullable enable
 
 namespace BruTile
 {
@@ -11,6 +14,6 @@ namespace BruTile
         /// </summary>
         /// <param name="tileInfo"></param>
         /// <returns></returns>
-        Task<byte[]> GetTileAsync(TileInfo tileInfo);
+        Task<byte[]?> GetTileAsync(TileInfo tileInfo);
     }
 }
