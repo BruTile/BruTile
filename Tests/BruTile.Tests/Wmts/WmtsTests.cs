@@ -18,6 +18,7 @@ namespace BruTile.Tests.Wmts
     [TestFixture]
     public class WmtsTests
     {
+        [TestCase("wmts_capabilities_missing_crs.xml")]
         [TestCase("wmts-capabilities-dlr.xml")]
         [TestCase("wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml")]
         public void TestParsingWmtsCapabilities(string xml)

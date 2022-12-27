@@ -460,12 +460,15 @@ namespace BruTile.Wmts
                     case "OGC":
                         if (identifier.Equals(WellKnownScaleSets.CRS84))
                             return this[9102];
-                        return this[9001];
+                        return this[9001]; // assume metre
                     case "EPSG":
                         return this[SeekUom(int.Parse(identifier.Identifier))];
-
+                    default:
+                        // Todo: In this case we can not determine the toMeter. This should be improved. One option
+                        // would be to add some warning to the response. Perhaps it is better to remove all
+                        // information regarding specific projections and return the identifier as is.                        
+                        return this[9001]; // assume metre
                 }
-                throw new ArgumentException("identifier");
             }
         }
 
