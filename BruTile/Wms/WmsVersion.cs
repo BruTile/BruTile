@@ -52,30 +52,14 @@ namespace BruTile.Wms
         public WmsVersion(WmsVersionEnum version)
         {
             Version = version;
-            switch (version)
+            VersionString = version switch
             {
-                case WmsVersionEnum.Version_1_0_0:
-                    VersionString = "1.0.0";
-                    break;
-
-                case WmsVersionEnum.Version_1_0_7:
-                    VersionString = "1.0.7";
-                    break;
-
-                case WmsVersionEnum.Version_1_1_0:
-                    VersionString = "1.1.0";
-                    break;
-
-                case WmsVersionEnum.Version_1_1_1:
-                    VersionString = "1.1.1";
-                    break;
-
-                default:
-                    //case WmsVersionEnum.Version_1_3_0:
-                    VersionString = "1.3.0";
-                    break;
-            }
-
+                WmsVersionEnum.Version_1_0_0 => "1.0.0",
+                WmsVersionEnum.Version_1_0_7 => "1.0.7",
+                WmsVersionEnum.Version_1_1_0 => "1.1.0",
+                WmsVersionEnum.Version_1_1_1 => "1.1.1",
+                _ => "1.3.0",//case WmsVersionEnum.Version_1_3_0:
+            };
             WmsCapabilityNodeTag = version < WmsVersionEnum.Version_1_3_0
                                        ? "WMT_MS_Capability"
                                        : "WMS_Capability";

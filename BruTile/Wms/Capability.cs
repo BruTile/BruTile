@@ -70,7 +70,7 @@ namespace BruTile.Wms
 
         public Request Request
         {
-            get => _requestField ?? (_requestField = new Request());
+            get => _requestField ??= new Request();
             set => _requestField = value;
         }
 
@@ -78,19 +78,19 @@ namespace BruTile.Wms
         [System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
         public List<string> Exception
         {
-            get => _exceptionField ?? (_exceptionField = new List<string>());
+            get => _exceptionField ??= new List<string>();
             set => _exceptionField = value;
         }
 
         public Dictionary<XName, XNode> ExtendedCapabilities
         {
-            get => _extendedCapabilitiesField ?? (_extendedCapabilitiesField = new Dictionary<XName, XNode>());
+            get => _extendedCapabilitiesField ??= new Dictionary<XName, XNode>();
             set => _extendedCapabilitiesField = value;
         }
 
         public Layer Layer
         {
-            get => _layerField ?? (_layerField = new Layer());
+            get => _layerField ??= new Layer();
             set => _layerField = value;
         }
 
@@ -115,8 +115,7 @@ namespace BruTile.Wms
                             break;
 
                         case "Exception":
-                            if (_exceptionField == null)
-                                _exceptionField = new List<string>();
+                            _exceptionField ??= new List<string>();
                             var subReader = reader.ReadSubtree();
                             while (!subReader.EOF)
                             {

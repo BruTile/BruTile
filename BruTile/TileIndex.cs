@@ -19,7 +19,7 @@ namespace BruTile
 
         public int CompareTo(object obj)
         {
-            if (!(obj is TileIndex index))
+            if (obj is not TileIndex index)
             {
                 throw new ArgumentException("object of type TileIndex was expected");
             }
@@ -39,7 +39,7 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TileIndex index))
+            if (obj is not TileIndex index)
                 return false;
 
             return Equals(index);

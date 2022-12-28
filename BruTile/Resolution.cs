@@ -2,7 +2,7 @@
 
 namespace BruTile
 {
-    public struct Resolution
+    public readonly struct Resolution
     {
         public Resolution(int level,
             double unitsPerPixel,

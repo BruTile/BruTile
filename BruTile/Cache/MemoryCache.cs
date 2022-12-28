@@ -10,9 +10,9 @@ namespace BruTile.Cache
 
     public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposable
     {
-        private readonly Dictionary<TileIndex, T> _bitmaps = new Dictionary<TileIndex, T>();
-        private readonly Dictionary<TileIndex, long> _touched = new Dictionary<TileIndex, long>();
-        private readonly object _syncRoot = new object();
+        private readonly Dictionary<TileIndex, T> _bitmaps = new();
+        private readonly Dictionary<TileIndex, long> _touched = new();
+        private readonly object _syncRoot = new();
         private bool _disposed;
         private readonly Func<TileIndex, bool> _keepTileInMemory;
 
@@ -63,7 +63,7 @@ namespace BruTile.Cache
                     _touched.Add(index, GetNextCacheVersion());
                     _bitmaps.Add(index, item);
                     CleanUp();
-                    OnNotifyPropertyChange("TileCount");
+                    OnNotifyPropertyChange(nameof(TileCount));
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace BruTile.Cache
                 disposable?.Dispose();
                 _touched.Remove(index);
                 _bitmaps.Remove(index);
-                OnNotifyPropertyChange("TileCount");
+                OnNotifyPropertyChange(nameof(TileCount));
             }
         }
 
@@ -99,7 +99,7 @@ namespace BruTile.Cache
                 DisposeTilesIfDisposable();
                 _touched.Clear();
                 _bitmaps.Clear();
-                OnNotifyPropertyChange("TileCount");
+                OnNotifyPropertyChange(nameof(TileCount));
             }
         }
 
@@ -139,6 +139,7 @@ namespace BruTile.Cache
             _touched.Clear();
             _bitmaps.Clear();
             _disposed = true;
+            GC.SuppressFinalize(this);
         }
 
         private void DisposeTilesIfDisposable()

@@ -11,7 +11,7 @@ namespace BruTile.Performance.Desktop
     {
         private int _threadCompleteCount;
         private readonly int _testCount;
-        private readonly object _syncRoot = new object();
+        private readonly object _syncRoot = new();
 
         public long MaxTime { get; private set; } = long.MinValue;
         public long MinTime { get; private set; } = long.MaxValue;

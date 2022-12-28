@@ -5,7 +5,7 @@ namespace BruTile.Wmts
     /// <summary>
     /// A precomputed pair of ScaleDenominator and PixelSize
     /// </summary>
-    internal struct ScaleSetItem
+    internal readonly struct ScaleSetItem
     {
         /// <summary>
         /// Initializes a scale set item with the provided values

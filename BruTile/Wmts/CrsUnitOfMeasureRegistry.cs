@@ -43,6 +43,34 @@ namespace BruTile.Wmts
             return Math.Abs(_toMeter - other.ToMeter) < double.Epsilon;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is UnitOfMeasure unitOfmeasure && Equals(unitOfmeasure);
+        }
+
+        public override int GetHashCode()
+        {
+            // based on: https://stackoverflow.com/a/263416/85325
+
+            unchecked // Overflow is fine, just wrap
+            {
+                var hash = 17;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 29 + Name.GetHashCode();
+                hash = hash * 29 + ToMeter.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(UnitOfMeasure left, UnitOfMeasure right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UnitOfMeasure left, UnitOfMeasure right)
+        {
+            return !(left == right);
+        }
     }
 
     public class CrsUnitOfMeasureRegistry
@@ -472,7 +500,7 @@ namespace BruTile.Wmts
             }
         }
 
-        private static readonly Dictionary<int, int> EpsgToUom = new Dictionary<int, int>();
+        private static readonly Dictionary<int, int> EpsgToUom = new();
         private static int SeekUom(int epsgCode)
         {
             lock (EpsgToUom)

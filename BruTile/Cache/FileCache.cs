@@ -9,7 +9,7 @@ namespace BruTile.Cache
 {
     public class FileCache : IPersistentCache<byte[]>
     {
-        private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim _rwLock = new();
         private readonly string _directory;
         private readonly string _format;
         private readonly TimeSpan _cacheExpireTime;
@@ -116,11 +116,9 @@ namespace BruTile.Cache
 
         private void WriteToFile(byte[] image, TileIndex index)
         {
-            using (var fileStream = File.Open(GetFileName(index), FileMode.Create))
-            {
-                fileStream.Write(image, 0, image.Length);
-                fileStream.Flush();
-            }
+            using var fileStream = File.Open(GetFileName(index), FileMode.Create);
+            fileStream.Write(image, 0, image.Length);
+            fileStream.Flush();
         }
     }
 }

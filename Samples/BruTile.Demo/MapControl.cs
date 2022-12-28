@@ -18,7 +18,7 @@ namespace BruTile.Demo
     {
         private Fetcher<Image> _fetcher;
         private readonly Renderer _renderer;
-        private readonly MemoryCache<Tile<Image>> _tileCache = new MemoryCache<Tile<Image>>(200, 300);
+        private readonly MemoryCache<Tile<Image>> _tileCache = new(200, 300);
         private ITileSource _tileSource;
         private bool _invalid = true;
         private Point _previousMousePosition;

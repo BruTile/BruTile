@@ -25,13 +25,13 @@ namespace BruTile.Wms
 
         public Get Get
         {
-            get => _getField ?? (_getField = new Get());
+            get => _getField ??= new Get();
             set => _getField = value;
         }
 
         public Post Post
         {
-            get => _postField ?? (_postField = new Post());
+            get => _postField ??= new Post();
             set => _postField = value;
         }
 

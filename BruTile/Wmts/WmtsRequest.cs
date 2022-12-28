@@ -19,7 +19,7 @@ namespace BruTile.Wmts
 
         private readonly List<ResourceUrl> _resourceUrls;
         private int _resourceUrlCounter;
-        private readonly object _syncLock = new object();
+        private readonly object _syncLock = new();
         private readonly IDictionary<int, string> _levelToIdentifier;
 
         public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier)

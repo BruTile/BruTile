@@ -12,22 +12,13 @@ namespace BruTile.Wmts
         public static bool TryParse(string urnOgcDefCRS, out CrsIdentifier crs)
         {
             var parts = urnOgcDefCRS.Split(':');
-            switch (parts.Length)
+            crs = parts.Length switch
             {
-                case 2:
-                    crs = new CrsIdentifier(parts[0], "", parts[1]);
-                    break;
-                case 6:
-                    crs = new CrsIdentifier(parts[4], "", parts[5]);
-                    break;
-                case 7:
-                    crs = new CrsIdentifier(parts[4], parts[5], parts[6]);
-                    break;
-                default:
-                    crs = new CrsIdentifier();
-                    break;
-            }
-
+                2 => new CrsIdentifier(parts[0], "", parts[1]),
+                6 => new CrsIdentifier(parts[4], "", parts[5]),
+                7 => new CrsIdentifier(parts[4], parts[5], parts[6]),
+                _ => new CrsIdentifier(),
+            };
             return !string.IsNullOrEmpty(crs.Authority);
         }
 
@@ -70,6 +61,36 @@ namespace BruTile.Wmts
             if (Version != other.Version) return false;
             if (Identifier != other.Identifier) return false;
             return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CrsIdentifier crsIdentifier && Equals(crsIdentifier);
+        }
+
+        public override int GetHashCode()
+        {
+            // based on: https://stackoverflow.com/a/263416/85325
+
+            unchecked // Overflow is fine, just wrap
+            {
+                var hash = 17;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 29 + Authority.GetHashCode();
+                hash = hash * 29 + Identifier.GetHashCode();
+                hash = hash * 29 + Version.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(CrsIdentifier left, CrsIdentifier right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(CrsIdentifier left, CrsIdentifier right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -53,13 +53,13 @@ namespace BruTile.Wms
 
         public ContactPersonPrimary ContactPersonPrimary
         {
-            get => _contactPersonPrimaryField ?? (_contactPersonPrimaryField = new ContactPersonPrimary());
+            get => _contactPersonPrimaryField ??= new ContactPersonPrimary();
             set => _contactPersonPrimaryField = value;
         }
 
         public ContactAddress ContactAddress
         {
-            get => _contactAddressField ?? (_contactAddressField = new ContactAddress());
+            get => _contactAddressField ??= new ContactAddress();
             set => _contactAddressField = value;
         }
 

@@ -65,7 +65,7 @@ namespace BruTile.Wmts
             if (string.IsNullOrEmpty(format))
                 throw new ArgumentNullException(nameof(format));
 
-            if (@abstract == null) @abstract = string.Empty;
+            @abstract ??= string.Empty;
             if (string.IsNullOrEmpty(style)) style = "null";
 
             if (!format.StartsWith("image/"))

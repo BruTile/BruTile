@@ -23,7 +23,7 @@ namespace BruTile
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TileRange range))
+            if (obj is not TileRange range)
                 return false;
 
             return Equals(range);
