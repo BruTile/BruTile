@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <!--- Package information, Version -->
-  <PropertyGroup>
-    <Version>5.0.1</Version>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Copyright>Copyright © BruTile Developers Team 2008-2022</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/BruTile/BruTile/master/license.txt</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/BruTile/BruTile</RepositoryUrl>
-    <PackageIconUrl>https://avatars2.githubusercontent.com/u/9279219?s=200&amp;v=4</PackageIconUrl>
-    <Authors>Paul den Dulk, Felix Obermaier</Authors>
-    <Company>BruTile Developers Team</Company>
-    <LangVersion>10.0</LangVersion>
-  </PropertyGroup>
+	<!--- Package information, Version -->
+	<PropertyGroup>
+		<Version>5.0.1</Version>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Copyright>Copyright © BruTile Developers Team 2008-2022</Copyright>
+		<PackageLicenseFile>license.txt</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/BruTile/BruTile</RepositoryUrl>
+		<PackageIcon>brutile.png</PackageIcon>
+		<Authors>Paul den Dulk, Felix Obermaier</Authors>
+		<Company>BruTile Developers Team</Company>
+		<LangVersion>10.0</LangVersion>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
 
-  <!--- Compiler settings -->
-  <PropertyGroup>
-    <OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
-    <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
-  </PropertyGroup>
+	<!--- Compiler settings -->
+	<PropertyGroup>
+		<OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
+		<DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
 
-  <PropertyGroup Label="SourceLink Info">
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+	<PropertyGroup Label="SourceLink Info">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <!-- SourceLink adds stuff to let debuggers step into our code. -->
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
+	<ItemGroup>
+		<!-- SourceLink adds stuff to let debuggers step into our code. -->
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+		<Content Include="..\license.txt" Link="license.txt" Pack="true" PackagePath="" />
+		<None Include="..\Images\brutile.png" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
 </Project>

@@ -9,6 +9,10 @@ using System.Xml;
 using System.Xml.Linq;
 using BruTile.Extensions;
 
+// Disabled warning for obsolete WebRequest because this is not tested in our code so we can not
+// validate an alternative solution. We do not use this ourselves so do not want to spend time on it.
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
+
 namespace BruTile.Wms
 {
     public class WmsCapabilities
