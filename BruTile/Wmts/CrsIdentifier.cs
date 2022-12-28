@@ -65,7 +65,7 @@ namespace BruTile.Wmts
 
         public override bool Equals(object obj)
         {
-            return obj is CrsIdentifier && Equals((CrsIdentifier)obj);
+            return obj is CrsIdentifier crsIdentifier && Equals(crsIdentifier);
         }
 
         public override int GetHashCode()

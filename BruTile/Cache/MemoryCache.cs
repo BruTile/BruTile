@@ -139,6 +139,7 @@ namespace BruTile.Cache
             _touched.Clear();
             _bitmaps.Clear();
             _disposed = true;
+            GC.SuppressFinalize(this);
         }
 
         private void DisposeTilesIfDisposable()
