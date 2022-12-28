@@ -17,7 +17,7 @@ namespace BruTile.Samples.Common
         private double _unitsPerPixel;
         private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
         private const int MaxThreads = 4;
-        private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent _waitHandle = new(false);
         private readonly IFetchStrategy _strategy = new FetchStrategy();
         private volatile bool _isAborted;
         private volatile bool _isViewChanged;
@@ -55,7 +55,7 @@ namespace BruTile.Samples.Common
         private void FetchLoop()
         {
             IEnumerable<TileInfo> tilesWanted = null;
-            if (_retries == null) _retries = new Retries();
+            _retries ??= new Retries();
 
             while (!_isAborted)
             {

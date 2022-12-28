@@ -117,7 +117,7 @@ namespace BruTile.Predefined
         /// <summary>
         /// Gets the Well-Known-Text representation of the spatial reference system
         /// </summary>
-        public string SrsWkt =>
+        public static string SrsWkt =>
             "PROJCS[\"WGS84 / Simple Mercator\", " +
             "GEOGCS[\"WGS 84\", " +
             "DATUM[\"WGS_1984\", SPHEROID[\"WGS_1984\",6378137,298.257223563]], " +

@@ -152,7 +152,7 @@ namespace BruTile.Wmts
                         }
                         else
                         {
-                            list.Add(item.href.Contains("?")
+                            list.Add(item.href.Contains('?')
                                 ? new KeyValuePair<string, string>("kvp", item.href)
                                 : new KeyValuePair<string, string>(string.Empty, item.href));
                         }
@@ -173,14 +173,14 @@ namespace BruTile.Wmts
         private static string CreateRestfulFormatter(string baseUrl, string format, string style, string tileMatrixSet)
         {
             if (!baseUrl.EndsWith("/")) baseUrl += "/";
-            return new StringBuilder(baseUrl).Append(style).Append("/").Append(tileMatrixSet)
-                .Append("/{TileMatrix}/{TileRow}/{TileCol}").Append(".").Append(format).ToString();
+            return new StringBuilder(baseUrl).Append(style).Append('/').Append(tileMatrixSet)
+                .Append("/{TileMatrix}/{TileRow}/{TileCol}").Append('.').Append(format).ToString();
         }
 
         private static string CreateKvpFormatter(string baseUrl, string format, string version, string layer, string style, string tileMatrixSet)
         {
             var requestBuilder = new StringBuilder(baseUrl);
-            if (!baseUrl.Contains("?")) requestBuilder.Append("?");
+            if (!baseUrl.Contains('?')) requestBuilder.Append('?');
             requestBuilder.Append("SERVICE=").Append("WMTS")
                           .Append("&REQUEST=").Append("GetTile")
                           .Append("&VERSION=").Append(version)
@@ -294,15 +294,12 @@ namespace BruTile.Wmts
 
         private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)
         {
-            switch (bbaoi)
+            return bbaoi switch
             {
-                case BoundingBoxAxisOrderInterpretation.Natural:
-                    return new[] { 0, 1 };
-                case BoundingBoxAxisOrderInterpretation.Geographic:
-                    return new[] { 1, 0 };
-                default:
-                    return ordinateOrder;
-            }
+                BoundingBoxAxisOrderInterpretation.Natural => new[] { 0, 1 },
+                BoundingBoxAxisOrderInterpretation.Geographic => new[] { 1, 0 },
+                _ => ordinateOrder,
+            };
         }
 
         private static Extent ToExtent(TileMatrixSet tileMatrixSet, WmtsTileSchema tileSchema, int[] ordinateOrder)
@@ -366,7 +363,7 @@ namespace BruTile.Wmts
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
             {
-                if (ss == null) throw new ArgumentNullException();
+                if (ss == null) throw new ArgumentNullException(nameof(ss));
 
                 unitsPerPixel = ss[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
             }

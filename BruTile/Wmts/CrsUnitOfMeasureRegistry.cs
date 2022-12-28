@@ -472,7 +472,7 @@ namespace BruTile.Wmts
             }
         }
 
-        private static readonly Dictionary<int, int> EpsgToUom = new Dictionary<int, int>();
+        private static readonly Dictionary<int, int> EpsgToUom = new();
         private static int SeekUom(int epsgCode)
         {
             lock (EpsgToUom)

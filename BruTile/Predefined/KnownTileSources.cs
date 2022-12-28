@@ -38,10 +38,10 @@ namespace BruTile.Predefined
 
     public static class KnownTileSources
     {
-        private static readonly Attribution OpenStreetMapAttribution = new Attribution(
+        private static readonly Attribution OpenStreetMapAttribution = new(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
         private static readonly string CurrentYear = DateTime.Today.Year.ToString();
-        private static readonly Attribution BKGAttribution = new Attribution("© Bundesamt für Kartographie und Geodäsie (" + CurrentYear + ")",
+        private static readonly Attribution BKGAttribution = new("© Bundesamt für Kartographie und Geodäsie (" + CurrentYear + ")",
                          "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
 
         /// <summary>
@@ -59,126 +59,102 @@ namespace BruTile.Predefined
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null, string userAgent = null,
             int minZoomLevel = 0, int maxZoomLevel = 20)
         {
-            switch (source)
+            return source switch
             {
-                case KnownTileSource.OpenStreetMap:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(18, maxZoomLevel)),
-                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.OpenCycleMap:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(17, maxZoomLevel)),
-                        "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-                        new[] { "a", "b", "c" }, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.OpenCycleMapTransport:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(20, maxZoomLevel)),
-                        "http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
-                        new[] { "a", "b", "c" }, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.BingAerial:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
-                case KnownTileSource.BingHybrid:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
-                case KnownTileSource.BingRoads:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent);
-                case KnownTileSource.BingAerialStaging:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, userAgent: userAgent);
-                case KnownTileSource.BingHybridStaging:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, userAgent: userAgent);
-                case KnownTileSource.BingRoadsStaging:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
-                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, userAgent: userAgent);
-                case KnownTileSource.StamenToner:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
-                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.StamenTonerLite:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png",
-                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.StamenWatercolor:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
-                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
-                        persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.StamenTerrain:
-                    return
-                        new HttpTileSource(
-                            new GlobalSphericalMercator(Math.Max(4, minZoomLevel), Math.Min(19, maxZoomLevel))
-                            {
-                                Extent = new Extent(-14871588.04, 2196494.41775, -5831227.94199995, 10033429.95725)
-                            },
-                            "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
-                            new[] { "a", "b", "c", "d" }, name: source.ToString(),
-                            persistentCache: persistentCache, tileFetcher: tileFetcher,
-                            attribution: OpenStreetMapAttribution, userAgent: userAgent);
-                case KnownTileSource.EsriWorldTopo:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldPhysical:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(8, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldShadedRelief:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(13, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldReferenceOverlay:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(13, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldTransportation:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldBoundariesAndPlaces:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.EsriWorldDarkGrayBase:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(16, maxZoomLevel)),
-                        "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent);
-                case KnownTileSource.BKGTopPlusColor:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale/default/WEBMERCATOR/{z}/{y}/{x}.png",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: BKGAttribution, userAgent: userAgent);
-                case KnownTileSource.BKGTopPlusGrey:
-                    return new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: BKGAttribution, userAgent: userAgent);
-                default:
-                    throw new NotSupportedException("KnownTileSource not known");
-            }
+                KnownTileSource.OpenStreetMap => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(18, maxZoomLevel)),
+                                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                        name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.OpenCycleMap => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(17, maxZoomLevel)),
+                                        "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.OpenCycleMapTransport => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(20, maxZoomLevel)),
+                                        "http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.BingAerial => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent),
+                KnownTileSource.BingHybrid => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent),
+                KnownTileSource.BingRoads => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, new Attribution("© Microsoft"), userAgent),
+                KnownTileSource.BingAerialStaging => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, userAgent: userAgent),
+                KnownTileSource.BingHybridStaging => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, userAgent: userAgent),
+                KnownTileSource.BingRoadsStaging => new HttpTileSource(new GlobalSphericalMercator(Math.Max(1, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
+                                        new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
+                                        persistentCache, tileFetcher, userAgent: userAgent),
+                KnownTileSource.StamenToner => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.StamenTonerLite => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.StamenWatercolor => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.StamenTerrain => new HttpTileSource(
+                                            new GlobalSphericalMercator(Math.Max(4, minZoomLevel), Math.Min(19, maxZoomLevel))
+                                            {
+                                                Extent = new Extent(-14871588.04, 2196494.41775, -5831227.94199995, 10033429.95725)
+                                            },
+                                            "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
+                                            new[] { "a", "b", "c", "d" }, name: source.ToString(),
+                                            persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                            attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.EsriWorldTopo => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldPhysical => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(8, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldShadedRelief => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(13, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldReferenceOverlay => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(13, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldTransportation => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldBoundariesAndPlaces => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.EsriWorldDarkGrayBase => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(16, maxZoomLevel)),
+                                        "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
+                KnownTileSource.BKGTopPlusColor => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: BKGAttribution, userAgent: userAgent),
+                KnownTileSource.BKGTopPlusGrey => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: BKGAttribution, userAgent: userAgent),
+                _ => throw new NotSupportedException("KnownTileSource not known"),
+            };
         }
     }
 }

@@ -169,7 +169,7 @@ namespace BruTile.Wms
 
         public KeywordList KeywordList
         {
-            get => _keywordListField ?? (_keywordListField = new KeywordList());
+            get => _keywordListField ??= new KeywordList();
             set => _keywordListField = value;
         }
 
@@ -199,7 +199,7 @@ namespace BruTile.Wms
 
         public List<Layer> ChildLayers
         {
-            get => _childLayers ?? (_childLayers = new List<Layer>());
+            get => _childLayers ??= new List<Layer>();
             set => _childLayers = value;
         }
 

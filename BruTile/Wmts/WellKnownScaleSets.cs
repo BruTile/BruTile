@@ -158,11 +158,11 @@ namespace BruTile.Wmts
             });
         }
 
-        internal static CrsIdentifier CRS84 => new CrsIdentifier("OGC", "1.3", "CRS84");
+        internal static CrsIdentifier CRS84 => new("OGC", "1.3", "CRS84");
 
-        internal static CrsIdentifier EPSG3857 => new CrsIdentifier("EPSG", string.Empty, "3857");
+        internal static CrsIdentifier EPSG3857 => new("EPSG", string.Empty, "3857");
 
-        internal static CrsIdentifier EPSG4326 => new CrsIdentifier("EPSG", string.Empty, "4326");
+        internal static CrsIdentifier EPSG4326 => new("EPSG", string.Empty, "4326");
 
         private static ScaleSet CreateGlobalCRS84Scale()
         {

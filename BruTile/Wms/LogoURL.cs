@@ -68,7 +68,7 @@ namespace BruTile.Wms
 
         public OnlineResource OnlineResource
         {
-            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            get => _onlineResourceField ??= new OnlineResource();
             set => _onlineResourceField = value;
         }
 

@@ -42,7 +42,7 @@ namespace BruTile.Web
         private readonly string _urlFormatter;
         private int _nodeCounter;
         private readonly List<string> _serverNodes;
-        private readonly object _nodeCounterLock = new object();
+        private readonly object _nodeCounterLock = new();
 
         /// <summary>
         /// Creates an instance of this class
@@ -110,9 +110,9 @@ namespace BruTile.Web
                 sb.AppendFormat(",(\"{0}\"", _serverNodes[0]);
                 foreach (var serverNode in _serverNodes.Skip(1))
                     sb.AppendFormat(",\"{0}\"", serverNode);
-                sb.Append(")");
+                sb.Append(')');
             }
-            sb.Append("]");
+            sb.Append(']');
             return sb.ToString();
         }
 

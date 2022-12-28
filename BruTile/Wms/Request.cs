@@ -49,25 +49,25 @@ namespace BruTile.Wms
 
         public OperationType GetCapabilities
         {
-            get => _getCapabilitiesField ?? (_getCapabilitiesField = new OperationType());
+            get => _getCapabilitiesField ??= new OperationType();
             set => _getCapabilitiesField = value;
         }
 
         public OperationType GetMap
         {
-            get => _getMapField ?? (_getMapField = new OperationType());
+            get => _getMapField ??= new OperationType();
             set => _getMapField = value;
         }
 
         public OperationType GetFeatureInfo
         {
-            get => _getFeatureInfoField ?? (_getFeatureInfoField = new OperationType());
+            get => _getFeatureInfoField ??= new OperationType();
             set => _getFeatureInfoField = value;
         }
 
         public Dictionary<XName, OperationType> ExtendedOperation
         {
-            get => _extendedOperationField ?? (_extendedOperationField = new Dictionary<XName, OperationType>());
+            get => _extendedOperationField ??= new Dictionary<XName, OperationType>();
             set => _extendedOperationField = value;
         }
 

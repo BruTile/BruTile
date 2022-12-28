@@ -135,19 +135,19 @@ namespace BruTile.Wms
 
         public KeywordList KeywordList
         {
-            get => _keywordListField ?? (_keywordListField = new KeywordList());
+            get => _keywordListField ??= new KeywordList();
             set => _keywordListField = value;
         }
 
         public OnlineResource OnlineResource
         {
-            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            get => _onlineResourceField ??= new OnlineResource();
             set => _onlineResourceField = value;
         }
 
         public ContactInformation ContactInformation
         {
-            get => _contactInformationField ?? (_contactInformationField = new ContactInformation());
+            get => _contactInformationField ??= new ContactInformation();
             set => _contactInformationField = value;
         }
 

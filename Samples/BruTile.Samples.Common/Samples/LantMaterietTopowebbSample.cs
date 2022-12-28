@@ -15,11 +15,9 @@ namespace BruTile.Samples.Common.Samples
             var request = WebRequest.Create(new Uri(url));
             var response = request.GetResponseAsync();
 
-            using (var stream = response.Result.GetResponseStream())
-            {
-                var tileSources = WmtsParser.Parse(stream);
-                return tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
-            }
+            using var stream = response.Result.GetResponseStream();
+            var tileSources = WmtsParser.Parse(stream);
+            return tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
         }
     }
 }

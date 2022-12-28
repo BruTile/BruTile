@@ -32,13 +32,13 @@ namespace BruTile.Wms
 
         public OnlineResource OnlineResource
         {
-            get => _onlineResourceField ?? (_onlineResourceField = new OnlineResource());
+            get => _onlineResourceField ??= new OnlineResource();
             set => _onlineResourceField = value;
         }
 
         public LogoURL LogoURL
         {
-            get => _logoUrlField ?? (_logoUrlField = new LogoURL());
+            get => _logoUrlField ??= new LogoURL();
             set => _logoUrlField = value;
         }
 

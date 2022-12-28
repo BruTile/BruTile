@@ -33,13 +33,13 @@ namespace BruTile.Wms
 
         public List<string> Format
         {
-            get => _formatField ?? (_formatField = new List<string>());
+            get => _formatField ??= new List<string>();
             set => _formatField = value;
         }
 
         public List<DCPType> DCPType
         {
-            get => _DCpTypeField ?? (_DCpTypeField = new List<DCPType>());
+            get => _DCpTypeField ??= new List<DCPType>();
             set => _DCpTypeField = value;
         }
 

@@ -53,19 +53,19 @@ namespace BruTile.Wms
 
         public List<LegendURL> LegendURL
         {
-            get => _legendURLField ?? (_legendURLField = new List<LegendURL>());
+            get => _legendURLField ??= new List<LegendURL>();
             set => _legendURLField = value;
         }
 
         public StyleSheetURL StyleSheetURL
         {
-            get => _styleSheetURLField ?? (_styleSheetURLField = new StyleSheetURL());
+            get => _styleSheetURLField ??= new StyleSheetURL();
             set => _styleSheetURLField = value;
         }
 
         public StyleURL StyleURL
         {
-            get => _styleURLField ?? (_styleURLField = new StyleURL());
+            get => _styleURLField ??= new StyleURL();
             set => _styleURLField = value;
         }
 

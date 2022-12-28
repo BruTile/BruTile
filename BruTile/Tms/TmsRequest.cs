@@ -15,7 +15,7 @@ namespace BruTile.Tms
         private readonly string _imageFormat;
         private readonly Dictionary<string, string> _customParameters;
         private readonly IList<string> _serverNodes;
-        private readonly Random _random = new Random();
+        private readonly Random _random = new();
         private const string ServerNodeTag = "{S}";
 
         public TmsRequest(string baseUrl, string imageFormat, IList<string> serverNodes = null,
@@ -79,13 +79,13 @@ namespace BruTile.Tms
             if (_baseUrl != null)
             {
                 url.Append(_baseUrl);
-                if (!_baseUrl.EndsWith("/")) url.Append("/");
-                url.Append(level).Append("/");
+                if (!_baseUrl.EndsWith("/")) url.Append('/');
+                url.Append(level).Append('/');
             }
             else
             {
                 url.Append(_baseUrls[level]);
-                if (!_baseUrls[level].ToString().EndsWith("/")) url.Append("/");
+                if (!_baseUrls[level].ToString().EndsWith("/")) url.Append('/');
             }
             return url.ToString();
         }

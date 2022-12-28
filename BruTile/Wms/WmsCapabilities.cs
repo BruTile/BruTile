@@ -108,13 +108,13 @@ namespace BruTile.Wms
 
         public Service Service
         {
-            get => _serviceField ?? (_serviceField = new Service());
+            get => _serviceField ??= new Service();
             set => _serviceField = value;
         }
 
         public Capability Capability
         {
-            get => _capabilityField ?? (_capabilityField = new Capability());
+            get => _capabilityField ??= new Capability();
             set => _capabilityField = value;
         }
 
@@ -124,37 +124,35 @@ namespace BruTile.Wms
         {
             var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
 
-            using (var reader = XmlReader.Create(stream, settings))
+            using var reader = XmlReader.Create(stream, settings);
+            reader.MoveToContent();
+
+            var version = reader.GetAttribute("version");
+            var wms = new WmsCapabilities(version)
             {
-                reader.MoveToContent();
+                UpdateSequence = reader.GetAttribute("updateSequence")
+            };
 
-                var version = reader.GetAttribute("version");
-                var wms = new WmsCapabilities(version)
-                {
-                    UpdateSequence = reader.GetAttribute("updateSequence")
-                };
-
-                if (reader.IsEmptyElement)
-                {
-                    reader.Read();
-                    return null;
-                }
-
-                reader.ReadStartElement(wms.Version.Version >= WmsVersionEnum.Version_1_3_0
-                    ? "WMS_Capabilities"
-                    : "WMT_MS_Capabilities");
-
-                reader.MoveToContent();
-                wms.Service.ReadXml(reader.ReadSubtree());
-                reader.ReadEndElement();
-
-                reader.MoveToContent();
-                wms.Capability.ReadXml(reader.ReadSubtree());
-                reader.ReadEndElement();
-
-                reader.ReadEndElement();
-                return wms;
+            if (reader.IsEmptyElement)
+            {
+                reader.Read();
+                return null;
             }
+
+            reader.ReadStartElement(wms.Version.Version >= WmsVersionEnum.Version_1_3_0
+                ? "WMS_Capabilities"
+                : "WMT_MS_Capabilities");
+
+            reader.MoveToContent();
+            wms.Service.ReadXml(reader.ReadSubtree());
+            reader.ReadEndElement();
+
+            reader.MoveToContent();
+            wms.Capability.ReadXml(reader.ReadSubtree());
+            reader.ReadEndElement();
+
+            reader.ReadEndElement();
+            return wms;
         }
 
         public string ToXml()
@@ -170,26 +168,24 @@ namespace BruTile.Wms
 
         public void Save(Stream stream)
         {
-            using (var sw = new StreamWriter(stream))
-                Save(sw);
+            using var sw = new StreamWriter(stream);
+            Save(sw);
         }
 
         public void Save(TextWriter streamWriter)
         {
-            using (var xmlWriter = XmlWriter.Create(streamWriter))
-            {
-                xmlWriter.WriteStartDocument();
+            using var xmlWriter = XmlWriter.Create(streamWriter);
+            xmlWriter.WriteStartDocument();
 
-                Version.WriteCapabilitiesDocType(xmlWriter);
-                Version.WriteStartRootElement(xmlWriter, UpdateSequence);
+            Version.WriteCapabilitiesDocType(xmlWriter);
+            Version.WriteStartRootElement(xmlWriter, UpdateSequence);
 
-                XmlObject.WriteXmlItem("Service", Version.Namespace, xmlWriter, Service);
-                XmlObject.WriteXmlItem("Capability", Version.Namespace, xmlWriter, Capability);
+            XmlObject.WriteXmlItem("Service", Version.Namespace, xmlWriter, Service);
+            XmlObject.WriteXmlItem("Capability", Version.Namespace, xmlWriter, Capability);
 
-                xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
 
-                xmlWriter.WriteEndDocument();
-            }
+            xmlWriter.WriteEndDocument();
         }
 
         public XElement ToXElement(string @namespace)
@@ -218,12 +214,10 @@ namespace BruTile.Wms
         private static XDocument ToXDocument(Uri uri, ICredentials credentials)
         {
             // Todo: Wrap in using?
-            using (var stream = GetRemoteXmlStream(uri, credentials))
-            {
-                var sr = new StreamReader(stream);
-                var ret = XDocument.Load(sr);
-                return ret;
-            }
+            using var stream = GetRemoteXmlStream(uri, credentials);
+            var sr = new StreamReader(stream);
+            var ret = XDocument.Load(sr);
+            return ret;
 
         }
 
@@ -263,7 +257,7 @@ namespace BruTile.Wms
                 // Add missing quotation mark
                 if (pos == 0)
                 {
-                    qry.Append("?");
+                    qry.Append('?');
                     pos = qry.Length;
                 }
 
@@ -307,7 +301,7 @@ namespace BruTile.Wms
         {
             var flag = 0;
 
-            var posQuestion = query.IndexOf("?", StringComparison.OrdinalIgnoreCase);
+            var posQuestion = query.IndexOf('?');
             if (posQuestion > -1)
             {
                 foreach (var parameter in query.Substring(posQuestion + 1).Split('&'))

@@ -103,7 +103,7 @@ namespace BruTile.Tests.Cache
             Console.WriteLine("{0} Tiles found in {1}ms (Penalty: {2}ms).", NumberToSearch, sw.ElapsedMilliseconds, WaitMilliseconds);
         }
 
-        private readonly Random _random = new Random(93765783);
+        private readonly Random _random = new(93765783);
 
         private IEnumerable<TileIndex> GetRandomTileIndices(int numberOfTileInfos)
         {

@@ -10,28 +10,22 @@ namespace BruTile
 
         public static TileRange WorldToTile(Extent extent, int level, ITileSchema schema)
         {
-            switch (schema.YAxis)
+            return schema.YAxis switch
             {
-                case YAxis.TMS:
-                    return WorldToTileNormal(extent, level, schema);
-                case YAxis.OSM:
-                    return WorldToTileInvertedY(extent, level, schema);
-                default:
-                    throw new Exception("YAxis type was not found");
-            }
+                YAxis.TMS => WorldToTileNormal(extent, level, schema),
+                YAxis.OSM => WorldToTileInvertedY(extent, level, schema),
+                _ => throw new Exception("YAxis type was not found"),
+            };
         }
 
         public static Extent TileToWorld(TileRange range, int level, ITileSchema schema)
         {
-            switch (schema.YAxis)
+            return schema.YAxis switch
             {
-                case YAxis.TMS:
-                    return TileToWorldNormal(range, level, schema);
-                case YAxis.OSM:
-                    return TileToWorldInvertedY(range, level, schema);
-                default:
-                    throw new Exception("YAxis type was not found");
-            }
+                YAxis.TMS => TileToWorldNormal(range, level, schema),
+                YAxis.OSM => TileToWorldInvertedY(range, level, schema),
+                _ => throw new Exception("YAxis type was not found"),
+            };
         }
 
         private static TileRange WorldToTileNormal(Extent extent, int level, ITileSchema schema)
