@@ -1,38 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFramework>net6</TargetFramework>
-    <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
-    <PackageTags>tiling gis osm geo</PackageTags>
-    <Authors>Paul den Dulk, Felix Obermaier</Authors>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
-    <RootNamespace>BruTile.MbTiles.Tests</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6</TargetFramework>
+		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
+		<PackageTags>tiling gis osm geo</PackageTags>
+		<Authors>Paul den Dulk, Felix Obermaier</Authors>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+		<RootNamespace>BruTile.MbTiles.Tests</RootNamespace>
+	</PropertyGroup>
 
-  <Import Project="$(SolutionDir)BruTile.Common.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
+		<ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-    <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+		<PackageReference Include="NUnit" Version="3.13.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
+		<PackageReference Include="coverlet.collector" Version="3.1.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\el-molar.mbtiles">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\test.mbtiles">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\torrejon-de-ardoz.mbtiles">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Resources\el-molar.mbtiles">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\test.mbtiles">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\torrejon-de-ardoz.mbtiles">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

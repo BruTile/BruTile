@@ -12,10 +12,8 @@ namespace BruTile.Performance.Desktop.Utilities
         {
             get
             {
-                var codeBase = Assembly.GetExecutingAssembly().CodeBase!;
-                var uri = new UriBuilder(codeBase);
-                var path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
+                var asm = typeof(Paths).GetTypeInfo().Assembly;
+                return Path.GetDirectoryName(asm.Location);
             }
         }
     }
