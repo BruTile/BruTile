@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.6.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D70B7185-B90D-4CB7-8FDB-441FADD9821D}"
 EndProject
@@ -10,10 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.MbTiles", "BruTile.MbTiles\BruTile.MbTiles.csproj", "{CFD89526-A4FB-4C52-A8D6-7F59A0E3EF7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{FC9F55A8-498E-4FFE-9127-E8CB7725DC9D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{7DF3BF5B-CC8A-42E1-A616-F96924AB04BB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetVersionFromAssembly", "Tools\GetVersionFromAssembly\GetVersionFromAssembly.csproj", "{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.Performance.Desktop", "Performance\BruTile.Performance.Desktop\BruTile.Performance.Desktop.csproj", "{F1C36376-58EE-457F-A2A2-ADE35A39FC8D}"
 EndProject
@@ -59,18 +55,6 @@ Global
 		{CFD89526-A4FB-4C52-A8D6-7F59A0E3EF7F}.Release|x64.Build.0 = Release|Any CPU
 		{CFD89526-A4FB-4C52-A8D6-7F59A0E3EF7F}.Release|x86.ActiveCfg = Release|Any CPU
 		{CFD89526-A4FB-4C52-A8D6-7F59A0E3EF7F}.Release|x86.Build.0 = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|x64.Build.0 = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Debug|x86.Build.0 = Debug|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|x64.ActiveCfg = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|x64.Build.0 = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|x86.ActiveCfg = Release|Any CPU
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485}.Release|x86.Build.0 = Release|Any CPU
 		{F1C36376-58EE-457F-A2A2-ADE35A39FC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1C36376-58EE-457F-A2A2-ADE35A39FC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C36376-58EE-457F-A2A2-ADE35A39FC8D}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -124,7 +108,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{13A6F9A1-6FE9-4BC9-B017-DCA436D06485} = {7DF3BF5B-CC8A-42E1-A616-F96924AB04BB}
 		{F1C36376-58EE-457F-A2A2-ADE35A39FC8D} = {FC9F55A8-498E-4FFE-9127-E8CB7725DC9D}
 		{65B03D41-85CD-492C-99F9-4CD545651A3A} = {D70B7185-B90D-4CB7-8FDB-441FADD9821D}
 		{1A6D2993-C380-4DF4-9952-A9F22FFD34EB} = {D70B7185-B90D-4CB7-8FDB-441FADD9821D}
