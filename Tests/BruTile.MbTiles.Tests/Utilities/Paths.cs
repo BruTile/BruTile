@@ -13,7 +13,7 @@ namespace BruTile.MbTiles.Tests.Utilities
             get
             {
                 var asm = typeof(Paths).GetTypeInfo().Assembly;
-                var codeBase = asm.CodeBase!;
+                var codeBase = asm.Location;
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
