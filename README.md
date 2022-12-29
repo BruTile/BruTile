@@ -1,10 +1,10 @@
 |   | Status  | 
 | ------------- |:-------------:|
-| Build | [![Build status](https://ci.appveyor.com/api/projects/status/5s4poobpfab9g8ny?svg=true)](https://ci.appveyor.com/project/pauldendulk/brutile) |
+| Build | [![Build status](https://github.com/brutile/brutile/actions/workflows/build.yml/badge.svg)](https://github.com/BruTile/BruTile/actions/workflows/build.yml?query=branch%3Amaster) |
 | NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
 
 ### BruTile
-BruTile is a .NET Standard 1.1 library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
+BruTile is a .NET Standard 2.0 library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
 BruTile returns tiles as raw image streams and has no dependency on a specific client platform. BruTile does not display those tiles. You need to use a mapping library like SharpMap, ArcBruTile or [Mapsui](https://github.com/Mapsui/Mapsui) or write your own code to display tiles. 
 
 What BruTile does is:
@@ -25,23 +25,10 @@ What BruTile does is:
 - Support for .NET Framework 4.5 has been removed (also the samples and tests have moved to .NET Core). 
 - BruTile.Desktop and BruTile.Desktop.DbCache have been deleted and their content has moved to the BruTile nuget.
 
-**BruTile V3** supports .NET Standard. The Profiles by NuGet package:
-
-| Library                  |   Targeted Framework  |
-| ------------------------ | --------------------- |
-| BruTile                  |  .NET Standard 1.1    |
-| BruTile.MbTiles          |  .NET Standard 1.1    |
-| BruTile.Desktop          |  .NET Standard 1.6    |
-| BruTile.Desktop.DbCache  |  .NET Standard 2.0    |
-
-All the above libraries additionally target .Net Framework 4.5
-
 ### Demo
 For a demo showing various data sources download the source code and run BruTile.Demo in the Samples folder
 
 ## Getting Started
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/bertt/brutile/patch-1)
 
 ### 1) Create an app and add the BruTile NuGet package
 Create a .NET Console app in Visual Studio. The the BruTile NuGet package. Use the package manager tools in Visual Studio or add it from the package manager console:
