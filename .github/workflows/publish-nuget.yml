@@ -34,15 +34,10 @@ jobs:
         dotnet-version: 6.0.402
 
     - name: Build
-      run: dotnet build $SOLUTION --configuration Release -p:Version=${{ inputs.release_version }} --no-restore
+      run: dotnet build $SOLUTION --configuration Release -p:Version=${{ inputs.release_version }} --no-restore /p:PackageOutputPath="nugets". 
 
     - name: Test
       run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal -p:Version=${{ inputs.release_version }}
-    
-    - name: Pack
-      run: |
-        dotnet pack BruTile/BruTile.csproj -p:PackageVersion=${{ inputs.release_version }} --output nugets
-        dotnet pack BruTile.MbTiles/BruTile.MbTiles.csproj -p:PackageVersion=${{ inputs.release_version }} --output nugets
     
     - name: Tag
       if: ${{ inputs.release_nuget }} 
