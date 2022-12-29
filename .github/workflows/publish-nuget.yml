@@ -36,8 +36,8 @@ jobs:
     - name: Build
       run: dotnet build $SOLUTION --configuration Release -p:Version=${{ inputs.release_version }} --no-restore
 
-    - name: Run tests
-      run: dotnet test $SOLUTION  /p:Configuration=Release --no-restore --no-build --verbosity normal
+    - name: Test
+      run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal
       
     - name: Publish
       if: ${{ inputs.release_nuget }} 
