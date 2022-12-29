@@ -15,7 +15,7 @@ jobs:
   build:
 
     env:
-      SOLUTION: 'BruTile-Build.sln'
+      SOLUTION: 'BruTile.sln'
 
     runs-on: ubuntu-latest
 
