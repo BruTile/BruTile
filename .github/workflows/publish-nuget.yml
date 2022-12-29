@@ -47,4 +47,4 @@ jobs:
     
     - name: Publish
       if: ${{ inputs.release_nuget }} 
-      run: nuget push ${GITHUB_WORKSPACE}/nugets/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_APIKEY}}
+      run: nuget push ${GITHUB_WORKSPACE}/nugets/**/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_APIKEY}}
