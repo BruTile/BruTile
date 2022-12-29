@@ -166,7 +166,9 @@ namespace BruTile.Samples.MbTiles
         private async void GetSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
             var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
             var success = true;
             try
             {
