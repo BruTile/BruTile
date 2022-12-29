@@ -1,0 +1,28 @@
+name: Build BruTile
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ '**' ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    env:
+      SOLUTION: 'BruTile.sln'
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.402
+    - name: Build
+      run: dotnet build $SOLUTION --configuration Release
+    - name: Test
+      run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal
