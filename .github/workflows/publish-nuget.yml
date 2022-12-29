@@ -17,7 +17,7 @@ jobs:
     env:
       SOLUTION: 'BruTile.sln'
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
