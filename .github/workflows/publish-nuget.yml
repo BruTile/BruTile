@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_nuget:
+        description: 'release to nuget.org'
+        required: true
+        type: boolean 
+      release_version:
+        description: 'The version of this release in semver format.'
+        required: true
+    
+jobs:
+  build:
+
+    env:
+      SOLUTION: 'BruTile.sln'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Restore dependencies
+      run: nuget restore $SOLUTION
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Build
+      run: dotnet build $SOLUTION --configuration Release -p:Version=${{ inputs.release_version }} --no-restore
+
+    - name: Run tests
+      run: dotnet test /p:Configuration=Release --no-restore --no-build --verbosity normal
+      
+    - name: Publish
+      if: ${{ inputs.release_nuget }} 
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.TEST_PUBLISH_NUGET_FROM_GITHUB}}
