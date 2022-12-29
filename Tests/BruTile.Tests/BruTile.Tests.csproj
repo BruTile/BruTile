@@ -1,97 +1,98 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
-    <TargetFramework>net6</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
-    <PackageTags>tiling gis osm geo</PackageTags>
-    <Authors>Paul den Dulk, Felix Obermaier</Authors>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
-  </PropertyGroup>
+	<PropertyGroup>
+		<SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
+		<TargetFramework>net6</TargetFramework>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
+		<PackageTags>tiling gis osm geo</PackageTags>
+		<Authors>Paul den Dulk, Felix Obermaier</Authors>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
 
-  <Import Project="$(SolutionDir)BruTile.Common.props" />
+	<Import Project="$(SolutionDir)BruTile.Common.props" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Update="Resources\Wmsc\WmsCCapabilities_1_1_1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\AcmeCorpMapServersCapabilities_1_3_0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\exceptions_1_3_0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\FrioCountyTXMapsWmsCapabilities_1_1_1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\LizardtechWmsCapabilities_1_1_1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\MultiTopLayersCapabilities_1_3_0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\NrcsSoilWmsCapabilities_1_1_1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\wms-capabilities-gdimv_dtk.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\WmsCapabilities_1_3_0_withXmlns.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wms\wms_topplus_web_open.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-dlr.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-mars.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-opencache-statkart-no.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-pdok.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-noconstraint.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-raya-basemap-server.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilties-restful-wien.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts_capabilities_missing_crs.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Wmts\wmts-capabilities-cuzk-cz.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+	<ItemGroup>
+		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
+	</ItemGroup>
 
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Net.Test.Sdk" Version="16.9.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+		<PackageReference Include="NUnit" Version="3.13.1" />
+		<PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
+		<PackageReference Include="coverlet.collector" Version="3.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Resources\Wmsc\WmsCCapabilities_1_1_1.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\AcmeCorpMapServersCapabilities_1_3_0.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\BgrGroundwaterWhyMapCapabilities_1_1_1.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\exceptions_1_3_0.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\FrioCountyTXMapsWmsCapabilities_1_1_1.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\LizardtechWmsCapabilities_1_1_1.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\MultiTopLayersCapabilities_1_3_0.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\NrcsSoilWmsCapabilities_1_1_1.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\wms-capabilities-gdimv_dtk.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\WmsCapabilities_1_3_0_withXmlns.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wms\wms_topplus_web_open.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-dlr.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-mars.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-opencache-statkart-no.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-pdok.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-noconstraint.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-raya-basemap-server.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilties-restful-wien.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts_capabilities_missing_crs.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Wmts\wmts-capabilities-cuzk-cz.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
+	</ItemGroup>
 </Project>
