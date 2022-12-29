@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Common", "00_Common", "{
 		.github\workflows\build.yml = .github\workflows\build.yml
 		license.txt = license.txt
 		NuGet.config = NuGet.config
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
