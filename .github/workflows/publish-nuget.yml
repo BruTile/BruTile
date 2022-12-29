@@ -1,4 +1,4 @@
-name: CI
+name: ReleaseNugets
 
 on:
   workflow_dispatch:
@@ -41,4 +41,4 @@ jobs:
       
     - name: Publish
       if: ${{ inputs.release_nuget }} 
-      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.TEST_PUBLISH_NUGET_FROM_GITHUB}}
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_APIKEY}}
