@@ -1,4 +1,4 @@
-name: Build BruTile
+name: Build BruTile on Windows
 
 on:
   push:
