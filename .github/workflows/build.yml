@@ -1,4 +1,4 @@
-name: Build BruTile
+name: Build on Windows
 
 on:
   push:
@@ -12,9 +12,9 @@ jobs:
   build:
 
     env:
-      SOLUTION: 'BruTile-Build.sln'
+      SOLUTION: 'BruTile.sln'
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
