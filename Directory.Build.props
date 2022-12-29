@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--- Package information, Version -->
 	<PropertyGroup>
@@ -19,8 +18,6 @@
 
 	<!--- Compiler settings -->
 	<PropertyGroup>
-		<OutputPath>$(SolutionDir)$(Configuration)\$(ProjectName)</OutputPath>
-		<DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 

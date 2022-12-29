@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<SolutionDir Condition=" '$(SolutionDir)' == '' ">$(ProjectDir)..\..\</SolutionDir>
 		<TargetFramework>net6</TargetFramework>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
@@ -8,8 +7,6 @@
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
-
-	<Import Project="$(SolutionDir)BruTile.Common.props" />
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />

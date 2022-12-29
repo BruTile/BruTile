@@ -23,6 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile.GettingStarted", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General", "General", "{489AE2DA-3A35-4B4F-AB95-7E2B193D0833}"
 	ProjectSection(SolutionItems) = preProject
+		BruTile.Common.props = BruTile.Common.props
 		.github\workflows\build.yml = .github\workflows\build.yml
 		Directory.Build.props = Directory.Build.props
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
