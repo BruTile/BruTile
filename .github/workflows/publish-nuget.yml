@@ -1,4 +1,4 @@
-name: ReleaseNugets
+name: Release Nugets
 
 on:
   workflow_dispatch:
