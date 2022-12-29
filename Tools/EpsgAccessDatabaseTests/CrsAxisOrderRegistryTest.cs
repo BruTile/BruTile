@@ -152,7 +152,7 @@ namespace BruTile.Tests.Crs
                 if (CrsIdentifier.TryParse("urn:ogc:def:crs:EPSG::" + code, out var crs))
                 {
                     var expected = unusual.Contains(code) ? 1 : 0;
-                    Assert.AreEqual(expected, crsAxisOrderRegistry[crs][0]);
+                    Assert.That(crsAxisOrderRegistry[crs][0], Is.EqualTo(expected));
                 }
             }
         }
