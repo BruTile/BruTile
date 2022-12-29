@@ -1,6 +1,6 @@
 |   | Status  | 
 | ------------- |:-------------:|
-| Build | [![Build status](https://ci.appveyor.com/api/projects/status/5s4poobpfab9g8ny?svg=true)](https://ci.appveyor.com/project/pauldendulk/brutile) |
+| Build | [![Build status](https://github.com/brutile/brutile/actions/workflows/build.yml/badge.svg)](https://github.com/BruTile/BruTile/actions/workflows/build.yml?query=branch%3Amaster) |
 | NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
 
 ### BruTile
