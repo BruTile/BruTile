@@ -14,9 +14,13 @@ namespace BruTile.Cache
         private readonly string _format;
         private readonly TimeSpan _cacheExpireTime;
 
+        /// <param name="directory">The location of the file cache.</param>
+        /// <param name="format">The format of the files stored in the file cache (e.g. 'png').</param>
+        /// <param name="cacheExpireTime">At what time the cache is considered expired.</param>
         /// <remarks>
         ///   The constructor creates the storage _directory if it does not exist.
         /// </remarks>
+
         public FileCache(string directory, string format, TimeSpan cacheExpireTime)
         {
             _directory = directory;
@@ -29,6 +33,8 @@ namespace BruTile.Cache
             }
         }
 
+        /// <param name="directory">The location of the file cache.</param>
+        /// <param name="format">The format of the files stored in the file cache (e.g. 'png').</param>
         /// <remarks>
         /// The constructor creates the storage _directory if it does not exist.
         /// </remarks>
