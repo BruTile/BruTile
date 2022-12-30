@@ -1,29 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
-    <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
+		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="MbTilesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MbTilesForm.Designer.cs">
-      <DependentUpon>MbTilesForm.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="MbTilesForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="MbTilesForm.Designer.cs">
+			<DependentUpon>MbTilesForm.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="MbTilesForm.resx">
-      <DependentUpon>MbTilesForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="MbTilesForm.resx">
+			<DependentUpon>MbTilesForm.cs</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>
