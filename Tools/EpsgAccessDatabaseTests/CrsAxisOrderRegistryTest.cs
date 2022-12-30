@@ -9,7 +9,7 @@ using System.Text;
 using BruTile.Wmts;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Crs
+namespace EpsgAccessDatabaseTests
 {
     public class AxisOrderUtilityTest
     {
@@ -148,13 +148,11 @@ namespace BruTile.Tests.Crs
             var crsAxisOrderRegistry = new CrsAxisOrderRegistry();
 
             for (var code = 1; code < 32768; code++)
-            {
                 if (CrsIdentifier.TryParse("urn:ogc:def:crs:EPSG::" + code, out var crs))
                 {
                     var expected = unusual.Contains(code) ? 1 : 0;
                     Assert.That(crsAxisOrderRegistry[crs][0], Is.EqualTo(expected));
                 }
-            }
         }
     }
 }

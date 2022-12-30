@@ -6,7 +6,7 @@ using System.IO;
 using BruTile.Wmts;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Crs
+namespace EpsgAccessDatabaseTests
 {
     public class CrsUnitOfMeasureRegistryTest
     {
@@ -35,9 +35,7 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
         public void TestCreateRegistryEntries()
         {
             if (!File.Exists(EpsgAccessDatabase))
-            {
                 Assert.Pass("Epsg Access Database not found");
-            }
 
             using var cn = new System.Data.OleDb.OleDbConnection(
                 $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
@@ -45,36 +43,26 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             var cmd = cn.CreateCommand();
             cmd.CommandText = SqlLength;
             using (var dr = cmd.ExecuteReader())
-            {
                 while (dr.Read())
-                {
                     Console.WriteLine("_registry.Add({0}, new UnitOfMeasure(\"{1}\", {2}d/{3}d));",
                         dr.GetInt32(0), dr.GetString(1),
                         dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
                         dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                }
-            }
             cmd.CommandText = SqlAngle;
             using (var dr = cmd.ExecuteReader())
-            {
                 while (dr.Read())
-                {
                     Console.WriteLine(
                         "_registry.Add({0}, new UnitOfMeasure(\"{1}\", 0.5 * EarthCircumference * {2}d/{3}d));",
                         dr.GetInt32(0), dr.GetString(1),
                         dr.GetDouble(2).ToString(NumberFormatInfo.InvariantInfo),
                         dr.GetDouble(3).ToString(NumberFormatInfo.InvariantInfo));
-                }
-            }
         }
 
         [Test, Explicit]
         public void TestCreateEpsgToUom()
         {
             if (!File.Exists(EpsgAccessDatabase))
-            {
                 Assert.Pass("Epsg Access Database not found");
-            }
 
 
             using var cn = new System.Data.OleDb.OleDbConnection(
@@ -85,7 +73,6 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             var ms = new MemoryStream();
             var bw = new BinaryWriter(ms);
             using (var dr = cmd.ExecuteReader())
-            {
                 while (dr.Read())
                 {
                     if ((int)dr[0] > 32768) break;
@@ -100,7 +87,6 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
                     bw.Write(epsg);
                     bw.Write(uom);
                 }
-            }
 
             ms.Seek(0, SeekOrigin.Begin);
             var br = new BinaryReader(ms);
