@@ -1,0 +1,13 @@
+{
+  "solution": {
+    "path": "BruTile.sln",
+    "projects": [
+      "BruTile.MbTiles\\BruTile.MbTiles.csproj",
+      "BruTile\\BruTile.csproj",
+      "Performance\\BruTile.Performance.Desktop\\BruTile.Performance.Desktop.csproj",
+      "Samples\\BruTile.GettingStarted\\BruTile.GettingStarted.csproj",
+      "Tests\\BruTile.MbTiles.Tests\\BruTile.MbTiles.Tests.csproj",
+      "Tests\\BruTile.Tests\\BruTile.Tests.csproj"
+    ]
+  }
+}
