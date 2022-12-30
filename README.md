@@ -1,7 +1,8 @@
 |   | Status  | 
 | ------------- |:-------------:|
 | Build | [![Build status](https://github.com/brutile/brutile/actions/workflows/build.yml/badge.svg)](https://github.com/BruTile/BruTile/actions/workflows/build.yml?query=branch%3Amaster) |
-| NuGet | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
+| NuGet BruTile | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.svg?style=flat)](https://www.nuget.org/packages/BruTile/) |
+| NuGet BruTile.MbTiles | [![NuGet Status](http://img.shields.io/nuget/v/BruTile.MbTiles.svg?style=flat)](https://www.nuget.org/packages/BruTile.MbTiles/) |
 
 ### BruTile
 BruTile is a .NET Standard 2.0 library to access tile services like OpenStreetMap and Bing. Such tile services store pre-rendered tiles for a certain area and for various levels of detail. BruTile helps to determine which tiles to fetch for a certain viewport of a map. 
