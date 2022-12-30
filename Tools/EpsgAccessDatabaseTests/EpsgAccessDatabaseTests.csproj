@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net6-windows</TargetFramework>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
@@ -11,7 +11,7 @@
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
 		<PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
 		<PackageReference Include="coverlet.collector" Version="3.1.2" />
-		<PackageReference Include="System.Data.OleDb" Version="5.0.0" />
+		<PackageReference Include="System.Data.OleDb" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
