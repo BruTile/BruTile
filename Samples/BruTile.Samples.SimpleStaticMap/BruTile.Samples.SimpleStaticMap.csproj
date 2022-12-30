@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Form1.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Form1.Designer.cs">
+			<DependentUpon>Form1.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Form1.resx">
+			<DependentUpon>Form1.cs</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

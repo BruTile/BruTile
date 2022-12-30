@@ -1,18 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-	
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
-    <PackageTags>tiling brutile mbtiles</PackageTags>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\BruTile\BruTile.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
+		<PackageTags>tiling brutile mbtiles</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BruTile\BruTile.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
+	</ItemGroup>
 </Project>

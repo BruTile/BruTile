@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<TargetFramework>net6</TargetFramework>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -90,6 +91,5 @@
 		<None Update="Resources\Wmts\wmts-capabilities-cuzk-cz.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-
 	</ItemGroup>
 </Project>
