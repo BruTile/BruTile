@@ -25,7 +25,6 @@ namespace BruTile.Tests
             // Act
             var extent = TileTransform.TileToWorld(range, 3, schema);
 
-
             // Assert
             Assert.AreEqual(extent.MinX, expectedExtent.MinX, toleratedDelta);
             Assert.AreEqual(extent.MinY, expectedExtent.MinY, toleratedDelta);

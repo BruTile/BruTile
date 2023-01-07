@@ -23,7 +23,6 @@ namespace BruTile.Wms
         public ServiceExceptionReport ServiceExceptionReport { get; }
         public WmsVersion Version { get; set; }
 
-
         public WmsCapabilities()
             : this(WmsVersionEnum.Version_1_3_0)
         {
@@ -37,7 +36,6 @@ namespace BruTile.Wms
             : this(ToXDocument(CompleteGetCapabilitiesRequest(uri), credentials))
         {
         }
-
 
         public WmsCapabilities(string version)
         {

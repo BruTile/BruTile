@@ -110,7 +110,6 @@ namespace EpsgAccessDatabaseTests
             var txt = WriteBytesRow(tmp);
             txt = txt[0..^1];
 
-
             Console.WriteLine(txt + "};");
         }
 

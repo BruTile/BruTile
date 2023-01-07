@@ -8,7 +8,6 @@ namespace BruTile.Web
     {
         public static HttpClientHandler HttpClientHandler { get; set; }
 
-
         public static HttpClient Build()
         {
             if (HttpClientHandler != null)

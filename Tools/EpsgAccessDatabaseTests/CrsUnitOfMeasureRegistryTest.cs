@@ -64,7 +64,6 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
             if (!File.Exists(EpsgAccessDatabase))
                 Assert.Pass("Epsg Access Database not found");
 
-
             using var cn = new System.Data.OleDb.OleDbConnection(
                 $"Provider=Microsoft.Jet.OLEDB.4.0; Data Source={EpsgAccessDatabase};");
             cn.Open();

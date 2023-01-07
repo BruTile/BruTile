@@ -13,7 +13,6 @@ namespace BruTile.Tests.Cache
         {
         }
 
-
         private static FileCache ClearedFileCacheTest()
         {
             if (Directory.Exists("FileCacheTest"))
