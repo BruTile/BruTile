@@ -10,8 +10,7 @@ namespace BruTile.Wms
         private OnlineResource _onlineResourceField;
 
         public FeatureListURL()
-        {
-        }
+        { }
 
         public FeatureListURL(XElement node, string ns)
         {

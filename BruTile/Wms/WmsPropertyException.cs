@@ -5,18 +5,15 @@ namespace BruTile.Wms
     public class WmsPropertyException : System.Exception
     {
         public WmsPropertyException()
-        {
-        }
+        { }
 
         public WmsPropertyException(string message)
             : base(message)
-        {
-        }
+        { }
 
         public WmsPropertyException(string message, System.Exception inner)
             : base(message, inner)
-        {
-        }
+        { }
 
         public static WmsPropertyException PositiveInteger(string property, int value)
         {

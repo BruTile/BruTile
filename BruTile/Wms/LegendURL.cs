@@ -11,8 +11,7 @@ namespace BruTile.Wms
         private OnlineResource _onlineResourceField;
 
         public LegendURL()
-        {
-        }
+        { }
 
         public LegendURL(XElement node, string ns)
         {

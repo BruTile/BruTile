@@ -25,17 +25,15 @@ namespace BruTile.Wms
 
         public WmsCapabilities()
             : this(WmsVersionEnum.Version_1_3_0)
-        {
-        }
+        { }
 
         public WmsCapabilities(string url, ICredentials credentials = null)
-            : this(new Uri(url), credentials)
+            : this(new Uri(url), credentials) 
         { }
 
         public WmsCapabilities(Uri uri, ICredentials credentials = null)
             : this(ToXDocument(CompleteGetCapabilitiesRequest(uri), credentials))
-        {
-        }
+        { }
 
         public WmsCapabilities(string version)
         {
@@ -49,8 +47,7 @@ namespace BruTile.Wms
 
         public WmsCapabilities(Stream stream)
             : this(XDocument.Load(stream))
-        {
-        }
+        { }
 
         public WmsCapabilities(XDocument doc)
             : this()

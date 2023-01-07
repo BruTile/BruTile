@@ -10,8 +10,7 @@ namespace BruTile.Wms
         private OnlineResource _onlineResourceField;
 
         public AuthorityURL()
-        {
-        }
+        { }
 
         public AuthorityURL(XElement node, string @namespace)
         {

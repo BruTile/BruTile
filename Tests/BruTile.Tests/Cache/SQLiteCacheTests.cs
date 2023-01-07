@@ -25,8 +25,7 @@ namespace BruTile.Tests.Cache
 
         public SQLiteDbCacheTests()
             : base(CleanConnection())
-        {
-        }
+        { }
 
         private static DbCache<SQLiteConnection> CleanConnection()
         {

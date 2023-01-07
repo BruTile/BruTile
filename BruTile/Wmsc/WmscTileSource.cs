@@ -15,8 +15,7 @@ namespace BruTile.Wmsc
     {
         private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
             : base(tileProvider, tileSchema)
-        {
-        }
+        { }
 
         public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
         {

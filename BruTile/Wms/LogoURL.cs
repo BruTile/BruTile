@@ -13,8 +13,7 @@ namespace BruTile.Wms
         private int _height;
 
         public LogoURL()
-        {
-        }
+        { }
 
         public LogoURL(XElement node, string ns)
         {

@@ -12,8 +12,7 @@ namespace BruTile.Wms
         private Post _postField;
 
         public Http()
-        {
-        }
+        { }
 
         public Http(XElement node, string ns)
         {

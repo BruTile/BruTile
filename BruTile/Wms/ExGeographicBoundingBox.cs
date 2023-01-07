@@ -9,8 +9,7 @@ namespace BruTile.Wms
     public class ExGeographicBoundingBox : XmlObject
     {
         public ExGeographicBoundingBox()
-        {
-        }
+        { }
 
         public ExGeographicBoundingBox(XElement node, string @namespace)
         {

@@ -14,8 +14,7 @@ namespace BruTile.Wms
         private List<DCPType> _DCpTypeField;
 
         public OperationType()
-        {
-        }
+        { }
 
         public OperationType(XElement node, string @namespace)
         {

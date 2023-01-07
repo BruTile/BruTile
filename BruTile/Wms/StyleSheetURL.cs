@@ -10,8 +10,7 @@ namespace BruTile.Wms
         private OnlineResource _onlineResourceField;
 
         public StyleSheetURL()
-        {
-        }
+        { }
 
         public StyleSheetURL(XElement node, string @namespace)
         {

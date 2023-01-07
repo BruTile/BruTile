@@ -19,7 +19,8 @@ namespace BruTile.Web
     /// </summary>
     public sealed class NullRequest : IRequest
     {
-        internal NullRequest() { }
+        internal NullRequest() 
+        { }
 
         public Uri GetUri(TileInfo info)
         {

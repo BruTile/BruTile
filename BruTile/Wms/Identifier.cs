@@ -8,8 +8,7 @@ namespace BruTile.Wms
     public class Identifier : XmlObject
     {
         public Identifier()
-        {
-        }
+        { }
 
         // ReSharper disable once UnusedParameter.Local
         public Identifier(XElement el)

@@ -16,28 +16,23 @@ namespace BruTile.Predefined
 
         public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), format, yAxis, name)
-        {
-        }
+        { }
 
         public GlobalSphericalMercator(YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, yAxis, name)
-        {
-        }
+        { }
 
         public GlobalSphericalMercator(int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
             this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, YAxis.OSM, name)
-        {
-        }
+        { }
 
         public GlobalSphericalMercator() :
             this(ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel))
-        {
-        }
+        { }
 
         public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null, Extent extent = default) :
             this(ToResolutions(zoomLevels), format, yAxis, name, extent)
-        {
-        }
+        { }
 
         private GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
                                          YAxis yAxis = YAxis.OSM, string name = null, Extent extent = default)

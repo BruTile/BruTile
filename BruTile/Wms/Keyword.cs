@@ -12,8 +12,7 @@ namespace BruTile.Wms
         public string Value { get; set; }
 
         public Keyword()
-        {
-        }
+        { }
 
         public Keyword(XElement node, string @namespace)
         {

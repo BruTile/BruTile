@@ -24,8 +24,7 @@ namespace BruTile.Wms
         }
 
         public Service()
-        {
-        }
+        { }
 
         public Service(XElement node, string @namespace)
         {

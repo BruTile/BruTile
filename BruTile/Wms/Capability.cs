@@ -17,8 +17,7 @@ namespace BruTile.Wms
         private Layer _layerField;
 
         public Capability()
-        {
-        }
+        { }
 
         public Capability(XElement node, string @namespace)
         {

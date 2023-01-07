@@ -11,7 +11,8 @@ namespace BruTile
         public int LastCol => FirstCol + ColCount - 1;
         public int LastRow => FirstRow + RowCount - 1;
 
-        public TileRange(int col, int row) : this(col, row, 1, 1) { }
+        public TileRange(int col, int row) : this(col, row, 1, 1) 
+        { }
 
         public TileRange(int firstCol, int firstRow, int colCount, int rowCount) : this()
         {

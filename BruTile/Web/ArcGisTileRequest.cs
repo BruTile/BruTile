@@ -17,8 +17,7 @@ namespace BruTile.Web
 
         public ArcGisTileRequest(Uri baseUrl, string format)
             : this(baseUrl, format, new Dictionary<string, string>())
-        {
-        }
+        { }
 
         public ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters)
         {

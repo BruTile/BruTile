@@ -10,8 +10,7 @@ namespace BruTile.Tests.Cache
     {
         public FileCacheTests()
             : base(ClearedFileCacheTest())
-        {
-        }
+        { }
 
         private static FileCache ClearedFileCacheTest()
         {

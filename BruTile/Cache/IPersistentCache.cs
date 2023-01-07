@@ -7,7 +7,6 @@ namespace BruTile.Cache
     /// from IPersistentCache so that it can be used in an interface where only a persistent cache 
     /// would make sense
     /// </summary>
-    public interface IPersistentCache<T> : ITileCache<T>
-    {
-    }
+    public interface IPersistentCache<T> : ITileCache<T> 
+    { }
 }
