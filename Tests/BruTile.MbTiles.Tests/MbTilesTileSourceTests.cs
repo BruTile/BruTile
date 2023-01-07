@@ -55,7 +55,6 @@ namespace BruTile.MbTiles.Tests
             Assert.AreEqual(3, tileSource.Schema.Resolutions.Count);
         }
 
-
         [Test]
         public void SchemaGeneratedFromMbTilesContainingSmallArea()
         {
@@ -83,7 +82,6 @@ namespace BruTile.MbTiles.Tests
             Assert.AreEqual(692609746.90386355, tileSource.Schema.Extent.Area);
             Assert.AreEqual(5, tileSource.Schema.Resolutions.Count);
         }
-
 
         [Test]
         public async Task SchemaGeneratedFromMbTilesWithSchemaInConstructor()

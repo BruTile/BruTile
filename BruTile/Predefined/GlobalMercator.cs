@@ -32,8 +32,7 @@ namespace BruTile.Predefined
         /// <param name="format">The image format of the tiles</param>
         public GlobalMercator(string format)
             : this(format, 20)
-        {
-        }
+        { }
 
         /// <summary>
         /// Creates an instance of this class
@@ -42,8 +41,7 @@ namespace BruTile.Predefined
         /// <param name="numResolution">The number of resolutions to create</param>
         public GlobalMercator(string format, int numResolution)
             : this(format, ToResolutions(0, numResolution - 1))
-        {
-        }
+        { }
 
         /// <summary>
         /// Creates an instance of this class
@@ -53,8 +51,7 @@ namespace BruTile.Predefined
         /// <param name="maxZoomLevel">The maximum zoom level</param>
         public GlobalMercator(string format, int minZoomLevel, int maxZoomLevel)
             : this(format, ToResolutions(minZoomLevel, maxZoomLevel))
-        {
-        }
+        { }
 
         /// <summary>
         /// Creates an instance of this class
@@ -63,8 +60,7 @@ namespace BruTile.Predefined
         /// <param name="declaredZoomLevels">The declared zoom levels</param>
         public GlobalMercator(string format, IList<int> declaredZoomLevels)
             : this(format, ToResolutions(declaredZoomLevels))
-        {
-        }
+        { }
 
         internal GlobalMercator(string format, IEnumerable<Resolution> resolutions)
         {

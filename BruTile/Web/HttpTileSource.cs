@@ -18,8 +18,7 @@ namespace BruTile.Web
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
             : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
-        {
-        }
+        { }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,

@@ -12,8 +12,7 @@ namespace BruTile.Wms
         private List<Keyword> _keywordField;
 
         public KeywordList()
-        {
-        }
+        { }
 
         public KeywordList(XElement node, string @namespace)
         {

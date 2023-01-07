@@ -198,7 +198,6 @@ namespace BruTile.Tests.Wmts
             Assert.NotNull(tileSources);
         }
 
-
         [Test]
         public void TestParsingWmtsCapabilitiesRayaBasemapServer()
         {

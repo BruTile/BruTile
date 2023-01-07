@@ -8,6 +8,5 @@ namespace BruTile.Cache
     /// would make sense
     /// </summary>
     public interface IPersistentCache<T> : ITileCache<T>
-    {
-    }
+    { }
 }

@@ -333,8 +333,7 @@ namespace BruTile.Wmts.Generated
         IsNullable = false)]
      */
     public partial class WGS84BoundingBoxType : BoundingBoxType
-    {
-    }
+    { }
 
     public partial class BoundingBoxType : IXmlSerializable
     {
@@ -1390,8 +1389,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/ows/1.1")]
     [XmlRoot(Namespace = "http://www.opengis.net/ows/1.1", IsNullable = false)]
     public partial class AnyValue
-    {
-    }
+    { }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
@@ -1401,8 +1399,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/ows/1.1")]
     [XmlRoot(Namespace = "http://www.opengis.net/ows/1.1", IsNullable = false)]
     public partial class NoValues
-    {
-    }
+    { }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]

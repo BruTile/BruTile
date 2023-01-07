@@ -21,8 +21,7 @@ namespace BruTile.Wmsc
         public WmscRequest(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
             IDictionary<string, string> customParameters = null, string version = null) :
             this(new Uri(baseUrl), schema, layers, styles, customParameters, version)
-        {
-        }
+        { }
 
         public WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
             IDictionary<string, string> customParameters = null, string version = null)

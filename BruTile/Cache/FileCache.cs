@@ -40,8 +40,7 @@ namespace BruTile.Cache
         /// </remarks>
         public FileCache(string directory, string format)
             : this(directory, format, TimeSpan.Zero)
-        {
-        }
+        { }
 
         public void Add(TileIndex index, byte[] image)
         {

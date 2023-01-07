@@ -9,13 +9,11 @@ namespace BruTile.Wms
 
         public WmsParsingException(string message)
             : base(message)
-        {
-        }
+        { }
 
         public WmsParsingException(string message, System.Exception inner)
             : base(message, inner)
-        {
-        }
+        { }
 
         public static WmsParsingException AttributeNotFound(string attribute)
         {

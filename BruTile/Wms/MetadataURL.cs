@@ -10,8 +10,7 @@ namespace BruTile.Wms
         private OnlineResource _onlineResourceField;
 
         public MetadataURL()
-        {
-        }
+        { }
 
         public MetadataURL(XElement node, string @namespace)
         {

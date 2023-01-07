@@ -9,8 +9,7 @@ namespace BruTile.Wms
     public class ContactAddress : XmlObject
     {
         public ContactAddress()
-        {
-        }
+        { }
 
         public ContactAddress(XElement node, string @namespace)
         {

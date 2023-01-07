@@ -8,8 +8,7 @@ namespace BruTile.Wms
     public class ContactPersonPrimary : XmlObject
     {
         public ContactPersonPrimary()
-        {
-        }
+        { }
 
         public ContactPersonPrimary(XElement node, string @namespace)
         {

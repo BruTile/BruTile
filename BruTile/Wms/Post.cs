@@ -8,8 +8,7 @@ namespace BruTile.Wms
     {
         public Post()
             : base("Post")
-        {
-        }
+        { }
 
         public Post(XElement node, string @namespace)
             : base("Post", node, @namespace)
