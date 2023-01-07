@@ -23,7 +23,7 @@ namespace BruTile.Predefined
         /// <summary>
         /// Creates an instance of this class
         /// </summary>
-        public GlobalMercator() 
+        public GlobalMercator()
         { }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace BruTile.Predefined
         /// </summary>
         /// <param name="format">The image format of the tiles</param>
         public GlobalMercator(string format)
-            : this(format, 20) 
+            : this(format, 20)
         { }
 
         /// <summary>

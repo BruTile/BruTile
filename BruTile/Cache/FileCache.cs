@@ -39,7 +39,7 @@ namespace BruTile.Cache
         /// The constructor creates the storage _directory if it does not exist.
         /// </remarks>
         public FileCache(string directory, string format)
-            : this(directory, format, TimeSpan.Zero) 
+            : this(directory, format, TimeSpan.Zero)
         { }
 
         public void Add(TileIndex index, byte[] image)

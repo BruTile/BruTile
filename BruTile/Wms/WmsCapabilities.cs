@@ -28,7 +28,7 @@ namespace BruTile.Wms
         { }
 
         public WmsCapabilities(string url, ICredentials credentials = null)
-            : this(new Uri(url), credentials) 
+            : this(new Uri(url), credentials)
         { }
 
         public WmsCapabilities(Uri uri, ICredentials credentials = null)
