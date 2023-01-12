@@ -115,15 +115,11 @@ namespace BruTile.Predefined
                                         new[] { "a", "b", "c", "d" }, name: source.ToString(),
                                         persistentCache: persistentCache, tileFetcher: tileFetcher,
                                         attribution: OpenStreetMapAttribution, userAgent: userAgent),
-                KnownTileSource.StamenTerrain => new HttpTileSource(
-                                            new GlobalSphericalMercator(Math.Max(4, minZoomLevel), Math.Min(19, maxZoomLevel))
-                                            {
-                                                Extent = new Extent(-14871588.04, 2196494.41775, -5831227.94199995, 10033429.95725)
-                                            },
-                                            "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
-                                            new[] { "a", "b", "c", "d" }, name: source.ToString(),
-                                            persistentCache: persistentCache, tileFetcher: tileFetcher,
-                                            attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                KnownTileSource.StamenTerrain => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
+                                        new[] { "a", "b", "c", "d" }, name: source.ToString(),
+                                        persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
                 KnownTileSource.EsriWorldTopo => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
                                         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
                                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
