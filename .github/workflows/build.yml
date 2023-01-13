@@ -28,3 +28,8 @@ jobs:
       run: dotnet format BruTile.sln --verbosity normal --verify-no-changes
     - name: Test
       run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal
+    - name: Upload packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: nupkg
+        path: BruTile*/bin/Release/*.nupkg
