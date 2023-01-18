@@ -7,10 +7,7 @@ on:
         description: 'release to nuget.org'
         required: true
         type: boolean 
-      release_version:
-        description: 'The version of this release in semver format.'
-        required: true
-    
+
 jobs:
   build:
 
@@ -21,9 +18,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+      with:
+        fetch-depth: 0 # Prevent a shallow clone to allow git describe --tags
+
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
+
+      # The version tag needs to be set before the release. If not if will fail on nuget publish.
+    - name: Set VERSION_OF_RELEASE to last tag
+      run: |
+        echo ("VERSION_OF_RELEASE=" + $(git describe --tags --abbrev=0)) >> $env:GITHUB_ENV
+        echo $VERSION_OF_RELEASE
 
     - name: Restore dependencies
       run: nuget restore $SOLUTION
@@ -36,16 +41,10 @@ jobs:
     - name: Build
       # The nupkgs will be built because the projects have GeneratePackageOnBuild set to true. 
       # The dlls and nupkgs will be built 'inputs.release_version' as version, overriding the version number in the Directory.Build.props.
-      run: dotnet build $SOLUTION --configuration Release -p:Version=${{ inputs.release_version }} --no-restore /p:PackageOutputPath="${GITHUB_WORKSPACE}/nugets"
+      run: dotnet build $SOLUTION --configuration Release -p:Version=${{ env.VERSION_OF_RELEASE }} --no-restore /p:PackageOutputPath="${GITHUB_WORKSPACE}/nugets"
 
     - name: Test
-      run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal -p:Version=${{ inputs.release_version }}
-    
-    # todo: Tag with the version as part of the release.
-    #  if: ${{ inputs.release_nuget }} 
-    #  run: |
-    #    git tag ${{ inputs.release_version }}
-    #    git push --tags
+      run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal -p:Version=${{ env.VERSION_OF_RELEASE }}
     
     - name: Publish
       if: ${{ inputs.release_nuget }} 
