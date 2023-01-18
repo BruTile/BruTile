@@ -40,9 +40,12 @@ namespace BruTile.Predefined
     {
         private static readonly Attribution OpenStreetMapAttribution = new(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
+
         private static readonly string CurrentYear = DateTime.Today.Year.ToString();
         private static readonly Attribution BKGAttribution = new("© Bundesamt für Kartographie und Geodäsie (" + CurrentYear + ")",
                          "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
+
+        private static readonly Attribution StamenAttribution = new("© Stamen Design, under CC BY 3.0", "http://creativecommons.org/licenses/by/3.0");
 
         /// <summary>
         /// Static factory method for known tile services
@@ -101,25 +104,25 @@ namespace BruTile.Predefined
                                         new[] { "0", "1", "2", "3", "4", "5", "6", "7" }, apiKey, source.ToString(),
                                         persistentCache, tileFetcher, userAgent: userAgent),
                 KnownTileSource.StamenToner => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                                        "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
+                                        "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
                                         new[] { "a", "b", "c", "d" }, name: source.ToString(),
                                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                                        attribution: StamenAttribution, userAgent: userAgent),
                 KnownTileSource.StamenTonerLite => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                                        "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png",
+                                        "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
                                         new[] { "a", "b", "c", "d" }, name: source.ToString(),
                                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                                        attribution: StamenAttribution, userAgent: userAgent),
                 KnownTileSource.StamenWatercolor => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                                        "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
+                                        "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg",
                                         new[] { "a", "b", "c", "d" }, name: source.ToString(),
                                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                                        attribution: StamenAttribution, userAgent: userAgent),
                 KnownTileSource.StamenTerrain => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
-                                        "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
+                                        "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
                                         new[] { "a", "b", "c", "d" }, name: source.ToString(),
                                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                                        attribution: OpenStreetMapAttribution, userAgent: userAgent),
+                                        attribution: StamenAttribution, userAgent: userAgent),
                 KnownTileSource.EsriWorldTopo => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
                                         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
                                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, userAgent: userAgent),
