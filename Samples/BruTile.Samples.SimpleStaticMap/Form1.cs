@@ -27,6 +27,7 @@ namespace BruTile.Samples.SimpleStaticMap
         {
             InitializeComponent();
 
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("UserAgentOfBruTilesSimpleStaticMapSample");
             _buffer = new Bitmap(Width, Height);
         }
 
@@ -42,7 +43,7 @@ namespace BruTile.Samples.SimpleStaticMap
             var schema = CreateTileSchema();
             var tiles = schema.GetTileInfos(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.UnitsPerPixel));
 
-            var requestBuilder = new TmsRequest(new Uri("http://a.tile.openstreetmap.org"), "png");
+            var requestBuilder = new TmsRequest(new Uri("https://tile.openstreetmap.org"), "png");
 
             var graphics = Graphics.FromImage(_buffer);
             foreach (var tile in tiles)
