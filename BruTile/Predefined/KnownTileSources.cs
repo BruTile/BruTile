@@ -33,7 +33,11 @@ namespace BruTile.Predefined
         EsriWorldBoundariesAndPlaces,
         EsriWorldDarkGrayBase,
         BKGTopPlusColor,
-        BKGTopPlusGrey
+        BKGTopPlusGrey,
+        HereNormal,
+        HereSatellite,
+        HereHybrid,
+        HereTerrain
     }
 
     public static class KnownTileSources
@@ -44,6 +48,7 @@ namespace BruTile.Predefined
         private static readonly string CurrentYear = DateTime.Today.Year.ToString();
         private static readonly Attribution BKGAttribution = new("© Bundesamt für Kartographie und Geodäsie (" + CurrentYear + ")",
                          "https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf");
+        private static readonly Attribution HereAttribution = new Attribution("© HERE (" + CurrentYear + ")", "https://www.here.com");
 
         private static readonly Attribution StamenAttribution = new("© Stamen Design, under CC BY 3.0", "http://creativecommons.org/licenses/by/3.0");
 
@@ -152,6 +157,26 @@ namespace BruTile.Predefined
                                         "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_scale_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
                                         name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
                                         attribution: BKGAttribution, userAgent: userAgent),
+                KnownTileSource.HereNormal => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://{s}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey={k}",
+                                        new[] { "1", "2", "3", "4" }, apiKey,
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: HereAttribution, userAgent: userAgent),
+                KnownTileSource.HereSatellite => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://{s}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey={k}",
+                                        new[] { "1", "2", "3", "4" }, apiKey,
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: HereAttribution, userAgent: userAgent),
+                KnownTileSource.HereHybrid => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://{s}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.grey.day/{z}/{x}/{y}/256/png8?apiKey={k}",
+                                        new[] { "1", "2", "3", "4" }, apiKey,
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: HereAttribution, userAgent: userAgent),
+                KnownTileSource.HereTerrain => new HttpTileSource(new GlobalSphericalMercator(Math.Max(0, minZoomLevel), Math.Min(19, maxZoomLevel)),
+                                        "https://{s}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/terrain.day/{z}/{x}/{y}/256/png8?apiKey={k}",
+                                        new[] { "1", "2", "3", "4" }, apiKey,
+                                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher,
+                                        attribution: HereAttribution, userAgent: userAgent),
                 _ => throw new NotSupportedException("KnownTileSource not known"),
             };
         }
