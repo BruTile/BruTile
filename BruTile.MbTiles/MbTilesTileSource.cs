@@ -284,7 +284,7 @@ namespace BruTile.MbTiles
 
             public TileRange ToTileRange()
             {
-                return new TileRange(TileColMin, TileRowMin, TileColMax, TileRowMax);
+                return new TileRange(TileColMin, TileRowMin, TileColMax - TileColMin + 1, TileRowMax - TileRowMin + 1);
             }
         }
     }
