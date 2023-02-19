@@ -50,8 +50,7 @@ namespace BruTile.MbTiles
         {
             _connectionString = connectionString;
 
-            using (var connection = new SQLiteConnectionWithLock(connectionString))
-            using (connection.Lock())
+            using (var connection = new SQLiteConnection(connectionString))
             {
                 Schema = schema ?? ReadSchemaFromDatabase(connection, determineZoomLevelsFromTilesTable);
                 Type = type == MbTilesType.None ? ReadType(connection) : type;
@@ -71,7 +70,7 @@ namespace BruTile.MbTiles
             }
         }
 
-        private static ITileSchema ReadSchemaFromDatabase(SQLiteConnectionWithLock connection, bool determineZoomLevelsFromTilesTable)
+        private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, bool determineZoomLevelsFromTilesTable)
         {
             // ReadZoomLevels can return null. This is no problem. GlobalSphericalMercator will initialize with default values
             var zoomLevels = ReadZoomLevels(connection);
@@ -87,7 +86,7 @@ namespace BruTile.MbTiles
             return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
         }
 
-        private static int[] ReadZoomLevels(SQLiteConnectionWithLock connection)
+        private static int[] ReadZoomLevels(SQLiteConnection connection)
         {
             var zoomMin = ReadInt(connection, "minzoom");
             if (zoomMin == null) return null;
@@ -285,7 +284,7 @@ namespace BruTile.MbTiles
 
             public TileRange ToTileRange()
             {
-                return new TileRange(TileColMin, TileRowMin, TileColMax, TileRowMax);
+                return new TileRange(TileColMin, TileRowMin, TileColMax - TileColMin + 1, TileRowMax - TileRowMin + 1);
             }
         }
     }
