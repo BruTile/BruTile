@@ -28,7 +28,7 @@ jobs:
     - name: Set VERSION_OF_RELEASE to last tag
       run: |
         echo ("VERSION_OF_RELEASE=" + $(git describe --tags --abbrev=0)) >> $env:GITHUB_ENV
-        echo ${{ env.VERSION_OF_RELEASE }}
+        echo "${{ env.VERSION_OF_RELEASE }}"
 
     - name: Restore dependencies
       run: nuget restore $SOLUTION
