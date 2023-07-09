@@ -57,7 +57,7 @@ namespace BruTile.Tms
                 Exception error = null;
                 try
                 {
-                    var stream = await httpClient.GetStreamAsync(new Uri(url));
+                    var stream = await httpClient.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
                     tileSource = CreateTileSource(stream, overrideUrl);
                 }
                 catch (Exception ex)

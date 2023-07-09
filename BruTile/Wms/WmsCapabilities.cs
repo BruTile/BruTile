@@ -248,7 +248,7 @@ namespace BruTile.Wms
 
             var client = new HttpClient(httpClientHandler);
             client.Timeout = TimeSpan.FromMilliseconds(30000);
-            var stream = await client.GetStreamAsync(uri);
+            var stream = await client.GetStreamAsync(uri).ConfigureAwait(false);
             return stream;
         }
 
