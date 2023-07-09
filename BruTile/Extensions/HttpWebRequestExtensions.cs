@@ -6,6 +6,7 @@ using System.Threading;
 
 namespace BruTile.Extensions
 {
+    [Obsolete("Use HttpClient")]
     public static class HttpWebRequestExtensions
     {
         /// <summary>
@@ -20,6 +21,7 @@ namespace BruTile.Extensions
         /// parameter was set, and no response was received within the specified
         /// time.</exception>
         /// <see href="http://www.hardcodet.net/2010/02/blocking-httpwebrequest-getresponse-for-silverlight"/>
+        [Obsolete("Use HttpClient")]
         public static HttpWebResponse GetSyncResponse(this HttpWebRequest request,
                                                   int? timeout)
         {

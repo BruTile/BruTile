@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using BruTile.Cache;
@@ -49,33 +50,26 @@ namespace BruTile.Tms
 
         public static void CreateTileSourceAsync(string url, CreateTileSourceCompleted callback, string overrideUrl)
         {
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            var httpClientHandler = new HttpClientHandler();
+            var httpClient = new HttpClient(httpClientHandler);
 
-            request.BeginGetResponse(MethodOnThread,
-                new object[] { callback, request, overrideUrl });
-        }
-
-        public static void MethodOnThread(IAsyncResult ar)
-        {
-            CreateTileSourceCompleted callback = null;
-            Exception error = null;
-            ITileSource tileSource = null;
-
-            try
+            _ = Task.Run(async () =>
             {
-                var args = (object[])ar.AsyncState;
-                callback = (CreateTileSourceCompleted)args[0];
-                var request = (HttpWebRequest)args[1];
-                var overrideUrl = (string)args[2];
+                ITileSource tileSource = null;
+                Exception error = null;
+                try
+                {
+                    var stream = await httpClient.GetStreamAsync(new Uri(url));
+                    tileSource = CreateTileSource(stream, overrideUrl);
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
 
-                var response = request.EndGetResponse(ar);
-                tileSource = CreateTileSource(response.GetResponseStream(), overrideUrl);
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-            callback?.Invoke(tileSource, error);
+                callback?.Invoke(tileSource, error);
+
+            });
         }
 
         private static TileSchema CreateSchema(TileMap tileMap)

@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using BruTile.Extensions;
@@ -27,12 +29,25 @@ namespace BruTile.Wms
             : this(WmsVersionEnum.Version_1_3_0)
         { }
 
+        [Obsolete("Use WmsCapabilities.CreateAsync")]
         public WmsCapabilities(string url, ICredentials credentials = null)
             : this(new Uri(url), credentials)
         { }
 
+        public static async Task<WmsCapabilities> CreateAsync(string url, ICredentials credentials = null)
+        {
+            return await CreateAsync(new Uri(url), credentials);
+        }
+
+        public static async Task<WmsCapabilities> CreateAsync(Uri uri, ICredentials credentials = null)
+        {
+            var document = await ToXDocumentAsync(CompleteGetCapabilitiesRequest(uri), credentials);
+            return new WmsCapabilities(document);
+        }
+
+        [Obsolete("Use WmsCapabilities.CreateAsync")]
         public WmsCapabilities(Uri uri, ICredentials credentials = null)
-            : this(ToXDocument(CompleteGetCapabilitiesRequest(uri), credentials))
+            : this(ToXDocumentAsync(CompleteGetCapabilitiesRequest(uri), credentials).Result)
         { }
 
         public WmsCapabilities(string version)
@@ -206,23 +221,28 @@ namespace BruTile.Wms
 
         #endregion Overrides of XmlObject
 
-        private static XDocument ToXDocument(Uri uri, ICredentials credentials)
+        private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials credentials)
         {
             // Todo: Wrap in using?
-            using var stream = GetRemoteXmlStream(uri, credentials);
+#if NET6_0_OR_GREATER
+            await using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
+#else
+            using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
+#endif
             var sr = new StreamReader(stream);
             var ret = XDocument.Load(sr);
             return ret;
 
         }
 
-        private static Stream GetRemoteXmlStream(Uri uri, ICredentials credentials)
+        private static async Task<Stream> GetRemoteXmlStreamAsync(Uri uri, ICredentials credentials)
         {
-            var myRequest = (HttpWebRequest)WebRequest.Create(uri);
+            var httpClientHandler = new HttpClientHandler();
             if (credentials != null)
-                myRequest.Credentials = credentials;
-            var myResponse = myRequest.GetSyncResponse(30000);
-            var stream = myResponse.GetResponseStream();
+                httpClientHandler.Credentials = credentials;
+            var client = new HttpClient(httpClientHandler);
+            client.Timeout = TimeSpan.FromMilliseconds(30000);
+            var stream = await client.GetStreamAsync(uri);
             return stream;
         }
 

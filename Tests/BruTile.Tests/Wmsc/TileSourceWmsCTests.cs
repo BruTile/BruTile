@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using BruTile.Tests.Utilities;
 using BruTile.Wmsc;
@@ -44,10 +45,10 @@ namespace BruTile.Tests.Wmsc
             var myWmsc = new Uri(url);
             // Act
             List<ITileSource> res = null;
-            var action = new TestDelegate(() => res = new List<ITileSource>(WmscTileSource.CreateFromWmscCapabilties(myWmsc)));
+            var action = new AsyncTestDelegate(async () => res = new List<ITileSource>(await WmscTileSource.CreateFromWmscCapabiltiesAsync(myWmsc)));
 
             // Assert
-            Assert.DoesNotThrow(action);
+            Assert.DoesNotThrowAsync(action);
             Assert.IsNotNull(res);
             Assert.That(res.Count, Is.GreaterThan(0));
 
