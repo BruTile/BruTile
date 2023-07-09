@@ -14,7 +14,6 @@ using BruTile.Web;
 
 // Disabled warning for obsolete WebRequest because I do not know an existing service to
 // test the alternative solution. The entire TileMapParser should be remove in BruTile 6.0.0
-#pragma warning disable SYSLIB0014 // Type or member is obsolete. 
 
 namespace BruTile.Tms
 {
