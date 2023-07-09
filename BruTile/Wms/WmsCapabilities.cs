@@ -236,8 +236,16 @@ namespace BruTile.Wms
         private static async Task<Stream> GetRemoteXmlStreamAsync(Uri uri, ICredentials credentials)
         {
             var httpClientHandler = new HttpClientHandler();
-            if (credentials != null)
-                httpClientHandler.Credentials = credentials;
+            try
+            {
+                // Blazor does not support this,
+                if (credentials != null)
+                    httpClientHandler.Credentials = credentials;
+            }
+            catch (PlatformNotSupportedException)
+            {
+            }
+
             var client = new HttpClient(httpClientHandler);
             client.Timeout = TimeSpan.FromMilliseconds(30000);
             var stream = await client.GetStreamAsync(uri);
