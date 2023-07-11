@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using BruTile.Web;
 using BruTile.Wms;
@@ -17,9 +18,9 @@ namespace BruTile.Wmsc
             : base(tileProvider, tileSchema)
         { }
 
-        public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
+        public static async Task<IEnumerable<ITileSource>> CreateFromWmscCapabiltiesAsync(Uri uri)
         {
-            var wmsCapabilities = new WmsCapabilities(uri);
+            var wmsCapabilities = await WmsCapabilities.CreateAsync(uri);
             var cap = wmsCapabilities.Capability;
             var ec = cap.ExtendedCapabilities;
             if (!ec.TryGetValue(XName.Get("VendorSpecificCapabilities"), out var vsc))
@@ -27,6 +28,12 @@ namespace BruTile.Wmsc
 
             return ParseVendorSpecificCapabilitiesNode(
                 (XElement)vsc, cap.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
+        }
+
+        [Obsolete("Use CreateFromWmscCapabiltiesAsync")]
+        public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
+        {
+            return CreateFromWmscCapabiltiesAsync(uri).Result;
         }
 
         public static IEnumerable<ITileSource> CreateFromWmscCapabilties(XDocument document)

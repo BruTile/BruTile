@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BruTile.MbTiles;
@@ -166,25 +166,24 @@ namespace BruTile.Samples.MbTiles
         private async void GetSampleFileFromInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain.mbtiles");
-#pragma warning disable SYSLIB0014 // Type or member is obsolete
-            var req = WebRequest.Create("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles");
-#pragma warning restore SYSLIB0014 // Type or member is obsolete
+            var httpClientHandler = new HttpClientHandler();
+            var httpClient = new HttpClient(httpClientHandler);
+
             var success = true;
             try
             {
                 Enabled = false;
 
                 var tmpFile = Path.GetTempFileName();
-                using (var response = await req.GetResponseAsync())
+                await using (var stream = await httpClient.GetStreamAsync("http://a.tiles.mapbox.com/mapbox/download/haiti-terrain.mbtiles"))
                 {
                     await using var streamWriter = new BinaryWriter(File.OpenWrite(tmpFile));
-                    await using var stream = response.GetResponseStream();
                     var buffer = new byte[4 * 8192];
                     while (true)
                     {
                         if (stream != null)
                         {
-                            var read = stream.Read(buffer, 0, buffer.Length);
+                            var read = await stream.ReadAsync(buffer, 0, buffer.Length);
                             if (read <= 0) break;
                             streamWriter.Write(buffer, 0, read);
                         }
