@@ -28,7 +28,7 @@ namespace BruTile.Web
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
-            if (referer is not null) 
+            if (referer is not null)
                 _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", referer);
             Schema = tileSchema;
             Name = name ?? string.Empty;
