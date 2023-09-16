@@ -28,6 +28,8 @@ namespace BruTile.Web
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
+            if (Referer is not null) 
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", Referer);
             Schema = tileSchema;
             Name = name ?? string.Empty;
             Attribution = attribution ?? new Attribution();
@@ -45,6 +47,8 @@ namespace BruTile.Web
         public string Name { get; set; }
 
         public Attribution Attribution { get; set; }
+
+        public string Referer { get; init; }
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array
