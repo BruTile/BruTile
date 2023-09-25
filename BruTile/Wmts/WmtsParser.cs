@@ -84,7 +84,7 @@ namespace BruTile.Wmts
                 {
                     if (layer.Style == null)
                         continue;
-                    
+
                     foreach (var style in layer.Style)
                     {
                         foreach (var format in layer.Format)
