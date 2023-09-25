@@ -82,6 +82,9 @@ namespace BruTile.Wmts
 
                 foreach (var tileMatrixLink in layer.TileMatrixSetLink)
                 {
+                    if (layer.Style == null)
+                        continue;
+                    
                     foreach (var style in layer.Style)
                     {
                         foreach (var format in layer.Format)
