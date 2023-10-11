@@ -1,6 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BruTile.Cache;
@@ -11,14 +12,26 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, Task<byte[]>> _fetchTile;
         private readonly IRequest _request;
-        private readonly HttpClient _httpClient = HttpClientBuilder.Build();
+        private readonly HttpClient _httpClient;
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, Task<byte[]>> fetchTile = null, string userAgent = null)
+            Func<Uri, Task<byte[]>> fetchTile = null, string userAgent = null, ICredentials credentials = null)
         {
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = fetchTile ?? FetchTileAsync;
+            var httpClientHandler = new HttpClientHandler();
+            try
+            {
+                // Blazor does not support this,
+                if (credentials != null)
+                    httpClientHandler.Credentials = credentials;
+            }
+            catch (PlatformNotSupportedException)
+            {
+            }
+
+            _httpClient = new HttpClient(httpClientHandler);
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "BruTile Tile Library");
         }
 
