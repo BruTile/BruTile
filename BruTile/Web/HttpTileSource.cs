@@ -15,25 +15,19 @@ namespace BruTile.Web
         private readonly HttpClient _httpClient = HttpClientBuilder.Build();
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
-            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
-            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
+            string apiKey = null, Func<Uri, Task<byte[]>> tileFetcher = null, string userAgent = null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), tileFetcher, userAgent)
         { }
 
-        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,
-            Attribution attribution = null, string userAgent = null)
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, Func<Uri, Task<byte[]>> tileFetcher = null, string userAgent = null)
         {
             _request = request ?? new NullRequest();
-            PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
             Schema = tileSchema;
-            Name = name ?? string.Empty;
-            Attribution = attribution ?? new Attribution();
         }
 
-        public IPersistentCache<byte[]> PersistentCache { get; set; }
+        public IPersistentCache<byte[]> PersistentCache { get; set; } = new NullCache();
 
         public Uri GetUri(TileInfo tileInfo)
         {
@@ -42,9 +36,9 @@ namespace BruTile.Web
 
         public ITileSchema Schema { get; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public Attribution Attribution { get; set; }
+        public Attribution Attribution { get; set; } = new Attribution();
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array
