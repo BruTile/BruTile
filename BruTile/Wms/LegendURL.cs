@@ -15,13 +15,13 @@ namespace BruTile.Wms
 
         public LegendURL(XElement node, string ns)
         {
-            var widthAttribute = node.Attribute(XName.Get("width"))
-                ?? throw new System.Exception("Width node is null in xml");
-            Width = int.Parse(widthAttribute.Value, NumberFormatInfo.InvariantInfo);
+            var widthAttribute = node.Attribute(XName.Get("width"));
+            if (widthAttribute != null)
+                Width = int.Parse(widthAttribute.Value, NumberFormatInfo.InvariantInfo);
 
-            var heightAttribute = node.Attribute(XName.Get("height"))
-                ?? throw new System.Exception("Height node is null in xml");
-            Height = int.Parse(heightAttribute.Value, NumberFormatInfo.InvariantInfo);
+            var heightAttribute = node.Attribute(XName.Get("height"));
+            if (heightAttribute != null)
+                Height = int.Parse(heightAttribute.Value, NumberFormatInfo.InvariantInfo);
 
             var element = node.Element(XName.Get("Format", ns));
             Format = element?.Value ?? "png";

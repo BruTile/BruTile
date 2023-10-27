@@ -37,6 +37,3 @@ What BruTile does is:
 * [SharpMap](https://github.com/SharpMap/SharpMap) a GIS library
 * [Mapsui](https://github.com/Mapsui/Mapsui) a MapComponent for Xamarin.Android. Xamarin.iOS, UWP and WPF
 * [DotSpatial](https://github.com/DotSpatial/DotSpatial) a GIS library that is used in [HydroDesktop](https://github.com/CUAHSI/HydroDesktop)
-
-### License
-[Apache 2.0](https://raw.githubusercontent.com/BruTile/BruTile/master/LICENSE.md)
