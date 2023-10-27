@@ -16,11 +16,11 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material 
-      - run: mkdocs build -f documentation/brutile-mkdocs/mkdocs.yml -d ..\..\docs --clean
+      - run: mkdocs build -f documentation/brutile-mkdocs/mkdocs.yml -d ../../docs --clean
       - uses: actions/upload-artifact@v2
         with:
-          name: site
-          path: site
+          name: docs
+          path: docs
   deploy:
     needs: build
     runs-on: ubuntu-latest
