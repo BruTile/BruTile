@@ -3,8 +3,12 @@ name: Build on Windows
 on:
   push:
     branches: [ '**' ]
+    paths-ignore:
+      - 'documentation'
   pull_request:
     branches: [ '**' ]
+    paths-ignore:
+      - 'documentation'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
