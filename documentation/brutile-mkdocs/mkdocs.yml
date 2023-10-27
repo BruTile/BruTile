@@ -1,3 +1,10 @@
 site_name: My Docs
 theme:
   name: 'material'
+  features:
+    - content.action.edit
+nav:
+  - 'brutile.md'
+  - 'getting-started.md'
+repo_url: https://github.com/BruTile/BruTile/
+edit_uri: blob/master/documentation/brutile-mkdocs/docs
