@@ -188,3 +188,4 @@ FakesAssemblies/
 .DS_Store
 /Samples/BruTile.Demo.Uno/.vsconfig
 .idea
+/docs
