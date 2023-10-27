@@ -4,6 +4,7 @@ on:
     branches:
       - master 
       - main
+      - feature/mkdocs
 permissions:
   contents: write
   pages: write
@@ -27,17 +28,17 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material 
-      - run: mkdocs build -f documentation/brutile-mkdocs/mkdocs.yml -d ../../docs --clean
+      - run: mkdocs build -f documentation/mkdocs/mkdocs.yml -d ../site --clean
       - uses: actions/upload-artifact@v2
         with:
-          name: docs
-          path: docs
+          name: site
+          path: documentation/site
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'docs'
+          path: 'documentation/site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
