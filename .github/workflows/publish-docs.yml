@@ -37,5 +37,5 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy --force -f documentation/brutile-mkdocs/mkdocs.yml -d ../../docs --clean
   
