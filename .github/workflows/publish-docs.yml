@@ -7,6 +7,11 @@ on:
       - feature/mkdocs
 permissions:
   contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,4 +33,13 @@ jobs:
         with:
           name: docs
           path: docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
   
