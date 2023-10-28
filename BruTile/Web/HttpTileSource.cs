@@ -58,6 +58,16 @@ namespace BruTile.Web
             return bytes;
         }
 
+        public void AddHeader(string key, string value)
+        {
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
+        }
+
+        public IEnumerable<string> GetHeaders(string key)
+        {
+            return _httpClient.DefaultRequestHeaders.GetValues(key);
+        }
+        
         private async Task<byte[]> FetchTileAsync(Uri arg)
         {
             return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
