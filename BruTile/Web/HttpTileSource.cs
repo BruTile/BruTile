@@ -67,7 +67,7 @@ namespace BruTile.Web
         {
             return _httpClient.DefaultRequestHeaders.GetValues(key);
         }
-        
+
         private async Task<byte[]> FetchTileAsync(Uri arg)
         {
             return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
