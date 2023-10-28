@@ -41,10 +41,10 @@ namespace BruTile.Tests.Web
             var tileSource = new HttpTileSource(new GlobalSphericalMercator(), "https://tile.openstreetmap.org/{z}/{x}/{y}.png");
 
             // Act
-            tileSource.AddHeader("Referer", "test-referer");  
+            tileSource.AddHeader("Referer", "test-referer");
 
             // Assert
-            Assert.AreEqual("test-referer", tileSource.GetHeaders("Referer").FirstOrDefault());            
+            Assert.AreEqual("test-referer", tileSource.GetHeaders("Referer").FirstOrDefault());
         }
     }
 }
