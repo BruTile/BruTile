@@ -16,20 +16,18 @@ namespace BruTile.Web
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null, string referer = null)
-            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent, referer)
+            Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
         { }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
             IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,
-            Attribution attribution = null, string userAgent = null, string referer = null)
+            Attribution attribution = null, string userAgent = null)
         {
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTileAsync;
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
-            if (referer is not null)
-                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", referer);
             Schema = tileSchema;
             Name = name ?? string.Empty;
             Attribution = attribution ?? new Attribution();
@@ -58,6 +56,16 @@ namespace BruTile.Web
             bytes = await _fetchTile(_request.GetUri(tileInfo)).ConfigureAwait(false);
             if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             return bytes;
+        }
+
+        public void AddHeader(string key, string value)
+        {
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
+        }
+
+        public IEnumerable<string> GetHeaders(string key)
+        {
+            return _httpClient.DefaultRequestHeaders.GetValues(key);
         }
 
         private async Task<byte[]> FetchTileAsync(Uri arg)
