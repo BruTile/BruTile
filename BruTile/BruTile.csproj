@@ -1,11 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath></PackageOutputPath>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
 		<PackageTags>tiling gis osm geo</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.1'))">
+		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<DotNetCliToolReference  Include="Microsoft.XmlSerializer.Generator" Version="8.0.0" >
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</DotNetCliToolReference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<SGenTypes>BruTile.Tms.TileMap;BruTile.Wmts.Generated.Capabilities</SGenTypes>
+		<SGenVerbose>true</SGenVerbose>
 	</PropertyGroup>
 
 </Project>
