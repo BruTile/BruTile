@@ -2634,7 +2634,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
 
     [XmlType(Namespace = "http://www.w3.org/1999/xlink")]
-    public partial class extended
+    public partial class @extended
     {
 
         private object[] itemsField;
@@ -2693,7 +2693,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
 
     [XmlType(Namespace = "http://www.w3.org/1999/xlink")]
-    public partial class simple
+    public partial class @simple
     {
 
         //private System.Xml.XmlNode[] anyField;
