@@ -12,28 +12,30 @@ namespace BruTile.Web
     {
         private readonly Func<Uri, Task<byte[]>> _fetchTile;
         private readonly IRequest _request;
-        private readonly HttpClient _httpClient = HttpClientBuilder.Build();
+        private readonly HttpClient _httpClient;
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
-            string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
-            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
+            string apiKey = null, Func<Uri, Task<byte[]>> tileFetcher = null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), tileFetcher)
         { }
 
-        public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,
-            Attribution attribution = null, string userAgent = null)
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, Func<Uri, Task<byte[]>> tileFetcher = null)
         {
             _request = request ?? new NullRequest();
-            PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = tileFetcher ?? FetchTileAsync;
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent ?? "If you use BruTile please specify a user-agent specific to your app");
+            _httpClient = HttpClientBuilder.Build();
             Schema = tileSchema;
-            Name = name ?? string.Empty;
-            Attribution = attribution ?? new Attribution();
         }
 
-        public IPersistentCache<byte[]> PersistentCache { get; set; }
+        public HttpTileSource(ITileSchema tileSchema, IRequest request, HttpClient httpClient)
+        {
+            _request = request ?? new NullRequest();
+            _fetchTile = FetchTileAsync;
+            _httpClient = httpClient;
+            Schema = tileSchema;
+        }
+
+        public IPersistentCache<byte[]> PersistentCache { get; set; } = new NullCache();
 
         public Uri GetUri(TileInfo tileInfo)
         {
@@ -42,9 +44,9 @@ namespace BruTile.Web
 
         public ITileSchema Schema { get; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public Attribution Attribution { get; set; }
+        public Attribution Attribution { get; set; } = new Attribution();
 
         /// <summary>
         /// Gets the actual image content of the tile as byte array
@@ -56,16 +58,6 @@ namespace BruTile.Web
             bytes = await _fetchTile(_request.GetUri(tileInfo)).ConfigureAwait(false);
             if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             return bytes;
-        }
-
-        public void AddHeader(string key, string value)
-        {
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
-        }
-
-        public IEnumerable<string> GetHeaders(string key)
-        {
-            return _httpClient.DefaultRequestHeaders.GetValues(key);
         }
 
         private async Task<byte[]> FetchTileAsync(Uri arg)

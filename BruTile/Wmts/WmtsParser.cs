@@ -122,7 +122,7 @@ namespace BruTile.Wmts
                             var styleName = style.Identifier.Value;
 
                             var schema = tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format);
-                            var tileSource = new HttpTileSource(schema, wmtsRequest, name: title);
+                            var tileSource = new HttpTileSource(schema, wmtsRequest) { Name = title };
 
                             tileSources.Add(tileSource);
                         }
