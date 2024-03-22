@@ -49,7 +49,7 @@ namespace BruTile.MbTiles
         public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None,
             bool determineZoomLevelsFromTilesTable = false, bool determineTileRangeFromTilesTable = false)
         {
-            if (File.Exists(connectionString.DatabasePath)) 
+            if (File.Exists(connectionString.DatabasePath))
                 throw new FileNotFoundException($"The mbtiles file does not exist: '{connectionString.DatabasePath}'", connectionString.DatabasePath);
 
             _connectionString = connectionString;
