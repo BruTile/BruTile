@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BruTile.Predefined;
@@ -48,6 +49,9 @@ namespace BruTile.MbTiles
         public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None,
             bool determineZoomLevelsFromTilesTable = false, bool determineTileRangeFromTilesTable = false)
         {
+            if (File.Exists(connectionString.DatabasePath)) 
+                throw new FileNotFoundException($"The mbtiles file does not exist: '{connectionString.DatabasePath}'", connectionString.DatabasePath);
+
             _connectionString = connectionString;
 
             using (var connection = new SQLiteConnection(connectionString))
@@ -79,9 +83,7 @@ namespace BruTile.MbTiles
             var extent = ReadExtent(connection);
 
             if (determineZoomLevelsFromTilesTable)
-            {
                 zoomLevels = ReadZoomLevelsFromTilesTable(connection);
-            }
 
             return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
         }
@@ -232,9 +234,7 @@ namespace BruTile.MbTiles
             var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"format\";";
             var formatString = connection.ExecuteScalar<string>(sql);
             if (Enum.TryParse<MbTilesFormat>(formatString, true, out var format))
-            {
                 return format;
-            }
             return MbTilesFormat.Png;
         }
 
@@ -243,9 +243,7 @@ namespace BruTile.MbTiles
             var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"type\";";
             var typeString = connection.ExecuteScalar<string>(sql);
             if (Enum.TryParse<MbTilesType>(typeString, true, out var type))
-            {
                 return type;
-            }
             return MbTilesType.BaseLayer;
         }
 
@@ -255,13 +253,11 @@ namespace BruTile.MbTiles
 
             // This is an optimization that makes use of an additional 'map' table which is not part of the spec
             if (_tileRange.TryGetValue(index.Level, out var tileRange))
-            {
                 return
                     tileRange.FirstCol <= index.Col &&
                     index.Col <= tileRange.LastCol &&
                     tileRange.FirstRow <= index.Row &&
                     index.Row <= tileRange.LastRow;
-            }
             return false;
         }
         public ITileSchema Schema { get; }
