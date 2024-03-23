@@ -2,7 +2,7 @@
 
 	<!--- Package information, Version -->
 	<PropertyGroup>
-		<Version>5.0.3</Version>
+		<Version>6.0.0</Version>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Copyright>Copyright © BruTile Developers Team 2008-2022</Copyright>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
