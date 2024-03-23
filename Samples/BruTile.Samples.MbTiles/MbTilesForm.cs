@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BruTile.MbTiles;
@@ -98,7 +99,7 @@ namespace BruTile.Samples.MbTiles
                 g.Clear(Color.White);
                 foreach (var tileInfo in _source.Schema.GetTileInfos(_mapTransform.Extent, levelIndex))
                 {
-                    var res = await _source.GetTileAsync(tileInfo).ConfigureAwait(false);
+                    var res = await _source.GetTileAsync(tileInfo, CancellationToken.None).ConfigureAwait(false);
                     var extent = _mapTransform.WorldToMap(tileInfo.Extent.MinX, tileInfo.Extent.MinY,
                                                             tileInfo.Extent.MaxX, tileInfo.Extent.MaxY);
                     if (res != null)

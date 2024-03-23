@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 
@@ -10,18 +11,18 @@ namespace BruTile.Web
 {
     public class HttpTileSource : ITileSource, IRequest
     {
-        private readonly Func<Uri, Task<byte[]>> _fetchTile;
+        private readonly Func<Uri, CancellationToken, Task<byte[]>> _fetchTile;
         private readonly IRequest _request;
         private readonly HttpClient _httpClient = HttpClientBuilder.Build();
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
+            Func<Uri, CancellationToken, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
             : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
         { }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, Task<byte[]>> tileFetcher = null,
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, CancellationToken, Task<byte[]>> tileFetcher = null,
             Attribution attribution = null, string userAgent = null)
         {
             _request = request ?? new NullRequest();
@@ -49,11 +50,11 @@ namespace BruTile.Web
         /// <summary>
         /// Gets the actual image content of the tile as byte array
         /// </summary>
-        public virtual async Task<byte[]> GetTileAsync(TileInfo tileInfo)
+        public virtual async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
         {
             var bytes = PersistentCache.Find(tileInfo.Index);
             if (bytes != null) return bytes;
-            bytes = await _fetchTile(_request.GetUri(tileInfo)).ConfigureAwait(false);
+            bytes = await _fetchTile(_request.GetUri(tileInfo), cancellationToken).ConfigureAwait(false);
             if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
             return bytes;
         }
@@ -68,9 +69,14 @@ namespace BruTile.Web
             return _httpClient.DefaultRequestHeaders.GetValues(key);
         }
 
-        private async Task<byte[]> FetchTileAsync(Uri arg)
+        private async Task<byte[]> FetchTileAsync(Uri arg, CancellationToken cancellationToken)
         {
-            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
+#if NET6_0_OR_GREATER
+            return await _httpClient.GetByteArrayAsync(arg, cancellationToken).ConfigureAwait(false);
+#else
+            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);                
+#endif            
+            
         }
     }
 }
