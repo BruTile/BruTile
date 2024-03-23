@@ -74,9 +74,9 @@ namespace BruTile.Web
 #if NET6_0_OR_GREATER
             return await _httpClient.GetByteArrayAsync(arg, cancellationToken).ConfigureAwait(false);
 #else
-            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);                
-#endif            
-            
+            return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
+#endif
+
         }
     }
 }
