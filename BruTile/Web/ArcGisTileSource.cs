@@ -3,6 +3,7 @@
 // This file was created by Tim Ebben (Geodan) 2009
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 
@@ -16,7 +17,7 @@ namespace BruTile.Web
                 string baseUrl,
                 ITileSchema schema,
                 IPersistentCache<byte[]> persistentCache = null,
-                Func<Uri, Task<byte[]>> fetchTile = null)
+                Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null)
             : base(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)
         {
             BaseUrl = baseUrl;
