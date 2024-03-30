@@ -5,58 +5,57 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BruTile.Performance.Desktop
+namespace BruTile.Performance.Desktop;
+
+internal class WorkTimer
 {
-    internal class WorkTimer
+    private int _threadCompleteCount;
+    private readonly int _testCount;
+    private readonly object _syncRoot = new();
+
+    public long MaxTime { get; private set; } = long.MinValue;
+    public long MinTime { get; private set; } = long.MaxValue;
+    public long TotalTime { get; private set; }
+
+    public WorkTimer(int testCount)
     {
-        private int _threadCompleteCount;
-        private readonly int _testCount;
-        private readonly object _syncRoot = new();
+        _testCount = testCount;
+    }
 
-        public long MaxTime { get; private set; } = long.MinValue;
-        public long MinTime { get; private set; } = long.MaxValue;
-        public long TotalTime { get; private set; }
-
-        public WorkTimer(int testCount)
+    public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
+    {
+        for (var i = 0; i < _testCount; i++)
         {
-            _testCount = testCount;
+            var arg = argFactory(i);
+            Task.Run(() => TimeSingleWork(() => work(arg)));
         }
+    }
 
-        public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
+    public void WaitForTestsToComplete()
+    {
+        while (Interlocked.CompareExchange(ref _threadCompleteCount, 0, _testCount) != _testCount)
         {
-            for (var i = 0; i < _testCount; i++)
-            {
-                var arg = argFactory(i);
-                Task.Run(() => TimeSingleWork(() => work(arg)));
-            }
+            Thread.Sleep(50);
         }
+    }
 
-        public void WaitForTestsToComplete()
+    private void TimeSingleWork(Action action)
+    {
+        var stopwatch = Stopwatch.StartNew();
+        try
         {
-            while (Interlocked.CompareExchange(ref _threadCompleteCount, 0, _testCount) != _testCount)
-            {
-                Thread.Sleep(50);
-            }
+            action();
         }
-
-        private void TimeSingleWork(Action action)
+        finally
         {
-            var stopwatch = Stopwatch.StartNew();
-            try
+            stopwatch.Stop();
+            lock (_syncRoot)
             {
-                action();
+                TotalTime += stopwatch.ElapsedMilliseconds;
+                MinTime = Math.Min(MinTime, stopwatch.ElapsedMilliseconds);
+                MaxTime = Math.Max(MaxTime, stopwatch.ElapsedMilliseconds);
             }
-            finally
-            {
-                stopwatch.Stop();
-                lock (_syncRoot)
-                {
-                    TotalTime += stopwatch.ElapsedMilliseconds;
-                    MinTime = Math.Min(MinTime, stopwatch.ElapsedMilliseconds);
-                    MaxTime = Math.Max(MaxTime, stopwatch.ElapsedMilliseconds);
-                }
-                Interlocked.Increment(ref _threadCompleteCount);
-            }
+            Interlocked.Increment(ref _threadCompleteCount);
         }
     }
 }

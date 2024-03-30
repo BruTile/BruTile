@@ -4,88 +4,87 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Wms
+namespace BruTile.Wms;
+
+public class OperationType : XmlObject
 {
-    public class OperationType : XmlObject
+    private List<string> _formatField;
+
+    // ReSharper disable InconsistentNaming
+    private List<DCPType> _DCpTypeField;
+
+    public OperationType()
+    { }
+
+    public OperationType(XElement node, string @namespace)
     {
-        private List<string> _formatField;
+        foreach (var formatNode in node.Elements(XName.Get("Format", @namespace)))
+            Format.Add(formatNode.Value);
 
-        // ReSharper disable InconsistentNaming
-        private List<DCPType> _DCpTypeField;
+        foreach (var dcptype in node.Elements(XName.Get("DCPType", @namespace)))
+            DCPType.Add(new DCPType(dcptype, @namespace));
 
-        public OperationType()
-        { }
+        if (Format.Count < 1)
+            throw WmsParsingException.ElementNotFound("Format");
+        if (DCPType.Count < 1)
+            throw WmsParsingException.ElementNotFound("DCPType");
+    }
 
-        public OperationType(XElement node, string @namespace)
+    public List<string> Format
+    {
+        get => _formatField ??= new List<string>();
+        set => _formatField = value;
+    }
+
+    public List<DCPType> DCPType
+    {
+        get => _DCpTypeField ??= new List<DCPType>();
+        set => _DCpTypeField = value;
+    }
+
+    // ReSharper restore InconsistentNaming
+
+    #region Overrides of XmlObject
+
+    public override void ReadXml(XmlReader reader)
+    {
+        reader.MoveToContent();
+        while (!reader.EOF)
         {
-            foreach (var formatNode in node.Elements(XName.Get("Format", @namespace)))
-                Format.Add(formatNode.Value);
-
-            foreach (var dcptype in node.Elements(XName.Get("DCPType", @namespace)))
-                DCPType.Add(new DCPType(dcptype, @namespace));
-
-            if (Format.Count < 1)
-                throw WmsParsingException.ElementNotFound("Format");
-            if (DCPType.Count < 1)
-                throw WmsParsingException.ElementNotFound("DCPType");
-        }
-
-        public List<string> Format
-        {
-            get => _formatField ??= new List<string>();
-            set => _formatField = value;
-        }
-
-        public List<DCPType> DCPType
-        {
-            get => _DCpTypeField ??= new List<DCPType>();
-            set => _DCpTypeField = value;
-        }
-
-        // ReSharper restore InconsistentNaming
-
-        #region Overrides of XmlObject
-
-        public override void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            while (!reader.EOF)
+            if (reader.IsStartElement())
             {
-                if (reader.IsStartElement())
+                switch (reader.LocalName)
                 {
-                    switch (reader.LocalName)
-                    {
-                        case "Format":
-                            Format.Add(reader.ReadElementContentAsString());
-                            break;
-                        case "DCPType":
-                            var tmp = new DCPType();
-                            tmp.ReadXml(reader);
-                            DCPType.Add(tmp);
-                            break;
-                        default:
-                            reader.Skip();
-                            break;
-                    }
-                }
-                else
-                {
-                    reader.Read();
+                    case "Format":
+                        Format.Add(reader.ReadElementContentAsString());
+                        break;
+                    case "DCPType":
+                        var tmp = new DCPType();
+                        tmp.ReadXml(reader);
+                        DCPType.Add(tmp);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
                 }
             }
+            else
+            {
+                reader.Read();
+            }
         }
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            WriteXmlList("Format", Namespace, writer, _formatField);
-            WriteXmlList("DCPType", Namespace, writer, _DCpTypeField);
-        }
-
-        public override XElement ToXElement(string @namespace)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        #endregion Overrides of XmlObject
     }
+
+    public override void WriteXml(XmlWriter writer)
+    {
+        WriteXmlList("Format", Namespace, writer, _formatField);
+        WriteXmlList("DCPType", Namespace, writer, _DCpTypeField);
+    }
+
+    public override XElement ToXElement(string @namespace)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion Overrides of XmlObject
 }

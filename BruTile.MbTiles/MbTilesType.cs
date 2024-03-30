@@ -2,26 +2,25 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
-namespace BruTile.MbTiles
+namespace BruTile.MbTiles;
+
+/// <summary>
+/// Type of tiles
+/// </summary>
+public enum MbTilesType
 {
     /// <summary>
-    /// Type of tiles
+    /// None
     /// </summary>
-    public enum MbTilesType
-    {
-        /// <summary>
-        /// None
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// Base layer
-        /// </summary>
-        BaseLayer,
+    /// <summary>
+    /// Base layer
+    /// </summary>
+    BaseLayer,
 
-        /// <summary>
-        /// Overlay
-        /// </summary>
-        Overlay
-    }
+    /// <summary>
+    /// Overlay
+    /// </summary>
+    Overlay
 }

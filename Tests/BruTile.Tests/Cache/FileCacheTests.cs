@@ -4,25 +4,24 @@ using System.IO;
 using BruTile.Cache;
 using NUnit.Framework;
 
-namespace BruTile.Tests.Cache
+namespace BruTile.Tests.Cache;
+
+public class FileCacheTests : CacheTests<FileCache>
 {
-    public class FileCacheTests : CacheTests<FileCache>
+    public FileCacheTests()
+        : base(ClearedFileCacheTest())
+    { }
+
+    private static FileCache ClearedFileCacheTest()
     {
-        public FileCacheTests()
-            : base(ClearedFileCacheTest())
-        { }
+        if (Directory.Exists("FileCacheTest"))
+            Directory.Delete("FileCacheTest", true);
+        return new FileCache("FileCacheTest", "buf");
+    }
 
-        private static FileCache ClearedFileCacheTest()
-        {
-            if (Directory.Exists("FileCacheTest"))
-                Directory.Delete("FileCacheTest", true);
-            return new FileCache("FileCacheTest", "buf");
-        }
-
-        [Test]
-        public void InsertFindRemoveTest()
-        {
-            TestInsertFindRemove();
-        }
+    [Test]
+    public void InsertFindRemoveTest()
+    {
+        TestInsertFindRemove();
     }
 }

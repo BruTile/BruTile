@@ -2,17 +2,16 @@
 
 using System;
 
-namespace BruTile
-{
+namespace BruTile;
 
-    public class ValidationException : Exception
-    {
-        // Todo: Replace with some standard exception
-        public ValidationException()
-        { }
-        public ValidationException(string message) : base(message)
-        { }
-        public ValidationException(string message, Exception innerException) : base(message, innerException)
-        { }
-    }
+
+public class ValidationException : Exception
+{
+    // Todo: Replace with some standard exception
+    public ValidationException()
+    { }
+    public ValidationException(string message) : base(message)
+    { }
+    public ValidationException(string message, Exception innerException) : base(message, innerException)
+    { }
 }

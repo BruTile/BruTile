@@ -4,43 +4,42 @@ using System.Windows.Controls;
 using BruTile.Cache;
 using BruTile.Samples.Common;
 
-namespace BruTile.Demo
+namespace BruTile.Demo;
+
+internal class Renderer
 {
-    internal class Renderer
+    private readonly Canvas _canvas;
+
+    public Renderer(Canvas canvas)
     {
-        private readonly Canvas _canvas;
+        _canvas = canvas;
+    }
 
-        public Renderer(Canvas canvas)
+    public void Render(Viewport viewport, ITileSource tileSource, ITileCache<Tile<Image>> tileCache)
+    {
+        _canvas.Children.Clear();
+
+        var level = Utilities.GetNearestLevel(tileSource.Schema.Resolutions, viewport.UnitsPerPixel);
+        var tileInfos = tileSource.Schema.GetTileInfos(viewport.Extent, level);
+        foreach (var tileInfo in tileInfos)
         {
-            _canvas = canvas;
-        }
-
-        public void Render(Viewport viewport, ITileSource tileSource, ITileCache<Tile<Image>> tileCache)
-        {
-            _canvas.Children.Clear();
-
-            var level = Utilities.GetNearestLevel(tileSource.Schema.Resolutions, viewport.UnitsPerPixel);
-            var tileInfos = tileSource.Schema.GetTileInfos(viewport.Extent, level);
-            foreach (var tileInfo in tileInfos)
+            var tile = tileCache.Find(tileInfo.Index);
+            if (tile != null)
             {
-                var tile = tileCache.Find(tileInfo.Index);
-                if (tile != null)
-                {
-                    _canvas.Children.Add(tile.Image);
-                    PositionImage(tile.Image, tileInfo.Extent, viewport);
-                }
+                _canvas.Children.Add(tile.Image);
+                PositionImage(tile.Image, tileInfo.Extent, viewport);
             }
         }
+    }
 
-        public static void PositionImage(Image image, Extent extent, Viewport viewport)
-        {
-            var min = viewport.WorldToScreen(extent.MinX, extent.MinY);
-            var max = viewport.WorldToScreen(extent.MaxX, extent.MaxY);
+    public static void PositionImage(Image image, Extent extent, Viewport viewport)
+    {
+        var min = viewport.WorldToScreen(extent.MinX, extent.MinY);
+        var max = viewport.WorldToScreen(extent.MaxX, extent.MaxY);
 
-            Canvas.SetLeft(image, min.X);
-            Canvas.SetTop(image, max.Y);
-            image.Width = max.X - min.X;
-            image.Height = min.Y - max.Y;
-        }
+        Canvas.SetLeft(image, min.X);
+        Canvas.SetTop(image, max.Y);
+        image.Width = max.X - min.X;
+        image.Height = min.Y - max.Y;
     }
 }

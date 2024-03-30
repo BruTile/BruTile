@@ -2,23 +2,22 @@
 
 using System;
 
-namespace BruTile.Cache
+namespace BruTile.Cache;
+
+public class NullCache : IPersistentCache<byte[]>
 {
-    public class NullCache : IPersistentCache<byte[]>
+    public void Add(TileIndex index, byte[] image)
     {
-        public void Add(TileIndex index, byte[] image)
-        {
-            //do nothing
-        }
+        //do nothing
+    }
 
-        public void Remove(TileIndex index)
-        {
-            throw new NotImplementedException(); //and should not
-        }
+    public void Remove(TileIndex index)
+    {
+        throw new NotImplementedException(); //and should not
+    }
 
-        public byte[] Find(TileIndex index)
-        {
-            return null;
-        }
+    public byte[] Find(TileIndex index)
+    {
+        return null;
     }
 }

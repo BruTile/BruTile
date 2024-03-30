@@ -1,57 +1,56 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-namespace BruTile
+namespace BruTile;
+
+public readonly struct TileRange
 {
-    public readonly struct TileRange
+    public int FirstCol { get; }
+    public int FirstRow { get; }
+    public int ColCount { get; }
+    public int RowCount { get; }
+    public int LastCol => FirstCol + ColCount - 1;
+    public int LastRow => FirstRow + RowCount - 1;
+
+    public TileRange(int col, int row) : this(col, row, 1, 1)
+    { }
+
+    public TileRange(int firstCol, int firstRow, int colCount, int rowCount) : this()
     {
-        public int FirstCol { get; }
-        public int FirstRow { get; }
-        public int ColCount { get; }
-        public int RowCount { get; }
-        public int LastCol => FirstCol + ColCount - 1;
-        public int LastRow => FirstRow + RowCount - 1;
+        FirstCol = firstCol;
+        FirstRow = firstRow;
+        ColCount = colCount;
+        RowCount = rowCount;
+    }
 
-        public TileRange(int col, int row) : this(col, row, 1, 1)
-        { }
+    public override bool Equals(object obj)
+    {
+        if (obj is not TileRange range)
+            return false;
 
-        public TileRange(int firstCol, int firstRow, int colCount, int rowCount) : this()
-        {
-            FirstCol = firstCol;
-            FirstRow = firstRow;
-            ColCount = colCount;
-            RowCount = rowCount;
-        }
+        return Equals(range);
+    }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is not TileRange range)
-                return false;
+    public bool Equals(TileRange tileRange)
+    {
+        return
+          FirstCol == tileRange.FirstCol &&
+          ColCount == tileRange.ColCount &&
+          FirstRow == tileRange.FirstRow &&
+          RowCount == tileRange.RowCount;
+    }
 
-            return Equals(range);
-        }
+    public override int GetHashCode()
+    {
+        return FirstCol ^ ColCount ^ FirstRow ^ RowCount;
+    }
 
-        public bool Equals(TileRange tileRange)
-        {
-            return
-              FirstCol == tileRange.FirstCol &&
-              ColCount == tileRange.ColCount &&
-              FirstRow == tileRange.FirstRow &&
-              RowCount == tileRange.RowCount;
-        }
+    public static bool operator ==(TileRange tileRange1, TileRange tileRange2)
+    {
+        return Equals(tileRange1, tileRange2);
+    }
 
-        public override int GetHashCode()
-        {
-            return FirstCol ^ ColCount ^ FirstRow ^ RowCount;
-        }
-
-        public static bool operator ==(TileRange tileRange1, TileRange tileRange2)
-        {
-            return Equals(tileRange1, tileRange2);
-        }
-
-        public static bool operator !=(TileRange tileRange1, TileRange tileRange2)
-        {
-            return !Equals(tileRange1, tileRange2);
-        }
+    public static bool operator !=(TileRange tileRange1, TileRange tileRange2)
+    {
+        return !Equals(tileRange1, tileRange2);
     }
 }

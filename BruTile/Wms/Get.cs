@@ -2,16 +2,15 @@
 
 using System.Xml.Linq;
 
-namespace BruTile.Wms
-{
-    public class Get : DCPTypeElement
-    {
-        public Get()
-            : base("Get")
-        { }
+namespace BruTile.Wms;
 
-        public Get(XElement node, string @namespace)
-            : base("Get", node, @namespace)
-        { }
-    }
+public class Get : DCPTypeElement
+{
+    public Get()
+        : base("Get")
+    { }
+
+    public Get(XElement node, string @namespace)
+        : base("Get", node, @namespace)
+    { }
 }

@@ -2,16 +2,15 @@
 
 using System.Xml.Linq;
 
-namespace BruTile.Wms
-{
-    public class Post : DCPTypeElement
-    {
-        public Post()
-            : base("Post")
-        { }
+namespace BruTile.Wms;
 
-        public Post(XElement node, string @namespace)
-            : base("Post", node, @namespace)
-        { }
-    }
+public class Post : DCPTypeElement
+{
+    public Post()
+        : base("Post")
+    { }
+
+    public Post(XElement node, string @namespace)
+        : base("Post", node, @namespace)
+    { }
 }

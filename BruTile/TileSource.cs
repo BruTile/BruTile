@@ -3,49 +3,48 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BruTile
+namespace BruTile;
+
+/// <summary>
+/// The default implementation of a <see cref="ITileSource"/>.
+/// </summary>
+public class TileSource : ITileSource
 {
+    private readonly ITileProvider _provider;
+
     /// <summary>
-    /// The default implementation of a <see cref="ITileSource"/>.
+    /// Creates an instance of this class
     /// </summary>
-    public class TileSource : ITileSource
+    /// <param name="tileProvider">The tile provider</param>
+    /// <param name="tileSchema">The tile schema</param>
+    public TileSource(ITileProvider tileProvider, ITileSchema tileSchema)
     {
-        private readonly ITileProvider _provider;
-
-        /// <summary>
-        /// Creates an instance of this class
-        /// </summary>
-        /// <param name="tileProvider">The tile provider</param>
-        /// <param name="tileSchema">The tile schema</param>
-        public TileSource(ITileProvider tileProvider, ITileSchema tileSchema)
-        {
-            _provider = tileProvider;
-            Schema = tileSchema;
-        }
-
-        /// <summary>
-        /// Gets a the Name of the tile source
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets the image content of the tile 
-        /// </summary>
-        public async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
-        {
-            return await _provider.GetTileAsync(tileInfo, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets a value indicating the tile schema
-        /// </summary>
-        public ITileSchema Schema { get; }
-
-        public override string ToString()
-        {
-            return $"[TileSource:{Name}]";
-        }
-
-        public Attribution Attribution { get; set; } = new Attribution();
+        _provider = tileProvider;
+        Schema = tileSchema;
     }
+
+    /// <summary>
+    /// Gets a the Name of the tile source
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets the image content of the tile 
+    /// </summary>
+    public async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
+    {
+        return await _provider.GetTileAsync(tileInfo, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a value indicating the tile schema
+    /// </summary>
+    public ITileSchema Schema { get; }
+
+    public override string ToString()
+    {
+        return $"[TileSource:{Name}]";
+    }
+
+    public Attribution Attribution { get; set; } = new Attribution();
 }
