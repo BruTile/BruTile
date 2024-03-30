@@ -9,7 +9,7 @@ using BruTile.Web;
 
 namespace BruTile.Wmts;
 
-public class WmtsRequest : IRequest
+public class WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier) : IRequest
 {
     public const string XTag = "{TileCol}";
     public const string YTag = "{TileRow}";
@@ -17,16 +17,10 @@ public class WmtsRequest : IRequest
     public const string TileMatrixSetTag = "{TileMatrixSet}";
     public const string StyleTag = "{Style}";
 
-    private readonly List<ResourceUrl> _resourceUrls;
+    private readonly List<ResourceUrl> _resourceUrls = resourceUrls.ToList();
     private int _resourceUrlCounter;
     private readonly object _syncLock = new();
-    private readonly IDictionary<int, string> _levelToIdentifier;
-
-    public WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier)
-    {
-        _resourceUrls = resourceUrls.ToList();
-        _levelToIdentifier = levelToIdentifier;
-    }
+    private readonly IDictionary<int, string> _levelToIdentifier = levelToIdentifier;
 
     public Uri GetUri(TileInfo info)
     {

@@ -27,7 +27,7 @@ public class TmsRequestTests
     public void WhenInitializedWithServerNodesShouldReturnCorrectUri()
     {
         // Arrange
-        var request = new TmsRequest("http://{S}.tileserver.com", "png", new[] { "a", "b" });
+        var request = new TmsRequest("http://{S}.tileserver.com", "png", ["a", "b"]);
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
 
         // Act

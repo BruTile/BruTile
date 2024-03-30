@@ -139,7 +139,7 @@ public class Fetcher<T>
                 {
                     if (_tileSource != null)
                     {
-                        var data = await _tileSource.GetTileAsync(tileInfo);
+                        var data = await _tileSource.GetTileAsync(tileInfo, CancellationToken.None);
                         tile = new Tile<T> { Data = data, Info = tileInfo };
                     }
                 }

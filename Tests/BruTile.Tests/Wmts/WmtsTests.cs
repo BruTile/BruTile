@@ -111,20 +111,17 @@ public class WmtsTests
     {
         var resourceUrls = new List<ResourceUrl>
         {
-            new ResourceUrl
-            {
+            new() {
                 Format = "image/jpeg",
                 Template = "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
                 ResourceType = URLTemplateTypeResourceType.tile
             },
-            new ResourceUrl
-            {
+            new() {
                 Format = "image/jpeg",
                 Template = "http://maps2.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
                 ResourceType = URLTemplateTypeResourceType.tile
             },
-            new ResourceUrl
-            {
+            new() {
                 Format = "image/jpeg",
                 Template = "http://maps3.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
                 ResourceType = URLTemplateTypeResourceType.tile
@@ -208,7 +205,7 @@ public class WmtsTests
         var tileSources = WmtsParser.Parse(stream);
 
         // Assert
-        Assert.AreEqual(3, tileSources.Count());
+        Assert.AreEqual(3, tileSources.Count);
     }
 
     [Test]
@@ -236,7 +233,7 @@ public class WmtsTests
         var tileSources = WmtsParser.Parse(stream);
 
         // Assert
-        Assert.AreEqual(1, tileSources.Count());
+        Assert.AreEqual(1, tileSources.Count);
     }
 
     [Test]
@@ -249,7 +246,7 @@ public class WmtsTests
         var tileSources = WmtsParser.Parse(stream);
 
         // Assert
-        Assert.AreEqual(319, tileSources.Count());
+        Assert.AreEqual(319, tileSources.Count);
     }
 
     [Test]

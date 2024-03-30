@@ -22,7 +22,7 @@ internal class Program
         // This is an example that creates the OpenStreetMap tile source:
         var tileSource = new HttpTileSource(new GlobalSphericalMercator(0, 18),
             "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            new[] { "a", "b", "c" }, "OSM");
+            ["a", "b", "c"], "OSM");
 
         // 2) Calculate which tiles you need
 

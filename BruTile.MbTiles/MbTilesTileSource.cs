@@ -55,23 +55,21 @@ public class MbTilesTileSource : ITileSource
 
         _connectionString = connectionString;
 
-        using (var connection = new SQLiteConnection(connectionString))
-        {
-            Schema = schema ?? ReadSchemaFromDatabase(connection, determineZoomLevelsFromTilesTable);
-            Type = type == MbTilesType.None ? ReadType(connection) : type;
-            Version = ReadString(connection, "version");
-            Attribution = new Attribution(ReadString(connection, "attribution"));
-            Description = ReadString(connection, "description");
-            Name = ReadString(connection, "name");
-            Json = ReadString(connection, "json");
-            Compression = ReadString(connection, "compression");
+        using var connection = new SQLiteConnection(connectionString);
+        Schema = schema ?? ReadSchemaFromDatabase(connection, determineZoomLevelsFromTilesTable);
+        Type = type == MbTilesType.None ? ReadType(connection) : type;
+        Version = ReadString(connection, "version");
+        Attribution = new Attribution(ReadString(connection, "attribution"));
+        Description = ReadString(connection, "description");
+        Name = ReadString(connection, "name");
+        Json = ReadString(connection, "json");
+        Compression = ReadString(connection, "compression");
 
-            if (determineTileRangeFromTilesTable)
-            {
-                // The tile range should be based on the tiles actually present. 
-                var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
-                _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
-            }
+        if (determineTileRangeFromTilesTable)
+        {
+            // The tile range should be based on the tiles actually present. 
+            var zoomLevelsFromDatabase = Schema.Resolutions.Select(r => r.Key);
+            _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
         }
     }
 

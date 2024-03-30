@@ -133,15 +133,15 @@ public partial class MbTilesForm : Form
         graphics.DrawImage(bitmap, roundedExtent, 0, 0, schema.GetTileWidth(level), schema.GetTileHeight(level), GraphicsUnit.Pixel, imageAttributes);
     }
 
-    private static Rectangle RoundToPixel(RectangleF dest)
+    private static Rectangle RoundToPixel(RectangleF rectangle)
     {
         // To get seamless aligning you need to round the locations
         // not the width and height
         return new Rectangle(
-            (int)Math.Round(dest.Left),
-            (int)Math.Round(dest.Top),
-            (int)(Math.Round(dest.Right) - Math.Round(dest.Left)),
-            (int)(Math.Round(dest.Bottom) - Math.Round(dest.Top)));
+            (int)Math.Round(rectangle.Left),
+            (int)Math.Round(rectangle.Top),
+            (int)(Math.Round(rectangle.Right) - Math.Round(rectangle.Left)),
+            (int)(Math.Round(rectangle.Bottom) - Math.Round(rectangle.Top)));
     }
 
     private async void OpenToolStripMenuItemClick(object sender, EventArgs e)
@@ -184,7 +184,7 @@ public partial class MbTilesForm : Form
                 {
                     if (stream != null)
                     {
-                        var read = await stream.ReadAsync(buffer, 0, buffer.Length);
+                        var read = await stream.ReadAsync(buffer);
                         if (read <= 0) break;
                         streamWriter.Write(buffer, 0, read);
                     }

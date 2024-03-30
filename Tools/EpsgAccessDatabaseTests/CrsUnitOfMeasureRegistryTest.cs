@@ -103,12 +103,14 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
     [Test]
     public void TestUnitDefinitions()
     {
-        var uomr = new CrsUnitOfMeasureRegistry();
-        Assert.That(uomr[9001].ToMeter, Is.EqualTo(1));
-        Assert.That(uomr[1025].ToMeter, Is.EqualTo(0.001));
-        Assert.That(uomr[1033].ToMeter, Is.EqualTo(0.01));
-
-        Assert.That(Math.Abs(360 * uomr[9102].ToMeter - EarthCircumference), Is.LessThanOrEqualTo(1e-7));
+        var unit = new CrsUnitOfMeasureRegistry();
+        Assert.Multiple(() =>
+        {
+            Assert.That(unit[9001].ToMeter, Is.EqualTo(1));
+            Assert.That(unit[1025].ToMeter, Is.EqualTo(0.001));
+            Assert.That(unit[1033].ToMeter, Is.EqualTo(0.01));
+            Assert.That(Math.Abs(360 * unit[9102].ToMeter - EarthCircumference), Is.LessThanOrEqualTo(1e-7));
+        });
     }
 
     [Test]

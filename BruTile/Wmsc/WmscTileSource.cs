@@ -44,7 +44,7 @@ public class WmscTileSource : TileSource
     }
 
     /// <remarks> WMS-C uses the VendorSpecificCapabilities to specify the tile schema.</remarks>
-    private static IEnumerable<ITileSource> ParseVendorSpecificCapabilitiesNode(
+    private static List<WmscTileSource> ParseVendorSpecificCapabilitiesNode(
         XElement xVendorSpecificCapabilities, OnlineResource onlineResource)
     {
         var xTileSets = xVendorSpecificCapabilities.Elements(XName.Get("TileSet"));
