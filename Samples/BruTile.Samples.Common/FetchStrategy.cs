@@ -15,7 +15,7 @@ internal class FetchStrategy : IFetchStrategy
 {
     public IList<TileInfo> GetTilesWanted(ITileSchema schema, Extent extent, int level)
     {
-        IList<TileInfo> infos = new List<TileInfo>();
+        IList<TileInfo> infos = [];
         // Iterating through all levels from current to zero. If lower levels are
         // not available the renderer can fall back on higher level tiles. 
         var unitsPerPixel = schema.Resolutions[level].UnitsPerPixel;

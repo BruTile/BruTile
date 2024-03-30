@@ -11,6 +11,6 @@ public static class HereMapsSample
     {
         return new HttpTileSource(new GlobalSphericalMercator(0, 18),
                 "https://{s}.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g",
-                new[] { "1", "2", "3", "4" }, name: "Here Maps Source");
+                ["1", "2", "3", "4"], name: "Here Maps Source");
     }
 }

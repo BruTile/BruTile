@@ -56,7 +56,7 @@ public class BoundingBox : XmlObject
             attributes.Add(new XAttribute("resx", ResX.Value.ToString(NumberFormatInfo.InvariantInfo)));
         if (ResY.HasValue)
             attributes.Add(new XAttribute("resy", ResY.Value.ToString(NumberFormatInfo.InvariantInfo)));
-        return new XElement(XName.Get("BoundingBox", ns), attributes.ToArray());
+        return new XElement(XName.Get("BoundingBox", ns), [.. attributes]);
     }
 
     public string CRS { get; set; }

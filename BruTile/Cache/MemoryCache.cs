@@ -10,8 +10,8 @@ namespace BruTile.Cache;
 
 public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposable
 {
-    private readonly Dictionary<TileIndex, T> _bitmaps = new();
-    private readonly Dictionary<TileIndex, long> _touched = new();
+    private readonly Dictionary<TileIndex, T> _bitmaps = [];
+    private readonly Dictionary<TileIndex, long> _touched = [];
     private readonly object _syncRoot = new();
     private bool _disposed;
     private readonly Func<TileIndex, bool> _keepTileInMemory;

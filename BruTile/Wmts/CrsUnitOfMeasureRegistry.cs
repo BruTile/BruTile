@@ -81,7 +81,7 @@ public class CrsUnitOfMeasureRegistry
     private const double EarthCircumference = 2 * EarthRadius * Math.PI;
     private const double EarthArc = EarthCircumference / (2 * Math.PI);
     private static readonly byte[] EpsgToUomData =
-    {
+    [
 18, 8, 79, 35, 88, 8, 134, 35, 107, 8, 43, 35, 111, 8, 134, 35,
 112, 8, 134, 35, 146, 8, 43, 35, 156, 8, 43, 35, 174, 8, 42, 35,
 175, 8, 42, 35, 176, 8, 42, 35, 177, 8, 43, 35, 178, 8, 43, 35,
@@ -399,7 +399,7 @@ public class CrsUnitOfMeasureRegistry
 99, 125, 43, 35, 164, 125, 43, 35, 165, 125, 43, 35, 166, 125, 43, 35,
 167, 125, 43, 35, 152, 127, 43, 35, 153, 127, 43, 35, 154, 127, 43, 35,
 155, 127, 43, 35
-    };
+    ];
 
     static CrsUnitOfMeasureRegistry()
     {
@@ -500,7 +500,7 @@ public class CrsUnitOfMeasureRegistry
         }
     }
 
-    private static readonly Dictionary<int, int> EpsgToUom = new();
+    private static readonly Dictionary<int, int> EpsgToUom = [];
     private static int SeekUom(int epsgCode)
     {
         lock (EpsgToUom)

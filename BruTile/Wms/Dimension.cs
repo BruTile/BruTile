@@ -107,10 +107,7 @@ public class Dimension : XmlObject
 
     public override XElement ToXElement(string @namespace)
     {
-        var lst = new List<XAttribute>(new[] {
-            new XAttribute(XName.Get("name"), Name),
-            new XAttribute(XName.Get("units"), Units)}
-            );
+        var lst = new List<XAttribute>([new XAttribute(XName.Get("name"), Name), new XAttribute(XName.Get("units"), Units)]);
 
         if (!string.IsNullOrEmpty(UnitSymbol))
             lst.Add(new XAttribute(XName.Get("unitSymbol"), UnitSymbol));

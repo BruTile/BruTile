@@ -15,7 +15,7 @@ public class Exception : XmlObject
             Format.Add(format.Value);
     }
 
-    public List<string> Format { get; } = new List<string>();
+    public List<string> Format { get; } = [];
 
     #region Overrides of XmlObject
 

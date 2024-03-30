@@ -123,7 +123,7 @@ public class ContactAddress : XmlObject
         if (!string.IsNullOrEmpty(Country))
             lst.Add(new XElement(XName.Get("Country", @namespace), Country));
 
-        return new XElement(XName.Get("ContactAddress", @namespace), lst.ToArray());
+        return new XElement(XName.Get("ContactAddress", @namespace), [.. lst]);
     }
 
     #endregion Overrides of XmlObject

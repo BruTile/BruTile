@@ -77,13 +77,13 @@ public class Capability : XmlObject
     [System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
     public List<string> Exception
     {
-        get => _exceptionField ??= new List<string>();
+        get => _exceptionField ??= [];
         set => _exceptionField = value;
     }
 
     public Dictionary<XName, XNode> ExtendedCapabilities
     {
-        get => _extendedCapabilitiesField ??= new Dictionary<XName, XNode>();
+        get => _extendedCapabilitiesField ??= [];
         set => _extendedCapabilitiesField = value;
     }
 
@@ -114,7 +114,7 @@ public class Capability : XmlObject
                         break;
 
                     case "Exception":
-                        _exceptionField ??= new List<string>();
+                        _exceptionField ??= [];
                         var subReader = reader.ReadSubtree();
                         while (!subReader.EOF)
                         {

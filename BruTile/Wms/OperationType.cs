@@ -32,13 +32,13 @@ public class OperationType : XmlObject
 
     public List<string> Format
     {
-        get => _formatField ??= new List<string>();
+        get => _formatField ??= [];
         set => _formatField = value;
     }
 
     public List<DCPType> DCPType
     {
-        get => _DCpTypeField ??= new List<DCPType>();
+        get => _DCpTypeField ??= [];
         set => _DCpTypeField = value;
     }
 

@@ -142,7 +142,7 @@ public class ContactInformation : XmlObject
         if (!string.IsNullOrEmpty("ContactPosition")) elements.Add(new XElement(XName.Get("ContactFacsimileTelephone", @namespace), ContactFacsimileTelephone));
         if (!string.IsNullOrEmpty("ContactPosition")) elements.Add(new XElement(XName.Get("ContactElectronicMailAddress", @namespace), ContactElectronicMailAddress));
 
-        return new XElement(XName.Get("ContactInformation", @namespace), elements.ToArray());
+        return new XElement(XName.Get("ContactInformation", @namespace), [.. elements]);
     }
 
     #endregion Overrides of XmlObject

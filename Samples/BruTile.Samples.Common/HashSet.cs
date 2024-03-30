@@ -9,12 +9,7 @@ namespace BruTile.Samples.Common;
 // Todo: Use frameworks HashSet which I think is now available
 public class HashSet<T> : ICollection<T>
 {
-    private readonly Dictionary<T, short> _dictionary;
-
-    public HashSet()
-    {
-        _dictionary = new Dictionary<T, short>();
-    }
+    private readonly Dictionary<T, short> _dictionary = [];
 
     public int Count => _dictionary.Keys.Count;
 

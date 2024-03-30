@@ -53,7 +53,7 @@ public class Style : XmlObject
 
     public List<LegendURL> LegendURL
     {
-        get => _legendURLField ??= new List<LegendURL>();
+        get => _legendURLField ??= [];
         set => _legendURLField = value;
     }
 
@@ -173,7 +173,7 @@ public class Style : XmlObject
             elements.Add(_styleSheetURLField.ToXElement(@namespace));
         if (_styleURLField != null)
             elements.Add(_styleURLField.ToXElement(@namespace));
-        return new XElement(XName.Get("Style", @namespace), elements.ToArray());
+        return new XElement(XName.Get("Style", @namespace), [.. elements]);
     }
 
     #endregion Overrides of XmlObject

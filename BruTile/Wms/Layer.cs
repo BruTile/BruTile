@@ -71,7 +71,7 @@ public class Layer : XmlObject
         Queryable = false;
         Opaque = false;
         NoSubsets = false;
-        BoundingBox = new List<BoundingBox>();
+        BoundingBox = [];
     }
 
     public Layer(XElement node, string ns)
@@ -115,38 +115,38 @@ public class Layer : XmlObject
         element = node.Element(XName.Get("EX_GeographicBoundingBox", ns));
         if (element != null) ExGeographicBoundingBox = new ExGeographicBoundingBox(element, ns);
 
-        BoundingBox = new List<BoundingBox>();
+        BoundingBox = [];
         foreach (var el in node.Elements(XName.Get("BoundingBox", ns)))
             BoundingBox.Add(new BoundingBox(el));
 
-        Dimension = new List<Dimension>();
+        Dimension = [];
         foreach (var el in node.Elements(XName.Get("Dimension", ns)))
             Dimension.Add(new Dimension(el));
 
         element = node.Element(XName.Get("Attribution", ns));
         if (element != null) Attribution = new Attribution(element, ns);
 
-        AuthorityURL = new List<AuthorityURL>();
+        AuthorityURL = [];
         foreach (var el in node.Elements(XName.Get("AuthorityURL", ns)))
             AuthorityURL.Add(new AuthorityURL(el, ns));
 
-        Identifier = new List<Identifier>();
+        Identifier = [];
         foreach (var el in node.Elements(XName.Get("Identifier", ns)))
             Identifier.Add(new Identifier(el));
 
-        MetadataURL = new List<MetadataURL>();
+        MetadataURL = [];
         foreach (var el in node.Elements(XName.Get("MetadataURL", ns)))
             MetadataURL.Add(new MetadataURL(el, ns));
 
-        DataURL = new List<DataURL>();
+        DataURL = [];
         foreach (var el in node.Elements(XName.Get("DataURL", ns)))
             DataURL.Add(new DataURL(el, ns));
 
-        FeatureListURL = new List<FeatureListURL>();
+        FeatureListURL = [];
         foreach (var el in node.Elements(XName.Get("FeatureListURL", ns)))
             FeatureListURL.Add(new FeatureListURL(el, ns));
 
-        Style = new List<Style>();
+        Style = [];
         foreach (var el in node.Elements(XName.Get("Style", ns)))
             Style.Add(new Style(el, ns));
 
@@ -173,9 +173,9 @@ public class Layer : XmlObject
         set => _keywordListField = value;
     }
 
-    public List<string> CRS { get; set; } = new List<string>();
+    public List<string> CRS { get; set; } = [];
 
-    public List<string> SRS { get; set; } = new List<string>();
+    public List<string> SRS { get; set; } = [];
 
     public ExGeographicBoundingBox ExGeographicBoundingBox { get; set; }
 
@@ -199,7 +199,7 @@ public class Layer : XmlObject
 
     public List<Layer> ChildLayers
     {
-        get => _childLayers ??= new List<Layer>();
+        get => _childLayers ??= [];
         set => _childLayers = value;
     }
 

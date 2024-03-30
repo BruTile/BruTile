@@ -67,7 +67,7 @@ public class Request : XmlObject
 
     public Dictionary<XName, OperationType> ExtendedOperation
     {
-        get => _extendedOperationField ??= new Dictionary<XName, OperationType>();
+        get => _extendedOperationField ??= [];
         set => _extendedOperationField = value;
     }
 

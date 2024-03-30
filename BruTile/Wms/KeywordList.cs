@@ -24,7 +24,7 @@ public class KeywordList : XmlObject
 
     public List<Keyword> Keyword
     {
-        get => _keywordField ??= new List<Keyword>();
+        get => _keywordField ??= [];
         set => _keywordField = value;
     }
 

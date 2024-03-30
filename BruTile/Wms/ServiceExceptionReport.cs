@@ -14,7 +14,7 @@ public class ServiceExceptionReport : XmlObject
 
     public ServiceExceptionReport()
     {
-        ServiceExceptions = new List<ServiceException>();
+        ServiceExceptions = [];
         Version = "1.3.0";
     }
 

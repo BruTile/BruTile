@@ -299,8 +299,8 @@ public class WmtsParser
     {
         return bbaoi switch
         {
-            BoundingBoxAxisOrderInterpretation.Natural => new[] { 0, 1 },
-            BoundingBoxAxisOrderInterpretation.Geographic => new[] { 1, 0 },
+            BoundingBoxAxisOrderInterpretation.Natural => [0, 1],
+            BoundingBoxAxisOrderInterpretation.Geographic => [1, 0],
             _ => ordinateOrder,
         };
     }
@@ -338,11 +338,11 @@ public class WmtsParser
     private static double[] GetDimensions(string s)
     {
         var dims = s.Split(' ');
-        return new[]
-        {
+        return
+        [
             double.Parse(dims[0], CultureInfo.InvariantCulture.NumberFormat),
             double.Parse(dims[1], CultureInfo.InvariantCulture.NumberFormat)
-        };
+        ];
     }
 
     private static Extent ToExtent(Resolution tileMatrix)

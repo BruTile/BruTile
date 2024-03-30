@@ -15,9 +15,7 @@ public class ArcGisTileRequest : IRequest
     private readonly Dictionary<string, string> _customParameters;
     private readonly string _format;
 
-    public ArcGisTileRequest(Uri baseUrl, string format)
-        : this(baseUrl, format, new Dictionary<string, string>())
-    { }
+    public ArcGisTileRequest(Uri baseUrl, string format) : this(baseUrl, format, []) { }
 
     public ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters)
     {

@@ -83,8 +83,8 @@ internal class WellKnownScaleSets
 
     private static ScaleSet CreateGoogleMapsCompatible()
     {
-        return new ScaleSet("GoogleMapsCompatible", EPSG3857, new[]
-        {
+        return new ScaleSet("GoogleMapsCompatible", EPSG3857,
+        [
             new ScaleSetItem(559082264.0287178, 156543.0339280410),
             new ScaleSetItem(279541132.0143589, 78271.51696402048),
             new ScaleSetItem(139770566.0071794, 39135.75848201023),
@@ -104,13 +104,13 @@ internal class WellKnownScaleSets
             new ScaleSetItem(8530.918335399136, 2.388657133911758),
             new ScaleSetItem(4265.459167699568, 1.194328566955879),
             new ScaleSetItem(2132.729583849784, 0.5971642834779395)
-        });
+        ]);
     }
 
     private static ScaleSet CreateGoogleCRS84Quad()
     {
-        return new ScaleSet("GoogleCRS84Quad", CRS84, new[]
-        {
+        return new ScaleSet("GoogleCRS84Quad", CRS84,
+        [
             new ScaleSetItem(559082264.0287178, 1.40625000000000),
             new ScaleSetItem(279541132.0143589, 0.703125000000000),
             new ScaleSetItem(139770566.0071794, 0.351562500000000),
@@ -130,13 +130,13 @@ internal class WellKnownScaleSets
             new ScaleSetItem(8530.918335399136, 2.14576721191406E-5),
             new ScaleSetItem(4265.459167699568, 1.07288360595703E-5),
             new ScaleSetItem(2132.729583849784, 5.36441802978516E-6)
-        });
+        ]);
     }
 
     private static ScaleSet CreateGlobalCRS84Pixel()
     {
-        return new ScaleSet("GlobalCRS84Pixel", CRS84, new[]
-        {
+        return new ScaleSet("GlobalCRS84Pixel", CRS84,
+        [
             new ScaleSetItem(795139219.9519541, 2), // 240000
             new ScaleSetItem(397569609.9759771, 1), // 120000
             new ScaleSetItem(198784804.9879885, 0.5), // (30') 60000
@@ -155,7 +155,7 @@ internal class WellKnownScaleSets
             new ScaleSetItem(11043.60027711047, 2.777777777777778E-5), // (0.1") 3
             new ScaleSetItem(3313.080083133142, 8.333333333333333E-6), // (0.03") 1
             new ScaleSetItem(1104.360027711047, 2.777777777777778E-6)  // (0.01") 0.33
-        });
+        ]);
     }
 
     internal static CrsIdentifier CRS84 => new("OGC", "1.3", "CRS84");
@@ -166,8 +166,8 @@ internal class WellKnownScaleSets
 
     private static ScaleSet CreateGlobalCRS84Scale()
     {
-        return new ScaleSet("GlobalCRS84Scale", CRS84, new[]
-        {
+        return new ScaleSet("GlobalCRS84Scale", CRS84,
+        [
             new ScaleSetItem(500E6, 1.25764139776733),
             new ScaleSetItem(250E6, 0.628820698883665),
             new ScaleSetItem(100E6, 0.251528279553466),
@@ -189,7 +189,7 @@ internal class WellKnownScaleSets
             new ScaleSetItem(500, 1.25764139776733E-6),
             new ScaleSetItem(250, 6.28820698883665E-7),
             new ScaleSetItem(100, 2.51528279553466E-7)
-        });
+        ]);
     }
 
 }

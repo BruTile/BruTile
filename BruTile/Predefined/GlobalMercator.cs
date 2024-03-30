@@ -95,7 +95,7 @@ public class GlobalMercator : TileSchema
             ));
         }
 
-        return results.ToArray();
+        return [.. results];
     }
 
     private static IEnumerable<Resolution> ToResolutions(IList<int> levels)
