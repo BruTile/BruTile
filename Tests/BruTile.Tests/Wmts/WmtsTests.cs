@@ -39,7 +39,7 @@ public class WmtsTests
     public void TestParsingWmtsCapabilitiesResourceUrls()
     {
         // Arrange
-        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien-resourceUrls.xml"));
+        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-restful-wien-resourceUrls.xml"));
 
         // Act
         var tileSources = WmtsParser.Parse(stream);
@@ -52,7 +52,7 @@ public class WmtsTests
     public void TestParsingWmtsCapabilities()
     {
         // Arrange
-        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilties-restful-wien.xml"));
+        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-restful-wien.xml"));
 
         // Act
         var tileSources = WmtsParser.Parse(stream);

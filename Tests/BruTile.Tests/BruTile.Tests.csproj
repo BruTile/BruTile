@@ -76,10 +76,10 @@
 		<None Update="Resources\Wmts\wmts-capabilities-raya-basemap-server.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Resources\Wmts\wmts-capabilties-restful-wien-resourceUrls.xml">
+		<None Update="Resources\Wmts\wmts-capabilities-restful-wien-resourceUrls.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Resources\Wmts\wmts-capabilties-restful-wien.xml">
+		<None Update="Resources\Wmts\wmts-capabilities-restful-wien.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Wmts\wmts_capabilities_missing_crs.xml">

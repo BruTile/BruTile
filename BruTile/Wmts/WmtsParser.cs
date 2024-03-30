@@ -47,19 +47,19 @@ public class WmtsParser
     /// Method to parse WMTS tile sources from a stream
     /// </summary>
     /// <param name="source">The source stream</param>
-    /// <param name="bbaoi">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
+    /// <param name="axisOrder">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
     /// <returns>An enumeration of tile sources</returns>
-    public static IEnumerable<HttpTileSource> Parse(Stream source,
-        BoundingBoxAxisOrderInterpretation bbaoi = BoundingBoxAxisOrderInterpretation.Natural)
+    public static List<HttpTileSource> Parse(Stream source,
+        BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural)
     {
         var ser = new XmlSerializer(typeof(Capabilities));
-        Capabilities capabilties;
+        Capabilities capabilities;
 
         using (var reader = new StreamReader(source))
-            capabilties = (Capabilities)ser.Deserialize(reader);
+            capabilities = (Capabilities)ser.Deserialize(reader);
 
-        var tileSchemas = GetTileMatrixSets(capabilties.Contents.TileMatrixSet, bbaoi);
-        var tileSources = GetLayers(capabilties, tileSchemas);
+        var tileSchemas = GetTileMatrixSets(capabilities.Contents.TileMatrixSet, axisOrder);
+        var tileSources = GetLayers(capabilities, tileSchemas);
 
         return tileSources;
     }
@@ -67,14 +67,14 @@ public class WmtsParser
     /// <summary>
     /// Method to extract all image layers from a wmts capabilities document.
     /// </summary>
-    /// <param name="capabilties">The capabilities document</param>
+    /// <param name="capabilities">The capabilities document</param>
     /// <param name="tileSchemas">A set of</param>
     /// <returns></returns>
-    private static IEnumerable<HttpTileSource> GetLayers(Capabilities capabilties, List<WmtsTileSchema> tileSchemas)
+    private static List<HttpTileSource> GetLayers(Capabilities capabilities, List<WmtsTileSchema> tileSchemas)
     {
         var tileSources = new List<HttpTileSource>();
 
-        foreach (var layer in capabilties.Contents.Layers)
+        foreach (var layer in capabilities.Contents.Layers)
         {
             var identifier = layer.Identifier.Value;
             var title = layer.Title?[0].Value;
@@ -99,9 +99,9 @@ public class WmtsParser
                         if (layer.ResourceURL == null)
                         {
                             var resourceUrls = CreateResourceUrlsFromOperations(
-                                capabilties.OperationsMetadata.Operation,
+                                capabilities.OperationsMetadata.Operation,
                                 format,
-                                capabilties.ServiceIdentification.ServiceTypeVersion.First(),
+                                capabilities.ServiceIdentification.ServiceTypeVersion.First(),
                                 layer.Identifier.Value,
                                 style.Identifier.Value,
                                 tileMatrixLink.TileMatrixSet);
@@ -197,7 +197,7 @@ public class WmtsParser
         return requestBuilder.ToString();
     }
 
-    private static IEnumerable<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(
+    private static List<ResourceUrl> CreateResourceUrlsFromResourceUrlNode(
         IEnumerable<URLTemplateType> inputResourceUrls, string style, string tileMatrixSet)
     {
         var resourceUrls = new List<ResourceUrl>();
@@ -216,10 +216,10 @@ public class WmtsParser
     }
 
     private static List<WmtsTileSchema> GetTileMatrixSets(IEnumerable<TileMatrixSet> tileMatrixSets,
-        BoundingBoxAxisOrderInterpretation bbaoi)
+        BoundingBoxAxisOrderInterpretation axisOrder)
     {
         // Get a set of well known scale sets. For these we don't need to have
-        var wkss = new WellKnownScaleSets();
+        var wellKnownScaleSets = new WellKnownScaleSets();
 
         // Axis order registry
         var crsAxisOrder = new CrsAxisOrderRegistry();
@@ -230,9 +230,9 @@ public class WmtsParser
         foreach (var tileMatrixSet in tileMatrixSets)
         {
             // Check if a Well-Known scale set is used, either by Identifier or WellKnownScaleSet property
-            var ss = wkss[tileMatrixSet.Identifier.Value];
+            var ss = wellKnownScaleSets[tileMatrixSet.Identifier.Value];
             if (ss == null && !string.IsNullOrEmpty(tileMatrixSet.WellKnownScaleSet))
-                ss = wkss[tileMatrixSet.WellKnownScaleSet.Split(':').Last()];
+                ss = wellKnownScaleSets[tileMatrixSet.WellKnownScaleSet.Split(':').Last()];
 
             // Try to parse the Crs
             var supportedCrs = tileMatrixSet.SupportedCRS;
@@ -263,7 +263,7 @@ public class WmtsParser
                 tileSchema.Resolutions.Add(ToResolution(tileMatrix, ordinateOrder, unitOfMeasure.ToMeter, ss));
             }
 
-            tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, GetOrdinateOrder(bbaoi, ordinateOrder));
+            tileSchema.Extent = ToExtent(tileMatrixSet, tileSchema, GetOrdinateOrder(axisOrder, ordinateOrder));
 
             // Fill in the remaining properties
             tileSchema.Name = tileMatrixSet.Identifier.Value;
@@ -282,7 +282,7 @@ public class WmtsParser
         return tileSchemas;
     }
 
-    private static IEnumerable<TileMatrix> SetLevelOnTileTileMatrix(TileMatrixSet tileMatrixSet)
+    private static List<TileMatrix> SetLevelOnTileTileMatrix(TileMatrixSet tileMatrixSet)
     {
         var tileMatrices = tileMatrixSet.TileMatrix.OrderByDescending(m => m.ScaleDenominator).ToList();
         var count = 0;
@@ -295,9 +295,9 @@ public class WmtsParser
         return tileMatrices;
     }
 
-    private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation bbaoi, int[] ordinateOrder)
+    private static int[] GetOrdinateOrder(BoundingBoxAxisOrderInterpretation axisOrder, int[] ordinateOrder)
     {
-        return bbaoi switch
+        return axisOrder switch
         {
             BoundingBoxAxisOrderInterpretation.Natural => [0, 1],
             BoundingBoxAxisOrderInterpretation.Geographic => [1, 0],
@@ -359,7 +359,7 @@ public class WmtsParser
         int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
     {
         // Get the coordinates
-        var coords = tileMatrix.TopLeftCorner.Trim().Split(' ');
+        var coordinates = tileMatrix.TopLeftCorner.Trim().Split(' ');
 
         // Try to get units per pixel from passed scale set
         var unitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit;
@@ -378,9 +378,9 @@ public class WmtsParser
                 unitsPerPixel,
                 tileMatrix.TileWidth,
                 tileMatrix.TileHeight,
-                Convert.ToDouble(coords[ordinateOrder[0]],
+                Convert.ToDouble(coordinates[ordinateOrder[0]],
                 CultureInfo.InvariantCulture),
-                Convert.ToDouble(coords[ordinateOrder[1]],
+                Convert.ToDouble(coordinates[ordinateOrder[1]],
                 CultureInfo.InvariantCulture),
                 (long)tileMatrix.MatrixWidth,
                 (long)tileMatrix.MatrixHeight,

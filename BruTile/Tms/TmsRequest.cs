@@ -79,13 +79,15 @@ public class TmsRequest : IRequest
         if (_baseUrl != null)
         {
             url.Append(_baseUrl);
-            if (!_baseUrl.EndsWith("/")) url.Append('/');
+            if (!_baseUrl.EndsWith("/")) 
+                url.Append('/');
             url.Append(level).Append('/');
         }
         else
         {
             url.Append(_baseUrls[level]);
-            if (!_baseUrls[level].ToString().EndsWith("/")) url.Append('/');
+            if (!_baseUrls[level].ToString().EndsWith("/")) 
+                url.Append('/');
         }
         return url.ToString();
     }

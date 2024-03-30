@@ -79,7 +79,7 @@ public class GlobalMercator : TileSchema
         Extent = new Extent(OriginX, OriginY, -OriginX, -OriginY);
     }
 
-    private static IEnumerable<Resolution> ToResolutions(int min, int max)
+    private static List<Resolution> ToResolutions(int min, int max)
     {
         var results = new List<Resolution>(max - min + 1);
         for (var i = min; i <= max; i++)
@@ -95,10 +95,10 @@ public class GlobalMercator : TileSchema
             ));
         }
 
-        return [.. results];
+        return results;
     }
 
-    private static IEnumerable<Resolution> ToResolutions(IList<int> levels)
+    private static Resolution[] ToResolutions(IList<int> levels)
     {
         var results = new Resolution[levels.Count];
         for (var i = 0; i < levels.Count; i++)

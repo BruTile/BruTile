@@ -18,25 +18,19 @@ public class WmscTileSource : TileSource
         : base(tileProvider, tileSchema)
     { }
 
-    public static async Task<IEnumerable<ITileSource>> CreateFromWmscCapabiltiesAsync(Uri uri)
+    public static async Task<IEnumerable<ITileSource>> CreateFromWmscCapabilitiesAsync(Uri uri)
     {
         var wmsCapabilities = await WmsCapabilities.CreateAsync(uri);
         var cap = wmsCapabilities.Capability;
         var ec = cap.ExtendedCapabilities;
         if (!ec.TryGetValue(XName.Get("VendorSpecificCapabilities"), out var vsc))
-            throw new WmsParsingException("Node 'VendorSpecificCapabilities' not found in wms capabilty document");
+            throw new WmsParsingException("Node 'VendorSpecificCapabilities' not found in wms capability document");
 
         return ParseVendorSpecificCapabilitiesNode(
             (XElement)vsc, cap.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
     }
 
-    [Obsolete("Use CreateFromWmscCapabiltiesAsync")]
-    public static IEnumerable<ITileSource> CreateFromWmscCapabilties(Uri uri)
-    {
-        return CreateFromWmscCapabiltiesAsync(uri).Result;
-    }
-
-    public static IEnumerable<ITileSource> CreateFromWmscCapabilties(XDocument document)
+    public static IEnumerable<ITileSource> CreateFromWmscCapabilities(XDocument document)
     {
         var wmsCapabilities = new WmsCapabilities(document);
 
@@ -57,7 +51,7 @@ public class WmscTileSource : TileSource
         return xTileSets.Select(tileSet => ParseTileSetNode(tileSet, onlineResource)).ToList();
     }
 
-    private static ITileSource ParseTileSetNode(XElement xTileSet, OnlineResource onlineResource)
+    private static WmscTileSource ParseTileSetNode(XElement xTileSet, OnlineResource onlineResource)
     {
         var styles = xTileSet.Elements("Styles").Select(xStyle => xStyle.Value).ToList();
         var layers = xTileSet.Elements("Layers").Select(xLayer => xLayer.Value).ToList();
@@ -78,13 +72,13 @@ public class WmscTileSource : TileSource
         if (xWidth == null) throw new System.Exception("'Width' field not found in xml");
 
         if (!int.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var width))
-            throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
+            throw new ArgumentException("Invalid width on tile set '" + schema.Name + "'");
 
         var xHeight = xTileSet.Element("Height");
         if (xHeight == null) throw new System.Exception("'Height' field not found in xml");
 
         if (!int.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var height))
-            throw new ArgumentException("Invalid width on tileset '" + schema.Name + "'");
+            throw new ArgumentException("Invalid width on tile set '" + schema.Name + "'");
 
         var xFormat = xTileSet.Element("Format");
         if (xFormat != null)
@@ -102,7 +96,7 @@ public class WmscTileSource : TileSource
                 !double.TryParse(xBoundingBox.Attribute("maxy")?.Value, NumberStyles.Any,
                 CultureInfo.InvariantCulture, out var maxy))
             {
-                throw new ArgumentException("Invalid LatLonBoundingBox on tileset '" + schema.Name + "'");
+                throw new ArgumentException("Invalid LatLonBoundingBox on tile set '" + schema.Name + "'");
             }
 
             schema.Extent = new Extent(minx, miny, maxx, maxy);

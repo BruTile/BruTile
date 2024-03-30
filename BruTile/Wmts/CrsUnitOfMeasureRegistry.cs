@@ -45,7 +45,7 @@ public readonly struct UnitOfMeasure : IEquatable<UnitOfMeasure>
 
     public override bool Equals(object obj)
     {
-        return obj is UnitOfMeasure unitOfmeasure && Equals(unitOfmeasure);
+        return obj is UnitOfMeasure unitOfMeasure && Equals(unitOfMeasure);
     }
 
     public override int GetHashCode()

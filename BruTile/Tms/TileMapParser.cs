@@ -104,7 +104,7 @@ public static class TileMapParser
         return schema;
     }
 
-    private static IRequest CreateRequest(IDictionary<int, Uri> tileUrls, string format, string overrideUrl,
+    private static TmsRequest CreateRequest(IDictionary<int, Uri> tileUrls, string format, string overrideUrl,
         Dictionary<string, string> customParameters = null)
     {
         if (string.IsNullOrEmpty(overrideUrl))

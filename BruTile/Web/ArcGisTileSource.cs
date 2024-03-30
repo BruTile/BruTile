@@ -23,7 +23,7 @@ public class ArcGisTileSource : TileSource
         BaseUrl = baseUrl;
     }
 
-    private static IRequest CreateArcGISRequest(string baseUrl)
+    private static BasicRequest CreateArcGISRequest(string baseUrl)
     {
         return new BasicRequest($"{baseUrl}/tile/{{0}}/{{2}}/{{1}}");
     }
