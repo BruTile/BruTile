@@ -1,5 +1,12 @@
-Infos
 Geodan
 Urls
 Wmts
 Epsg
+centimetre
+millimetre
+metre
+kilometre
+metres
+Infos
+png'
+Wmsc
