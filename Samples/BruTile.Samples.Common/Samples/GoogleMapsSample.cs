@@ -17,7 +17,7 @@ public static class GoogleMapsSample
 
     public static ITileSource CreateGoogleTileSource(string urlFormatter)
     {
-        return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, new[] { "0", "1", "2", "3" },
+        return new HttpTileSource(new GlobalSphericalMercator(), urlFormatter, ["0", "1", "2", "3"],
             tileFetcher: FetchGoogleTileAsync);
     }
 

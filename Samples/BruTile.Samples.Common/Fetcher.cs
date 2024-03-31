@@ -15,7 +15,7 @@ public class Fetcher<T>
     private readonly ITileSource _tileSource;
     private Extent _extent;
     private double _unitsPerPixel;
-    private readonly IList<TileIndex> _tilesInProgress = new List<TileIndex>();
+    private readonly IList<TileIndex> _tilesInProgress = [];
     private const int MaxThreads = 4;
     private readonly AutoResetEvent _waitHandle = new(false);
     private readonly IFetchStrategy _strategy = new FetchStrategy();
