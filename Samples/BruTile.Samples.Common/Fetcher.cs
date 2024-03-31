@@ -182,7 +182,7 @@ public class Fetcher<T>
         {
             if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
 
-            var retryCount = (!_retries.Keys.Contains(index)) ? 0 : _retries[index];
+            var retryCount = (!_retries.ContainsKey(index)) ? 0 : _retries[index];
             return retryCount > MaxRetries;
         }
 
@@ -190,7 +190,7 @@ public class Fetcher<T>
         {
             if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
 
-            if (!_retries.Keys.Contains(index)) _retries.Add(index, 0);
+            if (!_retries.ContainsKey(index)) _retries.Add(index, 0);
             else _retries[index]++;
         }
 
