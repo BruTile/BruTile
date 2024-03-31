@@ -9,20 +9,13 @@ using System.Text;
 
 namespace BruTile.Web;
 
-public class ArcGisTileRequest : IRequest
+public class ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters) : IRequest
 {
-    private readonly Uri _baseUrl;
-    private readonly Dictionary<string, string> _customParameters;
-    private readonly string _format;
+    private readonly Uri _baseUrl = baseUrl;
+    private readonly Dictionary<string, string> _customParameters = customParameters;
+    private readonly string _format = format;
 
     public ArcGisTileRequest(Uri baseUrl, string format) : this(baseUrl, format, []) { }
-
-    public ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, string> customParameters)
-    {
-        _baseUrl = baseUrl;
-        _format = format;
-        _customParameters = customParameters;
-    }
 
     public Uri GetUri(TileInfo info)
     {

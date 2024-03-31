@@ -8,20 +8,14 @@ namespace BruTile;
 /// <summary>
 /// The default implementation of a <see cref="ITileSource"/>.
 /// </summary>
-public class TileSource : ITileSource
+/// <remarks>
+/// Creates an instance of this class
+/// </remarks>
+/// <param name="tileProvider">The tile provider</param>
+/// <param name="tileSchema">The tile schema</param>
+public class TileSource(ITileProvider tileProvider, ITileSchema tileSchema) : ITileSource
 {
-    private readonly ITileProvider _provider;
-
-    /// <summary>
-    /// Creates an instance of this class
-    /// </summary>
-    /// <param name="tileProvider">The tile provider</param>
-    /// <param name="tileSchema">The tile schema</param>
-    public TileSource(ITileProvider tileProvider, ITileSchema tileSchema)
-    {
-        _provider = tileProvider;
-        Schema = tileSchema;
-    }
+    private readonly ITileProvider _provider = tileProvider;
 
     /// <summary>
     /// Gets a the Name of the tile source
@@ -39,7 +33,7 @@ public class TileSource : ITileSource
     /// <summary>
     /// Gets a value indicating the tile schema
     /// </summary>
-    public ITileSchema Schema { get; }
+    public ITileSchema Schema { get; } = tileSchema;
 
     public override string ToString()
     {

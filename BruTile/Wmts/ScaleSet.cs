@@ -9,35 +9,28 @@ namespace BruTile.Wmts;
 /// <summary>
 /// A set of scales
 /// </summary>
-internal class ScaleSet
+/// <remarks>
+/// Creates an instance for this class
+/// </remarks>
+/// <param name="name"></param>
+/// <param name="crs"></param>
+/// <param name="items"></param>
+internal class ScaleSet(string name, CrsIdentifier crs, IEnumerable<ScaleSetItem> items)
 {
     /// <summary>
     /// The items
     /// </summary>
-    private readonly ScaleSetItem[] _items;
-
-    /// <summary>
-    /// Creates an instance for this class
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="crs"></param>
-    /// <param name="items"></param>
-    public ScaleSet(string name, CrsIdentifier crs, IEnumerable<ScaleSetItem> items)
-    {
-        Name = name;
-        Crs = crs;
-        _items = items.ToArray();
-    }
+    private readonly ScaleSetItem[] _items = items.ToArray();
 
     /// <summary>
     /// Gets the Crs identifier for this scale set
     /// </summary>
-    public CrsIdentifier Crs { get; }
+    public CrsIdentifier Crs { get; } = crs;
 
     /// <summary>
     /// Gets a value indicating the name of the scale set
     /// </summary>
-    public string Name { get; }
+    public string Name { get; } = name;
 
     /// <summary>
     /// 

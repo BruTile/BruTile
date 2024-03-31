@@ -4,18 +4,11 @@ using System;
 
 namespace BruTile;
 
-public readonly struct TileIndex : IComparable
+public readonly struct TileIndex(int col, int row, int level) : IComparable
 {
-    public int Col { get; }
-    public int Row { get; }
-    public int Level { get; }
-
-    public TileIndex(int col, int row, int level)
-    {
-        Col = col;
-        Row = row;
-        Level = level;
-    }
+    public int Col { get; } = col;
+    public int Row { get; } = row;
+    public int Level { get; } = level;
 
     public int CompareTo(object obj)
     {

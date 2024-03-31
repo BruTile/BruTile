@@ -2,14 +2,8 @@
 
 namespace BruTile;
 
-public class Attribution
+public class Attribution(string text = null, string url = null)
 {
-    public Attribution(string text = null, string url = null)
-    {
-        Text = text ?? "";
-        Url = url ?? "";
-    }
-
-    public string Text { get; }
-    public string Url { get; }
+    public string Text { get; } = text ?? "";
+    public string Url { get; } = url ?? "";
 }

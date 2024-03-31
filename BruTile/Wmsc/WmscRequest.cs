@@ -9,30 +9,20 @@ using BruTile.Web;
 
 namespace BruTile.Wmsc;
 
-public class WmscRequest : IRequest
+public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
+    IDictionary<string, string> customParameters = null, string version = null) : IRequest
 {
-    private readonly Uri _baseUrl;
-    private readonly IDictionary<string, string> _customParameters;
-    private readonly IList<string> _layers;
-    private readonly ITileSchema _schema;
-    private readonly IList<string> _styles;
-    private readonly string _version;
+    private readonly Uri _baseUrl = baseUrl;
+    private readonly IDictionary<string, string> _customParameters = customParameters;
+    private readonly IList<string> _layers = layers.ToList();
+    private readonly ITileSchema _schema = schema;
+    private readonly IList<string> _styles = styles?.ToList();
+    private readonly string _version = version;
 
     public WmscRequest(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
         IDictionary<string, string> customParameters = null, string version = null) :
         this(new Uri(baseUrl), schema, layers, styles, customParameters, version)
     { }
-
-    public WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-        IDictionary<string, string> customParameters = null, string version = null)
-    {
-        _baseUrl = baseUrl;
-        _customParameters = customParameters;
-        _layers = layers.ToList();
-        _schema = schema;
-        _styles = styles?.ToList();
-        _version = version;
-    }
 
     /// <summary>
     /// Generates a URI at which to get the data for a tile.
