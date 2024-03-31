@@ -4,7 +4,6 @@ using System;
 
 namespace BruTile;
 
-
 public class ValidationException : Exception
 {
     // Todo: Replace with some standard exception
