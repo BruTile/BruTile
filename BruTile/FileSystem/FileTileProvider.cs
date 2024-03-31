@@ -24,7 +24,7 @@ public class FileTileProvider : ITileProvider
 
     public Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
     {
-        var bytes = _fileCache.Find(tileInfo.Index) 
+        var bytes = _fileCache.Find(tileInfo.Index)
             ?? throw new FileNotFoundException("The tile was not found at it's expected location");
         return Task.FromResult(bytes);
     }

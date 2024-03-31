@@ -13,7 +13,7 @@ public class ExGeographicBoundingBox : XmlObject
 
     public ExGeographicBoundingBox(XElement node, string @namespace)
     {
-        var element = node.Element(XName.Get("westBoundLongitude", @namespace)) 
+        var element = node.Element(XName.Get("westBoundLongitude", @namespace))
             ?? throw WmsParsingException.ElementNotFound("westBoundLongitude");
         WestBoundLongitude = double.Parse(element.Value, NumberFormatInfo.InvariantInfo);
 
