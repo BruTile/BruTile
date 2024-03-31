@@ -14,10 +14,7 @@ public class MetadataURL : XmlObject
 
     public MetadataURL(XElement node, string @namespace)
     {
-        var att = node.Attribute("type");
-        if (att == null)
-            throw WmsParsingException.AttributeNotFound("type");
-
+        var att = node.Attribute("type") ?? throw WmsParsingException.AttributeNotFound("type");
         Type = att.Value;
 
         var element = node.Element(XName.Get("Format", @namespace));

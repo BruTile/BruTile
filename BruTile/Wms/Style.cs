@@ -19,9 +19,7 @@ public class Style : XmlObject
 
     public Style(XElement node, string @namespace)
     {
-        var element = node.Element(XName.Get("Name", @namespace));
-        if (element == null)
-            throw WmsParsingException.ElementNotFound("Name");
+        var element = node.Element(XName.Get("Name", @namespace)) ?? throw WmsParsingException.ElementNotFound("Name");
         Name = element.Value;
 
         element = node.Element(XName.Get("Title", @namespace));

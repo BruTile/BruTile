@@ -21,9 +21,8 @@ public class Capability : XmlObject
 
     public Capability(XElement node, string @namespace)
     {
-        var element = node.Element(XName.Get("Request", @namespace));
-        if (element == null)
-            throw WmsParsingException.ElementNotFound("Request");
+        var element = node.Element(XName.Get("Request", @namespace)) 
+            ?? throw WmsParsingException.ElementNotFound("Request");
         Request = new Request(element, @namespace);
 
         foreach (var el in node.Elements())

@@ -17,11 +17,11 @@ public class LogoURL : XmlObject
 
     public LogoURL(XElement node, string ns)
     {
-        var widthAttribute = node.Attribute(XName.Get("width"));
-        if (widthAttribute == null) throw new System.Exception("Width node is null in xml");
+        var widthAttribute = node.Attribute(XName.Get("width"))
+            ?? throw new System.Exception("Width node is null in xml");
         Width = int.Parse(widthAttribute.Value, NumberFormatInfo.InvariantInfo);
-        var heightAttribute = node.Attribute(XName.Get("height"));
-        if (heightAttribute == null) throw new System.Exception("Height node is null in xml");
+        var heightAttribute = node.Attribute(XName.Get("height"))
+            ?? throw new System.Exception("Height node is null in xml");
         Height = int.Parse(heightAttribute.Value, NumberFormatInfo.InvariantInfo);
 
         var element = node.Element(XName.Get("Format", ns));

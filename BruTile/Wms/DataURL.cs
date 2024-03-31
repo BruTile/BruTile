@@ -14,9 +14,7 @@ public class DataURL : XmlObject
 
     public DataURL(XElement node, string ns)
     {
-        var element = node.Element(XName.Get("Format", ns));
-        if (element == null)
-            throw WmsParsingException.ElementNotFound("Format");
+        var element = node.Element(XName.Get("Format", ns)) ?? throw WmsParsingException.ElementNotFound("Format");
         Format = element.Value;
 
         element = node.Element(XName.Get("OnlineResource", ns));

@@ -11,9 +11,7 @@ public class Dimension : XmlObject
     // ReSharper disable once UnusedParameter.Local
     public Dimension(XElement el)
     {
-        var att = el.Attribute("name");
-        if (att == null)
-            throw WmsParsingException.AttributeNotFound("name");
+        var att = el.Attribute("name") ?? throw WmsParsingException.AttributeNotFound("name");
         Name = att.Value;
 
         att = el.Attribute("units");

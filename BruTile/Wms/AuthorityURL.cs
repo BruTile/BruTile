@@ -9,15 +9,11 @@ public class AuthorityURL : XmlObject
 {
     private OnlineResource _onlineResourceField;
 
-    public AuthorityURL()
-    { }
+    public AuthorityURL() { }
 
     public AuthorityURL(XElement node, string @namespace)
     {
-        var att = node.Attribute("name");
-        if (att == null)
-            throw WmsParsingException.AttributeNotFound("name");
-
+        var att = node.Attribute("name") ?? throw WmsParsingException.AttributeNotFound("name");
         Name = att.Value;
 
         var element = node.Element(XName.Get("OnlineResource", @namespace));

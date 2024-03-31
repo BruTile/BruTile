@@ -68,15 +68,11 @@ public class WmscTileSource : TileSource
         if (xSrs != null)
             schema.Srs = xSrs.Value;
 
-        var xWidth = xTileSet.Element("Width");
-        if (xWidth == null) throw new System.Exception("'Width' field not found in xml");
-
+        var xWidth = xTileSet.Element("Width") ?? throw new System.Exception("'Width' field not found in xml");
         if (!int.TryParse(xWidth.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var width))
             throw new ArgumentException("Invalid width on tile set '" + schema.Name + "'");
 
-        var xHeight = xTileSet.Element("Height");
-        if (xHeight == null) throw new System.Exception("'Height' field not found in xml");
-
+        var xHeight = xTileSet.Element("Height") ?? throw new System.Exception("'Height' field not found in xml");
         if (!int.TryParse(xHeight.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var height))
             throw new ArgumentException("Invalid width on tile set '" + schema.Name + "'");
 

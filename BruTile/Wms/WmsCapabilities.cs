@@ -82,9 +82,7 @@ public class WmsCapabilities
             }
         }
 
-        var att = node.Attribute(XName.Get("version"));
-        if (att == null)
-            throw WmsParsingException.AttributeNotFound("version");
+        var att = node.Attribute(XName.Get("version")) ?? throw WmsParsingException.AttributeNotFound("version");
         Version = new WmsVersion(att.Value);
 
         var @namespace = Version.Version == WmsVersionEnum.Version_1_3_0
