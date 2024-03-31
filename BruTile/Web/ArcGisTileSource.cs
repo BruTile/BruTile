@@ -10,7 +10,7 @@ using BruTile.Cache;
 namespace BruTile.Web;
 
 public class ArcGisTileSource(string baseUrl, ITileSchema schema, IPersistentCache<byte[]> persistentCache = null,
-    Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null) 
+    Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null)
         : TileSource(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)
 {
     public string BaseUrl { get; } = baseUrl;
