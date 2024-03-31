@@ -3,14 +3,8 @@
 namespace BruTile.Samples.Common.Geometries;
 
 // Point is in its own namespace to avoid collisions with other Point types
-public struct Point
+public struct Point(double x, double y)
 {
-    public Point(double x, double y)
-    {
-        X = x;
-        Y = y;
-    }
-
-    public double X;
-    public double Y;
+    public double X = x;
+    public double Y = y;
 }

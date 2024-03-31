@@ -6,14 +6,9 @@ using BruTile.Samples.Common;
 
 namespace BruTile.Demo;
 
-internal class Renderer
+internal class Renderer(Canvas canvas)
 {
-    private readonly Canvas _canvas;
-
-    public Renderer(Canvas canvas)
-    {
-        _canvas = canvas;
-    }
+    private readonly Canvas _canvas = canvas;
 
     public void Render(Viewport viewport, ITileSource tileSource, ITileCache<Tile<Image>> tileCache)
     {

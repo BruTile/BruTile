@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace BruTile.Tests.Cache;
 
 //[TestFixture, Category("CacheTest")] // Perhaps think we should replace the SQLiteCache with MbTilesTileSource
-public abstract class CacheTests<TCache>
+public abstract class CacheTests<TCache>(TCache cache)
     where TCache : ITileCache<byte[]>
 {
     protected const int TileSizeX = 256;
@@ -19,12 +19,7 @@ public abstract class CacheTests<TCache>
     protected const int BitsPerPixel = 8;
     protected const int MaxLevel = 4;
 
-    protected readonly TCache Cache;
-
-    protected CacheTests(TCache cache)
-    {
-        Cache = cache;
-    }
+    protected readonly TCache Cache = cache;
 
     public void TestInsertFindRemove()
     {

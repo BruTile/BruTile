@@ -205,16 +205,9 @@ public class Fetcher<T>
 
 public delegate void DataChangedEventHandler<T>(object sender, DataChangedEventArgs<T> e);
 
-public class DataChangedEventArgs<T>
+public class DataChangedEventArgs<T>(Exception error, bool cancelled, Tile<T> tile)
 {
-    public DataChangedEventArgs(Exception error, bool cancelled, Tile<T> tile)
-    {
-        Error = error;
-        Cancelled = cancelled;
-        Tile = tile;
-    }
-
-    public Exception Error { get; }
-    public bool Cancelled { get; }
-    public Tile<T> Tile { get; }
+    public Exception Error { get; } = error;
+    public bool Cancelled { get; } = cancelled;
+    public Tile<T> Tile { get; } = tile;
 }

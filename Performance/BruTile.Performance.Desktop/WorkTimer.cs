@@ -7,20 +7,15 @@ using System.Threading.Tasks;
 
 namespace BruTile.Performance.Desktop;
 
-internal class WorkTimer
+internal class WorkTimer(int testCount)
 {
     private int _threadCompleteCount;
-    private readonly int _testCount;
+    private readonly int _testCount = testCount;
     private readonly object _syncRoot = new();
 
     public long MaxTime { get; private set; } = long.MinValue;
     public long MinTime { get; private set; } = long.MaxValue;
     public long TotalTime { get; private set; }
-
-    public WorkTimer(int testCount)
-    {
-        _testCount = testCount;
-    }
 
     public void TimeWork<T>(Func<int, T> argFactory, Action<T> work)
     {

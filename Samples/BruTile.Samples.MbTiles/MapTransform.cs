@@ -4,17 +4,11 @@ using System.Drawing;
 
 namespace BruTile.Samples.MbTiles;
 
-public struct PointD
+public struct PointD(double x, double y)
 {
-    public double X { get; set; }
+    public double X { get; set; } = x;
 
-    public double Y { get; set; }
-
-    public PointD(double x, double y)
-    {
-        X = x;
-        Y = y;
-    }
+    public double Y { get; set; } = y;
 
     public static implicit operator PointD(PointF pd)
     {
