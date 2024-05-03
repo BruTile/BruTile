@@ -4,185 +4,183 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Wms
+namespace BruTile.Wms;
+
+public class Capability : XmlObject
 {
-    public class Capability : XmlObject
+    private Request _requestField;
+
+    private List<string> _exceptionField;
+
+    private Dictionary<XName, XNode> _extendedCapabilitiesField;
+
+    private Layer _layerField;
+
+    public Capability()
+    { }
+
+    public Capability(XElement node, string @namespace)
     {
-        private Request _requestField;
+        var element = node.Element(XName.Get("Request", @namespace))
+            ?? throw WmsParsingException.ElementNotFound("Request");
+        Request = new Request(element, @namespace);
 
-        private List<string> _exceptionField;
-
-        private Dictionary<XName, XNode> _extendedCapabilitiesField;
-
-        private Layer _layerField;
-
-        public Capability()
-        { }
-
-        public Capability(XElement node, string @namespace)
+        foreach (var el in node.Elements())
         {
-            var element = node.Element(XName.Get("Request", @namespace));
-            if (element == null)
-                throw WmsParsingException.ElementNotFound("Request");
-            Request = new Request(element, @namespace);
+            if (el.Name.LocalName == "Request" || el.Name.LocalName == "Layer")
+                continue;
 
-            foreach (var el in node.Elements())
+            if (el.Name.LocalName == "Exception")
             {
-                if (el.Name.LocalName == "Request" || el.Name.LocalName == "Layer")
-                    continue;
-
-                if (el.Name.LocalName == "Exception")
-                {
-                    Exception.Add(el.Value);
-                    continue;
-                }
-
-                ExtendedCapabilities.Add(el.Name, el);
+                Exception.Add(el.Value);
+                continue;
             }
 
-            if (Exception.Count == 0)
-                throw WmsParsingException.ElementNotFound("Exception");
+            ExtendedCapabilities.Add(el.Name, el);
+        }
 
-            var baseNodeCreated = false;
-            foreach (var layerNode in node.Elements(XName.Get("Layer", @namespace)))
+        if (Exception.Count == 0)
+            throw WmsParsingException.ElementNotFound("Exception");
+
+        var baseNodeCreated = false;
+        foreach (var layerNode in node.Elements(XName.Get("Layer", @namespace)))
+        {
+            var layer = new Layer(layerNode, @namespace);
+            if (_layerField == null)
             {
-                var layer = new Layer(layerNode, @namespace);
-                if (_layerField == null)
-                {
-                    _layerField = layer;
-                }
-
-                else if (_layerField != null && !baseNodeCreated)
-                {
-                    var tmpLayer = new Layer { Title = "Root Layer" };
-                    tmpLayer.ChildLayers.Add(Layer);
-                    tmpLayer.ChildLayers.Add(layer);
-                    Layer = tmpLayer;
-                    baseNodeCreated = true;
-                }
-                else
-                {
-                    _layerField.ChildLayers.Add(layer);
-                }
-            }
-        }
-
-        public Request Request
-        {
-            get => _requestField ??= new Request();
-            set => _requestField = value;
-        }
-
-        [System.Xml.Serialization.XmlArrayAttribute(Order = 1)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
-        public List<string> Exception
-        {
-            get => _exceptionField ??= new List<string>();
-            set => _exceptionField = value;
-        }
-
-        public Dictionary<XName, XNode> ExtendedCapabilities
-        {
-            get => _extendedCapabilitiesField ??= new Dictionary<XName, XNode>();
-            set => _extendedCapabilitiesField = value;
-        }
-
-        public Layer Layer
-        {
-            get => _layerField ??= new Layer();
-            set => _layerField = value;
-        }
-
-        #region Overrides of XmlObject
-
-        public override void ReadXml(XmlReader reader)
-        {
-            if (CheckEmptyNode(reader, "Capability"))
-                throw WmsParsingException.ElementNotFound("Capability");
-
-            var baseLayerCreated = false;
-
-            while (!reader.EOF)
-            {
-                if (reader.IsStartElement())
-                {
-                    switch (reader.LocalName)
-                    {
-                        case "Request":
-                            _requestField = new Request();
-                            _requestField.ReadXml(reader.ReadSubtree());
-                            break;
-
-                        case "Exception":
-                            _exceptionField ??= new List<string>();
-                            var subReader = reader.ReadSubtree();
-                            while (!subReader.EOF)
-                            {
-                                reader.ReadStartElement("Format");
-                                var format = reader.ReadContentAsString();
-                                reader.ReadEndElement();
-                                _exceptionField.Add(format);
-                            }
-                            break;
-                        case "Layer":
-                            if (_layerField == null)
-                            {
-                                _layerField = new Layer();
-                                _layerField.ReadXml(reader);
-                            }
-                            else
-                            {
-                                if (!baseLayerCreated)
-                                {
-                                    var tmp = _layerField;
-                                    _layerField = new Layer();
-                                    _layerField.Name = _layerField.Title = "Created base layer";
-                                    _layerField.ChildLayers.Add(tmp);
-                                    baseLayerCreated = true;
-                                }
-                                var layer = new Layer();
-                                layer.ReadXml(reader);
-                                _layerField.ChildLayers.Add(layer);
-                            }
-                            break;
-
-                        default:
-                            ExtendedCapabilities.Add(XName.Get(reader.LocalName, reader.NamespaceURI), XNode.ReadFrom(reader));
-                            break;
-                    }
-                }
-                else
-                {
-                    reader.Read();
-                }
-            }
-        }
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            WriteXmlItem("Request", Namespace, writer, Request);
-            writer.WriteStartElement("Exception", Namespace);
-            if (_exceptionField != null)
-            {
-                foreach (var ex in Exception)
-                    writer.WriteElementString("Format", Namespace, ex);
-            }
-            writer.WriteEndElement();
-
-            if (_extendedCapabilitiesField != null)
-            {
-                foreach (var xElement in _extendedCapabilitiesField)
-                    xElement.Value.WriteTo(writer);
+                _layerField = layer;
             }
 
-            WriteXmlItem("Layer", Namespace, writer, _layerField);
+            else if (_layerField != null && !baseNodeCreated)
+            {
+                var tmpLayer = new Layer { Title = "Root Layer" };
+                tmpLayer.ChildLayers.Add(Layer);
+                tmpLayer.ChildLayers.Add(layer);
+                Layer = tmpLayer;
+                baseNodeCreated = true;
+            }
+            else
+            {
+                _layerField.ChildLayers.Add(layer);
+            }
         }
-
-        public override XElement ToXElement(string @namespace)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        #endregion Overrides of XmlObject
     }
+
+    public Request Request
+    {
+        get => _requestField ??= new Request();
+        set => _requestField = value;
+    }
+
+    [System.Xml.Serialization.XmlArrayAttribute(Order = 1)]
+    [System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
+    public List<string> Exception
+    {
+        get => _exceptionField ??= [];
+        set => _exceptionField = value;
+    }
+
+    public Dictionary<XName, XNode> ExtendedCapabilities
+    {
+        get => _extendedCapabilitiesField ??= [];
+        set => _extendedCapabilitiesField = value;
+    }
+
+    public Layer Layer
+    {
+        get => _layerField ??= new Layer();
+        set => _layerField = value;
+    }
+
+    #region Overrides of XmlObject
+
+    public override void ReadXml(XmlReader reader)
+    {
+        if (CheckEmptyNode(reader, "Capability"))
+            throw WmsParsingException.ElementNotFound("Capability");
+
+        var baseLayerCreated = false;
+
+        while (!reader.EOF)
+        {
+            if (reader.IsStartElement())
+            {
+                switch (reader.LocalName)
+                {
+                    case "Request":
+                        _requestField = new Request();
+                        _requestField.ReadXml(reader.ReadSubtree());
+                        break;
+
+                    case "Exception":
+                        _exceptionField ??= [];
+                        var subReader = reader.ReadSubtree();
+                        while (!subReader.EOF)
+                        {
+                            reader.ReadStartElement("Format");
+                            var format = reader.ReadContentAsString();
+                            reader.ReadEndElement();
+                            _exceptionField.Add(format);
+                        }
+                        break;
+                    case "Layer":
+                        if (_layerField == null)
+                        {
+                            _layerField = new Layer();
+                            _layerField.ReadXml(reader);
+                        }
+                        else
+                        {
+                            if (!baseLayerCreated)
+                            {
+                                var tmp = _layerField;
+                                _layerField = new Layer();
+                                _layerField.Name = _layerField.Title = "Created base layer";
+                                _layerField.ChildLayers.Add(tmp);
+                                baseLayerCreated = true;
+                            }
+                            var layer = new Layer();
+                            layer.ReadXml(reader);
+                            _layerField.ChildLayers.Add(layer);
+                        }
+                        break;
+
+                    default:
+                        ExtendedCapabilities.Add(XName.Get(reader.LocalName, reader.NamespaceURI), XNode.ReadFrom(reader));
+                        break;
+                }
+            }
+            else
+            {
+                reader.Read();
+            }
+        }
+    }
+
+    public override void WriteXml(XmlWriter writer)
+    {
+        WriteXmlItem("Request", Namespace, writer, Request);
+        writer.WriteStartElement("Exception", Namespace);
+        if (_exceptionField != null)
+        {
+            foreach (var ex in Exception)
+                writer.WriteElementString("Format", Namespace, ex);
+        }
+        writer.WriteEndElement();
+
+        if (_extendedCapabilitiesField != null)
+        {
+            foreach (var xElement in _extendedCapabilitiesField)
+                xElement.Value.WriteTo(writer);
+        }
+
+        WriteXmlItem("Layer", Namespace, writer, _layerField);
+    }
+
+    public override XElement ToXElement(string @namespace)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion Overrides of XmlObject
 }

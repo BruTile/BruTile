@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<DotNetCliToolReference  Include="Microsoft.XmlSerializer.Generator" Version="8.0.0" >
+		<DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</DotNetCliToolReference>

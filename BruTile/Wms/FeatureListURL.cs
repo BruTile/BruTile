@@ -3,83 +3,80 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BruTile.Wms
+namespace BruTile.Wms;
+
+public class FeatureListURL : XmlObject
 {
-    public class FeatureListURL : XmlObject
+    private OnlineResource _onlineResourceField;
+
+    public FeatureListURL()
+    { }
+
+    public FeatureListURL(XElement node, string ns)
     {
-        private OnlineResource _onlineResourceField;
+        var element = node.Element(XName.Get("Format", ns)) ?? throw WmsParsingException.ElementNotFound("Format");
+        Format = element.Value;
 
-        public FeatureListURL()
-        { }
+        element = node.Element(XName.Get("OnlineResource", ns));
+        if (element == null)
+            throw WmsParsingException.ElementNotFound("OnlineResource");
+        OnlineResource = new OnlineResource(element);
+    }
 
-        public FeatureListURL(XElement node, string ns)
+    public string Format { get; set; }
+
+    public OnlineResource OnlineResource
+    {
+        get => _onlineResourceField ??= new OnlineResource();
+        set => _onlineResourceField = value;
+    }
+
+    #region Overrides of XmlObject
+
+    public override void ReadXml(XmlReader reader)
+    {
+        reader.MoveToContent();
+        if (reader.IsEmptyElement) { reader.Read(); return; }
+
+        while (!reader.EOF)
         {
-            var element = node.Element(XName.Get("Format", ns));
-            if (element == null)
-                throw WmsParsingException.ElementNotFound("Format");
-            Format = element.Value;
-
-            element = node.Element(XName.Get("OnlineResource", ns));
-            if (element == null)
-                throw WmsParsingException.ElementNotFound("OnlineResource");
-            OnlineResource = new OnlineResource(element);
-        }
-
-        public string Format { get; set; }
-
-        public OnlineResource OnlineResource
-        {
-            get => _onlineResourceField ??= new OnlineResource();
-            set => _onlineResourceField = value;
-        }
-
-        #region Overrides of XmlObject
-
-        public override void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            if (reader.IsEmptyElement) { reader.Read(); return; }
-
-            while (!reader.EOF)
+            if (reader.IsStartElement())
             {
-                if (reader.IsStartElement())
+                switch (reader.LocalName)
                 {
-                    switch (reader.LocalName)
-                    {
-                        case "Format":
-                            Format = reader.ReadElementContentAsString();
-                            break;
-                        case "OnlineResource":
-                            OnlineResource = new OnlineResource();
-                            OnlineResource.ReadXml(reader);
-                            break;
-                        default:
-                            reader.Skip();
-                            break;
-                    }
-                }
-                else
-                {
-                    reader.Read();
+                    case "Format":
+                        Format = reader.ReadElementContentAsString();
+                        break;
+                    case "OnlineResource":
+                        OnlineResource = new OnlineResource();
+                        OnlineResource.ReadXml(reader);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
                 }
             }
+            else
+            {
+                reader.Read();
+            }
         }
-
-        public override void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElementString("Format", Namespace, Format);
-            writer.WriteStartElement("OnlineResource", Namespace);
-            OnlineResource.WriteXml(writer);
-            writer.WriteEndElement();
-        }
-
-        public override XElement ToXElement(string @namespace)
-        {
-            return new XElement(XName.Get("DataURL", @namespace),
-                new XElement(XName.Get("Format", @namespace), Format),
-                OnlineResource.ToXElement(@namespace));
-        }
-
-        #endregion Overrides of XmlObject
     }
+
+    public override void WriteXml(XmlWriter writer)
+    {
+        writer.WriteElementString("Format", Namespace, Format);
+        writer.WriteStartElement("OnlineResource", Namespace);
+        OnlineResource.WriteXml(writer);
+        writer.WriteEndElement();
+    }
+
+    public override XElement ToXElement(string @namespace)
+    {
+        return new XElement(XName.Get("DataURL", @namespace),
+            new XElement(XName.Get("Format", @namespace), Format),
+            OnlineResource.ToXElement(@namespace));
+    }
+
+    #endregion Overrides of XmlObject
 }

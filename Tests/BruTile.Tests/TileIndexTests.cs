@@ -2,24 +2,23 @@
 
 using NUnit.Framework;
 
-namespace BruTile.Tests
+namespace BruTile.Tests;
+
+[TestFixture]
+public class TileIndexTests
 {
-    [TestFixture]
-    public class TileIndexTests
+    [Test]
+    public void CompareToTest()
     {
-        [Test]
-        public void CompareToTest()
-        {
-            // Arrange
-            var target = new TileIndex(2, 4, 2);
-            var index = new TileIndex(2, 5, 2);
-            const int expected = -1;
+        // Arrange
+        var target = new TileIndex(2, 4, 2);
+        var index = new TileIndex(2, 5, 2);
+        const int expected = -1;
 
-            // Act
-            var actual = target.CompareTo(index);
+        // Act
+        var actual = target.CompareTo(index);
 
-            // Assert
-            Assert.AreEqual(expected, actual);
-        }
+        // Assert
+        Assert.AreEqual(expected, actual);
     }
 }

@@ -4,68 +4,60 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BruTile.Wmts
+namespace BruTile.Wmts;
+
+/// <summary>
+/// A set of scales
+/// </summary>
+/// <remarks>
+/// Creates an instance for this class
+/// </remarks>
+/// <param name="name"></param>
+/// <param name="crs"></param>
+/// <param name="items"></param>
+internal class ScaleSet(string name, CrsIdentifier crs, IEnumerable<ScaleSetItem> items)
 {
     /// <summary>
-    /// A set of scales
+    /// The items
     /// </summary>
-    internal class ScaleSet
+    private readonly ScaleSetItem[] _items = items.ToArray();
+
+    /// <summary>
+    /// Gets the Crs identifier for this scale set
+    /// </summary>
+    public CrsIdentifier Crs { get; } = crs;
+
+    /// <summary>
+    /// Gets a value indicating the name of the scale set
+    /// </summary>
+    public string Name { get; } = name;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public ScaleSetItem this[int level] => _items[level];
+
+    /// <summary>
+    /// Accessor to a pixel size
+    /// </summary>
+    /// <param name="scaleDenominator"></param>
+    /// <returns></returns>
+    public double? this[double scaleDenominator]
     {
-        /// <summary>
-        /// The items
-        /// </summary>
-        private readonly ScaleSetItem[] _items;
-
-        /// <summary>
-        /// Creates an instance for this class
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="crs"></param>
-        /// <param name="items"></param>
-        public ScaleSet(string name, CrsIdentifier crs, IEnumerable<ScaleSetItem> items)
+        get
         {
-            Name = name;
-            Crs = crs;
-            _items = items.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the Crs identifier for this scale set
-        /// </summary>
-        public CrsIdentifier Crs { get; }
-
-        /// <summary>
-        /// Gets a value indicating the name of the scale set
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
-        public ScaleSetItem this[int level] => _items[level];
-
-        /// <summary>
-        /// Accessor to a pixel size
-        /// </summary>
-        /// <param name="scaleDenominator"></param>
-        /// <returns></returns>
-        public double? this[double scaleDenominator]
-        {
-            get
+            foreach (var item in _items)
             {
-                foreach (var item in _items)
+                if (Math.Abs(scaleDenominator - item.ScaleDenominator) < 1e-7)
                 {
-                    if (Math.Abs(scaleDenominator - item.ScaleDenominator) < 1e-7)
-                    {
-                        return item.PixelSize;
-                    }
-                    if (item.ScaleDenominator < scaleDenominator) break;
+                    return item.PixelSize;
                 }
-
-                return null;
+                if (item.ScaleDenominator < scaleDenominator) break;
             }
+
+            return null;
         }
     }
 }

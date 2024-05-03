@@ -7,25 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 
-namespace BruTile.Web
+namespace BruTile.Web;
+
+public class ArcGisTileSource(string baseUrl, ITileSchema schema, IPersistentCache<byte[]> persistentCache = null,
+    Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null)
+        : TileSource(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)
 {
-    public class ArcGisTileSource : TileSource
-    {
-        public string BaseUrl { get; }
+    public string BaseUrl { get; } = baseUrl;
 
-        public ArcGisTileSource(
-                string baseUrl,
-                ITileSchema schema,
-                IPersistentCache<byte[]> persistentCache = null,
-                Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null)
-            : base(new HttpTileProvider(CreateArcGISRequest(baseUrl), persistentCache, fetchTile), schema)
-        {
-            BaseUrl = baseUrl;
-        }
-
-        private static IRequest CreateArcGISRequest(string baseUrl)
-        {
-            return new BasicRequest($"{baseUrl}/tile/{{0}}/{{2}}/{{1}}");
-        }
-    }
+    private static BasicRequest CreateArcGISRequest(string baseUrl) => new($"{baseUrl}/tile/{{0}}/{{2}}/{{1}}");
 }

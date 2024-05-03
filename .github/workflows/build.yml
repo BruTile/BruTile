@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build $SOLUTION --configuration Release -p:Version=$(git describe --tags)
     - name: check the formatting
-      run: dotnet format BruTile.sln --verbosity normal --verify-no-changes
+      run: dotnet format BruTile.sln --verbosity normal --verify-no-changes --exclude BruTile/Wmts # Exclude Wmts because of generated EPSG data. Perhaps the data should be move to a separate file.
     - name: Test
       run: dotnet test $SOLUTION --configuration Release -p:Version=$(git describe --tags) --no-restore --verbosity normal
     - name: Upload packages

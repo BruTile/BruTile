@@ -2,36 +2,35 @@
 
 // This file was created by Felix Obermaier (www.ivv-aachen.de) 2011.
 
-namespace BruTile.MbTiles
+namespace BruTile.MbTiles;
+
+/// <summary>
+/// Image format of tiles
+/// </summary>
+public enum MbTilesFormat
 {
     /// <summary>
-    /// Image format of tiles
+    /// Portable Network Graphics (PNG)
     /// </summary>
-    public enum MbTilesFormat
-    {
-        /// <summary>
-        /// Portable Network Graphics (PNG)
-        /// </summary>
-        Png,
+    Png,
 
-        /// <summary>
-        /// Joint Photographic Experts Group (JPEG)
-        /// </summary>
-        Jpg,
+    /// <summary>
+    /// Joint Photographic Experts Group (JPEG)
+    /// </summary>
+    Jpg,
 
-        /// <summary>
-        /// Joint Photographic Experts Group (JPEG)
-        /// </summary>
-        Jpeg = Jpg,
+    /// <summary>
+    /// Joint Photographic Experts Group (JPEG)
+    /// </summary>
+    Jpeg = Jpg,
 
-        /// <summary>
-        /// Webp format
-        /// </summary>
-        Webp,
+    /// <summary>
+    /// Webp format
+    /// </summary>
+    Webp,
 
-        /// <summary>
-        /// Protobuf vector format
-        /// </summary>
-        Pbf
-    }
+    /// <summary>
+    /// Protobuf vector format
+    /// </summary>
+    Pbf
 }

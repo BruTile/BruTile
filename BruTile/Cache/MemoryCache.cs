@@ -4,151 +4,145 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using BruTile.Extensions;
 
-namespace BruTile.Cache
+namespace BruTile.Cache;
+
+public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposable
 {
+    private readonly Dictionary<TileIndex, T> _bitmaps = [];
+    private readonly Dictionary<TileIndex, long> _touched = [];
+    private readonly object _syncRoot = new();
+    private bool _disposed;
+    private readonly Func<TileIndex, bool> _keepTileInMemory;
 
-    public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposable
+    private long _cacheVersion;
+
+    public int TileCount
     {
-        private readonly Dictionary<TileIndex, T> _bitmaps = new();
-        private readonly Dictionary<TileIndex, long> _touched = new();
-        private readonly object _syncRoot = new();
-        private bool _disposed;
-        private readonly Func<TileIndex, bool> _keepTileInMemory;
-
-        private long _cacheVersion;
-
-        public int TileCount
-        {
-            get
-            {
-                lock (_syncRoot)
-                {
-                    return _bitmaps.Count;
-                }
-            }
-        }
-
-        public int MinTiles { get; set; }
-        public int MaxTiles { get; set; }
-
-        public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool> keepTileInMemory = null)
-        {
-            if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
-            if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
-            if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
-
-            MinTiles = minTiles;
-            MaxTiles = maxTiles;
-            _keepTileInMemory = keepTileInMemory;
-        }
-
-        public long GetNextCacheVersion()
-        {
-            _cacheVersion++;
-            return _cacheVersion;
-        }
-
-        public void Add(TileIndex index, T item)
+        get
         {
             lock (_syncRoot)
             {
-                if (_bitmaps.ContainsKey(index))
-                {
-                    _bitmaps[index] = item;
-                    _touched[index] = GetNextCacheVersion();
-                }
-                else
-                {
-                    _touched.Add(index, GetNextCacheVersion());
-                    _bitmaps.Add(index, item);
-                    CleanUp();
-                    OnNotifyPropertyChange(nameof(TileCount));
-                }
+                return _bitmaps.Count;
             }
         }
+    }
 
-        public void Remove(TileIndex index)
+    public int MinTiles { get; set; }
+    public int MaxTiles { get; set; }
+
+    public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool> keepTileInMemory = null)
+    {
+        if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
+        if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
+        if (maxTiles < 0) throw new ArgumentException("maxTiles should be larger than zero");
+
+        MinTiles = minTiles;
+        MaxTiles = maxTiles;
+        _keepTileInMemory = keepTileInMemory;
+    }
+
+    public long GetNextCacheVersion()
+    {
+        _cacheVersion++;
+        return _cacheVersion;
+    }
+
+    public void Add(TileIndex index, T item)
+    {
+        lock (_syncRoot)
         {
-            lock (_syncRoot)
+            if (_bitmaps.ContainsKey(index))
             {
-                if (!_bitmaps.ContainsKey(index)) return;
-                var disposable = _bitmaps[index] as IDisposable;
-                disposable?.Dispose();
+                _bitmaps[index] = item;
+                _touched[index] = GetNextCacheVersion();
+            }
+            else
+            {
+                _touched.Add(index, GetNextCacheVersion());
+                _bitmaps.Add(index, item);
+                CleanUp();
+                OnNotifyPropertyChange(nameof(TileCount));
+            }
+        }
+    }
+
+    public void Remove(TileIndex index)
+    {
+        lock (_syncRoot)
+        {
+            if (_bitmaps.TryGetValue(index, out var bitmap))
+            {
+
+                bitmap.DisposeIfDisposable();
                 _touched.Remove(index);
                 _bitmaps.Remove(index);
                 OnNotifyPropertyChange(nameof(TileCount));
             }
         }
+    }
 
-        public T Find(TileIndex index)
+    public T Find(TileIndex index)
+    {
+        lock (_syncRoot)
         {
-            lock (_syncRoot)
-            {
-                if (!_bitmaps.ContainsKey(index)) return default;
+            if (!_bitmaps.ContainsKey(index)) return default;
 
-                _touched[index] = GetNextCacheVersion();
-                return _bitmaps[index];
-            }
+            _touched[index] = GetNextCacheVersion();
+            return _bitmaps[index];
         }
+    }
 
-        public void Clear()
+    public void Clear()
+    {
+        lock (_syncRoot)
         {
-            lock (_syncRoot)
-            {
-                DisposeTilesIfDisposable();
-                _touched.Clear();
-                _bitmaps.Clear();
-                OnNotifyPropertyChange(nameof(TileCount));
-            }
-        }
-
-        private void CleanUp()
-        {
-            if (_bitmaps.Count <= MaxTiles) return;
-
-            var numberOfTilesToKeepInMemory = 0;
-            if (_keepTileInMemory != null)
-            {
-                var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
-                foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // Touch tiles to keep
-                numberOfTilesToKeepInMemory = tilesToKeep.Count;
-            }
-            var numberOfTilesToRemove = _bitmaps.Count - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
-
-            var oldItems = _touched.OrderBy(p => p.Value).Take(numberOfTilesToRemove);
-
-            foreach (var oldItem in oldItems)
-            {
-                Remove(oldItem.Key);
-            }
-        }
-
-        protected virtual void OnNotifyPropertyChange(string propertyName)
-        {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-            DisposeTilesIfDisposable();
+            foreach (var bitmap in _bitmaps)
+                bitmap.DisposeIfDisposable();
             _touched.Clear();
             _bitmaps.Clear();
-            _disposed = true;
-            GC.SuppressFinalize(this);
+            OnNotifyPropertyChange(nameof(TileCount));
         }
+    }
 
-        private void DisposeTilesIfDisposable()
+    private void CleanUp()
+    {
+        if (_bitmaps.Count <= MaxTiles) return;
+
+        var numberOfTilesToKeepInMemory = 0;
+        if (_keepTileInMemory != null)
         {
-            foreach (var index in _bitmaps.Keys)
-            {
-                var bitmap = _bitmaps[index] as IDisposable;
-                bitmap?.Dispose();
-            }
+            var tilesToKeep = _touched.Keys.Where(_keepTileInMemory).ToList();
+            foreach (var index in tilesToKeep) _touched[index] = GetNextCacheVersion(); // Touch tiles to keep
+            numberOfTilesToKeepInMemory = tilesToKeep.Count;
         }
+        var numberOfTilesToRemove = _bitmaps.Count - Math.Max(MinTiles, numberOfTilesToKeepInMemory);
+
+        var oldItems = _touched.OrderBy(p => p.Value).Take(numberOfTilesToRemove);
+
+        foreach (var oldItem in oldItems)
+        {
+            Remove(oldItem.Key);
+        }
+    }
+
+    protected virtual void OnNotifyPropertyChange(string propertyName)
+    {
+        var handler = PropertyChanged;
+        handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+        foreach (var bitmap in _bitmaps)
+            bitmap.DisposeIfDisposable();
+        _touched.Clear();
+        _bitmaps.Clear();
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

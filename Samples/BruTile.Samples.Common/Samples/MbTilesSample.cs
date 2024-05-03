@@ -3,13 +3,12 @@
 using BruTile.MbTiles;
 using SQLite;
 
-namespace BruTile.Samples.Common.Samples
+namespace BruTile.Samples.Common.Samples;
+
+public class MbTilesSample
 {
-    public class MbTilesSample
+    public static ITileSource Create()
     {
-        public static ITileSource Create()
-        {
-            return new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
-        }
+        return new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
     }
 }

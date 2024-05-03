@@ -6,27 +6,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 
-namespace BruTile.FileSystem
+namespace BruTile.FileSystem;
+
+public class FileTileProvider : ITileProvider
 {
-    public class FileTileProvider : ITileProvider
+    private readonly FileCache _fileCache;
+
+    public FileTileProvider(string directory, string format, TimeSpan cacheExpireTime)
     {
-        private readonly FileCache _fileCache;
+        _fileCache = new FileCache(directory, format, cacheExpireTime);
+    }
 
-        public FileTileProvider(string directory, string format, TimeSpan cacheExpireTime)
-        {
-            _fileCache = new FileCache(directory, format, cacheExpireTime);
-        }
+    public FileTileProvider(FileCache fileCache)
+    {
+        _fileCache = fileCache;
+    }
 
-        public FileTileProvider(FileCache fileCache)
-        {
-            _fileCache = fileCache;
-        }
-
-        public Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
-        {
-            var bytes = _fileCache.Find(tileInfo.Index);
-            if (bytes == null) throw new FileNotFoundException("The tile was not found at it's expected location");
-            return Task.FromResult(bytes);
-        }
+    public Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
+    {
+        var bytes = _fileCache.Find(tileInfo.Index)
+            ?? throw new FileNotFoundException("The tile was not found at it's expected location");
+        return Task.FromResult(bytes);
     }
 }
