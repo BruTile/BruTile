@@ -9,12 +9,10 @@ namespace BruTile;
 
 public interface ITileProvider
 {
-#if NET6_0_OR_GREATER
     async Task<byte[]?> GetTileAsync(TileInfo tileInfo)
     {
         return await GetTileAsync(tileInfo, CancellationToken.None).ConfigureAwait(false);
     }
-#endif
 
     /// <summary>
     /// May return null

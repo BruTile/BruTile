@@ -25,11 +25,7 @@ public class HttpTileProvider : ITileProvider, IRequest
 
     private async Task<byte[]> FetchTileAsync(Uri arg, CancellationToken cancellationToken)
     {
-#if NET6_0_OR_GREATER
         return await _httpClient.GetByteArrayAsync(arg, cancellationToken).ConfigureAwait(false);
-#else
-        return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
-#endif
     }
 
     public IPersistentCache<byte[]> PersistentCache { get; }

@@ -219,12 +219,7 @@ public class WmsCapabilities
 
     private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials credentials)
     {
-        // Todo: Wrap in using?
-#if NET6_0_OR_GREATER
         await using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
-#else
-        using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
-#endif
         var sr = new StreamReader(stream);
         var ret = XDocument.Load(sr);
         return ret;

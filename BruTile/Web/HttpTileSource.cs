@@ -1,5 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,21 +11,22 @@ using BruTile.Cache;
 
 namespace BruTile.Web;
 
-public class HttpTileSource : ITileSource, IRequest
+public class HttpTileSource : ITileSource, IRequest, IDisposable
 {
     private readonly Func<Uri, CancellationToken, Task<byte[]>> _fetchTile;
     private readonly IRequest _request;
-    private readonly HttpClient _httpClient = HttpClientBuilder.Build();
+    private readonly HttpClient? _httpClient = HttpClientBuilder.Build();
+    private bool disposed;
 
-    public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
-        string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-        Func<Uri, CancellationToken, Task<byte[]>> tileFetcher = null, Attribution attribution = null, string userAgent = null)
+    public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string>? serverNodes = null,
+        string? apiKey = null, string? name = null, IPersistentCache<byte[]>? persistentCache = null,
+        Func<Uri, CancellationToken, Task<byte[]>>? tileFetcher = null, Attribution? attribution = null, string? userAgent = null)
         : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, userAgent)
     { }
 
-    public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-        IPersistentCache<byte[]> persistentCache = null, Func<Uri, CancellationToken, Task<byte[]>> tileFetcher = null,
-        Attribution attribution = null, string userAgent = null)
+    public HttpTileSource(ITileSchema tileSchema, IRequest request, string? name = null,
+        IPersistentCache<byte[]>? persistentCache = null, Func<Uri, CancellationToken, Task<byte[]>>? tileFetcher = null,
+        Attribution? attribution = null, string? userAgent = null)
     {
         _request = request ?? new NullRequest();
         PersistentCache = persistentCache ?? new NullCache();
@@ -36,21 +39,21 @@ public class HttpTileSource : ITileSource, IRequest
 
     public IPersistentCache<byte[]> PersistentCache { get; set; }
 
-    public Uri GetUri(TileInfo tileInfo)
-    {
-        return _request.GetUri(tileInfo);
-    }
-
     public ITileSchema Schema { get; }
 
     public string Name { get; set; }
 
     public Attribution Attribution { get; set; }
 
+    public Uri GetUri(TileInfo tileInfo)
+    {
+        return _request.GetUri(tileInfo);
+    }
+
     /// <summary>
     /// Gets the actual image content of the tile as byte array
     /// </summary>
-    public virtual async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
+    public virtual async Task<byte[]?> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
     {
         var bytes = PersistentCache.Find(tileInfo.Index);
         if (bytes != null) return bytes;
@@ -61,21 +64,44 @@ public class HttpTileSource : ITileSource, IRequest
 
     public void AddHeader(string key, string value)
     {
+        if (_httpClient is null)
+            throw new Exception("You can not add headers when using the tileFetcher method is set in the constructor.");
+
         _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
     }
 
     public IEnumerable<string> GetHeaders(string key)
     {
+        if (_httpClient is null)
+            throw new Exception("You can not get headers when the custom tileFetcher method is set in the constructor.");
+
         return _httpClient.DefaultRequestHeaders.GetValues(key);
     }
 
     private async Task<byte[]> FetchTileAsync(Uri arg, CancellationToken cancellationToken)
     {
-#if NET6_0_OR_GREATER
-        return await _httpClient.GetByteArrayAsync(arg, cancellationToken).ConfigureAwait(false);
-#else
-        return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
-#endif
+        if (_httpClient is null)
+            throw new Exception($"{nameof(FetchTileAsync)} can not be used when the tileFetcher method is set in the constructor");
 
+        return await _httpClient.GetByteArrayAsync(arg, cancellationToken).ConfigureAwait(false);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                _httpClient?.Dispose();
+            }
+            disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
