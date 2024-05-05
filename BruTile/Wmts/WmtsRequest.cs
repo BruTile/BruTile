@@ -9,7 +9,7 @@ using BruTile.Web;
 
 namespace BruTile.Wmts;
 
-public class WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier) : IRequest
+public class WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier) : IUrlBuilder
 {
     public const string XTag = "{TileCol}";
     public const string YTag = "{TileRow}";

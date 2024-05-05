@@ -8,13 +8,13 @@ using BruTile.Cache;
 
 namespace BruTile.Web;
 
-public class HttpTileProvider : ITileProvider, IRequest
+public class HttpTileProvider : ITileProvider, IUrlBuilder
 {
     private readonly Func<Uri, CancellationToken, Task<byte[]>> _fetchTile;
-    private readonly IRequest _request;
+    private readonly IUrlBuilder _request;
     private readonly HttpClient _httpClient = HttpClientBuilder.Build();
 
-    public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
+    public HttpTileProvider(IUrlBuilder request = null, IPersistentCache<byte[]> persistentCache = null,
         Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null, string userAgent = null)
     {
         _request = request ?? new NullRequest();

@@ -25,7 +25,7 @@ public partial class MainWindow
         Layers.Children.Add(ToRadioButton("Google Terrain", GoogleMapsTerrainSample.Create));
         Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
         Layers.Children.Add(ToRadioButton("Here Maps", HereMapsSample.Create));
-        Layers.Children.Add(ToRadioButton("Lant Materiet Topowebb", () => LantMaterietTopowebbSample.CreateAsync().Result));
+        Layers.Children.Add(ToRadioButton("Lantmateriet Topowebb", () => LantmaterietTopowebbSample.CreateAsync().Result));
         Layers.Children.Add(ToRadioButton("World MbTiles", MbTilesSample.Create));
     }
 

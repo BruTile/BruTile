@@ -8,7 +8,7 @@ using BruTile.Web;
 
 namespace BruTile.Tms;
 
-public class TmsRequest : IRequest
+public class TmsRequest : IUrlBuilder
 {
     private readonly string _baseUrl;
     private readonly IDictionary<int, Uri> _baseUrls;

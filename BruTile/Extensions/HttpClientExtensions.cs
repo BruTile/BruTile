@@ -11,11 +11,12 @@ namespace BruTile.Extensions;
 public static class HttpClientExtensions
 {
     public static async Task<byte[]?> GetTileAsync(this HttpClient httpClient, TileInfo tileInfo,
-        HttpTileSourceConfiguration configuration, CancellationToken cancellationToken)
+        HttpTileSourceDefinition definition, CancellationToken cancellationToken)
     {
         var requestMessage = new HttpRequestMessage(HttpMethod.Get, "http://www.example.com");
-        requestMessage.Headers.UserAgent.ParseAdd(configuration.UserAgent ?? "If you use BruTile please specify a user-agent specific to your app");
-        requestMessage.RequestUri = configuration.GetUrl(tileInfo);
+        if (definition.UserAgentOverride is not null)
+            requestMessage.Headers.UserAgent.ParseAdd(definition.UserAgentOverride);
+        requestMessage.RequestUri = definition.GetUrl(tileInfo);
         var response = await httpClient.SendAsync(requestMessage, cancellationToken);
         return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }

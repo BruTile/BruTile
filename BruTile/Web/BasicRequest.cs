@@ -11,7 +11,7 @@ namespace BruTile.Web;
 /// <summary>
 /// A flexible request builder that can be used for a number of simple cases.
 /// </summary>
-public class BasicRequest : IRequest
+public class BasicRequest : IUrlBuilder
 {
     public const string QuadKeyTag = "{quadkey}";
     /// <summary>

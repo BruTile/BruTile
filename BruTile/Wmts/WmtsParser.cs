@@ -94,7 +94,7 @@ public class WmtsParser
                         var tileMatrixSet = tileMatrixLink.TileMatrixSet;
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
 
-                        IRequest wmtsRequest;
+                        IUrlBuilder wmtsRequest;
 
                         if (layer.ResourceURL == null)
                         {
