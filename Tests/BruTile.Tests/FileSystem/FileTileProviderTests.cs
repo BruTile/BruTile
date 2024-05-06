@@ -21,7 +21,8 @@ public class FileTileProviderTests
         var fileTileProvider = new FileTileProvider(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
         // Act
-        var tile = await fileTileProvider.GetTileAsync(new TileInfo { Index = new TileIndex(4, 5, 8) }, CancellationToken.None).ConfigureAwait(false);
+        var tile = await fileTileProvider.GetTileAsync(
+            new TileInfo { Index = new TileIndex(4, 5, 8) }, CancellationToken.None).ConfigureAwait(false);
 
         // Assert
         Assert.AreEqual(tile.Length, 243);

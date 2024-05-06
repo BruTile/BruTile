@@ -8,7 +8,7 @@ using BruTile.Cache;
 
 namespace BruTile.FileSystem;
 
-public class FileTileProvider : ITileProvider
+public class FileTileProvider
 {
     private readonly FileCache _fileCache;
 
