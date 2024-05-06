@@ -12,7 +12,7 @@ public class HttpTileProvider : ITileProvider, IUrlBuilder
 {
     private readonly Func<Uri, CancellationToken, Task<byte[]>> _fetchTile;
     private readonly IUrlBuilder _request;
-    private readonly HttpClient _httpClient = HttpClientBuilder.Build();
+    private readonly HttpClient _httpClient = new();
 
     public HttpTileProvider(IUrlBuilder request = null, IPersistentCache<byte[]> persistentCache = null,
         Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null, string userAgent = null)

@@ -239,11 +239,11 @@ public class WmsCapabilities
         {
         }
 
-        var client = new HttpClient(httpClientHandler)
+        using var httpClient = new HttpClient(httpClientHandler)
         {
             Timeout = TimeSpan.FromMilliseconds(30000)
         };
-        return await client.GetStreamAsync(uri).ConfigureAwait(false);
+        return await httpClient.GetStreamAsync(uri).ConfigureAwait(false);
     }
 
     #region validation and completion of request url

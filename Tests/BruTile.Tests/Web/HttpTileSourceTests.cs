@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BruTile.Predefined;
@@ -32,18 +31,5 @@ public class HttpTileSourceTests
         // Assert
         Console.WriteLine("Durations: {0:0} milliseconds", DateTime.Now.Subtract(timeStart).TotalMilliseconds);
         Assert.AreEqual(64, tiles.Length);
-    }
-
-    [Test]
-    public void TestAddHeader()
-    {
-        // Arrange
-        var tileSource = new HttpTileSource(new GlobalSphericalMercator(), "https://tile.openstreetmap.org/{z}/{x}/{y}.png");
-
-        // Act
-        tileSource.AddHeader("Referer", "test-referer");
-
-        // Assert
-        Assert.AreEqual("test-referer", tileSource.GetHeaders("Referer").FirstOrDefault());
     }
 }

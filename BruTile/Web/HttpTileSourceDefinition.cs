@@ -3,14 +3,16 @@
 #nullable enable
 
 using System;
+using System.Net.Http;
 
 namespace BruTile.Web;
+
 public record HttpTileSourceDefinition(
     ITileSchema TileSchema,
     IUrlBuilder UrlBuilder,
     string Name = "",
     Attribution Attribution = new Attribution(),
-    string? UserAgentOverride = null)
+    Action<HttpRequestMessage>? ConfigureHttpRequestMessage = null)
 {
     public Uri GetUrl(TileInfo tileInfo) => UrlBuilder.GetUrl(tileInfo);
 }

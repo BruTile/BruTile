@@ -14,10 +14,11 @@ public static class HttpClientExtensions
         HttpTileSourceDefinition definition, CancellationToken cancellationToken)
     {
         var requestMessage = new HttpRequestMessage(HttpMethod.Get, "http://www.example.com");
-        if (definition.UserAgentOverride is not null)
-            requestMessage.Headers.UserAgent.ParseAdd(definition.UserAgentOverride);
+        if (definition.ConfigureHttpRequestMessage is not null)
+            definition.ConfigureHttpRequestMessage(requestMessage);
         requestMessage.RequestUri = definition.GetUrl(tileInfo);
         var response = await httpClient.SendAsync(requestMessage, cancellationToken);
+        response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }
 }

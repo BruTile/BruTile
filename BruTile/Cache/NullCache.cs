@@ -8,12 +8,12 @@ public class NullCache : IPersistentCache<byte[]>
 {
     public void Add(TileIndex index, byte[] image)
     {
-        //do nothing
+        // Do nothing
     }
 
     public void Remove(TileIndex index)
     {
-        throw new NotImplementedException(); //and should not
+        throw new NotImplementedException(); // And should not be implemented
     }
 
     public byte[] Find(TileIndex index)

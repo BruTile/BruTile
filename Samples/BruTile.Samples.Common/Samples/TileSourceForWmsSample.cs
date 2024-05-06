@@ -14,8 +14,7 @@ public static class TileSourceForWmsSample
         const string url = "http://geodata.nationaalgeoregister.nl/omgevingswarmte/wms?SERVICE=WMS&VERSION=1.1.1";
         // You need to know the schema. This can be a problem. Usually it is GlobalSphericalMercator
         var schema = new WkstNederlandSchema { Format = "image/png" };
-        var request = new WmscRequest(new Uri(url), schema, ["koudegeslotenwkobuurt"], []);
-        var provider = new HttpTileProvider(request);
-        return new TileSource(provider, schema);
+        var urlBuilder = new WmscRequest(new Uri(url), schema, ["koudegeslotenwkobuurt"], []);
+        return new HttpTileSource(schema, urlBuilder);
     }
 }

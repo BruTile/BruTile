@@ -43,7 +43,7 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("UserAgentOfBruTilesSimpleStaticMapSample");
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("User-Agent-Of-The-BruTile-Simple-Static-Map-Sample");
         _buffer = new Bitmap(Width, Height);
     }
 
