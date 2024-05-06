@@ -12,7 +12,7 @@ public static class MichelinWmtsSample
     {
         using var httpClient = new HttpClient();
         var stream = httpClient.GetStreamAsync("https://bertt.github.io/wmts/capabilities/michelin.xml").Result;
-        var michelinTileSource = WmtsParser.Parse(stream).First();
+        var michelinTileSource = WmtsCapabilitiesParser.Parse(stream).First();
         return michelinTileSource;
     }
 }

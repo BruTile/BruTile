@@ -16,7 +16,7 @@ public static class LantmaterietTopowebbSample
         var httpClientHandler = new HttpClientHandler();
         var httpClient = new HttpClient(httpClientHandler);
         await using var stream = await httpClient.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
-        var tileSources = WmtsParser.Parse(stream);
+        var tileSources = WmtsCapabilitiesParser.Parse(stream);
         return tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
     }
 }
