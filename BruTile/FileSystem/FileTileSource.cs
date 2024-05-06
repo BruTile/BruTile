@@ -8,16 +8,16 @@ using BruTile.Cache;
 
 namespace BruTile.FileSystem;
 
-public class FileTileProvider
+public class FileTileSource
 {
     private readonly FileCache _fileCache;
 
-    public FileTileProvider(string directory, string format, TimeSpan cacheExpireTime)
+    public FileTileSource(string directory, string format, TimeSpan cacheExpireTime)
     {
         _fileCache = new FileCache(directory, format, cacheExpireTime);
     }
 
-    public FileTileProvider(FileCache fileCache)
+    public FileTileSource(FileCache fileCache)
     {
         _fileCache = fileCache;
     }

@@ -21,7 +21,7 @@ public interface IRequest : IUrlBuilder
 { }
 
 /// <summary>
-/// NullRequest class is a placeholder for request builders for tile providers. It has no other use!
+/// NullRequest class is a placeholder for request builders for tile sources. It has no other use!
 /// </summary>
 public sealed class NullRequest : IUrlBuilder
 {
@@ -30,6 +30,6 @@ public sealed class NullRequest : IUrlBuilder
 
     public Uri GetUrl(TileInfo info)
     {
-        throw new NotSupportedException("NullRequest is a placeholder in order to instantiate tile providers.");
+        throw new NotSupportedException("NullRequest is a placeholder in order to instantiate tile sources.");
     }
 }
