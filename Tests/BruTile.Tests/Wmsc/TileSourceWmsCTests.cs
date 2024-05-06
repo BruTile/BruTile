@@ -1,9 +1,9 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using BruTile.Tests.Utilities;
 using BruTile.Wmsc;
@@ -35,20 +35,18 @@ internal class TileSourceWmsCTests
         }
     }
 
-    [TestCase("http://resource.sgu.se/service/wms/130/brunnar?SERVICE=WMS&VERSION=1.3&REQUEST=getcapabilities&TILED=true", true)]
-    public void TestParseUrl(string url, bool ignore)
+    [TestCase("http://resource.sgu.se/service/wms/130/brunnar?SERVICE=WMS&VERSION=1.3&REQUEST=getcapabilities&TILED=true")]
+    [Ignore("The above url does not support WMSC anymore. Perhaps we should delete all our WMSC code.")]
+    public async Task TestParseUrlAsync(string url)
     {
-        if (ignore) Assert.Pass();
-
         // Arrange
         var myWmsc = new Uri(url);
-        // Act
-        List<ITileSource> res = null;
-        var action = new AsyncTestDelegate(async () => res = new List<ITileSource>(await WmscTileSource.CreateFromWmscCapabilitiesAsync(myWmsc)));
 
-        // Assert
-        Assert.DoesNotThrowAsync(action);
-        Assert.IsNotNull(res);
-        Assert.That(res.Count, Is.GreaterThan(0));
+        // Act
+        var httpTileSources = await WmscTileSource.CreateFromWmscCapabilitiesAsync(myWmsc);
+
+        // Assert        
+        Assert.IsNotNull(httpTileSources);
+        Assert.That(httpTileSources.Count, Is.GreaterThan(0));
     }
 }

@@ -13,7 +13,7 @@ namespace BruTile.Samples.SimpleStaticMap;
 public partial class Form1 : Form
 {
     private readonly Bitmap _buffer;
-    private readonly HttpClient _httpClient = Web.HttpClientBuilder.Build();
+    private readonly HttpClient _httpClient = new();
 
     //a list of resolutions in which the tiles are stored
     private readonly double[] _unitsPerPixelArray =

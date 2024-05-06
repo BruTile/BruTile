@@ -12,13 +12,9 @@ using BruTile.Wms;
 
 namespace BruTile.Wmsc;
 
-public class WmscTileSource : TileSource
+public class WmscTileSource
 {
-    private WmscTileSource(ITileSchema tileSchema, ITileProvider tileProvider)
-        : base(tileProvider, tileSchema)
-    { }
-
-    public static async Task<IEnumerable<ITileSource>> CreateFromWmscCapabilitiesAsync(Uri uri)
+    public static async Task<IEnumerable<HttpTileSource>> CreateFromWmscCapabilitiesAsync(Uri uri)
     {
         var wmsCapabilities = await WmsCapabilities.CreateAsync(uri);
         var cap = wmsCapabilities.Capability;
@@ -30,7 +26,7 @@ public class WmscTileSource : TileSource
             (XElement)vsc, cap.Request.GetCapabilities.DCPType[0].Http.Get.OnlineResource);
     }
 
-    public static IEnumerable<ITileSource> CreateFromWmscCapabilities(XDocument document)
+    public static IEnumerable<HttpTileSource> CreateFromWmscCapabilities(XDocument document)
     {
         var wmsCapabilities = new WmsCapabilities(document);
 
@@ -44,20 +40,20 @@ public class WmscTileSource : TileSource
     }
 
     /// <remarks> WMS-C uses the VendorSpecificCapabilities to specify the tile schema.</remarks>
-    private static List<WmscTileSource> ParseVendorSpecificCapabilitiesNode(
+    private static List<HttpTileSource> ParseVendorSpecificCapabilitiesNode(
         XElement xVendorSpecificCapabilities, OnlineResource onlineResource)
     {
         var xTileSets = xVendorSpecificCapabilities.Elements(XName.Get("TileSet"));
         return xTileSets.Select(tileSet => ParseTileSetNode(tileSet, onlineResource)).ToList();
     }
 
-    private static WmscTileSource ParseTileSetNode(XElement xTileSet, OnlineResource onlineResource)
+    private static HttpTileSource ParseTileSetNode(XElement xTileSet, OnlineResource onlineResource)
     {
         var styles = xTileSet.Elements("Styles").Select(xStyle => xStyle.Value).ToList();
         var layers = xTileSet.Elements("Layers").Select(xLayer => xLayer.Value).ToList();
         var schema = ToTileSchema(xTileSet, CreateDefaultName(layers));
         var wmscRequest = new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles);
-        return new WmscTileSource(schema, new HttpTileProvider(wmscRequest));
+        return new HttpTileSource(schema, wmscRequest);
     }
 
     private static TileSchema ToTileSchema(XElement xTileSet, string name)
