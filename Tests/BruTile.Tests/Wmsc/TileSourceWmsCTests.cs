@@ -21,7 +21,7 @@ internal class TileSourceWmsCTests
         const int expectedNumberOfTileSources = 54;
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmsCCapabilities_1_1_1.xml"));
         // Act
-        var tileSources = WmscTileSource.CreateFromWmscCapabilities(XDocument.Load(stream));
+        var tileSources = WmscCapabilitiesParser.Parse(XDocument.Load(stream));
 
         // Assert
         Assert.AreEqual(tileSources.Count(), expectedNumberOfTileSources);
@@ -43,7 +43,7 @@ internal class TileSourceWmsCTests
         var myWmsc = new Uri(url);
 
         // Act
-        var httpTileSources = await WmscTileSource.CreateFromWmscCapabilitiesAsync(myWmsc);
+        var httpTileSources = await WmscCapabilitiesParser.Parse(myWmsc);
 
         // Assert        
         Assert.IsNotNull(httpTileSources);

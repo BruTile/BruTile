@@ -14,9 +14,6 @@ using System.Xml.Serialization;
 using BruTile.Cache;
 using BruTile.Web;
 
-// Disabled warning for obsolete WebRequest because I do not know an existing service to
-// test the alternative solution. The entire TileMapParser should be remove in BruTile 6.0.0
-
 namespace BruTile.Tms;
 
 public static class TileMapParser
