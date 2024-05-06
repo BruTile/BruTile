@@ -69,7 +69,7 @@ public class BasicRequest : IUrlBuilder
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var stringBuilder = new StringBuilder(_urlFormatter);
         stringBuilder.Replace(XTag, info.Index.Col.ToString(CultureInfo.InvariantCulture));

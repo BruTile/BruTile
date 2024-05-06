@@ -12,5 +12,5 @@ public record HttpTileSourceDefinition(
     Attribution Attribution = new Attribution(),
     string? UserAgentOverride = null)
 {
-    public Uri GetUrl(TileInfo tileInfo) => UrlBuilder.GetUri(tileInfo);
+    public Uri GetUrl(TileInfo tileInfo) => UrlBuilder.GetUrl(tileInfo);
 }

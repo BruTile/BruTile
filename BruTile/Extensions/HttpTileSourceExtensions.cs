@@ -20,7 +20,7 @@ public static class HttpTileSourceExtensions
     {
         var bytes = tileSource.PersistentCache.Find(tileInfo.Index);
         if (bytes != null) return bytes;
-        bytes = await httpClient.GetByteArrayAsync(tileSource.GetUri(tileInfo)).ConfigureAwait(false);
+        bytes = await httpClient.GetByteArrayAsync(tileSource.GetUrl(tileInfo)).ConfigureAwait(false);
         if (bytes != null) tileSource.PersistentCache.Add(tileInfo.Index, bytes);
         return bytes;
     }

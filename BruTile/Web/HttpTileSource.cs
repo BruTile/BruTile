@@ -54,9 +54,9 @@ public class HttpTileSource : ITileSource, IUrlBuilder, IDisposable
     public Attribution Attribution => definition.Attribution;
     public IPersistentCache<byte[]> PersistentCache { get; set; } = new NullCache();
 
-    public Uri GetUri(TileInfo tileInfo)
+    public Uri GetUrl(TileInfo tileInfo)
     {
-        return definition.UrlBuilder.GetUri(tileInfo);
+        return definition.UrlBuilder.GetUrl(tileInfo);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class HttpTileSource : ITileSource, IUrlBuilder, IDisposable
             return bytes;
 
         if (_customTileFetchRequest is not null)
-            bytes = await _customTileFetchRequest(definition.UrlBuilder.GetUri(tileInfo), cancellationToken).ConfigureAwait(false);
+            bytes = await _customTileFetchRequest(definition.UrlBuilder.GetUrl(tileInfo), cancellationToken).ConfigureAwait(false);
         else
             bytes = await FetchTileAsync(tileInfo, definition, cancellationToken).ConfigureAwait(false);
 
@@ -99,7 +99,7 @@ public class HttpTileSource : ITileSource, IUrlBuilder, IDisposable
         if (_httpClient is null)
             throw new Exception($"{nameof(FetchTileAsync)} can not be used when the tileFetcher method is set in the constructor");
 
-        return await _httpClient.GetByteArrayAsync(definition.UrlBuilder.GetUri(tileInfo), cancellationToken);
+        return await _httpClient.GetByteArrayAsync(definition.UrlBuilder.GetUrl(tileInfo), cancellationToken);
     }
 
     protected virtual void Dispose(bool disposing)

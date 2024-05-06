@@ -17,7 +17,7 @@ public class ArcGisTileRequest(Uri baseUrl, string format, Dictionary<string, st
 
     public ArcGisTileRequest(Uri baseUrl, string format) : this(baseUrl, format, []) { }
 
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var url = new StringBuilder();
 

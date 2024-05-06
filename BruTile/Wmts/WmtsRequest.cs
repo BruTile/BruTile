@@ -22,7 +22,7 @@ public class WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int,
     private readonly object _syncLock = new();
     private readonly IDictionary<int, string> _levelToIdentifier = levelToIdentifier;
 
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var urlFormatter = GetNextServerNode();
         var stringBuilder = new StringBuilder(urlFormatter.Template);

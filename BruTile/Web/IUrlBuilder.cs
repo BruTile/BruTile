@@ -11,7 +11,7 @@ public interface IUrlBuilder
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    Uri GetUri(TileInfo info);
+    Uri GetUrl(TileInfo info);
 }
 
 /// <summary>
@@ -28,7 +28,7 @@ public sealed class NullRequest : IUrlBuilder
     internal NullRequest()
     { }
 
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         throw new NotSupportedException("NullRequest is a placeholder in order to instantiate tile providers.");
     }

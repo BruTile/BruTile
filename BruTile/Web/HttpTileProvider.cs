@@ -30,16 +30,16 @@ public class HttpTileProvider : ITileProvider, IUrlBuilder
 
     public IPersistentCache<byte[]> PersistentCache { get; }
 
-    public Uri GetUri(TileInfo tileInfo)
+    public Uri GetUrl(TileInfo tileInfo)
     {
-        return _request.GetUri(tileInfo);
+        return _request.GetUrl(tileInfo);
     }
 
     public async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
     {
         var bytes = PersistentCache.Find(tileInfo.Index);
         if (bytes != null) return bytes;
-        bytes = await _fetchTile(_request.GetUri(tileInfo), cancellationToken).ConfigureAwait(false);
+        bytes = await _fetchTile(_request.GetUrl(tileInfo), cancellationToken).ConfigureAwait(false);
         if (bytes != null) PersistentCache.Add(tileInfo.Index, bytes);
         return bytes;
     }

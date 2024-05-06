@@ -139,8 +139,8 @@ public class WmtsTests
         var wmtsRequest = new WmtsRequest(resourceUrls, levelToIdentifier);
 
         // Act
-        var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
-        var url2 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
+        var url1 = wmtsRequest.GetUrl(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
+        var url2 = wmtsRequest.GetUrl(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
 
         // Assert
         Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/level-14/5680/8938.jpeg"));
@@ -159,7 +159,7 @@ public class WmtsTests
 
         // Act
         var requests = new List<Func<Uri>>();
-        for (var i = 0; i < 150; i++) requests.Add(() => request.GetUri(tileInfo));
+        for (var i = 0; i < 150; i++) requests.Add(() => request.GetUrl(tileInfo));
         Parallel.ForEach(requests, r => urls.Add(r()));
 
         // Assert
@@ -219,7 +219,7 @@ public class WmtsTests
 
         // Assert
         Assert.AreEqual(1, tileSources.Count);
-        var s = tileSources[0].GetUri(new TileInfo()).ToString();
+        var s = tileSources[0].GetUrl(new TileInfo()).ToString();
         Assert.IsTrue(s.Contains("&FORMAT=image/png", StringComparison.OrdinalIgnoreCase), "Assures is kvp mapping");
     }
 

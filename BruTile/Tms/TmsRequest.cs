@@ -62,7 +62,7 @@ public class TmsRequest : IUrlBuilder
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var url = new StringBuilder(GetUrlForLevel(info.Index.Level));
         InsertRandomServerNode(url, _serverNodes, _random);

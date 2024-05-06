@@ -29,7 +29,7 @@ public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> la
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var url = new StringBuilder(_baseUrl.AbsoluteUri);
         url.Append(string.IsNullOrWhiteSpace(_baseUrl.Query) ? "?SERVICE=WMS" : "&SERVICE=WMS");

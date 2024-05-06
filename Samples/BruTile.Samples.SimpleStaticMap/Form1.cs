@@ -64,7 +64,7 @@ public partial class Form1 : Form
         var graphics = Graphics.FromImage(_buffer);
         foreach (var tile in tiles)
         {
-            var url = requestBuilder.GetUri(tile);
+            var url = requestBuilder.GetUrl(tile);
             var bytes = await FetchTileAsync(url).ConfigureAwait(false);
             var bitmap = new Bitmap(new MemoryStream(bytes));
             var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);
