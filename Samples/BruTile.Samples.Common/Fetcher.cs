@@ -148,7 +148,7 @@ public class Fetcher<T>
                     }
                     else if (_tileSource is MbTilesTileSource mbTilesTileSource)
                     {
-                        var data = await mbTilesTileSource.GetTileAsync(tileInfo, CancellationToken.None);
+                        var data = await mbTilesTileSource.GetTileAsync(tileInfo);
                         tile = new Tile<T> { Data = data, Info = tileInfo };
                     }
                     else

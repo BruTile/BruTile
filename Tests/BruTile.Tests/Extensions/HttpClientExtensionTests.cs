@@ -25,6 +25,7 @@ public class HttpClientTests
         mockHttp.Expect(definition.GetUrl(tileInfo).ToString())
             .Respond("image/png", new MemoryStream([0x01, 0x02, 0x03, 0x04]));
         var httpClient = new HttpClient(mockHttp);
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("BruTile.Tests");
 
         // Act
         var response = await httpClient.GetTileAsync(tileInfo, definition, CancellationToken.None).ConfigureAwait(false);

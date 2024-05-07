@@ -1,17 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6</TargetFramework>
+		<TargetFramework>net8</TargetFramework>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
 		<PackageTags>tiling gis osm geo</PackageTags>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
-		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.3.2" />
@@ -22,7 +17,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Resources\Wmsc\WmsCCapabilities_1_1_1.xml">
+		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Update="Resources\Wmsc\WmscCapabilities_1_1_1.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Wms\AcmeCorpMapServersCapabilities_1_3_0.xml">

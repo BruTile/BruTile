@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6</TargetFramework>
+		<TargetFramework>net8</TargetFramework>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
 		<PackageTags>tiling gis osm geo</PackageTags>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
@@ -10,16 +10,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\BruTile\BruTile.csproj" />
-		<ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
 		<PackageReference Include="NUnit" Version="3.13.3" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="coverlet.collector" Version="3.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\BruTile.MbTiles\BruTile.MbTiles.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

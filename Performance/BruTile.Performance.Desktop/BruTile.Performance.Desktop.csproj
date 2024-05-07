@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6</TargetFramework>
+		<TargetFramework>net8</TargetFramework>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
 		<PackageTags>tiling gis osm geo</PackageTags>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
-		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

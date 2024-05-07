@@ -5,7 +5,6 @@ using System.Xml.Linq;
 
 namespace BruTile.Wms;
 
-// ReSharper disable InconsistentNaming
 public class DCPType : XmlObject
 {
     public DCPType()

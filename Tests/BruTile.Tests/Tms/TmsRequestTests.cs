@@ -24,16 +24,17 @@ public class TmsRequestTests
     }
 
     [Test]
-    public void WhenInitializedWithServerNodesShouldReturnCorrectUri()
+    public void WhenInitializedWithServerNodesShouldReturnCorrectUrl()
     {
         // Arrange
         var tmsUrlBuilder = new TmsUrlBuilder("http://{S}.tileserver.com", "png", ["a", "b"]);
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
+        string[] possibleExpectedUrls = ["http://a.tileserver.com/3/1/2.png", "http://b.tileserver.com/3/1/2.png"]; // Node a or b
 
         // Act
-        var uri = tmsUrlBuilder.GetUrl(tileInfo);
+        var url = tmsUrlBuilder.GetUrl(tileInfo);
 
         // Assert
-        Assert.True(new[] { "http://a.tileserver.com/3/1/2.png", "http://b.tileserver.com/3/1/2.png" }.Contains(uri.ToString()));
+        Assert.True(possibleExpectedUrls.Contains(url.ToString()));
     }
 }

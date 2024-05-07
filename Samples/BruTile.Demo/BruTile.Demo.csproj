@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6-windows</TargetFramework>
+		<TargetFramework>net8-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 

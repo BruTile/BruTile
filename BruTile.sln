@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Common", "00_Common", "{
 		.github\workflows\publish-docs.yml = .github\workflows\publish-docs.yml
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		README.md = README.md
+		spelling_exclusion.txt = spelling_exclusion.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BruTile", "BruTile\BruTile.csproj", "{9FB60E2D-C682-4A01-9584-8B495B8DA85A}"

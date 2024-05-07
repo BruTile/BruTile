@@ -26,12 +26,10 @@ public static class TileMapParser
     {
         var reader = new StreamReader(tileMapResource);
 #pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
-        var serializer = new XmlSerializer(typeof(TileMap));
-        if (serializer is null)
-            throw new InvalidOperationException("Failed to create XmlSerializer");
-        var tileMap = (TileMap?)serializer.Deserialize(reader);
-        if (tileMap is null)
-            throw new InvalidOperationException("Failed to deserialize TileMap");
+        var serializer = new XmlSerializer(typeof(TileMap))
+            ?? throw new InvalidOperationException("Failed to create XmlSerializer");
+        var tileMap = (TileMap?)serializer.Deserialize(reader)
+            ?? throw new InvalidOperationException("Failed to deserialize TileMap");
         var tileSchema = CreateSchema(tileMap);
 
         var tileUrls = new Dictionary<int, Uri>();

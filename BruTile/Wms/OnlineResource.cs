@@ -12,7 +12,6 @@ public class OnlineResource : XmlObject
         Type = "simple";
     }
 
-    // ReSharper disable once UnusedParameter.Local
     public OnlineResource(XElement node)
     {
         Href = node.Attribute(XName.Get("href", WmsNamespaces.Xlink))?.Value;

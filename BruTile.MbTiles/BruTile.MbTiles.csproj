@@ -8,10 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BruTile\BruTile.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\BruTile\BruTile.csproj" />
+	</ItemGroup>
+	
 </Project>

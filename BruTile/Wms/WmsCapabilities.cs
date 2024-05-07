@@ -290,7 +290,7 @@ public class WmsCapabilities
             // Write modified server URL
             var serverUrlBuilder = new UriBuilder(serverUrl.Scheme, serverUrl.Host, serverUrl.Port, serverUrl.AbsolutePath)
             {
-                Query = qry.ToString().Substring(1)
+                Query = qry.ToString()[1..]
             };
             serverUrl = serverUrlBuilder.Uri;
         }
@@ -313,10 +313,10 @@ public class WmsCapabilities
     {
         var flag = 0;
 
-        var posQuestion = query.IndexOf('?');
-        if (posQuestion > -1)
+        var positionOfQuestionMark = query.IndexOf('?');
+        if (positionOfQuestionMark > -1)
         {
-            foreach (var parameter in query.Substring(posQuestion + 1).Split('&'))
+            foreach (var parameter in query[(positionOfQuestionMark + 1)..].Split('&'))
             {
                 var kvp = parameter.ToUpperInvariant().Split('=');
                 parameters?.Add(kvp[0]);
@@ -325,7 +325,7 @@ public class WmsCapabilities
                     case "SERVICE":
                         if (kvp[1] != "WMS")
                             throw new ArgumentException(
-                                $"Wrong service name ('{parameter.Substring(kvp[0].Length + 1)}')",
+                                $"Wrong service name ('{parameter[(kvp[0].Length + 1)..]}')",
                                 nameof(query));
                         flag |= 1;
                         break;
@@ -343,12 +343,12 @@ public class WmsCapabilities
                         }
 
                         throw new ArgumentException(
-                            $"Invalid version for WMS ('{parameter.Substring(kvp[0].Length + 1)}')",
+                            $"Invalid version for WMS ('{parameter[(kvp[0].Length + 1)..]}')",
                             nameof(query));
                     case "REQUEST":
                         if (kvp[1] != "GETCAPABILITIES")
                             throw new ArgumentException(
-                                $"Wrong operation name for GetCapabilities ('{parameter.Substring(kvp[0].Length + 1)}')",
+                                $"Wrong operation name for GetCapabilities ('{parameter[(kvp[0].Length + 1)..]}')",
                                 nameof(query));
                         flag |= 4;
                         break;

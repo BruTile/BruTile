@@ -50,16 +50,7 @@ public readonly struct UnitOfMeasure : IEquatable<UnitOfMeasure>
 
     public override int GetHashCode()
     {
-        // based on: https://stackoverflow.com/a/263416/85325
-
-        unchecked // Overflow is fine, just wrap
-        {
-            var hash = 17;
-            // Suitable nullity checks etc, of course :)
-            hash = hash * 29 + Name.GetHashCode();
-            hash = hash * 29 + ToMeter.GetHashCode();
-            return hash;
-        }
+        return HashCode.Combine(Name, ToMeter);
     }
 
     public static bool operator ==(UnitOfMeasure left, UnitOfMeasure right)

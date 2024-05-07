@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 
@@ -22,7 +21,7 @@ public class FileTileSource
         _fileCache = fileCache;
     }
 
-    public Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
+    public Task<byte[]> GetTileAsync(TileInfo tileInfo)
     {
         var bytes = _fileCache.Find(tileInfo.Index)
             ?? throw new FileNotFoundException("The tile was not found at it's expected location");

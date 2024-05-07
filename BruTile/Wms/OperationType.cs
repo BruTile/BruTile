@@ -9,8 +9,6 @@ namespace BruTile.Wms;
 public class OperationType : XmlObject
 {
     private List<string> _formatField;
-
-    // ReSharper disable InconsistentNaming
     private List<DCPType> _DCpTypeField;
 
     public OperationType()

@@ -48,14 +48,14 @@ public class HttpTileSource(
     /// Gets the actual image content of the tile as byte array
     /// </summary>
     public virtual async Task<byte[]?> GetTileAsync(HttpClient httpClient, TileInfo tileInfo,
-        CancellationToken cancellationToken)
+        CancellationToken? cancellationToken = null)
     {
         var bytes = PersistentCache.Find(tileInfo.Index);
 
         if (bytes != null)
             return bytes;
 
-        bytes = await httpClient.GetTileAsync(tileInfo, definition, cancellationToken);
+        bytes = await httpClient.GetTileAsync(tileInfo, definition, cancellationToken ?? CancellationToken.None);
 
         if (bytes != null)
             PersistentCache.Add(tileInfo.Index, bytes);
