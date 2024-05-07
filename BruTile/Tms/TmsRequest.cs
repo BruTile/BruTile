@@ -8,7 +8,7 @@ using BruTile.Web;
 
 namespace BruTile.Tms;
 
-public class TmsRequest : IRequest
+public class TmsRequest : IUrlBuilder
 {
     private readonly string _baseUrl;
     private readonly IDictionary<int, Uri> _baseUrls;
@@ -62,7 +62,7 @@ public class TmsRequest : IRequest
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var url = new StringBuilder(GetUrlForLevel(info.Index.Level));
         InsertRandomServerNode(url, _serverNodes, _random);

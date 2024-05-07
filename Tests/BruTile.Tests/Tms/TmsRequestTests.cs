@@ -17,7 +17,7 @@ public class TmsRequestTests
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
 
         // Act
-        var uri = request.GetUri(tileInfo);
+        var uri = request.GetUrl(tileInfo);
 
         // Assert
         Assert.AreEqual(uri.ToString(), "http://tileserver.com/3/1/2.png");
@@ -31,7 +31,7 @@ public class TmsRequestTests
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
 
         // Act
-        var uri = request.GetUri(tileInfo);
+        var uri = request.GetUrl(tileInfo);
 
         // Assert
         Assert.True(new[] { "http://a.tileserver.com/3/1/2.png", "http://b.tileserver.com/3/1/2.png" }.Contains(uri.ToString()));

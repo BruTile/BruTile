@@ -8,15 +8,15 @@ using BruTile.Wmts;
 
 namespace BruTile.Samples.Common.Samples;
 
-public static class LantMaterietTopowebbSample
+public static class LantmaterietTopowebbSample
 {
     public static async Task<ITileSource> CreateAsync()
     {
         var url = "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/7cdfdab81eba86d0bc4fbb328165e9a/?request=GetCapabilities&version=1.1.1&service=wmts";
-        var httpClienthandler = new HttpClientHandler();
-        var httpClient = new HttpClient(httpClienthandler);
+        var httpClientHandler = new HttpClientHandler();
+        var httpClient = new HttpClient(httpClientHandler);
         await using var stream = await httpClient.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
-        var tileSources = WmtsParser.Parse(stream);
+        var tileSources = WmtsCapabilitiesParser.Parse(stream);
         return tileSources.First(s => s.Name.ToLower() == "topowebb" && s.Schema.Srs.Contains("3857"));
     }
 }

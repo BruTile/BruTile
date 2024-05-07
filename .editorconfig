@@ -221,18 +221,20 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator =
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+
+# The block below is added by Visual Studio in this format. Let's keep it exactly like this.
+[*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 indent_size = 4
 end_of_line = crlf
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_null_propagation = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_auto_properties = true:silent
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
-dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
-dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 
 # Spelling
 
@@ -246,3 +248,4 @@ dotnet_diagnostic.IDE0046.severity = silent # Use conditional expression for ret
 dotnet_diagnostic.CS1591.severity = silent # Missing XML comment for publicly visible type or member 'Type_or_Member'
 
 dotnet_code_quality_unused_parameters = all:suggestion # IDE0060 Remove unused parameter
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent

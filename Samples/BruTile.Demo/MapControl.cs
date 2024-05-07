@@ -36,7 +36,6 @@ internal class MapControl : Grid
         Children.Add(canvas);
         _renderer = new Renderer(canvas);
 
-        _tileSource = KnownTileSources.Create();
         CompositionTarget.Rendering += CompositionTargetRendering;
         SizeChanged += MapControlSizeChanged;
         MouseWheel += MapControlMouseWheel;
@@ -45,20 +44,25 @@ internal class MapControl : Grid
         MouseLeave += OnMouseLeave;
 
         ClipToBounds = true;
-        _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
-        _fetcher.DataChanged += FetcherOnDataChanged;
     }
 
     public void SetTileSource(ITileSource source)
     {
-        _fetcher.DataChanged -= FetcherOnDataChanged;
-        _fetcher.AbortFetch();
+        if (_fetcher is not null)
+        {
+            _fetcher.AbortFetch();
+            _fetcher.DataChanged -= FetcherOnDataChanged;
+        }
+
+        if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, new GlobalSphericalMercator()))
+            return;
 
         _tileSource = source;
         _viewport.CenterX = source.Schema.Extent.CenterX;
         _viewport.CenterY = source.Schema.Extent.CenterY;
         _viewport.UnitsPerPixel = Math.Max(source.Schema.Extent.Width / ActualWidth, source.Schema.Extent.Height / ActualHeight);
         _tileCache.Clear();
+
         _fetcher = new Fetcher<Image>(_tileSource, _tileCache);
         _fetcher.DataChanged += FetcherOnDataChanged;
         _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
@@ -93,7 +97,8 @@ internal class MapControl : Grid
 
     private void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (_viewport == null) return;
+        if (_viewport == null)
+            return;
         _viewport.Width = ActualWidth;
         _viewport.Height = ActualHeight;
         _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
@@ -106,9 +111,12 @@ internal class MapControl : Grid
             Dispatcher.Invoke(() => FetcherOnDataChanged(sender, e));
         else
         {
-            if (e.Error == null && e.Tile != null)
+            if (e.Error is null && e.Tile is not null && e.Tile.Data is not null)
             {
-                e.Tile.Image = TileToImage(e.Tile.Data);
+                var image = TileToImage(e.Tile.Data);
+                if (image is null)
+                    return;
+                e.Tile.Image = image;
                 _tileCache.Add(e.Tile.Info.Index, e.Tile);
                 _invalid = true;
             }
@@ -117,18 +125,25 @@ internal class MapControl : Grid
 
     private static Image TileToImage(byte[] tile)
     {
-        var stream = new MemoryStream(tile);
+        try
+        {
+            var stream = new MemoryStream(tile);
 
-        var bitmapImage = new BitmapImage();
-        bitmapImage.BeginInit();
-        bitmapImage.StreamSource = stream;
-        bitmapImage.EndInit();
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = stream;
+            bitmapImage.EndInit();
 
-        var image = new Image();
-        image.BeginInit();
-        image.Source = bitmapImage;
-        image.EndInit();
-        return image;
+            var image = new Image();
+            image.BeginInit();
+            image.Source = bitmapImage;
+            image.EndInit();
+            return image;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private void MapControlMouseWheel(object sender, MouseWheelEventArgs e)
@@ -149,13 +164,18 @@ internal class MapControl : Grid
 
     private void CompositionTargetRendering(object sender, EventArgs e)
     {
-        if (!_invalid) return;
-        if (_renderer == null) return;
+        if (!_invalid)
+            return;
+        if (_renderer is null)
+            return;
+        if (_tileSource is null)
+            return;
 
         if (_viewport == null)
         {
-            if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, _tileSource.Schema)) return;
-            _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // start fetching when viewport is first initialized
+            if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, new GlobalSphericalMercator()))
+                return;
+            _fetcher?.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // Start fetching when viewport is first initialized
         }
 
         _renderer.Render(_viewport, _tileSource, _tileCache);

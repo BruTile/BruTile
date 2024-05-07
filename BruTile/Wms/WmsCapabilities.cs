@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-// Disabled warning for obsolete WebRequest because this is not tested in our code so we can not
-// validate an alternative solution. We do not use this ourselves so do not want to spend time on it.
-
 namespace BruTile.Wms;
 
 public class WmsCapabilities
@@ -219,12 +216,7 @@ public class WmsCapabilities
 
     private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials credentials)
     {
-        // Todo: Wrap in using?
-#if NET6_0_OR_GREATER
         await using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
-#else
-        using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
-#endif
         var sr = new StreamReader(stream);
         var ret = XDocument.Load(sr);
         return ret;
@@ -244,11 +236,11 @@ public class WmsCapabilities
         {
         }
 
-        var client = new HttpClient(httpClientHandler)
+        using var httpClient = new HttpClient(httpClientHandler)
         {
             Timeout = TimeSpan.FromMilliseconds(30000)
         };
-        return await client.GetStreamAsync(uri).ConfigureAwait(false);
+        return await httpClient.GetStreamAsync(uri).ConfigureAwait(false);
     }
 
     #region validation and completion of request url

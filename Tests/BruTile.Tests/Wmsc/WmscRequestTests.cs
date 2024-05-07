@@ -15,7 +15,7 @@ internal class WmscRequestTests
     {
         var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"]);
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
-        var uri = request.GetUri(ti);
+        var uri = request.GetUrl(ti);
         StringAssert.DoesNotContain("VERSION=", uri.ToString());
         StringAssert.Contains("SRS=", uri.ToString());
     }
@@ -25,7 +25,7 @@ internal class WmscRequestTests
     {
         var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"], null, null, "1.1.1");
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
-        var uri = request.GetUri(ti);
+        var uri = request.GetUrl(ti);
         StringAssert.Contains("VERSION=1.1.1", uri.ToString());
         StringAssert.Contains("SRS=", uri.ToString());
     }
@@ -35,7 +35,7 @@ internal class WmscRequestTests
     {
         var request = new WmscRequest(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"], null, null, "1.3.0");
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
-        var uri = request.GetUri(ti);
+        var uri = request.GetUrl(ti);
         StringAssert.Contains("VERSION=1.3.0", uri.ToString());
         StringAssert.Contains("CRS=", uri.ToString());
     }

@@ -2,8 +2,5 @@
 
 namespace BruTile;
 
-public class Attribution(string text = null, string url = null)
-{
-    public string Text { get; } = text ?? "";
-    public string Url { get; } = url ?? "";
-}
+public record struct Attribution(string Text = "", string Url = "")
+{ }

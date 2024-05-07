@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BruTile.Web;
 
-namespace BruTile.Tests.Web;
+namespace BruTile.Web;
 
 public static class HttpTileSourceExtensions
 {
@@ -21,7 +20,7 @@ public static class HttpTileSourceExtensions
     {
         var bytes = tileSource.PersistentCache.Find(tileInfo.Index);
         if (bytes != null) return bytes;
-        bytes = await httpClient.GetByteArrayAsync(tileSource.GetUri(tileInfo)).ConfigureAwait(false);
+        bytes = await httpClient.GetByteArrayAsync(tileSource.GetUrl(tileInfo)).ConfigureAwait(false);
         if (bytes != null) tileSource.PersistentCache.Add(tileInfo.Index, bytes);
         return bytes;
     }

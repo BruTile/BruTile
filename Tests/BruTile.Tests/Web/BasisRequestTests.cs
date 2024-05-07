@@ -21,7 +21,7 @@ public class BasisRequestTests
         var tileInfo = new TileInfo { Index = new TileIndex(3, 4, 5) };
 
         // Act
-        var url = request.GetUri(tileInfo);
+        var url = request.GetUrl(tileInfo);
 
         // Assert
         Assert.True(url.ToString() == "http://a.tile.openstreetmap.org/5/3/4.png");
@@ -37,7 +37,7 @@ public class BasisRequestTests
 
         // Act
         var requests = new List<Func<Uri>>();
-        for (var i = 0; i < 100; i++) requests.Add(() => request.GetUri(tileInfo));
+        for (var i = 0; i < 100; i++) requests.Add(() => request.GetUrl(tileInfo));
         Parallel.ForEach(requests, r => urls.Add(r()));
 
         // Assert

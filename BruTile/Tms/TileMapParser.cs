@@ -2,33 +2,36 @@
 
 // This file was created by Tim Ebben (Geodan) 2009
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using BruTile.Cache;
 using BruTile.Web;
 
-// Disabled warning for obsolete WebRequest because I do not know an existing service to
-// test the alternative solution. The entire TileMapParser should be remove in BruTile 6.0.0
-
 namespace BruTile.Tms;
 
 public static class TileMapParser
 {
-    public delegate void CreateTileSourceCompleted(ITileSource tileSource, Exception error);
+    public delegate void CreateTileSourceCompleted(ITileSource? tileSource, Exception? error);
 
-    public static TileSource CreateTileSource(Stream tileMapResource, string overrideUrl = null,
-        Dictionary<string, string> customParameters = null, IPersistentCache<byte[]> persistentCache = null,
-        Func<Uri, CancellationToken, Task<byte[]>> fetchTile = null)
+    public static HttpTileSource CreateTileSource(Stream tileMapResource, string? overrideUrl = null,
+        Dictionary<string, string>? customParameters = null, IPersistentCache<byte[]>? persistentCache = null,
+        Action<HttpRequestMessage>? configureHttpRequestMessage = null)
     {
         var reader = new StreamReader(tileMapResource);
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         var serializer = new XmlSerializer(typeof(TileMap));
-        var tileMap = (TileMap)serializer.Deserialize(reader);
+        if (serializer is null)
+            throw new InvalidOperationException("Failed to create XmlSerializer");
+        var tileMap = (TileMap?)serializer.Deserialize(reader);
+        if (tileMap is null)
+            throw new InvalidOperationException("Failed to deserialize TileMap");
         var tileSchema = CreateSchema(tileMap);
 
         var tileUrls = new Dictionary<int, Uri>();
@@ -36,10 +39,11 @@ public static class TileMapParser
         {
             tileUrls[int.Parse(ts.order)] = new Uri(ts.href);
         }
-        var tileProvider = new HttpTileProvider(CreateRequest(tileUrls, tileSchema.Format, overrideUrl, customParameters),
-            persistentCache, fetchTile);
+        var urlBuilder = CreateUrlBuilder(tileUrls, tileSchema.Format, overrideUrl, customParameters);
+        var httpTileSource = new HttpTileSource(tileSchema, urlBuilder, persistentCache: persistentCache,
+            configureHttpRequestMessage: configureHttpRequestMessage);
 
-        return new TileSource(tileProvider, tileSchema);
+        return httpTileSource;
     }
 
     public static void CreateTileSourceAsync(string tileMapResourceUrl, CreateTileSourceCompleted callback)
@@ -47,26 +51,26 @@ public static class TileMapParser
         CreateTileSourceAsync(tileMapResourceUrl, callback, null);
     }
 
-    public static void CreateTileSourceAsync(string url, CreateTileSourceCompleted callback, string overrideUrl)
+    public static void CreateTileSourceAsync(string url, CreateTileSourceCompleted callback, string? overrideUrl)
     {
         var httpClientHandler = new HttpClientHandler();
         var httpClient = new HttpClient(httpClientHandler);
 
         _ = Task.Run(async () =>
         {
-            ITileSource tileSource = null;
-            Exception error = null;
+            HttpTileSource? httpTileSource = null;
+            Exception? error = null;
             try
             {
                 var stream = await httpClient.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
-                tileSource = CreateTileSource(stream, overrideUrl);
+                httpTileSource = CreateTileSource(stream, overrideUrl);
             }
             catch (Exception ex)
             {
                 error = ex;
             }
 
-            callback?.Invoke(tileSource, error);
+            callback?.Invoke(httpTileSource, error);
 
         });
     }
@@ -104,8 +108,8 @@ public static class TileMapParser
         return schema;
     }
 
-    private static TmsRequest CreateRequest(IDictionary<int, Uri> tileUrls, string format, string overrideUrl,
-        Dictionary<string, string> customParameters = null)
+    private static TmsRequest CreateUrlBuilder(IDictionary<int, Uri> tileUrls, string format, string? overrideUrl = null,
+        Dictionary<string, string>? customParameters = null)
     {
         if (string.IsNullOrEmpty(overrideUrl))
             return new TmsRequest(tileUrls, format, customParameters);

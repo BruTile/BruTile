@@ -1,12 +1,13 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+#nullable enable
+
 namespace BruTile;
 
 /// <summary>
 /// Interface for a tile source.
 /// </summary>
-/// <remarks>A tile provider is tuple of <see cref="ITileProvider"/> and <see cref="ITileSchema"/>.</remarks>
-public interface ITileSource : ITileProvider
+public interface ITileSource
 {
     /// <summary>
     /// Gets a value indicating the tile schema

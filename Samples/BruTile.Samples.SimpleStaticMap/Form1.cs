@@ -13,7 +13,7 @@ namespace BruTile.Samples.SimpleStaticMap;
 public partial class Form1 : Form
 {
     private readonly Bitmap _buffer;
-    private readonly HttpClient _httpClient = Web.HttpClientBuilder.Build();
+    private readonly HttpClient _httpClient = new();
 
     //a list of resolutions in which the tiles are stored
     private readonly double[] _unitsPerPixelArray =
@@ -43,7 +43,7 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("UserAgentOfBruTilesSimpleStaticMapSample");
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("User-Agent-Of-The-BruTile-Simple-Static-Map-Sample");
         _buffer = new Bitmap(Width, Height);
     }
 
@@ -64,7 +64,7 @@ public partial class Form1 : Form
         var graphics = Graphics.FromImage(_buffer);
         foreach (var tile in tiles)
         {
-            var url = requestBuilder.GetUri(tile);
+            var url = requestBuilder.GetUrl(tile);
             var bytes = await FetchTileAsync(url).ConfigureAwait(false);
             var bitmap = new Bitmap(new MemoryStream(bytes));
             var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);

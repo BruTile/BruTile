@@ -10,7 +10,7 @@ using BruTile.Web;
 namespace BruTile.Wmsc;
 
 public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-    IDictionary<string, string> customParameters = null, string version = null) : IRequest
+    IDictionary<string, string> customParameters = null, string version = null) : IUrlBuilder
 {
     private readonly Uri _baseUrl = baseUrl;
     private readonly IDictionary<string, string> _customParameters = customParameters;
@@ -29,7 +29,7 @@ public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> la
     /// </summary>
     /// <param name="info">Information about a tile.</param>
     /// <returns>The URI at which to get the data for the specified tile.</returns>
-    public Uri GetUri(TileInfo info)
+    public Uri GetUrl(TileInfo info)
     {
         var url = new StringBuilder(_baseUrl.AbsoluteUri);
         url.Append(string.IsNullOrWhiteSpace(_baseUrl.Query) ? "?SERVICE=WMS" : "&SERVICE=WMS");

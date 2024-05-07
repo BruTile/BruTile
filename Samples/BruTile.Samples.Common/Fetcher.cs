@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
+using BruTile.MbTiles;
 
 namespace BruTile.Samples.Common;
 
@@ -22,13 +24,15 @@ public class Fetcher<T>
     private volatile bool _isAborted;
     private volatile bool _isViewChanged;
     private Retries _retries;
+    private readonly HttpClient _httpClient = new();
 
     public event DataChangedEventHandler<T> DataChanged;
 
     public Fetcher(ITileSource tileSource, ITileCache<Tile<T>> memoryCache)
     {
-        _tileSource = tileSource ?? throw new ArgumentException("TileProvider can not be null");
-        _memoryCache = memoryCache ?? throw new ArgumentException("MemoryCache can not be null");
+        _tileSource = tileSource ?? throw new ArgumentException("Parameter tileSource can not be null");
+        _memoryCache = memoryCache ?? throw new ArgumentException("Parameter memoryCache can not be null");
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "User-Agent-For-BruTile-Samples-Project");
 
         StartFetchLoop();
     }
@@ -137,10 +141,19 @@ public class Fetcher<T>
 
                 try
                 {
-                    if (_tileSource != null)
+                    if (_tileSource is IHttpTileSource httpTileSource)
                     {
-                        var data = await _tileSource.GetTileAsync(tileInfo, CancellationToken.None);
+                        var data = await httpTileSource.GetTileAsync(_httpClient, tileInfo, CancellationToken.None);
                         tile = new Tile<T> { Data = data, Info = tileInfo };
+                    }
+                    else if (_tileSource is MbTilesTileSource mbTilesTileSource)
+                    {
+                        var data = await mbTilesTileSource.GetTileAsync(tileInfo, CancellationToken.None);
+                        tile = new Tile<T> { Data = data, Info = tileInfo };
+                    }
+                    else
+                    {
+                        throw new Exception("TileSource not supported");
                     }
                 }
                 catch (Exception ex) //This may seem a bit weird. We catch the exception to pass it as an argument. This is because we are on a worker thread here, we cannot just let it fall through. 
