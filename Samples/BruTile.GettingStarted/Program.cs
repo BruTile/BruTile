@@ -2,6 +2,7 @@
 
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using BruTile.MbTiles;
 using BruTile.Predefined;
@@ -37,9 +38,10 @@ internal class Program
 
         Console.WriteLine("Show tile info");
         using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "User-Agent-For-BruTile-GettingStarted-Sample");
         foreach (var tileInfo in tileInfos)
         {
-            var tile = await tileSource.GetTileAsync(httpClient, tileInfo);
+            var tile = await tileSource.GetTileAsync(httpClient, tileInfo, CancellationToken.None);
 
             Console.WriteLine(
                 $"tile col: {tileInfo.Index.Col}, " +
@@ -60,8 +62,8 @@ internal class Program
 
         // 6) Use MBTiles, the sqlite format for tile data, to work with tiles stored on your device.
 
-        var mbtilesTileSource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
-        var mbTilesTile = await mbtilesTileSource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+        var mbTilesTileSource = new MbTilesTileSource(new SQLiteConnectionString("Resources/world.mbtiles", false));
+        var mbTilesTile = await mbTilesTileSource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
         Console.WriteLine();
         Console.WriteLine("MBTiles");
         Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
