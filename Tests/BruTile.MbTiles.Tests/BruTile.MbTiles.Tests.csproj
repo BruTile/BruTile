@@ -6,7 +6,6 @@
 		<PackageTags>tiling gis osm geo</PackageTags>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
 		<RootNamespace>BruTile.MbTiles.Tests</RootNamespace>
-		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>

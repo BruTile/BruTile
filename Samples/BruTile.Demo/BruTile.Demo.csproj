@@ -4,7 +4,6 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
