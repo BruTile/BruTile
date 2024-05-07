@@ -58,7 +58,6 @@ public static class KnownTileSources
     /// <param name="source">The source</param>
     /// <param name="apiKey">An (optional) API key</param>
     /// <param name="persistentCache">A place to permanently store tiles (file of database)</param>
-    /// <param name="tileFetcher">Option to override the web request</param>
     /// <param name="configureHttpRequestMessage">Some http tile sources require specific headers, like a 'User-Agent' or 'Referer'. These can be added through this configuration method.</param>
     /// <param name="minZoomLevel">The minimum zoom level</param>
     /// <param name="maxZoomLevel">The maximum zoom level</param>
