@@ -7,7 +7,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BruTile.MbTiles;
@@ -94,26 +93,26 @@ public partial class MbTilesForm : Form
     {
         var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.UnitsPerPixel);
 
-        using (var g = Graphics.FromImage(_buffer))
+        using (var graphics = Graphics.FromImage(_buffer))
         {
-            g.Clear(Color.White);
+            graphics.Clear(Color.White);
             foreach (var tileInfo in _source.Schema.GetTileInfos(_mapTransform.Extent, levelIndex))
             {
-                var res = await _source.GetTileAsync(tileInfo, CancellationToken.None).ConfigureAwait(false);
+                var tileData = await _source.GetTileAsync(tileInfo).ConfigureAwait(false);
                 var extent = _mapTransform.WorldToMap(tileInfo.Extent.MinX, tileInfo.Extent.MinY,
                                                         tileInfo.Extent.MaxX, tileInfo.Extent.MaxY);
-                if (res != null)
+                if (tileData != null)
                 {
-                    var tileStream = new MemoryStream(res);
+                    var tileStream = new MemoryStream(tileData);
                     var tile = (Bitmap)Image.FromStream(tileStream);
 
-                    DrawTile(_source.Schema, g, tile, extent, tileInfo.Index.Level);
+                    DrawTile(_source.Schema, graphics, tile, extent, tileInfo.Index.Level);
                 }
                 var roundedExtent = RoundToPixel(extent);
-                g.DrawRectangle(Pens.Black, roundedExtent);
-                g.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.Level), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
+                graphics.DrawRectangle(Pens.Black, roundedExtent);
+                graphics.DrawString(string.Format("({2}:{0},{1})", tileInfo.Index.Col, tileInfo.Index.Row, tileInfo.Index.Level), new Font("Arial", 8, FontStyle.Regular), Brushes.OrangeRed, roundedExtent, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None });
             }
-            g.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Schema.Extent)));
+            graphics.DrawRectangle(new Pen(Color.Tomato, 2), RoundToPixel(_mapTransform.WorldToMap(_source.Schema.Extent)));
         }
 
         tsslExtent.Text = $@"[({_mapTransform.Extent.MinX:N}/{_mapTransform.Extent.MinY:N})/({_mapTransform.Extent.MaxX:N}/{_mapTransform.Extent.MaxY:N})]";

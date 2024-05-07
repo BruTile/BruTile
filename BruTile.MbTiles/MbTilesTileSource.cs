@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Predefined;
 using SQLite;
@@ -177,7 +176,7 @@ public class MbTilesTileSource : ITileSource
         mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
     }
 
-    public async Task<byte[]> GetTileAsync(TileInfo tileInfo, CancellationToken cancellationToken)
+    public async Task<byte[]> GetTileAsync(TileInfo tileInfo)
     {
         var index = tileInfo.Index;
 

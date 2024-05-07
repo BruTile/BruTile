@@ -2,7 +2,6 @@
 
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using BruTile.MbTiles.Tests.Utilities;
 using BruTile.Predefined;
@@ -33,7 +32,7 @@ public class MbTilesTileSourceTests
         tileSource.Attribution = new Attribution("attribution", "url");
 
         // Act
-        var data = await tileSource.GetTileAsync(tileInfos.First(), CancellationToken.None).ConfigureAwait(false);
+        var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
         // Assert
         Assert.True(data.Length > 0);
@@ -95,7 +94,7 @@ public class MbTilesTileSourceTests
         var tileSource = new MbTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey), new GlobalSphericalMercator("png", YAxis.TMS, null));
 
         // Assert
-        var tile = await tileSource.GetTileAsync(new TileInfo { Index = new TileIndex(2006, 2552, 12) }, CancellationToken.None).ConfigureAwait(false);
+        var tile = await tileSource.GetTileAsync(new TileInfo { Index = new TileIndex(2006, 2552, 12) }).ConfigureAwait(false);
         Assert.NotNull(tile);
     }
 }
