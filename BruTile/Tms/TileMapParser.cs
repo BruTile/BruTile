@@ -25,6 +25,7 @@ public static class TileMapParser
         Action<HttpRequestMessage>? configureHttpRequestMessage = null)
     {
         var reader = new StreamReader(tileMapResource);
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         var serializer = new XmlSerializer(typeof(TileMap))
             ?? throw new InvalidOperationException("Failed to create XmlSerializer");
         var tileMap = (TileMap?)serializer.Deserialize(reader)
