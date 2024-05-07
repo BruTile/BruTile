@@ -11,7 +11,7 @@ namespace BruTile.Tests.Wmsc;
 internal class WmscRequestTests
 {
     [Test]
-    public void WmscRequest_NoVersion()
+    public void WmscRequestNoVersion()
     {
         var wmscUrlBuilder = new WmscUrlBuilder(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"]);
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
@@ -21,7 +21,7 @@ internal class WmscRequestTests
     }
 
     [Test]
-    public void WmscRequest_Version111()
+    public void WmscRequestVersion111()
     {
         var request = new WmscUrlBuilder(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"], null, null, "1.1.1");
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };
@@ -31,7 +31,7 @@ internal class WmscRequestTests
     }
 
     [Test]
-    public void WmscRequest_Version130()
+    public void WmscRequestVersion130()
     {
         var request = new WmscUrlBuilder(new Uri("http://testserver.com"), new GlobalSphericalMercator(YAxis.TMS), ["Layer One"], null, null, "1.3.0");
         var ti = new TileInfo { Index = new TileIndex(0, 0, 0) };

@@ -92,7 +92,7 @@ public class TileTransformTests
     }
 
     [Test]
-    public void TileSchemaWithExtentThatDoesOriginateInOriginAndWithInverteYShouldReturnCorrectNumberOfTiles()
+    public void TileSchemaWithExtentThatDoesOriginateInOriginAndWithInvertedYShouldReturnCorrectNumberOfTiles()
     {
         // Arrange
         var schemaExtent = new Extent(187009, 331184, 187189, 331290);

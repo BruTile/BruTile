@@ -1,7 +1,6 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 using BruTile.FileSystem;
@@ -13,7 +12,7 @@ namespace BruTile.Tests.FileSystem;
 public class FileTileSourceTests
 {
     [Test]
-    public async Task GetTile_WhenTilePresent_ShouldReturnTile()
+    public async Task GetTileWhenTilePresentShouldReturnTile()
     {
         // Arrange
         var tileCache = new FileCache(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
@@ -21,8 +20,8 @@ public class FileTileSourceTests
         var fileTileSource = new FileTileSource(".\\FileCacheTest", "png", new TimeSpan(long.MaxValue));
 
         // Act
-        var tile = await fileTileSource.GetTileAsync(
-            new TileInfo { Index = new TileIndex(4, 5, 8) }, CancellationToken.None).ConfigureAwait(false);
+        var tile = await fileTileSource.GetTileAsync(new TileInfo { Index = new TileIndex(4, 5, 8) })
+            .ConfigureAwait(false);
 
         // Assert
         Assert.AreEqual(tile.Length, 243);

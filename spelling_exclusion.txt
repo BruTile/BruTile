@@ -26,3 +26,14 @@ mapbox
 Infos
 ardoz
 torrejon
+openstreetmap
+sqlite
+tilemapservice
+miny
+maxx
+maxy
+resy
+resx
+mimetype
+xlink
+gettile

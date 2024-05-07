@@ -5,7 +5,6 @@ using System.Xml;
 
 namespace BruTile.Wms;
 
-// ReSharper disable InconsistentNaming
 public enum WmsVersionEnum
 {
     Version_1_0_0 = 0x010000,
@@ -14,8 +13,6 @@ public enum WmsVersionEnum
     Version_1_1_1 = 0x010101,
     Version_1_3_0 = 0x010300
 }
-
-// ReSharper restore InconsistentNaming
 
 public class WmsVersion
 {

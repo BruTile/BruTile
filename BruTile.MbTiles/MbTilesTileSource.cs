@@ -210,7 +210,6 @@ public class MbTilesTileSource : ITileSource
     private class ZoomLevel // I would rather just user 'int' instead of this class in Query, but can't get it to work
     {
         [Column("level")]
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public int Level { get; set; }
     }
 
@@ -265,7 +264,6 @@ public class MbTilesTileSource : ITileSource
     [Table("tiles")]
     private class ZoomLevelMinMax
     {
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [Column("tr_min")]
         public int TileRowMin { get; set; }
         [Column("tr_max")]

@@ -9,7 +9,6 @@ namespace BruTile.Wms;
 
 public class BoundingBox : XmlObject
 {
-    // ReSharper disable once UnusedParameter.Local
     public BoundingBox(XElement node)
     {
         var att =

@@ -364,7 +364,6 @@ public class WmtsCapabilitiesParser
 
         // Try to get units per pixel from passed scale set
         var unitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit;
-        // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
         {
             if (ss == null) throw new ArgumentNullException(nameof(ss));

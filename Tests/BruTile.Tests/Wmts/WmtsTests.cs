@@ -196,7 +196,7 @@ public class WmtsTests
     }
 
     [Test]
-    public void TestParsingWmtsCapabilitiesRayaBasemapServer()
+    public void TestParsingWmtsCapabilitiesRayaBaseMapServer()
     {
         // Arrange
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-raya-basemap-server.xml"));
