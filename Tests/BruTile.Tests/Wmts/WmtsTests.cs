@@ -98,7 +98,7 @@ public class WmtsTests
         var tileSources = WmtsCapabilitiesParser.Parse(stream);
 
         // Assert
-        var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
+        var tileSource = tileSources.First(s => s.Name.Equals("public_doggersbank", StringComparison.OrdinalIgnoreCase));
         var tileSchema = tileSource.Schema as WmtsTileSchema;
         Assert.AreEqual(15, tileSource.Schema.Resolutions.Count);
         Assert.NotNull(tileSchema);
@@ -177,7 +177,7 @@ public class WmtsTests
         var tileSources = WmtsCapabilitiesParser.Parse(stream);
 
         // Assert
-        var tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb");
+        var tileSource = tileSources.First(s => s.Name.Equals("topowebb", StringComparison.OrdinalIgnoreCase));
         var tileSchema = (WmtsTileSchema)tileSource.Schema;
         Assert.NotNull(tileSchema.Extent);
     }

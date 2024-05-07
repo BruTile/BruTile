@@ -166,13 +166,13 @@ public class Service : XmlObject
                     case "Name":
                         var name = reader.ReadElementContentAsString();
                         const string prefix = "ogc:";
-                        if (name.ToLower().StartsWith(prefix)) name = name.Substring(prefix.Length);
+                        if (name.ToLower().StartsWith(prefix)) name = name[prefix.Length..];
                         Name = (ServiceName)Enum.Parse(typeof(ServiceName), name, true);
                         break;
                     case "Title":
                         Title = reader.ReadElementContentAsString();
                         break;
-                    case "Abstact":
+                    case "Abstract":
                         Abstract = reader.ReadElementContentAsString();
                         break;
                     case "KeywordList":

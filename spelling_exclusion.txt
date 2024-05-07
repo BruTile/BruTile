@@ -37,3 +37,4 @@ resx
 mimetype
 xlink
 gettile
+kilometre

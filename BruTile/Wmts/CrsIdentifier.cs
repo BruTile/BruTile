@@ -70,17 +70,7 @@ public readonly struct CrsIdentifier : IEquatable<CrsIdentifier>
 
     public override int GetHashCode()
     {
-        // based on: https://stackoverflow.com/a/263416/85325
-
-        unchecked // Overflow is fine, just wrap
-        {
-            var hash = 17;
-            // Suitable nullity checks etc, of course :)
-            hash = hash * 29 + Authority.GetHashCode();
-            hash = hash * 29 + Identifier.GetHashCode();
-            hash = hash * 29 + Version.GetHashCode();
-            return hash;
-        }
+        return HashCode.Combine(Authority, Identifier, Version);
     }
 
     public static bool operator ==(CrsIdentifier left, CrsIdentifier right)

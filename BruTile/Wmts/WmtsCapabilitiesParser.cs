@@ -52,7 +52,6 @@ public class WmtsCapabilitiesParser
     public static List<HttpTileSource> Parse(Stream source,
         BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural)
     {
-#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         var serializer = new XmlSerializer(typeof(Capabilities));
         Capabilities capabilities;
 
