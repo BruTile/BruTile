@@ -12,14 +12,14 @@ using NUnit.Framework;
 namespace BruTile.Tests.Wmsc;
 
 [TestFixture]
-internal class TileSourceWmscTests1
+internal class TileSourceWmscTests
 {
     [Test]
     public void ParseCapabilitiesWmsc()
     {
         // Arrange
         const int expectedNumberOfTileSources = 54;
-        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmscCapabilities_1_1_1_.xml"));
+        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmsc", "WmscCapabilities_1_1_1.xml"));
 
         // Act
         var tileSources = WmscCapabilitiesParser.Parse(XDocument.Load(stream));
