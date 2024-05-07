@@ -25,23 +25,23 @@ public class WmsCapabilities
     { }
 
     [Obsolete("Use WmsCapabilities.CreateAsync")]
-    public WmsCapabilities(string url, ICredentials credentials = null)
+    public WmsCapabilities(string url, ICredentials? credentials = null)
         : this(new Uri(url), credentials)
     { }
 
-    public static async Task<WmsCapabilities> CreateAsync(string url, ICredentials credentials = null)
+    public static async Task<WmsCapabilities> CreateAsync(string url, ICredentials? credentials = null)
     {
         return await CreateAsync(new Uri(url), credentials);
     }
 
-    public static async Task<WmsCapabilities> CreateAsync(Uri uri, ICredentials credentials = null)
+    public static async Task<WmsCapabilities> CreateAsync(Uri uri, ICredentials? credentials = null)
     {
         var document = await ToXDocumentAsync(CompleteGetCapabilitiesRequest(uri), credentials);
         return new WmsCapabilities(document);
     }
 
     [Obsolete("Use WmsCapabilities.CreateAsync")]
-    public WmsCapabilities(Uri uri, ICredentials credentials = null)
+    public WmsCapabilities(Uri uri, ICredentials? credentials = null)
         : this(ToXDocumentAsync(CompleteGetCapabilitiesRequest(uri), credentials).Result)
     { }
 
@@ -214,7 +214,7 @@ public class WmsCapabilities
 
     #endregion Overrides of XmlObject
 
-    private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials credentials)
+    private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials? credentials)
     {
         await using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
         var sr = new StreamReader(stream);
@@ -223,7 +223,7 @@ public class WmsCapabilities
 
     }
 
-    private static async Task<Stream> GetRemoteXmlStreamAsync(Uri uri, ICredentials credentials)
+    private static async Task<Stream> GetRemoteXmlStreamAsync(Uri uri, ICredentials? credentials)
     {
         var httpClientHandler = new HttpClientHandler();
         try
@@ -309,7 +309,7 @@ public class WmsCapabilities
     /// </param>
     /// <returns><value>true</value>If the request string contains all mandatory parameters</returns>
     /// <exception cref="ArgumentException">Thrown if supplied</exception>
-    internal static bool ValidateGetCapabilitiesRequest(string query, HashSet<string> parameters = null)
+    internal static bool ValidateGetCapabilitiesRequest(string query, HashSet<string>? parameters = null)
     {
         var flag = 0;
 

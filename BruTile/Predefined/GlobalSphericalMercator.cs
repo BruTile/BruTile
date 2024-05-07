@@ -14,15 +14,15 @@ public class GlobalSphericalMercator : TileSchema
 
     // The default for YAxis is YAxis.OSM for all constructors
 
-    public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
+    public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string? name = null) :
         this(ToResolutions(minZoomLevel, maxZoomLevel), format, yAxis, name)
     { }
 
-    public GlobalSphericalMercator(YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
+    public GlobalSphericalMercator(YAxis yAxis = YAxis.OSM, int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string? name = null) :
         this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, yAxis, name)
     { }
 
-    public GlobalSphericalMercator(int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string name = null) :
+    public GlobalSphericalMercator(int minZoomLevel = DefaultMinZoomLevel, int maxZoomLevel = DefaultMaxZoomLevel, string? name = null) :
         this(ToResolutions(minZoomLevel, maxZoomLevel), DefaultFormat, YAxis.OSM, name)
     { }
 
@@ -30,12 +30,12 @@ public class GlobalSphericalMercator : TileSchema
         this(ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel))
     { }
 
-    public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int> zoomLevels = null, string name = null, Extent extent = default) :
+    public GlobalSphericalMercator(string format = DefaultFormat, YAxis yAxis = YAxis.OSM, IEnumerable<int>? zoomLevels = null, string? name = null, Extent extent = default) :
         this(ToResolutions(zoomLevels), format, yAxis, name, extent)
     { }
 
     private GlobalSphericalMercator(IEnumerable<KeyValuePair<string, Resolution>> resolutions, string format = DefaultFormat,
-                                     YAxis yAxis = YAxis.OSM, string name = null, Extent extent = default)
+                                     YAxis yAxis = YAxis.OSM, string? name = null, Extent extent = default)
     {
         Name = name ?? "GlobalSphericalMercator";
         Format = format;
@@ -62,18 +62,15 @@ public class GlobalSphericalMercator : TileSchema
         return ToResolutions(list);
     }
 
-    private static IEnumerable<KeyValuePair<string, Resolution>> ToResolutions(IEnumerable<int> levels)
+    private static IEnumerable<KeyValuePair<string, Resolution>> ToResolutions(IEnumerable<int>? zoomLevels)
     {
-        if (levels == null) return ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel);
+        if (zoomLevels == null) return ToResolutions(DefaultMinZoomLevel, DefaultMaxZoomLevel);
 
         var dictionary = new Dictionary<string, Resolution>();
-        foreach (var level in levels)
+        foreach (var level in zoomLevels)
         {
-            dictionary[level.ToString()] = new Resolution
-                (
-                    level,
-                    2 * ScaleFactor / (1 << level)
-                );
+            var unitsPerPixel = 2 * ScaleFactor / (1 << level);
+            dictionary[level.ToString()] = new Resolution(level, unitsPerPixel);
         }
         return dictionary;
     }

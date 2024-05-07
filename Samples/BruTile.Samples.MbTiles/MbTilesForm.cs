@@ -17,8 +17,8 @@ namespace BruTile.Samples.MbTiles;
 public partial class MbTilesForm : Form
 {
     private Bitmap _buffer;
-    private MapTransform _mapTransform;
-    private MbTilesTileSource _source;
+    private MapTransform? _mapTransform;
+    private MbTilesTileSource? _source;
 
     public MbTilesForm()
     {
@@ -91,6 +91,9 @@ public partial class MbTilesForm : Form
 
     private async Task RenderToBuffer()
     {
+        if (_source == null || _mapTransform == null)
+            return;
+
         var levelIndex = Utilities.GetNearestLevel(_source.Schema.Resolutions, _mapTransform.UnitsPerPixel);
 
         using (var graphics = Graphics.FromImage(_buffer))

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -17,16 +18,16 @@ public class Fetcher<T>
     private readonly ITileSource _tileSource;
     private Extent _extent;
     private double _unitsPerPixel;
-    private readonly IList<TileIndex> _tilesInProgress = [];
+    private readonly List<TileIndex> _tilesInProgress = [];
     private const int MaxThreads = 4;
     private readonly AutoResetEvent _waitHandle = new(false);
-    private readonly IFetchStrategy _strategy = new FetchStrategy();
+    private readonly FetchStrategy _strategy = new FetchStrategy();
     private volatile bool _isAborted;
     private volatile bool _isViewChanged;
-    private Retries _retries;
+    private readonly Retries _retries = new();
     private readonly HttpClient _httpClient = new();
 
-    public event DataChangedEventHandler<T> DataChanged;
+    public event DataChangedEventHandler<T>? DataChanged;
 
     public Fetcher(ITileSource tileSource, ITileCache<Tile<T>> memoryCache)
     {
@@ -58,8 +59,7 @@ public class Fetcher<T>
 
     private void FetchLoop()
     {
-        IEnumerable<TileInfo> tilesWanted = null;
-        _retries ??= new Retries();
+        IEnumerable<TileInfo>? tilesWanted = null;
 
         while (!_isAborted)
         {
@@ -136,20 +136,22 @@ public class Fetcher<T>
         Task.Run(
             async () =>
             {
-                Exception error = null;
-                Tile<T> tile = null;
+                Exception? error = null;
+                Tile<T>? tile = null;
 
                 try
                 {
                     if (_tileSource is IHttpTileSource httpTileSource)
                     {
                         var data = await httpTileSource.GetTileAsync(_httpClient, tileInfo, CancellationToken.None);
-                        tile = new Tile<T> { Data = data, Info = tileInfo };
+                        if (data != null)
+                            tile = new Tile<T>(data, tileInfo);
                     }
                     else if (_tileSource is MbTilesTileSource mbTilesTileSource)
                     {
                         var data = await mbTilesTileSource.GetTileAsync(tileInfo);
-                        tile = new Tile<T> { Data = data, Info = tileInfo };
+                        if (data != null)
+                            tile = new Tile<T>(data, tileInfo);
                     }
                     else
                     {
@@ -169,7 +171,7 @@ public class Fetcher<T>
 
                 _waitHandle.Set();
 
-                if (DataChanged != null && !_isAborted)
+                if (DataChanged is not null && !_isAborted)
                     DataChanged(this, new DataChangedEventArgs<T>(error, false, tile));
 
             });
@@ -181,36 +183,22 @@ public class Fetcher<T>
     /// </summary>
     private class Retries
     {
-        private readonly IDictionary<TileIndex, int> _retries = new Dictionary<TileIndex, int>();
+        private readonly ConcurrentDictionary<TileIndex, int> _retries = new();
         private const int MaxRetries = 0;
-        private readonly int _threadId;
-        private const string CrossThreadExceptionMessage = "Cross thread access not allowed on class Retries";
-
-        public Retries()
-        {
-            _threadId = Environment.CurrentManagedThreadId;
-        }
 
         public bool ReachedMax(TileIndex index)
         {
-            if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
             var retryCount = (!_retries.ContainsKey(index)) ? 0 : _retries[index];
             return retryCount > MaxRetries;
         }
 
         public void PlusOne(TileIndex index)
         {
-            if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
-            if (!_retries.ContainsKey(index)) _retries.Add(index, 0);
-            else _retries[index]++;
+            _retries.AddOrUpdate(index, 0, (index, value) => value++);
         }
 
         public void Clear()
         {
-            if (_threadId != Environment.CurrentManagedThreadId) throw new Exception(CrossThreadExceptionMessage);
-
             _retries.Clear();
         }
     }
@@ -218,9 +206,9 @@ public class Fetcher<T>
 
 public delegate void DataChangedEventHandler<T>(object sender, DataChangedEventArgs<T> e);
 
-public class DataChangedEventArgs<T>(Exception error, bool cancelled, Tile<T> tile)
+public class DataChangedEventArgs<T>(Exception? error, bool cancelled, Tile<T>? tile)
 {
-    public Exception Error { get; } = error;
+    public Exception? Error { get; } = error;
     public bool Cancelled { get; } = cancelled;
-    public Tile<T> Tile { get; } = tile;
+    public Tile<T>? Tile { get; } = tile;
 }

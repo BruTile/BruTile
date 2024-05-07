@@ -16,7 +16,7 @@ public class NullCache : IPersistentCache<byte[]>
         throw new NotImplementedException(); // And should not be implemented
     }
 
-    public byte[] Find(TileIndex index)
+    public byte[]? Find(TileIndex index)
     {
         return null;
     }

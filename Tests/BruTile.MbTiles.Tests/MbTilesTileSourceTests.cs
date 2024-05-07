@@ -13,7 +13,7 @@ namespace BruTile.MbTiles.Tests;
 [TestFixture]
 public class MbTilesTileSourceTests
 {
-    private readonly string _encryptionKey = null;
+    private readonly string? _encryptionKey = null;
 
     [SetUp]
     public void TestSetUp()
@@ -35,7 +35,8 @@ public class MbTilesTileSourceTests
         var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
         // Assert
-        Assert.True(data.Length > 0);
+        Assert.IsNotNull(data);
+        Assert.True(data?.Length > 0);
         Assert.AreEqual(MbTilesType.BaseLayer, tileSource.Type);
         Assert.AreEqual("attribution", tileSource.Attribution.Text);
     }

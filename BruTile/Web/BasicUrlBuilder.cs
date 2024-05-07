@@ -41,7 +41,7 @@ public class BasicUrlBuilder : IUrlBuilder
     /// </summary>
     private readonly string _urlFormatter;
     private int _nodeCounter;
-    private readonly List<string> _serverNodes;
+    private readonly List<string>? _serverNodes;
     private readonly object _nodeCounterLock = new();
 
     /// <summary>
@@ -50,7 +50,7 @@ public class BasicUrlBuilder : IUrlBuilder
     /// <param name="urlFormatter">The url formatter</param>
     /// <param name="serverNodes">The server nodes</param>
     /// <param name="apiKey">The API key</param>
-    public BasicUrlBuilder(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey = null)
+    public BasicUrlBuilder(string urlFormatter, IEnumerable<string>? serverNodes = null, string? apiKey = null)
     {
         _urlFormatter = urlFormatter;
         _serverNodes = serverNodes?.ToList();
@@ -82,21 +82,22 @@ public class BasicUrlBuilder : IUrlBuilder
         return new Uri(stringBuilder.ToString());
     }
 
-    private void InsertServerNode(StringBuilder baseUrl, IList<string> serverNodes)
+    private void InsertServerNode(StringBuilder baseUrl, IList<string>? serverNodes)
     {
         if (serverNodes != null && serverNodes.Count > 0)
         {
-            var serverNode = GetNextServerNode();
+            var serverNode = GetNextServerNode(serverNodes);
             baseUrl.Replace(ServerNodeTag, serverNode);
         }
     }
 
-    private string GetNextServerNode()
+    private string GetNextServerNode(IList<string> serverNodes)
     {
         lock (_nodeCounterLock)
         {
-            var serverNode = _serverNodes[_nodeCounter++];
-            if (_nodeCounter >= _serverNodes.Count) _nodeCounter = 0;
+            var serverNode = serverNodes[_nodeCounter++];
+            if (_nodeCounter >= serverNodes.Count)
+                _nodeCounter = 0;
             return serverNode;
         }
     }
@@ -153,6 +154,6 @@ public class BasicUrlBuilder : IUrlBuilder
 }
 
 [Obsolete("Use BasicUrlBuilder instead.")]
-public class BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey = null) :
+public class BasicRequest(string urlFormatter, IEnumerable<string>? serverNodes = null, string? apiKey = null) :
     BasicUrlBuilder(urlFormatter, serverNodes, apiKey), IUrlBuilder
 { }

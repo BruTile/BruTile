@@ -5,6 +5,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
 		<PackageTags>tiling brutile mbtiles</PackageTags>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>

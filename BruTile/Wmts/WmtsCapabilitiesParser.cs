@@ -356,7 +356,7 @@ public class WmtsCapabilitiesParser
     }
 
     private static KeyValuePair<int, Resolution> ToResolution(TileMatrix tileMatrix,
-        int[] ordinateOrder, double metersPerUnit = 1, ScaleSet ss = null)
+        int[] ordinateOrder, double metersPerUnit = 1, ScaleSet? scaleSet = null)
     {
         // Get the coordinates
         var coordinates = tileMatrix.TopLeftCorner.Trim().Split(' ');
@@ -365,9 +365,9 @@ public class WmtsCapabilitiesParser
         var unitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit;
         if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
         {
-            if (ss == null) throw new ArgumentNullException(nameof(ss));
+            if (scaleSet == null) throw new ArgumentNullException(nameof(scaleSet));
 
-            unitsPerPixel = ss[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
+            unitsPerPixel = scaleSet[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
         }
 
         return new KeyValuePair<int, Resolution>(tileMatrix.Level,

@@ -43,10 +43,10 @@ public class TileSchema : ITileSchema
 
     public double OriginX { get; set; }
     public double OriginY { get; set; }
-    public string Name { get; set; }
-    public string Srs { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Srs { get; set; } = string.Empty;
     public Extent Wgs84BoundingBox { get; set; }
-    public string Format { get; set; }
+    public string Format { get; set; } = string.Empty;
     public Extent Extent { get; set; }
     public YAxis YAxis { get; set; }
 

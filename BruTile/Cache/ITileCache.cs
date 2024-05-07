@@ -20,5 +20,5 @@ public interface ITileCache<T>
     /// </summary>
     /// <param name="index">The index of the tile to find</param>
     /// <returns>The tile data that corresponds with the index or null.</returns>
-    T Find(TileIndex index);
+    T? Find(TileIndex index);
 }

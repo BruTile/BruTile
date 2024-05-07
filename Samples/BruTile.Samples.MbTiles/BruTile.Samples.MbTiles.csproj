@@ -4,6 +4,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>

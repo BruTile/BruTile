@@ -19,7 +19,7 @@ internal class Renderer(Canvas canvas)
         foreach (var tileInfo in tileInfos)
         {
             var tile = tileCache.Find(tileInfo.Index);
-            if (tile != null)
+            if (tile is not null && tile.Image is not null)
             {
                 _canvas.Children.Add(tile.Image);
                 PositionImage(tile.Image, tileInfo.Extent, viewport);

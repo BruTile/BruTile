@@ -67,7 +67,11 @@ public static class Utilities
         get
         {
             var assembly = typeof(Utilities).GetTypeInfo().Assembly;
+            if (assembly.FullName is null)
+                throw new Exception("Assembly.FullName is null");
             var assemblyName = new AssemblyName(assembly.FullName);
+            if (assemblyName.Version is null)
+                throw new Exception("AssemblyName.Version is null");
             return assemblyName.Version.Major + "." + assemblyName.Version.Minor;
         }
     }

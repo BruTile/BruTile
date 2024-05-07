@@ -16,13 +16,13 @@ namespace BruTile.Demo;
 
 internal class MapControl : Grid
 {
-    private Fetcher<Image> _fetcher;
+    private Fetcher<Image>? _fetcher;
     private readonly Renderer _renderer;
     private readonly MemoryCache<Tile<Image>> _tileCache = new(200, 300);
-    private ITileSource _tileSource;
+    private ITileSource? _tileSource;
     private bool _invalid = true;
     private Point _previousMousePosition;
-    private Viewport _viewport;
+    private Viewport? _viewport;
 
     public MapControl()
     {
@@ -54,9 +54,10 @@ internal class MapControl : Grid
             _fetcher.DataChanged -= FetcherOnDataChanged;
         }
 
-        if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, new GlobalSphericalMercator()))
+        var result = TryInitializeViewport(ActualWidth, ActualHeight, new GlobalSphericalMercator());
+        if (result.Success == false)
             return;
-
+        _viewport = result.Viewport!;
         _tileSource = source;
         _viewport.CenterX = source.Schema.Extent.CenterX;
         _viewport.CenterY = source.Schema.Extent.CenterY;
@@ -81,7 +82,11 @@ internal class MapControl : Grid
 
     private void MapControlMouseMove(object sender, MouseEventArgs e)
     {
-        if (e.LeftButton != MouseButtonState.Pressed) return;
+        if (_viewport is null || _fetcher is null)
+            return;
+
+        if (e.LeftButton != MouseButtonState.Pressed)
+            return;
         if (_previousMousePosition == new Point())
         {
             _previousMousePosition = e.GetPosition(this);
@@ -97,8 +102,9 @@ internal class MapControl : Grid
 
     private void MapControlSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (_viewport == null)
+        if (_viewport is null || _fetcher is null)
             return;
+
         _viewport.Width = ActualWidth;
         _viewport.Height = ActualHeight;
         _fetcher.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel);
@@ -123,7 +129,7 @@ internal class MapControl : Grid
         }
     }
 
-    private static Image TileToImage(byte[] tile)
+    private static Image? TileToImage(byte[] tile)
     {
         try
         {
@@ -148,6 +154,9 @@ internal class MapControl : Grid
 
     private void MapControlMouseWheel(object sender, MouseWheelEventArgs e)
     {
+        if (_viewport is null || _fetcher is null || _tileSource is null)
+            return;
+
         if (e.Delta > 0)
         {
             _viewport.UnitsPerPixel = ZoomHelper.ZoomIn(_tileSource.Schema.Resolutions.Select(r => r.Value.UnitsPerPixel).ToList(), _viewport.UnitsPerPixel);
@@ -162,7 +171,7 @@ internal class MapControl : Grid
         _invalid = true;
     }
 
-    private void CompositionTargetRendering(object sender, EventArgs e)
+    private void CompositionTargetRendering(object? sender, EventArgs e)
     {
         if (!_invalid)
             return;
@@ -173,29 +182,32 @@ internal class MapControl : Grid
 
         if (_viewport == null)
         {
-            if (!TryInitializeViewport(ref _viewport, ActualWidth, ActualHeight, new GlobalSphericalMercator()))
+            var result = TryInitializeViewport(ActualWidth, ActualHeight, new GlobalSphericalMercator());
+            if (result.Success == false)
                 return;
-            _fetcher?.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // Start fetching when viewport is first initialized
+            _viewport = result.Viewport!;
         }
-
+        _fetcher?.ViewChanged(_viewport.Extent, _viewport.UnitsPerPixel); // Start fetching when viewport is first initialized
         _renderer.Render(_viewport, _tileSource, _tileCache);
         _invalid = false;
     }
 
-    private static bool TryInitializeViewport(ref Viewport viewport, double actualWidth, double actualHeight, ITileSchema schema)
+    private static (bool Success, Viewport? Viewport) TryInitializeViewport(double actualWidth, double actualHeight, ITileSchema schema)
     {
-        if (double.IsNaN(actualWidth)) return false;
-        if (actualWidth <= 0) return false;
+        if (double.IsNaN(actualWidth))
+            return (false, null);
+        if (actualWidth <= 0)
+            return (false, null);
 
         var nearestLevel = Utilities.GetNearestLevel(schema.Resolutions, schema.Extent.Width / actualWidth);
 
-        viewport = new Viewport
+        var viewport = new Viewport
         {
             Width = actualWidth,
             Height = actualHeight,
             UnitsPerPixel = schema.Resolutions[nearestLevel].UnitsPerPixel,
             Center = new Samples.Common.Geometries.Point(schema.Extent.CenterX, schema.Extent.CenterY)
         };
-        return true;
+        return (true, viewport);
     }
 }

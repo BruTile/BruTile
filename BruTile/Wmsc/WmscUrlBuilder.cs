@@ -9,18 +9,18 @@ using BruTile.Web;
 
 namespace BruTile.Wmsc;
 
-public class WmscUrlBuilder(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-    IDictionary<string, string> customParameters = null, string version = null) : IUrlBuilder
+public class WmscUrlBuilder(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string>? styles = null,
+    IDictionary<string, string>? customParameters = null, string? version = null) : IUrlBuilder
 {
     private readonly Uri _baseUrl = baseUrl;
-    private readonly IDictionary<string, string> _customParameters = customParameters;
+    private readonly IDictionary<string, string>? _customParameters = customParameters;
     private readonly IList<string> _layers = layers.ToList();
     private readonly ITileSchema _schema = schema;
-    private readonly IList<string> _styles = styles?.ToList();
-    private readonly string _version = version;
+    private readonly IList<string>? _styles = styles?.ToList();
+    private readonly string? _version = version;
 
-    public WmscUrlBuilder(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-        IDictionary<string, string> customParameters = null, string version = null) :
+    public WmscUrlBuilder(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string>? styles = null,
+        IDictionary<string, string>? customParameters = null, string? version = null) :
         this(new Uri(baseUrl), schema, layers, styles, customParameters, version)
     { }
 
@@ -71,7 +71,7 @@ public class WmscUrlBuilder(Uri baseUrl, ITileSchema schema, IEnumerable<string>
 }
 
 [Obsolete("Use WmscUrlBuilder instead.")]
-public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
-       IDictionary<string, string> customParameters = null, string version = null) :
+public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string>? styles = null,
+       IDictionary<string, string>? customParameters = null, string? version = null) :
     WmscUrlBuilder(baseUrl, schema, layers, styles, customParameters, version), IRequest
 { }

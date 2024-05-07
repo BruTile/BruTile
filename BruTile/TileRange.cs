@@ -22,7 +22,7 @@ public readonly struct TileRange
         RowCount = rowCount;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not TileRange range)
             return false;

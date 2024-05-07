@@ -43,7 +43,7 @@ public readonly struct UnitOfMeasure : IEquatable<UnitOfMeasure>
         return Math.Abs(_toMeter - other.ToMeter) < double.Epsilon;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is UnitOfMeasure unitOfMeasure && Equals(unitOfMeasure);
     }

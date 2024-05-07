@@ -62,7 +62,7 @@ public class HttpClientTests
         Assert.NotNull(response);
     }
 
-    private static HttpTileSourceDefinition CreateHttpTileSourceDefinition(string userAgentOverride = null)
+    private static HttpTileSourceDefinition CreateHttpTileSourceDefinition(string? userAgentOverride = null)
     {
         var tileSchema = new GlobalSphericalMercator();
         var basicUrlBuilder = new BasicUrlBuilder("http://localhost/{z}/{x}/{y}.png");

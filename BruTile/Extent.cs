@@ -55,7 +55,7 @@ public readonly struct Extent
                              "{0},{1},{2},{3}", MinX, MinY, MaxX, MaxY);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not Extent extent)
         {
