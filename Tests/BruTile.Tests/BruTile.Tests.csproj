@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Resources\Wmsc\WmsCCapabilities_1_1_1.xml">
+		<None Update="Resources\Wmsc\WmscCapabilities_1_1_1_.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Wms\AcmeCorpMapServersCapabilities_1_3_0.xml">
