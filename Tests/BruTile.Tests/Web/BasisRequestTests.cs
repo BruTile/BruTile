@@ -17,11 +17,11 @@ public class BasisRequestTests
     public void GetUriTest()
     {
         // Arrange
-        var request = new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", ["a", "b", "c"]);
+        var basicUrlBuilder = new BasicUrlBuilder("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", ["a", "b", "c"]);
         var tileInfo = new TileInfo { Index = new TileIndex(3, 4, 5) };
 
         // Act
-        var url = request.GetUrl(tileInfo);
+        var url = basicUrlBuilder.GetUrl(tileInfo);
 
         // Assert
         Assert.True(url.ToString() == "http://a.tile.openstreetmap.org/5/3/4.png");
@@ -31,13 +31,13 @@ public class BasisRequestTests
     public void GetUriInParallelTest()
     {
         // Arrange
-        var request = new BasicRequest("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", ["a", "b", "c"]);
+        var basicUrlBuilder = new BasicUrlBuilder("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", ["a", "b", "c"]);
         var tileInfo = new TileInfo { Index = new TileIndex(3, 4, 5) };
         var urls = new ConcurrentBag<Uri>(); // List is not thread save
 
         // Act
         var requests = new List<Func<Uri>>();
-        for (var i = 0; i < 100; i++) requests.Add(() => request.GetUrl(tileInfo));
+        for (var i = 0; i < 100; i++) requests.Add(() => basicUrlBuilder.GetUrl(tileInfo));
         Parallel.ForEach(requests, r => urls.Add(r()));
 
         // Assert

@@ -14,17 +14,17 @@ internal class HttpTileSourceDefinitionTests
     {
         // Arrange
         var tileSchema = new GlobalSphericalMercator();
-        var urlBuilder = new BasicRequest("http://localhost/{z}/{x}/{y}.png");
+        var basicUrlBuilder = new BasicUrlBuilder("http://localhost/{z}/{x}/{y}.png");
         var name = "name";
         var attribution = new Attribution("attribution");
         var configureHttpRequestMessage = new Action<HttpRequestMessage>(m => m.Headers.UserAgent.ParseAdd("userAgentOverride"));
 
         // Act
-        var httpTileSourceDefinitionActual = new HttpTileSourceDefinition(tileSchema, urlBuilder, name, attribution, configureHttpRequestMessage);
+        var httpTileSourceDefinitionActual = new HttpTileSourceDefinition(tileSchema, basicUrlBuilder, name, attribution, configureHttpRequestMessage);
 
         // Assert
         Assert.AreEqual(tileSchema, httpTileSourceDefinitionActual.TileSchema);
-        Assert.AreEqual(urlBuilder, httpTileSourceDefinitionActual.UrlBuilder);
+        Assert.AreEqual(basicUrlBuilder, httpTileSourceDefinitionActual.UrlBuilder);
         Assert.AreEqual(name, httpTileSourceDefinitionActual.Name);
         Assert.AreEqual(attribution, httpTileSourceDefinitionActual.Attribution);
         Assert.AreEqual(configureHttpRequestMessage, httpTileSourceDefinitionActual.ConfigureHttpRequestMessage);
@@ -35,18 +35,18 @@ internal class HttpTileSourceDefinitionTests
     {
         // Arrange
         var tileSchema = new GlobalSphericalMercator();
-        var urlBuilder = new BasicRequest("http://localhost/{z}/{x}/{y}.png");
+        var basicUrlBuilder = new BasicUrlBuilder("http://localhost/{z}/{x}/{y}.png");
         var name = "name";
         var attribution = new Attribution("attribution");
         var userAgentOverride = new Action<HttpRequestMessage>(m => m.Headers.UserAgent.ParseAdd("userAgentOverride"));
-        var httpTileSourceDefinition = new HttpTileSourceDefinition(tileSchema, urlBuilder, name, attribution, userAgentOverride);
+        var httpTileSourceDefinition = new HttpTileSourceDefinition(tileSchema, basicUrlBuilder, name, attribution, userAgentOverride);
 
         // Act
         var (actualTileSchema, actualUrlBuilder, actualName, actualAttribution, configureHttpRequestMessage) = httpTileSourceDefinition;
 
         // Assert
         Assert.AreEqual(tileSchema, actualTileSchema);
-        Assert.AreEqual(urlBuilder, actualUrlBuilder);
+        Assert.AreEqual(basicUrlBuilder, actualUrlBuilder);
         Assert.AreEqual(name, actualName);
         Assert.AreEqual(attribution, actualAttribution);
         Assert.AreEqual(userAgentOverride, configureHttpRequestMessage);
