@@ -14,22 +14,6 @@ public interface IUrlBuilder
     Uri GetUrl(TileInfo info);
 }
 
-/// <summary>
-/// Use IUrlBuilder instead. IRequest exists for backwards compatibility.
-/// </summary>
+[Obsolete("Use IUrlBuilder instead. IRequest exists for backwards compatibility.")]
 public interface IRequest : IUrlBuilder
 { }
-
-/// <summary>
-/// NullRequest class is a placeholder for request builders for tile sources. It has no other use!
-/// </summary>
-public sealed class NullRequest : IUrlBuilder
-{
-    internal NullRequest()
-    { }
-
-    public Uri GetUrl(TileInfo info)
-    {
-        throw new NotSupportedException("NullRequest is a placeholder in order to instantiate tile sources.");
-    }
-}
