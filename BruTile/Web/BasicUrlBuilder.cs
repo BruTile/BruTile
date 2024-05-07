@@ -9,7 +9,7 @@ using System.Text;
 namespace BruTile.Web;
 
 /// <summary>
-/// A flexible request builder that can be used for a number of simple cases.
+/// A flexible url builder that can be used for a number of simple cases.
 /// </summary>
 public class BasicUrlBuilder : IUrlBuilder
 {
