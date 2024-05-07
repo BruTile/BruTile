@@ -28,7 +28,7 @@ public class WmtsTests
 
         // Act
         IEnumerable<ITileSource> tileSources = null;
-        Assert.DoesNotThrow(() => tileSources = WmtsCapabilitiesParser.Parse(stream));
+        Assert.DoesNotThrow(() => tileSources = WmtsParser.Parse(stream));
 
         // Assert
         Assert.NotNull(tileSources);
@@ -42,7 +42,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-restful-wien-resourceUrls.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.NotNull(tileSources);
@@ -55,7 +55,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-restful-wien.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.NotNull(tileSources);
@@ -68,7 +68,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.NotNull(tileSources);
@@ -81,7 +81,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-pdok.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         var tileSource = tileSources.First(s => s.Name == "non-existing-GlobalCRS84Scale-layer");
@@ -95,7 +95,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-arcgis-server-doggersbank.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         var tileSource = tileSources.First(s => s.Name.ToLower() == "public_doggersbank");
@@ -136,11 +136,11 @@ public class WmtsTests
         // Arrange
         var resourceUrls = CreateResourceUrls();
         var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
-        var wmtsRequest = new WmtsRequest(resourceUrls, levelToIdentifier);
+        var wmtsRequest = new WmtsUrlBuilder(resourceUrls, levelToIdentifier);
 
         // Act
-        var url1 = wmtsRequest.GetUrl(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
-        var url2 = wmtsRequest.GetUrl(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
+        var url1 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
+        var url2 = wmtsRequest.GetUri(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
 
         // Assert
         Assert.True(url1.ToString().Equals("http://maps1.wien.gv.at/wmts/lb/farbe/google3857/level-14/5680/8938.jpeg"));
@@ -153,13 +153,13 @@ public class WmtsTests
         // Arrange
         var resourceUrls = CreateResourceUrls();
         var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
-        var request = new WmtsRequest(resourceUrls, levelToIdentifier);
+        var request = new WmtsUrlBuilder(resourceUrls, levelToIdentifier);
         var urls = new ConcurrentBag<Uri>(); // List is not thread save
         var tileInfo = new TileInfo { Index = new TileIndex(8938, 5680, 14) };
 
         // Act
         var requests = new List<Func<Uri>>();
-        for (var i = 0; i < 150; i++) requests.Add(() => request.GetUrl(tileInfo));
+        for (var i = 0; i < 150; i++) requests.Add(() => request.GetUri(tileInfo));
         Parallel.ForEach(requests, r => urls.Add(r()));
 
         // Assert
@@ -174,7 +174,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts_capabilities_where_upperbound_and_lowerbound_lack_ows_prefix.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         var tileSource = tileSources.First(s => s.Name.ToLower() == "topowebb");
@@ -189,7 +189,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-cuzk-cz.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.NotNull(tileSources);
@@ -202,7 +202,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-raya-basemap-server.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.AreEqual(3, tileSources.Count);
@@ -215,11 +215,11 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-noconstraint.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream).ToList();
+        var tileSources = WmtsParser.Parse(stream).ToList();
 
         // Assert
         Assert.AreEqual(1, tileSources.Count);
-        var s = tileSources[0].GetUrl(new TileInfo()).ToString();
+        var s = tileSources[0].GetUri(new TileInfo()).ToString();
         Assert.IsTrue(s.Contains("&FORMAT=image/png", StringComparison.OrdinalIgnoreCase), "Assures is kvp mapping");
     }
 
@@ -230,7 +230,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-mars.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.AreEqual(1, tileSources.Count);
@@ -243,7 +243,7 @@ public class WmtsTests
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-opencache-statkart-no.xml"));
 
         // Act
-        var tileSources = WmtsCapabilitiesParser.Parse(stream);
+        var tileSources = WmtsParser.Parse(stream);
 
         // Assert
         Assert.AreEqual(319, tileSources.Count);
@@ -255,7 +255,7 @@ public class WmtsTests
         // Arrange
         using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-dlr.xml"));
         IEnumerable<HttpTileSource> tileSources = null;
-        Assert.DoesNotThrow(() => tileSources = WmtsCapabilitiesParser.Parse(stream));
+        Assert.DoesNotThrow(() => tileSources = WmtsParser.Parse(stream));
         var tileSource = tileSources.First();
 
         // Act
