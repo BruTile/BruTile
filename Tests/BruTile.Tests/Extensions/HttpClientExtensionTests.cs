@@ -64,10 +64,10 @@ public class HttpClientTests
     private static HttpTileSourceDefinition CreateHttpTileSourceDefinition(string userAgentOverride = null)
     {
         var tileSchema = new GlobalSphericalMercator();
-        var urlBuilder = new BasicRequest("http://localhost/{z}/{x}/{y}.png");
+        var basicUrlBuilder = new BasicUrlBuilder("http://localhost/{z}/{x}/{y}.png");
         var name = "name";
         var attribution = new Attribution("attribution");
-        return new HttpTileSourceDefinition(tileSchema, urlBuilder, name, attribution,
+        return new HttpTileSourceDefinition(tileSchema, basicUrlBuilder, name, attribution,
             (userAgentOverride is null) ? null : (m) => m.Headers.UserAgent.ParseAdd(userAgentOverride));
     }
 }

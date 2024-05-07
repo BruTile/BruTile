@@ -108,12 +108,12 @@ public static class TileMapParser
         return schema;
     }
 
-    private static TmsRequest CreateUrlBuilder(IDictionary<int, Uri> tileUrls, string format, string? overrideUrl = null,
+    private static TmsUrlBuilder CreateUrlBuilder(IDictionary<int, Uri> tileUrls, string format, string? overrideUrl = null,
         Dictionary<string, string>? customParameters = null)
     {
         if (string.IsNullOrEmpty(overrideUrl))
-            return new TmsRequest(tileUrls, format, customParameters);
+            return new TmsUrlBuilder(tileUrls, format, customParameters);
 
-        return new TmsRequest(new Uri(overrideUrl), format, customParameters);
+        return new TmsUrlBuilder(new Uri(overrideUrl), format, customParameters);
     }
 }

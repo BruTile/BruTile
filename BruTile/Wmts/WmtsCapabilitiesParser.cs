@@ -52,11 +52,12 @@ public class WmtsCapabilitiesParser
     public static List<HttpTileSource> Parse(Stream source,
         BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural)
     {
-        var ser = new XmlSerializer(typeof(Capabilities));
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
+        var serializer = new XmlSerializer(typeof(Capabilities));
         Capabilities capabilities;
 
         using (var reader = new StreamReader(source))
-            capabilities = (Capabilities)ser.Deserialize(reader);
+            capabilities = (Capabilities)serializer.Deserialize(reader);
 
         var tileSchemas = GetTileMatrixSets(capabilities.Contents.TileMatrixSet, axisOrder);
         var tileSources = GetLayers(capabilities, tileSchemas);
@@ -106,7 +107,7 @@ public class WmtsCapabilitiesParser
                                 style.Identifier.Value,
                                 tileMatrixLink.TileMatrixSet);
 
-                            wmtsRequest = new WmtsRequest(resourceUrls, tileSchema.LevelToIdentifier);
+                            wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
                         }
                         else
                         {
@@ -115,7 +116,7 @@ public class WmtsCapabilitiesParser
                                 style.Identifier.Value,
                                 tileMatrixLink.TileMatrixSet);
 
-                            wmtsRequest = new WmtsRequest(resourceUrls, tileSchema.LevelToIdentifier);
+                            wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
                         }
 
                         //var layerName = layer.Identifier.Value;
@@ -190,9 +191,9 @@ public class WmtsCapabilitiesParser
                       .Append("&LAYER=").Append(layer)
                       .Append("&STYLE=").Append(style)
                       .Append("&TILEMATRIXSET=").Append(tileMatrixSet)
-                      .Append("&TILEMATRIX=").Append(WmtsRequest.ZTag)
-                      .Append("&TILEROW=").Append(WmtsRequest.YTag)
-                      .Append("&TILECOL=").Append(WmtsRequest.XTag)
+                      .Append("&TILEMATRIX=").Append(WmtsUrlBuilder.ZTag)
+                      .Append("&TILEROW=").Append(WmtsUrlBuilder.YTag)
+                      .Append("&TILECOL=").Append(WmtsUrlBuilder.XTag)
                       .Append("&FORMAT=").Append(format);
         return requestBuilder.ToString();
     }
@@ -203,8 +204,8 @@ public class WmtsCapabilitiesParser
         var resourceUrls = new List<ResourceUrl>();
         foreach (var resourceUrl in inputResourceUrls)
         {
-            var template = resourceUrl.template.Replace(WmtsRequest.TileMatrixSetTag, tileMatrixSet);
-            template = Regex.Replace(template, WmtsRequest.StyleTag, style, RegexOptions.IgnoreCase);
+            var template = resourceUrl.template.Replace(WmtsUrlBuilder.TileMatrixSetTag, tileMatrixSet);
+            template = Regex.Replace(template, WmtsUrlBuilder.StyleTag, style, RegexOptions.IgnoreCase);
             resourceUrls.Add(new ResourceUrl
             {
                 Format = resourceUrl.format,

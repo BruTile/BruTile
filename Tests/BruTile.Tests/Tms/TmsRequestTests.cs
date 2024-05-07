@@ -13,11 +13,11 @@ public class TmsRequestTests
     public void WhenInitializedShouldReturnCorrectUri()
     {
         // Arrange
-        var request = new TmsRequest("http://tileserver.com", "png");
+        var tmsUrlBuilder = new TmsUrlBuilder("http://tileserver.com", "png");
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
 
         // Act
-        var uri = request.GetUrl(tileInfo);
+        var uri = tmsUrlBuilder.GetUrl(tileInfo);
 
         // Assert
         Assert.AreEqual(uri.ToString(), "http://tileserver.com/3/1/2.png");
@@ -27,11 +27,11 @@ public class TmsRequestTests
     public void WhenInitializedWithServerNodesShouldReturnCorrectUri()
     {
         // Arrange
-        var request = new TmsRequest("http://{S}.tileserver.com", "png", ["a", "b"]);
+        var tmsUrlBuilder = new TmsUrlBuilder("http://{S}.tileserver.com", "png", ["a", "b"]);
         var tileInfo = new TileInfo { Index = new TileIndex(1, 2, 3) };
 
         // Act
-        var uri = request.GetUrl(tileInfo);
+        var uri = tmsUrlBuilder.GetUrl(tileInfo);
 
         // Assert
         Assert.True(new[] { "http://a.tileserver.com/3/1/2.png", "http://b.tileserver.com/3/1/2.png" }.Contains(uri.ToString()));

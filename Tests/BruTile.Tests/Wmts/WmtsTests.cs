@@ -136,7 +136,7 @@ public class WmtsTests
         // Arrange
         var resourceUrls = CreateResourceUrls();
         var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
-        var wmtsRequest = new WmtsRequest(resourceUrls, levelToIdentifier);
+        var wmtsRequest = new WmtsUrlBuilder(resourceUrls, levelToIdentifier);
 
         // Act
         var url1 = wmtsRequest.GetUrl(new TileInfo { Index = new TileIndex(8938, 5680, 14) });
@@ -153,7 +153,7 @@ public class WmtsTests
         // Arrange
         var resourceUrls = CreateResourceUrls();
         var levelToIdentifier = new Dictionary<int, string> { [14] = "level-14" };
-        var request = new WmtsRequest(resourceUrls, levelToIdentifier);
+        var request = new WmtsUrlBuilder(resourceUrls, levelToIdentifier);
         var urls = new ConcurrentBag<Uri>(); // List is not thread save
         var tileInfo = new TileInfo { Index = new TileIndex(8938, 5680, 14) };
 

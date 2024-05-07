@@ -52,8 +52,8 @@ public static class WmscCapabilitiesParser
         var styles = xTileSet.Elements("Styles").Select(xStyle => xStyle.Value).ToList();
         var layers = xTileSet.Elements("Layers").Select(xLayer => xLayer.Value).ToList();
         var schema = ToTileSchema(xTileSet, CreateDefaultName(layers));
-        var wmscRequest = new WmscRequest(new Uri(onlineResource.Href), schema, layers, styles);
-        return new HttpTileSource(schema, wmscRequest);
+        var wmscUrlBuilder = new WmscUrlBuilder(new Uri(onlineResource.Href), schema, layers, styles);
+        return new HttpTileSource(schema, wmscUrlBuilder);
     }
 
     private static TileSchema ToTileSchema(XElement xTileSet, string name)

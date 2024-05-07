@@ -31,7 +31,7 @@ public class HttpTileSource(
         IPersistentCache<byte[]>? persistentCache = null,
         Attribution? attribution = null,
         Action<HttpRequestMessage>? configureHttpRequestMessage = null)
-        : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name ?? "", persistentCache, attribution, configureHttpRequestMessage)
+        : this(tileSchema, new BasicUrlBuilder(urlFormatter, serverNodes, apiKey), name ?? "", persistentCache, attribution, configureHttpRequestMessage)
     { }
 
     public ITileSchema Schema => definition.TileSchema;
