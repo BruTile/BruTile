@@ -43,7 +43,7 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("User-Agent-Of-The-BruTile-Simple-Static-Map-Sample");
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("UserAgentOfBruTilesSimpleStaticMapSample");
         _buffer = new Bitmap(Width, Height);
     }
 
@@ -59,12 +59,12 @@ public partial class Form1 : Form
         var schema = CreateTileSchema();
         var tiles = schema.GetTileInfos(viewport.Extent, Utilities.GetNearestLevel(schema.Resolutions, viewport.UnitsPerPixel));
 
-        var requestBuilder = new TmsRequest(new Uri("https://tile.openstreetmap.org"), "png");
+        var tmsUrlBuilder = new TmsUrlBuilder(new Uri("https://tile.openstreetmap.org"), "png");
 
         var graphics = Graphics.FromImage(_buffer);
         foreach (var tile in tiles)
         {
-            var url = requestBuilder.GetUrl(tile);
+            var url = tmsUrlBuilder.GetUrl(tile);
             var bytes = await FetchTileAsync(url).ConfigureAwait(false);
             var bitmap = new Bitmap(new MemoryStream(bytes));
             var destination = viewport.WorldToScreen(tile.Extent.MinX, tile.Extent.MinY, tile.Extent.MaxX, tile.Extent.MaxY);

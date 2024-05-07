@@ -47,7 +47,7 @@ public class WmtsUrlBuilder(IEnumerable<ResourceUrl> resourceUrls, IDictionary<i
     }
 }
 
-[Obsolete("Use WmtsUrlBuilder instead. WmtsRequest exists for backwards compatibility.")]
+[Obsolete("Use WmtsUrlBuilder instead.")]
 public class WmtsRequest(IEnumerable<ResourceUrl> resourceUrls, IDictionary<int, string> levelToIdentifier) :
     WmtsUrlBuilder(resourceUrls, levelToIdentifier), IRequest
 { }

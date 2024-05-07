@@ -152,7 +152,7 @@ public class BasicUrlBuilder : IUrlBuilder
     }
 }
 
-[Obsolete("Use BasicUrlBuilder instead. BasicRequest exists for backwards compatibility.")]
+[Obsolete("Use BasicUrlBuilder instead.")]
 public class BasicRequest(string urlFormatter, IEnumerable<string> serverNodes = null, string apiKey = null) :
     BasicUrlBuilder(urlFormatter, serverNodes, apiKey), IUrlBuilder
 { }

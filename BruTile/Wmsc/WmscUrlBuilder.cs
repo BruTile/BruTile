@@ -70,7 +70,7 @@ public class WmscUrlBuilder(Uri baseUrl, ITileSchema schema, IEnumerable<string>
     }
 }
 
-[Obsolete("Use WmscUrlBuilder instead. WmscRequest exists for backwards compatibility.")]
+[Obsolete("Use WmscUrlBuilder instead.")]
 public class WmscRequest(Uri baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string> styles = null,
        IDictionary<string, string> customParameters = null, string version = null) :
     WmscUrlBuilder(baseUrl, schema, layers, styles, customParameters, version), IRequest

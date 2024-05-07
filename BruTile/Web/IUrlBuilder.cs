@@ -14,6 +14,6 @@ public interface IUrlBuilder
     Uri GetUrl(TileInfo info);
 }
 
-[Obsolete("Use IUrlBuilder instead. IRequest exists for backwards compatibility.")]
+[Obsolete("Use IUrlBuilder instead.")]
 public interface IRequest : IUrlBuilder
 { }
