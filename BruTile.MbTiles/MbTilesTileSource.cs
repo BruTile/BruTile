@@ -27,7 +27,7 @@ public class MbTilesTileSource : ITileSource
     public string Compression { get; }
 
     private readonly SQLiteConnectionString _connectionString;
-    private readonly Dictionary<int, TileRange> _tileRange;
+    private readonly Dictionary<int, TileRange>? _tileRange;
 
     /// <summary>
     /// 
@@ -46,7 +46,7 @@ public class MbTilesTileSource : ITileSource
     /// by the tiles present for each level in the 'tiles' table. The advantage is that requests can be faster because they do not have to 
     /// go to the database if they are outside the TileRange. The downside is that for large files it can take long to read the TileRange 
     /// from the tiles table. The default is false.</param>
-    public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema schema = null, MbTilesType type = MbTilesType.None,
+    public MbTilesTileSource(SQLiteConnectionString connectionString, ITileSchema? schema = null, MbTilesType type = MbTilesType.None,
         bool determineZoomLevelsFromTilesTable = false, bool determineTileRangeFromTilesTable = false)
     {
         if (!File.Exists(connectionString.DatabasePath))
@@ -86,12 +86,14 @@ public class MbTilesTileSource : ITileSource
         return new GlobalSphericalMercator(format.ToString(), YAxis.TMS, zoomLevels, extent: extent);
     }
 
-    private static int[] ReadZoomLevels(SQLiteConnection connection)
+    private static int[]? ReadZoomLevels(SQLiteConnection connection)
     {
         var zoomMin = ReadInt(connection, "minzoom");
-        if (zoomMin == null) return null;
+        if (zoomMin == null)
+            return null;
         var zoomMax = ReadInt(connection, "maxzoom");
-        if (zoomMax == null) return null;
+        if (zoomMax == null)
+            return null;
 
         var length = zoomMax.Value - zoomMin.Value + 1;
         var levels = new int[length];
@@ -176,7 +178,7 @@ public class MbTilesTileSource : ITileSource
         mercatorYLat = 3189068.5 * Math.Log((1.0 + Math.Sin(a)) / (1.0 - Math.Sin(a)));
     }
 
-    public async Task<byte[]> GetTileAsync(TileInfo tileInfo)
+    public async Task<byte[]?> GetTileAsync(TileInfo tileInfo)
     {
         var index = tileInfo.Index;
 
@@ -246,7 +248,8 @@ public class MbTilesTileSource : ITileSource
 
     private bool IsTileIndexValid(TileIndex index)
     {
-        if (_tileRange == null) return true;
+        if (_tileRange == null)
+            return true;
 
         // This is an optimization that makes use of an additional 'map' table which is not part of the spec
         if (_tileRange.TryGetValue(index.Level, out var tileRange))

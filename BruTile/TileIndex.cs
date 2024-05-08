@@ -10,7 +10,7 @@ public readonly struct TileIndex(int col, int row, int level) : IComparable
     public int Row { get; } = row;
     public int Level { get; } = level;
 
-    public int CompareTo(object obj)
+    public int CompareTo(object? obj)
     {
         if (obj is not TileIndex index)
         {
@@ -30,7 +30,7 @@ public readonly struct TileIndex(int col, int row, int level) : IComparable
         return 0;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not TileIndex index)
             return false;

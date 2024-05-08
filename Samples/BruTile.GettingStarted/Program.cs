@@ -47,7 +47,7 @@ internal class Program
                 $"tile col: {tileInfo.Index.Col}, " +
                 $"tile row: {tileInfo.Index.Row}, " +
                 $"tile level: {tileInfo.Index.Level} , " +
-                $"tile size {tile.Length}");
+                $"tile size {tile?.Length ?? 0}");
         }
 
         // 4) Try some of the known tile sources 
@@ -66,6 +66,6 @@ internal class Program
         var mbTilesTile = await mbTilesTileSource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
         Console.WriteLine();
         Console.WriteLine("MBTiles");
-        Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile.Length}");
+        Console.WriteLine($"This is a byte array of an image file loaded from MBTiles with size: {mbTilesTile?.Length ?? 0}");
     }
 }

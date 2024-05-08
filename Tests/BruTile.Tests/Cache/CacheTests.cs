@@ -58,6 +58,8 @@ public abstract class CacheTests<TCache>(TCache cache)
         var bm = Cache.Find(tk);
         sw.Stop();
         Assert.IsNotNull(bm);
+        if (bm == null)
+            throw new Exception("Tile was null"); // Remove if Unit has support to indicate it can not be null here.
         Assert.AreEqual(TileSizeX * TileSizeY * BitsPerPixel, bm.Length);
         Assert.AreEqual(1, Convert.ToInt32(bm[0]));
         Assert.AreEqual(2, Convert.ToInt32(bm[1]));
@@ -66,11 +68,13 @@ public abstract class CacheTests<TCache>(TCache cache)
         Console.WriteLine($"Specific Tile ({tk.Level},{tk.Row},{tk.Col}) found in {sw.ElapsedMilliseconds}ms.");
 
         sw.Reset();
-        tk = new TileIndex(5, 5, (MaxLevel - 1));
+        tk = new TileIndex(5, 5, MaxLevel - 1);
         sw.Start();
         bm = Cache.Find(tk);
         sw.Stop();
         Assert.IsNotNull(bm);
+        if (bm == null)
+            throw new Exception("Tile was null"); // Remove if Unit has support to indicate it can not be null here.
         Assert.AreEqual(TileSizeX * TileSizeY * BitsPerPixel, bm.Length);
         Assert.AreEqual(5, Convert.ToInt32(bm[0]));
         Assert.AreEqual(5, Convert.ToInt32(bm[1]));
@@ -110,8 +114,10 @@ public abstract class CacheTests<TCache>(TCache cache)
         }
     }
 
-    public void FindTileOnTread(object arg)
+    public void FindTileOnTread(object? arg)
     {
+        if (arg is null)
+            throw new ArgumentNullException(nameof(arg));
         var args = (object[])arg;
         var tileIndex = (TileIndex)args[0];
         var resetEvent = (AutoResetEvent)args[1];
@@ -123,8 +129,11 @@ public abstract class CacheTests<TCache>(TCache cache)
         if (buffer == null)
         {
             buffer = Cache.Find(tileIndex);
-            if (buffer == null) Assert.IsTrue(false);
-
+            if (buffer == null)
+            {
+                Assert.Fail();
+                return;
+            }
         }
         sw.Stop();
 

@@ -65,12 +65,13 @@ public class FileCache : IPersistentCache<byte[]>
         }
     }
 
-    public byte[] Find(TileIndex index)
+    public byte[]? Find(TileIndex index)
     {
         try
         {
             _rwLock.EnterReadLock();
-            if (!Exists(index)) return null; // To indicate not found
+            if (!Exists(index))
+                return null; // To indicate not found
             return File.ReadAllBytes(GetFileName(index));
         }
         finally

@@ -2,8 +2,6 @@
 
 // This file was created by Tim Ebben (Geodan) 2009
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;

@@ -14,7 +14,7 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
     private readonly Dictionary<TileIndex, long> _touched = [];
     private readonly object _syncRoot = new();
     private bool _disposed;
-    private readonly Func<TileIndex, bool> _keepTileInMemory;
+    private readonly Func<TileIndex, bool>? _keepTileInMemory;
 
     private long _cacheVersion;
 
@@ -32,7 +32,7 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
     public int MinTiles { get; set; }
     public int MaxTiles { get; set; }
 
-    public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool> keepTileInMemory = null)
+    public MemoryCache(int minTiles = 50, int maxTiles = 100, Func<TileIndex, bool>? keepTileInMemory = null)
     {
         if (minTiles >= maxTiles) throw new ArgumentException("minTiles should be smaller than maxTiles");
         if (minTiles < 0) throw new ArgumentException("minTiles should be larger than zero");
@@ -75,7 +75,7 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
             if (_bitmaps.TryGetValue(index, out var bitmap))
             {
 
-                bitmap.DisposeIfDisposable();
+                bitmap?.DisposeIfDisposable();
                 _touched.Remove(index);
                 _bitmaps.Remove(index);
                 OnNotifyPropertyChange(nameof(TileCount));
@@ -83,11 +83,12 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
         }
     }
 
-    public T Find(TileIndex index)
+    public T? Find(TileIndex index)
     {
         lock (_syncRoot)
         {
-            if (!_bitmaps.ContainsKey(index)) return default;
+            if (!_bitmaps.ContainsKey(index))
+                return default;
 
             _touched[index] = GetNextCacheVersion();
             return _bitmaps[index];
@@ -133,7 +134,7 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
         handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public void Dispose()
     {

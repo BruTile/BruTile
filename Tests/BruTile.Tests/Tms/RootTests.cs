@@ -22,8 +22,8 @@ internal class RootTests
     public void CreateFromResource()
     {
         var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(RootResource));
-        var root = Root.CreateFromResource(stream);
-        Assert.True(root.TileMapServices.Count() == 2);
-        Assert.True(root.TileMapServices.First(tms => tms.Title == "Example Tile Map Service").Version == "1.0.0");
+        var tileMapServices = TmsRootParser.CreateFromResource(stream);
+        Assert.True(tileMapServices.Count() == 2);
+        Assert.True(tileMapServices.First(tms => tms.Title == "Example Tile Map Service").Version == "1.0.0");
     }
 }

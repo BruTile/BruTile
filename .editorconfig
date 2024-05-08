@@ -249,3 +249,13 @@ dotnet_diagnostic.CS1591.severity = silent # Missing XML comment for publicly vi
 
 dotnet_code_quality_unused_parameters = all:suggestion # IDE0060 Remove unused parameter
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
+
+# Disable nullable for generated folders
+[{**/Wms/**.cs,**/Wmts/**.cs}]
+dotnet_diagnostic.CS8600.severity = none
+dotnet_diagnostic.CS8601.severity = none
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8603.severity = none
+dotnet_diagnostic.CS8604.severity = none
+dotnet_diagnostic.CS8618.severity = none
+dotnet_diagnostic.CS8625.severity = none

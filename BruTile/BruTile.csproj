@@ -5,7 +5,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath></PackageOutputPath>
 		<Description>BruTile is a C# library for GIS tile services such as those of Bing maps and OpenStreetMap</Description>
-		<PackageTags>tiling gis osm geo</PackageTags>
+		<PackageTags>tiling gis osm geo</PackageTags>		
 	</PropertyGroup>
 
 	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.1'))">
