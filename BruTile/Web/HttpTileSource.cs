@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
-using BruTile.Extensions;
 
 namespace BruTile.Web;
 
@@ -18,7 +17,7 @@ public class HttpTileSource(
     Attribution? attribution = null,
     Action<HttpRequestMessage>? configureHttpRequestMessage = null) : IHttpTileSource, IUrlBuilder
 {
-    private readonly HttpTileSourceDefinition definition = new(tileSchema, urlBuilder, name ?? "", attribution ?? new Attribution(), configureHttpRequestMessage);
+    private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
     public HttpTileSource(
         ITileSchema tileSchema,
@@ -32,15 +31,13 @@ public class HttpTileSource(
         : this(tileSchema, new BasicUrlBuilder(urlFormatter, serverNodes, apiKey), name ?? "", persistentCache, attribution, configureHttpRequestMessage)
     { }
 
-    public ITileSchema Schema => definition.TileSchema;
-    public string Name => definition.Name;
-    public Attribution Attribution => definition.Attribution;
+    public string Name { get; set; } = name ?? "";
+    public ITileSchema Schema => tileSchema;
+    public Attribution Attribution { get; set; } = attribution ?? new Attribution();
     public IPersistentCache<byte[]> PersistentCache { get; set; } = persistentCache ?? new NullCache();
+    public Action<HttpRequestMessage>? ConfigureHttpRequestMessage => configureHttpRequestMessage;
 
-    public Uri GetUrl(TileInfo tileInfo)
-    {
-        return definition.UrlBuilder.GetUrl(tileInfo);
-    }
+    public Uri GetUrl(TileInfo tileInfo) => _urlBuilder.GetUrl(tileInfo);
 
     /// <summary>
     /// Gets the actual image content of the tile as byte array
@@ -53,11 +50,24 @@ public class HttpTileSource(
         if (bytes != null)
             return bytes;
 
-        bytes = await httpClient.GetTileAsync(tileInfo, definition, cancellationToken ?? CancellationToken.None);
+        bytes = await GetTileAsync(httpClient, tileInfo, cancellationToken ?? CancellationToken.None);
 
         if (bytes != null)
             PersistentCache.Add(tileInfo.Index, bytes);
 
         return bytes;
+    }
+
+    private async Task<byte[]?> GetTileAsync(HttpClient httpClient, TileInfo tileInfo,
+        CancellationToken cancellationToken)
+    {
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, GetUrl(tileInfo));
+        if (ConfigureHttpRequestMessage is not null)
+            ConfigureHttpRequestMessage(requestMessage);
+        if (httpClient.DefaultRequestHeaders.UserAgent.Count == 0 && requestMessage.Headers.UserAgent.Count == 0)
+            throw new Exception("Set a User-Agent header that is specific to your application or to this tile service.");
+        var response = await httpClient.SendAsync(requestMessage, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }
 }
