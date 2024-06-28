@@ -61,12 +61,12 @@ public class HttpTileSource(
     private async Task<byte[]?> GetTileAsync(HttpClient httpClient, TileInfo tileInfo,
         CancellationToken cancellationToken)
     {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, GetUrl(tileInfo));
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Get, GetUrl(tileInfo));
         if (ConfigureHttpRequestMessage is not null)
             ConfigureHttpRequestMessage(requestMessage);
         if (httpClient.DefaultRequestHeaders.UserAgent.Count == 0 && requestMessage.Headers.UserAgent.Count == 0)
             throw new Exception("Set a User-Agent header that is specific to your application or to this tile service.");
-        var response = await httpClient.SendAsync(requestMessage, cancellationToken);
+        using var response = await httpClient.SendAsync(requestMessage, cancellationToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }
