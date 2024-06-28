@@ -217,7 +217,7 @@ public class WmsCapabilities
     private static async Task<XDocument> ToXDocumentAsync(Uri uri, ICredentials? credentials)
     {
         await using var stream = await GetRemoteXmlStreamAsync(uri, credentials);
-        var sr = new StreamReader(stream);
+        using var sr = new StreamReader(stream);
         var ret = XDocument.Load(sr);
         return ret;
 
@@ -225,7 +225,7 @@ public class WmsCapabilities
 
     private static async Task<Stream> GetRemoteXmlStreamAsync(Uri uri, ICredentials? credentials)
     {
-        var httpClientHandler = new HttpClientHandler();
+        using var httpClientHandler = new HttpClientHandler();
         try
         {
             // Blazor does not support this,
