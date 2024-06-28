@@ -5,11 +5,15 @@ using System.Linq;
 using System.Windows.Controls;
 using BruTile.Predefined;
 using BruTile.Samples.Common.Samples;
+using System.Threading.Tasks;
+using System.Net.Http;
+using BruTile.Wmts;
 
 namespace BruTile.Demo;
 
 public partial class MainWindow
 {
+    ITileSource? _source;
     public MainWindow()
     {
         InitializeComponent();
@@ -27,6 +31,21 @@ public partial class MainWindow
         Layers.Children.Add(ToRadioButton("Here Maps", HereMapsSample.Create));
         Layers.Children.Add(ToRadioButton("Lantmateriet Topowebb", () => LantmaterietTopowebbSample.CreateAsync().Result));
         Layers.Children.Add(ToRadioButton("World MbTiles", MbTilesSample.Create));
+
+        Task.Run(() =>
+        {
+            _source = CreateTileSourceAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        });
+    }
+
+    public static async Task<ITileSource> CreateTileSourceAsync()
+    {
+        var handler = new HttpClientHandler();
+        using var httpClient = new HttpClient(handler);
+        using var response = await httpClient.GetStreamAsync("https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/WMTSCapabilities.xml");
+        var tileSources = WmtsCapabilitiesParser.Parse(response).ToList();
+        var zurichMapTileSource = tileSources.FirstOrDefault(t => t.Name == "Basiskarte_Zuerich_Raster_Grau") ?? throw new System.Exception();
+        return zurichMapTileSource;
     }
 
     private RadioButton ToRadioButton(string name, Func<ITileSource> func)
@@ -36,7 +55,7 @@ public partial class MainWindow
             Content = name,
             Tag = new Func<ITileSource>(func)
         };
-        radioButton.Click += (sender, args) => MapControl.SetTileSource(((Func<ITileSource>)((RadioButton)sender).Tag)());
+        radioButton.Click += (sender, args) => MapControl.SetTileSource(_source!);
 
         return radioButton;
     }
