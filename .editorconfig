@@ -263,4 +263,4 @@ dotnet_diagnostic.IDE0005.severity = error # Remove unnecessary using directives
 dotnet_diagnostic.IDE0055.severity = error # Formatting rule
 dotnet_diagnostic.IDE0046.severity = silent # Use conditional expression for return
 dotnet_diagnostic.CS1591.severity = silent # Missing XML comment for publicly visible type or member 'Type_or_Member'
-dotnet_diagnostic.CA2000.severity = error
+dotnet_diagnostic.CA2000.severity = error # Dispose objects before losing scope
