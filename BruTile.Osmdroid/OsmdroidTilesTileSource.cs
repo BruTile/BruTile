@@ -25,7 +25,7 @@ public class OsmdroidTilesTileSource : ITileSource
     /// the 'tiles' table. When 'determineZoomLevelsFromTilesTable' is false the zoom levels will be read from the metadata table
     ///(by reading 'zoomMin' and 'zoomMax'). If there are no zoom levels specified in the metadata table the GlobalSphericalMercator
     ///default levels are assumed. This parameter will have no effect if the schema is passed in as argument. The default is false.</param>
-    public OsmdroidTilesTileSource(SQLiteConnectionString connectionString, ITileSchema? schema = null, bool determineZoomLevelsFromTilesTable = false)
+    public OsmdroidTilesTileSource(SQLiteConnectionString connectionString, ITileSchema? schema = null, IEnumerable<int>? zoomLevels = null)
     {
         if (!File.Exists(connectionString.DatabasePath))
         {
@@ -35,23 +35,16 @@ public class OsmdroidTilesTileSource : ITileSource
         _connectionString = connectionString;
 
         using var connection = new SQLiteConnection(connectionString);
-        Schema = schema ?? ReadSchemaFromDatabase(connection, determineZoomLevelsFromTilesTable);
+        Schema = schema ?? ReadSchemaFromDatabase(connection, zoomLevels);
 
         Attribution = new Attribution(); // TODO - need to work out what to do with this (use the provider string?)
         Name = "OSMDroid"; // placeholder
     }
 
-    public OsmdroidTilesTileSource(SQLiteConnectionString connectionString, bool determineZoomLevelsFromTilesTable)
-        : this(connectionString, null, determineZoomLevelsFromTilesTable)
+
+    private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, IEnumerable<int>? zoomLevels)
     {
-    }
-
-
-    private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, bool determineZoomLevelsFromTilesTable)
-    {
-        IEnumerable<int>? zoomLevels = null;
-
-        if (determineZoomLevelsFromTilesTable)
+        if (zoomLevels is null)
         {
             zoomLevels = ReadZoomLevelsFromTilesTable(connection);
         }
@@ -67,6 +60,16 @@ public class OsmdroidTilesTileSource : ITileSource
     // we can determine what the min and max is fairly easily.
     private static IEnumerable<int>? ReadZoomLevelsFromTilesTable(SQLiteConnection connection)
     {
+        // var zoomMin = ReadInt(connection, "minzoom");
+        // if (zoomMin == null) return null;
+        // var zoomMax = ReadInt(connection, "maxzoom");
+        // if (zoomMax == null) return null;
+        //
+        // var length = zoomMax.Value - zoomMin.Value + 1;
+        // var levels = new int[length];
+        // for (var i = 0; i < length; i++) levels[i] = i + zoomMin.Value;
+        //
+        // return levels;
         return null; // TODO - we can probably work this out from the Osmdroid source
     }
 
@@ -85,7 +88,8 @@ public class OsmdroidTilesTileSource : ITileSource
     // JFIF : FF D8 FF E0
     // EXIF : FF D8 FF E1
     private static bool IsJpeg(byte[] bytes) =>
-        bytes is [0xFF, 0xD8, 0xFF, _, ..] && bytes[3] switch {
+        bytes is [0xFF, 0xD8, 0xFF, _, ..] && bytes[3] switch
+        {
             0xDB => true,
             0xE0 => true,
             0xE1 => true,
@@ -105,60 +109,22 @@ public class OsmdroidTilesTileSource : ITileSource
         return (((long)pZoom) << (pZoom * 2)) + (((long)pX) << pZoom) + mY;
     }
 
-    private bool IsTileIndexValid(TileIndex index)
-    {
-        return true;
-
-        // if (_tileRange == null)
-        //     return true;
-        //
-        // // This is an optimization that makes use of an additional 'map' table which is not part of the spec
-        // if (_tileRange.TryGetValue(index.Level, out var tileRange))
-        //     return
-        //         tileRange.FirstCol <= index.Col &&
-        //         index.Col <= tileRange.LastCol &&
-        //         tileRange.FirstRow <= index.Row &&
-        //         index.Row <= tileRange.LastRow;
-        // return false;
-    }
-
     public async Task<byte[]?> GetTileAsync(TileInfo tileInfo)
     {
         var index = tileInfo.Index;
 
-        if (IsTileIndexValid(index))
+        byte[] result;
+        var cn = new SQLiteAsyncConnection(_connectionString);
         {
-            byte[] result;
-            var cn = new SQLiteAsyncConnection(_connectionString);
-            {
-                var key = ToOsmdroidKey(index.Level, index.Col, index.Row);
-                System.Diagnostics.Debug.WriteLine($"{index.Level}, {index.Row}, {index.Col} => {key}");
-                var sql = "SELECT tile FROM \"tiles\" WHERE  key=?;";
-                result = await cn.ExecuteScalarAsync<byte[]>(sql, key)
-                    .ConfigureAwait(false);
-            }
-
-            return result == null || result.Length == 0
-                ? null
-                : result;
+            var key = ToOsmdroidKey(index.Level, index.Col, index.Row);
+            System.Diagnostics.Debug.WriteLine($"{index.Level}, {index.Row}, {index.Col} => {key}");
+            var sql = "SELECT tile FROM \"tiles\" WHERE  key=?;";
+            result = await cn.ExecuteScalarAsync<byte[]>(sql, key)
+                .ConfigureAwait(false);
         }
 
-        return null;
-    }
-
-    private static int[]? ReadZoomLevels(SQLiteConnection connection)
-    {
-        return null; // TODO - need to make this work
-
-        // var zoomMin = ReadInt(connection, "minzoom");
-        // if (zoomMin == null) return null;
-        // var zoomMax = ReadInt(connection, "maxzoom");
-        // if (zoomMax == null) return null;
-        //
-        // var length = zoomMax.Value - zoomMin.Value + 1;
-        // var levels = new int[length];
-        // for (var i = 0; i < length; i++) levels[i] = i + zoomMin.Value;
-        //
-        // return levels;
+        return result == null || result.Length == 0
+            ? null
+            : result;
     }
 }

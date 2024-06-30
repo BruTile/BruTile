@@ -23,7 +23,7 @@ public class OsmdroidTilesTileSourceTests
     public async Task FetchTiles()
     {
         // Arrange
-        var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.mbtiles");
+        var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "test.sqlite");
         var tileSource = new OsmdroidTilesTileSource(new SQLiteConnectionString(path, false, _encryptionKey));
         var extent = tileSource.Schema.Extent;
         var tileInfos = tileSource.Schema.GetTileInfos(extent, 1).ToList();
