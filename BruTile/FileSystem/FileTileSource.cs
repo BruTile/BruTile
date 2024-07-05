@@ -6,7 +6,7 @@ using BruTile.Cache;
 
 namespace BruTile.FileSystem;
 
-public class FileTileSource(ITileSchema tileSchema, string directory, string format, TimeSpan? cacheExpireTime = null, 
+public class FileTileSource(ITileSchema tileSchema, string directory, string format, TimeSpan? cacheExpireTime = null,
     string? name = null, Attribution? attribution = null) : ILocalTileSource
 {
     private readonly FileCache _fileCache = new(directory, format, cacheExpireTime ?? TimeSpan.Zero);
