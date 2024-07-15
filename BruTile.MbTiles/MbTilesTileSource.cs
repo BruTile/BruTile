@@ -18,7 +18,7 @@ namespace BruTile.MbTiles;
 /// An <see cref="ITileSource"/> implementation for MapBox Tiles files
 /// </summary>
 /// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
-public class MbTilesTileSource : ITileSource
+public class MbTilesTileSource : ILocalTileSource
 {
     public MbTilesType Type { get; }
     public string Version { get; }
