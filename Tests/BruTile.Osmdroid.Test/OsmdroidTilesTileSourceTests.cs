@@ -37,4 +37,24 @@ public class OsmdroidTilesTileSourceTests
         Assert.True(data?.Length > 0);
         Assert.AreEqual("attribution", tileSource.Attribution.Text);
     }
+
+    // These are just random indexes from a map database,
+    // they are not meant to be the same point in any way.
+    [TestCase(0, 0)]
+    [TestCase(5, 1)]
+    [TestCase(36, 2)]
+    [TestCase(203, 3)]
+    [TestCase(1033, 4)]
+    [TestCase(5134, 5)]
+    [TestCase(24586, 6)]
+    [TestCase(115346, 7)]
+    [TestCase(541820, 8)]
+    [TestCase(2621280, 9)]
+    public void TestDecodeIndex(long index, int zoom)
+    {
+        var level = OsmdroidTilesTileSource.GetZoomLevel(index);
+
+        Assert.That(level, Is.Not.Negative);
+        Assert.That(level, Is.EqualTo(zoom));
+    }
 }
