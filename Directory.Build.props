@@ -12,7 +12,7 @@
 		<PackageIcon>brutile.png</PackageIcon>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
 		<Company>BruTile Developers Team</Company>
-		<LangVersion>12.0</LangVersion>
+		<LangVersion>13.0</LangVersion>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<IsAotCompatible>true</IsAotCompatible>
 		<Nullable>enable</Nullable>
