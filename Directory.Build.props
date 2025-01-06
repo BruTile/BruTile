@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<Version>6.0.0-beta.1</Version>
 		<NeutralLanguage>en</NeutralLanguage>
-		<Copyright>Copyright © BruTile Developers Team 2008-2024</Copyright>
+		<Copyright>Copyright © BruTile Developers Team 2008-2025</Copyright>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
