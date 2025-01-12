@@ -1,5 +1,7 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace BruTile.Tms;
 
 // 
@@ -15,6 +17,7 @@ namespace BruTile.Tms;
 
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
 
 public partial class TileMap
 {
