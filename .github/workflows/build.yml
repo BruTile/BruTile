@@ -35,7 +35,7 @@ jobs:
     - name: Test
       run: dotnet test $SOLUTION --configuration Release -p:Version=$(git describe --tags) --no-restore --verbosity normal
     - name: Upload packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nupkg
         path: BruTile*/bin/Release/*.nupkg

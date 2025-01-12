@@ -47,7 +47,7 @@ jobs:
       run: dotnet test $SOLUTION --configuration Release --no-restore --verbosity normal -p:Version=${{ env.VERSION_OF_RELEASE }}
  
     - name: Upload nugets
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
       # Upload the 'nugets' folder as artifact
         name: packages
