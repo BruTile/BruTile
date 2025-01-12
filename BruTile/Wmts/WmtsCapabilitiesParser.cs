@@ -52,11 +52,13 @@ public class WmtsCapabilitiesParser
     public static List<HttpTileSource> Parse(Stream source,
         BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural)
     {
+#pragma warning disable IL2026
         var serializer = new XmlSerializer(typeof(Capabilities));
         Capabilities capabilities;
 
         using (var reader = new StreamReader(source))
             capabilities = (Capabilities)serializer.Deserialize(reader);
+#pragma warning restore IL2026        
 
         var tileSchemas = GetTileMatrixSets(capabilities.Contents.TileMatrixSet, axisOrder);
         var tileSources = GetLayers(capabilities, tileSchemas);

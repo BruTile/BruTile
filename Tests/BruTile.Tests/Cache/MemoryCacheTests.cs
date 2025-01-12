@@ -3,6 +3,7 @@
 using System;
 using BruTile.Cache;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Cache;
 

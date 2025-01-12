@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BruTile.Cache;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Cache;
 

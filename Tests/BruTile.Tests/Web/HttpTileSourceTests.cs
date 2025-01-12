@@ -9,6 +9,7 @@ using BruTile.Predefined;
 using BruTile.Web;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Web;
 

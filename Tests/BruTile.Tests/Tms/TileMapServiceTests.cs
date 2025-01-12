@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using BruTile.Tms;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Tms;
 

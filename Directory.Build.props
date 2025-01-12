@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<Version>6.0.0-beta.1</Version>
 		<NeutralLanguage>en</NeutralLanguage>
-		<Copyright>Copyright © BruTile Developers Team 2008-2024</Copyright>
+		<Copyright>Copyright © BruTile Developers Team 2008-2025</Copyright>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/BruTile/BruTile</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
@@ -12,9 +12,9 @@
 		<PackageIcon>brutile.png</PackageIcon>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
 		<Company>BruTile Developers Team</Company>
-		<LangVersion>12.0</LangVersion>
+		<LangVersion>13.0</LangVersion>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
+		<IsAotCompatible>true</IsAotCompatible>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 

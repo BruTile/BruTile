@@ -7,6 +7,7 @@ using BruTile.MbTiles.Tests.Utilities;
 using BruTile.Predefined;
 using NUnit.Framework;
 using SQLite;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.MbTiles.Tests;
 

@@ -12,6 +12,7 @@ using BruTile.Web;
 using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Wmts;
 

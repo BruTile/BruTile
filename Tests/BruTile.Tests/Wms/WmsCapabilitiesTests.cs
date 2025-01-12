@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using BruTile.Tests.Utilities;
 using BruTile.Wms;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Wms;
 

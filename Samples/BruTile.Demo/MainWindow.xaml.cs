@@ -14,7 +14,7 @@ public partial class MainWindow
     {
         InitializeComponent();
 
-        foreach (var knownTileSource in Enum.GetValues(typeof(KnownTileSource)).Cast<KnownTileSource>())
+        foreach (var knownTileSource in GetKnownTileSourceValues())
         {
             var httpTileSource = KnownTileSources.Create(knownTileSource);
             Layers.Children.Add(ToRadioButton(knownTileSource.ToString(), () => httpTileSource));
@@ -39,5 +39,38 @@ public partial class MainWindow
         radioButton.Click += (sender, args) => MapControl.SetTileSource(((Func<ITileSource>)((RadioButton)sender).Tag)());
 
         return radioButton;
+    }
+
+    private static KnownTileSource[] GetKnownTileSourceValues()
+    {
+        return
+        [
+            KnownTileSource.OpenStreetMap,
+            KnownTileSource.OpenCycleMap,
+            KnownTileSource.OpenCycleMapTransport,
+            KnownTileSource.BingAerial,
+            KnownTileSource.BingHybrid,
+            KnownTileSource.BingRoads,
+            KnownTileSource.BingAerialStaging,
+            KnownTileSource.BingHybridStaging,
+            KnownTileSource.BingRoadsStaging,
+            KnownTileSource.StamenToner,
+            KnownTileSource.StamenTonerLite,
+            KnownTileSource.StamenWatercolor,
+            KnownTileSource.StamenTerrain,
+            KnownTileSource.EsriWorldTopo,
+            KnownTileSource.EsriWorldPhysical,
+            KnownTileSource.EsriWorldShadedRelief,
+            KnownTileSource.EsriWorldReferenceOverlay,
+            KnownTileSource.EsriWorldTransportation,
+            KnownTileSource.EsriWorldBoundariesAndPlaces,
+            KnownTileSource.EsriWorldDarkGrayBase,
+            KnownTileSource.BKGTopPlusColor,
+            KnownTileSource.BKGTopPlusGrey,
+            KnownTileSource.HereNormal,
+            KnownTileSource.HereSatellite,
+            KnownTileSource.HereHybrid,
+            KnownTileSource.HereTerrain
+        ];
     }
 }
