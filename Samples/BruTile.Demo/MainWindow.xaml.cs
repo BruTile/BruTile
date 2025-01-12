@@ -40,7 +40,7 @@ public partial class MainWindow
 
         return radioButton;
     }
-    
+
     private static KnownTileSource[] GetKnownTileSourceValues()
     {
         return
