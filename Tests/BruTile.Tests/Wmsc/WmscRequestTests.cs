@@ -4,6 +4,7 @@ using System;
 using BruTile.Predefined;
 using BruTile.Wmsc;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace BruTile.Tests.Wmsc;
 

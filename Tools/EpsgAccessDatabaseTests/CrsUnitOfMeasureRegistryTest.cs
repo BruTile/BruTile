@@ -138,9 +138,9 @@ ORDER BY [Coordinate Reference System].COORD_REF_SYS_CODE;";
 
             var uomCode = dr.GetInt32(1);
             if (uomCode == 9001 || uomCode == 1024)
-                Assert.That(uom.ToMeter, Is.EqualTo(1d), "Unit of measure ToMeter is not 1d: {0}", crs);
+                Assert.That(uom.ToMeter, Is.EqualTo(1d), () => $"Unit of measure ToMeter is not 1d: {crs}");
             else
-                Assert.That(uom.ToMeter, Is.Not.EqualTo(1d), "Unit of measure ToMeter should not be 1d: {0}", crs);
+                Assert.That(uom.ToMeter, Is.Not.EqualTo(1d), () => $"Unit of measure ToMeter should not be 1d: {crs}");
         }
     }
 }
