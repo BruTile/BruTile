@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BruTile.Web;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests.Web;
 
