@@ -89,6 +89,12 @@ public class WmtsCapabilitiesParser
 
                 foreach (var style in layer.Style)
                 {
+                    var styleName = "default";
+                    if (style.Identifier.Value != null)
+                    {
+                        styleName = style.Identifier.Value;
+                    }
+
                     foreach (var format in layer.Format)
                     {
                         if (!format.StartsWith("image/")) continue;
@@ -105,7 +111,8 @@ public class WmtsCapabilitiesParser
                                 format,
                                 capabilities.ServiceIdentification.ServiceTypeVersion.First(),
                                 layer.Identifier.Value,
-                                style.Identifier.Value,
+                                //style.Identifier.Value,
+                                styleName,
                                 tileMatrixLink.TileMatrixSet);
 
                             wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
@@ -114,14 +121,14 @@ public class WmtsCapabilitiesParser
                         {
                             var resourceUrls = CreateResourceUrlsFromResourceUrlNode(
                                 layer.ResourceURL,
-                                style.Identifier.Value,
+                                //style.Identifier.Value,
+                                styleName,
                                 tileMatrixLink.TileMatrixSet);
 
                             wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
                         }
 
-                        //var layerName = layer.Identifier.Value;
-                        var styleName = style.Identifier.Value;
+                        //var layerName = layer.Identifier.Value;                  
 
                         var schema = tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format);
                         var tileSource = new HttpTileSource(schema, wmtsRequest, name: title);
