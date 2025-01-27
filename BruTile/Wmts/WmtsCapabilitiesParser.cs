@@ -89,48 +89,16 @@ public class WmtsCapabilitiesParser
 
                 foreach (var style in layer.Style)
                 {
-                    var styleName = "default";
-                    if (style.Identifier.Value != null)
-                    {
-                        styleName = style.Identifier.Value;
-                    }
-
+                    var styleName = style.Identifier.Value ?? "default";
                     foreach (var format in layer.Format)
                     {
-                        if (!format.StartsWith("image/")) continue;
+                        if (!format.StartsWith("image/")) 
+                            continue;
 
                         var tileMatrixSet = tileMatrixLink.TileMatrixSet;
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
-
-                        IUrlBuilder wmtsRequest;
-
-                        if (layer.ResourceURL == null)
-                        {
-                            var resourceUrls = CreateResourceUrlsFromOperations(
-                                capabilities.OperationsMetadata.Operation,
-                                format,
-                                capabilities.ServiceIdentification.ServiceTypeVersion.First(),
-                                layer.Identifier.Value,
-                                //style.Identifier.Value,
-                                styleName,
-                                tileMatrixLink.TileMatrixSet);
-
-                            wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
-                        }
-                        else
-                        {
-                            var resourceUrls = CreateResourceUrlsFromResourceUrlNode(
-                                layer.ResourceURL,
-                                //style.Identifier.Value,
-                                styleName,
-                                tileMatrixLink.TileMatrixSet);
-
-                            wmtsRequest = new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
-                        }
-
-                        //var layerName = layer.Identifier.Value;                  
-
                         var schema = tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format);
+                        var wmtsRequest = CreateUrlBuilder(capabilities, layer, tileMatrixLink, format, tileSchema, styleName);
                         var tileSource = new HttpTileSource(schema, wmtsRequest, name: title);
 
                         tileSources.Add(tileSource);
@@ -141,13 +109,38 @@ public class WmtsCapabilitiesParser
         return tileSources;
     }
 
+    private static WmtsUrlBuilder CreateUrlBuilder(Capabilities capabilities, LayerType? layer, TileMatrixSetLink? tileMatrixLink, string? format, WmtsTileSchema tileSchema, string styleName)
+    {
+        if (layer.ResourceURL == null)
+        {
+            var resourceUrls = CreateResourceUrlsFromOperations(
+                capabilities.OperationsMetadata.Operation,
+                format,
+                capabilities.ServiceIdentification.ServiceTypeVersion.First(),
+                layer.Identifier.Value,
+                styleName,
+                tileMatrixLink.TileMatrixSet);
+
+            return new WmtsUrlBuilder(resourceUrls, tileSchema.LevelToIdentifier);
+        }
+
+        var resourceUrlsFromNode = CreateResourceUrlsFromResourceUrlNode(
+            layer.ResourceURL,
+            styleName,
+            tileMatrixLink.TileMatrixSet);
+
+        return new WmtsUrlBuilder(resourceUrlsFromNode, tileSchema.LevelToIdentifier);
+    }
+
     private static IEnumerable<ResourceUrl> CreateResourceUrlsFromOperations(IEnumerable<Operation> operations,
         string format, string version, string layer, string style, string tileMatrixSet)
     {
         var list = new List<KeyValuePair<string, string>>();
         foreach (var operation in operations)
         {
-            if (!operation.name.ToLower().Equals("gettile")) continue;
+            if (!operation.name.ToLower().Equals("gettile"))
+                continue;
+
             foreach (var dcp in operation.DCP)
             {
                 foreach (var item in dcp.Http.Items)
@@ -174,7 +167,7 @@ public class WmtsCapabilitiesParser
 
         return list.Select(s => new ResourceUrl
         {
-            Template = s.Key.ToLower() == "kvp" ?
+            Template = s.Key.Equals("kvp", StringComparison.CurrentCultureIgnoreCase) ?
                     CreateKvpFormatter(s.Value, format, version, layer, style, tileMatrixSet) :
                     CreateRestfulFormatter(s.Value, format, style, tileMatrixSet),
             ResourceType = URLTemplateTypeResourceType.tile,
@@ -184,7 +177,8 @@ public class WmtsCapabilitiesParser
 
     private static string CreateRestfulFormatter(string baseUrl, string format, string style, string tileMatrixSet)
     {
-        if (!baseUrl.EndsWith("/")) baseUrl += "/";
+        if (!baseUrl.EndsWith('/'))
+            baseUrl += "/";
         return new StringBuilder(baseUrl).Append(style).Append('/').Append(tileMatrixSet)
             .Append("/{TileMatrix}/{TileRow}/{TileCol}").Append('.').Append(format).ToString();
     }
@@ -193,16 +187,17 @@ public class WmtsCapabilitiesParser
     {
         var requestBuilder = new StringBuilder(baseUrl);
         if (!baseUrl.Contains('?')) requestBuilder.Append('?');
-        requestBuilder.Append("SERVICE=").Append("WMTS")
-                      .Append("&REQUEST=").Append("GetTile")
-                      .Append("&VERSION=").Append(version)
-                      .Append("&LAYER=").Append(layer)
-                      .Append("&STYLE=").Append(style)
-                      .Append("&TILEMATRIXSET=").Append(tileMatrixSet)
-                      .Append("&TILEMATRIX=").Append(WmtsUrlBuilder.ZTag)
-                      .Append("&TILEROW=").Append(WmtsUrlBuilder.YTag)
-                      .Append("&TILECOL=").Append(WmtsUrlBuilder.XTag)
-                      .Append("&FORMAT=").Append(format);
+        requestBuilder
+            .Append("SERVICE=").Append("WMTS")
+            .Append("&REQUEST=").Append("GetTile")
+            .Append("&VERSION=").Append(version)
+            .Append("&LAYER=").Append(layer)
+            .Append("&STYLE=").Append(style)
+            .Append("&TILEMATRIXSET=").Append(tileMatrixSet)
+            .Append("&TILEMATRIX=").Append(WmtsUrlBuilder.ZTag)
+            .Append("&TILEROW=").Append(WmtsUrlBuilder.YTag)
+            .Append("&TILECOL=").Append(WmtsUrlBuilder.XTag)
+            .Append("&FORMAT=").Append(format);
         return requestBuilder.ToString();
     }
 
@@ -285,7 +280,7 @@ public class WmtsCapabilitiesParser
                 tileSchema.LevelToIdentifier[tileMatrix.Level] = tileMatrix.Identifier.Value;
             }
 
-            // record the tile schema
+            // Record the tile schema
             tileSchemas.Add(tileSchema);
         }
         return tileSchemas;
@@ -356,7 +351,6 @@ public class WmtsCapabilitiesParser
 
     private static Extent ToExtent(Resolution tileMatrix)
     {
-        //var pixelSpan = tileMatrix.
         return new Extent(
             tileMatrix.Left,
             tileMatrix.Top - tileMatrix.UnitsPerPixel * tileMatrix.TileHeight * tileMatrix.MatrixHeight,
@@ -374,14 +368,12 @@ public class WmtsCapabilitiesParser
         var unitsPerPixel = tileMatrix.ScaleDenominator * ScaleHint / metersPerUnit;
         if (unitsPerPixel == 0 || double.IsNaN(unitsPerPixel))
         {
-            if (scaleSet == null) throw new ArgumentNullException(nameof(scaleSet));
-
+            ArgumentNullException.ThrowIfNull(scaleSet);
             unitsPerPixel = scaleSet[tileMatrix.ScaleDenominator].GetValueOrDefault(0d);
         }
 
         return new KeyValuePair<int, Resolution>(tileMatrix.Level,
-            new Resolution
-            (
+            new Resolution(
                 tileMatrix.Level,
                 unitsPerPixel,
                 tileMatrix.TileWidth,
