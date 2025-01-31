@@ -92,7 +92,7 @@ public class WmtsCapabilitiesParser
                     var styleName = style.Identifier.Value ?? "default";
                     foreach (var format in layer.Format)
                     {
-                        if (!format.StartsWith("image/")) 
+                        if (!format.StartsWith("image/"))
                             continue;
 
                         var tileMatrixSet = tileMatrixLink.TileMatrixSet;
