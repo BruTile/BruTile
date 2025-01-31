@@ -253,7 +253,7 @@ public class OsmdroidTilesTileSource : ILocalTileSource
 
         private int? modulo;
         [Ignore]
-        public int Modulo => modulo ??=  1 << ZoomLevel;
+        public int Modulo => modulo ??= 1 << ZoomLevel;
 
         private int? x;
         [Ignore]
