@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BruTile.Predefined;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace BruTile.Tests;
 
