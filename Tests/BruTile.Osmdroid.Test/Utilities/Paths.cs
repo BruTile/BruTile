@@ -3,6 +3,8 @@
 using System.IO;
 using System.Reflection;
 
+#pragma warning disable IL3000 // Avoid accessing Assembly file path when publishing as a single file. Suppressed because this file is only used in tests.
+
 namespace BruTile.MbTiles.Tests.Utilities;
 
 public static class Paths

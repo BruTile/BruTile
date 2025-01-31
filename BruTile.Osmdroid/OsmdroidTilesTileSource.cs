@@ -1,10 +1,10 @@
-﻿using BruTile.Predefined;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BruTile.Predefined;
+using SQLite;
 
 namespace BruTile.Osmdroid;
 
@@ -48,7 +48,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
             _tileRange = ReadTileRangeForEachLevelFromTilesTable(connection, zoomLevelsFromDatabase);
         }
     }
-
 
     private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, IEnumerable<int>? zoomLevels)
     {
@@ -160,7 +159,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
         return false;
     }
 
-
     /// <summary>
     /// Gets the minimum key in the database
     /// </summary>
@@ -215,7 +213,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
         return -1;
     }
 
-
     private static string? GetProvider(SQLiteConnection connection)
     {
         const string sql = "SELECT provider FROM tiles ORDER BY key ASC LIMIT 1 ;";
@@ -256,7 +253,7 @@ public class OsmdroidTilesTileSource : ILocalTileSource
 
         private int? modulo;
         [Ignore]
-        public int Modulo => modulo ??=  1 << ZoomLevel;
+        public int Modulo => modulo ??= 1 << ZoomLevel;
 
         private int? x;
         [Ignore]

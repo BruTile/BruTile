@@ -1,7 +1,6 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Linq;
 using System.Windows.Controls;
 using BruTile.Predefined;
 using BruTile.Samples.Common.Samples;
