@@ -1,10 +1,10 @@
-﻿using BruTile.Predefined;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BruTile.Predefined;
+using SQLite;
 
 namespace BruTile.Osmdroid;
 
