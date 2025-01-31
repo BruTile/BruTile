@@ -49,7 +49,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
         }
     }
 
-
     private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, IEnumerable<int>? zoomLevels)
     {
         if (zoomLevels is null)
@@ -160,7 +159,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
         return false;
     }
 
-
     /// <summary>
     /// Gets the minimum key in the database
     /// </summary>
@@ -214,7 +212,6 @@ public class OsmdroidTilesTileSource : ILocalTileSource
 
         return -1;
     }
-
 
     private static string? GetProvider(SQLiteConnection connection)
     {
