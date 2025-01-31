@@ -28,7 +28,7 @@ jobs:
             mkdocs-material-
       - run: pip install mkdocs-material 
       - run: mkdocs build -f documentation/mkdocs/mkdocs.yml -d ../site --clean
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: site
           path: documentation/site

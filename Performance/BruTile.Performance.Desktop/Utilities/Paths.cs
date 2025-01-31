@@ -12,7 +12,7 @@ public static class Paths
         get
         {
             var asm = typeof(Paths).GetTypeInfo().Assembly;
-            return Path.GetDirectoryName(asm.Location) ?? throw new System.Exception("AssemblyName was null");
+            return Path.GetDirectoryName(System.AppContext.BaseDirectory) ?? throw new System.Exception("AssemblyName was null");
         }
     }
 }
