@@ -2,11 +2,11 @@
 
 using System;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using BruTile.Predefined;
 using BruTile.Samples.Common.Samples;
-using System.Threading.Tasks;
-using System.Net.Http;
 using BruTile.Wmts;
 
 namespace BruTile.Demo;
