@@ -21,9 +21,6 @@ jobs:
       with:
         fetch-depth: 0 # Prevent a shallow clone to allow git describe --tags
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-
       # The version tag needs to be set before the release. If not if will fail on nuget publish.
     - name: Set VERSION_OF_RELEASE to last tag
       run: |
@@ -31,7 +28,7 @@ jobs:
         echo "${{ env.VERSION_OF_RELEASE }}"
 
     - name: Restore dependencies
-      run: nuget restore $SOLUTION
+      run: dotnet restore $SOLUTION
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -56,4 +53,4 @@ jobs:
 
     - name: Publish
       if: ${{ inputs.release_nuget }} 
-      run: nuget push "nugets\**\*.nupkg" -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_APIKEY }}
+      run: dotnet nuget push "nugets\**\*.nupkg" -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_APIKEY }}
