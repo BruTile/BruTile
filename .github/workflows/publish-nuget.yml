@@ -36,8 +36,9 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
-
+        dotnet-version: |
+            8.0.4xx
+            9.0.x
     - name: Build
       # The nupkgs will be built because the projects have GeneratePackageOnBuild set to true. 
       # The dlls and nupkgs will be built 'inputs.release_version' as version, overriding the version number in the Directory.Build.props.

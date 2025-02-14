@@ -27,7 +27,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: |
+            8.0.4xx
+            9.0.x
     - name: Build
       run: dotnet build $SOLUTION --configuration Release -p:Version=$(git describe --tags)
     - name: check the formatting
