@@ -192,7 +192,7 @@ internal class MapControl : Grid
         _invalid = false;
     }
 
-    private static (bool Success, Viewport? Viewport) TryInitializeViewport(double actualWidth, double actualHeight, ITileSchema schema)
+    private static (bool Success, Viewport? Viewport) TryInitializeViewport(double actualWidth, double actualHeight, GlobalSphericalMercator schema)
     {
         if (double.IsNaN(actualWidth))
             return (false, null);

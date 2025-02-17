@@ -16,7 +16,7 @@ public class WmscUrlBuilder(Uri baseUrl, ITileSchema schema, IEnumerable<string>
     private readonly IDictionary<string, string>? _customParameters = customParameters;
     private readonly IList<string> _layers = layers.ToList();
     private readonly ITileSchema _schema = schema;
-    private readonly IList<string>? _styles = styles?.ToList();
+    private readonly List<string>? _styles = styles?.ToList();
     private readonly string? _version = version;
 
     public WmscUrlBuilder(string baseUrl, ITileSchema schema, IEnumerable<string> layers, IEnumerable<string>? styles = null,

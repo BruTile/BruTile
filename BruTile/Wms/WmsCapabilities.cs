@@ -247,8 +247,7 @@ public class WmsCapabilities
 
     internal static Uri CompleteGetCapabilitiesRequest(Uri serverUrl)
     {
-        if (serverUrl == null)
-            throw new ArgumentNullException(nameof(serverUrl));
+        ArgumentNullException.ThrowIfNull(serverUrl);
 
         if (string.IsNullOrWhiteSpace(serverUrl.Scheme))
             throw new ArgumentException("The url provides no schema");

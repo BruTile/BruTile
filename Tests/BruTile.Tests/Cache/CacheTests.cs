@@ -117,8 +117,7 @@ public abstract class CacheTests<TCache>(TCache cache)
 
     public void FindTileOnTread(object? arg)
     {
-        if (arg is null)
-            throw new ArgumentNullException(nameof(arg));
+        ArgumentNullException.ThrowIfNull(arg);
         var args = (object[])arg;
         var tileIndex = (TileIndex)args[0];
         var resetEvent = (AutoResetEvent)args[1];

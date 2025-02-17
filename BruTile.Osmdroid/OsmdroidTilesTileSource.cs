@@ -49,12 +49,9 @@ public class OsmdroidTilesTileSource : ILocalTileSource
         }
     }
 
-    private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, IEnumerable<int>? zoomLevels)
+    private static GlobalSphericalMercator ReadSchemaFromDatabase(SQLiteConnection connection, IEnumerable<int>? zoomLevels)
     {
-        if (zoomLevels is null)
-        {
-            zoomLevels = ReadZoomLevelsFromTilesTable(connection);
-        }
+        zoomLevels ??= ReadZoomLevelsFromTilesTable(connection);
 
         var format = ReadFormat(connection);
 
@@ -65,7 +62,7 @@ public class OsmdroidTilesTileSource : ILocalTileSource
     }
 
     // we can determine what the min and max is fairly easily.
-    private static IEnumerable<int>? ReadZoomLevelsFromTilesTable(SQLiteConnection connection)
+    private static int[]? ReadZoomLevelsFromTilesTable(SQLiteConnection connection)
     {
         var minIndex = ReadMinIndex(connection);
         int? zoomMin = minIndex is not null ? GetZoomLevel(minIndex.Value) : null;

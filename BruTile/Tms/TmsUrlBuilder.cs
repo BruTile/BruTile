@@ -79,14 +79,14 @@ public class TmsUrlBuilder : IUrlBuilder
         if (_baseUrl != null)
         {
             url.Append(_baseUrl);
-            if (!_baseUrl.EndsWith("/"))
+            if (!_baseUrl.EndsWith('/'))
                 url.Append('/');
             url.Append(level).Append('/');
         }
         else if (_baseUrls != null)
         {
             url.Append(_baseUrls[level]);
-            if (!_baseUrls[level].ToString().EndsWith("/"))
+            if (!_baseUrls[level].ToString().EndsWith('/'))
                 url.Append('/');
         }
         else

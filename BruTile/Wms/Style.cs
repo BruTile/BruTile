@@ -153,11 +153,11 @@ public class Style : XmlObject
 
     public override XElement ToXElement(string @namespace)
     {
-        var elements = new List<object>(
-            new[] {
-                    new XElement(XName.Get("Name", @namespace), Name),
-                    new XElement(XName.Get("Title", @namespace), Title),
-                  });
+        var elements = new List<object>([
+            new XElement(XName.Get("Name", @namespace), Name),
+            new XElement(XName.Get("Title", @namespace), Title),
+        ]);
+
         if (!string.IsNullOrEmpty(Abstract))
             elements.Add(new XElement(XName.Get("Abstract", @namespace), Abstract));
 
