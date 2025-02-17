@@ -30,8 +30,7 @@ csharp_new_line_before_open_brace = lambdas, types, methods, accessors, object_c
 
 #Formatting - organize using options
 
-#sort System.* using directives alphabetically, and place them before other usings
-dotnet_sort_system_directives_first = true
+dotnet_sort_system_directives_first = true #sort System.* using directives alphabetically, and place them before other usings
 
 #Formatting - spacing options
 
@@ -256,6 +255,7 @@ dotnet_diagnostic.CS8625.severity = none
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_object_initializer = true:silent
 dotnet_style_collection_initializer = true:suggestion
+dotnet_style_allow_multiple_blank_lines_experimental = false # Needed for IDE2000
 
 # dotnet_diagnostic
 
@@ -264,3 +264,4 @@ dotnet_diagnostic.IDE0055.severity = error # Formatting rule
 dotnet_diagnostic.IDE0046.severity = silent # Use conditional expression for return
 dotnet_diagnostic.CS1591.severity = silent # Missing XML comment for publicly visible type or member 'Type_or_Member'
 dotnet_diagnostic.CA2000.severity = error # Dispose objects before losing scope
+dotnet_diagnostic.IDE2000.severity = error # IDE2000: Avoid multiple blank lines

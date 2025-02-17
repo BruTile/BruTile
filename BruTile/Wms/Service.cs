@@ -32,9 +32,11 @@ public class Service : XmlObject
         if (ParseName)
         {
             element = node.Element(XName.Get("Name", @namespace));
-            if (element == null) throw WmsParsingException.ElementNotFound("Name");
+            if (element == null)
+                throw WmsParsingException.ElementNotFound("Name");
             var value = element.Value;
-            if (!value.ToLower().StartsWith("ogc:wms")) Debug.WriteLine("Warning: Invalid service name: '{0}'. Must be 'OGC:WMS'", value);
+            if (!value.StartsWith("ogc:wms", StringComparison.CurrentCultureIgnoreCase))
+                Debug.WriteLine("Warning: Invalid service name: '{0}'. Must be 'OGC:WMS'", value);
             Name = ServiceName.WMS;
         }
 
@@ -166,8 +168,8 @@ public class Service : XmlObject
                     case "Name":
                         var name = reader.ReadElementContentAsString();
                         const string prefix = "ogc:";
-                        if (name.ToLower().StartsWith(prefix)) name = name[prefix.Length..];
-                        Name = (ServiceName)Enum.Parse(typeof(ServiceName), name, true);
+                        if (name.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)) name = name[prefix.Length..];
+                        Name = Enum.Parse<ServiceName>(name, true);
                         break;
                     case "Title":
                         Title = reader.ReadElementContentAsString();

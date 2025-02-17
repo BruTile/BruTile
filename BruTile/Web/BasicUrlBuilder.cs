@@ -82,7 +82,7 @@ public class BasicUrlBuilder : IUrlBuilder
         return new Uri(stringBuilder.ToString());
     }
 
-    private void InsertServerNode(StringBuilder baseUrl, IList<string>? serverNodes)
+    private void InsertServerNode(StringBuilder baseUrl, List<string>? serverNodes)
     {
         if (serverNodes != null && serverNodes.Count > 0)
         {
@@ -91,7 +91,7 @@ public class BasicUrlBuilder : IUrlBuilder
         }
     }
 
-    private string GetNextServerNode(IList<string> serverNodes)
+    private string GetNextServerNode(List<string> serverNodes)
     {
         lock (_nodeCounterLock)
         {

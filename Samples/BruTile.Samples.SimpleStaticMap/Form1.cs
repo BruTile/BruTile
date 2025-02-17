@@ -78,7 +78,7 @@ public partial class Form1 : Form
         return await _httpClient.GetByteArrayAsync(arg).ConfigureAwait(false);
     }
 
-    private ITileSchema CreateTileSchema()
+    private TileSchema CreateTileSchema()
     {
         var schema = new TileSchema
         {

@@ -102,7 +102,7 @@ public static class WmscCapabilitiesParser
         if (xResolutions != null)
         {
             var count = 0;
-            var resolutions = xResolutions.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var resolutions = xResolutions.Value.Split([' '], StringSplitOptions.RemoveEmptyEntries);
             foreach (var resolution in resolutions)
             {
                 if (!double.TryParse(resolution, NumberStyles.Any, CultureInfo.InvariantCulture, out var unitsPerPixel))

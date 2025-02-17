@@ -1,7 +1,5 @@
 ﻿// Copyright (c) BruTile developers team. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace BruTile.Tms;
 
 // 
@@ -20,149 +18,42 @@ namespace BruTile.Tms;
 
 public partial class TileMap
 {
-    private string titleField;
-
-    private string abstractField;
-
-    private string sRSField;
-
-    private TileMapBoundingBox boundingBoxField;
-
-    private TileMapOrigin originField;
-
-    private TileMapTileFormat tileFormatField;
-
-    private TileMapTileSets tileSetsField;
-
-    private string versionField;
-
-    private string tilemapserviceField;
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Title
-    {
-        get
-        {
-            return titleField;
-        }
-        set
-        {
-            titleField = value;
-        }
-    }
+    public string Title { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Abstract
-    {
-        get
-        {
-            return abstractField;
-        }
-        set
-        {
-            abstractField = value;
-        }
-    }
+    public string Abstract { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string SRS
-    {
-        get
-        {
-            return sRSField;
-        }
-        set
-        {
-            sRSField = value;
-        }
-    }
+    public string SRS { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("BoundingBox", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public TileMapBoundingBox BoundingBox
-    {
-        get
-        {
-            return boundingBoxField;
-        }
-        set
-        {
-            boundingBoxField = value;
-        }
-    }
+    public TileMapBoundingBox BoundingBox { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("Origin", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public TileMapOrigin Origin
-    {
-        get
-        {
-            return originField;
-        }
-        set
-        {
-            originField = value;
-        }
-    }
+    public TileMapOrigin Origin { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TileFormat", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public TileMapTileFormat TileFormat
-    {
-        get
-        {
-            return tileFormatField;
-        }
-        set
-        {
-            tileFormatField = value;
-        }
-    }
+    public TileMapTileFormat TileFormat { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TileSets", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public TileMapTileSets TileSets
-    {
-        get
-        {
-            return tileSetsField;
-        }
-        set
-        {
-            tileSetsField = value;
-        }
-    }
+    public TileMapTileSets TileSets { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string version
-    {
-        get
-        {
-            return versionField;
-        }
-        set
-        {
-            versionField = value;
-        }
-    }
+    public string version { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string tilemapservice
-    {
-        get
-        {
-            return tilemapserviceField;
-        }
-        set
-        {
-            tilemapserviceField = value;
-        }
-    }
+    public string tilemapservice { get; set; }
 }
 
 /// <remarks/>
@@ -174,69 +65,21 @@ public partial class TileMap
 public partial class TileMapBoundingBox
 {
 
-    private string minxField;
-
-    private string minyField;
-
-    private string maxxField;
-
-    private string maxyField;
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string minx { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string minx
-    {
-        get
-        {
-            return minxField;
-        }
-        set
-        {
-            minxField = value;
-        }
-    }
+    public string miny { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string miny
-    {
-        get
-        {
-            return minyField;
-        }
-        set
-        {
-            minyField = value;
-        }
-    }
+    public string maxx { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string maxx
-    {
-        get
-        {
-            return maxxField;
-        }
-        set
-        {
-            maxxField = value;
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string maxy
-    {
-        get
-        {
-            return maxyField;
-        }
-        set
-        {
-            maxyField = value;
-        }
-    }
+    public string maxy { get; set; }
 }
 
 /// <remarks/>
@@ -248,37 +91,13 @@ public partial class TileMapBoundingBox
 public partial class TileMapOrigin
 {
 
-    private string xField;
-
-    private string yField;
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string x { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string x
-    {
-        get
-        {
-            return xField;
-        }
-        set
-        {
-            xField = value;
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string y
-    {
-        get
-        {
-            return yField;
-        }
-        set
-        {
-            yField = value;
-        }
-    }
+    public string y { get; set; }
 }
 
 /// <remarks/>
@@ -290,69 +109,21 @@ public partial class TileMapOrigin
 public partial class TileMapTileFormat
 {
 
-    private string widthField;
-
-    private string heightField;
-
-    private string mimetypeField;
-
-    private string extensionField;
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string width { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string width
-    {
-        get
-        {
-            return widthField;
-        }
-        set
-        {
-            widthField = value;
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string height
-    {
-        get
-        {
-            return heightField;
-        }
-        set
-        {
-            heightField = value;
-        }
-    }
+    public string height { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute("mime-type")]
-    public string mimetype
-    {
-        get
-        {
-            return mimetypeField;
-        }
-        set
-        {
-            mimetypeField = value;
-        }
-    }
+    public string mimetype { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string extension
-    {
-        get
-        {
-            return extensionField;
-        }
-        set
-        {
-            extensionField = value;
-        }
-    }
+    public string extension { get; set; }
 }
 
 /// <remarks/>
@@ -364,37 +135,13 @@ public partial class TileMapTileFormat
 public partial class TileMapTileSets
 {
 
-    private TileMapTileSetsTileSet[] tileSetField;
-
-    private string profileField;
-
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TileSet", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public TileMapTileSetsTileSet[] TileSet
-    {
-        get
-        {
-            return tileSetField;
-        }
-        set
-        {
-            tileSetField = value;
-        }
-    }
+    public TileMapTileSetsTileSet[] TileSet { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string profile
-    {
-        get
-        {
-            return profileField;
-        }
-        set
-        {
-            profileField = value;
-        }
-    }
+    public string profile { get; set; }
 }
 
 /// <remarks/>
@@ -405,54 +152,17 @@ public partial class TileMapTileSets
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 public partial class TileMapTileSetsTileSet
 {
-
-    private string hrefField;
-
-    private string unitsperpixelField;
-
-    private string orderField;
-
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string href
-    {
-        get
-        {
-            return hrefField;
-        }
-        set
-        {
-            hrefField = value;
-        }
-    }
+    public string href { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute("units-per-pixel")]
-    public string unitsperpixel
-    {
-        get
-        {
-            return unitsperpixelField;
-        }
-        set
-        {
-            unitsperpixelField = value;
-        }
-    }
+    public string unitsperpixel { get; set; }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string order
-    {
-        get
-        {
-            return orderField;
-        }
-        set
-        {
-            orderField = value;
-        }
-    }
+    public string order { get; set; }
 }
 
 /// <remarks/>
@@ -464,19 +174,7 @@ public partial class TileMapTileSetsTileSet
 [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
 public partial class NewDataSet
 {
-    private TileMap[] itemsField;
-
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TileMap")]
-    public TileMap[] Items
-    {
-        get
-        {
-            return itemsField;
-        }
-        set
-        {
-            itemsField = value;
-        }
-    }
+    public TileMap[] Items { get; set; }
 }

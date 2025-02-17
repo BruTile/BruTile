@@ -72,7 +72,7 @@ public class MbTilesTileSource : ILocalTileSource
         }
     }
 
-    private static ITileSchema ReadSchemaFromDatabase(SQLiteConnection connection, bool determineZoomLevelsFromTilesTable)
+    private static GlobalSphericalMercator ReadSchemaFromDatabase(SQLiteConnection connection, bool determineZoomLevelsFromTilesTable)
     {
         // ReadZoomLevels can return null. This is no problem. GlobalSphericalMercator will initialize with default values
         var zoomLevels = ReadZoomLevels(connection);

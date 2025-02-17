@@ -38,3 +38,4 @@ mimetype
 xlink
 gettile
 kilometre
+Osmdroid

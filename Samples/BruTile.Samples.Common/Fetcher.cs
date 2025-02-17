@@ -21,7 +21,7 @@ public class Fetcher<T>
     private readonly List<TileIndex> _tilesInProgress = [];
     private const int MaxThreads = 4;
     private readonly AutoResetEvent _waitHandle = new(false);
-    private readonly FetchStrategy _strategy = new FetchStrategy();
+    private readonly FetchStrategy _strategy = new();
     private volatile bool _isAborted;
     private volatile bool _isViewChanged;
     private readonly Retries _retries = new();
@@ -95,7 +95,7 @@ public class Fetcher<T>
         }
     }
 
-    private static IList<TileInfo> GetTilesMissing(IEnumerable<TileInfo> tilesWanted,
+    private static List<TileInfo> GetTilesMissing(IEnumerable<TileInfo> tilesWanted,
         ITileCache<Tile<T>> memoryCache, Retries retries)
     {
         return tilesWanted.Where(
@@ -188,7 +188,7 @@ public class Fetcher<T>
 
         public bool ReachedMax(TileIndex index)
         {
-            var retryCount = (!_retries.ContainsKey(index)) ? 0 : _retries[index];
+            var retryCount = (!_retries.TryGetValue(index, out var value)) ? 0 : value;
             return retryCount > MaxRetries;
         }
 

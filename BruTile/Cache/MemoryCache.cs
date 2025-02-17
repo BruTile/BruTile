@@ -53,7 +53,7 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
     {
         lock (_syncRoot)
         {
-            if (_bitmaps.ContainsKey(index))
+            if (!_bitmaps.TryAdd(index, item))
             {
                 _bitmaps[index] = item;
                 _touched[index] = GetNextCacheVersion();
@@ -61,7 +61,6 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
             else
             {
                 _touched.Add(index, GetNextCacheVersion());
-                _bitmaps.Add(index, item);
                 CleanUp();
                 OnNotifyPropertyChange(nameof(TileCount));
             }
@@ -87,11 +86,11 @@ public class MemoryCache<T> : IMemoryCache<T>, INotifyPropertyChanged, IDisposab
     {
         lock (_syncRoot)
         {
-            if (!_bitmaps.ContainsKey(index))
+            if (!_bitmaps.TryGetValue(index, out var value))
                 return default;
 
             _touched[index] = GetNextCacheVersion();
-            return _bitmaps[index];
+            return value;
         }
     }
 
