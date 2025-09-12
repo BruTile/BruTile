@@ -48,8 +48,8 @@ namespace BruTile.Wmts.Generated
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (ReferenceType))]
-    [XmlInclude(typeof (ServiceReferenceType))]
+    [XmlInclude(typeof(ReferenceType))]
+    [XmlInclude(typeof(ServiceReferenceType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
 
@@ -208,7 +208,7 @@ namespace BruTile.Wmts.Generated
 
         /// <remarks/>
         [XmlAttribute()]
-        public URLTemplateTypeResourceType resourceType { get; set; }
+        public string resourceType { get; set; }
 
         /// <remarks/>
         [XmlAttribute()]
@@ -216,21 +216,7 @@ namespace BruTile.Wmts.Generated
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
-
-    [XmlType(AnonymousType = true, Namespace = "http://www.opengis.net/wmts/1.0")]
-    public enum URLTemplateTypeResourceType
-    {
-
-        /// <remarks/>
-        tile,
-
-        /// <remarks/>
-        FeatureInfo,
-    }
-
-    /// <remarks/>
-    [XmlInclude(typeof (ContentsType))]
+    [XmlInclude(typeof(ContentsType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -261,7 +247,7 @@ namespace BruTile.Wmts.Generated
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (LayerType))]
+    [XmlInclude(typeof(LayerType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -298,7 +284,7 @@ namespace BruTile.Wmts.Generated
         }
 
         /// <remarks/>
-        [XmlElement("BoundingBox", typeof (BoundingBoxType))]
+        [XmlElement("BoundingBox", typeof(BoundingBoxType))]
         public BoundingBoxType[] Items
         {
             get { return this.itemsField; }
@@ -349,7 +335,7 @@ namespace BruTile.Wmts.Generated
         {
             var name = reader.Name;
             if (!string.IsNullOrEmpty(reader.Prefix))
-                name = name.Substring(reader.Prefix.Length+1);
+                name = name.Substring(reader.Prefix.Length + 1);
             System.Diagnostics.Debug.Assert(name == "BoundingBox" || name == "WGS84BoundingBox");
 
             var isEmpty = reader.IsEmptyElement;
@@ -629,12 +615,12 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (DatasetDescriptionSummaryBaseType))]
-    [XmlInclude(typeof (LayerType))]
-    [XmlInclude(typeof (BasicIdentificationType))]
-    [XmlInclude(typeof (ManifestType))]
-    [XmlInclude(typeof (ReferenceGroupType))]
-    [XmlInclude(typeof (IdentificationType))]
+    [XmlInclude(typeof(DatasetDescriptionSummaryBaseType))]
+    [XmlInclude(typeof(LayerType))]
+    [XmlInclude(typeof(BasicIdentificationType))]
+    [XmlInclude(typeof(ManifestType))]
+    [XmlInclude(typeof(ReferenceGroupType))]
+    [XmlInclude(typeof(IdentificationType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -739,9 +725,9 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (ManifestType))]
-    [XmlInclude(typeof (ReferenceGroupType))]
-    [XmlInclude(typeof (IdentificationType))]
+    [XmlInclude(typeof(ManifestType))]
+    [XmlInclude(typeof(ReferenceGroupType))]
+    [XmlInclude(typeof(IdentificationType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -786,8 +772,8 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private string[] availableCRSField;
 
         /// <remarks/>
-        [XmlElement("BoundingBox", typeof (BoundingBoxType))]
-        [XmlElement("WGS84BoundingBox", typeof (WGS84BoundingBoxType))]
+        [XmlElement("BoundingBox", typeof(BoundingBoxType))]
+        [XmlElement("WGS84BoundingBox", typeof(WGS84BoundingBoxType))]
         public BoundingBoxType[] Items
         {
             get { return this.itemsField; }
@@ -1016,7 +1002,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (RequestMethodType))]
+    [XmlInclude(typeof(RequestMethodType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1179,7 +1165,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (DomainType))]
+    [XmlInclude(typeof(DomainType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1206,7 +1192,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private MetadataType[] metadataField;
 
         /// <remarks/>
-        [XmlArrayItem("Range", typeof (RangeType), IsNullable = false), XmlArrayItem("Value", typeof (ValueType), IsNullable = false)]
+        [XmlArrayItem("Range", typeof(RangeType), IsNullable = false), XmlArrayItem("Value", typeof(ValueType), IsNullable = false)]
         public object[] AllowedValues { get; set; }
 
         /// <remarks/>
@@ -1687,9 +1673,9 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         }
 
         /// <remarks/>
-        [XmlElement("BoundingBox", typeof (BoundingBoxType),
+        [XmlElement("BoundingBox", typeof(BoundingBoxType),
             Namespace = "http://www.opengis.net/ows/1.1")]
-        [XmlElement("WGS84BoundingBox", typeof (WGS84BoundingBoxType),
+        [XmlElement("WGS84BoundingBox", typeof(WGS84BoundingBoxType),
             Namespace = "http://www.opengis.net/ows/1.1")]
         public BoundingBoxType Item
         {
@@ -2293,8 +2279,8 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private ItemsChoiceType[] itemsElementNameField;
 
         /// <remarks/>
-        [XmlElement("Get", typeof (RequestMethodType))]
-        [XmlElement("Post", typeof (RequestMethodType))]
+        [XmlElement("Get", typeof(RequestMethodType))]
+        [XmlElement("Post", typeof(RequestMethodType))]
         [XmlChoiceIdentifier("ItemsElementName")]
         public RequestMethodType[] Items
         {
@@ -2651,10 +2637,10 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         }
 
         /// <remarks/>
-        [XmlElement("arc", typeof (arcType))]
-        [XmlElement("locator", typeof (locatorType))]
-        [XmlElement("resource", typeof (resourceType))]
-        [XmlElement("title", typeof (titleEltType))]
+        [XmlElement("arc", typeof(arcType))]
+        [XmlElement("locator", typeof(locatorType))]
+        [XmlElement("resource", typeof(resourceType))]
+        [XmlElement("title", typeof(titleEltType))]
         public object[] Items
         {
             get { return this.itemsField; }
@@ -3064,8 +3050,8 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private object[] itemsField;
 
         /// <remarks/>
-        [XmlElement("Range", typeof (RangeType))]
-        [XmlElement("Value", typeof (ValueType))]
+        [XmlElement("Range", typeof(RangeType))]
+        [XmlElement("Value", typeof(ValueType))]
         public object[] Items
         {
             get { return this.itemsField; }
@@ -3074,7 +3060,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
     }
 
     /// <remarks/>
-    [XmlInclude(typeof (ServiceReferenceType))]
+    [XmlInclude(typeof(ServiceReferenceType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -3182,8 +3168,8 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         private object itemField;
 
         /// <remarks/>
-        [XmlElement("RequestMessage", typeof (object))]
-        [XmlElement("RequestMessageReference", typeof (string), DataType = "anyURI")]
+        [XmlElement("RequestMessage", typeof(object))]
+        [XmlElement("RequestMessageReference", typeof(string), DataType = "anyURI")]
         public object Item
         {
             get { return this.itemField; }
@@ -3250,7 +3236,7 @@ Namespace = "http://www.opengis.net/wmts/1.0")]
         }
 
         /// <remarks/>
-        [XmlArrayItem("Theme", typeof (Theme[]), IsNullable = false)]
+        [XmlArrayItem("Theme", typeof(Theme[]), IsNullable = false)]
         public Theme[][] Themes
         {
             get { return this.themesField; }
