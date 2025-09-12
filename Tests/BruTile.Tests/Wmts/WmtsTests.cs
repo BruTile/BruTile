@@ -5,9 +5,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using BruTile.Cache;
 using BruTile.Tests.Utilities;
 using BruTile.Web;
@@ -15,7 +16,6 @@ using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using System.Threading;
 
 namespace BruTile.Tests.Wmts;
 
