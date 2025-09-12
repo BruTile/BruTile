@@ -54,6 +54,9 @@
 		<None Update="Resources\Wms\wms_topplus_web_open.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Resources\Wmts\capabilities_with_tilejson.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Resources\Wmts\wmts-capabilities-arcgis-server-doggersbank.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

@@ -10,7 +10,6 @@ using BruTile.Cache;
 using BruTile.Tests.Utilities;
 using BruTile.Web;
 using BruTile.Wmts;
-using BruTile.Wmts.Generated;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
@@ -115,17 +114,17 @@ public class WmtsTests
             new() {
                 Format = "image/jpeg",
                 Template = "http://maps1.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
-                ResourceType = URLTemplateTypeResourceType.tile
+                ResourceType = "tile",
             },
             new() {
                 Format = "image/jpeg",
                 Template = "http://maps2.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
-                ResourceType = URLTemplateTypeResourceType.tile
+                ResourceType = "tile",
             },
             new() {
                 Format = "image/jpeg",
                 Template = "http://maps3.wien.gv.at/wmts/lb/farbe/google3857/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
-                ResourceType = URLTemplateTypeResourceType.tile
+                ResourceType = "tile",
             }
         };
         return resourceUrls;
@@ -264,5 +263,14 @@ public class WmtsTests
 
         // Assert
         Assert.NotNull(tileSource.PersistentCache);
+    }
+
+    [Test]
+    public void TestParsingCapabilitiesWithTileJson()
+    {
+        // Arrange
+        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "capabilities_with_tilejson.xml"));
+        IEnumerable<HttpTileSource> tileSources = null;
+        Assert.DoesNotThrow(() => tileSources = WmtsCapabilitiesParser.Parse(stream));
     }
 }
