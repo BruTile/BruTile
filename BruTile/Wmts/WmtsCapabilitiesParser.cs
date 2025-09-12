@@ -170,7 +170,7 @@ public class WmtsCapabilitiesParser
             Template = s.Key.Equals("kvp", StringComparison.CurrentCultureIgnoreCase) ?
                     CreateKvpFormatter(s.Value, format, version, layer, style, tileMatrixSet) :
                     CreateRestfulFormatter(s.Value, format, style, tileMatrixSet),
-            ResourceType = URLTemplateTypeResourceType.tile,
+            ResourceType = "tile",
             Format = format
         });
     }
