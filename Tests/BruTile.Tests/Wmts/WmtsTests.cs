@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
 using BruTile.Cache;
 using BruTile.Tests.Utilities;
 using BruTile.Web;
@@ -13,6 +15,7 @@ using BruTile.Wmts;
 using BruTile.Wmts.Generated;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
+using System.Threading;
 
 namespace BruTile.Tests.Wmts;
 
@@ -264,5 +267,48 @@ public class WmtsTests
 
         // Assert
         Assert.NotNull(tileSource.PersistentCache);
+    }
+
+    [Test]
+    public async Task TestConfigureHttpRequestMessageIsInvoked()
+    {
+        // Arrange
+        using var stream = File.OpenRead(Path.Combine(Paths.AssemblyDirectory, "Resources", "Wmts", "wmts-capabilities-dlr.xml"));
+        var isCalled = false;
+
+        var tileSources = WmtsCapabilitiesParser.Parse(
+            stream,
+            configureHttpRequestMessage: msg =>
+            {
+                isCalled = true;
+                // Provide a User-Agent to satisfy HttpTileSource requirement
+                msg.Headers.UserAgent.ParseAdd("BruTile.UnitTest/1.0");
+            });
+
+        var tileSource = tileSources.First();
+        var firstResolution = tileSource.Schema.Resolutions.First().Value;
+        var tileInfo = new TileInfo { Index = new TileIndex(0, 0, firstResolution.Level) };
+
+        using var stubHttpMessageHandler = new StubHttpMessageHandler();
+        using var httpClient = new HttpClient(stubHttpMessageHandler);
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("TestClient/1.0"); // fallback if action not called
+
+        // Act
+        await tileSource.GetTileAsync(httpClient, tileInfo);
+
+        // Assert
+        Assert.IsTrue(isCalled, "Expected configureHttpRequestMessage action to be invoked.");
+    }
+
+    private sealed class StubHttpMessageHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(Array.Empty<byte>())
+            };
+            return Task.FromResult(response);
+        }
     }
 }

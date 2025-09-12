@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -50,7 +51,8 @@ public class WmtsCapabilitiesParser
     /// <param name="axisOrder">The way how axis order should be interpreted for &lt;ows:BoundingBox&gt;es</param>
     /// <returns>An enumeration of tile sources</returns>
     public static List<HttpTileSource> Parse(Stream source,
-        BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural)
+        BoundingBoxAxisOrderInterpretation axisOrder = BoundingBoxAxisOrderInterpretation.Natural,
+        Action<HttpRequestMessage>? configureHttpRequestMessage = null)
     {
 #pragma warning disable IL2026
         var serializer = new XmlSerializer(typeof(Capabilities));
@@ -61,7 +63,7 @@ public class WmtsCapabilitiesParser
 #pragma warning restore IL2026        
 
         var tileSchemas = GetTileMatrixSets(capabilities.Contents.TileMatrixSet, axisOrder);
-        var tileSources = GetLayers(capabilities, tileSchemas);
+        var tileSources = GetLayers(capabilities, tileSchemas, configureHttpRequestMessage);
 
         return tileSources;
     }
@@ -72,7 +74,8 @@ public class WmtsCapabilitiesParser
     /// <param name="capabilities">The capabilities document</param>
     /// <param name="tileSchemas">A set of</param>
     /// <returns></returns>
-    private static List<HttpTileSource> GetLayers(Capabilities capabilities, List<WmtsTileSchema> tileSchemas)
+    private static List<HttpTileSource> GetLayers(Capabilities capabilities, List<WmtsTileSchema> tileSchemas,
+        Action<HttpRequestMessage>? configureHttpRequestMessage = null)
     {
         var tileSources = new List<HttpTileSource>();
 
@@ -99,7 +102,7 @@ public class WmtsCapabilitiesParser
                         var tileSchema = tileSchemas.First(s => Equals(s.Name, tileMatrixSet));
                         var schema = tileSchema.CreateSpecific(title, identifier, @abstract, tileMatrixSet, styleName, format);
                         var wmtsRequest = CreateUrlBuilder(capabilities, layer, tileMatrixLink, format, tileSchema, styleName);
-                        var tileSource = new HttpTileSource(schema, wmtsRequest, name: title);
+                        var tileSource = new HttpTileSource(schema, wmtsRequest, name: title, configureHttpRequestMessage: configureHttpRequestMessage);
 
                         tileSources.Add(tileSource);
                     }
