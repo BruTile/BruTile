@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BruTile.Predefined;
 using SQLite;
+using SQLitePCL;
 
 namespace BruTile.MbTiles;
 
@@ -20,6 +21,12 @@ namespace BruTile.MbTiles;
 /// <seealso href="https://www.mapbox.com/developers/mbtiles/"/>
 public class MbTilesTileSource : ILocalTileSource
 {
+    static MbTilesTileSource()
+    {
+        // Initialize Sqlite
+        Batteries.Init();
+    }
+
     public MbTilesType Type { get; }
     public string Version { get; }
     public string Description { get; }
