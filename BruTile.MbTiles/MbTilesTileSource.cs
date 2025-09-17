@@ -237,7 +237,7 @@ public class MbTilesTileSource : ILocalTileSource
 
     private static MbTilesFormat ReadFormat(SQLiteConnection connection)
     {
-        var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"format\";";
+        var sql = "SELECT \"value\" FROM metadata WHERE \"name\"='format';";
         var formatString = connection.ExecuteScalar<string>(sql);
         if (Enum.TryParse<MbTilesFormat>(formatString, true, out var format))
             return format;
@@ -246,7 +246,7 @@ public class MbTilesTileSource : ILocalTileSource
 
     private static MbTilesType ReadType(SQLiteConnection connection)
     {
-        var sql = "SELECT \"value\" FROM metadata WHERE \"name\"=\"type\";";
+        var sql = "SELECT \"value\" FROM metadata WHERE \"name\"='type';";
         var typeString = connection.ExecuteScalar<string>(sql);
         if (Enum.TryParse<MbTilesType>(typeString, true, out var type))
             return type;
