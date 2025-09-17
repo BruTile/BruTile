@@ -13,6 +13,10 @@
 		<PackageReference Include="NUnit" Version="4.3.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
 		<PackageReference Include="coverlet.collector" Version="6.0.3" />
+    <PackageReference Include="sqlite-net-base" Version="1.10.196-beta" />
+    <PackageReference Include="SQLitePCLRaw.config.e_sqlite3" Version="3.0.2" />
+    <PackageReference Include="SQLitePCLRaw.core" Version="3.0.2" />
+    <PackageReference Include="SourceGear.sqlite3" Version="3.50.4.2" />
 	</ItemGroup>
 
 	<ItemGroup>

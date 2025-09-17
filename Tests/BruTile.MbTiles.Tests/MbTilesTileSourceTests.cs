@@ -16,12 +16,6 @@ public class MbTilesTileSourceTests
 {
     private readonly string? _encryptionKey = null;
 
-    [SetUp]
-    public void TestSetUp()
-    {
-        SQLitePCL.Batteries.Init();
-    }
-
     [Test]
     public async Task FetchTiles()
     {

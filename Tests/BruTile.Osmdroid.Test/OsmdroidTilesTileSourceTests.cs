@@ -13,12 +13,6 @@ public class OsmdroidTilesTileSourceTests
 {
     private readonly string? _encryptionKey = null;
 
-    [SetUp]
-    public void TestSetUp()
-    {
-        SQLitePCL.Batteries.Init();
-    }
-
     [Test]
     public async Task FetchTiles()
     {
@@ -33,9 +27,9 @@ public class OsmdroidTilesTileSourceTests
         var data = await tileSource.GetTileAsync(tileInfos.First()).ConfigureAwait(false);
 
         // Assert
-        Assert.IsNotNull(data);
-        Assert.True(data?.Length > 0);
-        Assert.AreEqual("attribution", tileSource.Attribution.Text);
+        Assert.That(data != null, "Should not be null");
+        Assert.That(data?.Length > 0, "Length should be greater than 0");
+        Assert.That(string.Equals("attribution", tileSource.Attribution.Text), "Should be equal");
     }
 
     // These are just random indexes from a map database,
