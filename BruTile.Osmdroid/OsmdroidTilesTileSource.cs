@@ -5,11 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using BruTile.Predefined;
 using SQLite;
+using SQLitePCL;
 
 namespace BruTile.Osmdroid;
 
 public class OsmdroidTilesTileSource : ILocalTileSource
 {
+    static OsmdroidTilesTileSource()
+    {
+        // Initialize Sqlite
+        Batteries.Init();
+    }
+
     private readonly SQLiteConnectionString _connectionString;
 
     public ITileSchema Schema { get; }
