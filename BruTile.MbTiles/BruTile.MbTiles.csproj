@@ -5,6 +5,8 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>Extension for BruTile to enable access to MapBox's tile store files (MbTiles)</Description>
 		<PackageTags>tiling brutile mbtiles</PackageTags>
+    <!-- Suppress NU5104 because we really need the functionality of the pre release -->
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
