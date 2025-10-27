@@ -5,6 +5,8 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Description>Extension for BruTile to enable access to Osmdroid's offline tile store files (sqlite format)</Description>
         <PackageTags>tiling brutile osmdroid sqlite</PackageTags>
+        <!-- Suppress NU5104 because we really need the functionality of the pre release -->
+        <NoWarn>$(NoWarn);NU5104</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
