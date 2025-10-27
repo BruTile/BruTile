@@ -6,6 +6,8 @@
 		<PackageTags>tiling gis osm geo</PackageTags>
 		<Authors>Paul den Dulk, Felix Obermaier</Authors>
 		<RootNamespace>BruTile.MbTiles.Tests</RootNamespace>
+    <!-- Suppress NU5104 because we really need the functionality of the pre release -->
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
