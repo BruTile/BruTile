@@ -28,6 +28,16 @@ public static class TileTransform
         };
     }
 
+    public static TileIndex WorldToTile(double x, double y, int level, ITileSchema schema)
+    {
+        return schema.YAxis switch
+        {
+            YAxis.TMS => WorldToTileNormal(x, y, level, schema),
+            YAxis.OSM => WorldToTileInvertedY(x, y, level, schema),
+            _ => throw new Exception("YAxis type was not found"),
+        };
+    }
+
     private static TileRange WorldToTileNormal(Extent extent, int level, ITileSchema schema)
     {
         var resolution = schema.Resolutions[level];
@@ -53,6 +63,16 @@ public static class TileTransform
         return new Extent(minX, minY, maxX, maxY);
     }
 
+    private static TileIndex WorldToTileNormal(double x, double y, int level, ITileSchema schema)
+    {
+        var resolution = schema.Resolutions[level];
+        var tileWidthWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(level);
+        var tileHeightWorldUnits = resolution.UnitsPerPixel * schema.GetTileHeight(level);
+        var col = (int)Math.Floor((x - schema.GetOriginX(level)) / tileWidthWorldUnits);
+        var row = (int)Math.Floor((y - schema.GetOriginY(level)) / tileHeightWorldUnits);
+        return new TileIndex(col, row, level);
+    }
+
     private static TileRange WorldToTileInvertedY(Extent extent, int level, ITileSchema schema)
     {
         var resolution = schema.Resolutions[level];
@@ -75,5 +95,15 @@ public static class TileTransform
         var maxX = (range.FirstCol + range.ColCount) * tileWidthWorldUnits + schema.GetOriginX(level);
         var maxY = -(range.FirstRow) * tileHeightWorldUnits + schema.GetOriginY(level);
         return new Extent(minX, minY, maxX, maxY);
+    }
+
+    private static TileIndex WorldToTileInvertedY(double x, double y, int level, ITileSchema schema)
+    {
+        var resolution = schema.Resolutions[level];
+        var tileWidthWorldUnits = resolution.UnitsPerPixel * schema.GetTileWidth(level);
+        var tileHeightWorldUnits = resolution.UnitsPerPixel * schema.GetTileHeight(level);
+        var col = (int)Math.Floor((x - schema.GetOriginX(level)) / tileWidthWorldUnits);
+        var row = (int)Math.Floor((-y + schema.GetOriginY(level)) / tileHeightWorldUnits);
+        return new TileIndex(col, row, level);
     }
 }
