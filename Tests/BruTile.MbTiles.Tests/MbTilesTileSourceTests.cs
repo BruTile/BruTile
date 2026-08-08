@@ -83,7 +83,6 @@ public class MbTilesTileSourceTests
     public async Task SchemaGeneratedFromMbTilesWithSchemaInConstructor()
     {
         // Arrange
-        SQLitePCL.Batteries.Init();
         var path = Path.Combine(Paths.AssemblyDirectory, "Resources", "torrejon-de-ardoz.mbtiles");
 
         // Act
